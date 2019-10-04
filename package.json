@@ -1,0 +1,21 @@
+{
+  "name": "corabot-master",
+  "version": "0.7.0",
+  "description": "NovaLynxie's Personal Discord Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Discord.JS",
+    "DiscordBot"
+  ],
+  "author": "NovaLynxie",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "ytdl-core": "^0.29.7",
+    "opusscript": "^0.0.7",
+    "ffmpeg-static": "^2.6.0"
+  }
+}
