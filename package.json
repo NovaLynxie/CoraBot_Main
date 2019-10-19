@@ -1,10 +1,11 @@
 {
-  "name": "corabot-master",
-  "version": "0.7.0",
+  "name": "corabot",
+  "version": "1.0.5",
   "description": "NovaLynxie's Personal Discord Bot",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "keywords": [
     "Discord.JS",
@@ -14,8 +15,9 @@
   "license": "MIT",
   "dependencies": {
     "discord.js": "^11.5.1",
-    "ytdl-core": "^0.29.7",
-    "opusscript": "^0.0.7",
-    "ffmpeg-static": "^2.6.0"
+    "ffmpeg-static": "^2.6.0",
+    "flatted": "^2.0.1",
+    "node-opus": "^0.3.2",
+    "ytdl-core": "^0.29.7"
   }
 }
