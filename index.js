@@ -5,6 +5,7 @@ const Flatted = require("flatted")
 // Links code to other required parts.
 const fs = require('fs')
 // Read information from files (core bot)
+const Client = require('./cora_modules/cora.data/client.js')
 const {
 	prefix,
 	token,
@@ -14,16 +15,25 @@ const {
 } = require('./package.json');
 
 // Variables for DiscordBot
-const bot = new Discord.Client();
-var servers = [];
+//const bot = new Discord.Client();
+const bot = new Client(); //Custom discord client.js replaces Discord.Client()
 const queue = new Map();
 
-// Bot.on Commands
+// Command files handler to parse <cmd>.js files.
+const cmdFiles = fs.readdirSync(`./cora_modules/cora.cmds`).filter(file => file.endsWith('.js'));
+console.log("Grabbing cmdFiles")
+for (const file of cmdFiles) {
+  const cmds = require(`./cora_modules/cora.cmds/${file}`)
+  bot.commands.set(cmds.name, cmds)
+}
+
+// Bot.on Runtime
 bot.on('ready', () => {
   bot.user.setStatus('online')
   bot.user.setActivity("with my code x3", {type:'PLAYING'});
   console.log("CoraBot ONLINE!")
 })
+
 // Bot Command Handler
 bot.on('message', async message => {
   if (message.author.bot) return;
@@ -31,7 +41,6 @@ bot.on('message', async message => {
   if (message.content.indexOf(prefix) !== 0) return;
 
   const serverQueue = queue.get(message.guild.id);
-  
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const cmd = args.shift().toLowerCase();
 
@@ -65,7 +74,7 @@ bot.on('message', async message => {
     botCoreInfo(message.channel)
     //console.log("Bot_Embed.CoreInfo")
     return;
-  } else if (cmd === 'cmd'){
+  } else if (cmd === 'help'){
     botCoreCmds(message.channel)
     //console.log("Bot_Embed.CoreCmds")
   } else if (cmd === 'userinfo') {
@@ -146,7 +155,7 @@ bot.on('message', async message => {
     if (!serverQueue) {
       console.log("Error! SkipErr_voicechat.channelSongSkip")
     return message.channel.send('There is no song that I could skip!');
-  }
+    }
     serverQueue.connection.dispatcher.end();
   }
   
