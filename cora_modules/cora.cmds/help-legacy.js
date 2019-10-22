@@ -3,15 +3,14 @@ const fs = require('fs')
 module.exports = {
 	name: 'help-legacy',
 	description: 'List all available commands (LEGACY)',
-	execute(message) {
+	execute(message, bot){
 		let str = '';
-		const commandFiles = fs.readdirSync('./zeon_cmds').filter(file => file.endsWith('.js'));
-
+		const commandFiles = fs.readdirSync('./cora_modules/cora.cmds').filter(file => file.endsWith('.js'));
+		
 		for (const file of commandFiles) {
 			const command = require(`./${file}`);
 			str += `Name: ${command.name}, Description: ${command.description} \n`;
 		}
-
 		message.channel.send(str);
 	},
 };

@@ -1,8 +1,11 @@
-// to be rewritten using cora's own userinfo command.
+const {
+	Discord
+} = require('discord.js');
 module.exports = {
 	name: 'userinfo',
 	description: 'Get information about a user.',
-	execute(message) {
+	execute(message, bot){
+		const args = message.content.split(' ');
 		if (!args.length) {
 			return message.channel.send("Unknown User! \n```usage: >userinfo <args> [@mention, userID]```");
 		}

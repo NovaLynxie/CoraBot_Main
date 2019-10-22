@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'ban',
 	description: 'Bans the specified guild member',
-	execute(message) {
+	execute(message, bot){
 		const member = message.mentions.members.first();
 
 		if (!member) {

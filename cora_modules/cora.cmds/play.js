@@ -6,9 +6,11 @@ const ytdl = require('ytdl-core')
 module.exports = {
     name: 'play',
     description: "Plays a song in member's voice channel!",
-    async execute(message, serverQueue) {
+    async execute(message, bot){
         const args = message.content.split(' ');
-    
+        const queue = message.client.queue;
+        const serverQueue = queue.get(message.guild.id);
+
         const voiceChannel = message.member.voiceChannel;
         if (!voiceChannel) {
           console.log("Error! TargetChannel_voicechat.channelNotSpecified")
@@ -72,4 +74,4 @@ module.exports = {
             });
         dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
     }
-}
+};
