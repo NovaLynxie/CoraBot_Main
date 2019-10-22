@@ -49,7 +49,7 @@ bot.once('disconnect', () => {
 bot.on('message', async message => {
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const cmdName = args.shift().toLowerCase();
-  const cmd = args.shift().toLowerCase(cmdName);
+  const cmd = client.commands.get(cmdName);
   if (message.author.bot) return;
   //if (message.content.indexOf(prefix) !== 0) return;
   if (!message.content.startsWith(prefix)) return;
