@@ -14,7 +14,7 @@ const {
 } = require('./package.json');
 
 // Variables for DiscordBot
-var bot = new Discord.Client();
+const bot = new Discord.Client();
 var servers = [];
 const queue = new Map();
 
@@ -40,20 +40,23 @@ bot.on('message', async message => {
     message.channel.send("Pong! `"+bot.ping+"ms`")
     return;
   } else if (cmd === 'poke') {
-    message.channel.send("Hello " + message.author.toString())
+    message.channel.send("<a:pawingcat:635163464905523221> "+message.author.toString())
     //console.log("Bot_Poke.Pinger")
     return;
   } else if (cmd === 'play') {
     //console.log("Bot_Music.AddSong")
-    execute(message, serverQueue);
+    execute(message, serverQueue)
+    return;
+  } else if (cmd === 'np') {
+    np(message, serverQueue)
     return;
   } else if (cmd === 'skip') {
     //console.log("Bot_Music.SkipSong")
-    skip(message, serverQueue);
+    skip(message, serverQueue)
     return;
   } else if (cmd === 'stop') {
     //console.log("Bot_Music.StopSong")
-    stop(message, serverQueue);
+    stop(message, serverQueue)
     return;
   } else if (cmd === 'invite') {
     message.channel.send("I'm sorry, I cannot let you do that. Please ask my owner for the invite code.")
@@ -68,6 +71,8 @@ bot.on('message', async message => {
   } else if (cmd === 'userinfo') {
     botUserData(message.channel)
     return;
+  } else if (cmd === 'purge') {
+    botPurgeMsg()
   } else if (cmd === 'userdata') {
     botRawData_Dev(message.channel)
   } else if (cmd === 'avatar') {
@@ -128,7 +133,7 @@ bot.on('message', async message => {
       }
     } else {
       serverQueue.songs.push(song);
-      console.log(serverQueue.songs);
+      //console.log(serverQueue.songs);
       return message.channel.send(`${song.title} has been added to the queue!`);
     }
   }
@@ -152,6 +157,18 @@ bot.on('message', async message => {
     serverQueue.songs = [];
     serverQueue.connection.dispatcher.end();
   }
+
+  function np(message, serverQueue){
+    if (!serverQueue) return message.channel.send('There is nothing playing.');
+    var embed = new Discord.RichEmbed()
+      .setTitle("Now Playing")
+      .setColor(0x00FFFF)
+      .setThumbnail(bot.user.avatarURL)
+      .addField("Currently Playing: ",`${serverQueue.songs[0].title}`)
+      .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1")
+      message.channel.send(embed)
+		return;
+  }
   
   function play(guild, song) {
     const serverQueue = queue.get(guild.id);
@@ -162,7 +179,7 @@ bot.on('message', async message => {
     }
     const dispatcher = serverQueue.connection.playStream(YTDL(song.url))
       .on('end', () => {
-        console.log('Bot.MusicEnd'); //Debug to check when song ends.
+        //console.log('Bot.MusicEnd'); //Debug to check when song ends.
         serverQueue.songs.shift();
         play(guild, serverQueue.songs[0]);
       })
@@ -182,7 +199,7 @@ bot.on('message', async message => {
         .addField("Personal :smile_cat:","`info` - Shows some information about me in case you wanted to know more. \n `poke` - Pokes me to grab my attention. Wait... why do I even have this? :eyes: \n `owner` - Want to find out more about my owner?")
         .addField("Music :musical_score:","`play` - Plays some music in a voice channel for me to sing to you :wink: \n `skip` - Skips the song in the queue if it isn't your genre or type `stop` - Stops the music at any time during the song")
         .addField("Admin :cop:","Need these commands? Use `>cmd -mod` to see commands.")
-        .setFooter("Created by NovaLynxie#9765")
+        .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1")
     channel.send(embed);
     return;
     } else if (args[0] === '-mod') {
@@ -194,7 +211,7 @@ bot.on('message', async message => {
           .addField("Bot Prefix", "Prefix is `>`")
           .addField("Moderator+","Currently W.I.P. and not fully implemented right now, sorry.")
           .addField("Owner","`restart` - Refreshes my state and allows me to restart my systems. \n`shutdown` - Deactivates me and shuts down my systems. Required when updating code and core settings")
-          .setFooter("Created by NovaLynxie#9765")
+          .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1")
         channel.send(embed);
       } else {
         channel.send(":no_entry: Access Denied! :no_entry: \n Moderator permissions required!")
@@ -208,7 +225,7 @@ bot.on('message', async message => {
           .setThumbnail(bot.user.avatarURL)
           .addField(":warning:WARNING!:warning: ", "For developer use only! \n Some functions may break or cause me to crash! Please use with caution.")
           .addField("AvatarURL","avatar `usage >avatar <userid>`")
-          .setFooter("Created by NovaLynxie#9765")
+          .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1")
         channel.send(embed);
       } else {
         channel.send(":no_entry: Access Denied! :no_entry: \n Developer permissions required!")
@@ -227,20 +244,20 @@ bot.on('message', async message => {
         .setColor(0x00FFFF)
         .setThumbnail(bot.user.avatarURL)
         .addField("You seem lost... what information did you want to see?", "`bot` tells you a bit about myself, Cora the AI. \n`owner` tells you some information about my owner, Novie x3 \n Command usage is `>info <args> [bot, owner]`.")
-        .setFooter("Created by NovaLynxie#9765")
+        .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1")
       channel.send(embed);
       return; //channel.send("Missing Args! `usage: >info <args> [bot, owner]`");
     }
     if (args[0]==='bot'){
       var embed = new Discord.RichEmbed()
-          .setTitle("Bot Information")
+          .setTitle("Bot Information <a:pawingcat:635163464905523221>")
           .setColor(0x00FFFF)
           .setThumbnail(bot.user.avatarURL)
           .addField("Name & TagID:",bot.user.username+' ('+bot.user.tag+')')
           .addField("Created:",bot.user.createdAt)
           .addField("Bot Version:",'v'+version+' compiled with Discord.JS')
           .addField("About Me", "I am Nova's Personal bot. I am mostly used for testing features and stuff. Sometimes I play music but not that well... I do try though ^w^") 
-          .setFooter("Created by NovaLynxie#9765")
+          .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1, coded in Discord.JS v11.5.1")
       channel.send(embed);
       return;
     } else if (args[0]==='owner'){
@@ -254,7 +271,7 @@ bot.on('message', async message => {
         .addField("Date Joined", ownerData.user.createdAt)
         .addField("About Me", "My name is Nova Lynxie, I am a minecrafter to the core and always will be. I am sometimes shy meeting other people but can be quite friendly once you get to know me. \nLynx's Forever! X3")
         .addField("Social Links", "Twitch: https://www.twitch.tv/novalynxie \nMixer: https://mixer.com/NovaLynxie")
-        .setFooter("Created by NovaLynxie#9765")
+        .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1, coded in Discord.JS v11.5.1")
       channel.send(embed);
       return;
     } else {
@@ -263,14 +280,19 @@ bot.on('message', async message => {
         .setColor(0x00FFFF)
         .setThumbnail(bot.user.avatarURL)
         .addField("Did you enter the command correctly?", "Check you entered the command correctly, \nCommand usage is `>info <args> [bot, owner]`.")
-        .setFooter("Created by NovaLynxie#9765")
+        .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1")
       channel.send(embed);
       return; //channel.send("Invalid Args! `usage: >info <args> [bot, owner]`");
     }
   }
-  
 
   // Admin Bot Functions
+  function botPurgeMsg() {
+    if(!args[0]) return message.reply("Error! Specify messages to clear!")
+    message.channel.bulkDelete(args[0]);
+    return;
+  }
+
   function botUserData(channel) {
     if (!args.length) {
       return channel.send("Unknown User! \n```usage: >userinfo <args> [@mention, userID]```");
@@ -298,7 +320,7 @@ bot.on('message', async message => {
   }
   function botStop(channel) {
     console.log("CoraBot deactivating...")
-    channel.send("Shutting down. Good night... :sleeping:")
+    channel.send("Shutting down. Good night... <:sleepycat:635163563878514688>")
     .then(bot.user.setStatus("dnd"))
     .then(bot.user.setActivity("shutting down..."))
     .then(_msg=>bot.destroy());
@@ -325,7 +347,7 @@ bot.on('message', async message => {
     let userData = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
     console.log(userData) //debug code to dump info into bot console
     let fileWrite = Flatted.stringify(userData, null, 2)
-    var filePath = './data_cache/cora.debug/datadump_userdata.json'
+    var filePath = './cora_modules/cora.debug/datadump_userdata.json'
     fs.writeFileSync(filePath, fileWrite)
     console.log("debug.datadump_userdata -> " + filePath)
     channel.send("Data dump completed successfully! \nCheck my console " + message.author.toString())
