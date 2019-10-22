@@ -1,22 +1,20 @@
 // Loads required modules into the code.
-const Discord = require("discord.js")
-const YTDL = require("ytdl-core")
-const Flatted = require("flatted")
+const Discord = require("discord.js");
+const YTDL = require("ytdl-core");
+const Flatted = require("flatted");
 // Links code to other required parts.
-const fs = require('fs')
+const fs = require('fs');
 // Read information from files (core bot)
-const Client = require('./cora_modules/cora.data/client.js')
+const Client = require('./cora_modules/cora.data/client.js');
 const {
 	prefix,
 	token,
 } = require('./config.json');
-const {
-  version,
-} = require('./package.json');
 
 // Variables for DiscordBot
 //const bot = new Discord.Client();
 const bot = new Client(); //Custom discord client.js replaces Discord.Client()
+bot.commands = new Discord.Collection();
 const queue = new Map();
 
 // Command files handler to parse <cmd>.js files.
@@ -29,7 +27,8 @@ for (const file of cmdFiles) {
   bot.commands.set(cmds.name, cmds)
   console.log("Added "+file) //Debug console printout to confirm data.
 }
-console.log("Commands table generated! Starting bot...")
+//console.log(bot.commands); //Debug console prompt to print all commands
+console.log("Commands table generated! Starting CoraBot...")
 
 // Bot.on Runtime
 bot.on('ready', () => {
@@ -49,18 +48,20 @@ bot.once('disconnect', () => {
 bot.on('message', async message => {
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const cmdName = args.shift().toLowerCase();
-  const cmd = client.commands.get(cmdName);
+  const command = bot.commands.get(cmdName)
+    || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
+
   if (message.author.bot) return;
-  //if (message.content.indexOf(prefix) !== 0) return;
-  if (!message.content.startsWith(prefix)) return;
+  if (message.content.indexOf(prefix) !== 0) return;
 
   try {
-    cmd.execute(message);
+    command.execute(message, bot, token);
   } 
   catch (error) {
     console.error(error);
-    message.reply('Command error! Unable to execute command.')
+    message.reply('Command Handler Error! Check console for more details.')
   }
 });
 
-bot.login(token); // Required to get bot token to interact with discord.
+bot.login(token); 
+//Required to get bot token to interact with discord bot account.
