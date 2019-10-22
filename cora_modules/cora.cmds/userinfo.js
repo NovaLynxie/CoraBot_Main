@@ -4,7 +4,7 @@ const {
 module.exports = {
 	name: 'userinfo',
 	description: 'Get information about a user.',
-	execute(message, bot, token){
+	execute(message){
 		const args = message.content.split(' ');
 		if (!args.length) {
 			return message.channel.send("Unknown User! \n```usage: >userinfo <args> [@mention, userID]```");

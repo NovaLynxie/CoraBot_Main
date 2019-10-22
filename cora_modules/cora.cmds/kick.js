@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'kick',
 	description: 'Kick a player',
-	execute(message, bot, token){
+	execute(message){
 		const member = message.mentions.members.first();
 
 		if (!member) {

@@ -3,7 +3,7 @@ const bot = new Discord.Client();
 module.exports = {
     name: 'info',
     description: "Displays some info about the bot itself or owner.",
-    execute(message, bot, token){
+    execute(message, bot){
         const args = message.content.split(' ');
         if (!args[0]) {
             var embed = new Discord.RichEmbed()
