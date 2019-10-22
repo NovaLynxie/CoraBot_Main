@@ -59,7 +59,7 @@ bot.on('message', async message => {
   } 
   catch (error) {
     console.error(error);
-    message.reply('Command Handler Error! Check console for more details.')
+    message.reply('Invalid command!')
   }
 });
 
