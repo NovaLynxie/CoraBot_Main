@@ -15,9 +15,9 @@
   "license": "MIT",
   "dependencies": {
     "discord.js": "^11.5.1",
-    "ffmpeg-static": "^2.6.0",
+    "ffmpeg-static": "^2.7.0",
     "flatted": "^2.0.1",
-    "node-opus": "^0.3.2",
+    "node-opus": "^0.3.3",
     "ytdl-core": "^0.29.7"
   }
 }
