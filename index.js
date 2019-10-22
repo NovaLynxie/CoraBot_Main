@@ -79,6 +79,14 @@ bot.on('message', async message => {
     //console.log("Bot_Avatar.GrabURL")
     botAvatarImg_Dev(message.channel);
     return;
+  } else if (cmd === 'kick') {
+    //console.log("Bot_Admin.KickMember")
+    botKickMember(message)
+    return;
+  } else if (cmd === 'ban') {
+    //console.log("Bot_Admin.BanMember")
+    botBanMember(message)
+    return;
   } else if (cmd === 'restart') {
     //console.log("Bot_Admin.Restart")
     botReset(message.channel);
@@ -292,7 +300,6 @@ bot.on('message', async message => {
     message.channel.bulkDelete(args[0]);
     return;
   }
-
   function botUserData(channel) {
     if (!args.length) {
       return channel.send("Unknown User! \n```usage: >userinfo <args> [@mention, userID]```");
@@ -309,6 +316,34 @@ bot.on('message', async message => {
       .addField("Created at", userData.user.createdAt)
       .addField("Joined at", userData.joinedAt)
     channel.send(embed)
+  }
+  function botKickMember(message) {
+    const member = message.mentions.members.first();
+
+		if (!member) {
+			return message.reply('You need to mention the member you want to kick');
+		}
+		if (!member.kickable) {
+			return message.reply('I can\'t kick this user.');
+		}
+		return member
+			.kick()
+			.then(() => message.reply(`${member.user.tag} was kicked.`))
+			.catch(error => message.reply('Error occured while kicking member.'));
+  }
+  function botBanMember(message) {
+    const member = message.mentions.members.first();
+
+		if (!member) {
+			return message.reply('You need to mention the member you want to ban him');
+		}
+		if (!member.banable) {
+			return message.reply('I can\'t ban this user.');
+		}
+		return member
+			.ban()
+			.then(() => message.reply(`${member.user.tag} was banned.`))
+			.catch(error => message.reply('Error occured while banning member.'));
   }
   function botReset(channel) {
     console.log("CoraBot restarting...")
