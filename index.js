@@ -217,7 +217,7 @@ bot.on('message', async message => {
           .setColor(0xfcdc2)
           .setThumbnail(bot.user.avatarURL)
           .addField("Bot Prefix", "Prefix is `>`")
-          .addField("Moderator+","Currently W.I.P. and not fully implemented right now, sorry.")
+          .addField("Moderator+","`kick` kicks a member from the guild, they can return afterwards. \n `ban` banishes a member from the guild permanently, use this wisely.")
           .addField("Owner","`restart` - Refreshes my state and allows me to restart my systems. \n`shutdown` - Deactivates me and shuts down my systems. Required when updating code and core settings")
           .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1")
         channel.send(embed);
