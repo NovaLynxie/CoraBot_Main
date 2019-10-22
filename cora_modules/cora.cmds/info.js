@@ -1,11 +1,10 @@
 const Discord = require('discord.js');
-const bot = new Discord.Client();
 module.exports = {
     name: 'info',
     description: "Displays some info about the bot itself or owner.",
     execute(message, bot){
         const args = message.content.split(' ');
-        if (!args[0]) {
+        if (!args[1]) {
             var embed = new Discord.RichEmbed()
                 .setTitle("Core Info Help")
                 .setColor(0x00FFFF)
@@ -15,19 +14,18 @@ module.exports = {
             message.channel.send(embed);
             return; //channel.send("Missing Args! `usage: >info <args> [bot, owner]`");
         }
-        if (args[0]==='bot'){
+        if (args[1]==='bot'){
             var embed = new Discord.RichEmbed()
                 .setTitle("Bot Information <a:pawingcat:635163464905523221>")
                 .setColor(0x00FFFF)
                 .setThumbnail(bot.user.avatarURL)
                 .addField("Name & TagID:",bot.user.username+' ('+bot.user.tag+')')
                 .addField("Created:",bot.user.createdAt)
-                .addField("Bot Version:",'v'+version+' compiled with Discord.JS')
                 .addField("About Me", "I am Nova's Personal bot. I am mostly used for testing features and stuff. Sometimes I play music but not that well... I do try though ^w^") 
                 .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1, coded in Discord.JS v11.5.1")
             message.channel.send(embed);
             return;
-        } else if (args[0]==='owner'){
+        } else if (args[1]==='owner'){
             var ownerID = '234356998836191232'
             let ownerData = message.guild.member(message.guild.members.get(ownerID))
             //console.log(ownerData)
