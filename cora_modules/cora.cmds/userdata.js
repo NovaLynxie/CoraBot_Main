@@ -1,6 +1,7 @@
 module.exports = {
     name: 'userdata',
     description: "Debug command to dump data via bot from discord.",
+    aliases: ['datadump'],
     execute(message){
         if (!args.length) {
             return channel.send("Unknown User! \n```usage: >userinfo <args> [@mention, userID]```");

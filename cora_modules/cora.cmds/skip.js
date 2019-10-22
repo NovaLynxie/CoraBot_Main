@@ -1,6 +1,7 @@
 module.exports = {
     name: 'skip',
     description: "Skips the song playing in the channel.",
+    aliases: ['next'],
     execute(message){
       const serverQueue = message.client.queue.get(message.guild.id);
       if (!message.member.voiceChannel) {

@@ -1,6 +1,8 @@
 module.exports = {
 	name: 'kick',
-	description: 'Kick a player',
+	aliases: ['boot'],
+	description: 'Kicks the specified guild member',
+	//examples: ['kick @<member>', 'boot @<member>'],
 	execute(message){
 		const member = message.mentions.members.first();
 

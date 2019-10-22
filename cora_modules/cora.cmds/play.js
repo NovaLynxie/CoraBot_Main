@@ -6,6 +6,7 @@ const ytdl = require('ytdl-core');
 module.exports = {
 	name: 'play',
 	description: 'Play a song in your channel!',
+	aliases: ['sing'],
 	async execute(message) {
     const args = message.content.split(' ');
 		const queue = message.client.queue;

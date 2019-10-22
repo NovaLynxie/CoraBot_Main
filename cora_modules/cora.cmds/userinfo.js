@@ -4,6 +4,7 @@ const {
 module.exports = {
 	name: 'userinfo',
 	description: 'Get information about a user.',
+	aliases: ['whois'],
 	execute(message){
 		const args = message.content.split(' ');
 		if (!args.length) {

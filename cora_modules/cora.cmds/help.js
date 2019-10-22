@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
-const bot = new Discord.Client();
 module.exports = {
   name: 'help',
   description: 'Shows the bot help in the embedded format',
+  aliases: ['cmds','h'],
   execute(message, bot){
     const args = message.content.split(' ');
     if (!args[1]) {

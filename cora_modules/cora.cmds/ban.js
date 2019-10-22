@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'ban',
 	description: 'Bans the specified guild member',
+	aliases: ['exile'],
 	execute(message){
 		const member = message.mentions.members.first();
 
