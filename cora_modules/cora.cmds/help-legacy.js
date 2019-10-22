@@ -3,7 +3,7 @@ const fs = require('fs')
 module.exports = {
 	name: 'help-legacy',
 	description: 'List all available commands (LEGACY)',
-	execute(message, bot){
+	execute(message, bot, token){
 		let str = '';
 		const commandFiles = fs.readdirSync('./cora_modules/cora.cmds').filter(file => file.endsWith('.js'));
 		

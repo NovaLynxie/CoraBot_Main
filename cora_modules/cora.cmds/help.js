@@ -3,7 +3,7 @@ const bot = new Discord.Client();
 module.exports = {
 	name: 'help',
     description: 'Shows the bot help in the embedded format (BETA)',
-    execute(message, bot){
+    execute(message, bot, token){
       const args = message.content.split(' ');
       if (!args[1]) {
         var embed = new Discord.RichEmbed()

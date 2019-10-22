@@ -1,7 +1,7 @@
 module.exports = {
     name: 'stop',
     description: "Stops the song and disconnects the bot.",
-    execute(message, bot){
+    execute(message, bot, token){
         const queue = message.client.queue;
         const serverQueue = queue.get(message.guild.id);
         if (!message.member.voiceChannel) {

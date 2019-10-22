@@ -1,7 +1,7 @@
 module.exports = {
     name: 'skip',
     description: "Skips the song playing in the channel.",
-    execute(message, bot){
+    execute(message, bot, token){
         if (!message.member.voiceChannel) {
             console.log("Error! UserNotFound_voicechat.channelNoUser") 
             return message.channel.send('You have to be in a voice channel to skip the music!')

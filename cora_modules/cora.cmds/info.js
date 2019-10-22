@@ -3,7 +3,7 @@ const bot = new Discord.Client();
 module.exports = {
     name: 'info',
     description: "Displays some info about the bot itself or owner.",
-    execute(message, bot){
+    execute(message, bot, token){
         const args = message.content.split(' ');
         if (!args[0]) {
             var embed = new Discord.RichEmbed()
@@ -25,7 +25,7 @@ module.exports = {
                 .addField("Bot Version:",'v'+version+' compiled with Discord.JS')
                 .addField("About Me", "I am Nova's Personal bot. I am mostly used for testing features and stuff. Sometimes I play music but not that well... I do try though ^w^") 
                 .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1, coded in Discord.JS v11.5.1")
-            channel.send(embed);
+            message.channel.send(embed);
             return;
         } else if (args[0]==='owner'){
             var ownerID = '234356998836191232'

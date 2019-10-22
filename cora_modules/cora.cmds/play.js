@@ -6,7 +6,7 @@ const ytdl = require('ytdl-core')
 module.exports = {
     name: 'play',
     description: "Plays a song in member's voice channel!",
-    async execute(message, bot){
+    async execute(message, bot, token){
         const args = message.content.split(' ');
         const queue = message.client.queue;
         const serverQueue = queue.get(message.guild.id);
