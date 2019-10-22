@@ -12,5 +12,6 @@ module.exports = {
         }
         serverQueue.songs = [];
         serverQueue.connection.dispatcher.end();
+        message.channel.send(":octagonal_sign: Music Stopped!")
     }
 };
