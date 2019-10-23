@@ -25,7 +25,7 @@ console.log("Fetching commands from cmdFiles and storing into table...")
 for (const file of cmdFiles) {
   const cmds = require(`./cora_modules/cora.cmds/${file}`)
   bot.commands.set(cmds.name, cmds)
-  console.log("Added "+file) //Debug console printout to confirm data.
+  //console.log("Added "+file) //Debug console printout to confirm data.
 }
 //console.log(bot.commands); //Debug console prompt to print all commands
 console.log("Commands table generated! Starting CoraBot...")
@@ -35,7 +35,6 @@ bot.on('ready', () => {
   bot.user.setStatus('online')
   bot.user.setActivity("with beta code o.O", {type:'PLAYING'});
   console.log("CoraBot Beta ONLINE!")
-  console.log("WARNING! Running BETA core code! Some features may be incomplete!")
 })
 bot.once('reconnecting', () => { 
   console.log('L.O.S! Attempting to reconnect...')
@@ -59,7 +58,7 @@ bot.on('message', async message => {
   } 
   catch (error) {
     console.error(error);
-    message.reply('Invalid command!')
+    message.reply('Handler Error!')
   }
 });
 
