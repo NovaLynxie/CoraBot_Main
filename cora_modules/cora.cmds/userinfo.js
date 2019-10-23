@@ -9,7 +9,7 @@ module.exports = {
 		if (!args[1]) {
 			message.channel.send("Missing args! \n```usage: >userinfo <args> [@mention, userID]```")
 		} else if (!args[2]){
-			let userData = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
+			let userData = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[1]))
 			//console.log(userData) //debug code line to dump info to console
 			var embed = new Discord.RichEmbed()
 				.setDescription("__**Member Information**__")
