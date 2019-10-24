@@ -2,8 +2,9 @@ const Flatted = require("flatted");
 const fs = require('fs');
 module.exports = {
     name: 'userdata',
-    description: "Debug command to dump data via bot from discord.",
+    description: "Gets raw data amd dumps data from discord through the bot.",
     aliases: ['datadump'],
+    usage: 'userdata <args> [@mention, userID]',
     cooldown: 5,
     guildOnly: true,
     execute(message){

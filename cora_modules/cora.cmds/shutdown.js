@@ -2,6 +2,7 @@ module.exports = {
 	name: 'shutdown',
     description: 'Disconnects the bot from discord and shuts down cleanly',
     aliases: ['poweroff','terminate'],
+    usage: 'shutdown',
     guildOnly: true,
     execute(message, bot){
         console.log("[CoraBot] SHUTDOWN command received!")

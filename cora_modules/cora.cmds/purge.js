@@ -2,6 +2,7 @@ module.exports = {
 	name: 'purge',
 	description: 'Deletes the last messages in all chats.',
 	aliases: ['clear','remove'],
+	usage: 'purge <int>',
 	guildOnly: true,
 	async execute(message){
 		const args = message.content.split(' ');

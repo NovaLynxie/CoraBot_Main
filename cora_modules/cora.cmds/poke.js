@@ -2,6 +2,7 @@ module.exports = {
     name: 'poke',
     description: "Pokes Cora. Hey that tickles!",
     aliases: ['tap', 'nudge'],
+    usage: 'poke',
     cooldown: 5,
     guildOnly: true,
     execute(message) {

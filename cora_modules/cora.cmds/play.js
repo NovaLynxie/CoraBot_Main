@@ -7,6 +7,7 @@ module.exports = {
 	description: 'Play a song in your channel!',
 	cooldown: 5,
 	aliases: ['sing'],
+	usage: 'play <url> [Song_URL]',
 	guildOnly: true,
 	async execute(message) {
     const args = message.content.split(' ');

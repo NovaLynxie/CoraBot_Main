@@ -2,6 +2,7 @@ module.exports = {
     name: 'skip',
     description: "Skips the song playing in the channel.",
     aliases: ['next'],
+    usage: 'skip',
     cooldown: 5,
     guildOnly: true,
     execute(message){
