@@ -2,7 +2,8 @@ module.exports = {
 	name: 'purge',
 	description: 'Deletes the last messages in all chats.',
 	aliases: ['clear','remove'],
-	async execute(message, bot, token){
+	guildOnly: true,
+	async execute(message){
 		const args = message.content.split(' ');
 		let deleteCount = 0;
 		try {
@@ -17,7 +18,9 @@ module.exports = {
 		const fetched = await message.channel.fetchMessages({
 			limit: deleteCount,
 		});
+		console.log("[CoraBot] Purging "+fetched.deleteCount+" messages...")
 		message.channel.bulkDelete(fetched)
 			.catch(error => message.reply(`Couldn't delete messages because of: ${error}`));
+		console.log("[CoraBot] Messages purged successfully!")
 	},
 };
