@@ -3,6 +3,9 @@
 module.exports = {
     name: 'example_command',
     description: "Command description goes here.",
+	aliases: ['ex_cmd'],
+	usage: 'example_command <@user>',
+	guildOnly: true,
     execute(message) {
         //Command code to be executed goes here.
         //Must use 'message' to send messages back to channel.
