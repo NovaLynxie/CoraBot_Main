@@ -1,8 +1,10 @@
 const Discord = require('discord.js');
 module.exports = {
 	name: 'userinfo',
-	description: 'Get information about a user.',
+	description: 'Get information about a user and sends it in an embedded message format.',
 	aliases: ['whois'],
+	usage: 'userinfo <args> [@mention, userID]',
+	guildOnly: true,
 	execute(message){
 		const args = message.content.split(' ');
 		console.log(args);

@@ -3,6 +3,8 @@ module.exports = {
     name: 'info',
     description: "Displays some info about the bot itself or owner.",
     aliases: ['i'],
+    usage: 'info <arg> [bot owner]',
+    guildOnly: true,
     execute(message, bot){
         const args = message.content.split(' ');
         if (!args[1]) {

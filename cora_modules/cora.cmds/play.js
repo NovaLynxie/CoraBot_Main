@@ -2,11 +2,13 @@ const {
 	Util
 } = require('discord.js');
 const ytdl = require('ytdl-core');
-
 module.exports = {
 	name: 'play',
 	description: 'Play a song in your channel!',
+	cooldown: 5,
 	aliases: ['sing'],
+	usage: 'play <url> [Song_URL]',
+	guildOnly: true,
 	async execute(message) {
     const args = message.content.split(' ');
 		const queue = message.client.queue;

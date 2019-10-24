@@ -4,6 +4,8 @@ module.exports = {
   name: 'help',
   description: 'Shows the bot help in the embedded format',
   aliases: ['cmds','h'],
+  usage: 'help <arg> [-mod -dev]',
+  guildOnly: true,
   execute(message, bot){
     const args = message.content.split(' ');
     if (!args[1]) {
@@ -47,16 +49,14 @@ module.exports = {
         message.channel.send(":no_entry: Access Denied! :no_entry: \n Developer permissions required!")
       }
     return;
-    } else if (args[1] === '-legacy' || args[1] === '-showAll') {
-      if (message.member.roles.some(role => role.name === 'BotDev')) {
-        let str = '';
-        const commandFiles = fs.readdirSync('./cora_modules/cora.cmds').filter(file => file.endsWith('.js'));
-		    for (const file of commandFiles) {
-		    	const command = require(`./${file}`);
-		  	  str += `Name: ${command.name}, Description: ${command.description} \n`;
-		    }
-        message.channel.send(str);
-      }
+    } else if (args[1] === '-cmd') {
+      let str = '';
+      const commandFiles = fs.readdirSync('./cora_modules/cora.cmds').filter(file => file.endsWith('.js'));
+		  for (const file of commandFiles) {
+		  	const command = require(`./${file}`);
+			  str += `Name: ${command.name}, Description: ${command.description} \n`;
+		}
+		message.channel.send(str);
     } else {
       message.channel.send("Invalid arguments! Usage `>help <arg> [-mod -dev]`")
     }
