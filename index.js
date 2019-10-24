@@ -45,6 +45,8 @@ process.on('unhandledRejection', error => console.error('Uncaught Promise Reject
 
 // Bot Command Handler (Requires Command Files)
 bot.on('message', async message => {
+  // If message is not a command, ignore the message.
+  if (!message.content.startsWith(prefix) || message.author.bot) return;
   // Parses args from command into args object.
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const cmdName = args.shift().toLowerCase();
