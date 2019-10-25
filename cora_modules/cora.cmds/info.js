@@ -1,56 +1,102 @@
-const Discord = require('discord.js');
-module.exports = {
-    name: 'info',
-    description: "Displays some info about the bot itself or owner.",
-    aliases: ['i'],
-    usage: 'info <arg> [bot owner]',
-    guildOnly: true,
-    execute(message, bot){
-        const args = message.content.split(' ');
-        if (!args[1]) {
-            var embed = new Discord.RichEmbed()
-                .setTitle("Core Info Help")
-                .setColor(0x00FFFF)
-                .setThumbnail(bot.user.avatarURL)
-                .addField("You seem lost... what information did you want to see?", "`bot` tells you a bit about myself, Cora the AI. \n`owner` tells you some information about my owner, Novie x3 \n Command usage is `>info <args> [bot, owner]`.")
-                .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1")
-            message.channel.send(embed);
-            return; //channel.send("Missing Args! `usage: >info <args> [bot, owner]`");
-        }
-        if (args[1]==='bot'){
-            var embed = new Discord.RichEmbed()
-                .setTitle("Bot Information <a:pawingcat:635163464905523221>")
-                .setColor(0x00FFFF)
-                .setThumbnail(bot.user.avatarURL)
-                .addField("Name & TagID:",bot.user.username+' ('+bot.user.tag+')')
-                .addField("Created:",bot.user.createdAt)
-                .addField("About Me", "I am Nova's Personal bot. I am mostly used for testing features and stuff. Sometimes I play music but not that well... I do try though ^w^") 
-                .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1, coded in Discord.JS v11.5.1")
-            message.channel.send(embed);
-            return;
-        } else if (args[1]==='owner'){
-            var ownerID = '234356998836191232'
-            let ownerData = message.guild.member(message.guild.members.get(ownerID))
-            //console.log(ownerData)
-            var embed = new Discord.RichEmbed()
-                .setTitle("My Owner's Info")
-                .setColor(0x00FFFF)
-                .setThumbnail(ownerData.user.avatarURL) //"https://cdn.discordapp.com/avatars/234356998836191232/3bcf8aa8fabdab92bf753d61db00e548.png?size=2048"
-                .addField("Date Joined", ownerData.user.createdAt)
-                .addField("About Me", "My name is Nova Lynxie, I am sometimes shy meeting other people but can be quite friendly once you get to know me. Programming is one hobby I do enjoy, especially if it involves fixing problems and finding solutions. I am glad to have brought Cora back after many years of being stowed away and left with obsolete code, now renewed and brought back to life! \nLets hope it will stay that way this time X3")
-                .addField("Social Links", "Twitch: https://www.twitch.tv/novalynxie \nMixer: https://mixer.com/NovaLynxie")
-                .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1, coded in Discord.JS v11.5.1")
-            message.channel.send(embed);
-            return;
-        } else {
-            var embed = new Discord.RichEmbed()
-                .setTitle("Invalid Command!")
-                .setColor(0x00FFFF)
-                .setThumbnail(bot.user.avatarURL)
-                .addField("Did you enter the command correctly?", "Check you entered the command correctly, \nCommand usage is `>info <args> [bot, owner]`.")
-                .setFooter("Created by NovaLynxie#9765, coded in Discord.JS v11.5.1")
-            message.channel.send(embed);
-            return; //channel.send("Invalid Args! `usage: >info <args> [bot, owner]`");
-        }
+// Loads required modules into the code.
+const Discord = require("discord.js");
+// Links code to other required parts.
+const fs = require('fs');
+// Read information from files (core bot)
+const Client = require('./cora_modules/cora.data/client.js');
+const {
+  prefix,
+  debug,
+	token,
+} = require('./config.json');
+
+// Variables for DiscordBot
+const bot = new Client(); //Custom discord client.js replaces Discord.Client()
+bot.commands = new Discord.Collection();
+const cooldowns = new Discord.Collection();
+
+// Command files handler to parse <cmd>.js files.
+const cmdsDir = './cora_modules/cora.commands/'
+const cmdsData = fs.readdirSync(cmdsDir).filter(cmdsFile => cmdsFile.endsWith('.js'));
+console.log("[System] Searching for files from `"+cmdsDir+"`. Please wait...")
+console.log("[System] Fetching commands from `"+cmdsDir+"` and storing into commands table...")
+for (const cmdsFile of cmdsData) {
+  const cmds = require(cmdsDir+`${cmdsFile}`)
+  bot.commands.set(cmds.name, cmds)
+  if (debug === true) {console.log("[Debug] Added "+cmdsFile+" successfully!")} //Debug console prompt to confirm command file is validated.
+
+}
+
+// Verbose console log debugger. To enable prompts, set debug in config.json to true.
+if (debug === true) {
+  console.log("[Debug] Command Table Debug Test");
+  console.log(bot.commands);//Debug console prompt to print all commands and function types to console.
+}
+console.log("[System] Commands table generated! Starting CoraBot...")
+
+// Bot.on Runtime
+bot.on('ready', () => {
+  bot.user.setStatus('online')
+  bot.user.setActivity("the guild", {type:'Watching'});
+  console.log("[CoraBot] Cora is Online!")
+})
+bot.once('reconnecting', () => {
+  console.log('[WebSocket] L.O.S! Attempting to reconnect...')
+})
+bot.once('disconnect', () => {
+  console.log('[WebSocket] Bot disconnected from Discord!')
+})
+// Process Error Handler - Catches any errors and attempt to prevent a bot crash.
+process.on('unhandledRejection', error => console.error('[NodeJS] UncaughtPromiseRejection Error!', error));
+
+// Bot Command Handler (Requires Command Files)
+bot.on('message', async message => {
+  // If message is not a command, ignore the message.
+  if (!message.content.startsWith(prefix) || message.author.bot) return;
+  // Parses args from command into args object.
+  const args = message.content.slice(prefix.length).trim().split(/ +/g);
+  const cmdName = args.shift().toLowerCase();
+  const command = bot.commands.get(cmdName)
+    || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
+
+  // Checks if command is set as guildOnly command.
+  if (command.guildOnly && message.channel.type !== 'text')
+    return message.reply("That command is not available in DM's, sorry.");
+
+  // Checks if message is from the bot and ignores it.
+  if (message.author.bot) return;
+  if (message.content.indexOf(prefix) !== 0) return;
+
+  // Checks for command cooldowns, if it has sets the cooldowns.
+  if (!cooldowns.has(command.name)) {
+    cooldowns.set(command.name, new Discord.Collection());
+  }
+
+  const now = Date.now();
+  const timestamps = cooldowns.get(command.name);
+  const cooldownAmount = (command.cooldown || 3) * 1000;
+
+  if (timestamps.has(message.author.id)) {
+    const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+
+    if (now < expirationTime) {
+      const timeLeft = (expirationTime - now) / 1000;
+      return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
     }
-};
+  }
+
+  timestamps.set(message.author.id, now);
+  setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
+  // Try Catch Error Handler, catches unhandled errors in the command execute function.
+  try {
+    command.execute(message, bot, token);
+  }
+  catch (error) {
+    console.error('[CoraBot] Handler Error!',error);
+    message.reply('Handler Error!')
+  }
+});
+
+bot.login(token);
+//Required to get bot token to interact with discord bot account.
