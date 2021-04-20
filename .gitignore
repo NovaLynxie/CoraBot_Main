@@ -1,7 +1,6 @@
 node_modules
-cora/cache/
-cora/cache/database.db
-logs/
+cora/cache/*
+logs/*
 config.toml
 setup_linux.sh
 setup_win.bat
