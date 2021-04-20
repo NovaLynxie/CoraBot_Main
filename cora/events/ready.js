@@ -1,7 +1,6 @@
 const {assets} = require('../handlers/bootLoader');
 const {activities} = assets;
 const logger = require('../providers/WinstonPlugin');
-const updateDB = require('../handlers/dbUpdater.js');
 
 module.exports = {
   name: 'ready',
