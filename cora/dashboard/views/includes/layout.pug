@@ -1,0 +1,22 @@
+doctype 
+html(lang='en')
+  head
+    include includes/header.pug
+    include includes/navbar.pug
+    link(rel='stylesheet', href='/css/index.css')
+  body
+    a(href="Status")
+      button(type="button") Bot Status
+    .jumbotron.text-center.bg-transparent
+      h1.display-4 CoraBot
+      p.lead Home of Cora Belle Lynx, the main discord bot used in Lynx's Den.
+      p 
+        | Hello World! My name is Cora Belle Lynx, a NodeJS Discord bot built by NovaLynxie.
+        br
+        | I can help moderate your discord, give support, provide cute images and play music upon request. Most of my code base was developed over quite a long time, I used to be a simple experimental bot but now have way more features than I did in my prototype days.
+        br
+        | Currently serving #{users} users in #{guilds} guilds. Watching #{channels} channels.
+        br
+        | Created by NovaLynxie. Powered by DiscordJS and hosted on Repl.it.
+  footer
+    include includes/footer.pug

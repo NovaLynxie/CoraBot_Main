@@ -1,0 +1,9 @@
+{
+  "responses": {
+    "input": "response",
+    "hi": "Hello there! o/",
+    "welcome": "thank you",
+    "this is an input": "this is its response",
+    "foo": "bar"
+  }
+}

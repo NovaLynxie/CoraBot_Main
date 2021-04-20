@@ -1,0 +1,83 @@
+[general]
+# Bot general settings.
+# Set the bot's prefix for commands and other options here.
+prefix = "c"
+# Bot Modules. To enable them, change from false to true.
+# Developer only setting! Use this only for debugging the config file.
+debug = false
+
+[chatbot]
+# ChatBot settings. Powered by discord-chatbot.
+enableChatBot = true
+# Channels ChatBot module can talk in. # Channels ChatBot module can talk in. Please use channel IDs for this to work.
+chatChannels = [
+  "828195754697818113",
+  "828209839095152661"
+]
+
+[images]
+# Image modules settings.
+# Client name is used for identifying the bot using some modules.
+# If left blank, the bot will try to use a temporary client name.
+# This is not recommended as requests from this bot instance may get blocked in future.
+clientName = "corabot-discord"
+# API Key for usage with the yiffy module in api calls to yiff.rest for furry command. Required for request calls to Yiffy's API.
+# Get your API key from https://yiff.rest/support and run the command '/apikey create' in their discord support server.
+yiffyApiKey = "hidden"
+
+[autoLogger] 
+# Logging module settings.
+enableLogger = "yes"
+# This only takes channel IDs! Attempting to use a channel name will fail if the name changes!
+# If not defined, will try to fallback to #logs channel if available.
+logChannels = [
+  "827227156500709426"
+]
+# Ignore specific channels. Prevents log spam caused by many updates from said channels.
+# This ignores any log channels by default.
+ignoredChannels = [
+  "792689542774915103",
+  "783465849662865428",
+  "768581581543571477"
+]
+  [autoLogger.logEvents]
+  # Log message edits, join/leave events and more. 
+  # Channel must be set otherwise these will be ignored!
+  messageUpdates = true
+  userJoinLeaves = true
+  roleUpdates = true
+
+[autoModerator]
+# Auto moderation settings.
+enableAutoMod = "yes"
+# Whether to use channelsList as whitelist or blacklist.
+chListMode = "whitelist"
+# Channels to observe in the mode selected.
+# This only accepts channel IDs, NOT channel names. Using channel name will cause the moderator to fail.
+# To get the channel's ID, enable 'Developer Mode' in User Settings -> Appearance -> Advanced.
+channelsList = [
+  "711851248550150155",
+  "794930264107122698",
+  "753696378651279370",
+  "766354775679041536",
+  "761099775998689280",
+  "711851248550150155"
+]
+# URL domains to check when removing messages.
+urlBlacklist = [ "tenor.com/view/", "media.giphy.com/media/" ]
+# URL domains to ignore when removing messages.
+urlWhitelist = [ "" ]
+  [autoModerator.mediaOptions]
+  # These tell which types of media the auto moderator should look for.
+  removeGifs = "yes"
+  removeVids = "no"
+  removeImgs = "no"
+  removeURLs = "yes"
+  # Note: removeVids and removeImgs are very experimental.
+  # Please use them with caution as they are currently WIP.
+
+[dashboard]
+# Enable the bot's web dashboard interface here. (WIP)
+enableDashboard = false
+# This is the port your bot's dashboard will connect to. Default port is '3000'.
+port = 3000

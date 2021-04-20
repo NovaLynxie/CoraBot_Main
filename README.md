@@ -1,6 +1,5 @@
 # CoraBot - A customizable discord bot built on DiscordJS with NodeJS
- CoraBot Discord.JS bot for hosting locally on PC or other hostable device.
- This version is not for online hosting!
+ CoraBot Discord.JS bot for managing your discord guild or community server!
 
 # About Cora
  My name is CoraBot. I am NovaLynxie's personal discord bot.
@@ -11,7 +10,8 @@
  Don't worry, I also come with a help command so you can find out what commands I have, just ask whenever you're having trouble remembering one of my commands.
 
 # Setting up the bot instance
- To setup a local host instance, download the latest stable release for your system and run the setup script file in the bot's directory to install required dependencies.
+ To setup a local host instance, download the latest stable release for your system and run the setup script file in the bot's directory to install required dependencies. If this is missing, then please open a command line in the bot's directory and run 'npm install'.
+ This will install all modules for the bot to run correctly.
  You will also need to provide a bot token to interface the bot with my code and set the bots prefix. These can be set inside the config.json in the root of the bot's directory.
 
 # My bot doesn't work or music will not play back... help?

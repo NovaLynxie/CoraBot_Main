@@ -1,95 +1,122 @@
-// Loads required modules into the code.
-const Discord = require("discord.js");
-// Links code to other required parts.
+// ================== PROCESS.ENV =====================
+require('dotenv').config() // load .env as early as possible
+// ================= LOGGING MODULE ===================
+const logger = require('./cora/providers/WinstonPlugin');
+// fetch package version tag and report in console as app version.
+const {version} = require('./package.json');
+logger.init(`CoraBot v${version}`);
+// ================= START BOT CODE ===================
+const { CommandoClient, SQLiteProvider } = require('discord.js-commando');
+const { Structures } = require('discord.js');
+// ------------------- Bot's Modules ------------------
 const fs = require('fs');
-// Read information from files (core bot)
-const Client = require('./cora_modules/cora.data/client.js');
-const {
-	prefix,
-	token,
-} = require('./config.json');
+// Requiring bot's own modules here for usage.
+logger.init('Initialising bot systems...')
+// Boot.js used to handle bot startup and config loader.
+const {config} = require('./cora/handlers/bootLoader.js');
+const {prefix, debug, botToken, ownerID} = config;
+// Load bot handlers here before bot starts.
+const crashReporter = require('./cora/handlers/crashReporter.js');
+logger.debug('Loaded crashReporter functions from crashReporter.js');
+// ------------------- Bot's Modules ------------------
+require('./cora/internal/websrv'); // spin up built-in server
+// Load path module for code file to use file directories.
+const path = require('path'); 
+// Load sqlite modules for database management functions.
+const sqlite = require('sqlite');
+const sqlite3 = require('sqlite3');
 
-// Variables for DiscordBot
-const bot = new Client(); //Custom discord client.js replaces Discord.Client()
-bot.commands = new Discord.Collection();
-const cooldowns = new Discord.Collection();
-
-// Command files handler to parse <cmd>.js files.
-const cmdsDir = './cora_modules/cora.cmds'
-const cmdFiles = fs.readdirSync(cmdsDir).filter(file => file.endsWith('.js'));
-console.log("Grabbing cmdFiles from `"+cmdsDir+"`...")
-console.log("Fetching commands from cmdFiles and storing into table...")
-for (const file of cmdFiles) {
-  const cmds = require(`./cora_modules/cora.cmds/${file}`)
-  bot.commands.set(cmds.name, cmds)
-  //console.log("Added "+file) //Debug console printout to confirm data.
-}
-//console.log(bot.commands); //Debug console prompt to print all commands
-console.log("Commands table generated! Starting CoraBot...")
-
-// Bot.on Runtime
-bot.on('ready', () => {
-  bot.user.setStatus('online')
-  bot.user.setActivity("the guild", {type:'Watching'});
-  console.log("CoraBot is Online!")
-})
-bot.once('reconnecting', () => { 
-  console.log('L.O.S! Attempting to reconnect...')
-})
-bot.once('disconnect', () => {
-  console.log('Bot disconnected from Discord!')
-})
-
-// Process Error Handler - Catches any errors and attempt to prevent a bot crash.
-process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
-
-// Bot Command Handler (Requires Command Files)
-bot.on('message', async message => {
-  // If message is not a command, ignore the message.
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
-  // Parses args from command into args object.
-  const args = message.content.slice(prefix.length).trim().split(/ +/g);
-  const cmdName = args.shift().toLowerCase();
-  const command = bot.commands.get(cmdName)
-    || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
-  
-  // Checks if command is set as guildOnly command.
-  if (command.guildOnly && message.channel.type !== 'text')
-    return message.reply('I can\'t execute that command inside DMs!');
-  
-  // Checks if message is from the bot and ignores it.
-  if (message.author.bot) return;
-  if (message.content.indexOf(prefix) !== 0) return;
-
-  // Checks for command cooldowns, if it has sets the cooldowns.
-  if (!cooldowns.has(command.name)) {
-    cooldowns.set(command.name, new Discord.Collection());
+Structures.extend('Guild', Guild => {
+  class MusicGuild extends Guild {
+    constructor(bot, data){
+      super(bot, data);
+        this.musicData = {
+          queue: [],
+            isPlaying: false,
+            nowPlaying: null,
+            songDispatcher: null,
+            radioDispatcher: null,
+            volume: 1
+        };
+      }
   }
-  
-  const now = Date.now();
-  const timestamps = cooldowns.get(command.name);
-  const cooldownAmount = (command.cooldown || 3) * 1000;
-  
-  if (timestamps.has(message.author.id)) {
-    const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-  
-    if (now < expirationTime) {
-      const timeLeft = (expirationTime - now) / 1000;
-      return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
-    }
-  }
-
-  timestamps.set(message.author.id, now);
-  setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-  
-  try {
-    command.execute(message, bot, token);
-  } 
-  catch (error) {
-    console.error(error);
-    message.reply('Handler Error!')
-  }
+  return MusicGuild;
 });
 
-bot.login(token); 
-//Required to get bot token to interact with discord bot account.
+const client = new CommandoClient({
+  commandPrefix: prefix,
+  owner: ownerID,
+  invite: '',
+});
+const eventFiles = fs.readdirSync('./cora/events').filter(file => file.endsWith('.js'));
+
+client.setProvider(
+  // Set providers to store guild settings like prefix across restarts.
+  sqlite.open({ filename: 'cora/cache/database.db', driver: sqlite3.Database }).then(db => new SQLiteProvider(db)).catch((logger.error))
+)
+
+client.registry
+  .registerDefaultTypes()
+  .registerGroups([
+    ['admin', 'Admin'],
+    ['core', 'Core'],
+    //['econ', 'Economy'], // Disabled - Missing storage method.
+    ['image','Images'],
+    ['info', 'Information'],
+    ['misc', 'Miscellaneous'],
+    ['music', 'Music'], // Experimental! - May have some unexpected errors.
+    //['social', 'Social'], // Disabled - Does not have any commands.
+    ['support', 'Support'],
+  ])
+  .registerDefaultGroups()
+  .registerDefaultCommands({
+      unknownCommand: false,
+      help: false,
+  })
+  .registerCommandsIn(
+      path.join(__dirname, './cora/commands')
+      //path.join(__dirname, './cora_modules/commands')
+  );
+
+for (const file of eventFiles) {
+	const event = require(`./cora/events/${file}`);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args, client));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args, client));
+	}
+}
+
+process.on('unhandledRejection', error => {
+    //console.log(`Uncaught Promise Rejection Detected! ${error}`)
+    logger.warn(`Uncaught Promise Rejection Exception thrown!`)
+    logger.error(`Caused by: ${error.message}`)
+    if (debug == true) {
+      logger.debug(error.stack)
+    }
+});
+process.on('uncaughtException', error => {
+    crashReporter(error);
+    logger.error(`Bot crashed! Check the logs directory for crash report!`); // Error thrown and logged to console window.
+});
+
+
+client.on('guildMemberUpdate', (oldMember, newMember) => {
+    const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
+    if (removedRoles.size > 0) {
+        logger.info(`Role ${removedRoles.map(r=>r.name)} removed from ${oldMember.displayName}.`)
+    };
+    const addedRoles = newMember.roles.cache.filter(role=>!oldMember.roles.cache.has(role.id));
+    if (addedRoles.size > 0) {
+        logger.info(`Role ${addedRoles.map(r=>r.name)} added to ${oldMember.displayName}.`)
+    };
+});
+
+logger.init(`Connecting to Discord...`);
+client.login(botToken).then(
+  logger.debug(`Awaiting for Discord API response...`)
+).catch(err => {
+    logger.error('Bot token is INVALID! Login aborted.')
+    logger.error('Please check the bot token in config vars and restart the bot.')
+    logger.error(err);
+});

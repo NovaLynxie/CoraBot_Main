@@ -1,23 +1,65 @@
 {
   "name": "corabot",
-  "version": "1.1.5",
+  "version": "2.0.0",
   "description": "NovaLynxie's Personal Discord Bot",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "test-files": "node ./cora/internal/fileSelfTest.js",
+    "test-db": "node ./cora/internal/dbTest.js",
+    "clear-logs": "node ./cora/internal/logCleaner.js",
+    "setup": "node ./cora/internal/newConfig.js",
+    "start": "node .",
+    "dev": "nodemon ."
   },
   "keywords": [
     "Discord.JS",
-    "DiscordBot"
+    "Commando",
+    "NodeJS"
   ],
   "author": "NovaLynxie",
   "license": "MIT",
   "dependencies": {
-    "discord.js": "^11.5.1",
-    "ffmpeg-static": "^2.7.0",
-    "flatted": "^2.0.1",
-    "node-opus": "^0.3.3",
-    "ytdl-core": "^0.29.7"
+    "@discordjs/opus": "^0.4.0",
+    "@replit/database": "^2.0.0",
+    "animage": "^1.0.1",
+    "cheweybot-api": "^1.0.5",
+    "common-tags": "^1.8.0",
+    "discord-bot-dashboard": "^0.2.0",
+    "discord-chatbot": "^2.0.1",
+    "discord.js": "^12.5.1",
+    "discord.js-commando": "^0.12.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "ffmpeg-static": "^4.2.7",
+    "furrybotapi": "^2.0.10",
+    "log-timestamp": "^0.3.0",
+    "minecraft-server-util": "^3.4.2",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
+    "moment-timezone": "^0.5.28",
+    "node-fetch": "^2.6.1",
+    "prompt": "^1.1.0",
+    "pug": "^3.0.2",
+    "random-animals-api": "^1.2.0",
+    "simple-youtube-api": "^5.2.1",
+    "sqlite": "^4.0.2",
+    "sqlite3": "^5.0.2",
+    "toml": "^3.0.0",
+    "wait": "^0.4.2",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.5.2",
+    "yiff": "^2.0.2",
+    "yiffy": "^2.0.8",
+    "ytdl-core": "^4.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "cora/*",
+      "logs/*"
+    ],
+    "delay": "2500"
   }
 }
