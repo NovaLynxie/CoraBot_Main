@@ -1,7 +1,7 @@
 node_modules
 cora/cache/
 logs/
-config.json
+config.toml
 setup_linux.sh
 setup_win.bat
 start_linux.sh
