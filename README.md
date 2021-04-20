@@ -9,11 +9,10 @@
  I can play some music for you, give you information about me or help you moderate your own guild using my own custom built admin commands!
  Don't worry, I also come with a help command so you can find out what commands I have, just ask whenever you're having trouble remembering one of my commands.
 
-# Setting up the bot instance
- To setup a local host instance, download the latest stable release for your system and run the setup script file in the bot's directory to install required dependencies. If this is missing, then please open a command line in the bot's directory and run 'npm install'.
+# Setting up the bot instance ()
+ To setup a local host instance, clone this repository, navigate to the bot's directory root and open a command line. Run the command 'npm install' to begin installing dependencies.
  This will install all modules for the bot to run correctly.
- You will also need to provide a bot token to interface the bot with my code and set the bots prefix. These can be set inside the config.json in the root of the bot's directory.
-
+ You will also need to provide a bot token to interface the bot with my code and set the bots prefix. Open the example.env file and edit the line botToken=BOT_TOKEN_HERE, replace BOT_TOKEN_HERE with your token.
 # My bot doesn't work or music will not play back... help?
  Should a module dependency fail to install correctly or a bot function not work properly, reinstall the required dependency by running the following commands:
  `npm uninstall <module_name>` followed by `npm install --s <module_name>`
