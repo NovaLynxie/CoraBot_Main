@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test-files": "node ./cora/internal/fileSelfTest.js",
-    "test-db": "node ./cora/internal/dbTest.js",
     "clear-logs": "node ./cora/internal/logCleaner.js",
     "setup": "node ./cora/internal/newConfig.js",
     "start": "node .",
