@@ -19,7 +19,6 @@ const {prefix, debug, botToken, ownerID} = config;
 const crashReporter = require('./cora/handlers/crashReporter.js');
 logger.debug('Loaded crashReporter functions from crashReporter.js');
 // ------------------- Bot's Modules ------------------
-require('./cora/internal/websrv'); // spin up built-in server
 // Load path module for code file to use file directories.
 const path = require('path'); 
 // Load sqlite modules for database management functions.

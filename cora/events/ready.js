@@ -10,6 +10,8 @@ module.exports = {
     logger.info(`Logged in as ${client.user.tag}!`);
     logger.data(`Bot User ID: ${client.user.id}`);
     client.user.setActivity('with Commando');
+    // Spin up built-in server once client is online and ready.
+    require('../internal/websrv'); 
     // Setup interval timers to update status and database.
     setInterval(async () => {    
       // status updater
