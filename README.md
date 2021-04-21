@@ -19,7 +19,7 @@ FFmpeg is required for all voice interactions to work correctly.
 
 To setup a local host instance, clone this repository, navigate to the bot's directory root and open a command line. Run the command 'npm install' to begin installing dependencies.
 This will install all modules for the bot to run correctly.
-You will also need to provide a bot token to interface the bot with my code and set the bots prefix. Open the example.env file and edit the line botToken=BOT_TOKEN_HERE, replace BOT_TOKEN_HERE with your token.
+You will also need to provide a bot token to interface the bot with my code and set the bots prefix. Open the example.env file and edit the line botToken=BOT_TOKEN_HERE, replace BOT_TOKEN_HERE with your token.  
 *Installation and setup scripts are planned for v2.0 for easier setup.*
 
 ## My bot doesn't work or music will not play back... help?
