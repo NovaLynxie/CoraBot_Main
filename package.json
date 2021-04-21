@@ -16,7 +16,7 @@
     "NodeJS"
   ],
   "author": "NovaLynxie",
-  "license": "MIT",
+  "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.4.0",
     "@replit/database": "^2.0.0",
