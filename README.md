@@ -9,7 +9,7 @@
  I can play some music for you, give you information about me or help you moderate your own guild using my own custom built admin commands!
  Don't worry, I also come with a help command so you can find out what commands I have, just ask whenever you're having trouble remembering one of my commands.
 
-# Setting up the bot instance ()
+# Setting up the bot instance (WIP)
  To setup a local host instance, clone this repository, navigate to the bot's directory root and open a command line. Run the command 'npm install' to begin installing dependencies.
  This will install all modules for the bot to run correctly.
  You will also need to provide a bot token to interface the bot with my code and set the bots prefix. Open the example.env file and edit the line botToken=BOT_TOKEN_HERE, replace BOT_TOKEN_HERE with your token.
