@@ -1,5 +1,6 @@
 node_modules
 cora/cache/*
+data/*
 logs/*
 config.toml
 setup_linux.sh
