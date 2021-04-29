@@ -22,7 +22,7 @@ function timeStamp (date) {
 module.exports = function crashReporter (error) {
   let stack = error.stack;
   let messages = ["Did I do that?","Erm... whoops.","Hehe, my bad...", "Well, feck if I how that happened. ¯\\_(ツ)_/¯","CoraBot.exe stopped unexpectedly (X_X)"]
-  let randomMsg = Math.floor(Math.random() * messages.length);
+  let randomMsg = messages[Math.floor(Math.random() * messages.length)];
   let date = new Date();
   let logstamp = timeStamp(date);
   let filepath = `./logs/crash-reports/crash-${logstamp}.txt`
