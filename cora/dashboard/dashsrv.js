@@ -61,7 +61,7 @@ module.exports = (client, config) => {
     store: new SQLiteStore({
       dir: "./data"
     }),
-    secret: process.env.SESSION_SECRET || client.config.dashboard.sessionSecret,
+    secret: process.env.SESSION_SECRET || config.dashboard.sessionSecret,
     resave: false,
     saveUninitialized: false,
   }));
@@ -72,7 +72,7 @@ module.exports = (client, config) => {
   app.use(helmet());
 
   // The domain name used in various endpoints to link between pages.
-  app.locals.domain = process.env.DOMAIN || client.config.dashboard.domain;
+  app.locals.domain = process.env.DOMAIN || config.dashboard.botDomain;
   
   // The EJS templating engine gives us more power to create complex web pages. 
   // This lets us have a separate header, footer, and "blocks" we can use in our pages.
@@ -133,7 +133,7 @@ module.exports = (client, config) => {
   // Here we check if the user was already on the page and redirect them
   // there, mostly.
   app.get("/api/discord/callback", passport.authenticate("discord", { failureRedirect: "/autherror" }), (req, res) => {
-    client.config.owners.includes(req.user.id) ? req.session.isAdmin = true : req.session.isAdmin = false;
+    config.owners.includes(req.user.id) ? req.session.isAdmin = true : req.session.isAdmin = false;
     if (req.session.backURL) {
       const url = req.session.backURL;
       req.session.backURL = null;

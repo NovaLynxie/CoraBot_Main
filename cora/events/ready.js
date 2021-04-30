@@ -5,7 +5,20 @@ const logger = require('../providers/WinstonPlugin');
 module.exports = {
   name: 'ready',
   once: true,
-  execute(client) {
+  async execute(client) {
+    // Fetch application information here.
+    client.application = await client.fetchApplication();
+    // Configuring dashboard settings here.
+    const dashcfg = {
+      "dashboard" : {
+        "clientID" : client.application.id,
+        "oauthSecret" : "",
+        "callbackURL" : "",
+        "sessionSecret" : "",
+        "botDomain" : process.env.botDomain || ,
+        "" : "",
+      }
+    };
     // Announce when client is connected and ready.
     logger.info(`Logged in as ${client.user.tag}!`);
     logger.data(`Bot User ID: ${client.user.id}`);

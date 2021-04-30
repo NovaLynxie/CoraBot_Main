@@ -47,6 +47,7 @@ const client = new CommandoClient({
   owner: ownerID,
   invite: '',
 });
+
 const eventFiles = fs.readdirSync('./cora/events').filter(file => file.endsWith('.js'));
 
 client.setProvider(
