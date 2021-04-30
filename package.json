@@ -1,6 +1,6 @@
 {
   "name": "corabot",
-  "version": "2.1.0-dev",
+  "version": "2.1.0",
   "description": "NovaLynxie's Personal Discord Bot",
   "main": "index.js",
   "scripts": {
