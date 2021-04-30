@@ -1,22 +1,12 @@
-/* 
-DASHBOARD EXAMPLE
-  Install the following for dashboard stuff.
-  npm install body-parser ejs express express-passport express-session
-  npm install level-session-store marked passport passport-discord
-  
-This is a very simple dashboard example, but even in its simple state, there are still a
-lot of moving parts working together to make this a reality. I shall attempt to explain
-those parts in as much details as possible, but be aware: there's still a lot of complexity
-and you shouldn't expect to really understand all of it instantly.
-Pay attention, be aware of the details, and read the comments. 
-Note that this *could* be split into multiple files, but for the purpose of this
-example, putting it in one file is a little simpler. Just *a little*.
+/*
+This code was originally from AnIdiotsGuide/guidebot dashboard example.
 */
+
 // Native Node Imports
 const url = require("url");
 const path = require("path");
 
-// Used for Permission Resolving...
+// For Discord Permission Handling
 const Discord = require("discord.js");
 
 // Express Session
@@ -24,28 +14,19 @@ const express = require("express");
 const app = express();
 const moment = require("moment");
 require("moment-duration-format");
-
 // Express Plugins
-// Specifically, passport helps with oauth2 in general.
-// passport-discord is a plugin for passport that handles Discord's specific implementation.
-// express-session and level-session-store work together to create persistent sessions
-// (so that when you come back to the page, it still remembers you're logged in).
-const passport = require("passport");
-const session = require("express-session");
+const passport = require("passport"); // oauth2 helper plugin
+const helmet = require('helmet'); // security plugin
+const session = require("express-session"); // session manager for express
 const SQLiteStore = require("connect-sqlite3")(session);
 const Strategy = require("passport-discord").Strategy;
 
-// Helmet is specifically a security plugin that enables some specific, useful 
-// headers in your page to enhance security.
-const helmet = require("helmet");
-
-// Used to parse Markdown from things like ExtendedHelp
-const md = require("marked");
+const md = require("marked"); // markdown handler for md formatting
 
 module.exports = (client) => {
   // It's easier to deal with complex paths. 
   // This resolves to: yourbotdir/dashboard/
-  const dataDir = path.resolve(`${process.cwd()}${path.sep}cora${path.sep}server`);
+  const dataDir = path.resolve(`${process.cwd()}${path.sep}cora${path.sep}dashboard`);
 
   // This resolves to: yourbotdir/dashboard/templates/ 
   // which is the folder that stores all the internal template files.
@@ -64,21 +45,6 @@ module.exports = (client) => {
     done(null, obj);
   });
 
-  /* 
-  This defines the **Passport** oauth2 data. A few things are necessary here.
-  
-  clientID = Your bot's client ID, at the top of your app page. Please note, 
-    older bots have BOTH a client ID and a Bot ID. Use the Client one.
-  clientSecret: The secret code at the top of the app page that you have to 
-    click to reveal. Yes that one we told you you'd never use.
-  callbackURL: The URL that will be called after the login. This URL must be
-    available from your PC for now, but must be available publically if you're
-    ever to use this dashboard in an actual bot. 
-  scope: The data scopes we need for data. identify and guilds are sufficient
-    for most purposes. You might have to add more if you want access to more
-    stuff from the user. See: https://discordapp.com/developers/docs/topics/oauth2 
-  See config.js.example to set these up. 
-  */
   passport.use(new Strategy({
     clientID: client.config.dashboard.clientID,
     clientSecret: client.config.dashboard.oauthSecret,
