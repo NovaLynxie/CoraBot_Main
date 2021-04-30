@@ -23,27 +23,25 @@ const Strategy = require("passport-discord").Strategy;
 
 const md = require("marked"); // markdown handler for md formatting
 
-module.exports = (client) => {
-  // It's easier to deal with complex paths. 
-  // This resolves to: yourbotdir/dashboard/
+module.exports = (client, config) => {
+  // Dashboard Directory -> corabot/cora/dashboard
+  // This is where dashboard files are stored.
   const dataDir = path.resolve(`${process.cwd()}/cora/dashboard`);
-
-  // This resolves to: yourbotdir/dashboard/templates/ 
-  // which is the folder that stores all the internal template files.
+  // Templates Directory -> corabot/cora/dashboard/templates 
+  // All page templates are stored here.
   const templateDir = path.resolve(`${dataDir}/templates`);
-
   // The public data directory, which is accessible from the *browser*. 
   // It contains all css, client javascript, and images needed for the site.
   app.use("/public", express.static(path.resolve(`${dataDir}/public`)));
-
-  // These are... internal things related to passport. Honestly I have no clue either.
-  // Just leave 'em there.
+  // Passport user handlers. Internal things for passport module.
+  // Do not touch these, just leave them be.
   passport.serializeUser((user, done) => {
     done(null, user);
   });
   passport.deserializeUser((obj, done) => {
     done(null, obj);
   });
+  // Defines Passport oauth2 data needed for dashboard authorization.
 
   passport.use(new Strategy({
     clientID: client.config.dashboard.clientID,
