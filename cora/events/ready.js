@@ -1,5 +1,6 @@
-const {assets} = require('../handlers/bootLoader');
+const {assets, dashcfg} = require('../handlers/bootLoader');
 const {activities} = assets;
+const {enableDashboard, port, clientID, callbackURL, botDomain} = dashcfg;
 const logger = require('../providers/WinstonPlugin');
 
 module.exports = {
@@ -9,14 +10,13 @@ module.exports = {
     // Fetch application information here.
     client.application = await client.fetchApplication();
     // Configuring dashboard settings here.
-    const dashcfg = {
+    const dashconfig = {
       "dashboard" : {
         "clientID" : client.application.id,
-        "oauthSecret" : "",
-        "callbackURL" : "",
-        "sessionSecret" : "",
-        "botDomain" : process.env.botDomain || ,
-        "" : "",
+        "oauthSecret" : process.env.clientSecret,
+        "sessionSecret" : process.env.sessionSecret,
+        "botDomain" : process.env.botDomain || botDomain,
+        "callbackURL" : process.env.callbackURL || callbackURL      
       }
     };
     // Announce when client is connected and ready.
@@ -24,7 +24,11 @@ module.exports = {
     logger.data(`Bot User ID: ${client.user.id}`);
     client.user.setActivity('with Commando');
     // Spin up built-in server once client is online and ready.
-    require('../internal/websrv'); 
+    if (enableDashboard || enableDashboard === 'yes') {
+      require('../dashboard/dashsrv')(client, dashconfig);
+    } else {
+      require('../internal/websrv'); 
+    }
     // Setup interval timers to update status and database.
     setInterval(async () => {    
       // status updater

@@ -48,7 +48,7 @@
           <% if(user) { %>
             <li class="nav-item dropdown">
               <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="userDropdown" >
-                <img src="<%= user.avatarURL() %>?size=32" width="25" height="25" class="d-inline-block align-middle rounded-circle" alt="">
+                <img src="<%= user.avatarURL %>?size=32" width="25" height="25" class="d-inline-block align-middle rounded-circle" alt="">
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                 <h6 class="dropdown-header"><i class="fa fa-user" aria-hidden="true"></i> <%= user.username %></h6>
