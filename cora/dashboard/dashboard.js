@@ -42,20 +42,21 @@ module.exports = (client, config) => {
     done(null, obj);
   });
   // Defines Passport oauth2 data needed for dashboard authorization.
-
+  // Requires clientID, clientSecret and callbackURL.
+  // - clientID is the bot's unique client identification string.
+  // - clientSecret is a secret code for oauth2 handling.
+  // - callbackURL is the url to handle discord api callbacks.
   passport.use(new Strategy({
-    clientID: client.config.dashboard.clientID,
-    clientSecret: client.config.dashboard.oauthSecret,
-    callbackURL: client.config.dashboard.callbackURL,
+    clientID: config.dashboard.clientID,
+    clientSecret: config.dashboard.oauthSecret,
+    callbackURL: config.dashboard.callbackURL,
     scope: ["identify", "guilds"]
   },
   (accessToken, refreshToken, profile, done) => {
     process.nextTick(() => done(null, profile));
   }));
-
-  
-  // Session data, used for temporary storage of your visitor's session information.
-  // the `secret` is in fact a "salt" for the data, and should not be shared publicly.
+  // Session Data
+  // This is used for temporary storage of your visitor's session information. It contains secrets that should not be shared publicly.
   app.use(session({
     store: new SQLiteStore({
       dir: "./data"
