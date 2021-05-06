@@ -27,7 +27,7 @@ const { clientName, yiffyApiKey } = images;
 logger.debug(`prefix = ${prefix} (${typeof prefix})`);
 logger.debug(`debug = ${debug} (${typeof debug})`);
 logger.debug(`enabled = null (null)`);
-logger.debug(`port = ${port} (${typeof port})`);
+//logger.debug(`port = ${port} (${typeof port})`);
 logger.debug(`logChannels = ${logChannels}, ignoredChannels = ${ignoredChannels}`);
 logger.debug('Loaded config successfully!');
 function randomID(min, max) {  
