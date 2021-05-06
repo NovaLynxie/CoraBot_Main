@@ -51,21 +51,28 @@ module.exports = class BanCommand extends Command {
       let dateOb = new Date()
       let stream = fs.createWriteStream(filepath, {flags:'a'});
       logger.info(`Writing messages from channel ${channel.name} into local file...`)
-      stream.write(`${dateOb.toDateString()} ${dateOb.toTimeString()}`);
-      messages.reverse(); // Make sure messages are oldest to newest.
+      stream.write(stripIndents`
+        ${dateOb.toDateString()} ${dateOb.toTimeString()}\r\n
+        ------------------------------------------------------------\r\n
+
+      `);
+      //messages.reverse(); // Make sure messages are oldest to newest.
       let index = 1, total = messages.size;
       messages.forEach(message => {
-        logger.info(`Writing message ${index}/${total}`)
-        stream.write(stripIndents`
-          ${message.author.username}#${message.author.discriminator} \n 
-          User ID:${message.author.id}
+        logger.data(`Writing message ${index}/${total}...`)
+        stream.write(stripIndents` 
+          ----------------------------------------\n
+          Username:${message.author.username}#${message.author.discriminator}
+          User ID:${message.author.id} \n
           First Created: ${(message.createdAt !== null) ? message.createdAt : 'N/A'} \n
           Last Edited: ${(message.editedAt !== null) ? message.editedAt : 'N/A'} \n
           ${message.content} \n
+          ----------------------------------------\n
         `)
         index++;
       })
-      stream.write('End of messages.')
+      stream.write('\r\n End of messages.')
+      logger.info(`Finished writing ${total} messages to file!`)
     })
   };
 };
