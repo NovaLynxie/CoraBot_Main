@@ -25,7 +25,7 @@ module.exports = {
     client.user.setActivity('with Commando');
     // Spin up built-in server once client is online and ready.
     if (enableDashboard || enableDashboard === 'yes') {
-      require('../dashboard/dashsrv')(client, dashconfig);
+      require('../dashboard/dashsrv_ex')(client, dashconfig);
     } else {
       require('../internal/websrv'); 
     }
