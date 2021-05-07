@@ -67,5 +67,7 @@ urlWhitelist = [ "" ]
 [dashboard]
 # Enable the bot's web dashboard interface here. (WIP)
 enableDashboard = false
-# This is the port your bot's dashboard will connect to. Default port is '3000'.
+# This is the port your bot's dashboard will connect to. 
+# Only change this if network errors occur or the port is unavailable.
+# Default port is '3000'. 
 port = 3000
