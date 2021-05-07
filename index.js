@@ -33,11 +33,11 @@ Structures.extend('Guild', Guild => {
       super(bot, data);
         this.musicData = {
           queue: [],
-            isPlaying: false,
-            nowPlaying: null,
-            songDispatcher: null,
-            radioDispatcher: null,
-            volume: 1
+          isPlaying: false,
+          nowPlaying: null,
+          songDispatcher: null,
+          radioDispatcher: null,
+          volume: 1
         };
       }
   }
