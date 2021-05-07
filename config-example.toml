@@ -63,9 +63,3 @@ urlWhitelist = [ "" ]
   removeURLs = "yes"
   # Note: removeVids and removeImgs are very experimental.
   # Please use them with caution as they are currently WIP.
-
-[dashboard]
-# Enable the bot's web dashboard interface here. (WIP)
-enableDashboard = false
-# This is the port your bot's dashboard will connect to. Default port is '3000'.
-port = 3000
