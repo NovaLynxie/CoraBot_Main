@@ -2,6 +2,9 @@
 const url = require("url");
 const path = require("path");
 
+// Winston Logger Plugin
+const logger = require('../providers/WinstonPlugin');
+
 // For Discord Permission Handling
 const Discord = require("discord.js");
 
@@ -13,9 +16,15 @@ require("moment-duration-format");
 // Express Plugins
 const passport = require("passport"); // oauth2 helper plugin
 const helmet = require('helmet'); // security plugin
-const session = require("express-session"); // session manager for express
+const session = require("express-session"); // express session manager
 const SQLiteStore = require("connect-sqlite3")(session);
 const Strategy = require("passport-discord").Strategy;
+
+// Bot configuration (config.toml)
+const {dashcfg} = require('../handlers/bootLoader');
+const {port} = dashcfg;
+
+logger.init('Dashboard Service v1.2');
 
 module.exports = (client, config) => {
   // Dashboard root directory from bot working directory.
@@ -102,6 +111,28 @@ module.exports = (client, config) => {
 
   // Regular Information Pages (public pages)
   app.get("/", (req, res) => {
-    renderTemplate(res, req, "index.pug");
+    renderView(res, req, "index.pug");
+  });
+  app.get("/stats", (req, res) => {
+    const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
+    const members = client.guilds.cache.reduce((p, c) => p + c.memberCount, 0);
+    const textChannels = client.channels.cache.filter(c => c.type === "text").size;
+    const voiceChannels = client.channels.cache.filter(c => c.type === "voice").size;
+    const guilds = client.guilds.cache.size;
+    renderView(res, req, "stats.pug", {
+      stats: {
+        servers: guilds,
+        members: members,
+        text: textChannels,
+        voice: voiceChannels,
+        uptime: duration,
+        memoryUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
+        dVersion: Discord.version,
+        nVersion: process.version
+      }
+    })
+  })
+  app.listen(port,() => {
+    logger.info(`Server connected to port ${port}`);
   });
 };

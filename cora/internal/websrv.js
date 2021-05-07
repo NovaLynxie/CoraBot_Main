@@ -7,7 +7,7 @@ app.get('/', (req, res) => {
 });
 
 const port = 3000;
-
+logger.init('Starting Simple Web Responder v1.0')
 app.listen(port, () => {
   logger.info(`Server connected to port ${port}`);
 });

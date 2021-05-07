@@ -9,3 +9,18 @@ script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.m
 script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js' integrity='sha256-zG8v+NWiZxmjNi+CvUYnZwKtHzFtdO8cAKUIdB8+U9I=' crossorigin='anonymous')
 script(src='https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/r-2.2.0/datatables.min.js')
+
+// Navigation Bar
+a(name='top')
+nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
+  .container
+    a.navbar-brand(href='/') CoraBot.Dashboard
+    button.navbar-toggler.navbar-toggler-right(type='button' data-toggle='collapse' data-target='#navbar01' aria-controls='navbar01' aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbarColor01.collapse.navbar-collapse
+      ul.navbar-nav.mr-auto
+        li.nav-item
+          a.nav-link(href='/') Home
+        li.nav-item
+          a.nav-link(href='/stats') Stats 
+      ul.navbar-nav

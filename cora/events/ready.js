@@ -24,9 +24,17 @@ module.exports = {
     logger.data(`Bot User ID: ${client.user.id}`);
     client.user.setActivity('with Commando');
     // Spin up built-in server once client is online and ready.
-    if (enableDashboard || enableDashboard === 'yes') {
-      require('../dashboard/dashsrv_ex')(client, dashconfig);
-    } else {
+    try {
+      if (enableDashboard || enableDashboard === 'yes') {
+        require('../dashboard/dashsrv')(client, dashconfig);
+      } else {
+        require('../internal/websrv'); 
+      }
+    } catch (err) {
+      // In the event the dashboard fails, fallback to websrv.js here.
+      logger.error(err); logger.debug(err.stack);
+      logger.warn('Unable to start dashsrv service due to error!')
+      logger.warn('Falling back to web server responder.')
       require('../internal/websrv'); 
     }
     // Setup interval timers to update status and database.
