@@ -77,7 +77,9 @@ module.exports = (client, config) => {
       directives: {
         defaultSrc: ["'self'", "", ""],
         scriptSrc: ["'self'", "example.com"],
-        scriptSrcElem: ["https://code.jquery.com"," https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com"," https://cdn.datatables.net"],
+        scriptSrcElem: [
+          "https://stackpath.bootstrapcdn.com", "https://maxcdn.bootstrapcdn.com", "https://code.jquery.com","https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com", "https://cdn.datatables.net"
+        ],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
       }
