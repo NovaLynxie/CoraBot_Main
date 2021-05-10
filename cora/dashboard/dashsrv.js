@@ -77,7 +77,7 @@ module.exports = (client, config) => {
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "example.com"],
-        styleSrcElem: [
+        styleSrcElem: ["'self'",
           "https://stackpath.bootstrapcdn.com", "https://maxcdn.bootstrapcdn.com",
         ],
         scriptSrcElem: [
