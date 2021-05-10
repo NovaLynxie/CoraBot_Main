@@ -70,12 +70,24 @@ module.exports = (client, config) => {
   // Initializes passport and session.
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(helmet());
+  app.use(helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        defaultSrc: ["'self'", "", ""],
+        scriptSrc: ["'self'", "example.com"],
+        scriptSrcElem: ["https://code.jquery.com"," https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com"," https://cdn.datatables.net"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
+      }
+    }
+  }));
 
   // The EJS templating engine gives us more power to create complex web pages. 
   // This lets us have a separate header, footer, and "blocks" we can use in our pages.
-  app.engine("html", require("ejs").renderFile);
-  app.set("view engine", "html");
+  //app.engine("html", require("ejs").renderFile);
+  //app.set("view engine", "html");
+  app.set("view engine", "pug");
 
   // body-parser reads incoming JSON or FORM data and simplifies their
   // use in code.
@@ -86,8 +98,7 @@ module.exports = (client, config) => {
   })); 
 
   /* 
-  Authentication Checks. For each page where the user should be logged in, double-checks
-  whether the login is valid and the session is still active.
+  Authentication Checks. For each page where the user should be logged in, double-checks whether the login is valid and the session is still active.
   */
   function checkAuth(req, res, next) {
     if (req.isAuthenticated()) return next();
@@ -127,8 +138,8 @@ module.exports = (client, config) => {
         voice: voiceChannels,
         uptime: duration,
         memoryUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-        dVersion: Discord.version,
-        nVersion: process.version
+        discordVer: Discord.version,
+        nodeVer: process.version
       }
     })
   })
