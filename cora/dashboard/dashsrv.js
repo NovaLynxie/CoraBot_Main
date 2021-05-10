@@ -77,8 +77,12 @@ module.exports = (client, config) => {
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "example.com"],
+        fontSrc: [
+          "'self'", "https://fonts.googleapis.com",
+          "https://fonts.gstatic.com", "https://maxcdn.bootstrapcdn.com"
+        ],
         styleSrcElem: ["'self'",
-          "https://stackpath.bootstrapcdn.com", "https://maxcdn.bootstrapcdn.com",
+          "https://stackpath.bootstrapcdn.com", "https://maxcdn.bootstrapcdn.com", "https://fonts.googleapis.com"
         ],
         scriptSrcElem: [
            "https://code.jquery.com", "https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com", "https://cdn.datatables.net"
