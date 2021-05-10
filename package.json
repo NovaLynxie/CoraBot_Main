@@ -35,6 +35,7 @@
     "ffmpeg-static": "^4.2.7",
     "furrybotapi": "^2.0.10",
     "helmet": "^4.5.0",
+    "jquery": "^3.6.0",
     "log-timestamp": "^0.3.0",
     "marked": "^2.0.3",
     "minecraft-server-util": "^3.4.2",

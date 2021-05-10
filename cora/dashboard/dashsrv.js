@@ -24,7 +24,7 @@ const Strategy = require("passport-discord").Strategy;
 const {dashcfg} = require('../handlers/bootLoader');
 const {port} = dashcfg;
 
-logger.init('Dashboard Service v1.2');
+logger.init('Dashboard Service v1.3.1');
 
 module.exports = (client, config) => {
   // Dashboard root directory from bot working directory.
@@ -85,7 +85,7 @@ module.exports = (client, config) => {
           "https://stackpath.bootstrapcdn.com", "https://maxcdn.bootstrapcdn.com", "https://fonts.googleapis.com"
         ],
         scriptSrcElem: [
-           "https://code.jquery.com", "https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com", "https://cdn.datatables.net"
+           "https://code.jquery.com", "https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com", "https://cdn.datatables.net", "https://cdn.jsdelivr.net"
         ],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
