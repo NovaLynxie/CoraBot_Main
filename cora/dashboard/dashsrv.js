@@ -70,7 +70,7 @@ module.exports = (client, config) => {
   // Initializes passport and session.
   app.use(passport.initialize());
   app.use(passport.session());
-  // Define Helmet options and initialize for all site pages.
+  // Initializes helmet with these options for all site pages.
   app.use(helmet({
     contentSecurityPolicy: {
       useDefaults: true,
