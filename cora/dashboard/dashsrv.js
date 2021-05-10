@@ -75,10 +75,13 @@ module.exports = (client, config) => {
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
-        defaultSrc: ["'self'", "", ""],
+        defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "example.com"],
+        styleSrcElem: [
+          "https://stackpath.bootstrapcdn.com", "https://maxcdn.bootstrapcdn.com",
+        ],
         scriptSrcElem: [
-          "https://stackpath.bootstrapcdn.com", "https://maxcdn.bootstrapcdn.com", "https://code.jquery.com","https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com", "https://cdn.datatables.net"
+           "https://code.jquery.com", "https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com", "https://cdn.datatables.net"
         ],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
