@@ -24,22 +24,15 @@ const Strategy = require("passport-discord").Strategy;
 const {dashcfg} = require('../handlers/bootLoader');
 const {port} = dashcfg;
 
-logger.init('Dashboard Service v1.3.2-dev');
+logger.init('Dashboard Service v1.3.1');
 
 module.exports = (client, config) => {
-  // Dashboard Modules
-  const dashUtils = require('./dashutils.js')(client, config);
-  // Router Modules
-  const mainRouter = require('./routes/main.js');
-  const dashboardRouter = require('./routes/dash.js');
-
   // Dashboard root directory from bot working directory.
   const dashDir = path.resolve(`${process.cwd()}/cora/dashboard`);
   // Public and Views resource paths within Dashboard directory.
   const viewsDir = path.resolve(`${dashDir}/views/`)
   const publicDir = path.resolve(`${dashDir}/public/`)
   app.use("/public", express.static(publicDir));
-
   // Passport user handlers. Internal things for passport module.
   // Do not touch these, just leave them be.
   passport.serializeUser((user, done) => {
@@ -48,7 +41,6 @@ module.exports = (client, config) => {
   passport.deserializeUser((obj, done) => {
     done(null, obj);
   });
-
   // Defines Passport oauth2 data needed for dashboard authorization.
   // Requires clientID, clientSecret and callbackURL.
   // - clientID is the bot's unique client identification string.
@@ -63,7 +55,6 @@ module.exports = (client, config) => {
   (accessToken, refreshToken, profile, done) => {
     process.nextTick(() => done(null, profile));
   }));
-
   // Session Data
   // This is used for temporary storage of your visitor's session information. It contains secrets that should not be shared publicly.
   app.use(session({
@@ -102,7 +93,10 @@ module.exports = (client, config) => {
     }
   }));
 
-  // The PUG templating engine allows for easier more readable formatting relying on whitespacing. This makes maintenance much easier.
+  // The EJS templating engine gives us more power to create complex web pages. 
+  // This lets us have a separate header, footer, and "blocks" we can use in our pages.
+  //app.engine("html", require("ejs").renderFile);
+  //app.set("view engine", "html");
   app.set("view engine", "pug");
 
   // body-parser reads incoming JSON or FORM data and simplifies their
@@ -134,12 +128,8 @@ module.exports = (client, config) => {
     };
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
-  /*
-  // Page Router Middleware (Disabled, utils need tweaking first.)
-  app.use("/", mainRouter) // Main page routes (Public)
-  app.use("/dashboard", dashboardRouter) // Dash page routes (Auth)
-  */
-  /*
+
+
   // Regular Information Pages (public pages)
   app.get("/", (req, res) => {
     renderView(res, req, "index.pug");
@@ -163,9 +153,7 @@ module.exports = (client, config) => {
       }
     })
   })
-  */
   app.listen(port,() => {
-    logger.info('Started Dashboard Service!');
-    logger.info(`dashsrv connected to port ${port}`);
+    logger.info(`Server connected to port ${port}`);
   });
 };
