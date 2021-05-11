@@ -30,3 +30,18 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
         li.nav-item
           a.nav-link(href='/stats') Stats 
       ul.navbar-nav
+        unless (typeof(user) !== 'undefined')
+          li.nav-item.dropdown
+            a#userDropdown.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+            img.d-inline-block.align-middle.rounded-circle(src='#' width='25' height='25' alt='')
+            .dropdown-menu.dropdown-menu-right(aria-labelledby='userDropdown')
+            h6.dropdown-header
+              i.fa.fa-user(aria-hidden='true')
+            a.dropdown-item(href='/dashboard')
+            i.fa.fa-cogs(aria-hidden='true')
+            |  Dashboard
+        else
+          li.nav-item
+            a.nav-link(href='/login')
+              i.fa.fa-key(aria-hidden='true')
+              |  Login

@@ -72,11 +72,12 @@ module.exports = (client, config) => {
   app.use(passport.session());
   // Initializes helmet with these options for all site pages.
   app.use(helmet({
-    contentSecurityPolicy: {
+    contentSecurityPolicy: false
+    /*{
       useDefaults: true,
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "example.com"],
+        scriptSrc: ["'self'"],
         fontSrc: [
           "'self'", "https://fonts.googleapis.com",
           "https://fonts.gstatic.com", "https://maxcdn.bootstrapcdn.com"
@@ -85,12 +86,12 @@ module.exports = (client, config) => {
           "https://stackpath.bootstrapcdn.com", "https://maxcdn.bootstrapcdn.com", "https://fonts.googleapis.com"
         ],
         scriptSrcElem: [
-           "https://code.jquery.com", "https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com", "https://cdn.datatables.net", "https://cdn.jsdelivr.net"
+          "'self'", "https://code.jquery.com", "https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com", "https://cdn.datatables.net", "https://cdn.jsdelivr.net"
         ],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
       }
-    }
+    }*/
   }));
 
   // The EJS templating engine gives us more power to create complex web pages. 
@@ -163,7 +164,7 @@ module.exports = (client, config) => {
   
   // If an error happens during authentication, this is what's displayed.
   app.get("/autherror", (req, res) => {
-    renderTemplate(res, req, "autherror.ejs");
+    renderView(res, req, "autherr.pug");
   });
 
   // Logout Endpoint - Destroys the session to log out the user.
