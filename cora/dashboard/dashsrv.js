@@ -138,7 +138,7 @@ module.exports = (client, config) => {
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
   /*
-  // Page Router Middleware
+  // Page Router Middleware (Disabled, utils need tweaking first.)
   app.use("/", mainRouter) // Main page routes (Public)
   app.use("/dashboard", dashboardRouter) // Dash page routes (Auth)
   */
