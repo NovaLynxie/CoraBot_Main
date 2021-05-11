@@ -129,6 +129,7 @@ module.exports = (client, config) => {
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
 
+  // Dashboard Routes and Actions
 
   // Regular Information Pages (public pages)
   app.get("/", (req, res) => {
