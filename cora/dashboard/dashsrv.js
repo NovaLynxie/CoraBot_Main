@@ -20,6 +20,13 @@ const session = require("express-session"); // express session manager
 const SQLiteStore = require("connect-sqlite3")(session);
 const Strategy = require("passport-discord").Strategy;
 
+// Dashboard Modules
+const dashUtils = require('./dashutils.js');
+
+// Router Modules
+const mainRouter = require('./routes/main.js');
+const dashboardRouter = require('./routes/dash.js')
+
 // Bot configuration (config.toml)
 const {dashcfg} = require('../handlers/bootLoader');
 const {port} = dashcfg;
@@ -97,6 +104,8 @@ module.exports = (client, config) => {
   // This lets us have a separate header, footer, and "blocks" we can use in our pages.
   //app.engine("html", require("ejs").renderFile);
   //app.set("view engine", "html");
+
+  // The PUG templating engine allows for easier more readable formatting relying on whitespacing. This makes maintenance much easier.
   app.set("view engine", "pug");
 
   // body-parser reads incoming JSON or FORM data and simplifies their
@@ -128,7 +137,11 @@ module.exports = (client, config) => {
     };
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
-
+  /*
+  // Page Router Middleware
+  app.use("/", mainRouter) // Main page routes (Public)
+  app.use("/dashboard", dashboardRouter) // Dash page routes (Auth)
+  */
 
   // Regular Information Pages (public pages)
   app.get("/", (req, res) => {
@@ -154,6 +167,7 @@ module.exports = (client, config) => {
     })
   })
   app.listen(port,() => {
-    logger.info(`Server connected to port ${port}`);
+    logger.info('Started Dashboard Service!');
+    logger.info(`dashsrv connected to port ${port}`);
   });
 };
