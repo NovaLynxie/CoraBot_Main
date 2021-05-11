@@ -129,7 +129,52 @@ module.exports = (client, config) => {
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
 
-  // Dashboard Routes and Actions
+  // Dashboard Actions - All Interaction & Authentication actions.
+
+  // Login Endpoint 
+  // Sends user to authenticate via discord oauth2.
+  app.get("/login", (req, res, next) => {
+    if (req.session.backURL) {
+      next();
+    } else if (req.headers.referer) {
+      const parsed = url.parse(req.headers.referer);
+      if (parsed.hostname === app.locals.domain) {
+        req.session.backURL = parsed.path;
+      }
+    } else {
+      req.session.backURL = "/";
+    }
+    next();
+  },
+  passport.authenticate("discord"));
+
+  // OAuth2 Callback Endpoint 
+  // Once user returns, this is called to complete authorization.
+  app.get("/api/discord/callback", passport.authenticate("discord", { failureRedirect: "/autherror" }), (req, res) => {
+    (client.owner === req.user.id) ? req.session.isAdmin = true : req.session.isAdmin = false
+    if (req.session.backURL) {
+      const url = req.session.backURL;
+      req.session.backURL = null;
+      res.redirect(url);
+    } else {
+      res.redirect("/");
+    }
+  });
+  
+  // If an error happens during authentication, this is what's displayed.
+  app.get("/autherror", (req, res) => {
+    renderTemplate(res, req, "autherror.ejs");
+  });
+
+  // Logout Endpoint - Destroys the session to log out the user.
+  app.get("/logout", function(req, res) {
+    req.session.destroy(() => {
+      req.logout();
+      res.redirect("/"); //Inside a callback… bulletproof!
+    });
+  });
+  
+  // Dashboard Routes - Public and Authenticated site endpoints.
 
   // Regular Information Pages (public pages)
   app.get("/", (req, res) => {
