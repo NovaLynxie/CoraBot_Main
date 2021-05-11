@@ -24,7 +24,7 @@ const Strategy = require("passport-discord").Strategy;
 const {dashcfg} = require('../handlers/bootLoader');
 const {port} = dashcfg;
 
-logger.init('Dashboard Service v1.3.1');
+logger.init('Dashboard Service v1.3.2-dev');
 
 module.exports = (client, config) => {
   // Dashboard Modules
