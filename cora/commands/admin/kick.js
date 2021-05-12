@@ -2,7 +2,7 @@ const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 const getLocalTime = require('../../handlers/serverRegion');
-module.exports = class BanCommand extends Command {
+module.exports = class KickCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'kick',
