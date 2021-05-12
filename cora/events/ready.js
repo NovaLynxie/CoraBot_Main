@@ -9,6 +9,8 @@ module.exports = {
   async execute(client) {
     // Fetch application information here.
     client.application = await client.fetchApplication();
+    logger.data(client.application.description.length)
+    logger.data(client.application.description)
     // Configuring dashboard settings here.
     const dashconfig = {
       "dashboard" : {

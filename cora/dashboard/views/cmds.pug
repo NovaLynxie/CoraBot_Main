@@ -1,1 +1,11 @@
 include blocks/header
+- var groups = bot.registry.groups
+- var allcmds = (`${groups.filter(grp => grp.commands.some(cmd => !cmd.hidden)).map(grp => `
+  ${grp.name} ${grp.commands.filter(cmd => !cmd.hidden).map(cmd => `
+      ${cmd.name}: ${cmd.description}${cmd.nsfw ? ' (NSFW)' : ''}`).join('')
+    }`).join('\n')
+}`)
+.container
+  h2 All Commands
+  div(style='white-space: pre-wrap')
+    | #{allcmds}
