@@ -1,11 +1,17 @@
 include blocks/header
-- var groups = bot.registry.groups
-- var allcmds = (`${groups.filter(grp => grp.commands.some(cmd => !cmd.hidden)).map(grp => `
-  ${grp.name} ${grp.commands.filter(cmd => !cmd.hidden).map(cmd => `
-      ${cmd.name}: ${cmd.description}${cmd.nsfw ? ' (NSFW)' : ''}`).join('')
-    }`).join('\n')
-}`)
 .container
-  h2 All Commands
-  div(style='white-space: pre-wrap')
-    | #{allcmds}
+  .jumbotron
+    br
+    div
+      h2 Command Help
+      p
+      | Here is a list of all the commands Cora has available.
+      br
+      | To get detailed help for command usage, go to any server CoraBot is in and either mention @#{bot.user.tag} or use the command prefix set for that server. (default prefix is '#{bot.commandPrefix}')
+      br
+      | Example: @#{bot.user.tag} &lt;command_name&gt; 
+    br
+    div
+      h3 Available Commands
+      div(style='white-space: pre-wrap') #{all_commands}
+    br

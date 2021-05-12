@@ -81,6 +81,10 @@ module.exports = (client, config) => {
           "'self'", "https://fonts.googleapis.com",
           "*.gstatic.com", "https://maxcdn.bootstrapcdn.com"
         ],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: [
+          "'self'", "cdn.discordapp.com"
+        ],        
         styleSrcElem: [
           "'self'", "https:", "*.bootstrapcdn.com", "*.googleapis.com"
         ],
@@ -88,9 +92,6 @@ module.exports = (client, config) => {
           "'self'", "https:", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net"
         ],
         objectSrc: ["'none'"],
-        imgSrc: [
-          "'self'", "cdn.discordapp.com"
-        ],
         upgradeInsecureRequests: [],
       },
       reportOnly: false
@@ -183,7 +184,16 @@ module.exports = (client, config) => {
     renderView(res, req, "index.pug");
   });
   app.get("/commands", (req, res) => {
-    renderView(res, req, "cmds.pug");
+    var groups = client.registry.groups;
+    var allcmds = `${groups.filter(grp => grp.commands.some(cmd => !cmd.hidden)).map(grp => `
+      ${grp.name} ${grp.commands.filter(cmd => !cmd.hidden).map(cmd => `
+        ${cmd.name}: ${cmd.description}${cmd.nsfw ? ' (NSFW)' : ''}`).join('')
+      }`).join('\r\n')
+    }`
+    logger.data(`allcmds:${typeof(allcmds)}`);
+    renderView(res, req, "cmds.pug", {
+      all_commands: allcmds
+    });
   });
   app.get("/stats", (req, res) => {
     const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
