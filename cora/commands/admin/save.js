@@ -4,13 +4,13 @@ const moment = require('moment');
 //const { MessageEmbed } = require('discord.js');
 const logger = require('../../providers/WinstonPlugin');
 const { stripIndents } = require('common-tags');
-module.exports = class BanCommand extends Command {
+module.exports = class SaveCommand extends Command {
   constructor(client) {
     super(client, {
-      name: 'backup',
+      name: 'save',
       group: 'admin',
-      memberName: 'backup',
-      aliases: ['save'],
+      memberName: 'save',
+      aliases: ['backup'],
       description: 'Tries to save messages from a channel.',
       details: 'Tries to collect messages from a channel and save them locally into a text file.',
       examples: ['backup <channel_id>'],
