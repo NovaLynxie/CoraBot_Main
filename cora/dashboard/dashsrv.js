@@ -24,7 +24,7 @@ const Strategy = require("passport-discord").Strategy;
 const {dashcfg} = require('../handlers/bootLoader');
 const {port} = dashcfg;
 
-logger.init('Dashboard Service v1.3.1');
+logger.init('Starting Dashboard Service...');
 
 module.exports = (client, config) => {
   // Dashboard root directory from bot working directory.
@@ -72,32 +72,30 @@ module.exports = (client, config) => {
   app.use(passport.session());
   // Initializes helmet with these options for all site pages.
   app.use(helmet({
-    contentSecurityPolicy: false
-    /*{
+    contentSecurityPolicy: {
       useDefaults: true,
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'"],
+        scriptSrc: ["'self'", "https:"],
         fontSrc: [
           "'self'", "https://fonts.googleapis.com",
-          "https://fonts.gstatic.com", "https://maxcdn.bootstrapcdn.com"
+          "*.gstatic.com", "https://maxcdn.bootstrapcdn.com"
         ],
-        styleSrcElem: ["'self'",
-          "https://stackpath.bootstrapcdn.com", "https://maxcdn.bootstrapcdn.com", "https://fonts.googleapis.com"
+        styleSrcElem: ["'self'", "https:",
+          "*.bootstrapcdn.com", "*.googleapis.com"
         ],
         scriptSrcElem: [
-          "'self'", "https://code.jquery.com", "https://cdnjs.cloudflare.com", "https://stackpath.bootstrapcdn.com", "https://cdn.datatables.net", "https://cdn.jsdelivr.net"
+          "'self'", "https:", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net"
         ],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
-      }
-    }*/
+      },
+      reportOnly: true
+    }
   }));
 
-  // The EJS templating engine gives us more power to create complex web pages. 
-  // This lets us have a separate header, footer, and "blocks" we can use in our pages.
-  //app.engine("html", require("ejs").renderFile);
-  //app.set("view engine", "html");
+  // The PUG templating engine allows for simpler setups and easy to read formatting in pages.
+  // It allows us separate header and footer components.
   app.set("view engine", "pug");
 
   // body-parser reads incoming JSON or FORM data and simplifies their
@@ -181,6 +179,9 @@ module.exports = (client, config) => {
   app.get("/", (req, res) => {
     renderView(res, req, "index.pug");
   });
+  app.get("/commands", (req, res) => {
+    renderView(res, req, "cmds.pug");
+  });
   app.get("/stats", (req, res) => {
     const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
     const members = client.guilds.cache.reduce((p, c) => p + c.memberCount, 0);
@@ -199,7 +200,8 @@ module.exports = (client, config) => {
         nodeVer: process.version
       }
     })
-  })
+  });
+  
   app.listen(port,() => {
     logger.info(`Server connected to port ${port}`);
   });
