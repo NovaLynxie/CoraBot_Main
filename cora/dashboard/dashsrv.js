@@ -81,16 +81,19 @@ module.exports = (client, config) => {
           "'self'", "https://fonts.googleapis.com",
           "*.gstatic.com", "https://maxcdn.bootstrapcdn.com"
         ],
-        styleSrcElem: ["'self'", "https:",
-          "*.bootstrapcdn.com", "*.googleapis.com"
+        styleSrcElem: [
+          "'self'", "https:", "*.bootstrapcdn.com", "*.googleapis.com"
         ],
         scriptSrcElem: [
           "'self'", "https:", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net"
         ],
         objectSrc: ["'none'"],
+        imgSrc: [
+          "'self'", "cdn.discordapp.com"
+        ],
         upgradeInsecureRequests: [],
       },
-      reportOnly: true
+      reportOnly: false
     }
   }));
 
