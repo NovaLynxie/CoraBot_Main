@@ -76,12 +76,16 @@ module.exports = (client, config) => {
       useDefaults: true,
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "https:"],
+        scriptSrc: [
+          "'self'", "https:", "*.bootstrapcdn.com", "*.googleapis.com"
+          ],
         fontSrc: [
           "'self'", "https://fonts.googleapis.com",
           "*.gstatic.com", "https://maxcdn.bootstrapcdn.com"
         ],
-        styleSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: [
+          "'self'", "'unsafe-inline'", "*.bootstrapcdn.com", "*.googleapis.com"
+        ],
         imgSrc: [
           "'self'", "cdn.discordapp.com"
         ],        
