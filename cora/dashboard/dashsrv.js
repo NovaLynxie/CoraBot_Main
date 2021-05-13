@@ -208,13 +208,15 @@ module.exports = (client, config) => {
         text: textChannels,
         voice: voiceChannels,
         uptime: duration,
-        memoryUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
+        memoryUsage: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB`,
         discordVer: Discord.version,
         nodeVer: process.version
       }
     })
   });
   
+  
+
   app.listen(port,() => {
     logger.info(`Server connected to port ${port}`);
   });
