@@ -136,6 +136,10 @@ module.exports = (client, config) => {
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
 
+  const renderError = (res, req, template) => {
+    res.render(path.resolve(`${viewsDir}${path.sep}${template}`))
+  };
+
   // Dashboard Actions - All Interaction & Authentication actions.
 
   // Login Endpoint 
@@ -219,7 +223,30 @@ module.exports = (client, config) => {
     })
   });
   
+  // Authentication Locked Pages (Discord Oauth2)
+
+  app.get("/dashboard", checkAuth, (req, res) => {
+    //const perms = Discord.EvaluatedPermissions; //depreciated in discord.js v12
+    const perms = Discord.Permissions;
+    renderView(res, req, "dash.pug", {perms});
+  });
   
+  // Fallback Middleware.
+
+  // 404 Not Found Handler (Only occurs if no error was thrown)
+  app.use(function(req, res, next) {
+    res.status(404);
+    renderView(res, req, 'errors/404.pug');
+  });
+
+  // Error Handling
+  app.use(function(err, req, res, next) {
+    if (err.message.indexOf('Failed to lookup view') !== -1) {
+      return res.status(404), renderError(res, req, 'errors/404.pug');
+    }
+    res.status(500);
+    renderError(res, req, 'errors/500.pug');
+  });
 
   app.listen(port,() => {
     logger.info(`Server connected to port ${port}`);
