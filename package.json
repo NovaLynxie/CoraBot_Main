@@ -31,7 +31,6 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "ffmpeg-static": "^4.2.7",
-    "furrybotapi": "^2.0.10",
     "helmet": "^4.5.0",
     "log-timestamp": "^0.3.0",
     "minecraft-server-util": "^3.4.2",

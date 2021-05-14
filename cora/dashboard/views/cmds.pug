@@ -1,4 +1,6 @@
 include blocks/header
+include blocks/navbar
+
 .container
   .jumbotron
     br
@@ -7,9 +9,9 @@ include blocks/header
       p
       | Here is a list of all the commands Cora has available.
       br
-      | To get detailed help for command usage, go to any server CoraBot is in and either mention @#{bot.user.tag} or use the command prefix set for that server. (default prefix is '#{bot.commandPrefix}')
+      | To get detailed help for command usage, go to any server CoraBot is in and either mention @#{bot.user.tag} or use the command prefix set for that server. The bot's default prefix is set as '#{bot.commandPrefix}'.
       br
-      | Example: @#{bot.user.tag} &lt;command_name&gt; 
+      | Example Usage: @#{bot.user.tag} &lt;command_name&gt; 
     br
     div
       h3 Available Commands

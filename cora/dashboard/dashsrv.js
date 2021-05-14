@@ -75,19 +75,19 @@ module.exports = (client, config) => {
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
-        defaultSrc: ["'self'"],
+        defaultSrc: ["'self'", "https:"],
         scriptSrc: [
           "'self'", "https:", "*.bootstrapcdn.com", "*.googleapis.com"
           ],
         fontSrc: [
-          "'self'", "https://fonts.googleapis.com",
-          "*.gstatic.com", "https://maxcdn.bootstrapcdn.com"
+          "'self'", "https:", "fonts.googleapis.com",
+          "*.gstatic.com", "maxcdn.bootstrapcdn.com"
         ],
         styleSrc: [
           "'self'", "'unsafe-inline'", "*.bootstrapcdn.com", "*.googleapis.com"
         ],
         imgSrc: [
-          "'self'", "cdn.discordapp.com"
+          "'self'", "cdn.discordapp.com", "i.giphy.com", "media.tenor.com"
         ],        
         styleSrcElem: [
           "'self'", "https:", "*.bootstrapcdn.com", "*.googleapis.com"

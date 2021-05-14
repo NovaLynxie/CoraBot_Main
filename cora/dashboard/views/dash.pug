@@ -1,9 +1,12 @@
 include blocks/header
+include blocks/navbar
+
 -  user.guilds.forEach(guild => {
 -    var permsOnGuild = new perms(guild.permissions);
     if(!permsOnGuild.has("MANAGE_GUILD")) return;
 
 h1.display-3 Dashboard
+p.lead Hi #{user.username}!
 ul.list-unstyled
   li.media(style='padding: 10px;')
     if (guild.icon)
