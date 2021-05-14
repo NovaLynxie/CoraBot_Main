@@ -29,16 +29,13 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "ffmpeg-static": "^4.2.7",
-    "furrybotapi": "^2.0.10",
     "log-timestamp": "^0.3.0",
     "minecraft-server-util": "^3.4.2",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.28",
     "node-fetch": "^2.6.1",
-    "prompt": "^1.1.0",
     "pug": "^3.0.2",
-    "random-animals-api": "^1.2.0",
     "simple-youtube-api": "^5.2.1",
     "sqlite": "^4.0.2",
     "sqlite3": "^5.0.2",
@@ -51,7 +48,8 @@
     "ytdl-core": "^4.4.5"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "prompt": "^1.1.0"
   },
   "nodemonConfig": {
     "ignore": [
