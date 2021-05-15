@@ -136,10 +136,6 @@ module.exports = (client, config) => {
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
 
-  const renderError = (res, req, template) => {
-    res.render(path.resolve(`${viewsDir}${path.sep}${template}`))
-  };
-
   // Dashboard Actions - All Interaction & Authentication actions.
 
   // Login Endpoint 
@@ -242,10 +238,11 @@ module.exports = (client, config) => {
   // Error Handling
   app.use(function(err, req, res, next) {
     if (err.message.indexOf('Failed to lookup view') !== -1) {
-      return res.status(404), renderError(res, req, 'errors/404.pug');
+      return res.status(404), renderView(res, req, 'errors/404.pug');
     }
     res.status(500);
-    renderError(res, req, 'errors/500.pug');
+    renderView(res, req, 'errors/500.pug');
+    logger.error(err);
   });
 
   app.listen(port,() => {
