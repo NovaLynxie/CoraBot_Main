@@ -10,8 +10,9 @@ include blocks/navbar
   | If you cannot see any servers listed here, then there may have be an error processing the guild data. Please try reloading this page or relogging. In the event it still not appear, please contact my developer for help.
 
   ul.list-unstyled
+  - var guilds = Object.fromEntries(bot.guilds.cache)
 
-  for guild in bot.guilds.cache
+  for guild in guilds
     - console.log(guild)
     li.media(style='padding: 10px;')
       if (guild.icon)
