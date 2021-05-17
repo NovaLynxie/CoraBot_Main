@@ -106,6 +106,11 @@ module.exports = (client, config) => {
   // It allows us separate header and footer components.
   app.set("view engine", "pug");
 
+  // The EJS templating engine gives us more power to create complex web pages. 
+  // This lets us have a separate header, footer, and "blocks" we can use in our pages.
+  //app.engine("html", require("ejs").renderFile);
+  //app.set("view engine", "html");
+
   // body-parser reads incoming JSON or FORM data and simplifies their
   // use in code.
   var bodyParser = require("body-parser");
@@ -158,7 +163,10 @@ module.exports = (client, config) => {
   // OAuth2 Callback Endpoint 
   // Once user returns, this is called to complete authorization.
   app.get("/api/discord/callback", passport.authenticate("discord", { failureRedirect: "/autherror" }), (req, res) => {
-    (client.owner === req.user.id) ? req.session.isAdmin = true : req.session.isAdmin = false
+    client.owners.forEach(user => {
+      (user.id === req.user.id) ? req.session.isAdmin = true : req.session.isAdmin = false
+      return;
+    })
     if (req.session.backURL) {
       const url = req.session.backURL;
       req.session.backURL = null;
@@ -221,12 +229,38 @@ module.exports = (client, config) => {
   
   // Authentication Locked Pages (Discord Oauth2)
 
+  // Normal Dashboard - Only shows user the guilds they are bound to.
   app.get("/dashboard", checkAuth, (req, res) => {
     //const perms = Discord.EvaluatedPermissions; //depreciated in discord.js v12
     const perms = Discord.Permissions;
     renderView(res, req, "dash.pug", {perms});
   });
   
+  // Admin Dashboard - Shows all guilds the bot is connected to, including ones not joined by the user.
+  app.get("/admin", checkAuth, (req, res) => {
+    if (!req.session.isAdmin) return res.redirect("/");
+    renderView(res, req, "admin.pug");
+  });
+
+  // Simple redirect to the "Settings" page (aka "manage")
+  app.get("/dashboard/:guildID", checkAuth, (req, res) => {
+    res.redirect(`/dashboard/${req.params.guildID}/manage`);
+  });
+
+  // Settings page to change the guild configuration. Definitely more fancy than using
+  // the `set` command!
+  app.get("/dashboard/:guildID/manage", checkAuth, (req, res) => {
+    renderView(res, req, "placeholder.pug"); 
+    // Not yet ready... sorry. XC - NovaLynxie
+    /*
+    const guild = client.guilds.cache.get(req.params.guildID);
+    if (!guild) return res.status(404);
+    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    renderTemplate(res, req, "guild/manage.pug", {guild});
+    */
+  });
+
   // Fallback Middleware.
 
   // 404 Not Found Handler (Only occurs if no error was thrown)

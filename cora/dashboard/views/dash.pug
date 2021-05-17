@@ -15,7 +15,8 @@ include blocks/navbar
     if (permsOnGuild.has("MANAGE_GUILD"))
       li.media(style='padding: 10px;')
         if (guild.icon)
-          img.d-flex.mr-3.rounded-circle(src='<%= `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` %>' style='width: 80px;' alt='')
+          - iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`
+          img.d-flex.mr-3.rounded-circle(src=iconUrl style='width: 80px' alt='')
         else
           canvas.d-flex.mr-3.rounded-circle(style='background-color: #7289da' id=guild.name.split(' ').join('').replace("'", "") width='80px' height='80px')
           script(src="public/javascripts/drawCanvas.js")
@@ -32,3 +33,5 @@ include blocks/navbar
             - text = "Invite Bot";
             - enabled = bot.application.botPublic;
           a.btn.btn-primary(class=(!enabled)?'btn-lg-disabled':'btn-lg-enabled' role='button' href=href) #{text}
+          
+include blocks/footer

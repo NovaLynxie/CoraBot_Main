@@ -45,3 +45,13 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
             a.nav-link(href='/login')
               i.fa.fa-key(aria-hidden='true')
               |  Login
+body
+//  nav.nav-breadcrumb(style='width: 100%; margin-top: 16px;')
+    .container
+      ol.breadcrumb
+        li.breadcrumb-item
+          a(href='/') Home
+        - var pathArray = path.split("/").slice(1);
+        if((i+1) === pathArray.length)
+          - 
+        li.active(class='breadcrumb-item<% if((i+1) === pathArray.length) {%>')

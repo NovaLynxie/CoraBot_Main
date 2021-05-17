@@ -23,7 +23,12 @@ module.exports = {
     };
     // Announce when client is connected and ready.
     logger.info(`Logged in as ${client.user.tag}!`);
-    logger.data(`Bot User ID: ${client.user.id}`);
+    logger.data(`Bot User ID: ${client.user.id} (typeof:${typeof(client.user.id)})`);
+    logger.data(`Client owner(s): ${client.owners} (typeof:${typeof(client.owners)})`);
+    client.owners.forEach(user => {
+      logger.debug('Listing client.owners as username#discriminator id')
+      logger.data(`${user.username}#${user.discriminator} ID:${user.id}`)
+    })
     client.user.setActivity('with Commando');
     // Spin up built-in server once client is online and ready.
     try {

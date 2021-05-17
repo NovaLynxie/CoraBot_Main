@@ -1,0 +1,37 @@
+include blocks/header
+include blocks/navbar
+
+.container
+  h1.display-3 Admin Dashboard
+  p.lead Welcome back Admin #{user.username}!
+  p
+  | To adjust the settings for any of the servers this bot is linked to, click the 'Manage' button next to it's name. If it is not in that server you'll instead see an 'Invite' button next to its name.
+  br
+  | If you cannot see any servers listed here, then there may have be an error processing the guild data. Please try reloading this page or relogging. In the event it still not appear, please contact my developer for help.
+
+  ul.list-unstyled
+
+  for guild in bot.guilds.cache
+    - console.log(guild)
+    li.media(style='padding: 10px;')
+      if (guild.icon)
+        - iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`
+        img.d-flex.mr-3.rounded-circle(src=iconUrl style='width: 80px;' alt='')
+      else
+        canvas.d-flex.mr-3.rounded-circle(style='background-color: #7289da' id=guild.name.split(' ').join('').replace("'", "") width='80px' height='80px')
+        script(src="public/javascripts/drawCanvas.js")
+      .media-body
+        h5.mt-0.mb-1 #{guild.name}
+        - var href, text;
+        - var enabled;
+        if(bot.guilds.cache.get(guild.id)) 
+          - href = `/dashboard/${guild.id}/manage`;
+          - text = "Manage";
+          - enabled = true;
+        else
+          - href = `https://discordapp.com/oauth2/authorize?client_id=${bot.application.id}&scope=bot&guild_id=${guild.id}&response_type=code&redirect_uri=${encodeURIComponent(config.dashboard.callbackURL)}`;
+          - text = "Invite Bot";
+          - enabled = bot.application.botPublic;
+        a.btn.btn-primary(class=(!enabled)?'btn-lg-disabled':'btn-lg-enabled' role='button' href=href) #{text}
+
+include blocks/footer
