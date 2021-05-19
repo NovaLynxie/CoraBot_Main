@@ -127,7 +127,21 @@ module.exports = (client, config) => {
     req.session.backURL = req.url;
     res.redirect("/login");
   }
+  /*
+  Breadcrumb Fetcher. This uses the current page URL from ‘req’ to create breadcrumbs as an array of crumb objects, which is added to ‘req’. 
+  Source: https://vidler.app/blog/javascript/nodejs/simple-and-dynamic-breadcrumbs-for-a-nodejs-express-application/
+  */
+  function get_breadcrumbs(url) {
+    var rtn = [{name: "HOME", url: "/"}],
+        acc = "", // accumulative url
+        arr = url.substring(1).split("/");
 
+    for (i=0; i<arr.length; i++) {
+        acc = i != arr.length-1 ? acc+"/"+arr[i] : null;
+        rtn[i+1] = {name: arr[i].toUpperCase(), url: acc};
+    }
+    return rtn;
+  };
   // This function simplifies the rendering of the page, since every page must be rendered
   // with the passing of these 4 variables, and from a base path. 
   // Objectassign(object, newobject) simply merges 2 objects together, in case you didn't know!
@@ -136,10 +150,17 @@ module.exports = (client, config) => {
       bot: client,
       config: config,
       path: req.path,
-      user: req.isAuthenticated() ? req.user : null
+      user: req.isAuthenticated() ? req.user : null,
+      breadcrumbs: req.breadcrumbs
     };
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
+
+  // Breadcrumb Handler Middleware
+  app.use(function(req, res, next) {
+    req.breadcrumbs = get_breadcrumbs(req.originalUrl);
+    next();
+  });
 
   // Dashboard Actions - All Interaction & Authentication actions.
 
