@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { stripIndents, oneLine } = require('common-tags');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = class SettingsCommand extends Command {
@@ -14,6 +15,7 @@ module.exports = class SettingsCommand extends Command {
         {
           key: 'option',
           prompt: 'settings.option.prompt',
+          type: 'string',
           default: ''
         }
       ]
@@ -21,17 +23,22 @@ module.exports = class SettingsCommand extends Command {
   }
   run(message, { option }) {
     function settingsEmbed () {
-      
+      var embed = new MessageEmbed()
+        .setTitle('Settings')
+        .setDescription(stripIndents`
+        CoraBot's current settings for ${message.guild.name}
+        (SETTINGS NOT YET AVAILABLE! VERY WIP!)`)
+
     };
     switch (option) {
       case 'initialize':
-      
-      break;
+
+        break;
       case 'welcome-message': 
 
-      break;
+        break;
       default:
-      message.channel.send('No option provided.')
+        settingsEmbed();
     }
   }
 };
