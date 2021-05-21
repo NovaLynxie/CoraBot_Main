@@ -28,7 +28,7 @@ module.exports = class SettingsCommand extends Command {
         .setDescription(stripIndents`
         CoraBot's current settings for ${message.guild.name}
         (SETTINGS NOT YET AVAILABLE! VERY WIP!)`)
-
+      return message.channel.send(embed);
     };
     switch (option) {
       case 'initialize':
@@ -38,6 +38,9 @@ module.exports = class SettingsCommand extends Command {
 
         break;
       default:
+        message.channel.send("Loading your guild's settings... please wait.").then(msg => {
+          message.delete({timeout: 5000})
+        })
         settingsEmbed();
     }
   }
