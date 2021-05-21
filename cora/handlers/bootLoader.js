@@ -30,6 +30,10 @@ logger.debug(`enabled = null (null)`);
 //logger.debug(`port = ${port} (${typeof port})`);
 logger.debug(`logChannels = ${logChannels}, ignoredChannels = ${ignoredChannels}`);
 logger.debug('Loaded config successfully!');
+if (debug === true) {
+  logger.warn('DEBUG mode enabled!');
+  logger.warn('Sensitive data will be logged in debug log file.');
+};
 function randomID(min, max) {  
   return Math.floor(
     Math.random() * (max - min + 1) + min

@@ -114,6 +114,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
 });
 
 logger.init(`Connecting to Discord...`);
+logger.verbose(`botToken -> ${botToken}`);
 client.login(botToken).then(
   logger.debug(`Awaiting for Discord API response...`)
 ).catch(err => {
