@@ -2,7 +2,7 @@ const logger = require('../providers/WinstonPlugin');
 
 module.exports = {
   name: 'disconnect',
-  execute(message) {
+  execute(client) {
     client.on('disconnect', error => {
       logger.warn('Client websocket closed connection.')
       if (error) {

@@ -4,7 +4,7 @@ const {debug} = config.debug;
 
 module.exports = {
   name: 'debug',
-  execute(message) {
+  execute(client) {
     client.on("debug", (info) => {
       if (config.debug === true){
         logger.debug(info)
