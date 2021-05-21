@@ -1,12 +1,13 @@
 const logger = require('../providers/WinstonPlugin');
 const {config} = require('../handlers/bootLoader');
-const {debug} = config.debug;
+const {debug} = config;
 
 module.exports = {
   name: 'debug',
-  execute(client) {
+  execute(message, client) {
     client.on("debug", (info) => {
-      if (config.debug === true){
+      logger.verbose(`debug = ${debug}`)
+      if (debug === "true"){
         logger.debug(info)
       }      
     });
