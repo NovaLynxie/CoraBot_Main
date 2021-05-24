@@ -4,6 +4,7 @@ const logger = require('../providers/WinstonPlugin');
 module.exports = {
   name: 'guildMemberUpdate',
   execute(oldMember, newMember) {
+    let event = 'guildMemberUpdate', member = {oldMember, newMember};
     const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
     if (removedRoles.size > 0) {
       logger.info(`Role ${removedRoles.map(r=>r.name)} removed from ${oldMember.displayName}.`)
@@ -12,6 +13,6 @@ module.exports = {
     if (addedRoles.size > 0) {
       logger.info(`Role ${addedRoles.map(r=>r.name)} added to ${oldMember.displayName}.`)
     };
-    botlogs(event, msgdata, client);
+    botlogs(event, member, client);
   }
 }

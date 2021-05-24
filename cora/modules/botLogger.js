@@ -30,6 +30,16 @@ module.exports = function botLogger(event, data, client) {
       logger.debug(err.stack)
     }
   }
+  if (data.oldMember || data.newMember) {
+    try {
+      logger.data(`username: ${data.oldMember.username} => ${data.newMember.username}`)
+      logger.data(`discriminator: ${data.oldMember.discriminator} => ${data.newMember.discriminator}`)
+    } catch (err) {
+      logger.error(`Error! ${err}`)
+      logger.warn('It appears some data is missing from member objects.');
+      logger.warn('Attempting to process incomplete information may cause unusual errors.');
+    }
+  }
   function sendLog(guild, embed) {
     logChannels.forEach(channel => {
       let logChannel = guild.channels.cache.get(channel);
@@ -106,17 +116,31 @@ module.exports = function botLogger(event, data, client) {
         sendLog(server, logEmbed);
         break;
         case 'memberUpdate':
+        var 
+          oldMember = data.oldMember,
+          newMember = data.newMember;
         var logEmbed = new MessageEmbed()
           .setTitle('Member Info Updated!')
           .setAuthor(null)
           .setDescription('A member updated their user data.')
           .addFields(
             {
-              name: "Old Username",
+              name: "Old Member Data",
               value: stripIndents`
-              User Tag ${}`
+              Username: ${oldMember.username}
+              Disciminator: ${oldMember.discriminator}
+              User ID: ${oldMember.id}`
+            },
+            {
+              name: "New Member Data",
+              value: stripIndents`
+              Username: ${newMember.username}
+              Discriminator: ${newMember.discriminator}
+              User ID: ${newMember.id}`
             }
           )
+        var server = client.guilds.cache.get(newMember.guild.id);
+        sendLog(server, logEmbed);
         break;
       default: 
       // these will not show in production mode unless logLevel=debug is included in process.env variables.
