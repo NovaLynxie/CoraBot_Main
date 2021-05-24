@@ -15,6 +15,8 @@
     "Commando",
     "NodeJS"
   ],
+  "homepage": "https://github.com/NovaLynxie/CoraBot_Main#readme",
+  "repository": "github:NovaLynxie/CoraBot_Main",
   "author": "NovaLynxie",
   "license": "ISC",
   "dependencies": {
