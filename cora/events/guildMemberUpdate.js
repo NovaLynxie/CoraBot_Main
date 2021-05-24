@@ -1,3 +1,6 @@
+const botlogs = require('../modules/botLogger');
+const logger = require('../providers/WinstonPlugin');
+
 module.exports = {
     name: 'guildMemberUpdate',
     execute(oldMember, newMember) {

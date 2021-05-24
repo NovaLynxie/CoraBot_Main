@@ -11,16 +11,16 @@ const {
   roleUpdates
 } = autoLog;
 
-module.exports = function botLogger(event, message, client) {
-  if (message.oldMessage || message.newMessage) {
+module.exports = function botLogger(event, data, client) {
+  if (data.oldMessage || data.newMessage) {
     try {
-      logger.data(`channelID:${message.oldMessage.channel.id}`);
-      logger.data(`channelID:${message.newMessage.channel.id}`);
-      if (ignoredChannels.indexOf(message.newMessage.channel.id) !== -1) {
+      logger.data(`channelID:${data.oldMessage.channel.id}`);
+      logger.data(`channelID:${data.newMessage.channel.id}`);
+      if (ignoredChannels.indexOf(data.newMessage.channel.id) !== -1) {
         logger.debug('Channel is blacklisted from logs! Silently ignored to prevent log spam.');
         return;
       };
-      if (logChannels.indexOf(message.newMessage.channel.id) !== -1) {
+      if (logChannels.indexOf(data.newMessage.channel.id) !== -1) {
         logger.debug('Channel is a bot logging channel! Silently ignored to prevent looping.');
         return;
       };
@@ -43,7 +43,7 @@ module.exports = function botLogger(event, message, client) {
     switch (event) {
       case 'messageDelete':
         logger.debug(`message was deleted -> ${message}`);
-        var author = message.author;
+        var author = data.author;
         var logEmbed = new MessageEmbed()
           .setTitle('Message Deleted!')
           .setAuthor(author.tag, author.avatarURL())
@@ -66,18 +66,18 @@ module.exports = function botLogger(event, message, client) {
             'Bot created and maintained by NovaLynxie.',
             client.user.displayAvatarURL({ format: 'png' })
           );
-        var server = client.guilds.cache.get(message.guild.id);
+        var server = client.guilds.cache.get(data.guild.id);
         var logChannel = server.channels.cache.get()
         sendLog(server, logEmbed);
         break;
 
       case 'messageUpdate':
         var
-          oldMessage = message.oldMessage,
-          newMessage = message.newMessage;
+          oldMessage = data.oldMessage,
+          newMessage = data.newMessage;
         var author = oldMessage.author;
         var logEmbed = new MessageEmbed()
-          .setTitle('Message Updated!')
+          .setTitle('Message Data Updated!')
           .setAuthor(author.tag, author.avatarURL())
           .setDescription('A message was updated in a channel.')
           .addFields(
@@ -104,6 +104,19 @@ module.exports = function botLogger(event, message, client) {
           );
         var server = client.guilds.cache.get(newMessage.guild.id);
         sendLog(server, logEmbed);
+        break;
+        case 'memberUpdate':
+        var logEmbed = new MessageEmbed()
+          .setTitle('Member Info Updated!')
+          .setAuthor(null)
+          .setDescription('A member updated their user data.')
+          .addFields(
+            {
+              name: "Old Username",
+              value: stripIndents`
+              User Tag ${}`
+            }
+          )
         break;
       default: 
       // these will not show in production mode unless logLevel=debug is included in process.env variables.
