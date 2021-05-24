@@ -117,26 +117,58 @@ module.exports = function botLogger(event, data, client) {
         break;
         case 'memberUpdate':
         var 
+          // Fetch member data from input.
           oldMember = data.oldMember,
           newMember = data.newMember;
+          // Save role changes here. 
+          removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id)),
+          addedRoles = newMember.roles.cache.filter(role=>!oldMember.roles.cache.has(role.id));
         var logEmbed = new MessageEmbed()
           .setTitle('Member Info Updated!')
-          .setAuthor(null)
           .setDescription('A member updated their user data.')
           .addFields(
             {
               name: "Old Member Data",
               value: stripIndents`
-              Username: ${oldMember.username}
-              Disciminator: ${oldMember.discriminator}
-              User ID: ${oldMember.id}`
+              Nickname: ${oldMember.displayName}
+              Roles Removed:
+              ${removedRoles.map(r=>r.name)}`
             },
             {
               name: "New Member Data",
               value: stripIndents`
-              Username: ${newMember.username}
-              Discriminator: ${newMember.discriminator}
-              User ID: ${newMember.id}`
+              Nickname: ${newMember.displayName}
+              Roles Added:
+              ${addedRoles.map(r=>r.name)}`
+            }
+          )
+        var server = client.guilds.cache.get(newMember.guild.id);
+        sendLog(server, logEmbed);
+        break;
+        case 'userUpdate':
+        var 
+          // Fetch user data from input.
+          oldUser = data.oldUser,
+          newUser = data.newUser;
+        var logEmbed = new MessageEmbed()
+          .setTitle('Member Info Updated!')
+          .setDescription('A user updated their profile.')
+          .addFields(
+            {
+              name: "Old User Data",
+              value: stripIndents`
+              Username: ${oldUser.username}
+              Discriminator: ${oldUser.discriminator}
+              Old Avatar
+              ${oldUser..avatarURL({format:'png'})}`
+            },
+            {
+              name: "New User Data",
+              value: stripIndents`
+              Username: ${newUser.username}
+              Discriminator: ${newUser.discriminator}
+              New Avatar
+              ${newUser..avatarURL({format:'png'})}`
             }
           )
         var server = client.guilds.cache.get(newMember.guild.id);
