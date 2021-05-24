@@ -160,7 +160,7 @@ module.exports = function botLogger(event, data, client) {
               Username: ${oldUser.username}
               Discriminator: ${oldUser.discriminator}
               Old Avatar
-              ${oldUser..avatarURL({format:'png'})}`
+              ${oldUser.avatarURL({format:'png'})}`
             },
             {
               name: "New User Data",
@@ -168,7 +168,7 @@ module.exports = function botLogger(event, data, client) {
               Username: ${newUser.username}
               Discriminator: ${newUser.discriminator}
               New Avatar
-              ${newUser..avatarURL({format:'png'})}`
+              ${newUser.avatarURL({format:'png'})}`
             }
           )
         var server = client.guilds.cache.get(newMember.guild.id);
