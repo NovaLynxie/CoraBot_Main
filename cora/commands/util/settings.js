@@ -55,11 +55,11 @@ module.exports = class SettingsCommand extends Command {
     async function generateGuildSettings(guild) {
       let defaultSettings = [
         {
-          name: 'user-join',
+          name: 'user-join-msg',
           value: '<user> joined the server.'
         },
         {
-          name: 'user-leave',
+          name: 'user-leave-msg',
           value: '<user> left the server.'
         }
       ]
@@ -73,7 +73,7 @@ module.exports = class SettingsCommand extends Command {
     }
     async function fetchSettings() {
       let res = {};
-      let curSettings = ['user-join', 'user-leave']
+      let curSettings = ['user-join-msg', 'user-leave-msg']
       curSettings.forEach(async item => {
         res[item] = await client.settings.get(item, 'n/a')
       })
@@ -84,10 +84,10 @@ module.exports = class SettingsCommand extends Command {
         generateGuildSettings(message.guild);
         break;
       case 'joinmsg': 
-        await settingsHandler('welcome-message', input);
+        await settingsHandler('user-join-msg', input);
         break;
       case 'leavemsg':
-        await settingsHandler('leave-message', input);
+        await settingsHandler('user-leave-msg', input);
       default:
         message.channel.send("Loading your guild's settings... please wait.").then(msg => {
           message.delete({timeout: 3000});
