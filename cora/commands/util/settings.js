@@ -35,6 +35,8 @@ module.exports = class SettingsCommand extends Command {
   async run(message, { option, input }) {
     let client = this.client;
     function settingsEmbed() {
+      var settingsEmbed = new MessageEmbed()
+        .setTitle('Guild Settings')
       var embed = new MessageEmbed()
         .setTitle('Settings')
         .setDescription(stripIndents`
@@ -61,6 +63,10 @@ module.exports = class SettingsCommand extends Command {
         {
           name: 'user-leave-msg',
           value: '<user> left the server.'
+        },
+        {
+          name: 'enable-points',
+          value: 'no'
         }
       ]
       defaultSettings.forEach(setting => {
