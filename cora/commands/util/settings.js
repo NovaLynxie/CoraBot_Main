@@ -34,15 +34,48 @@ module.exports = class SettingsCommand extends Command {
   }
   async run(message, { option, input }) {
     let client = this.client;
-    function settingsEmbed() {
-      var settingsEmbed = new MessageEmbed()
-        .setTitle('Guild Settings')
+    async function settingsEmbed() {
+      // Placeholder embed till new embed is ready.
+      /*
       var embed = new MessageEmbed()
         .setTitle('Settings')
         .setDescription(stripIndents`
         CoraBot's current settings for ${message.guild.name}
         (SETTINGS NOT YET AVAILABLE! VERY WIP!)`)
       return message.channel.send(embed);
+      */
+      var 
+        announceJoinLeave = await client.settings.get('announceJoinLeave'),
+        enablePoints = await client.settings.get('enablePoints'),
+        userJoinMsg = await client.settings.get('userJoinMsg', 'Not set'),
+        userLeaveMsg = await client.settings.get('userLeaveMsg', 'Not set');
+      // Settings Embed. Shows all current settings.
+      
+      var settingsEmbed = new MessageEmbed()
+        .setTitle('Guild Settings')
+        .setDescription(stripIndents`
+          Guild Name: ${message.guild.name}
+          Guild ID: ||${message.guild.id}||`)
+        .addFields(
+          {
+            name: 'Announce Member Join/Leave',
+            value: stripIndents`
+              Enabled? ${(announceJoinLeave === 'yes') ? 'Yes' : 'No'}`,
+            inline: false
+          },          
+          {
+            name: 'User Join Message',
+            value: userJoinMsg,
+            inline: true
+          },
+          {
+            name: 'User Leave Message',
+            value: userLeaveMsg,
+            inline: true
+          }
+        )
+      return message.channel.send(settingsEmbed);
+      
     };
     async function settingsHandler(mode, setting, value) {
       if (mode === 'write') {
@@ -57,16 +90,20 @@ module.exports = class SettingsCommand extends Command {
     async function generateGuildSettings(guild) {
       let defaultSettings = [
         {
-          name: 'user-join-msg',
+          name: 'announceJoinLeave',
+          value: 'no'
+        },
+        {
+          name: 'enablePoints',
+          value: 'no'
+        },
+        {
+          name: 'userJoinMsg',
           value: '<user> joined the server.'
         },
         {
-          name: 'user-leave-msg',
+          name: 'userLeaveMsg',
           value: '<user> left the server.'
-        },
-        {
-          name: 'enable-points',
-          value: 'no'
         }
       ]
       defaultSettings.forEach(setting => {
