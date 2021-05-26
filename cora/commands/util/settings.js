@@ -34,23 +34,29 @@ module.exports = class SettingsCommand extends Command {
   }
   async run(message, { option, input }) {
     let client = this.client;
-    async function settingsEmbed() {
-      // Placeholder embed till new embed is ready.
-      /*
-      var embed = new MessageEmbed()
-        .setTitle('Settings')
-        .setDescription(stripIndents`
-        CoraBot's current settings for ${message.guild.name}
-        (SETTINGS NOT YET AVAILABLE! VERY WIP!)`)
-      return message.channel.send(embed);
-      */
+    async function settingsMenu() {      
       var 
         announceJoinLeave = await client.settings.get('announceJoinLeave'),
         enablePoints = await client.settings.get('enablePoints'),
         userJoinMsg = await client.settings.get('userJoinMsg', 'Not set'),
         userLeaveMsg = await client.settings.get('userLeaveMsg', 'Not set');
-      // Settings Embed. Shows all current settings.
       
+      let menu;
+      if (menu === 'main') {
+        // main settings menu here
+        var settingsMainEmbed = new MessageEmbed()
+      } else 
+      if (menu === 'automod' ) {
+        // automod settings menu here
+        var autoModSettingsEmbed = new MessageEmbed()
+      } else 
+      if (menu === 'joinleave') {
+        // joinleave settings menu here
+        var announcerSettingsEmbed = new MessageEmbed()
+      } else {
+        //return message.channel.send("settings.menuHandler.unrecognised_err");
+      }
+      // Settings Embed. Shows all current settings.
       var settingsEmbed = new MessageEmbed()
         .setTitle('Guild Settings')
         .setDescription(stripIndents`
@@ -132,7 +138,7 @@ module.exports = class SettingsCommand extends Command {
       case 'leavemsg':
         await settingsHandler('user-leave-msg', input);
       default:
-        settingsEmbed();
+        settingsMenu();
     }
   }
 };
