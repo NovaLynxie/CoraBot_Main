@@ -51,25 +51,24 @@ module.exports = function botLogger(event, data, client) {
   if (enableLogger === "yes") {
     logger.verbose('botLogger.checkIfEnabled => true')
     let message = data;
-    if (message.author.id === client.author.id) return;
     switch (event) {
       case 'messageDelete':
         logger.debug(`message was deleted -> ${message}`);
-        var author = data.author;
+        var author = message.author;
         var logEmbed = new MessageEmbed()
           .setTitle('Message Deleted!')
           .setAuthor(author.tag, author.avatarURL())
           .setDescription('A message was deleted in a channel.')
           .addFields(
             {
-              name: "Author Details",
+              name: "Message Author Details",
               value: stripIndents`
               User Tag: ${author.tag}
               User ID: ${author.id}`
             },
             {
-              name: 'Deleted Message',
-              value: (message) ? message : 'Not available.'
+              name: 'Deleted Message Contents',
+              value: (message.content) ? message.content : 'Not available.'
             }
           )
           .setColor(0x00ae86)
