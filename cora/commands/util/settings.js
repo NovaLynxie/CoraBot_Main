@@ -89,9 +89,6 @@ module.exports = class SettingsCommand extends Command {
       case 'leavemsg':
         await settingsHandler('user-leave-msg', input);
       default:
-        message.channel.send("Loading your guild's settings... please wait.").then(msg => {
-          message.delete({timeout: 3000});
-        })
         settingsEmbed();
     }
   }
