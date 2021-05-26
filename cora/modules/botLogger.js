@@ -50,6 +50,8 @@ module.exports = function botLogger(event, data, client) {
   }
   if (enableLogger === "yes") {
     logger.verbose('botLogger.checkIfEnabled => true')
+    let message = data;
+    if (message.author.id === client.author.id) return;
     switch (event) {
       case 'messageDelete':
         logger.debug(`message was deleted -> ${message}`);

@@ -53,7 +53,7 @@ const eventFiles = fs.readdirSync('./cora/events').filter(file => file.endsWith(
 
 client.setProvider(
   // Set providers to store guild settings like prefix across restarts.
-  sqlite.open({ filename: 'cora/cache/database.db', driver: sqlite3.Database }).then(db => new SQLiteProvider(db)).catch((logger.error))
+  sqlite.open({ filename: 'cora/cache/corabot.db', driver: sqlite3.Database }).then(db => new SQLiteProvider(db)).catch((logger.error))
 )
 
 client.registry
