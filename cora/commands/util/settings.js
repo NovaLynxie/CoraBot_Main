@@ -35,13 +35,6 @@ module.exports = class SettingsCommand extends Command {
   async run(message, { option, input }) {
     let client = this.client;
     async function settingsMenu() {
-      // Depreciated. These settings have been removed as of CoraBot v2.5.0
-      // This and old embed be removed in future versions (v2.5.1+)
-      var 
-        announceJoinLeave = await client.settings.get('announceJoinLeave', 'N/A'),
-        enablePoints = await client.settings.get('enablePoints', 'N/A'),
-        userJoinMsg = await client.settings.get('userJoinMsg', 'N/A'),
-        userLeaveMsg = await client.settings.get('userLeaveMsg', 'N/A');
       let footermsg = 'Created and maintained by NovaLynxie'
       if (option === 'botlogger') {
         // Planned! BotLogger settings menu here.
