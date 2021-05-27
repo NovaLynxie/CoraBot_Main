@@ -34,6 +34,7 @@ module.exports = class SettingsCommand extends Command {
   }
   async run(message, { option, input }) {
     let client = this.client;
+    console.log(input)
     async function settingsMenu() {
       // Depreciated. These settings have been removed as of CoraBot v2.5.0
       // This and old embed be removed in future versions (v2.5.1+)
@@ -43,16 +44,15 @@ module.exports = class SettingsCommand extends Command {
         userJoinMsg = await client.settings.get('userJoinMsg', 'N/A'),
         userLeaveMsg = await client.settings.get('userLeaveMsg', 'N/A');
       let footermsg = 'Created and maintained by NovaLynxie'
-      let menu;
-      if (menu === 'botlogger') {
+      if (option === 'botlogger') {
         // Planned! BotLogger settings menu here.
         message.reply('this menu will come in a future update.');
       } else
-      if (menu === 'autochat') {
+      if (option === 'autochat') {
         // Planned! AutoChat settings menu here.
         message.reply('this menu will come in a future update.');
       } else 
-      if (menu === 'automod') {
+      if (option === 'automod') {
         // Fetch AutoMod Settings Here:
         var
           autoModSettings = await client.settings.get('autoModerator'),
@@ -107,7 +107,7 @@ module.exports = class SettingsCommand extends Command {
         // Finally send AutoMod settings embed to message author's channel.
         return message.channel.send(autoModSettingsEmbed);
       } else 
-      if (menu === 'joinleave') {
+      if (option === 'joinleave') {
         // joinleave settings menu here
         var announcerSettingsEmbed = new MessageEmbed()
           .setTitle('User Join/Leave Announcer')
@@ -142,7 +142,8 @@ module.exports = class SettingsCommand extends Command {
             Guild ID: ||${message.guild.id}||
             To view any of the settings run this command below.
             \`settings <menu_name>\`
-            Available menus are \`automod, autochat, joinleave\`
+            Menu Options: \`automod, autochat, botlogger*, joinleave*\`
+            \*These options are placeholders till the new menus are ready!
             `)
             .setTimestamp()
             .setFooter(footermsg)
