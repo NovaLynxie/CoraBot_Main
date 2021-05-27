@@ -235,7 +235,7 @@ module.exports = class SettingsCommand extends Command {
             .setTimestamp()
             .setFooter(footermsg)
         // Finally send MainMenu settings embed to message author's channel.
-        return message.channel.send(mainMenuEmbed);
+        message.channel.send(mainMenuEmbed);
       };
     }
   }
