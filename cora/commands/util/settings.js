@@ -34,32 +34,34 @@ module.exports = class SettingsCommand extends Command {
   }
   async run(message, { option, input }) {
     let client = this.client;
-    async function settingsMenu() {      
+    async function settingsMenu() {
+      // Depreciated. These settings have been removed as of CoraBot v2.5.0
+      // This and old embed be removed in future versions (v2.5.1+)
       var 
         announceJoinLeave = await client.settings.get('announceJoinLeave', 'N/A'),
         enablePoints = await client.settings.get('enablePoints', 'N/A'),
         userJoinMsg = await client.settings.get('userJoinMsg', 'N/A'),
         userLeaveMsg = await client.settings.get('userLeaveMsg', 'N/A');
-      
+      let footermsg = 'Created and maintained by NovaLynxie'
       let menu;
-      if (menu === 'main') {
-        // main settings menu here
-        var settingsMainEmbed = new MessageEmbed()
-          .setTitle('Guild Settings')
-          .setDescription(stripIndents`
-            Guild Name: ${message.guild.name}
-            Guild ID: ||${message.guild.id}||
-            To view any of the settings run this command below.
-            \`settings <menu_name>\`
-            `)
+      if (menu === 'botlogger') {
+        // Planned! BotLogger settings menu here.
+        message.reply('this menu will come in a future update.');
+      } else
+      if (menu === 'autochat') {
+        // Planned! AutoChat settings menu here.
+        message.reply('this menu will come in a future update.');
       } else 
-      if (menu === 'automod' ) {
-        // automod settings menu here
+      if (menu === 'automod') {
+        // Fetch AutoMod Settings Here:
         var
-          autoModSettings = await client.settings.get('autoModerator')
-        /*
+          autoModSettings = await client.settings.get('autoModerator'),
+          {enableAutoMod, chListMode, urlsBlacklist, mediaOptions} = autoModSettings,
+          {removeGifs, removeImgs, removeUrls, removeVids} = mediaOptions;
+        // Prepare AutoMod Settings Embed
         var autoModSettingsEmbed = new MessageEmbed()
-          .setTitle('Auto Moderation')
+          .setTitle('Auto Moderation Settings')
+          .setThumbnail(message.guild.iconURL({format:'png'}))
           .setDescription(stripIndents`
             This module automatically monitors channels for specific media types allowing your staff and you to relax and focus on other things.
             It handles most supported image types, urls so you can control which channels to post them in!
@@ -67,28 +69,24 @@ module.exports = class SettingsCommand extends Command {
           .addFields(
             {
               name: 'Enable AutoMod',
-              value: `Status: ${(enableAutoMod === (true||'yes')) ? 'ENABLED':'DISABLED'}`
+              value: `Status: ${(enableAutoMod) ? 'ENABLED':'DISABLED'}`
             },
             {
               name: 'Channel List Mode',
-              value: `Mode: ${channelListMode}`
-            },
-            {
-              name: 'URLs List Mode',
-              value: `Mode: ${urlsListMode}`,
-              inline: true              
+              value: `Mode: ${(chListMode === 'whitelist') ? 'WHITELIST' : 'BLACKLIST' }`
             },
             {
               name: 'Channels List',
               value: stripIndents`
-              \`\`\`md
+              \`\`\`
               ${channelsList.join('\n')}
               \`\`\``,
+              inline: true
             },
             {
               name: 'Blocked URLs',
               value: stripIndents`
-              \`\`\`md
+              \`\`\`
               ${urlsBlacklist.join('\n')}
               \`\`\``,
               inline: true
@@ -104,7 +102,10 @@ module.exports = class SettingsCommand extends Command {
               `
             }
           )
-        */
+          .setTimestamp()
+          .setFooter(footermsg)
+        // Finally send AutoMod settings embed to message author's channel.
+        return message.channel.send(autoModSettingsEmbed);
       } else 
       if (menu === 'joinleave') {
         // joinleave settings menu here
@@ -127,34 +128,27 @@ module.exports = class SettingsCommand extends Command {
               inline: true
             }
           )
+          .setTimestamp()
+          .setFooter(footermsg)
+        // Finally send AutoMod settings embed to message author's channel.
+        return message.channel.send(announcerSettingsEmbed);
       } else {
-        //return message.channel.send("settings.menuHandler.unrecognised_err");
-      }
-      // Settings Embed. Shows all current settings.
-      var settingsEmbed = new MessageEmbed()
-        .setTitle('Guild Settings')
-        .setDescription(stripIndents`
-          Guild Name: ${message.guild.name}
-          Guild ID: ||${message.guild.id}||`)
-        .addFields(
-          {
-            name: 'Announce Member Join/Leave',
-            value: stripIndents`
-              Enabled? ${(announceJoinLeave === 'yes') ? 'Yes' : 'No'}`
-          },          
-          {
-            name: 'User Join Message',
-            value: userJoinMsg,
-            inline: true
-          },
-          {
-            name: 'User Leave Message',
-            value: userLeaveMsg,
-            inline: true
-          }
-        )
-      return message.channel.send(settingsEmbed);
-      
+        // Settings Main Menu Embed - Fallback if no menus are called first.
+        var mainMenuEmbed = new MessageEmbed()
+          .setTitle('Guild Settings')
+          .setThumbnail(message.guild.iconURL({format:'png'}))
+          .setDescription(stripIndents`
+            Guild Name: ${message.guild.name}
+            Guild ID: ||${message.guild.id}||
+            To view any of the settings run this command below.
+            \`settings <menu_name>\`
+            Available menus are \`automod, autochat, joinleave\`
+            `)
+            .setTimestamp()
+            .setFooter(footermsg)
+        // Finally send MainMenu settings embed to message author's channel.
+        return message.channel.send(mainMenuEmbed);
+      };      
     };
     async function settingsHandler(mode, setting, value) {
       if (mode === 'write') {
