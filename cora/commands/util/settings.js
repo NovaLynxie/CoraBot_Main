@@ -34,8 +34,12 @@ module.exports = class SettingsCommand extends Command {
   }
   async run(message, { option, input }) {
     let client = this.client;
+    let footermsg = 'Created and maintained by NovaLynxie'
+
+    // might need this after all...
+    /*
     async function settingsMenu() {
-      let footermsg = 'Created and maintained by NovaLynxie'
+      
       if (option === 'botlogger') {
         // Planned! BotLogger settings menu here.
         message.reply('this menu will come in a future update.');
@@ -50,8 +54,9 @@ module.exports = class SettingsCommand extends Command {
       if (option === 'joinleave') {
         
       } else {
-            
+      
     };
+    */
     async function settingsHandler(mode, setting, value) {
       if (mode === 'write') {
         client.settings.set(setting, value);
@@ -123,6 +128,8 @@ module.exports = class SettingsCommand extends Command {
       })
       return res;
     };
+
+
     switch (option) {
       // Command Actions
       case 'initialize':
@@ -136,7 +143,7 @@ module.exports = class SettingsCommand extends Command {
       case 'automod': 
         // Fetch AutoMod Settings Here:
         var autoModSettings = await client.settings.get('autoModerator');
-        var {enableAutoMod, chListMode, urlsBlacklist, mediaOptions} = autoModSettings
+        var {enableAutoMod, chListMode, urlsBlacklist, mediaOptions} = autoModSettings;
         var {removeGifs, removeImgs, removeUrls, removeVids} = mediaOptions;
         // Prepare AutoMod Settings Embed
         var autoModSettingsEmbed = new MessageEmbed()
@@ -236,7 +243,6 @@ module.exports = class SettingsCommand extends Command {
             .setFooter(footermsg)
         // Finally send MainMenu settings embed to message author's channel.
         message.channel.send(mainMenuEmbed);
-      };
-    }
-  }
+    };
+  };
 };
