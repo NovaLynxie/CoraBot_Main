@@ -34,7 +34,6 @@ module.exports = class SettingsCommand extends Command {
   }
   async run(message, { option, input }) {
     let client = this.client;
-    console.log(input)
     async function settingsMenu() {
       // Depreciated. These settings have been removed as of CoraBot v2.5.0
       // This and old embed be removed in future versions (v2.5.1+)
