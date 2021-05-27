@@ -45,103 +45,12 @@ module.exports = class SettingsCommand extends Command {
         message.reply('this menu will come in a future update.');
       } else 
       if (option === 'automod') {
-        // Fetch AutoMod Settings Here:
-        var
-          autoModSettings = await client.settings.get('autoModerator'),
-          {enableAutoMod, chListMode, urlsBlacklist, mediaOptions} = autoModSettings,
-          {removeGifs, removeImgs, removeUrls, removeVids} = mediaOptions;
-        // Prepare AutoMod Settings Embed
-        var autoModSettingsEmbed = new MessageEmbed()
-          .setTitle('Auto Moderation Settings')
-          .setThumbnail(message.guild.iconURL({format:'png'}))
-          .setDescription(stripIndents`
-            This module automatically monitors channels for specific media types allowing your staff and you to relax and focus on other things.
-            It handles most supported image types, urls so you can control which channels to post them in!
-          `)
-          .addFields(
-            {
-              name: 'Enable AutoMod',
-              value: `Status: ${(enableAutoMod) ? 'ENABLED':'DISABLED'}`
-            },
-            {
-              name: 'Channel List Mode',
-              value: `Mode: ${(chListMode === 'whitelist') ? 'WHITELIST' : 'BLACKLIST' }`
-            },
-            {
-              name: 'Channels List',
-              value: stripIndents`
-              \`\`\`
-              ${channelsList.join('\n')}
-              \`\`\``,
-              inline: true
-            },
-            {
-              name: 'Blocked URLs',
-              value: stripIndents`
-              \`\`\`
-              ${urlsBlacklist.join('\n')}
-              \`\`\``,
-              inline: true
-            },
-            {
-              name: 'Media Settings',
-              value: stripIndents`
-                > Detection options.
-                Gifs   | ${(removeGifs === 'yes') ? 'Yes' : 'No'}
-                Links  | ${(removeURLs === 'yes') ? 'Yes' : 'No'}
-                Images | ${(removeImgs === 'yes') ? 'Yes' : 'No'}
-                Videos | ${(removeVids === 'yes') ? 'Yes' : 'No'}
-              `
-            }
-          )
-          .setTimestamp()
-          .setFooter(footermsg)
-        // Finally send AutoMod settings embed to message author's channel.
-        return message.channel.send(autoModSettingsEmbed);
+        
       } else 
       if (option === 'joinleave') {
-        // joinleave settings menu here
-        var announcerSettingsEmbed = new MessageEmbed()
-          .setTitle('User Join/Leave Announcer')
-          .addFields(
-            {
-              name: 'Announce Member Join/Leave',
-              value: stripIndents`
-                Enabled? ${(announceJoinLeave === 'yes') ? 'Yes' : 'No'}`
-            },          
-            {
-              name: 'User Join Message',
-              value: userJoinMsg,
-              inline: true
-            },
-            {
-              name: 'User Leave Message',
-              value: userLeaveMsg,
-              inline: true
-            }
-          )
-          .setTimestamp()
-          .setFooter(footermsg)
-        // Finally send AutoMod settings embed to message author's channel.
-        return message.channel.send(announcerSettingsEmbed);
+        
       } else {
-        // Settings Main Menu Embed - Fallback if no menus are called first.
-        var mainMenuEmbed = new MessageEmbed()
-          .setTitle('Guild Settings')
-          .setThumbnail(message.guild.iconURL({format:'png'}))
-          .setDescription(stripIndents`
-            Guild Name: ${message.guild.name}
-            Guild ID: ||${message.guild.id}||
-            To view any of the settings run this command below.
-            \`settings <menu_name>\`
-            Menu Options: \`automod, autochat, botlogger*, joinleave*\`
-            \*These options are placeholders till the new menus are ready!
-            `)
-            .setTimestamp()
-            .setFooter(footermsg)
-        // Finally send MainMenu settings embed to message author's channel.
-        return message.channel.send(mainMenuEmbed);
-      };      
+            
     };
     async function settingsHandler(mode, setting, value) {
       if (mode === 'write') {
@@ -215,16 +124,119 @@ module.exports = class SettingsCommand extends Command {
       return res;
     };
     switch (option) {
+      // Command Actions
       case 'initialize':
         generateGuildSettings(message.guild);
         break;
-      case 'joinmsg': 
-        await settingsHandler('user-join-msg', input);
+      // Command Menus
+      case 'autochat':
+        // Planned! AutoChat settings menu here.
+        message.reply('this menu will come in a future update.');
         break;
-      case 'leavemsg':
-        await settingsHandler('user-leave-msg', input);
+      case 'automod': 
+        // Fetch AutoMod Settings Here:
+        var autoModSettings = await client.settings.get('autoModerator');
+        var {enableAutoMod, chListMode, urlsBlacklist, mediaOptions} = autoModSettings
+        var {removeGifs, removeImgs, removeUrls, removeVids} = mediaOptions;
+        // Prepare AutoMod Settings Embed
+        var autoModSettingsEmbed = new MessageEmbed()
+          .setTitle('Auto Moderation Settings')
+          .setThumbnail(message.guild.iconURL({format:'png'}))
+          .setDescription(stripIndents`
+            This module automatically monitors channels for specific media types allowing your staff and you to relax and focus on other things.
+            It handles most supported image types, urls so you can control which channels to post them in!
+          `)
+          .addFields(
+            {
+              name: 'Enable AutoMod',
+              value: `Status: ${(enableAutoMod) ? 'ENABLED':'DISABLED'}`
+            },
+            {
+              name: 'Channel List Mode',
+              value: `Mode: ${(chListMode === 'whitelist') ? 'WHITELIST' : 'BLACKLIST' }`
+            },
+            {
+              name: 'Channels List',
+              value: stripIndents`
+              \`\`\`
+              ${channelsList.join('\n')}
+              \`\`\``,
+              inline: true
+            },
+            {
+              name: 'Blocked URLs',
+              value: stripIndents`
+              \`\`\`
+              ${urlsBlacklist.join('\n')}
+              \`\`\``,
+              inline: true
+            },
+            {
+              name: 'Media Settings',
+              value: stripIndents`
+                > Detection options.
+                Gifs   | ${(removeGifs === 'yes') ? 'Yes' : 'No'}
+                Links  | ${(removeURLs === 'yes') ? 'Yes' : 'No'}
+                Images | ${(removeImgs === 'yes') ? 'Yes' : 'No'}
+                Videos | ${(removeVids === 'yes') ? 'Yes' : 'No'}
+              `
+            }
+          )
+          .setTimestamp()
+          .setFooter(footermsg)
+        // Finally send AutoMod settings embed to message author's channel.
+        message.channel.send(autoModSettingsEmbed);
+        break;
+      case 'botlogger':
+        // Planned! BotLogger settings menu here.
+        message.reply('this menu will come in a future update.');
+        break;
+      case 'joinleave':
+        // joinleave settings menu here
+        var joinLeaveSettings = await client.settings.get('joinleave')
+        var {announceJoinLeave, userJoinMsg, userLeaveMsg} = joinLeaveSettings;
+        var announcerSettingsEmbed = new MessageEmbed()
+          .setTitle('User Join/Leave Announcer')
+          .addFields(
+            {
+              name: 'Announce Member Join/Leave',
+              value: stripIndents`
+                Enabled? ${(announceJoinLeave === 'yes') ? 'Yes' : 'No'}`
+            },          
+            {
+              name: 'User Join Message',
+              value: userJoinMsg,
+              inline: true
+            },
+            {
+              name: 'User Leave Message',
+              value: userLeaveMsg,
+              inline: true
+            }
+          )
+          .setTimestamp()
+          .setFooter(footermsg)
+        // Finally send AutoMod settings embed to message author's channel.
+        message.channel.send(announcerSettingsEmbed);
+        break;
       default:
-        settingsMenu();
+        // Settings Main Menu Embed - Fallback if no menus are called first.
+        var mainMenuEmbed = new MessageEmbed()
+          .setTitle('Guild Settings')
+          .setThumbnail(message.guild.iconURL({format:'png'}))
+          .setDescription(stripIndents`
+            Guild Name: ${message.guild.name}
+            Guild ID: ||${message.guild.id}||
+            To view any of the settings run this command below.
+            \`settings <menu_name>\`
+            Menu Options: \`automod, autochat, botlogger*, joinleave*\`
+            \*These options are placeholders till the new menus are ready!
+            `)
+            .setTimestamp()
+            .setFooter(footermsg)
+        // Finally send MainMenu settings embed to message author's channel.
+        return message.channel.send(mainMenuEmbed);
+      };
     }
   }
 };
