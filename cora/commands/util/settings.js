@@ -36,23 +36,97 @@ module.exports = class SettingsCommand extends Command {
     let client = this.client;
     async function settingsMenu() {      
       var 
-        announceJoinLeave = await client.settings.get('announceJoinLeave'),
-        enablePoints = await client.settings.get('enablePoints'),
-        userJoinMsg = await client.settings.get('userJoinMsg', 'Not set'),
-        userLeaveMsg = await client.settings.get('userLeaveMsg', 'Not set');
+        announceJoinLeave = await client.settings.get('announceJoinLeave', 'N/A'),
+        enablePoints = await client.settings.get('enablePoints', 'N/A'),
+        userJoinMsg = await client.settings.get('userJoinMsg', 'N/A'),
+        userLeaveMsg = await client.settings.get('userLeaveMsg', 'N/A');
       
       let menu;
       if (menu === 'main') {
         // main settings menu here
         var settingsMainEmbed = new MessageEmbed()
+          .setTitle('Guild Settings')
+          .setDescription(stripIndents`
+            Guild Name: ${message.guild.name}
+            Guild ID: ||${message.guild.id}||
+            To view any of the settings run this command below.
+            \`settings <menu_name>\`
+            `)
       } else 
       if (menu === 'automod' ) {
         // automod settings menu here
+        var
+          autoModSettings = await client.settings.get('autoModerator')
+        /*
         var autoModSettingsEmbed = new MessageEmbed()
+          .setTitle('Auto Moderation')
+          .setDescription(stripIndents`
+            This module automatically monitors channels for specific media types allowing your staff and you to relax and focus on other things.
+            It handles most supported image types, urls so you can control which channels to post them in!
+          `)
+          .addFields(
+            {
+              name: 'Enable AutoMod',
+              value: `Status: ${(enableAutoMod === (true||'yes')) ? 'ENABLED':'DISABLED'}`
+            },
+            {
+              name: 'Channel List Mode',
+              value: `Mode: ${channelListMode}`
+            },
+            {
+              name: 'URLs List Mode',
+              value: `Mode: ${urlsListMode}`,
+              inline: true              
+            },
+            {
+              name: 'Channels List',
+              value: stripIndents`
+              \`\`\`md
+              ${channelsList.join('\n')}
+              \`\`\``,
+            },
+            {
+              name: 'Blocked URLs',
+              value: stripIndents`
+              \`\`\`md
+              ${urlsBlacklist.join('\n')}
+              \`\`\``,
+              inline: true
+            },
+            {
+              name: 'Media Settings',
+              value: stripIndents`
+                > Detection options.
+                Gifs   | ${(removeGifs === 'yes') ? 'Yes' : 'No'}
+                Links  | ${(removeURLs === 'yes') ? 'Yes' : 'No'}
+                Images | ${(removeImgs === 'yes') ? 'Yes' : 'No'}
+                Videos | ${(removeVids === 'yes') ? 'Yes' : 'No'}
+              `
+            }
+          )
+        */
       } else 
       if (menu === 'joinleave') {
         // joinleave settings menu here
         var announcerSettingsEmbed = new MessageEmbed()
+          .setTitle('User Join/Leave Announcer')
+          .addFields(
+            {
+              name: 'Announce Member Join/Leave',
+              value: stripIndents`
+                Enabled? ${(announceJoinLeave === 'yes') ? 'Yes' : 'No'}`
+            },          
+            {
+              name: 'User Join Message',
+              value: userJoinMsg,
+              inline: true
+            },
+            {
+              name: 'User Leave Message',
+              value: userLeaveMsg,
+              inline: true
+            }
+          )
       } else {
         //return message.channel.send("settings.menuHandler.unrecognised_err");
       }
@@ -66,8 +140,7 @@ module.exports = class SettingsCommand extends Command {
           {
             name: 'Announce Member Join/Leave',
             value: stripIndents`
-              Enabled? ${(announceJoinLeave === 'yes') ? 'Yes' : 'No'}`,
-            inline: false
+              Enabled? ${(announceJoinLeave === 'yes') ? 'Yes' : 'No'}`
           },          
           {
             name: 'User Join Message',
@@ -96,20 +169,46 @@ module.exports = class SettingsCommand extends Command {
     async function generateGuildSettings(guild) {
       let defaultSettings = [
         {
-          name: 'announceJoinLeave',
-          value: 'no'
+          name: 'autoAnnounce',
+          value: {
+            announceJoinLeave: false,
+            userJoinMsg: '<user> joined the server.',
+            userLeaveMsg: '<user> left the server.'
+          }
         },
         {
-          name: 'enablePoints',
-          value: 'no'
+          name: 'aiChatModule',
+          value: {
+            enableAutoChat: false,
+            chatChannels: []
+          }
         },
         {
-          name: 'userJoinMsg',
-          value: '<user> joined the server.'
+          name: 'autoLogger',
+          value: {
+            enableLogger: false,
+            logChannels: [],
+            ignoreChannels: [],
+            logEvents: {
+              messageUpdates: true,
+              userJoinLeave: true,
+              userRoleUpdate: true
+            }
+          }
         },
         {
-          name: 'userLeaveMsg',
-          value: '<user> left the server.'
+          name: 'autoModerator',
+          value: {
+            enableAutoMod: false,
+            chListMode: 'whitelist',
+            channelsList: [],
+            urlBlackList: [],
+            mediaOptions: {
+              removeGifs: false,
+              removeImgs: false,
+              removeUrls: false
+            }
+          }
         }
       ]
       defaultSettings.forEach(setting => {
