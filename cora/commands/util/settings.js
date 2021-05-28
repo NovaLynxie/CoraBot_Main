@@ -33,7 +33,7 @@ module.exports = class SettingsCommand extends Command {
     });
   }
   async run(message, { option, input }) {
-    let client = this.client;
+    let client = this.client, color = '#FD0061';
     let footermsg = 'Created and maintained by NovaLynxie'
 
     // might need this after all...
@@ -165,6 +165,7 @@ module.exports = class SettingsCommand extends Command {
         // Prepare AutoMod Settings Embed
         var autoModSettingsEmbed = new MessageEmbed()
           .setTitle('Auto Moderation Settings')
+          .setColor(color)
           .setThumbnail(message.guild.iconURL({format:'png'}))
           .setDescription(stripIndents`
             This module automatically monitors channels for specific media types allowing your staff and you to relax and focus on other things.
@@ -223,6 +224,8 @@ module.exports = class SettingsCommand extends Command {
         // Prepare JoinLeave Settings Embed
         var announcerSettingsEmbed = new MessageEmbed()
           .setTitle('User Join/Leave Announcer')
+          .setColor(color)
+          .setThumbnail(message.guild.iconURL({format:'png'}))
           .addFields(
             {
               name: 'Announce Member Join/Leave',
@@ -256,6 +259,7 @@ module.exports = class SettingsCommand extends Command {
         // Settings Main Menu Embed - Fallback if no menus are called first.
         var mainMenuEmbed = new MessageEmbed()
           .setTitle('Guild Settings')
+          .setColor(color)
           .setThumbnail(message.guild.iconURL({format:'png'}))
           .setDescription(stripIndents`
             Guild Name: ${message.guild.name}
