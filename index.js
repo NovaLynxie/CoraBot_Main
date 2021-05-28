@@ -53,7 +53,11 @@ const eventFiles = fs.readdirSync('./cora/events').filter(file => file.endsWith(
 
 client.setProvider(
   // Set providers to store guild settings like prefix across restarts.
-  sqlite.open({ filename: 'cora/cache/corabot.db', driver: sqlite3.Database }).then(db => new SQLiteProvider(db)).catch((logger.error))
+  sqlite.open({ filename: 'data/storage/corabot.db', driver: sqlite3.Database }).then(db => new SQLiteProvider(db)).catch((err) => {  
+    logger.error(err);
+    logger.warn(`Unable to create database 'corabot.db'. Is process missing permissions?`);
+    logger.warn(`Please ensure './data' directory exists in bot's root directory and has read/write permissions enabled!`);
+  })
 )
 
 client.registry

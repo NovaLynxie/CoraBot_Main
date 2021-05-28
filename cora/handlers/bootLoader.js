@@ -59,7 +59,7 @@ const myUserAgent = `CoraBot/${version} (https://github.com/NovaLynxie/CoraBot_R
 var { botToken, ownerID } = process.env;
 logger.debug('Loaded process environment variables!');
 // Generate some folders on bot startup.
-let dirpaths = ['./cora/cache/automod/','./cora/cache/mcsrvutil/']
+let dirpaths = ['./cora/cache/automod/','./cora/cache/mcsrvutil/','./data/storage/']
 dirpaths.forEach(async (dirpath) => {
   await fs.mkdir(dirpath, {recursive: true}, function (err) {
     if (err) {
