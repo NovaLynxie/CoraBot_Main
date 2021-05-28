@@ -76,27 +76,7 @@ module.exports = class SettingsCommand extends Command {
             userJoinMsg: '<user> joined the server.',
             userLeaveMsg: '<user> left the server.'
           }
-        },
-        {
-          name: 'aiChatModule',
-          value: {
-            enableAutoChat: false,
-            chatChannels: []
-          }
-        },
-        {
-          name: 'autoLogger',
-          value: {
-            enableLogger: false,
-            logChannels: [],
-            ignoreChannels: [],
-            logEvents: {
-              messageUpdates: true,
-              userJoinLeave: true,
-              userRoleUpdate: true
-            }
-          }
-        },
+        },        
         {
           name: 'autoModerator',
           value: {
@@ -108,6 +88,37 @@ module.exports = class SettingsCommand extends Command {
               removeGifs: false,
               removeImgs: false,
               removeUrls: false
+            }
+          }
+        },        
+        {
+          name: 'chatterBoxAI',
+          value: {
+            enableAutoChat: false,
+            chatChannels: []
+          }
+        },
+        {
+          name: 'botLogger',
+          value: {
+            enableBotLogger: false,
+            logChannels: [],
+            ignoreChannels: [],
+            logEvents: {
+              messageUpdates: true,
+              userJoinLeave: true,
+              userRoleUpdate: true
+            }
+          }
+        },
+        {
+          name: 'modLogger',
+          value: {
+            enableModLogger: false,
+            logChannels: [],
+            ignoreChannels: [],
+            logEvents: {
+              guildMemberRemove: true
             }
           }
         }
@@ -129,7 +140,14 @@ module.exports = class SettingsCommand extends Command {
       return res;
     };
 
-
+    // Fetch all settings here.
+    var 
+      autoChatSettings = client.settings.get('chatterBoxAI'),
+      autoModSettings = client.settings.get('autoModerator'),
+      autoNotiferSettings = client.settings.get('autoAnnounce'),
+      botLoggerSettings = client.settings.get('botLogger'),
+      modLoggerSettings = client.settings.get('modLogger');
+    // Settings Menu Handler.
     switch (option) {
       // Command Actions
       case 'initialize':
@@ -141,8 +159,7 @@ module.exports = class SettingsCommand extends Command {
         message.reply('this menu will come in a future update.');
         break;
       case 'automod': 
-        // Fetch AutoMod Settings Here:
-        var autoModSettings = client.settings.get('autoModerator');
+        // Deconstruct autoModSettings object here for easier parsing.
         var {enableAutoMod, chListMode, channelsList, urlsBlacklist, mediaOptions} = autoModSettings;
         var {removeGifs, removeImgs, removeUrls, removeVids} = mediaOptions;
         // Prepare AutoMod Settings Embed
@@ -201,9 +218,9 @@ module.exports = class SettingsCommand extends Command {
         message.reply('this menu will come in a future update.');
         break;
       case 'joinleave':
-        // joinleave settings menu here
-        var joinLeaveSettings = client.settings.get('joinleave')
-        var {announceJoinLeave, userJoinMsg, userLeaveMsg} = joinLeaveSettings;
+        // Deconstruct joinLeaveSettings object here for easier parsing.
+        var {announceJoinLeave, userJoinMsg, userLeaveMsg} = autoNotiferSettings;
+        // Prepare JoinLeave Settings Embed
         var announcerSettingsEmbed = new MessageEmbed()
           .setTitle('User Join/Leave Announcer')
           .addFields(
@@ -225,10 +242,17 @@ module.exports = class SettingsCommand extends Command {
           )
           .setTimestamp()
           .setFooter(footermsg)
-        // Finally send AutoMod settings embed to message author's channel.
+        // Finally send JoinLeave settings embed to message author's channel.
         message.channel.send(announcerSettingsEmbed);
         break;
       default:
+        // Fetch only ENABLED status for each of the configurable modules here.
+        var 
+          {enableAutoChat} = autoChatSettings,
+          {announceJoinLeave} = autoNotiferSettings,
+          {enableAutoMod} = autoModSettings,
+          {enableBotLogger} = botLoggerSettings,
+          {enableModLogger} = modLoggerSettings;
         // Settings Main Menu Embed - Fallback if no menus are called first.
         var mainMenuEmbed = new MessageEmbed()
           .setTitle('Guild Settings')
@@ -241,6 +265,19 @@ module.exports = class SettingsCommand extends Command {
             Menu Options: \`automod, autochat, botlogger*, joinleave*\`
             \*These options are placeholders till the new menus are ready!
             `)
+            .addFields(
+              {
+                name: 'Bot Modules',
+                value: stripIndents`
+                  \`\`\`
+                  AutoNotify  | ${(announceJoinLeave===true) ? 'ENABLED' : 'DISABLED'}
+                  AutoMod     | ${(enableAutoMod===true) ? 'ENABLED' : 'DISABLED'}
+                  ChatterBox  | ${(enableAutoChat===true) ? 'ENABLED' : 'DISABLED'}
+                  Bot Logging | ${(enableBotLogger===true) ? 'ENABLED' : 'DISABLED'}
+                  \`\`\`
+                `
+              }
+            )
             .setTimestamp()
             .setFooter(footermsg)
         // Finally send MainMenu settings embed to message author's channel.
