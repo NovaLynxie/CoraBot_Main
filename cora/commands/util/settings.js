@@ -142,8 +142,8 @@ module.exports = class SettingsCommand extends Command {
         break;
       case 'automod': 
         // Fetch AutoMod Settings Here:
-        var autoModSettings = await client.settings.get('autoModerator');
-        var {enableAutoMod, chListMode, urlsBlacklist, mediaOptions} = autoModSettings;
+        var autoModSettings = client.settings.get('autoModerator');
+        var {enableAutoMod, chListMode, channelsList, urlsBlacklist, mediaOptions} = autoModSettings;
         var {removeGifs, removeImgs, removeUrls, removeVids} = mediaOptions;
         // Prepare AutoMod Settings Embed
         var autoModSettingsEmbed = new MessageEmbed()
@@ -151,7 +151,7 @@ module.exports = class SettingsCommand extends Command {
           .setThumbnail(message.guild.iconURL({format:'png'}))
           .setDescription(stripIndents`
             This module automatically monitors channels for specific media types allowing your staff and you to relax and focus on other things.
-            It handles most supported image types, urls so you can control which channels to post them in!
+            It handles most supported media types, urls and links so you can control which channels members can post them in!
           `)
           .addFields(
             {
@@ -166,7 +166,7 @@ module.exports = class SettingsCommand extends Command {
               name: 'Channels List',
               value: stripIndents`
               \`\`\`
-              ${channelsList.join('\n')}
+              ${(channelsList) ? channelsList.join('\n') : 'Not set'}
               \`\`\``,
               inline: true
             },
@@ -174,7 +174,7 @@ module.exports = class SettingsCommand extends Command {
               name: 'Blocked URLs',
               value: stripIndents`
               \`\`\`
-              ${urlsBlacklist.join('\n')}
+              ${(urlsBlacklist) ? urlsBlacklist.join('\n') : 'Not set'}
               \`\`\``,
               inline: true
             },
@@ -182,10 +182,12 @@ module.exports = class SettingsCommand extends Command {
               name: 'Media Settings',
               value: stripIndents`
                 > Detection options.
+                \`\`\`
                 Gifs   | ${(removeGifs === 'yes') ? 'Yes' : 'No'}
-                Links  | ${(removeURLs === 'yes') ? 'Yes' : 'No'}
+                Links  | ${(removeUrls === 'yes') ? 'Yes' : 'No'}
                 Images | ${(removeImgs === 'yes') ? 'Yes' : 'No'}
                 Videos | ${(removeVids === 'yes') ? 'Yes' : 'No'}
+                \`\`\`
               `
             }
           )
@@ -200,7 +202,7 @@ module.exports = class SettingsCommand extends Command {
         break;
       case 'joinleave':
         // joinleave settings menu here
-        var joinLeaveSettings = await client.settings.get('joinleave')
+        var joinLeaveSettings = client.settings.get('joinleave')
         var {announceJoinLeave, userJoinMsg, userLeaveMsg} = joinLeaveSettings;
         var announcerSettingsEmbed = new MessageEmbed()
           .setTitle('User Join/Leave Announcer')
