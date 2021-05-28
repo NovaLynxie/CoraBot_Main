@@ -60,7 +60,7 @@ module.exports = (client, config) => {
   app.use(session({
     store: new SQLiteStore({
       db: "sessions.db",
-      dir: "./cora/cache/"
+      dir: "./data/storage/"
     }),
     secret: process.env.SESSION_SECRET || config.dashboard.sessionSecret,
     resave: false,
