@@ -69,7 +69,7 @@ client.registry
     ['image','Images'],
     ['info', 'Information'],
     ['misc', 'Miscellaneous'],
-    ['music', 'Music'], // Experimental! - May have some unexpected errors.
+    ['music', 'Music'], 
     //['social', 'Social'], // Disabled - Does not have any commands.
     ['support', 'Support'],
   ])
