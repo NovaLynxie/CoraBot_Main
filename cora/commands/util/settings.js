@@ -60,8 +60,8 @@ module.exports = class SettingsCommand extends Command {
               ban: false
             },
             eventMessages: {
-              userJoin: '<user> joined the server.',
-              userLeave: '<user> left the server.',
+              userJoin: '<user> has joined the server.',
+              userLeave: '<user> has left the server.',
               userKick: '<user> was kicked from the server.',
               userBan: '<user> was banned from the server.'
             }
