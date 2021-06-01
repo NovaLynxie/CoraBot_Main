@@ -80,7 +80,6 @@ client.registry
   })
   .registerCommandsIn(
       path.join(__dirname, './cora/commands')
-      //path.join(__dirname, './cora_modules/commands')
   );
 
 for (const file of eventFiles) {
