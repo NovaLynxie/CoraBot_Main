@@ -3,7 +3,7 @@ const ChatBot = require('discord-chatbot');
 const chatbot = new ChatBot({name: "Cora", gender: "Female"});
 const {enableChatBot, chatChannels} = chatty;
 
-module.exports = function chatbot(message) {
+module.exports = (message) => {
   if (enableChatBot) {
     chatChannels.forEach(chatChannel => {
       if (chatChannel === message.channel.id) {

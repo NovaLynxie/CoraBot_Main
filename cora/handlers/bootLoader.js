@@ -81,7 +81,7 @@ const { log } = require('util');
 logger.debug('Loaded responses from responses.json');
 // Finally export all variables for the bot to access by requiring bootLoader.js
 module.exports.config = {prefix, debug, botToken, ownerID, eImg, myUserAgent, yiffyApiKey, version}; // bot config
-module.exports.chatty = {enableChatBot, chatChannels} // chatbot settings
+module.exports.chatty = {enableChatBot, chatChannels}// chatbot settings
 module.exports.autoMod = {enableAutoMod, chListMode, channelsList, urlBlacklist, urlWhitelist, mediaOptions}; // bot automod settings
 module.exports.autoLog = {enableLogger, logChannels, ignoredChannels, messageUpdates, userJoinLeaves, roleUpdates}; // bot autolog settings
 module.exports.assets = {activities, responses}; // bot asset data
