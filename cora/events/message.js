@@ -1,6 +1,6 @@
 const autoRespond = require('../modules/autoResponder.js');
 const autoModerator = require('../modules/autoModerator.js');
-const chatBotAI = require('../handlers/chatBotHandler');
+const chatBot = require('../handlers/chatBotHandler');
 const logger = require('../providers/WinstonPlugin');
 const {config} = require('../handlers/bootLoader.js');
 const {prefix} = config;
@@ -18,6 +18,6 @@ module.exports = {
     }
     autoRespond(message);
     autoModerator(message);
-    chatBotAI(message);
+    chatBot(message);
   },
 };
