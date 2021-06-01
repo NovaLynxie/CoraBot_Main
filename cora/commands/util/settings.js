@@ -50,11 +50,21 @@ module.exports = class SettingsCommand extends Command {
     async function generateGuildSettings(guild) {
       let defaultSettings = [
         {
-          name: 'autoAnnounce',
+          name: 'autoNotify',
           value: {
-            announceJoinLeave: false,
-            userJoinMsg: '<user> joined the server.',
-            userLeaveMsg: '<user> left the server.'
+            enableNotifier: false,
+            events: {
+              join: false,
+              leave: false,
+              kick: false,
+              ban: false
+            },
+            eventMessages: {
+              userJoin: '<user> joined the server.',
+              userLeave: '<user> left the server.',
+              userKick: '<user> was kicked from the server.',
+              userBan: '<user> was banned from the server.'
+            }
           }
         },        
         {
