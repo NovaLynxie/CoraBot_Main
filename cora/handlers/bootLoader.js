@@ -59,7 +59,7 @@ const myUserAgent = `CoraBot/${version} (https://github.com/NovaLynxie/CoraBot_R
 var { botToken, ownerID } = process.env;
 logger.debug('Loaded process environment variables!');
 // Generate some folders on bot startup.
-let dirpaths = ['./cora/cache/automod/','./cora/cache/mcsrvutil/']
+let dirpaths = ['./cora/cache/automod/','./cora/cache/mcsrvutil/','./data/storage/']
 dirpaths.forEach(async (dirpath) => {
   await fs.mkdir(dirpath, {recursive: true}, function (err) {
     if (err) {
@@ -81,7 +81,7 @@ const { log } = require('util');
 logger.debug('Loaded responses from responses.json');
 // Finally export all variables for the bot to access by requiring bootLoader.js
 module.exports.config = {prefix, debug, botToken, ownerID, eImg, myUserAgent, yiffyApiKey, version}; // bot config
-module.exports.chatty = {enableChatBot, chatChannels} // chatbot settings
+module.exports.chatty = {enableChatBot, chatChannels}// chatbot settings
 module.exports.autoMod = {enableAutoMod, chListMode, channelsList, urlBlacklist, urlWhitelist, mediaOptions}; // bot automod settings
 module.exports.autoLog = {enableLogger, logChannels, ignoredChannels, messageUpdates, userJoinLeaves, roleUpdates}; // bot autolog settings
 module.exports.assets = {activities, responses}; // bot asset data
