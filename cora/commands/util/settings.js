@@ -122,7 +122,7 @@ module.exports = class SettingsCommand extends Command {
     // Fetch all settings here.
     var 
       prefix = client.settings.get('prefix', client.commandPrefix),
-      autoChatSettings = client.settings.get('chatterBoxAI', undefined),
+      autoChatSettings = client.settings.get('chatterBox', undefined),
       autoModSettings = client.settings.get('autoModerator', undefined),
       autoNotiferSettings = client.settings.get('autoAnnounce', undefined),
       botLoggerSettings = client.settings.get('botLogger', undefined),
