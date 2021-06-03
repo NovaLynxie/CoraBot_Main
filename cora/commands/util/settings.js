@@ -37,16 +37,6 @@ module.exports = class SettingsCommand extends Command {
     let client = this.client, color = '#FD0061';
     let footermsg = 'Created and maintained by NovaLynxie'
     // Settings Command Functions
-    async function settingsHandler(mode, setting, value) {
-      if (mode === 'write') {
-        client.settings.set(setting, value);
-        return;
-      } else 
-      if (mode === 'read') {
-        let res = await client.settings.get(setting);
-        return res;
-      };
-    };
     async function generateGuildSettings(guild) {
       let defaultSettings = [
         {
