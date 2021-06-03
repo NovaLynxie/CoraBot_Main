@@ -55,7 +55,7 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "cora/*",
+      "cora/commands/*",
       "logs/*"
     ],
     "delay": "2500"
