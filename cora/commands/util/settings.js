@@ -2,6 +2,7 @@ const { Command } = require('discord.js-commando');
 const { stripIndents, oneLine } = require('common-tags');
 const { MessageEmbed } = require('discord.js');
 const logger = require('../../providers/WinstonPlugin');
+const e = require('express');
 
 module.exports = class SettingsCommand extends Command {
   constructor(client) {
@@ -109,7 +110,11 @@ module.exports = class SettingsCommand extends Command {
       });
     }
     async function updateSetting(key, value) {
+      logger.debug(`Updating setting ${key}`)
+      logger.data(`${key} ${value}`);
       client.settings.set(key, value);
+      logger.info(`Updated settings for guild ${message.guild.name}!`)
+      message.channel.send("Updated this guild's settings successfully.")
     }
     async function fetchSettings() {
       let res = {};
@@ -146,57 +151,84 @@ module.exports = class SettingsCommand extends Command {
           // Deconstruct autoModSettings object here for easier parsing.
           var {enableAutoMod, chListMode, channelsList, urlsBlacklist, mediaOptions} = autoModSettings;
           var {removeGifs, removeImgs, removeUrls, removeVids} = mediaOptions;
-          // Prepare AutoMod Settings Embed
-          var autoModSettingsEmbed = new MessageEmbed()
-            .setTitle('Auto Moderation Settings')
-            .setColor(color)
-            .setThumbnail(message.guild.iconURL({format:'png'}))
-            .setDescription(stripIndents`
-              This module automatically monitors channels for specific media types allowing your staff and you to relax and focus on other things.
-              It handles most supported media types, urls and links so you can control which channels members can post them in!
-            `)
-            .addFields(
-              {
-                name: 'Enable AutoMod',
-                value: `Status: ${(enableAutoMod) ? 'ENABLED':'DISABLED'}`
-              },
-              {
-                name: 'Channel List Mode',
-                value: `Mode: ${(chListMode === 'whitelist') ? 'WHITELIST' : 'BLACKLIST' }`
-              },
-              {
-                name: 'Channels List',
-                value: stripIndents`
-                \`\`\`
-                ${(channelsList) ? channelsList.join('\n') : 'Not set'}
-                \`\`\``,
-                inline: true
-              },
-              {
-                name: 'Blocked URLs',
-                value: stripIndents`
-                \`\`\`
-                ${(urlsBlacklist) ? urlsBlacklist.join('\n') : 'Not set'}
-                \`\`\``,
-                inline: true
-              },
-              {
-                name: 'Media Settings',
-                value: stripIndents`
-                  > Detection options.
+
+          let args = input.split(',');
+          logger.debug(`args = ${args} (${typeof args})`)
+          if (args[0] === 'toggle') {
+            if (args[1] === 'chListMode') {
+              autoModSettings.chListMode = (chListMode==='whitelist')?'blacklist':'whitelist';
+            }
+            autoModSettings.enableAutoMod = !enableAutoMod;
+            updateSetting('autoModerator', autoModSettings); // Run settings update here.
+          } else 
+          if (args[0] === 'set') {
+            if (args[1] === 'channelsList') {
+              let urls = args.splice(1, args.length() - 1);
+              autoModSettings.channelsList.push(urls);
+            }
+            switch(args[1]) {
+              case 'chListMode':
+                autoModSettings.chListMode = args[2];
+                break;
+              case 'channelsList':
+                
+                break;
+            };
+            updateSetting('autoModerator', autoModSettings); // Run settings update at the end here.
+          } else {
+            // Prepare AutoMod Settings Embed
+            console.log(autoModSettings);
+            var autoModSettingsEmbed = new MessageEmbed()
+              .setTitle('Auto Moderation Settings')
+              .setColor(color)
+              .setThumbnail(message.guild.iconURL({format:'png'}))
+              .setDescription(stripIndents`
+                This module automatically monitors channels for specific media types allowing your staff and you to relax and focus on other things.
+                It handles most supported media types, urls and links so you can control which channels members can post them in!
+              `)
+              .addFields(
+                {
+                  name: 'Enable AutoMod',
+                  value: `Status: ${(enableAutoMod) ? 'ENABLED':'DISABLED'}`
+                },
+                {
+                  name: 'Channel List Mode',
+                  value: `Mode: ${(chListMode === 'whitelist') ? 'WHITELIST' : 'BLACKLIST' }`
+                },
+                {
+                  name: 'Channels List',
+                  value: stripIndents`
                   \`\`\`
-                  Gifs   | ${(removeGifs === 'yes') ? 'Yes' : 'No'}
-                  Links  | ${(removeUrls === 'yes') ? 'Yes' : 'No'}
-                  Images | ${(removeImgs === 'yes') ? 'Yes' : 'No'}
-                  Videos | ${(removeVids === 'yes') ? 'Yes' : 'No'}
+                  ${(channelsList) ? channelsList.join('\n') : 'Not set'}
+                  \`\`\``,
+                  inline: true
+                },
+                {
+                  name: 'Blocked URLs',
+                  value: stripIndents`
                   \`\`\`
-                `
-              }
-            )
-            .setTimestamp()
-            .setFooter(footermsg)
-          // Finally send AutoMod settings embed to message author's channel.
-          message.channel.send(autoModSettingsEmbed);
+                  ${(urlsBlacklist) ? urlsBlacklist.join('\n') : 'Not set'}
+                  \`\`\``,
+                  inline: true
+                },
+                {
+                  name: 'Media Settings',
+                  value: stripIndents`
+                    > Detection options.
+                    \`\`\`
+                    Gifs   | ${(removeGifs === 'yes') ? 'Yes' : 'No'}
+                    Links  | ${(removeUrls === 'yes') ? 'Yes' : 'No'}
+                    Images | ${(removeImgs === 'yes') ? 'Yes' : 'No'}
+                    Videos | ${(removeVids === 'yes') ? 'Yes' : 'No'}
+                    \`\`\`
+                  `
+                }
+              )
+              .setTimestamp()
+              .setFooter(footermsg)
+            // Finally send AutoMod settings embed to message author's channel.
+            message.channel.send(autoModSettingsEmbed);
+          }
           break;
         case 'botlogger':
           // Planned! BotLogger settings menu here.
