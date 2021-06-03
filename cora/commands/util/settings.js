@@ -72,7 +72,7 @@ module.exports = class SettingsCommand extends Command {
           }
         },        
         {
-          name: 'chatterBoxAI',
+          name: 'chatterBox',
           value: {
             enableAutoChat: false,
             chatChannels: []
