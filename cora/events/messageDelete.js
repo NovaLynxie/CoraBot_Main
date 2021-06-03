@@ -6,6 +6,7 @@ module.exports = {
 	execute(message, client) {
     logger.verbose("event.messageDelete.trigger()")
     let event = 'messageDelete';
+    if (!message.guild) return logger.debug("A messageDelete was triggered from message deleted in bot's DM channel.");
     if (message.author.id === null) {
       message.author.id = undefined;
     }
