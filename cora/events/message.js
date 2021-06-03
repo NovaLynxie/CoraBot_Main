@@ -1,9 +1,11 @@
-const autoRespond = require('../modules/autoResponder.js');
-const autoModerator = require('../modules/autoModerator.js');
-const chatBot = require('../handlers/chatBotHandler');
 const logger = require('../providers/WinstonPlugin');
 const {config} = require('../handlers/bootLoader.js');
 const {prefix} = config;
+// Message Modules Here.
+const autoRespond = require('../modules/autoResponder.js');
+const autoModerator = require('../modules/autoModerator.js');
+const chatterBox = require('../modules/chatterBox.js');
+
 
 module.exports = {
   name: 'message',
@@ -18,6 +20,6 @@ module.exports = {
     }
     autoRespond(message);
     autoModerator(message);
-    chatBot(message);
+    chatterBox(message);
   },
 };
