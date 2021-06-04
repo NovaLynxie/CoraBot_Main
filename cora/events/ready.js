@@ -30,10 +30,10 @@ module.exports = {
       logger.verbose(`Updated status to activity ${index} of ${activities.length-1}`)
     }, 300000);
     // Database checks for guilds with no configured settings.
-    logger.debug('Waiting 3 seconds before running database checks.');
+    logger.debug('Waiting 3 seconds before starting database checks.');
     setTimeout(() => {
-      logger.warn('Database checks are currently running. This may take a bit.');
-      logger.debug('Checking all connected guilds now...')
+      logger.warn('Running database checks. This may take a bit.');
+      logger.debug("Checking all bot's connected guilds now...")
       let guildsChecked = 0, guildsConfigured = 0;
       const Guilds = client.guilds.cache.map(guild => guild);
       Guilds.forEach(guild => {
@@ -120,17 +120,17 @@ module.exports = {
             logger.data(`Generating setting ${setting.name} for ${guild.name}`)
             guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
           }).then(() => {
-            logger.info('Database checks finished, ready for use.');
+            
             logger.debug('Finished checking connected guilds.');
             logger.debug(`Checked ${guildsChecked} guilds and configured ${guildsConfigured}.`);
           }); 
         } else {
           // Do not override the current configuration if settings are defined.
-          logger.info('Database checks finished, ready for use.');
           logger.debug('Finished checking connected guilds.');
           logger.debug('No new guild configurations needed.');
-        };
+        };        
       });
+      logger.info('Database checks finished, ready for use.');
     }, 3000);
   },
 };
