@@ -24,7 +24,15 @@ if (enableAutoMod === "yes") {
 }
 // Auto Moderation (BETA)
 module.exports = function autoMod(message, client) {
+  // Fetch automod settings here.
   let autoModSettings = client.settings.get('autoModerator');
+  // Destructure settings object for easier parsing.
+  let { enableAutoMod, chListMode, channelsList, urlBlacklist, mediaOptions } = autoModSettings;
+  // Destructure mediaOptions subsettings object.
+  let { removeGifs, removeImgs, removeVids, removeURLs } = mediaOptions;
+  // Only stop module execution if enableAutoMod is false.
+  if (enableAutoMod === false) return;
+  
   //let channel = message.guild.channels.get(message.channel.id);
   let channel = message.guild.channels.cache.get(message.channel.id);
   let user = message.author;

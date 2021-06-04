@@ -8,7 +8,10 @@ const {
 } = autoLog;
 
 module.exports = function modLogger(action, message, user, reason, client) {
+  // Fetch settings from client settings provider.
   let modLoggerSettings = client.settings.get('modlogger');
+  let { enableLogger, logChannels } = autoLog;
+
   function generateModLog(title, mod, user, action, reason) {
     logger.debug('Preparing moderation log embed.')
     var logColor = 0xDC9934

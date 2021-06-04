@@ -16,6 +16,7 @@ const {
 module.exports = async function botLogger(event, data, client) {
   // Fetch settings from client settings provider.
   let botLoggerSettings = client.settings.get('botlogger');
+  let { enableLogger, logChannels, ignoredChannels, messageUpdates, userJoinLeaves, roleUpdates } = botLoggerSettings;  
   // Check if either oldMessage OR newMessage is defined then process it.
   if (data.oldMessage || data.newMessage) {
     try {
