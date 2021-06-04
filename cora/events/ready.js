@@ -30,11 +30,14 @@ module.exports = {
       logger.verbose(`Updated status to activity ${index} of ${activities.length-1}`)
     }, 300000);
     // Run this after bot starts.
-    logger.debug('Waiting 5 seconds before checking guilds.')
+    logger.debug('Waiting 5 seconds before running database checks.');
     setTimeout(() => {
       logger.debug('Checking all connected guilds now...')
+      let guildsChecked = 0, guildsConfigured = 0;
       const Guilds = client.guilds.cache.map(guild => guild);
       Guilds.forEach(guild => {
+        // increase counter by one for each connected guild checked.
+        guildsChecked++;
         let 
           announcerSettings = guild.settings.get('announcer', undefined),
           autoModSettings = guild.settings.get('automod', undefined),
@@ -43,6 +46,8 @@ module.exports = {
           modLogSettings = guild.settings.get('modlogger', undefined);
         
         if (!announcerSettings||!autoModSettings||!chatBotSettings||!botLogSettings||!modLogSettings) {
+          // increase counter by one for each new guild configuration.
+          guildsConfigured++; 
           let defaultSettings = [
             {
               name: 'announcer',
@@ -111,9 +116,15 @@ module.exports = {
           defaultSettings.forEach(setting => {
             logger.data(`Generating setting ${setting.name} for ${guild.name}`)
             guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
-          });
-          logger.debug('Finished checking connected guilds.')
-        }
+          }).then( () => {
+            logger.info('Database checks finished, ready for use.')
+            logger.debug('Finished checking connected guilds.')
+            logger.debug(`Checked ${guildsChecked} guilds and configured ${guildsConfigured}.`)
+          }); 
+        } else {
+          logger.debug('Finished checking connected guilds.');
+          logger.debug('No new guild configurations needed.');
+        };
       });
     }, 5000);
   },
