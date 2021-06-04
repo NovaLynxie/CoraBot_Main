@@ -151,11 +151,15 @@ module.exports = class SettingsCommand extends Command {
             autoModSettings.enableAutoMod = !enableAutoMod;
             updateSetting('autoModerator', autoModSettings); // Run settings update here.
           } else 
-          if (args[0] === 'set') {
+          if (args[0] === 'add') {
             if (args[1] === 'channelsList') {
+              let chIDs = args.splice(1, args.length() - 1);
+              autoModSettings.channelsList.push(chIDs);
+            } else
+            if (args[1] === 'urlsBlacklist') {
               let urls = args.splice(1, args.length() - 1);
-              autoModSettings.channelsList.push(urls);
-            };
+              autoModSettings.urlsBlacklist.push(urls);
+            }
             updateSetting('autoModerator', autoModSettings); // Run settings update at the end here.
           } else {
             // Prepare AutoMod Settings Embed
