@@ -32,6 +32,7 @@ module.exports = {
     // Database checks for guilds with no configured settings.
     logger.debug('Waiting 5 seconds before running database checks.');
     setTimeout(() => {
+      logger.warn('Database checks are currently running. This may take a bit.');
       logger.debug('Checking all connected guilds now...')
       let guildsChecked = 0, guildsConfigured = 0;
       const Guilds = client.guilds.cache.map(guild => guild);
