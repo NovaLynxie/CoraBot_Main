@@ -1,6 +1,8 @@
 const { MessageEmbed } = require('discord.js');
 const logger = require('../providers/WinstonPlugin');
+const settingsHandler = require('../handlers/settingsLoader')
 const { stripIndents } = require('common-tags');
+// These variables may be overidden by client settings.
 const { autoLog } = require('../handlers/bootLoader');
 const {
   enableLogger,
@@ -11,7 +13,10 @@ const {
   roleUpdates
 } = autoLog;
 
-module.exports = function botLogger(event, data, client) {
+module.exports = async function botLogger(event, data, client) {
+  // Fetch settings from client settings provider.
+  let botLoggerSettings = client.settings.get('botlogger');
+  // Check if either oldMessage OR newMessage is defined then process it.
   if (data.oldMessage || data.newMessage) {
     try {
       logger.data(`channelID:${data.oldMessage.channel.id}`);
@@ -30,6 +35,7 @@ module.exports = function botLogger(event, data, client) {
       logger.debug(err.stack)
     }
   }
+  // Check if either oldMember OR newMember is defined then process it.
   if (data.oldMember || data.newMember) {
     try {
       logger.data(`username: ${data.oldMember.username} => ${data.newMember.username}`)
