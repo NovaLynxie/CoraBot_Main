@@ -8,7 +8,7 @@ const {prefix} = config;
 
 module.exports = {
   name: 'message',
-  execute(message) {
+  execute(message, client) {
     if (message.author.bot) {
       logger.debug('Author is bot user. Ignoring messages sent by bot.')
       return;
@@ -18,7 +18,7 @@ module.exports = {
       return;
     }
     autoRespond(message);
-    autoModerator(message);
-    chatBot(message);
+    autoModerator(message, client);
+    chatBot(message, client);
   },
 };

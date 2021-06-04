@@ -41,7 +41,7 @@ module.exports = class SettingsCommand extends Command {
     async function generateGuildSettings(guild) {
       let defaultSettings = [
         {
-          name: 'autoNotify',
+          name: 'announcer',
           value: {
             enableNotifier: false,
             events: {
@@ -59,7 +59,7 @@ module.exports = class SettingsCommand extends Command {
           }
         },        
         {
-          name: 'autoModerator',
+          name: 'automod',
           value: {
             enableAutoMod: false,
             chListMode: 'whitelist',
@@ -73,14 +73,14 @@ module.exports = class SettingsCommand extends Command {
           }
         },        
         {
-          name: 'chatterBox',
+          name: 'chatbot',
           value: {
             enableAutoChat: false,
             chatChannels: []
           }
         },
         {
-          name: 'botLogger',
+          name: 'botlogger',
           value: {
             enableBotLogger: false,
             logChannels: [],
@@ -93,7 +93,7 @@ module.exports = class SettingsCommand extends Command {
           }
         },
         {
-          name: 'modLogger',
+          name: 'modlogger',
           value: {
             enableModLogger: false,
             logChannels: [],
