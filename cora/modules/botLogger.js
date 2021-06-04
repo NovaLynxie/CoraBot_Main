@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 const logger = require('../providers/WinstonPlugin');
-const settingsHandler = require('../handlers/settingsLoader')
 const { stripIndents } = require('common-tags');
 // These variables may be overidden by client settings.
 const { autoLog } = require('../handlers/bootLoader');

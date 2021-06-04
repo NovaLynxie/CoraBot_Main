@@ -29,5 +29,92 @@ module.exports = {
       client.user.setActivity(activities[index], {type: statusType});
       logger.verbose(`Updated status to activity ${index} of ${activities.length-1}`)
     }, 300000);
+    // Run this after bot starts.
+    logger.debug('Waiting 5 seconds before checking guilds.')
+    setTimeout(() => {
+      logger.debug('Checking all connected guilds now...')
+      const Guilds = client.guilds.cache.map(guild => guild);
+      Guilds.forEach(guild => {
+        let 
+          announcerSettings = guild.settings.get('announcer', undefined),
+          autoModSettings = guild.settings.get('automod', undefined),
+          chatBotSettings = guild.settings.get('chatbot', undefined),
+          botLogSettings = guild.settings.get('botlogger', undefined),
+          modLogSettings = guild.settings.get('modlogger', undefined);
+        
+        if (!announcerSettings||!autoModSettings||!chatBotSettings||!botLogSettings||!modLogSettings) {
+          let defaultSettings = [
+            {
+              name: 'announcer',
+              value: {
+                enableNotifier: false,
+                events: {
+                  join: false,
+                  leave: false,
+                  kick: false,
+                  ban: false
+                },
+                eventMessages: {
+                  userJoin: '<user> has joined the server.',
+                  userLeave: '<user> has left the server.',
+                  userKick: '<user> was kicked from the server.',
+                  userBan: '<user> was banned from the server.'
+                }
+              }
+            },        
+            {
+              name: 'automod',
+              value: {
+                enableAutoMod: false,
+                chListMode: 'whitelist',
+                channelsList: [],
+                urlBlackList: [],
+                mediaOptions: {
+                  removeGifs: false,
+                  removeImgs: false,
+                  removeUrls: false
+                }
+              }
+            },        
+            {
+              name: 'chatbot',
+              value: {
+                enableAutoChat: false,
+                chatChannels: []
+              }
+            },
+            {
+              name: 'botlogger',
+              value: {
+                enableBotLogger: false,
+                logChannels: [],
+                ignoreChannels: [],
+                logEvents: {
+                  messageUpdates: true,
+                  userJoinLeave: true,
+                  userRoleUpdate: true
+                }
+              }
+            },
+            {
+              name: 'modlogger',
+              value: {
+                enableModLogger: false,
+                logChannels: [],
+                ignoreChannels: [],
+                logEvents: {
+                  guildMemberRemove: true
+                }
+              }
+            }
+          ]
+          defaultSettings.forEach(setting => {
+            logger.data(`Generating setting ${setting.name} for ${guild.name}`)
+            guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
+          });
+          logger.debug('Finished checking connected guilds.')
+        }
+      });
+    }, 5000);
   },
 };
