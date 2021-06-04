@@ -37,7 +37,7 @@ module.exports = class SettingsCommand extends Command {
     let client = this.client, color = '#FD0061';
     let footermsg = 'Created and maintained by NovaLynxie'
     // Settings Command Functions
-    async function generateGuildSettings(guild) {
+    async function resetGuildSettings(guild) {
       let defaultSettings = [
         {
           name: 'announcer',
@@ -105,24 +105,16 @@ module.exports = class SettingsCommand extends Command {
       ]
       defaultSettings.forEach(setting => {
         logger.data(`Generating setting ${setting.name} for ${guild.name}`)
-        client.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
+        guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
       });
     }
     async function updateSetting(key, value) {
       logger.debug(`Updating setting ${key}`)
       logger.data(`${key} ${value}`);
-      client.settings.set(key, value);
+      guild.settings.set(key, value);
       logger.info(`Updated settings for guild ${message.guild.name}!`)
       message.channel.send("Updated this guild's settings successfully.")
     }
-    async function fetchSettings() {
-      let res = {};
-      let curSettings = ['user-join-msg', 'user-leave-msg']
-      curSettings.forEach(async item => {
-        res[item] = await client.settings.get(item, 'n/a')
-      })
-      return res;
-    };
     // Fetch all settings here.
     var 
       prefix = client.settings.get('prefix', client.commandPrefix),
@@ -135,10 +127,9 @@ module.exports = class SettingsCommand extends Command {
       // Settings Menu Handler.
       switch (option) {
         // Command Actions
-        case 'initialize':
-          message.channel.send('Generating settings. Please wait...').then(msg=>msg.delete({timeout:5000}))
-          generateGuildSettings(message.guild).then(()=>{
-            message.reply('Settings generated successfully!')
+        case 'reset':
+          resetGuildSettings(message.guild).then(()=>{
+            message.reply('Settings reset successfully!')
           })
           break;
         // Command Menus
@@ -164,14 +155,6 @@ module.exports = class SettingsCommand extends Command {
             if (args[1] === 'channelsList') {
               let urls = args.splice(1, args.length() - 1);
               autoModSettings.channelsList.push(urls);
-            }
-            switch(args[1]) {
-              case 'chListMode':
-                autoModSettings.chListMode = args[2];
-                break;
-              case 'channelsList':
-                
-                break;
             };
             updateSetting('autoModerator', autoModSettings); // Run settings update at the end here.
           } else {
