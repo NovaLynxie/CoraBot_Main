@@ -119,12 +119,13 @@ module.exports = {
             logger.data(`Generating setting ${setting.name} for ${guild.name}`)
             guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
           }).then(() => {
-            logger.info('Database checks finished, ready for use.')
-            logger.debug('Finished checking connected guilds.')
-            logger.debug(`Checked ${guildsChecked} guilds and configured ${guildsConfigured}.`)
+            logger.info('Database checks finished, ready for use.');
+            logger.debug('Finished checking connected guilds.');
+            logger.debug(`Checked ${guildsChecked} guilds and configured ${guildsConfigured}.`);
           }); 
         } else {
           // Do not override the current configuration if settings are defined.
+          logger.info('Database checks finished, ready for use.');
           logger.debug('Finished checking connected guilds.');
           logger.debug('No new guild configurations needed.');
         };
