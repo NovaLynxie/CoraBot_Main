@@ -30,7 +30,7 @@ module.exports = {
       logger.verbose(`Updated status to activity ${index} of ${activities.length-1}`)
     }, 300000);
     // Database checks for guilds with no configured settings.
-    logger.debug('Waiting 5 seconds before running database checks.');
+    logger.debug('Waiting 3 seconds before running database checks.');
     setTimeout(() => {
       logger.warn('Database checks are currently running. This may take a bit.');
       logger.debug('Checking all connected guilds now...')
@@ -131,6 +131,6 @@ module.exports = {
           logger.debug('No new guild configurations needed.');
         };
       });
-    }, 5000);
+    }, 3000);
   },
 };

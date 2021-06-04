@@ -84,14 +84,14 @@ module.exports = {
         logger.data(`Generating setting ${setting.name} for ${guild.name}`)
         guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
       }).then(() => {
-        logger.info(`Configured ${guild.name}`)
+        logger.info(`Configured settings for ${guild.name}.`)
         logger.debug(`Added configuration for ${guild.name} with unique ID ${guild.id}.`)
       }); 
     } else {
       // Do not override the current configuration if settings are defined.
       logger.warn(`${guild.name} seems to already have been configured!`);
-      logger.debug(`${guild.name} already has a configuration!`);
-      logger.debug('No new guild configurations needed.');
+      logger.debug(`${guild.name} (${guild.id}) already has a configuration!`);
+      logger.debug('No new guild configurations were generated.');
     };
   }
 }
