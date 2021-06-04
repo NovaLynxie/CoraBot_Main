@@ -23,7 +23,8 @@ if (enableAutoMod === "yes") {
   logger.debug('============================================')
 }
 // Auto Moderation (BETA)
-module.exports = function autoMod(message) {
+module.exports = function autoMod(message, client) {
+  let autoModSettings = client.settings.get('autoModerator');
   //let channel = message.guild.channels.get(message.channel.id);
   let channel = message.guild.channels.cache.get(message.channel.id);
   let user = message.author;
