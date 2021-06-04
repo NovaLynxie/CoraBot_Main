@@ -2,7 +2,6 @@ const { Command } = require('discord.js-commando');
 const { stripIndents, oneLine } = require('common-tags');
 const { MessageEmbed } = require('discord.js');
 const logger = require('../../providers/WinstonPlugin');
-const e = require('express');
 
 module.exports = class SettingsCommand extends Command {
   constructor(client) {
