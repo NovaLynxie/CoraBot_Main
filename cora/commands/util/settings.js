@@ -39,7 +39,7 @@ module.exports = class SettingsCommand extends Command {
     // Settings Command Functions
     async function resetGuildSettings(guild) {
       guild.settings.clear();
-      let defaultSettings = [
+      let defaultSettings = [        
         {
           name: 'announcer',
           value: {
@@ -57,7 +57,7 @@ module.exports = class SettingsCommand extends Command {
               userBan: '<user> was banned from the server.'
             }
           }
-        },        
+        },
         {
           name: 'automod',
           value: {
@@ -119,11 +119,11 @@ module.exports = class SettingsCommand extends Command {
     // Fetch all settings here.
     var 
       prefix = client.settings.get('prefix', client.commandPrefix),
-      autoChatSettings = client.settings.get('chatbox', undefined),
-      autoModSettings = client.settings.get('automod', undefined),
-      autoNotiferSettings = client.settings.get('announcer', undefined),
-      botLoggerSettings = client.settings.get('botlogger', undefined),
-      modLoggerSettings = client.settings.get('modlogger', undefined);
+      autoChatSettings = message.guild.settings.get('chatbot', undefined),
+      autoModSettings = message.guild.settings.get('automod', undefined),
+      autoNotiferSettings = message.guild.settings.get('announcer', undefined),
+      botLoggerSettings = message.guild.settings.get('botlogger', undefined),
+      modLoggerSettings = message.guild.settings.get('modlogger', undefined);
     logger.data(`prefix: ${prefix}`);
     logger.data(`autochat: ${autoChatSettings}`);
     logger.data(`automod: ${autoModSettings}`);
