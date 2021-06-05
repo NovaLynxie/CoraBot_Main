@@ -120,7 +120,7 @@ module.exports = class SettingsCommand extends Command {
     var 
       prefix = client.settings.get('prefix', client.commandPrefix),
       autoChatSettings = client.settings.get('chatbox', undefined),
-      autoModSettings = client.settings.get('automox', undefined),
+      autoModSettings = client.settings.get('automod', undefined),
       autoNotiferSettings = client.settings.get('announcer', undefined),
       botLoggerSettings = client.settings.get('botlogger', undefined),
       modLoggerSettings = client.settings.get('modlogger', undefined);
