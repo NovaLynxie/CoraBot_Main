@@ -124,6 +124,12 @@ module.exports = class SettingsCommand extends Command {
       autoNotiferSettings = client.settings.get('announcer', undefined),
       botLoggerSettings = client.settings.get('botlogger', undefined),
       modLoggerSettings = client.settings.get('modlogger', undefined);
+    logger.data(`prefix: ${prefix}`);
+    logger.data(`autochat: ${autoChatSettings}`);
+    logger.data(`automod: ${autoModSettings}`);
+    logger.data(`notifier: ${autoNotiferSettings}`);
+    logger.data(`botlogger: ${botLoggerSettings}`);
+    logger.data(`modlogger: ${modLoggerSettings}`);
     try {
       // Settings Menu Handler.
       switch (option) {
@@ -292,8 +298,8 @@ module.exports = class SettingsCommand extends Command {
       };
     } catch (err) {
       if (err.message.indexOf('undefined') > -1) {
-        logger.debug(`Guild ${message.guild.name} (ID:${message.guild.id}) settings not configured since request returned as undefined.`);
-        logger.debug('Requesting user to run initialize command.');
+        logger.debug(`Guild ${message.guild.name} (ID:${message.guild.id}) settings not configured since request returned one or more settings as 'undefined'.`);
+        logger.debug('Requesting user action to resolve this error.');
       } else {
         logger.warn('An error occured while requesting data from CoraBot\'s database!');
         logger.error(err); logger.debug(err.stack);
