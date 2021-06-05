@@ -111,8 +111,8 @@ module.exports = class SettingsCommand extends Command {
     }
     async function updateSetting(key, value) {
       logger.debug(`Updating setting ${key}`)
-      logger.data(`${key} ${value}`);
-      guild.settings.set(key, value);
+      logger.data(`setting name: ${key} value:`); logger.data(value);
+      message.guild.settings.set(key, value);
       logger.info(`Updated settings for guild ${message.guild.name}!`)
       message.channel.send("Updated this guild's settings successfully.")
     }
@@ -170,7 +170,7 @@ module.exports = class SettingsCommand extends Command {
             updateSetting('autoModerator', autoModSettings); // Run settings update at the end here.
           } else {
             // Prepare AutoMod Settings Embed
-            console.log(autoModSettings);
+            logger.data(autoModSettings);
             var autoModSettingsEmbed = new MessageEmbed()
               .setTitle('Auto Moderation Settings')
               .setColor(color)
