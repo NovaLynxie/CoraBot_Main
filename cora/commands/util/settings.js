@@ -38,6 +38,7 @@ module.exports = class SettingsCommand extends Command {
     let footermsg = 'Created and maintained by NovaLynxie'
     // Settings Command Functions
     async function resetGuildSettings(guild) {
+      guild.settings.clear();
       let defaultSettings = [
         {
           name: 'announcer',
@@ -298,8 +299,9 @@ module.exports = class SettingsCommand extends Command {
         logger.error(err); logger.debug(err.stack);
       }      
       message.reply(stripIndents`
-        the settings for this server have not yet been configured! 
-        Please run \`${prefix} settings initialize\` first to begin setup.`
+        the settings for this server have not yet been configured or are missing!
+        This should not happen as it should generate on bot join. 
+        Try running \`${prefix} settings reset\` to reconfigure with default settings. If this does not work, contact my owner.`
       );
     };
   };

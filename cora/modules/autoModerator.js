@@ -25,7 +25,13 @@ if (enableAutoMod === "yes") {
 // Auto Moderation (BETA)
 module.exports = function autoMod(message, client) {
   // Fetch automod settings here.
-  let autoModSettings = client.settings.get('autoModerator');
+  let autoModSettings = client.settings.get('autoModerator', undefined);
+  // Check if properly defined first, otherwise throw error!
+  if (!autoModSettings) {
+    logger.warn('Missing or undefined settings object!');
+    logger.warn('Is the settings not yet setup or missing?');
+    throw new Error("Missing settings object 'autoModerator'!");
+  }
   // Destructure settings object for easier parsing.
   let { enableAutoMod, chListMode, channelsList, urlBlacklist, mediaOptions } = autoModSettings;
   // Destructure mediaOptions subsettings object.
