@@ -38,6 +38,7 @@ module.exports = class SettingsCommand extends Command {
     let footermsg = 'Created and maintained by NovaLynxie'
     // Settings Command Functions
     async function resetGuildSettings(guild) {
+      // Removes and reset all settings.
       guild.settings.clear();
       let defaultSettings = [        
         {
@@ -110,11 +111,40 @@ module.exports = class SettingsCommand extends Command {
       });
     }
     async function updateSetting(key, value) {
+      // Updates current setting value with new setting value.
       logger.debug(`Updating setting ${key}`)
       logger.data(`setting name: ${key} value:`); logger.data(value);
       message.guild.settings.set(key, value);
       logger.info(`Updated settings for guild ${message.guild.name}!`)
       message.channel.send("Updated this guild's settings successfully.")
+    }
+    async function removeListSingleItem(array, key, value) {
+      // Remove one occurence of item entry in setting array object.
+      logger.debug(`Removing ${value} from ${key}`);
+      logger.data(`Old ${key} data:`); logger.data(array);
+      let pos = array.indexOf(value);
+      if (pos > -1) {
+        array.splice(pos, 1);
+      }
+      logger.data(`New ${key} data:`); logger.data(array);
+      return array;
+    }
+    async function removeListMultipleItems(array, key, value) {
+      // Remove one occurence of item entry in setting array object.
+      logger.debug(`Removing ${value} from ${key}`);
+      logger.data(`Old ${key} data:`); logger.data(array);
+      let pos = 0, x = array.length;
+      while (pos < array.length) {
+        if (array[pos] === value) {
+          array.splice(pos, 1);
+        } else {
+          pos++;
+        }
+      }
+      let y = array.length;
+      logger.debug(`Removed a total of ${x-y} entries from ${key}.`)
+      logger.data(`New ${key} data:`); logger.data(array);
+      return array;
     }
     // Fetch all settings here.
     var 
