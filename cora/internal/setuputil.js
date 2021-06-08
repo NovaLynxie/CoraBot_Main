@@ -4,12 +4,35 @@ const {version} = require('../../package.json')
 
 console.log('Setup Utility');
 
-const properties = [
-  {
-    name: 'token',
-    warning: 'Missing token!'
+var schema = {
+  properties: {
+    name: {
+      pattern: /^[a-zA-Z\s\-]+$/,
+      message: 'Name must be only letters, spaces, or dashes',
+      required: true
+    },
+    password: {
+      hidden: true
+    }
   }
-];
+};
+
+const schema = {
+  properties: {
+    token: {
+      description: "Please enter your bot's unique token.",
+      message: "Discord bot token required for code to function.",
+      type: 'string',
+      hidden: true,
+      required: true
+    },
+    prefix: {
+      description: "Enter your bot's default prefix, or press enter to use default.",
+      message: "No prefix  was provided. Falling back to default prefix 'c'.",
+      default: 'c'
+    }
+  }
+};
 
 prompt.start();
 
@@ -32,19 +55,27 @@ debug = false
 [modules]
 `
 let configAuthTemplate = `
-[tokens]
+# ALWAYS KEEP THESE SECURE! NEVER SHARE WITH ANYONE!
+# If they are leaked, regenerate a new one as soon as possible.
+[credentials]
 # Discord API token. Required for bot to interact with Discord's API.
-# ALWAYS KEEP THIS SECURE! NEVER SHARE WITH ANYONE!
 botToken='${discordToken}'
-# API Keys
-yiffyApiKey='${yiffyApiKey}'
-
+# API Keys. Used to authenticate access to modules using these resources.
+# Yiffy API -> Obtain key here [to be confirmed]
+yiffyApiKey='${yiffyApiKey}' -> 
+# CheweyBot API -> Obtain key here [https://discord.gg/ubHYJ7w]
+cheweyApiToken='${cheweyApiToken}'
+# Youtube Data API -> Setup your key at Google Cloud Dashboard.
+youtubeApiKey='${youtubeApiKey}'
 `
 
 function settingsWriter
 
-prompt.get(properties, function (err, result) {
-  if (err) { return onErr(err); }
-  
-  }
+function promptError(err) {
+  logger.error('Something went wrong while running the utility!')
+  logger.error(err);
+}
+
+prompt.get(schema, function (err, result) {
+  if (err) { return promptError(err); }
 });
