@@ -19,14 +19,14 @@ var schema = {
 
 const schema = {
   properties: {
-    token: {
+    botToken: {
       description: "Please enter your bot's unique token.",
       message: "Discord bot token required for code to function.",
       type: 'string',
       hidden: true,
       required: true
     },
-    prefix: {
+    botPrefix: {
       description: "Enter your bot's default prefix, or press enter to use default.",
       message: "No prefix  was provided. Falling back to default prefix 'c'.",
       default: 'c'
@@ -40,6 +40,17 @@ let configPaths = {
   mainConfig: './corabot.toml',
   authConfig: './auth.toml'
 }
+
+function settingsWriter(data) {
+  
+}
+
+function promptError(err) {
+  logger.error('Something went wrong while running the utility!')
+  logger.error(err);
+}
+
+let discordToken, yiffyApiKey, cheweyApiToken, youtubeApiKey;
 
 let configMainTemplate = `
 # CoraBot Main Configuration
@@ -59,7 +70,7 @@ let configAuthTemplate = `
 # If they are leaked, regenerate a new one as soon as possible.
 [credentials]
 # Discord API token. Required for bot to interact with Discord's API.
-botToken='${discordToken}'
+botToken='${botToken}'
 # API Keys. Used to authenticate access to modules using these resources.
 # Yiffy API -> Obtain key here [to be confirmed]
 yiffyApiKey='${yiffyApiKey}' -> 
@@ -68,14 +79,7 @@ cheweyApiToken='${cheweyApiToken}'
 # Youtube Data API -> Setup your key at Google Cloud Dashboard.
 youtubeApiKey='${youtubeApiKey}'
 `
-
-function settingsWriter
-
-function promptError(err) {
-  logger.error('Something went wrong while running the utility!')
-  logger.error(err);
-}
-
 prompt.get(schema, function (err, result) {
   if (err) { return promptError(err); }
+  botToken = result.botToken;
 });
