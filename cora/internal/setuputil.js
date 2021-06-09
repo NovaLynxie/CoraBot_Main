@@ -70,16 +70,17 @@ let configAuthTemplate = `
 # If they are leaked, regenerate a new one as soon as possible.
 [credentials]
 # Discord API token. Required for bot to interact with Discord's API.
-botToken='${botToken}'
+botToken='<DISCORDTOKEN>'
 # API Keys. Used to authenticate access to modules using these resources.
 # Yiffy API -> Obtain key here [to be confirmed]
-yiffyApiKey='${yiffyApiKey}' -> 
+yiffyApiKey='<YIFFYAPIKEY>' -> 
 # CheweyBot API -> Obtain key here [https://discord.gg/ubHYJ7w]
-cheweyApiToken='${cheweyApiToken}'
+cheweyApiToken='<CHEWEYAPITOKEN>'
 # Youtube Data API -> Setup your key at Google Cloud Dashboard.
-youtubeApiKey='${youtubeApiKey}'
+youtubeApiKey='<YOUTUBEAPIKEY>'
 `
 prompt.get(schema, function (err, result) {
   if (err) { return promptError(err); }
+
   botToken = result.botToken;
 });
