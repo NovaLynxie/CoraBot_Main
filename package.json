@@ -6,7 +6,7 @@
   "scripts": {
     "test-files": "node ./cora/internal/fileSelfTest.js",
     "clear-logs": "node ./cora/internal/logCleaner.js",
-    "setup": "node ./cora/internal/newConfig.js",
+    "setup": "node ./cora/internal/setuputil.js",
     "start": "node index.js || node .",
     "dev": "nodemon index.js || nodemon ."
   },

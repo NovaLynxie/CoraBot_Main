@@ -37,20 +37,18 @@ const schema = {
 prompt.start();
 
 let configPaths = {
-  mainConfig: './corabot.toml',
-  authConfig: './auth.toml'
+  authConfig: './auth.toml',
+  mainConfig: './main.toml'  
 }
 
 function settingsWriter(data) {
-  
+  fs.write()
 }
 
 function promptError(err) {
-  logger.error('Something went wrong while running the utility!')
+  logger.error('Something went wrong while running setup!')
   logger.error(err);
 }
-
-let discordToken, yiffyApiKey, cheweyApiToken, youtubeApiKey;
 
 let configMainTemplate = `
 # CoraBot Main Configuration
@@ -81,6 +79,15 @@ youtubeApiKey='<YOUTUBEAPIKEY>'
 `
 prompt.get(schema, function (err, result) {
   if (err) { return promptError(err); }
-
-  botToken = result.botToken;
+  // load primary configuration first.
+  token = result.botToken;
+  prefix = result.botPrefix;
+  // load extra credentials next.
+  /* Not yet setup!
+  cheweyApiKey = result.cheweyApiKey;
+  yiffyApiKey = result.yiffyApiKey;
+  youtubeApiKey = result.youtubeApiKey;
+  */  
+  let authCfgData = prepareAuthConfig({token});
+  let mainCfgData = prepareMainConfig({prefix});
 });

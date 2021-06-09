@@ -1,5 +1,5 @@
 const fs = require('fs');
-
+// Depreciated! Please use npm run setup in v3.x.x!
 // Config Template (DO NOT EDIT THIS UNLESS CONFIG IS UPDATED!)
 const cfgTemplate = `
 # CoraBot Configuration file.
