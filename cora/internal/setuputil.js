@@ -1,6 +1,7 @@
 const fs = require('fs');
 const prompt = require('prompt');
-const {version} = require('../../package.json')
+const logger = require('../providers/WinstonPlugin');
+const {version} = require('../../package.json');
 
 console.log('Setup Utility');
 
@@ -33,11 +34,16 @@ function settingsWriter(data) {
 }
 
 function promptError(err) {
-  logger.error('Something went wrong while running setup!')
-  logger.error(err);
+  if (err.message.indexOf('canceled') > -1) {
+    return logger.warn('Setup has been cancelled!');
+  } else {
+    logger.error('Something went wrong during setup process!');
+    logger.error(err); 
+    logger.debug(err.stack);
+  };
 }
 
-let configMainTemplate = `
+let cfgMainTml = `
 # CoraBot Main Configuration
 
 [general]
@@ -50,7 +56,7 @@ debug = false
 
 [modules]
 `
-let configAuthTemplate = `
+let cfgAuthTml = `
 # ALWAYS KEEP THESE SECURE! NEVER SHARE WITH ANYONE!
 # If they are leaked, regenerate a new one as soon as possible.
 [credentials]
@@ -74,7 +80,14 @@ prompt.get(schema, function (err, result) {
   cheweyApiKey = result.cheweyApiKey;
   yiffyApiKey = result.yiffyApiKey;
   youtubeApiKey = result.youtubeApiKey;
-  */  
-  let authCfgData = prepareAuthConfig({token});
-  let mainCfgData = prepareMainConfig({prefix});
+  */
+  let cfgAuthData = cfgAuthTml, cfgMainData = cfgMainTml;
+  let authRegexList = ["<DISCORDTOKEN>","<YIFFYAPIKEY>","<CHEWEYAPITOKEN>","<YOUTUBEAPIKEY>"];
+  let mainRegexList = ["<PREFIX>"];
+  authRegexList.forEach(regex => {
+    cfgAuthData = cfgAuthData.replace(regex, )
+  })
+  configAuthTemplate = configAuthTemplate.replace()
+  //let authCfgData = prepareAuthConfig({token});
+  //let mainCfgData = prepareMainConfig({prefix});
 });
