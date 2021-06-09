@@ -4,19 +4,6 @@ const {version} = require('../../package.json')
 
 console.log('Setup Utility');
 
-var schema = {
-  properties: {
-    name: {
-      pattern: /^[a-zA-Z\s\-]+$/,
-      message: 'Name must be only letters, spaces, or dashes',
-      required: true
-    },
-    password: {
-      hidden: true
-    }
-  }
-};
-
 const schema = {
   properties: {
     botToken: {
