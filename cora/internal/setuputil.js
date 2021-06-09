@@ -24,13 +24,15 @@ const schema = {
 
 prompt.start();
 
-let configPaths = {
-  authConfig: './auth.toml',
-  mainConfig: './main.toml'  
-}
+let authCfgPath = './auth.toml', mainCfgPath = './main.toml';
 
-function settingsWriter(data) {
-  fs.write()
+function settingsWriter(path, data) {
+  fs.writeFile(path, data, (err) => {
+    if (err) {
+      logger.error(`Failed to write to file at ${path}!`)
+      logger.error(err); logger.debug(err.stack);
+    }
+  })
 }
 
 function promptError(err) {
@@ -64,14 +66,14 @@ let cfgAuthTml = `
 botToken='<DISCORDTOKEN>'
 # API Keys. Used to authenticate access to modules using these resources.
 # Yiffy API -> Obtain key here [to be confirmed]
-yiffyApiKey='<YIFFYAPIKEY>' -> 
+yiffyApiKey='<YIFFYAPIKEY>'
 # CheweyBot API -> Obtain key here [https://discord.gg/ubHYJ7w]
 cheweyApiToken='<CHEWEYAPITOKEN>'
 # Youtube Data API -> Setup your key at Google Cloud Dashboard.
 youtubeApiKey='<YOUTUBEAPIKEY>'
 `
 prompt.get(schema, function (err, result) {
-  if (err) { return promptError(err); }
+  if (err) return promptError(err);
   // load primary configuration first.
   token = result.botToken;
   prefix = result.botPrefix;
@@ -81,13 +83,21 @@ prompt.get(schema, function (err, result) {
   yiffyApiKey = result.yiffyApiKey;
   youtubeApiKey = result.youtubeApiKey;
   */
-  let cfgAuthData = cfgAuthTml, cfgMainData = cfgMainTml;
-  let authRegexList = ["<DISCORDTOKEN>","<YIFFYAPIKEY>","<CHEWEYAPITOKEN>","<YOUTUBEAPIKEY>"];
+  let authCfgData = cfgAuthTml, cfgMainData = cfgMainTml;
+  let authPlaceholders = ["<DISCORDTOKEN>","<YIFFYAPIKEY>","<CHEWEYAPITOKEN>","<YOUTUBEAPIKEY>"];
   let mainRegexList = ["<PREFIX>"];
-  authRegexList.forEach(regex => {
-    cfgAuthData = cfgAuthData.replace(regex, )
-  })
-  configAuthTemplate = configAuthTemplate.replace()
+  authPlaceholders.forEach(placeholder => {
+    var value;
+    switch(placeholder) {
+      case "<DISCORDTOKEN>":
+        value = token;
+        break;
+      default:
+        logger.warn('missing.item.error');
+    }
+    authCfgData = authCfgData.replace(placeholder, value)
+  });
+  settingsWriter(authCfgPath, authCfgData);
   //let authCfgData = prepareAuthConfig({token});
   //let mainCfgData = prepareMainConfig({prefix});
 });
