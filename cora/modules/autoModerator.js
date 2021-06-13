@@ -22,7 +22,7 @@ if (enableAutoMod === "yes") {
   logger.debug('Options marked (EXPERIMENTAL) are very WIP.')
   logger.debug('============================================')
 }
-let autoModSettings = { enableAutoMod = false }; 
+let autoModSettings = { enableAutoMod: false }; 
 // global override unless actually enabled, settings overrides this fallback setting.
 // Auto Moderation (BETA)
 module.exports = function autoMod(message, client) {
