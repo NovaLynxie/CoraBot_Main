@@ -29,10 +29,10 @@ module.exports = function autoMod(message, client) {
   // Fetch automod settings here.
   autoModSettings = client.settings.get('automod', undefined);
   // Check if properly defined first, otherwise throw error! (Replaced with fallback)
-  if (!autoModSettings) {
-    logger.warn('Missing or undefined settings object!');
-    logger.warn('Is the settings not yet setup or missing?');
-    logger.warn('Module AutoModerator has stopped!')
+  if (!autoModSettings || Object.keys(autoModSettings).length >== 1 ) {
+    logger.error('Missing or undefined settings object returned!');
+    logger.error("Module service 'AutoModerator' has been stopped to prevent bot crash!")
+    logger.warn('Is the settings not yet setup or misconfigured?');
     //throw new Error("Missing settings object 'autoModerator'!");
   }
   // Destructure settings object for easier parsing.
