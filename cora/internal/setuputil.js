@@ -9,7 +9,7 @@ const schema = {
   properties: {
     botToken: {
       description: "Please enter your bot's unique token.",
-      message: "Discord bot token required for code to function.",
+      message: "Discord bot token is required for code to function.",
       type: 'string',
       hidden: true,
       required: true
@@ -18,13 +18,20 @@ const schema = {
       description: "Enter your bot's default prefix, or press enter to use default.",
       message: "No prefix  was provided. Falling back to default prefix 'c'.",
       default: 'c'
+    },
+    cheweyApiKey : {
+      description: "Please enter a valid cheweybot api token",
+      message: "No valid token provided! Some modules will not function correctly.",
+      type: 'string',
+      hidden: true
+      default: ''
     }
   }
 };
 
 prompt.start();
 
-let authCfgPath = './auth.toml', mainCfgPath = './main.toml';
+let authCfgPath = './settings/auth.toml', mainCfgPath = './settings/main.toml';
 
 function settingsWriter(path, data) {
   fs.writeFile(path, data, (err) => {
@@ -75,6 +82,7 @@ youtubeApiKey='<YOUTUBEAPIKEY>'
 prompt.get(schema, function (err, result) {
   if (err) return promptError(err);
   // load primary configuration first.
+  // discord bot token and prefix.
   token = result.botToken;
   prefix = result.botPrefix;
   // load extra credentials next.

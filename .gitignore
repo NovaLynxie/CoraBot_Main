@@ -2,6 +2,7 @@ node_modules
 cora/cache/*
 data/*
 logs/*
+settings/*
 config.toml
 setup_linux.sh
 setup_win.bat

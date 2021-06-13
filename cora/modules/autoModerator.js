@@ -25,7 +25,7 @@ if (enableAutoMod === "yes") {
 // Auto Moderation (BETA)
 module.exports = function autoMod(message, client) {
   // Fetch automod settings here.
-  let autoModSettings = client.settings.get('autoModerator', undefined);
+  let autoModSettings = client.settings.get('automod', undefined);
   // Check if properly defined first, otherwise throw error!
   if (!autoModSettings) {
     logger.warn('Missing or undefined settings object!');
