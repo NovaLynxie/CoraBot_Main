@@ -22,15 +22,18 @@ if (enableAutoMod === "yes") {
   logger.debug('Options marked (EXPERIMENTAL) are very WIP.')
   logger.debug('============================================')
 }
+let autoModSettings = { enableAutoMod = false }; 
+// global override unless actually enabled, settings overrides this fallback setting.
 // Auto Moderation (BETA)
 module.exports = function autoMod(message, client) {
   // Fetch automod settings here.
-  let autoModSettings = client.settings.get('automod', undefined);
-  // Check if properly defined first, otherwise throw error!
+  autoModSettings = client.settings.get('automod', undefined);
+  // Check if properly defined first, otherwise throw error! (Replaced with fallback)
   if (!autoModSettings) {
     logger.warn('Missing or undefined settings object!');
     logger.warn('Is the settings not yet setup or missing?');
-    throw new Error("Missing settings object 'autoModerator'!");
+    logger.warn('Module AutoModerator has stopped!')
+    //throw new Error("Missing settings object 'autoModerator'!");
   }
   // Destructure settings object for easier parsing.
   let { enableAutoMod, chListMode, channelsList, urlBlacklist, mediaOptions } = autoModSettings;
