@@ -1,4 +1,5 @@
 const fs = require('fs');
+const {mkdir, writeFile} = fs;
 const prompt = require('prompt');
 const logger = require('../providers/WinstonPlugin');
 const {version} = require('../../package.json');
@@ -45,19 +46,30 @@ const schema = {
   }
 };
 
+// initiate prompt module to begin getting input from command line.
 prompt.start();
 
-let authCfgPath = './settings/auth.toml', mainCfgPath = './settings/main.toml';
+// define paths here.
+let settingsDir = './settings';
+let authCfgPath = `${settingsDir}/auth.toml`, mainCfgPath = `${settingsDir}/main.toml`;
 
+// setup utilities functions
+function generateDirectory(targetDir) {
+  mkdir(targetDir, { recursive: true }, (err) => {
+    if (err) {
+      logger.error('An error occured while creating directory paths!');
+      logger.error(err);
+    }
+  });
+};
 function settingsWriter(path, data) {
-  fs.writeFile(path, data, (err) => {
+  writeFile(path, data, (err) => {
     if (err) {
       logger.error(`Failed to write to file at ${path}!`)
       logger.error(err); logger.debug(err.stack);
     }
   })
-}
-
+};
 function promptError(err) {
   if (err.message.indexOf('canceled') > -1) {
     return logger.warn('Setup has been cancelled!');
@@ -68,6 +80,9 @@ function promptError(err) {
   };
 }
 
+// prepare configuration templates. (may move to external text files).
+
+// configuration templates. do not edit between these lines!
 let cfgMainTml = `
 # CoraBot Main Configuration
 
@@ -107,6 +122,11 @@ cheweyApiToken='<CHEWEYAPITOKEN>'
 # Youtube Data API -> Setup your key at Google Cloud Dashboard.
 youtubeApiKey='<YOUTUBEAPIKEY>'
 `
+// configuration templates. do not edit between these lines!
+
+// run this to check if directory exists. if not, generate it.
+generateDirectory(settingsDir);
+// 
 prompt.get(schema, function (err, result) {
   if (err) return promptError(err);
   // load primary configuration first.
@@ -145,6 +165,4 @@ prompt.get(schema, function (err, result) {
     }
   })
   settingsWriter(mainCfgPath, mainCfgData);
-  //let authCfgData = prepareAuthConfig({token});
-  //let mainCfgData = prepareMainConfig({prefix});
 });
