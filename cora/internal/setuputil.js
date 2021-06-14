@@ -97,9 +97,9 @@ debug = false
 
 [runtime]
 # Bot runtime mode.
-# Disable to use local toml configuration files instead.
+# Set this to 'false' to use local toml configuration files instead.
 # ONLY CHANGE THIS IF YOU OWN THE HOST SYSTEM OR TRUST ITS SECURITY!
-useEnv = true
+useDotEnv = true
 
 [modules]
 # Enable modules here.
@@ -129,14 +129,6 @@ generateDirectory(settingsDir);
 // 
 prompt.get(schema, function (err, result) {
   if (err) return promptError(err);
-  // load primary configuration first.
-  // discord bot token and prefix.
-  token = result.botToken;
-  prefix = result.botPrefix;
-  // load extra credentials next.
-  cheweyApiKey = result.cheweyApiKey;
-  yiffyApiKey = result.yiffyApiKey;
-  youtubeApiKey = result.youtubeApiKey;
   // prepare configuration data.
   let authCfgData = cfgAuthTml, cfgMainData = cfgMainTml;
   let authCfgRegex = ["<DISCORDTOKEN>","<YIFFYAPIKEY>","<CHEWEYAPITOKEN>","<YOUTUBEAPIKEY>"];
@@ -145,7 +137,16 @@ prompt.get(schema, function (err, result) {
     var value;
     switch(regex) {
       case "<DISCORDTOKEN>":
-        value = token;
+        value = result.botToken;
+        break;
+      case "<CHEWEYAPITOKEN>":
+        value = result.cheweyApiKey;
+        break;
+      case "<YIFFYAPIKEY>":
+        value = result.yiffyApiKey;
+        break;
+      case "<YOUTUBEAPIKEY>":
+        value = result.youtubeApiKey;
         break;
       default:
         logger.warn('missing.item.error');
@@ -157,7 +158,7 @@ prompt.get(schema, function (err, result) {
     var value;
     switch(regex) {
       case "<PREFIX>":
-        value = prefix;
+        value = result.botPrefix;
         break;
       default:
         logger.warn('missing.item.error');
