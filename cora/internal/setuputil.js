@@ -7,6 +7,7 @@ console.log('Setup Utility');
 
 const schema = {
   properties: {
+    // Discord bot configuration.
     botToken: {
       description: "Please enter your bot's unique token.",
       message: "Discord bot token is required for code to function.",
@@ -19,8 +20,23 @@ const schema = {
       message: "No prefix  was provided. Falling back to default prefix 'c'.",
       default: 'c'
     },
+    // Additional credentials.
     cheweyApiKey : {
       description: "Please enter a valid cheweybot api token",
+      message: "No valid token provided! Some modules will not function correctly.",
+      type: 'string',
+      hidden: true,
+      default: ''
+    },
+    yiffyApiKey : {
+      description: "Please enter a valid yiffy api token",
+      message: "No valid token provided! Some modules will not function correctly.",
+      type: 'string',
+      hidden: true,
+      default: ''
+    },
+    youtubeApiKey : {
+      description: "Please enter a valid youtube api token",
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
       hidden: true,
@@ -98,26 +114,37 @@ prompt.get(schema, function (err, result) {
   token = result.botToken;
   prefix = result.botPrefix;
   // load extra credentials next.
-  /* Not yet setup!
   cheweyApiKey = result.cheweyApiKey;
   yiffyApiKey = result.yiffyApiKey;
   youtubeApiKey = result.youtubeApiKey;
-  */
+  // prepare configuration data.
   let authCfgData = cfgAuthTml, cfgMainData = cfgMainTml;
-  let authPlaceholders = ["<DISCORDTOKEN>","<YIFFYAPIKEY>","<CHEWEYAPITOKEN>","<YOUTUBEAPIKEY>"];
-  let mainRegexList = ["<PREFIX>"];
-  authPlaceholders.forEach(placeholder => {
+  let authCfgRegex = ["<DISCORDTOKEN>","<YIFFYAPIKEY>","<CHEWEYAPITOKEN>","<YOUTUBEAPIKEY>"];
+  let mainCfgRegex = ["<PREFIX>"];
+  authCfgRegex.forEach(regex => {
     var value;
-    switch(placeholder) {
+    switch(regex) {
       case "<DISCORDTOKEN>":
         value = token;
         break;
       default:
         logger.warn('missing.item.error');
     }
-    authCfgData = authCfgData.replace(placeholder, value)
+    authCfgData = authCfgData.replace(regex, value);
   });
   settingsWriter(authCfgPath, authCfgData);
+  mainCfgRegex.forEach(regex => {
+    var value;
+    switch(regex) {
+      case "<PREFIX>":
+        value = prefix;
+        break;
+      default:
+        logger.warn('missing.item.error');
+      mainCfgData = mainCfgData.replace(regex, value);
+    }
+  })
+  settingsWriter(mainCfgPath, mainCfgData);
   //let authCfgData = prepareAuthConfig({token});
   //let mainCfgData = prepareMainConfig({prefix});
 });
