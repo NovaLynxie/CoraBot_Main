@@ -23,7 +23,7 @@ const schema = {
       description: "Please enter a valid cheweybot api token",
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
-      hidden: true
+      hidden: true,
       default: ''
     }
   }
@@ -59,11 +59,23 @@ let cfgMainTml = `
 # Bot general settings.
 # Set the bot's global prefix for commands and other options here.
 prefix = "<PREFIX>"
+
 # Bot debug mode. [WARNING! This is a DEVELOPER only setting!]
 # Use this only for debugging the bot as this reveals sensitive data!
 debug = false
 
+[runtime]
+# Bot runtime mode.
+# Disable to use local toml configuration files instead.
+# ONLY CHANGE THIS IF YOU OWN THE HOST SYSTEM OR TRUST ITS SECURITY!
+useEnv = true
+
 [modules]
+# Enable modules here.
+enableAutoModerator = true
+enableBotLogger = true
+enableChatBot = true
+enableNotifiy = true
 `
 let cfgAuthTml = `
 # ALWAYS KEEP THESE SECURE! NEVER SHARE WITH ANYONE!
