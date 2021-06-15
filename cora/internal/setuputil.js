@@ -55,6 +55,7 @@ let authCfgPath = `${settingsDir}/auth.toml`, mainCfgPath = `${settingsDir}/main
 // setup utilities functions
 function generateDirectory(targetDir) {
   mkdir(targetDir, { recursive: true }, (err) => {
+    logger.warn('Settings directory does not exist! Generating now.')
     if (err) {
       logger.error('An error occured while creating directory paths!');
       logger.error(err);
@@ -63,9 +64,12 @@ function generateDirectory(targetDir) {
 };
 function settingsWriter(path, data) {
   writeFile(path, data, (err) => {
+    logger.info(`Writing config data to ${path}...`);
     if (err) {
-      logger.error(`Failed to write to file at ${path}!`)
+      logger.error(`Failed to write to file at ${path}!`);
       logger.error(err); logger.debug(err.stack);
+    } else {
+      logger.info(`Saved config to ${path}.`);
     }
   })
 };
