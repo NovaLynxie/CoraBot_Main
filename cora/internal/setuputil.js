@@ -82,13 +82,12 @@ function promptError(err) {
 // prepare configuration templates. (may move to external text files).
 
 // configuration templates. do not edit between these lines!
-let mainCfgTemplate = `
-# CoraBot Main Configuration
+let mainCfgTemplate = `# CoraBot Main Configuration
 
 [general]
 # Bot general settings.
 # Set the bot's global prefix for commands and other options here.
-prefix = "<PREFIX>"
+prefix = '<PREFIX>'
 
 # Bot debug mode. [WARNING! This is a DEVELOPER only setting!]
 # Use this only for debugging the bot as this reveals sensitive data!
@@ -107,8 +106,7 @@ enableBotLogger = true
 enableChatBot = true
 enableNotifiy = true
 `
-let authCfgTemplate = `
-# ALWAYS KEEP THESE SECURE! NEVER SHARE WITH ANYONE!
+let authCfgTemplate = `# ALWAYS KEEP THESE SECURE! NEVER SHARE WITH ANYONE!
 # If they are leaked, regenerate a new one as soon as possible.
 [credentials]
 # Discord API token. Required for bot to interact with Discord's API.
@@ -139,13 +137,13 @@ prompt.get(schema, function (err, result) {
         value = result.botToken;
         break;
       case "<CHEWEYAPITOKEN>":
-        value = result.cheweyApiKey;
+        value = (result.cheweyApiKey || result.cheweyApiKey==='') ? 'NOT_SET' : result.cheweyApiKey;
         break;
       case "<YIFFYAPIKEY>":
-        value = result.yiffyApiKey;
+        value = (result.yiffyApiKey || result.yiffyApiKey==='') ? 'NOT_SET' : result.yiffyApiKey;
         break;
       case "<YOUTUBEAPIKEY>":
-        value = result.youtubeApiKey;
+        value = (result.youtubeApiKey || result.youtubeApiKey==='') ? 'NOT_SET' : result.youtubeApiKey;
         break;
       default:
         logger.warn('missing.item.error');
@@ -157,7 +155,7 @@ prompt.get(schema, function (err, result) {
     var value;
     switch(regex) {
       case "<PREFIX>":
-        value = result.botPrefix;
+        value = (result.botPrefix || result.botPrefix==='') ? 'c' : result.botPrefix;
         break;
       default:
         logger.warn('missing.item.error');
