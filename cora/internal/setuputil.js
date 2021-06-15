@@ -2,7 +2,6 @@ const fs = require('fs');
 const {mkdir, writeFile} = fs;
 const prompt = require('prompt');
 const logger = require('../providers/WinstonPlugin');
-const {version} = require('../../package.json');
 
 console.log('Setup Utility');
 
@@ -83,7 +82,7 @@ function promptError(err) {
 // prepare configuration templates. (may move to external text files).
 
 // configuration templates. do not edit between these lines!
-let cfgMainTml = `
+let mainCfgTemplate = `
 # CoraBot Main Configuration
 
 [general]
@@ -108,7 +107,7 @@ enableBotLogger = true
 enableChatBot = true
 enableNotifiy = true
 `
-let cfgAuthTml = `
+let authCfgTemplate = `
 # ALWAYS KEEP THESE SECURE! NEVER SHARE WITH ANYONE!
 # If they are leaked, regenerate a new one as soon as possible.
 [credentials]
@@ -130,7 +129,7 @@ generateDirectory(settingsDir);
 prompt.get(schema, function (err, result) {
   if (err) return promptError(err);
   // prepare configuration data.
-  let authCfgData = cfgAuthTml, cfgMainData = cfgMainTml;
+  let authCfgData = authCfgTemplate, mainCfgData = mainCfgTemplate;
   let authCfgRegex = ["<DISCORDTOKEN>","<YIFFYAPIKEY>","<CHEWEYAPITOKEN>","<YOUTUBEAPIKEY>"];
   let mainCfgRegex = ["<PREFIX>"];
   authCfgRegex.forEach(regex => {
