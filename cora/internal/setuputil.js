@@ -55,16 +55,15 @@ let authCfgPath = `${settingsDir}/auth.toml`, mainCfgPath = `${settingsDir}/main
 // setup utilities functions
 function generateDirectory(targetDir) {
   mkdir(targetDir, { recursive: true }, (err) => {
-    logger.warn('Settings directory does not exist! Generating now.')
     if (err) {
-      logger.error('An error occured while creating directory paths!');
+      logger.error('\nAn error occured while creating directory paths!');
       logger.error(err);
     }
   });
 };
 function settingsWriter(path, data) {
   writeFile(path, data, (err) => {
-    logger.info(`Writing config data to ${path}...`);
+    logger.info(`\nWriting config data to ${path}...`);
     if (err) {
       logger.error(`Failed to write to file at ${path}!`);
       logger.error(err); logger.debug(err.stack);
@@ -75,7 +74,7 @@ function settingsWriter(path, data) {
 };
 function promptError(err) {
   if (err.message.indexOf('canceled') > -1) {
-    return logger.warn('Setup has been cancelled!');
+    return logger.warn('\nSetup has been cancelled!');
   } else {
     logger.error('Something went wrong during setup process!');
     logger.error(err); 
@@ -83,51 +82,16 @@ function promptError(err) {
   };
 }
 
-// prepare configuration templates. (may move to external text files).
-
-// configuration templates. do not edit between these lines!
-let mainCfgTemplate = `# CoraBot Main Configuration
-
-[general]
-# Bot general settings.
-# Set the bot's global prefix for commands and other options here.
-prefix = '<PREFIX>'
-
-# Bot debug mode. [WARNING! This is a DEVELOPER only setting!]
-# Use this only for debugging the bot as this reveals sensitive data!
-debug = false
-
-[runtime]
-# Bot runtime mode.
-# Set this to 'false' to use local toml configuration files instead.
-# ONLY CHANGE THIS IF YOU OWN THE HOST SYSTEM OR TRUST ITS SECURITY!
-useDotEnv = true
-
-[modules]
-# Enable modules here.
-enableAutoModerator = true
-enableBotLogger = true
-enableChatBot = true
-enableNotifiy = true
-`
-let authCfgTemplate = `# ALWAYS KEEP THESE SECURE! NEVER SHARE WITH ANYONE!
-# If they are leaked, regenerate a new one as soon as possible.
-[credentials]
-# Discord API token. Required for bot to interact with Discord's API.
-botToken='<DISCORDTOKEN>'
-# API Keys. Used to authenticate access to modules using these resources.
-# Yiffy API -> Obtain key here [to be confirmed]
-yiffyApiKey='<YIFFYAPIKEY>'
-# CheweyBot API -> Obtain key here [https://discord.gg/ubHYJ7w]
-cheweyApiToken='<CHEWEYAPITOKEN>'
-# Youtube Data API -> Setup your key at Google Cloud Dashboard.
-youtubeApiKey='<YOUTUBEAPIKEY>'
-`
-// configuration templates. do not edit between these lines!
-
 // run this to check if directory exists. if not, generate it.
 generateDirectory(settingsDir);
-// 
+
+// prepare the configuration templates from local files.
+// load the authentication configuration template.
+let authCfgTemplate = fs.readFileSync('./cora/assets/text/authConfigTemplate.txt', 'utf-8');
+// load the main bot configuration template.
+let mainCfgTemplate = fs.readFileSync('./cora/assets/text/mainConfigTemplate.txt', 'utf-8');
+
+// start fetching console inputs.
 prompt.get(schema, function (err, result) {
   if (err) return promptError(err);
   // prepare configuration data.
