@@ -1,7 +1,7 @@
 const fs = require('fs');
 const {mkdir, writeFile} = fs;
 const prompt = require('prompt');
-const logger = require('../providers/WinstonPlugin');
+//const logger = require('../providers/WinstonPlugin');
 
 console.log('Setup Utility');
 
@@ -56,29 +56,29 @@ let authCfgPath = `${settingsDir}/auth.toml`, mainCfgPath = `${settingsDir}/main
 function generateDirectory(targetDir) {
   mkdir(targetDir, { recursive: true }, (err) => {
     if (err) {
-      logger.error('\nAn error occured while creating directory paths!');
-      logger.error(err);
+      console.error('An error occured while creating directory paths!');
+      console.error(err);
     }
   });
 };
 function settingsWriter(path, data) {
   writeFile(path, data, (err) => {
-    logger.info(`\nWriting config data to ${path}...`);
+    console.info(`Writing config data to ${path}...`);
     if (err) {
-      logger.error(`Failed to write to file at ${path}!`);
-      logger.error(err); logger.debug(err.stack);
+      console.error(`Failed to write to file at ${path}!`);
+      console.error(err); console.debug(err.stack);
     } else {
-      logger.info(`Saved config to ${path}.`);
+      console.info(`Saved config to ${path}.`);
     }
   })
 };
 function promptError(err) {
   if (err.message.indexOf('canceled') > -1) {
-    return logger.warn('\nSetup has been cancelled!');
+    return console.warn('Setup has been cancelled!');
   } else {
-    logger.error('Something went wrong during setup process!');
-    logger.error(err); 
-    logger.debug(err.stack);
+    console.error('Something went wrong during setup process!');
+    console.error(err); 
+    console.debug(err.stack);
   };
 }
 
@@ -114,7 +114,7 @@ prompt.get(schema, function (err, result) {
         value = (result.youtubeApiKey || result.youtubeApiKey==='') ? 'NOT_SET' : result.youtubeApiKey;
         break;
       default:
-        logger.warn('missing.item.error');
+        console.warn('missing.item.error');
     }
     authCfgData = authCfgData.replace(regex, value);
   });
@@ -126,7 +126,7 @@ prompt.get(schema, function (err, result) {
         value = (result.botPrefix || result.botPrefix==='') ? 'c' : result.botPrefix;
         break;
       default:
-        logger.warn('missing.item.error');
+        console.warn('missing.item.error');
       mainCfgData = mainCfgData.replace(regex, value);
     }
   })
