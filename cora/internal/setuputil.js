@@ -22,21 +22,21 @@ const schema = {
     },
     // Additional credentials.
     cheweyApiKey : {
-      description: "Please enter a valid cheweybot api token",
+      description: "Please enter a valid cheweybot api token or press enter to skip this step",
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
       hidden: true,
       default: ''
     },
     yiffyApiKey : {
-      description: "Please enter a valid yiffy api token",
+      description: "Please enter a valid yiffy api token or press enter to skip this step",
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
       hidden: true,
       default: ''
     },
     youtubeApiKey : {
-      description: "Please enter a valid youtube api token",
+      description: "Please enter a valid youtube api token or press enter to skip this step",
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
       hidden: true,
