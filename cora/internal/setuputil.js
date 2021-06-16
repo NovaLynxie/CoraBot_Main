@@ -7,13 +7,14 @@ console.log('Setup Utility');
 
 const schema = {
   properties: {
+    // Setup credentials with env vars or toml config.
     useDotEnv: {
-      description: 'Use environment variables?'
+      description: 'Use environment variables?',
       message: 'are you sure?',
       validator: /y[es]*|n[o]?/,
       warning: 'Must respond yes or no',
       default: 'no'
-    }
+    },
     // Discord bot configuration.
     botToken: {
       description: "Discord Bot Token",
@@ -105,13 +106,20 @@ let mainCfgTemplate = fs.readFileSync('./cora/assets/text/mainConfigTemplate.txt
 // start fetching console inputs.
 prompt.get(schema, function (err, result) {
   if (err) return promptError(err);
-  // prepare configuration data.
+  // prepare configuration data from templates.
   let authCfgData = authCfgTemplate, mainCfgData = mainCfgTemplate;
   console.log('Generating auth config from template...');
   console.log('Generating main config from template...');
-  //
+  // prepare configuration regex to replace.
   let authCfgRegex = ["<DISCORDTOKEN>","<YIFFYAPIKEY>","<CHEWEYAPITOKEN>","<YOUTUBEAPIKEY>"];
-  let mainCfgRegex = ["<PREFIX>"];
+  let mainCfgRegex = ["<PREFIX>", "<DOTENV>"];
+  // check if useDotEnv is yes or no.
+  if (result.useDotEnv === 'yes') {
+    // not implemented
+  } else {
+    // not implemented
+  }
+  // start running regex.  
   authCfgRegex.forEach(regex => {
     var value;
     switch(regex) {
@@ -138,6 +146,8 @@ prompt.get(schema, function (err, result) {
       case "<PREFIX>":
         value = (result.botPrefix || result.botPrefix==='') ? 'c' : result.botPrefix;
         break;
+      case "<DOTENV>":
+        value = (result.useDotEnv === 'yes') ? true : false;
       default:
         console.warn('missing.item.error');
     };

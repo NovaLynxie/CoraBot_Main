@@ -13,4 +13,4 @@ debug = false
 # Bot runtime mode.
 # Set this to 'false' to use local toml configuration files instead.
 # ONLY CHANGE THIS IF YOU OWN THE HOST SYSTEM OR TRUST ITS SECURITY!
-useDotEnv = true
+useDotEnv = <DOTENV>
