@@ -1,6 +1,6 @@
 // Main init handler for CoraBot.
 // This is used to handle loading necessary configs before bot initialises.
-// DEPRECIATED! Replaced by a new boot up script.
+// DEPRECIATED! Will be replaced by a new bootloader script.
 // DO NOT MODIFY OR REMOVE THIS FILE OTHERWISE THE BOT WILL NOT START!!!
 require('dotenv').config() // load .env as early as possible
 const logger = require('../providers/WinstonPlugin');
