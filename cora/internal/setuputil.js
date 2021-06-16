@@ -100,14 +100,9 @@ prompt.get(schema, function (err, result) {
   if (err) return promptError(err);
   // prepare configuration data.
   let authCfgData = authCfgTemplate, mainCfgData = mainCfgTemplate;
-  console.log('generate auth config...');
-  console.log('----------------------------------------------');
-  console.log(authCfgData);
-  console.log('----------------------------------------------');
-  console.log('generate main config...');
-  console.log('----------------------------------------------');
-  console.log(mainCfgData);
-  console.log('----------------------------------------------');
+  console.log('Generating auth config from template...');
+  console.log('Generating main config from template...');
+  //
   let authCfgRegex = ["<DISCORDTOKEN>","<YIFFYAPIKEY>","<CHEWEYAPITOKEN>","<YOUTUBEAPIKEY>"];
   let mainCfgRegex = ["<PREFIX>"];
   authCfgRegex.forEach(regex => {
@@ -141,17 +136,10 @@ prompt.get(schema, function (err, result) {
     };
     mainCfgData = mainCfgData.replace(regex, value);
   });
-  console.log('----------------------------------------------');
-  console.log(authCfgData);
-  console.log('----------------------------------------------');
-  console.log(mainCfgData);
-  console.log('----------------------------------------------');
   setTimeout(function(){
     settingsWriter(authCfgPath, authCfgData)
   }, 500);
   setTimeout(function(){
     settingsWriter(mainCfgPath, mainCfgData)
   }, 1000);
-  //settingsWriter(authCfgPath, authCfgData);
-  //settingsWriter(mainCfgPath, mainCfgData);
 });
