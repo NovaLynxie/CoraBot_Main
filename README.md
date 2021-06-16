@@ -18,13 +18,16 @@ Don't worry, I also come with a help command so you can find out what commands I
 FFmpeg is required for all voice interactions to work correctly.
 
 To setup a local host instance, clone this repository, navigate to the bot's directory root and open a command line. Run the command 'npm install' to begin installing dependencies.
-This will install all modules for the bot to run correctly.
-You will also need to provide a bot token to interface the bot with my code and set the bots prefix. Open the example.env file and edit the line botToken=BOT_TOKEN_HERE, replace BOT_TOKEN_HERE with your token.  
-*Installation and setup scripts are planned for v2.0 for easier setup.*
+This will install all required modules for the bot to run correctly.
+Once installation is completed, run 'npm run setup'. This will start the setup utility, follow the prompts to complete the bot setup process.
+*Installation scripts are planned for v3.0 for easier setup.*
 
 ## My bot doesn't work or music will not play back... help?
-Should a module dependency fail to install correctly or a bot function not work properly, reinstall the required dependency by running the following commands:
-`npm uninstall <module_name>` followed by `npm install --s <module_name>`
-If the music play command not work or cause an error, it means the module 'node-opus' may have failed to install or build correctly on setup.
-Open a command prompt and navigate to your bot's root directory, make sure its the root of the bot's directory and not node_modules.
-Run `npm uninstall node-opus` followed by `npm install --s node-opus` to reinstall the module.
+The bot may be missing permissions to speak or connect to the connected voice channel in your server. Please check any roles it has and that the correct permissions are granted.
+It is also possible there may have been an error installing the `opus`,`ytdl-core` or `ffmpeg-static` modules during `npm install`. These are responsible for handling music play back and audio streaming functions.
+You might also be missing FFmpeg on your system, this is mentioned in the requirements.
+Try reinstalling the aformentioned modules by running these commands in this order:  
+1. `npm uninstall <module_name>`  
+2. `npm install --s <module_name>`  
+Should this still fail, try running `npm clean-install`.  
+Please note running a clean install will take a while as this uninstalls all bot dependencies and downloads a fresh install, so only use this as a last resort.
