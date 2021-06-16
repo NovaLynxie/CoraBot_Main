@@ -1,16 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const logger = require('../providers/WinstonPlugin');
 const { stripIndents } = require('common-tags');
-// These variables may be overidden by client settings.
-const { autoLog } = require('../handlers/bootLoader_legacy');
-const {
-  enableLogger,
-  logChannels,
-  ignoredChannels,
-  messageUpdates,
-  userJoinLeaves,
-  roleUpdates
-} = autoLog;
 
 module.exports = async function botLogger(event, data, client) {
   // Fetch settings from client settings provider.

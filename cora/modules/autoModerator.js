@@ -1,28 +1,5 @@
 const logger = require('../providers/WinstonPlugin');
-const { autoMod } = require('../handlers/bootLoader_legacy');
-const { enableAutoMod, chListMode, channelsList, urlBlacklist, urlWhitelist, mediaOptions } = autoMod;
-const { removeGifs, removeImgs, removeVids, removeURLs } = mediaOptions;
-/* // may remove in a future update since settings moved to db file.
-if (enableAutoMod === "yes") {
-  logger.debug('============================================')
-  logger.debug('Auto Moderator [ENABLED]')
-  logger.debug('--------------------------------------------')
-  logger.debug('WARNING! This is an experimental feature!')
-  logger.debug('It may have weird effects on text channels.')
-  logger.debug('--------------------------------------------')
-  if (removeGifs === "yes") logger.debug('removeGifs [ENABLED]')
-  else logger.debug('removeGifs [DISABLED]')
-  if (removeImgs === "yes") logger.debug('removeImgs [ENABLED] (EXPERIMENTAL)')
-  else logger.debug('removeImgs [DISABLED] (EXPERIMENTAL)')
-  if (removeVids === "yes") logger.debug('removeVids [ENABLED] (EXPERIMENTAL)')
-  else logger.debug('removeVids [DISABLED] (EXPERIMENTAL)')
-  if (removeURLs === "yes") logger.debug('removeURLs [ENABLED]')
-  else logger.debug('removeURLs [DISABLED]')
-  logger.debug('--------------------------------------------')
-  logger.debug('Options marked (EXPERIMENTAL) are very WIP.')
-  logger.debug('============================================')
-}
-*/
+
 let autoModSettings = { enableAutoMod: false }; 
 let autoModStatus = 0;
 // global override unless actually enabled, settings overrides this fallback setting.

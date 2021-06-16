@@ -15,13 +15,9 @@ logger.init('Initialising bot systems...')
 // Start websrv.js to handle heartbeat ping requests. (eg. UptimeRobot)
 require('./cora/internal/websrv.js');
 // Boot.js used to handle bot startup and config loader.
-const {config} = require('./cora/handlers/bootLoader_legacy.js');
-const {prefix, debug, botToken, ownerID} = config;
-/*
 const {config, tokens} = require('./cora/handlers/bootLoader.js');
 const {prefix, owners, debug} = config;
 const {botToken} = tokens;
-*/
 // Load bot handlers here before bot starts.
 const crashReporter = require('./cora/handlers/crashReporter.js');
 logger.debug('Loaded crashReporter functions from crashReporter.js');
@@ -51,8 +47,7 @@ Structures.extend('Guild', Guild => {
 
 const client = new CommandoClient({
   commandPrefix: prefix,
-  owner: ownerID,
-  // owner: owners
+  owner: owners,
   invite: '',
 });
 const eventFiles = fs.readdirSync('./cora/events').filter(file => file.endsWith('.js'));

@@ -1,16 +1,11 @@
 const { MessageEmbed } = require('discord.js');
 const logger = require('../providers/WinstonPlugin');
 const { stripIndents } = require('common-tags');
-const { autoLog } = require('../handlers/bootLoader_legacy'); 
-const { 
-  enableLogger, 
-  logChannels, 
-} = autoLog;
 
 module.exports = function modLogger(action, message, user, reason, client) {
   // Fetch settings from client settings provider.
   let modLoggerSettings = client.settings.get('modlogger');
-  let { enableLogger, logChannels } = autoLog;
+  let { enableLogger, logChannels } = modLoggerSettings;
 
   function generateModLog(title, mod, user, action, reason) {
     logger.debug('Preparing moderation log embed.')
