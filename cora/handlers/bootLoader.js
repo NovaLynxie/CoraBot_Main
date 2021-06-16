@@ -23,6 +23,14 @@ const authConfig = configLoader("./settings/auth.toml");
 const mainConfig = configLoader("./settings/main.toml");
 
 const {credentials} = authConfig;
+const {botToken, yiffyApiKey, cheweyApiToken, youtubeApiKey};
+
+// check if defined, otherwise fallback to process.env.<var>
+if (!botToken) botToken = process.env.botToken;
+if (!yiffyApiKey) yiffyApiKey = process.env.yiffyApiKey;
+if (!cheweyApiToken) cheweyApiToken = process.env.cheweyApiToken;
+if (!youtubeApiKey) = youtubeApiKey = process.env.youtubeApiKey;
+
 const {general, runtime} = mainConfig;
 
 
@@ -34,4 +42,5 @@ const { responses } = require('../assets/json/responses.json');
 logger.debug('Loaded responses from responses.json');
 
 module.exports.assets = { activities, responses };
-module.exports.config = {credentials, general, runtime};
+module.exports.config = { general, runtime};
+module.exports.tokens = { botToken, yiffyApiKey, cheweyApiToken, youtubeApiKey }
