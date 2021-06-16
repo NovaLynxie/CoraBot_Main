@@ -14,10 +14,3 @@ debug = false
 # Set this to 'false' to use local toml configuration files instead.
 # ONLY CHANGE THIS IF YOU OWN THE HOST SYSTEM OR TRUST ITS SECURITY!
 useDotEnv = true
-
-[modules]
-# Enable modules here.
-enableAutoModerator = true
-enableBotLogger = true
-enableChatBot = true
-enableNotifiy = true
