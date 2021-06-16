@@ -7,9 +7,16 @@ console.log('Setup Utility');
 
 const schema = {
   properties: {
+    useDotEnv: {
+      description: 'Use environment variables?'
+      message: 'are you sure?',
+      validator: /y[es]*|n[o]?/,
+      warning: 'Must respond yes or no',
+      default: 'no'
+    }
     // Discord bot configuration.
     botToken: {
-      description: "Please enter your bot's unique token.",
+      description: "Discord Bot Token",
       message: "Discord bot token is required for code to function.",
       type: 'string',
       hidden: true,
@@ -17,13 +24,13 @@ const schema = {
       required: true
     },
     botPrefix: {
-      description: "Enter a unique command prefix, or press enter to use default.",
+      description: "Set bot's unique prefix (optional)",
       message: "No prefix  was provided. Falling back to default prefix 'c'.",
       default: 'c'
     },
     // Additional credentials.
     cheweyApiKey : {
-      description: "Please enter a valid cheweybot api token or press enter to skip this step",
+      description: "Enter valid cheweybot api token (press enter to skip)",
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
       hidden: true,
@@ -31,7 +38,7 @@ const schema = {
       default: ''
     },
     yiffyApiKey : {
-      description: "Please enter a valid yiffy api token or press enter to skip this step",
+      description: "Enter valid yiffy api token (press enter to skip)",
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
       hidden: true,
@@ -39,7 +46,7 @@ const schema = {
       default: ''
     },
     youtubeApiKey : {
-      description: "Please enter a valid youtube api token or press enter to skip this step",
+      description: "Enter valid youtube api token (press enter to skip)",
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
       hidden: true,
