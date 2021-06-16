@@ -3,22 +3,24 @@ const {mkdir, writeFile} = fs;
 const prompt = require('prompt');
 //const logger = require('../providers/WinstonPlugin');
 
-console.log('Setup Utility');
-
+console.log('Welcome to the CoraBot Setup Utility!');
+console.log('This setup utility will help you configure your bot credentials and basic setup.')
+console.log('Please follow the prompts to set up your bot.')
+console.log('---------------------------------------------')
 const schema = {
   properties: {
     // Setup credentials with env vars or toml config.
     useDotEnv: {
-      description: 'Use environment variables?',
-      message: 'are you sure?',
-      validator: /y[es]*|n[o]?/,
-      warning: 'Must respond yes or no',
-      default: 'no'
+      description: 'Credential Storage',
+      message: 'Store credentials in DotEnv or TOML?',
+      validator: /e[nv]*|t[oml]?/,
+      warning: "Please choose env or toml to store credentials.",
+      default: 'toml'
     },
     // Discord bot configuration.
     botToken: {
       description: "Discord Bot Token",
-      message: "Discord bot token is required for code to function.",
+      warning: "Discord bot token is required for code to function.",
       type: 'string',
       hidden: true,
       replace: '*',
@@ -86,7 +88,7 @@ function settingsWriter(path, data) {
 };
 function promptError(err) {
   if (err.message.indexOf('canceled') > -1) {
-    return console.warn('Setup has been cancelled!');
+    return console.warn('\nSetup has been cancelled!');
   } else {
     console.error('Something went wrong during setup process!');
     console.error(err); 
@@ -105,6 +107,7 @@ let mainCfgTemplate = fs.readFileSync('./cora/assets/text/mainConfigTemplate.txt
 
 // start fetching console inputs.
 prompt.get(schema, function (err, result) {
+  console.log('\n---------------------------------------------')
   if (err) return promptError(err);
   // prepare configuration data from templates.
   let authCfgData = authCfgTemplate, mainCfgData = mainCfgTemplate;
@@ -120,6 +123,7 @@ prompt.get(schema, function (err, result) {
     // not implemented
   }
   // start running regex.  
+  console.log('Preparing auth configuration.');
   authCfgRegex.forEach(regex => {
     var value;
     switch(regex) {
@@ -140,6 +144,8 @@ prompt.get(schema, function (err, result) {
     };
     authCfgData = authCfgData.replace(regex, value);
   });
+  console.log('Auth configuration ready!');
+  console.log('Preparing main configuration.');
   mainCfgRegex.forEach(regex => {
     var value;
     switch(regex) {
@@ -148,15 +154,13 @@ prompt.get(schema, function (err, result) {
         break;
       case "<DOTENV>":
         value = (result.useDotEnv === 'yes') ? true : false;
+        break;
       default:
         console.warn('missing.item.error');
     };
     mainCfgData = mainCfgData.replace(regex, value);
   });
-  setTimeout(function(){
-    settingsWriter(authCfgPath, authCfgData)
-  }, 500);
-  setTimeout(function(){
-    settingsWriter(mainCfgPath, mainCfgData)
-  }, 1000);
+  console.log('Main configuration ready!');
+  settingsWriter(authCfgPath, authCfgData);
+  settingsWriter(mainCfgPath, mainCfgData);
 });
