@@ -18,13 +18,16 @@ function configLoader(configPath) {
   );
   return configData;
 };
-
+logger.init('Loading bot settings...')
 const authConfig = configLoader("./settings/auth.toml");
+logger.debug('Loaded credentials from auth.toml');
 const mainConfig = configLoader("./settings/main.toml");
+logger.debug('Loaded main config from main.toml');
 
 const {credentials} = authConfig;
 const {botToken, yiffyApiKey, cheweyApiToken, youtubeApiKey} = credentials;
 
+logger.debug('Checking credentials...');
 // check if defined, otherwise fallback to process.env.<var>
 if (!botToken) botToken = process.env.botToken;
 if (!yiffyApiKey) yiffyApiKey = process.env.yiffyApiKey;
@@ -32,15 +35,15 @@ if (!cheweyApiToken) cheweyApiToken = process.env.cheweyApiToken;
 if (!youtubeApiKey) youtubeApiKey = process.env.youtubeApiKey;
 
 const {general, runtime} = mainConfig; // runtime is currently unused.
-const {prefix, debug} = general;
+const {prefix, owners, debug} = general;
 
 // Load bot assets from folders as necessary.
-logger.init('Loading bot assets...')
+logger.init('Loading bot assets...');
 const { activities } = require('../assets/json/activities.json');
 logger.debug('Loaded activities from activities.json');
 const { responses } = require('../assets/json/responses.json');
 logger.debug('Loaded responses from responses.json');
 
 module.exports.assets = { activities, responses };
-module.exports.config = { prefix, debug};
-module.exports.tokens = { botToken, yiffyApiKey, cheweyApiToken, youtubeApiKey }
+module.exports.config = { prefix, owners, debug };
+module.exports.tokens = { botToken, yiffyApiKey, cheweyApiToken, youtubeApiKey };
