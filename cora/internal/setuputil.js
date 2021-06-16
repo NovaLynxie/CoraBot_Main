@@ -13,10 +13,11 @@ const schema = {
       message: "Discord bot token is required for code to function.",
       type: 'string',
       hidden: true,
+      replace: '*',
       required: true
     },
     botPrefix: {
-      description: "Enter your bot's default prefix, or press enter to use default.",
+      description: "Enter a unique command prefix, or press enter to use default.",
       message: "No prefix  was provided. Falling back to default prefix 'c'.",
       default: 'c'
     },
@@ -26,6 +27,7 @@ const schema = {
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
       hidden: true,
+      replace: '*',
       default: ''
     },
     yiffyApiKey : {
@@ -33,6 +35,7 @@ const schema = {
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
       hidden: true,
+      replace: '*',
       default: ''
     },
     youtubeApiKey : {
@@ -40,6 +43,7 @@ const schema = {
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
       hidden: true,
+      replace: '*',
       default: ''
     }
   }
@@ -96,6 +100,14 @@ prompt.get(schema, function (err, result) {
   if (err) return promptError(err);
   // prepare configuration data.
   let authCfgData = authCfgTemplate, mainCfgData = mainCfgTemplate;
+  console.log('generate auth config...');
+  console.log('----------------------------------------------');
+  console.log(authCfgData);
+  console.log('----------------------------------------------');
+  console.log('generate main config...');
+  console.log('----------------------------------------------');
+  console.log(mainCfgData);
+  console.log('----------------------------------------------');
   let authCfgRegex = ["<DISCORDTOKEN>","<YIFFYAPIKEY>","<CHEWEYAPITOKEN>","<YOUTUBEAPIKEY>"];
   let mainCfgRegex = ["<PREFIX>"];
   authCfgRegex.forEach(regex => {
@@ -115,10 +127,9 @@ prompt.get(schema, function (err, result) {
         break;
       default:
         console.warn('missing.item.error');
-    }
+    };
     authCfgData = authCfgData.replace(regex, value);
   });
-  settingsWriter(authCfgPath, authCfgData);
   mainCfgRegex.forEach(regex => {
     var value;
     switch(regex) {
@@ -127,8 +138,20 @@ prompt.get(schema, function (err, result) {
         break;
       default:
         console.warn('missing.item.error');
-      mainCfgData = mainCfgData.replace(regex, value);
-    }
-  })
-  settingsWriter(mainCfgPath, mainCfgData);
+    };
+    mainCfgData = mainCfgData.replace(regex, value);
+  });
+  console.log('----------------------------------------------');
+  console.log(authCfgData);
+  console.log('----------------------------------------------');
+  console.log(mainCfgData);
+  console.log('----------------------------------------------');
+  setTimeout(function(){
+    settingsWriter(authCfgPath, authCfgData)
+  }, 500);
+  setTimeout(function(){
+    settingsWriter(mainCfgPath, mainCfgData)
+  }, 1000);
+  //settingsWriter(authCfgPath, authCfgData);
+  //settingsWriter(mainCfgPath, mainCfgData);
 });

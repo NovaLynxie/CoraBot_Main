@@ -3,7 +3,7 @@
 [general]
 # Bot general settings.
 # Set the bot's global prefix for commands and other options here.
-prefix = "<PREFIX>"
+prefix = '<PREFIX>'
 
 # Bot debug mode. [WARNING! This is a DEVELOPER only setting!]
 # Use this only for debugging the bot as this reveals sensitive data!
