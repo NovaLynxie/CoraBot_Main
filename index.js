@@ -15,7 +15,7 @@ logger.init('Initialising bot systems...')
 // Start websrv.js to handle heartbeat ping requests. (eg. UptimeRobot)
 require('./cora/internal/websrv.js');
 // Boot.js used to handle bot startup and config loader.
-const {config} = require('./cora/handlers/bootLoader.js');
+const {config} = require('./cora/handlers/bootLoader_legacy.js');
 const {prefix, debug, botToken, ownerID} = config;
 // Load bot handlers here before bot starts.
 const crashReporter = require('./cora/handlers/crashReporter.js');
