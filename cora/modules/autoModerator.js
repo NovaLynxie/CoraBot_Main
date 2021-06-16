@@ -1,5 +1,5 @@
 const logger = require('../providers/WinstonPlugin');
-const { autoMod } = require('../handlers/bootLoader');
+const { autoMod } = require('../handlers/bootLoader_legacy');
 const { enableAutoMod, chListMode, channelsList, urlBlacklist, urlWhitelist, mediaOptions } = autoMod;
 const { removeGifs, removeImgs, removeVids, removeURLs } = mediaOptions;
 

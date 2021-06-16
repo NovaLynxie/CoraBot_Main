@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const logger = require('../providers/WinstonPlugin');
 const { stripIndents } = require('common-tags');
-const { autoLog } = require('../handlers/bootLoader'); 
+const { autoLog } = require('../handlers/bootLoader_legacy'); 
 const { 
   enableLogger, 
   logChannels, 
