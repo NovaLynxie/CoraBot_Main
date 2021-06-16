@@ -1,5 +1,6 @@
 # Edit values and save as config.toml before starting or bot will crash!
 # Delete this and lines above once done.
+# DEPRECIATED! PLEASE USE 'npm run setup' INSTEAD!
 
 [general]
 # Bot general settings.

@@ -25,7 +25,7 @@ const mainConfig = configLoader("./settings/main.toml");
 logger.debug('Loaded main config from main.toml');
 
 const {credentials} = authConfig;
-const {botToken, yiffyApiKey, cheweyApiToken, youtubeApiKey} = credentials;
+var {botToken, yiffyApiKey, cheweyApiToken, youtubeApiKey} = credentials;
 
 logger.debug('Checking credentials...');
 // check if defined, otherwise fallback to process.env.<var>
@@ -36,6 +36,13 @@ if (!youtubeApiKey) youtubeApiKey = process.env.youtubeApiKey;
 
 const {general, runtime} = mainConfig; // runtime is currently unused.
 const {prefix, owners, debug} = general;
+const {useDotEnv} = runtime;
+// If useDotEnv is enabled, attempt to get credentials from process.env instead.
+if (useDotEnv) {
+  ({botToken, yiffyApiKey, cheweyApiToken, youtubeApiKey} = process.env)
+};
+
+if (debug) logger.warn('Debug mode enabled! Sensitive data included in debug logs.');
 
 // Load bot assets from folders as necessary.
 logger.init('Loading bot assets...');
