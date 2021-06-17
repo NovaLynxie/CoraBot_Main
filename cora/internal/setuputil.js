@@ -122,16 +122,16 @@ prompt.get(schema, function (err, result) {
     var value;
     switch(regex) {
       case "<DISCORDTOKEN>":
-        value = result.botToken;
+        value = (!result.botToken || !result.cheweyApiKey==='') ? 'NOT_SET' : result.botToken;
         break;
       case "<CHEWEYAPITOKEN>":
-        value = (result.cheweyApiKey || result.cheweyApiKey==='') ? 'NOT_SET' : result.cheweyApiKey;
+        value = (!result.cheweyApiKey || !result.cheweyApiKey==='') ? 'NOT_SET' : result.cheweyApiKey;
         break;
       case "<YIFFYAPIKEY>":
-        value = (result.yiffyApiKey || result.yiffyApiKey==='') ? 'NOT_SET' : result.yiffyApiKey;
+        value = (!result.yiffyApiKey || !result.yiffyApiKey==='') ? 'NOT_SET' : result.yiffyApiKey;
         break;
       case "<YOUTUBEAPIKEY>":
-        value = (result.youtubeApiKey || result.youtubeApiKey==='') ? 'NOT_SET' : result.youtubeApiKey;
+        value = (!result.youtubeApiKey || !result.youtubeApiKey==='') ? 'NOT_SET' : result.youtubeApiKey;
         break;
       default:
         console.warn('missing.item.error');
@@ -157,7 +157,7 @@ prompt.get(schema, function (err, result) {
   console.log('Main configuration ready!');
   let credStoreMethod = (result.credStore === 'e') ? 'env' : 'toml'
   // check if credStore is env or toml.
-  if (credStoreMethod === 'env') {
+  if (result.credStore.match(/e[nv]/gi)) {
     // generate env data file then write to file.
     let botEnvData = `# corabot process environment variables
     discordToken=${result.botToken}
@@ -166,10 +166,9 @@ prompt.get(schema, function (err, result) {
     youtubeApiKey=${result.youtubeApiKey}`
     settingsWriter(dirEnvPath, botEnvData);
   } else 
-  if (credStoreMethod === 'toml') {
+  if (result.credStore.match(/t[oml]/gi)) {
     // use settings writer to parse to file.
     settingsWriter(authCfgPath, authCfgData);
   }
-  
   settingsWriter(mainCfgPath, mainCfgData);
 });
