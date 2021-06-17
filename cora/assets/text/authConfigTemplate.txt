@@ -4,7 +4,7 @@
 # If they are leaked, regenerate a new one as soon as possible.
 [credentials]
 # Discord API token. Required for bot to interact with Discord's API.
-botToken='<DISCORDTOKEN>'
+discordToken='<DISCORDTOKEN>'
 # API Keys. Used to authenticate access to modules using these resources.
 # Yiffy API -> Obtain key here [to be confirmed]
 yiffyApiKey='<YIFFYAPIKEY>'

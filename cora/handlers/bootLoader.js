@@ -25,11 +25,11 @@ const mainConfig = configLoader("./settings/main.toml");
 logger.debug('Loaded main config from main.toml');
 
 const {credentials} = authConfig;
-var {botToken, yiffyApiKey, cheweyApiToken, youtubeApiKey} = credentials;
+var {discordToken, yiffyApiKey, cheweyApiToken, youtubeApiKey} = credentials;
 
 logger.debug('Checking credentials...');
 // check if defined, otherwise fallback to process.env.<var>
-if (!botToken) botToken = process.env.botToken;
+if (!discordToken) discordToken = process.env.discordToken;
 if (!yiffyApiKey) yiffyApiKey = process.env.yiffyApiKey;
 if (!cheweyApiToken) cheweyApiToken = process.env.cheweyApiToken;
 if (!youtubeApiKey) youtubeApiKey = process.env.youtubeApiKey;
@@ -39,7 +39,7 @@ const {prefix, owners, debug} = general;
 const {useDotEnv} = runtime;
 // If useDotEnv is enabled, attempt to get credentials from process.env instead.
 if (useDotEnv) {
-  ({botToken, yiffyApiKey, cheweyApiToken, youtubeApiKey} = process.env)
+  ({discordToken, yiffyApiKey, cheweyApiToken, youtubeApiKey} = process.env)
 };
 
 if (debug) logger.warn('Debug mode enabled! Sensitive data included in debug logs.');
@@ -53,4 +53,4 @@ logger.debug('Loaded responses from responses.json');
 
 module.exports.assets = { activities, responses };
 module.exports.config = { prefix, owners, debug };
-module.exports.tokens = { botToken, yiffyApiKey, cheweyApiToken, youtubeApiKey };
+module.exports.tokens = { discordToken, yiffyApiKey, cheweyApiToken, youtubeApiKey };

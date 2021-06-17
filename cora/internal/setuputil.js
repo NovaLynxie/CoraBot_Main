@@ -64,7 +64,7 @@ prompt.start();
 
 // define paths here.
 let settingsDir = './settings';
-let authCfgPath = `${settingsDir}/auth.toml`, mainCfgPath = `${settingsDir}/main.toml`;
+let authCfgPath = `${settingsDir}/auth.toml`, dirEnvPath = './.env', mainCfgPath = `${settingsDir}/main.toml`;
 
 // setup utilities functions
 function generateDirectory(targetDir) {
@@ -116,12 +116,6 @@ prompt.get(schema, function (err, result) {
   // prepare configuration regex to replace.
   let authCfgRegex = ["<DISCORDTOKEN>","<YIFFYAPIKEY>","<CHEWEYAPITOKEN>","<YOUTUBEAPIKEY>"];
   let mainCfgRegex = ["<PREFIX>", "<DOTENV>"];
-  // check if useDotEnv is yes or no.
-  if (result.useDotEnv === 'yes') {
-    // not implemented
-  } else {
-    // not implemented
-  }
   // start running regex.  
   console.log('Preparing auth configuration.');
   authCfgRegex.forEach(regex => {
@@ -161,6 +155,19 @@ prompt.get(schema, function (err, result) {
     mainCfgData = mainCfgData.replace(regex, value);
   });
   console.log('Main configuration ready!');
-  settingsWriter(authCfgPath, authCfgData);
+  // check if useDotEnv is yes or no.
+  if (result.useDotEnv === 'yes') {
+    // generate env data file then write to file.
+    let botEnvData = `# corabot process environment variables
+    discordToken=${result.botToken}
+    cheweyApiToken=${result.cheweyApiToken}
+    yiffyApiKey=${result.yiffyApiKey}
+    youtubeApiKey=${result.youtubeApiKey}`
+    settingsWriter(dirEnvPath, botEnvData);
+  } else {
+    // use settings writer to parse to file.
+    settingsWriter(authCfgPath, authCfgData);
+  }
+  
   settingsWriter(mainCfgPath, mainCfgData);
 });
