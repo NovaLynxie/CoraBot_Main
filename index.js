@@ -104,7 +104,6 @@ process.on('uncaughtException', error => {
     logger.error(`Bot crashed! Check the logs directory for crash report!`); // Error thrown and logged to console window.
 });
 
-
 logger.init(`Connecting to Discord...`);
 //logger.verbose(`discordToken -> ${discordToken}`);
 client.login(discordToken).then(
