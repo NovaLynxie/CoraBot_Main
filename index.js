@@ -45,13 +45,15 @@ Structures.extend('Guild', Guild => {
   return MusicGuild;
 });
 
+// Initialise CommandoClient here.
 const client = new CommandoClient({
   commandPrefix: prefix,
   owner: owners,
   invite: '',
 });
+// Load in events from event files.
 const eventFiles = fs.readdirSync('./cora/events').filter(file => file.endsWith('.js'));
-
+// Prepare settings database provider here.
 client.setProvider(
   // Set providers to store guild settings like prefix across restarts.
   sqlite.open({ filename: 'data/storage/corabot.db', driver: sqlite3.Database }).then(db => new SQLiteProvider(db)).catch((err) => {  
@@ -60,7 +62,7 @@ client.setProvider(
     logger.warn(`Please ensure './data' directory exists in bot's root directory and has read/write permissions enabled!`);
   })
 )
-
+// Registering and configuring the commands.
 client.registry
   .registerDefaultTypes()
   .registerGroups([
@@ -82,7 +84,7 @@ client.registry
   .registerCommandsIn(
       path.join(__dirname, './cora/commands')
   );
-
+// Event handler to process discord event triggers.
 for (const file of eventFiles) {
 	const event = require(`./cora/events/${file}`);
 	if (event.once) {
@@ -91,7 +93,7 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args, client));
 	}
 }
-
+// Catch unhandled exceptions and rejections not caught by my code to avoid crashes.
 process.on('unhandledRejection', error => {
     logger.warn(`Uncaught Promise Rejection Exception thrown!`)
     logger.error(`Caused by: ${error.message}`)
@@ -101,9 +103,10 @@ process.on('unhandledRejection', error => {
 });
 process.on('uncaughtException', error => {
     crashReporter(error);
-    logger.error(`Bot crashed! Check the logs directory for crash report!`); // Error thrown and logged to console window.
+    logger.error(`Bot crashed! Check the logs directory for crash report!`); 
+    // Error thrown and logged to console window.
 });
-
+// Begin logging into the bot using the provided discord token.
 logger.init(`Connecting to Discord...`);
 //logger.verbose(`discordToken -> ${discordToken}`);
 client.login(discordToken).then(
