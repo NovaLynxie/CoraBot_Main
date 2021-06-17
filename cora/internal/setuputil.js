@@ -10,7 +10,7 @@ console.log('---------------------------------------------')
 const schema = {
   properties: {
     // Setup credentials with env vars or toml config.
-    useDotEnv: {
+    credStore: {
       description: 'Credential Storage',
       message: 'Store credentials in DotEnv or TOML?',
       validator: /e[nv]*|t[oml]?/,
@@ -155,8 +155,9 @@ prompt.get(schema, function (err, result) {
     mainCfgData = mainCfgData.replace(regex, value);
   });
   console.log('Main configuration ready!');
-  // check if useDotEnv is yes or no.
-  if (result.useDotEnv === 'yes') {
+  let credStoreMethod = (result.credStore === 'e') ? 'env' : 'toml'
+  // check if credStore is env or toml.
+  if (credStoreMethod === 'env') {
     // generate env data file then write to file.
     let botEnvData = `# corabot process environment variables
     discordToken=${result.botToken}
@@ -164,7 +165,8 @@ prompt.get(schema, function (err, result) {
     yiffyApiKey=${result.yiffyApiKey}
     youtubeApiKey=${result.youtubeApiKey}`
     settingsWriter(dirEnvPath, botEnvData);
-  } else {
+  } else 
+  if (credStoreMethod === 'toml') {
     // use settings writer to parse to file.
     settingsWriter(authCfgPath, authCfgData);
   }
