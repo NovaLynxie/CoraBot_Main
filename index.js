@@ -11,7 +11,7 @@ const { Structures } = require('discord.js');
 // ------------------- Bot's Modules ------------------
 const fs = require('fs');
 // Requiring bot's own modules here for usage.
-logger.init('Initialising bot systems...')
+logger.init('Initialising bot systems...');
 // Start websrv.js to handle heartbeat ping requests. (eg. UptimeRobot)
 require('./cora/internal/websrv.js');
 // Boot.js used to handle bot startup and config loader.
