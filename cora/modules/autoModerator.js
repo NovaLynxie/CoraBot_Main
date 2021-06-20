@@ -6,7 +6,7 @@ let autoModStatus = 0;
 // Auto Moderation (BETA)
 module.exports = function autoMod(message, client) {
   // Fetch automod settings here.
-  autoModSettings = client.settings.get('automod', undefined);
+  autoModSettings = client.settings.get('automod', { enableAutoMod: false });
   // Check if properly defined first, otherwise throw error! (Replaced with fallback)
   if (!autoModSettings || Object.keys(autoModSettings).length >= 1 ) {
     if (autoModStatus !== -1) {
@@ -15,15 +15,17 @@ module.exports = function autoMod(message, client) {
       logger.warn('Is the settings not yet setup or misconfigured?');
       //throw new Error("Missing settings object 'autoModerator'!");
       autoModStatus = -1;
+      return;
     };
   };
+
+  // Only stop module execution if enableAutoMod is false. MUST RUN FIRST!
+  if (autoModSettings.enableAutoMod === false) return;
   // Destructure settings object for easier parsing.
   let { enableAutoMod, chListMode, channelsList, urlBlacklist, mediaOptions } = autoModSettings;
   // Destructure mediaOptions subsettings object.
   let { removeGifs, removeImgs, removeVids, removeURLs } = mediaOptions;
-  // Only stop module execution if enableAutoMod is false.
-  if (enableAutoMod === false) return;
-  
+    
   //let channel = message.guild.channels.get(message.channel.id);
   let channel = message.guild.channels.cache.get(message.channel.id);
   let user = message.author;
