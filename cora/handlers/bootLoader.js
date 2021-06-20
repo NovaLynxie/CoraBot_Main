@@ -56,7 +56,7 @@ var eImg = { // Required to use e621 and e926 modules.
 // Yiffy UserAgent for CoraBot. Required otherwise it will fail to work correctly.
 const myUserAgent = `CoraBot/${version} (https://github.com/NovaLynxie/CoraBot_ReplIt)`
 // Load bot secrets from process.env if this fails use config vars.
-var { botToken, ownerID } = process.env;
+var { discordToken, ownerID } = process.env;
 logger.debug('Loaded process environment variables!');
 // Generate some folders on bot startup.
 let dirpaths = ['./cora/cache/automod/','./cora/cache/mcsrvutil/']
@@ -80,7 +80,7 @@ const { responses } = require('../assets/json/responses.json');
 const { log } = require('util');
 logger.debug('Loaded responses from responses.json');
 // Finally export all variables for the bot to access by requiring bootLoader.js
-module.exports.config = {prefix, debug, botToken, ownerID, eImg, myUserAgent, yiffyApiKey, version}; // bot config
+module.exports.config = {prefix, debug, discordToken, ownerID, eImg, myUserAgent, yiffyApiKey, version}; // bot config
 module.exports.chatty = {enableChatBot, chatChannels} // chatbot settings
 module.exports.autoMod = {enableAutoMod, chListMode, channelsList, urlBlacklist, urlWhitelist, mediaOptions}; // bot automod settings
 module.exports.autoLog = {enableLogger, logChannels, ignoredChannels, messageUpdates, userJoinLeaves, roleUpdates}; // bot autolog settings

@@ -16,7 +16,7 @@ logger.init('Initialising bot systems...')
 require('./cora/internal/websrv.js');
 // Boot.js used to handle bot startup and config loader.
 const {config} = require('./cora/handlers/bootLoader.js');
-const {prefix, debug, botToken, ownerID} = config;
+const {prefix, debug, discordToken, ownerID} = config;
 // Load bot handlers here before bot starts.
 const crashReporter = require('./cora/handlers/crashReporter.js');
 logger.debug('Loaded crashReporter functions from crashReporter.js');
@@ -103,8 +103,8 @@ process.on('uncaughtException', error => {
 
 
 logger.init(`Connecting to Discord...`);
-logger.verbose(`botToken -> ${botToken}`);
-client.login(botToken).then(
+logger.verbose(`discordToken -> ${discordToken}`);
+client.login(discordToken).then(
   logger.debug(`Awaiting for Discord API response...`)
 ).catch(err => {
     logger.error('Bot token is INVALID! Login aborted.')
