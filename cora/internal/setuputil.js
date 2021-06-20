@@ -156,7 +156,6 @@ prompt.get(schema, function (err, result) {
     mainCfgData = mainCfgData.replace(regex, value);
   });
   console.log('Main configuration ready!');
-  let credStoreMethod = (result.credStore === 'e') ? 'env' : 'toml'
   // check if credStore is env or toml.
   if (result.credStore.match(/e[nv]/gi)) {
     // generate env data file then write to file.
