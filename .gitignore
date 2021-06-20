@@ -2,6 +2,7 @@ node_modules
 cora/cache/*
 data/*
 logs/*
+settings/*
 config.toml
 setup_linux.sh
 setup_win.bat
@@ -9,4 +10,4 @@ start_linux.sh
 start_win.bat
 update_linux.sh
 update_win.bat
-.env
+*.env
