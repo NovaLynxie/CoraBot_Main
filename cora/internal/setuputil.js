@@ -1,5 +1,7 @@
+
 const fs = require('fs');
-const {mkdir, writeFile} = fs;
+const { stripIndents } = require('common-tags');
+const { mkdir, writeFile } = fs;
 const prompt = require('prompt');
 //const logger = require('../providers/WinstonPlugin');
 
@@ -159,7 +161,7 @@ prompt.get(schema, function (err, result) {
   // check if credStore is env or toml.
   if (result.credStore.match(/e[nv]/gi)) {
     // generate env data file then write to file.
-    let botEnvData = `# corabot process environment variables
+    let botEnvData = stripIndents`# corabot process environment variables
     discordToken=${result.botToken}
     cheweyApiToken=${result.cheweyApiToken}
     yiffyApiKey=${result.yiffyApiKey}
