@@ -5,29 +5,30 @@ let autoModStatus = 0;
 // global override unless actually enabled, settings overrides this fallback setting.
 // Auto Moderation (BETA)
 module.exports = function autoMod(message, client) {
+  let guild = message.guild;
   // Fetch automod settings here.
-  autoModSettings = client.settings.get('automod', { enableAutoMod: false });
+  autoModSettings = guild.settings.get('automod', { enableAutoMod: false });
+
   // Check if properly defined first, otherwise throw error! (Replaced with fallback)
-  if (!autoModSettings || Object.keys(autoModSettings).length >= 1 ) {
+  if (!autoModSettings || Object.keys(autoModSettings).length <= 1 ) {
     if (autoModStatus !== -1) {
       logger.error('Missing or undefined settings object returned!');
       logger.error("Module service 'AutoModerator' stopped with errors!")
       logger.warn('Is the settings not yet setup or misconfigured?');
       //throw new Error("Missing settings object 'autoModerator'!");
       autoModStatus = -1;
-      return;
     };
   };
 
   // Only stop module execution if enableAutoMod is false. MUST RUN FIRST!
   if (autoModSettings.enableAutoMod === false) return;
   // Destructure settings object for easier parsing.
-  let { enableAutoMod, chListMode, channelsList, urlBlacklist, mediaOptions } = autoModSettings;
+  let { chListMode, channelsList, urlBlacklist, mediaOptions } = autoModSettings;
   // Destructure mediaOptions subsettings object.
   let { removeGifs, removeImgs, removeVids, removeURLs } = mediaOptions;
     
   //let channel = message.guild.channels.get(message.channel.id);
-  let channel = message.guild.channels.cache.get(message.channel.id);
+  let channel = guild.channels.cache.get(message.channel.id);
   let user = message.author;
   logger.verbose(`user=${user.name}(#${user.discriminator})`)
   let member = message.guild.member(user.id);
