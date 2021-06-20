@@ -1,6 +1,6 @@
 const ChatBot = require('discord-chatbot');
 const chatbot = new ChatBot({name: "Cora", gender: "Female"});
-let chatBotHandlerStatus = 0;
+
 module.exports = (message, client) => {
   let chatBotSettings = client.settings.get('chatbot', { enableChatBot: false});
   let {enableChatBot, chatChannels} = chatBotSettings;
