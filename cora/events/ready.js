@@ -1,17 +1,41 @@
-const {assets} = require('../handlers/bootLoader');
-const {activities} = assets;
+const {assets, config} = require('../handlers/bootLoader');
+const {activities} = assets, {enableDash, dashPort} = config;
 const logger = require('../providers/WinstonPlugin');
 
 module.exports = {
   name: 'ready',
   once: true,
-  execute(client) {
+  async execute(client) {
     // Announce when client is connected and ready.
     logger.info(`Logged in as ${client.user.tag}!`);
     logger.data(`Bot User ID: ${client.user.id}`);
     client.user.setActivity('with Commando');
+    client.application = await client.fetchApplication();
     // Spin up built-in server once client is online and ready.
-    require('../internal/websrv'); 
+    const dashConfig = {
+      "dashboard" : {
+        "dashPort": dashPort,
+        "clientID" : client.application.id,
+        "oauthSecret" : process.env.clientSecret,
+        "sessionSecret" : process.env.sessionSecret,
+        "botDomain" : process.env.botDomain || botDomain,
+        "callbackURL" : process.env.callbackURL || callbackURL      
+      }
+    };
+    try {
+      logger.verbose(`enableDash=${enableDash}`);
+      if (enableDash) {
+        logger.debug('Initialising dashboard service.');
+        require('../dashboard/dashsrv.js')(client, dashConfig);
+      }
+    } catch (err) {
+      // fallback to websrv silently if fails.
+      logger.error('Dashboard service failed to start!');
+      logger.warn('Dashboard cannot be loaded. Report this to developers.');
+      logger.debug(err.stack);
+      require('../internal/websrv.js');
+    };
+    //require('../internal/websrv'); 
     // Setup interval timers to update status and database.
     setInterval(async () => {    
       // status updater

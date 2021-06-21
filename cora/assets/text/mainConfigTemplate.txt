@@ -17,3 +17,10 @@ debug = false
 # Set this to 'false' to use local toml configuration files instead.
 # ONLY CHANGE THIS IF YOU OWN THE HOST SYSTEM OR TRUST ITS SECURITY!
 useDotEnv = <DOTENV>
+
+[dashboard]
+# Bot Dashboard.
+# Dashboard settings to enable it and set ports.
+enableDash = false
+# Dashboard port. Default is '3000'.
+dashSrvPort = 3000

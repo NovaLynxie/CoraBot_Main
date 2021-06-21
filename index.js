@@ -12,8 +12,6 @@ const { Structures } = require('discord.js');
 const fs = require('fs');
 // Requiring bot's own modules here for usage.
 logger.init('Initialising bot systems...');
-// Start websrv.js to handle heartbeat ping requests. (eg. UptimeRobot)
-require('./cora/internal/websrv.js');
 // Boot.js used to handle bot startup and config loader.
 const {config, tokens} = require('./cora/handlers/bootLoader.js');
 const {prefix, owners, debug} = config;
@@ -21,6 +19,7 @@ const {discordToken} = tokens;
 // Load bot handlers here before bot starts.
 const crashReporter = require('./cora/handlers/crashReporter.js');
 logger.debug('Loaded crashReporter functions from crashReporter.js');
+// Start dashsrv to handle heartbeat ping requests. (eg. UptimeRobot)
 // ------------------- Bot's Modules ------------------
 // Load path module for code file to use file directories.
 const path = require('path'); 
