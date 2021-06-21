@@ -29,9 +29,24 @@ const schema = {
     },
     botPrefix: {
       description: "Set bot's unique prefix (optional)",
-      message: "No prefix  was provided. Falling back to default prefix 'c'.",
+      message: "No prefix was provided. Falling back to default prefix 'c'.",
       default: 'c'
     },
+    // Dashboard credentials/configuration.
+    clientSecret: {
+      description: "Discord Client Secret",
+      warning: "This is required for OAuth code grants! Dashboard won't function correctly!",
+      hidden: true,
+      replace: '*',
+      required: false
+    },
+    sessionSecret: {
+      description: "Dashboard Session Secret",
+      message: "No session secret was set Using 'CoraBot' as secret.",
+      type: 'string',
+      default: 'CoraBot'
+
+    }
     // Additional credentials.
     cheweyApiKey : {
       description: "Enter valid cheweybot api token (press enter to skip)",
@@ -161,6 +176,8 @@ prompt.get(schema, function (err, result) {
     // generate env data file then write to file.
     let botEnvData = stripIndents`# corabot process environment variables
     discordToken=${result.botToken}
+    clientSecret=${result.clientSecret}
+    sessionSecret=${result.sessionSecret}
     cheweyApiToken=${result.cheweyApiToken}
     yiffyApiKey=${result.yiffyApiKey}
     youtubeApiKey=${result.youtubeApiKey}`
