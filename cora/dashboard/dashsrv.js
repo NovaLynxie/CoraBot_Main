@@ -297,6 +297,6 @@ module.exports = (client, config) => {
   });
   
   app.listen(config.dashPort,() => {
-    logger.info(`DashServer connected to port ${config.dashPort}`);
+    logger.info('Dashboard service running!');
   });
 };
