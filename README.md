@@ -22,6 +22,7 @@ FFmpeg is required for all voice interactions to work correctly.
 To setup a local host instance, clone this repository, navigate to the bot's directory root and open a command line, and type either of the following:  
 1. Use `npm install` if setting up for the first time.  
 2. Use `npm clean-install` if upgrading from CoraBot v2. (BACKUP FIRST!)
+
 This will install all required modules for the bot to run correctly.  
 *Option 2 will take longer as it has to check for existing modules.*  
 
