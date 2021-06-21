@@ -11,13 +11,10 @@ const coreFilepaths = [
 ]
 
 const dataFilepaths = [
-  "./cora/assets/img/",
   "./cora/assets/json/",
+  "./cora/assets/text/",
   "./cora/cache/automod",
   "./cora/cache/mcsrvutil",
-  "./logs/",
-  "./logs/automod-reports/",
-  "./logs/crash-reports/"
 ]
 
 // Checks if necessary files do exist in the bot's directory.
