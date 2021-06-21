@@ -148,7 +148,7 @@ prompt.get(schema, function (err, result) {
         value = (result.botPrefix || result.botPrefix==='') ? 'c' : result.botPrefix;
         break;
       case "<DOTENV>":
-        value = (result.useDotEnv === 'yes') ? true : false;
+        value = (result.credStore.match(/e[nv]/gi)) ? true : false;
         break;
       default:
         console.warn('missing.item.error');
