@@ -19,11 +19,14 @@ It is recommended to remove older versions since v3.x will be more up to date.*
 
 FFmpeg is required for all voice interactions to work correctly.
 
-To setup a local host instance, clone this repository, navigate to the bot's directory root and open a command line. Run the command 'npm install' to begin installing dependencies.
-This will install all required modules for the bot to run correctly.
-Once installation is completed, run 'npm run setup'. This will start the setup utility, follow the prompts to complete the bot setup process.
-*Installation scripts are planned for v3.0 for easier setup.*
+To setup a local host instance, clone this repository, navigate to the bot's directory root and open a command line, and type either of the following:  
+1. Use `npm install` if setting up for the first time.  
+2. Use `npm clean-install` if upgrading from CoraBot v2. (BACKUP FIRST!)
+This will install all required modules for the bot to run correctly.  
+*Option 2 will take longer as it has to check for existing modules.*  
 
+Once installation is completed, run this command: `npm run setup`.  
+This will start the setup utility, follow the on-screen prompts to complete the bot setup process. 
 ## My bot doesn't work or music will not play back... help?
 The bot may be missing permissions to speak or connect to the connected voice channel in your server. Please check any roles it has and that the correct permissions are granted.
 It is also possible there may have been an error installing the `opus`,`ytdl-core` or `ffmpeg-static` modules during `npm install`. These are responsible for handling music play back and audio streaming functions.
