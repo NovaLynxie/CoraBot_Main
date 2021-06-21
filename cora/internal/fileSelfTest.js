@@ -47,5 +47,5 @@ try {
   console.log('Data Filepaths read/write permissions ok!')
 } catch (err) {
   console.error('One or more files are missing read/write permissions!');
-  console.error(err);
+  console.error(err.message); console.log(err.code);
 }
