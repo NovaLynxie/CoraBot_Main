@@ -14,7 +14,6 @@ include blocks/navbar
   - var guilds = Object.fromEntries(bot.guilds.cache)
 
   for guild in guilds
-    - console.log(guild)
     li.media(style='padding: 10px;')
       if (guild.icon)
         - iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`
