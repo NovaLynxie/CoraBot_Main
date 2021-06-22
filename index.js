@@ -14,7 +14,7 @@ const fs = require('fs');
 logger.init('Initialising bot systems...');
 // Boot.js used to handle bot startup and config loader.
 const {config, tokens} = require('./cora/handlers/bootLoader.js');
-const {prefix, owners, debug} = config;
+const {prefix, operators, debug} = config;
 const {discordToken} = tokens;
 // Load bot handlers here before bot starts.
 const crashReporter = require('./cora/handlers/crashReporter.js');
@@ -47,7 +47,7 @@ Structures.extend('Guild', Guild => {
 // Initialise CommandoClient here.
 const client = new CommandoClient({
   commandPrefix: prefix,
-  owner: owners,
+  owner: operators,
   invite: '',
 });
 // Load in events from event files.

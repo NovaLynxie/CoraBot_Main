@@ -180,7 +180,7 @@ module.exports = (client, config) => {
   // OAuth2 Callback Endpoint 
   // Once user returns, this is called to complete authorization.
   app.get("/api/discord/callback", passport.authenticate("discord", { failureRedirect: "/autherror" }), (req, res) => {
-    client.owners.forEach(user => {
+    client.owner.forEach(user => {
       (user.id === req.user.id) ? req.session.isAdmin = true : req.session.isAdmin = false
       return;
     })
@@ -229,10 +229,10 @@ module.exports = (client, config) => {
     const members = client.guilds.cache.reduce((p, c) => p + c.memberCount, 0);
     const textChannels = client.channels.cache.filter(c => c.type === "text").size;
     const voiceChannels = client.channels.cache.filter(c => c.type === "voice").size;
-    const guilds = client.guilds.cache.size;
+    const totalGuilds = client.guilds.cache.size;
     renderView(res, req, "stats.pug", {
       stats: {
-        servers: guilds,
+        servers: totalGuilds,
         members: members,
         text: textChannels,
         voice: voiceChannels,
