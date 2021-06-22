@@ -182,11 +182,20 @@ module.exports = (client, config) => {
   app.get("/api/discord/callback", passport.authenticate("discord", { failureRedirect: "/autherror" }), (req, res) => {
     logger.debug("Checking req.user.id against owner IDs")
     logger.data(`client.options.owner => ${client.options.owner}`);
-    client.options.owner.forEach(user => {
-      (user.id === req.user.id) ? req.session.isAdmin = true : req.session.isAdmin = false
-      (req.session.isAdmin === true) ? logger.debug(`Logged in ${req.user.id} as ADMIN`) : logger.debug(`Logged in ${req.user.id} as USER`);
-      return;
-    })
+    logger.data(`data type: ${typeof client.options.owner}`);
+    // For user ID entry, return if successful.
+    for (const user of client.options.owner) {
+      logger.data(user);
+      (user === req.user.id) ? req.session.isAdmin = true : req.session.isAdmin = false;
+      if (req.session.isAdmin) {
+        return logger.debug(`Logged in ${req.user.id} as ADMIN`);
+      } else 
+      if (!req.session.isAdmin) {
+        return logger.debug(`Logged in ${req.user.id} as USER`);
+      } else {
+        logger.debug('User did not verify correctly! Did an error occur during authentication?');
+      };
+    };
     if (req.session.backURL) {
       const url = req.session.backURL;
       req.session.backURL = null;
