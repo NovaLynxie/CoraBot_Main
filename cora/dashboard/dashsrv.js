@@ -183,19 +183,19 @@ module.exports = (client, config) => {
     logger.debug("Checking req.user.id against owner IDs")
     logger.data(`client.options.owner => ${client.options.owner}`);
     logger.data(`data type: ${typeof client.options.owner}`);
-    // For user ID entry, return if successful.
+    // Check if request user ID is an owner.
+    (client.options.owner.includes(req.user.id)) ? req.session.isAdmin = true : req.session.isAdmin = false;
+    /*
     for (const user of client.options.owner) {
       logger.data(user);
       (user === req.user.id) ? req.session.isAdmin = true : req.session.isAdmin = false;
-      if (req.session.isAdmin) {
-        return logger.debug(`Logged in ${req.user.id} as ADMIN`);
-      } else 
-      if (!req.session.isAdmin) {
-        return logger.debug(`Logged in ${req.user.id} as USER`);
-      } else {
-        logger.debug('User did not verify correctly! Did an error occur during authentication?');
-      };
     };
+    */
+    if (req.session.isAdmin) {
+      logger.debug(`DiscordUser with ID:${req.user.id} logged in as 'ADMIN'.`)
+    } else {
+      logger.debug(`DiscordUser with ID:${req.user.id} logged in as 'USER'.`)
+    }
     if (req.session.backURL) {
       const url = req.session.backURL;
       req.session.backURL = null;
