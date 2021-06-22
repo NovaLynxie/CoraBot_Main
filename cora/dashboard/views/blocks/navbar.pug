@@ -31,7 +31,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
                 a.dropdown-item(href='/dashboard')
                   i.fa.fa-cogs(aria-hidden='true')
                   |  Dashboard
-                if ((bot.owner===typeof(array) && bot.owner.includes(user.id)) || (bot.owner===typeof(string) && bot.owner===user.id))
+                if (isAdmin)
                   a.dropdown-item(href='/admin')
                     i.fa.fa-key
                     |  Admin

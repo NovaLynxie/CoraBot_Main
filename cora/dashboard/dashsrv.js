@@ -147,6 +147,7 @@ module.exports = (client, config) => {
       config: config,
       path: req.path,
       user: req.isAuthenticated() ? req.user : null,
+      isAdmin: req.session.isAdmin,
       breadcrumbs: req.breadcrumbs
     };
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
