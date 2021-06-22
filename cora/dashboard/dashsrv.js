@@ -180,8 +180,11 @@ module.exports = (client, config) => {
   // OAuth2 Callback Endpoint 
   // Once user returns, this is called to complete authorization.
   app.get("/api/discord/callback", passport.authenticate("discord", { failureRedirect: "/autherror" }), (req, res) => {
-    client.owner.forEach(user => {
+    logger.debug("Checking req.user.id against owner IDs")
+    logger.data(`client.options.owner => ${client.options.owner}`);
+    client.options.owner.forEach(user => {
       (user.id === req.user.id) ? req.session.isAdmin = true : req.session.isAdmin = false
+      (req.session.isAdmin === true) ? logger.debug(`Logged in ${req.user.id} as ADMIN`) : logger.debug(`Logged in ${req.user.id} as USER`);
       return;
     })
     if (req.session.backURL) {
