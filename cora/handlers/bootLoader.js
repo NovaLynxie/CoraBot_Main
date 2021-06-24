@@ -27,7 +27,7 @@ logger.debug('Loaded main config from main.toml');
 const {credentials} = authConfig;
 var {discordToken, yiffyApiKey, cheweyApiToken, youtubeApiKey} = credentials;
 
-logger.debug('Checking credentials...');
+logger.init('Checking credentials...');
 // check if defined, otherwise fallback to process.env.<var>
 if (!discordToken) discordToken = process.env.discordToken;
 if (!yiffyApiKey) yiffyApiKey = process.env.yiffyApiKey;
@@ -46,7 +46,7 @@ if (useDotEnv) {
 if (debug) logger.warn('Debug mode enabled! Sensitive data included in debug logs.');
 
 // Load bot assets from folders as necessary.
-logger.init('Loading bot assets...');
+logger.init('Fetching bot assets...');
 const { activities } = require('../assets/json/activities.json');
 logger.debug('Loaded activities from activities.json');
 const { responses } = require('../assets/json/responses.json');
