@@ -49,7 +49,10 @@ body
   // Flash Messages
   != messages()
   .container
-    p Dashboard is still being developed! Some parts may be missing or incomplete. Use with caution.
+    .dev_warning
+      i.fas.fa-exclamation-triangle(aria-hidden='true')
+      | !{'  '}Dashboard is still being developed! Some parts may be missing or incomplete. Use with caution.!{'  '}
+      i.fas.fa-exclamation-triangle(aria-hidden='true')
   if breadcrumbs
     nav.nav-breadcrumb(style='width: 100%; margin-top: 16px;')
       .container
