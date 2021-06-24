@@ -206,7 +206,7 @@ module.exports = (client, config) => {
     }
   });
   
-  // If an error happens during authentication, this is what's displayed.
+  // Error Message - Show this if auth fails or action is interrupted.
   app.get("/autherror", (req, res) => {
     renderView(res, req, "autherr.pug");
   });
@@ -261,7 +261,7 @@ module.exports = (client, config) => {
 
   // Normal Dashboard - Only shows user the guilds they are bound to.
   app.get("/dashboard", checkAuth, (req, res) => {
-    //const perms = Discord.EvaluatedPermissions; //depreciated in discord.js v12
+    //const perms = Discord.EvaluatedPermissions; //depreciated in discord.js v12+
     const perms = Discord.Permissions;
     renderView(res, req, "dash.pug", {perms});
   });
@@ -282,13 +282,13 @@ module.exports = (client, config) => {
   app.get("/dashboard/:guildID/manage", checkAuth, (req, res) => {
     renderView(res, req, "placeholder.pug"); 
     // Not yet ready... sorry. XC - NovaLynxie
-    /*
+    
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
-    renderTemplate(res, req, "guild/manage.pug", {guild});
-    */
+    //renderView(res, req, "guild/manage.pug", {guild});
+    
   });
 
   // Fallback Middleware.
