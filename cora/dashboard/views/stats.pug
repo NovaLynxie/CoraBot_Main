@@ -41,6 +41,12 @@ include blocks/navbar
         strong #{stats.voice}
     .row.justify-content-md-center
       .col-5.text-nowrap
+        i.fas.fa-robot(aria-hidden='true')
+        |  Bot App Version:
+      .col-5.text-nowrap
+        strong v#{stats.botVer}
+    .row.justify-content-md-center
+      .col-5.text-nowrap
         i.fab.fa-discord(aria-hidden='true')
         |  Discord.js Version:
       .col-5.text-nowrap

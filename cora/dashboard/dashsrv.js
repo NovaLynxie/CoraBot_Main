@@ -2,6 +2,9 @@
 const url = require("url");
 const path = require("path");
 
+// Fetch Bot version
+const {version} = require('../../package.json');
+
 // Winston Logger Plugin
 const logger = require('../providers/WinstonPlugin');
 
@@ -258,6 +261,7 @@ module.exports = (client, config) => {
         voice: voiceChannels,
         uptime: duration,
         memoryUsage: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB`,
+        botVer: version,
         discordVer: Discord.version,
         nodeVer: process.version
       }
