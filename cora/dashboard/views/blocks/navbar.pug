@@ -46,6 +46,8 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
               i.fa.fa-key(aria-hidden='true')
               |  Login
 body
+  // Flash Messages
+  != messages()
   if breadcrumbs
     nav.nav-breadcrumb(style='width: 100%; margin-top: 16px;')
       .container

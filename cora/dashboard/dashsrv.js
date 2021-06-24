@@ -115,6 +115,8 @@ module.exports = (client, config) => {
     extended: true
   })); 
 
+  // connect-flash used for express-messages status messages down further below.
+  app.use(require('connect-flash')());
   /* 
   Authentication Checks. For each page where the user should be logged in, double-checks whether the login is valid and the session is still active.
   */
@@ -152,13 +154,17 @@ module.exports = (client, config) => {
     };
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
-
+  // Express Messages Middleware
+  app.use(function (req, res, next) {
+    res.locals.messages = require('express-messages')(req, res);
+    next();
+  });
   // Breadcrumb Handler Middleware
   app.use(function(req, res, next) {
     req.breadcrumbs = get_breadcrumbs(req.originalUrl);
     next();
   });
-
+  
   // Dashboard Actions - All Interaction & Authentication actions.
 
   // Login Endpoint 
@@ -197,11 +203,12 @@ module.exports = (client, config) => {
     } else {
       logger.debug(`DiscordUser with ID:${req.user.id} logged in as 'USER'.`)
     }
+    req.flash("info", "Logged in successfully!");
     if (req.session.backURL) {
       const url = req.session.backURL;
       req.session.backURL = null;
       res.redirect(url);
-    } else {
+    } else {      
       res.redirect("/");
     }
   });
