@@ -57,13 +57,17 @@ module.exports = (client, config) => {
   // Session Data
   // This is used for temporary storage of your visitor's session information. It contains secrets that should not be shared publicly.
   app.use(session({
+    // session storage location
     store: new SQLiteStore({
       db: "sessions.db",
       dir: "./data/storage/"
     }),
+    // session secret
     secret: process.env.SESSION_SECRET || config.dashboard.sessionSecret,
+    // session options
     resave: false,
     saveUninitialized: false,
+    unset: 'destroy'
   }));
 
   // Initializes passport and session.
