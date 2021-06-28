@@ -62,8 +62,10 @@ module.exports = (client, config) => {
       db: "sessions.db",
       dir: "./data/storage/"
     }),
-    // session secret
+    // session secret - verification step
     secret: process.env.SESSION_SECRET || config.dashboard.sessionSecret,
+    // session cookie - remove after one week elapses
+    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
     // session options
     resave: false,
     saveUninitialized: false,
