@@ -8,7 +8,7 @@ include ../blocks/navbar
     h3.display-4 #{guild.name} Members (WIP)
     each member in members
       .member_card
-        img.member_avatar(src=member.user.avatarURL({ format: 'png', dynamic: true, size: '256' }))  
+        img.member_avatar(src=member.user.avatarURL({ format: 'png', dynamic: true, size: 128 }))  
 
         p
         | Username: #{member.user.tag}
