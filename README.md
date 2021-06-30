@@ -16,6 +16,7 @@ It is recommended to remove older versions since v3.x will be more up to date.*
 ### Requirements
 - Node.js v12 or higher.
 - FFmpeg v4 or higher.
+- privileged Intents enabled on Discord Bot User! (3.x.x ONLY!)
 
 FFmpeg is required for all voice interactions to work correctly.
 
@@ -26,7 +27,9 @@ To setup a local host instance, clone this repository, navigate to the bot's dir
 This will install all required modules for the bot to run correctly. *Option 2 will take longer as it has to check for existing modules.*
 
 Once installation is completed, run this command: `npm run setup`.  
-This will start the setup utility, follow the on-screen prompts to complete the bot setup process. 
+This will start the setup utility, follow the on-screen prompts to complete the bot setup process.  
+**IMPORTANT!!**
+**Privileged intents are required for the bot to start. Check you have it enabled for your bot user before starting or the bot WILL crash!**
 ## My bot doesn't work or music will not play back... help?
 The bot may be missing permissions to speak or connect to the connected voice channel in your server. Please check any roles it has and that the correct permissions are granted.
 It is also possible there may have been an error installing the `opus`,`ytdl-core` or `ffmpeg-static` modules during `npm install`. These are responsible for handling music play back and audio streaming functions.
