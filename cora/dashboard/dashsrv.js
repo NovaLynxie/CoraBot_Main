@@ -3,7 +3,7 @@ const url = require("url");
 const path = require("path");
 
 // Fetch Bot version
-const {version} = require('../../package.json');
+const { version } = require('../../package.json');
 
 // Winston Logger Plugin
 const logger = require('../providers/WinstonPlugin');
@@ -51,9 +51,9 @@ module.exports = (client, config) => {
     callbackURL: config.dashboard.callbackURL,
     scope: ["identify", "guilds"]
   },
-  (accessToken, refreshToken, profile, done) => {
-    process.nextTick(() => done(null, profile));
-  }));
+    (accessToken, refreshToken, profile, done) => {
+      process.nextTick(() => done(null, profile));
+    }));
   // Session Data
   // This is used for temporary storage of your visitor's session information. It contains secrets that should not be shared publicly.
   app.use(session({
@@ -83,7 +83,7 @@ module.exports = (client, config) => {
         defaultSrc: ["'self'", "https:"],
         scriptSrc: [
           "'self'", "https:", "*.bootstrapcdn.com", "*.googleapis.com"
-          ],
+        ],
         fontSrc: [
           "'self'", "https:", "fonts.googleapis.com",
           "*.gstatic.com", "maxcdn.bootstrapcdn.com"
@@ -93,7 +93,7 @@ module.exports = (client, config) => {
         ],
         imgSrc: [
           "'self'", "cdn.discordapp.com", "i.giphy.com", "media.tenor.com"
-        ],        
+        ],
         styleSrcElem: [
           "'self'", "https:", "*.bootstrapcdn.com", "*.googleapis.com"
         ],
@@ -122,7 +122,7 @@ module.exports = (client, config) => {
   app.use(bodyParser.json());       // to support JSON-encoded bodies
   app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
-  })); 
+  }));
 
   // connect-flash used for express-messages status messages down further below.
   app.use(require('connect-flash')());
@@ -139,13 +139,13 @@ module.exports = (client, config) => {
   Source: https://vidler.app/blog/javascript/nodejs/simple-and-dynamic-breadcrumbs-for-a-nodejs-express-application/
   */
   function get_breadcrumbs(url) {
-    var rtn = [{name: "HOME", url: "/"}],
-        acc = "", // accumulative url
-        arr = url.substring(1).split("/");
+    var rtn = [{ name: "HOME", url: "/" }],
+      acc = "", // accumulative url
+      arr = url.substring(1).split("/");
 
-    for (i=0; i<arr.length; i++) {
-        acc = i != arr.length-1 ? acc+"/"+arr[i] : null;
-        rtn[i+1] = {name: arr[i].toUpperCase(), url: acc};
+    for (i = 0; i < arr.length; i++) {
+      acc = i != arr.length - 1 ? acc + "/" + arr[i] : null;
+      rtn[i + 1] = { name: arr[i].toUpperCase(), url: acc };
     }
     return rtn;
   };
@@ -164,7 +164,7 @@ module.exports = (client, config) => {
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
   // Express Messages Middleware
-  app.use(function (req, res, next) {
+  app.use(function(req, res, next) {
     res.locals.messages = require('express-messages')(req, res);
     next();
   });
@@ -191,7 +191,7 @@ module.exports = (client, config) => {
     }
     next();
   },
-  passport.authenticate("discord"));
+    passport.authenticate("discord"));
 
   // OAuth2 Callback Endpoint 
   // Once user returns, this is called to complete authorization.
@@ -217,11 +217,11 @@ module.exports = (client, config) => {
       const url = req.session.backURL;
       req.session.backURL = null;
       res.redirect(url);
-    } else {      
+    } else {
       res.redirect("/");
     }
   });
-  
+
   // Error Message - Show this if auth fails or action is interrupted.
   app.get("/autherror", (req, res) => {
     renderView(res, req, "autherr.pug");
@@ -234,7 +234,7 @@ module.exports = (client, config) => {
       res.redirect("/"); //Inside a callback… bulletproof!
     });
   });
-  
+
   // Dashboard Routes - Public and Authenticated site endpoints.
 
   // Regular Information Pages (public pages)
@@ -247,8 +247,8 @@ module.exports = (client, config) => {
       ${grp.name} ${grp.commands.filter(cmd => !cmd.hidden).map(cmd => `
         ${cmd.name}: ${cmd.description}${cmd.nsfw ? ' (NSFW)' : ''}`).join('')
       }`).join('\r\n')
-    }`
-    logger.data(`allcmds:${typeof(allcmds)}`);
+      }`
+    logger.data(`allcmds:${typeof (allcmds)}`);
     renderView(res, req, "cmds.pug", {
       all_commands: allcmds
     });
@@ -273,16 +273,16 @@ module.exports = (client, config) => {
       }
     })
   });
-  
+
   // Authentication Locked Pages (Discord Oauth2)
 
   // Normal Dashboard - Only shows user the guilds they are bound to.
   app.get("/dashboard", checkAuth, (req, res) => {
     //const perms = Discord.EvaluatedPermissions; //depreciated in discord.js v12+
     const perms = Discord.Permissions;
-    renderView(res, req, "dash.pug", {perms});
+    renderView(res, req, "dash.pug", { perms });
   });
-  
+
   // Admin Dashboard - Shows all guilds the bot is connected to, including ones not joined by the user.
   app.get("/admin", checkAuth, (req, res) => {
     if (!req.session.isAdmin) return res.redirect("/");
@@ -297,27 +297,42 @@ module.exports = (client, config) => {
   // Settings page to change the guild configuration. Definitely more fancy than using
   // the `set` command!
   app.get("/dashboard/:guildID/manage", checkAuth, (req, res) => {
-    renderView(res, req, "placeholder.pug"); 
+    //renderView(res, req, "placeholder.pug");
     // Not yet ready... sorry. XC - NovaLynxie
-    
+
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
-    //renderView(res, req, "guild/manage.pug", {guild});
-    
+    let 
+      announcerSettings = guild.settings.get('announcer', undefined),
+      autoModSettings = guild.settings.get('automod', undefined),
+      chatBotSettings = guild.settings.get('chatbot', undefined),
+      botLogSettings = guild.settings.get('botlogger', undefined),
+      modLogSettings = guild.settings.get('modlogger', undefined);
+    let settings = {announcerSettings, autoModSettings, chatBotSettings, botLogSettings, modLogSettings};
+    renderView(res, req, "guild/manage.pug", {guild, settings});
+
   });
   // This calls when settings are saved using POST requests to get parameters to save.
   app.post("/dashboard/:guildID/manage", checkAuth, (req, res) => {
-    const guild = client.guilds.get(req.params.guildID);
+    const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     //guild.settings.set();
     //client.writeSettings(guild.id, req.body);
-    res.redirect("/dashboard/"+req.params.guildID+"/manage");
+    res.redirect("/dashboard/" + req.params.guildID + "/manage");
   });
-
+  // Displays all members in the Discord guild being viewed.
+  app.get("/dashboard/:guildID/members", checkAuth, (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID);
+    if (!guild) return res.status(404);
+    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    let members = guild.members.cache.array()
+    renderView(res, req, "guild/members.pug", {guild, members});
+  });
   // Fallback Middleware.
 
   // 404 Not Found Handler (Only occurs if no error was thrown)
@@ -335,8 +350,8 @@ module.exports = (client, config) => {
     renderView(res, req, 'errors/500.pug');
     logger.error(err);
   });
-  
-  app.listen(config.dashPort,() => {
+
+  app.listen(config.dashPort, () => {
     logger.info('Dashboard service running!');
   });
 };

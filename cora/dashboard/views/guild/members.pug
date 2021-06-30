@@ -1,0 +1,20 @@
+include ../blocks/header
+include ../blocks/navbar
+
+
+.container
+  include ../blocks/guild-nav
+  .jumbotron.text-center.bg-transparent
+    h3.display-4 #{guild.name} Members (WIP)
+    each member in members
+      .member_card
+        img.member_avatar(src=member.user.avatarURL({ format: 'png', dynamic: true, size: '256' }))  
+
+        p
+        | Username: #{member.user.tag}
+        br
+        | Nickname: #{member.displayName}
+        br
+        | Status: #{member.user.presence.status}
+    
+include ../blocks/footer

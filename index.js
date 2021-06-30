@@ -46,9 +46,16 @@ Structures.extend('Guild', Guild => {
 
 // Initialise CommandoClient here.
 const client = new CommandoClient({
+  // bot client setup - main configuration for the bot.
   commandPrefix: prefix,
   owner: operators,
   invite: '',
+  // gateway intents - required for future api versions
+  ws: { 
+    intents: [
+    'GUILDS', 'GUILD_MESSAGES', 'GUILD_PRESENCES', 'DIRECT_MESSAGES'
+    ] 
+  }
 });
 // Load in events from event files.
 const eventFiles = fs.readdirSync('./cora/events').filter(file => file.endsWith('.js'));
