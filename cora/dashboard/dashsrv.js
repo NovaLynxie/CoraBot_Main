@@ -65,7 +65,7 @@ module.exports = (client, config) => {
     // session secret - verification step
     secret: process.env.SESSION_SECRET || config.dashboard.sessionSecret,
     // session cookie - remove after one week elapses
-    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
+    //cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }, //disabled temporarily
     // session options
     resave: false,
     saveUninitialized: false,
@@ -306,6 +306,16 @@ module.exports = (client, config) => {
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     //renderView(res, req, "guild/manage.pug", {guild});
     
+  });
+  // This calls when settings are saved using POST requests to get parameters to save.
+  app.post("/dashboard/:guildID/manage", checkAuth, (req, res) => {
+    const guild = client.guilds.get(req.params.guildID);
+    if (!guild) return res.status(404);
+    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    //guild.settings.set();
+    //client.writeSettings(guild.id, req.body);
+    res.redirect("/dashboard/"+req.params.guildID+"/manage");
   });
 
   // Fallback Middleware.
