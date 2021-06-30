@@ -15,6 +15,10 @@ include ../blocks/navbar
         br
         | Nickname: #{member.displayName}
         br
+        | Created #{member.user.createdAt}
+        br
+        | Joined #{member.joinedAt}
+        br
         | Status: #{member.user.presence.status}
     
 include ../blocks/footer
