@@ -43,7 +43,12 @@ if (useDotEnv) {
   ({discordToken, yiffyApiKey, cheweyApiToken, youtubeApiKey} = process.env)
 };
 
-if (debug) logger.warn('Debug mode enabled! Sensitive data included in debug logs.');
+if (debug) {
+  logger.warn('Debug mode enabled! Sensitive data included in debug logs.');
+  logger.data(`yiffyApiKey=${yiffyApiKey}`);
+  logger.data(`cheweyApiToken=${cheweyApiToken}`);
+  logger.data(`youtubeApiKey=${youtubeApiKey}`);
+}
 
 // Load bot assets from folders as necessary.
 logger.init('Fetching bot assets...');
