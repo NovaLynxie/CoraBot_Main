@@ -1,3 +1,4 @@
+/*
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const logger = require('../../providers/WinstonPlugin');
@@ -160,3 +161,4 @@ module.exports = class AnimalsCommand extends Command {
         }
     }
 };
+*/
