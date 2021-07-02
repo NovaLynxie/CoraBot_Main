@@ -4,7 +4,17 @@ const logger = require('../../providers/WinstonPlugin');
 const { stripIndents } = require('common-tags');
 const {cheweyApiToken} = process.env;
 const cheweyBot = require('cheweybot-api');
-cheweyBot.init(cheweyApiToken)
+let status = 0;
+try {
+  logger.data(cheweyApiToken);
+  cheweyBot.init(cheweyApiToken);
+  status = 0;
+} catch (err) {
+  logger.error('Failed to initialize cheweyBot handler!');
+  logger.error(err); logger.debug(err.stack);
+  logger.warn('The command animal.js disabled to prevent crash.');
+  status = -1;
+}
 
 module.exports = class AnimalsCommand extends Command {
     constructor(client) {
@@ -34,7 +44,7 @@ module.exports = class AnimalsCommand extends Command {
     }
     async run(message, args) {
         const { option } = args;
-
+        if (status === -1) return message.reply("I'm sorry but there was an error starting up the cheweyApi handler. This command has been disabled to prevent bot crashes.");
         // Embed Function Handler to format output of furry image command.
         function imgEmbed (client, url) {
             const imageEmbed = new MessageEmbed()
