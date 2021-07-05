@@ -1,21 +1,16 @@
-/*
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const logger = require('../../providers/WinstonPlugin');
 const { stripIndents } = require('common-tags');
 const {cheweyApiToken} = process.env;
 const cheweyBot = require('cheweybot-api');
-let status = 0;
-try {
-  logger.data(cheweyApiToken);
-  cheweyBot.init(cheweyApiToken);
-  status = 0;
-} catch (err) {
-  logger.error('Failed to initialize cheweyBot handler!');
+
+logger.data(`cheweyApiToken=${cheweyApiToken}`);
+cheweyBot.init(cheweyApiToken).catch(err => {
+  logger.error('An error occured while initializing cheweyAPI handler!')
   logger.error(err); logger.debug(err.stack);
   logger.warn('The command animal.js disabled to prevent crash.');
-  status = -1;
-}
+});
 
 module.exports = class AnimalsCommand extends Command {
     constructor(client) {
@@ -161,4 +156,3 @@ module.exports = class AnimalsCommand extends Command {
         }
     }
 };
-*/

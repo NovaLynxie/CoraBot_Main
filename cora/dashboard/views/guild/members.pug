@@ -1,6 +1,17 @@
 include ../blocks/header
 include ../blocks/navbar
 
+-function formatDate(dateString){
+  -var date = new Date(dateString);
+  -var d = date.getDate(dateString);
+  -var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+  -var m = monthNames[date.getMonth()];
+  -var y = date.getFullYear();
+  -var H = date.getHours();
+  -var M = date.getMinutes(); M = (M < 9) ? `0${M}` : M
+  -var S = date.getSeconds(); S = (S < 9) ? `0${S}` : S
+  -return d+' '+m+' '+y+' @ '+H+':'+M+':'+S;
+-} 
 
 .container
   include ../blocks/guild-nav
@@ -8,17 +19,18 @@ include ../blocks/navbar
     h3.display-4 #{guild.name} Members (WIP)
     each member in members
       .member_card
-        img.member_avatar(src=member.user.avatarURL({ dynamic: true, size: 64 }))  
-
+        img.member_avatar(src=member.user.displayAvatarURL({ dynamic: true, size: 64 }))
         p
         | Username: #{member.user.tag}
         br
         | Nickname: #{member.displayName}
         br
-        | Created #{member.user.createdAt}
+        | Created #{formatDate(member.user.createdAt)}
         br
-        | Joined #{member.joinedAt}
+        | Joined #{formatDate(member.joinedAt)}
         br
         | Status: #{member.user.presence.status}
+        br 
+        | Bot Acc: #{(member.user.bot) ? 'Yes' : 'No'}
     
 include ../blocks/footer

@@ -24,6 +24,9 @@
 }
 
 .member_card {
+  height: 350;
+  width: 250;
+  display: inline-block;
   text-align: left;
   padding: 0.5rem;
   background-color: rgba(40, 140, 255, 0.26);
@@ -32,6 +35,8 @@
   border-width: 2px;
 }
 .member_avatar {
+  max-height: 64px;
+  max-width: 64px;
   border-radius: 10%;
   border-color: rgba(0, 140, 255, 0.288);
   border-style: solid;
@@ -47,6 +52,7 @@
   border-width: 2px;
 }
 .settings_card_modules {
+  display: inline-block;
   text-align: left;
   padding: 0.5rem;
   background-color: rgba(118, 118, 145, 0.295);
