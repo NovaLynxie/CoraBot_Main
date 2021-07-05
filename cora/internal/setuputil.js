@@ -46,7 +46,7 @@ const schema = {
       type: 'string',
       default: 'CoraBot'
 
-    }
+    },
     // Additional credentials.
     cheweyApiKey : {
       description: "Enter valid cheweybot api token (press enter to skip)",
@@ -56,7 +56,7 @@ const schema = {
       replace: '*',
       default: ''
     },
-    yiffyApiKey : {
+    yiffyApiToken : {
       description: "Enter valid yiffy api token (press enter to skip)",
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
@@ -64,7 +64,7 @@ const schema = {
       replace: '*',
       default: ''
     },
-    youtubeApiKey : {
+    youtubeApiToken : {
       description: "Enter valid youtube api token (press enter to skip)",
       message: "No valid token provided! Some modules will not function correctly.",
       type: 'string',
@@ -178,9 +178,9 @@ prompt.get(schema, function (err, result) {
     discordToken=${result.botToken}
     clientSecret=${result.clientSecret}
     sessionSecret=${result.sessionSecret}
-    cheweyApiToken=${result.cheweyApiToken}
-    yiffyApiKey=${result.yiffyApiKey}
-    youtubeApiKey=${result.youtubeApiKey}`
+    cheweyApiToken=${result.cheweyApiKey}
+    yiffyApiKey=${result.yiffyApiToken}
+    youtubeApiKey=${result.youtubeApiToken}`
     settingsWriter(dirEnvPath, botEnvData);
   } else 
   if (result.credStore.match(/t[oml]/gi)) {
