@@ -11,6 +11,7 @@ operators = []
 # Bot debug mode. [WARNING! This is a DEVELOPER only setting!]
 # Use this only for debugging the bot as this reveals sensitive data!
 debug = false
+# To enable console output in debug mode, pass logLevel=debug as environment variable.
 
 [runtime]
 # Bot runtime mode.
