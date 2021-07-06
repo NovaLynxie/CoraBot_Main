@@ -1,7 +1,7 @@
-.card-header(style='padding: 2px;')
 - var guildID = guild.id
-  ul.nav.nav-tabs
+.card-header(style='padding: 2px;')  
+  ul.nav.nav-pills
     li.nav-item
-      a(href=`/dashboard/${guildID}/manage`) Settings
+      a.nav-link(href=`/dashboard/${guildID}/manage`) Settings 
     li.nav-item
-      a(href=`/dashboard/${guildID}/members`) Members
+      a.nav-link(href=`/dashboard/${guildID}/members`) Members 

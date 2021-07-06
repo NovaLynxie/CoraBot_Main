@@ -336,6 +336,28 @@ module.exports = (client, config) => {
     let members = guild.members.cache.array()
     renderView(res, req, "guild/members.pug", {guild, members});
   });
+  
+  // Leaves the guild (this is triggered from the manage page, and only
+  // from the modal dialog)
+  app.get("/dashboard/:guildID/leave", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID);
+    if (!guild) return res.status(404);
+    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    await guild.leave();
+    res.redirect("/dashboard");
+  });
+
+  // Resets the guild's settings to the defaults, by simply deleting them.
+  app.get("/dashboard/:guildID/reset", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID);
+    if (!guild) return res.status(404);
+    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    guild.settings.delete(guild.id);
+    res.redirect("/dashboard/"+req.params.guildID);
+  });
+
   // Fallback Middleware.
 
   // 404 Not Found Handler (Only occurs if no error was thrown)

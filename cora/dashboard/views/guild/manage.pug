@@ -2,9 +2,12 @@ include ../blocks/header
 include ../blocks/navbar
 
 - var {announcerSettings, autoModSettings, chatBotSettings, botLogSettings, modLogSettings} = settings
+
 .container
   include ../blocks/guild-nav
-  .jumbotron.text-center.bg-transparent
+  block navtab
+    - var activeTab = 'manage'  
+  .jumbotron.text-center
     h3.display-4 #{guild.name} Settings
     p.lead
     | This part of the dashboard is not yet completed and may not be functional. 
@@ -13,7 +16,7 @@ include ../blocks/navbar
     br
     | Sorry about that. - Nova Lynxie
     .settings_card_base
-      h3 Module Settings
+      h3 Bot Control Panel
       .settings_card_modules
         h4 All Module Status
         .settings_card_modules.div(style='display:inline-block vertical-align:"top"')
@@ -24,13 +27,28 @@ include ../blocks/navbar
               th Enabled?
             tr
               td AutoNotify
-              td #{(announcerSettings) ? (announcerSettings.enableNotifier) ? 'Yes' : 'No' : 'Unknown'}
+              if (!announcerSettings)
+                td Unknown
+              if (announcerSettings.enableBotLogger)
+                td Yes
+              if (!announcerSettings.enableBotLogger)
+                td No
             tr
               td ChatBot
-              td #{(chatBotSettings) ? (chatBotSettings.enableAutoChat) ? 'Yes' : 'No' : 'Unknown'}
+              if (!chatBotSettings)
+                td Unknown
+              if (chatBotSettings.enableAutoChat)
+                td Yes
+              if (!chatBotSettings.enableAutoChat)
+                td No
             tr
               td ModBot
-              td #{(autoModSettings) ? (autoModSettings.enableAutoMod) ? 'Yes' : 'No' : 'Unknown'}
+              if (!autoModSettings)
+                td Unknown
+              if (autoModSettings.enableAutoMod)
+                td Yes
+              if (!autoModSettings.enableAutoMod)
+                td No
         .settings_card_modules
           h5 Logging Modules
           table.settings_table_main(border="1")
@@ -39,10 +57,30 @@ include ../blocks/navbar
               th Enabled?
             tr
               td Bot Logger
-              td #{(botLogSettings) ? (botLogSettings.enableBotLogger) ? 'Yes' : 'No' : 'Unknown'}
+              if (!botLogSettings)
+                td Unknown
+              if (botLogSettings.enableBotLogger)
+                td Yes
+              if (!modLogSettings.enableBotLogger)
+                td No
             tr
               td Mod Logger
-              td #{(modLogSettings) ? (modLogSettings.enableModLogger) ? 'Yes' : 'No' : 'Unknown'}
+              if (!modLogSettings)
+                td Unknown
+              if (modLogSettings.enableModLogger)
+                td Yes
+              if (!modLogSettings.enableModLogger)
+                td No
+      .settings_card_modules(style="display:'block'")
+        h4 Danger Zone
+        .settings_card_modules.danger_block
+          h5 Reset Settings?
+          a.btn.btn-block.btn-outline-danger(href=`/dashboard/${guild.id}/reset`) RESET
+          br
+          h5 Leave Guild?
+          a.btn.btn-block.btn-outline-danger(href=`/dashboard/${guild.id}/leave`) DISCONNECT
+          
+
 
 
 include ../blocks/footer

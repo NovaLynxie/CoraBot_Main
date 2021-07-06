@@ -11,11 +11,13 @@ include ../blocks/navbar
   -var M = date.getMinutes(); M = (M < 9) ? `0${M}` : M
   -var S = date.getSeconds(); S = (S < 9) ? `0${S}` : S
   -return d+' '+m+' '+y+' at '+H+':'+M+':'+S;
--} 
+-}
 
 .container
   include ../blocks/guild-nav
-  .jumbotron.text-center.bg-transparent
+  block navtab
+    - var activeTab = 'members'    
+  .jumbotron.text-center
     h3.display-4 #{guild.name} Members (WIP)
     p.lead
     | This is a list of all members currently in the guild. If some intents are missing or not enabled, you will only see ONLINE users listed here.
