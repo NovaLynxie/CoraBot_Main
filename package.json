@@ -35,6 +35,7 @@
     "express-messages": "^1.0.1",
     "express-session": "^1.17.2",
     "ffmpeg-static": "^4.2.7",
+    "flash": "^1.1.0",
     "helmet": "^4.6.0",
     "log-timestamp": "^0.3.0",
     "minecraft-server-util": "^3.4.2",

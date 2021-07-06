@@ -127,7 +127,9 @@ module.exports = (client, config) => {
   }));
 
   // connect-flash used for express-messages status messages down further below.
-  app.use(require('connect-flash')());
+  //app.use(require('connect-flash'));
+  // flash used for displaying alert messages
+  app.use(require('flash')());
   /* 
   Authentication Checks. For each page where the user should be logged in, double-checks whether the login is valid and the session is still active.
   */
@@ -166,10 +168,12 @@ module.exports = (client, config) => {
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
   // Express Messages Middleware
+  /*
   app.use(function(req, res, next) {
     res.locals.messages = require('express-messages')(req, res);
     next();
   });
+  */
   // Breadcrumb Handler Middleware
   app.use(function(req, res, next) {
     req.breadcrumbs = get_breadcrumbs(req.originalUrl);
@@ -344,7 +348,7 @@ module.exports = (client, config) => {
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     await guild.leave();
-    req.flash("info", `Removed from ${guild.name} successfully!`);
+    req.flash("success", `Removed from ${guild.name} successfully!`);
     res.redirect("/dashboard");
   });
 
@@ -365,7 +369,7 @@ module.exports = (client, config) => {
       guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
     });
     // Once this completes, call redirect to dashboard page.
-    req.flash("info", "Settings Reset Complete!");
+    req.flash("success", "Settings Reset Complete!");
     res.redirect("/dashboard/"+req.params.guildID);
   });
 
