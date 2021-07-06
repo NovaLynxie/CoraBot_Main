@@ -22,6 +22,7 @@ include ../blocks/navbar
     p.lead
     | This is a list of all members currently in the guild. If some intents are missing or not enabled, you will only see ONLINE users listed here.
     br
+    p There are currently #{guild.members.cache.filter(member => !member.user.bot).size} users and #{guild.members.cache.filter(member => member.user.bot).size} bots in this guild!
     each member in members
       .member_card
         img.member_avatar(src=member.user.displayAvatarURL({ dynamic: true, size: 64 }) alt="Discord Avatar" onerror="this.onerror=null;this.src=member.user.defaultAvatarURL")

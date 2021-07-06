@@ -50,7 +50,11 @@ body
   for message in flash
     -flash.shift();
     .alert.alert-dismissible.fade.show.span(class='alert-'+message.type)
-      != message.message
+      strong
+      | !{message.message}
+      button.close(type='button' data-dismiss='alert' aria-label='Close')
+        span(aria-hidden='true') &times;
+      
   .container
     .dev_warning
       i.fas.fa-exclamation-triangle(aria-hidden='true')
