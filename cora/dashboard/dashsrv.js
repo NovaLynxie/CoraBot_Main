@@ -218,7 +218,7 @@ module.exports = (client, config) => {
     } else {
       logger.debug(`DiscordUser with ID:${req.user.id} logged in as 'USER'.`)
     }
-    req.flash("info", "Logged in successfully!");
+    req.flash("success", "Authenticated/Action Successful!");
     if (req.session.backURL) {
       const url = req.session.backURL;
       req.session.backURL = null;

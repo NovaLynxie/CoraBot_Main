@@ -5,7 +5,7 @@ const { stripIndents } = require('common-tags');
 module.exports = async function botLogger(event, data, client) {
   // Fetch settings from client settings provider.
   let botLoggerSettings = client.settings.get('botlogger');
-  let { enableLogger, logChannels, ignoredChannels, messageUpdates, userJoinLeaves, roleUpdates } = botLoggerSettings;  
+  let { enableBotLogger, logChannels, ignoredChannels, messageUpdates, userJoinLeaves, roleUpdates } = botLoggerSettings;  
   // Check if either oldMessage OR newMessage is defined then process it.
   if (data.oldMessage || data.newMessage) {
     try {
@@ -44,7 +44,7 @@ module.exports = async function botLogger(event, data, client) {
       };
     });
   }
-  if (enableLogger === "yes") {
+  if (enableBotLogger) {
     logger.verbose('botLogger.checkIfEnabled => true')
     let message = data;
     switch (event) {
@@ -74,7 +74,6 @@ module.exports = async function botLogger(event, data, client) {
             client.user.displayAvatarURL({ format: 'png' })
           );
         var server = client.guilds.cache.get(data.guild.id);
-        var logChannel = server.channels.cache.get()
         sendLog(server, logEmbed);
         break;
 

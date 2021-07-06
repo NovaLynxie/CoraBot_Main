@@ -3,7 +3,7 @@ const logger = require('../providers/WinstonPlugin');
 
 module.exports = {
   name: 'guildMemberUpdate',
-  execute(oldMember, newMember) {
+  execute(oldMember, newMember, client) {
     let event = 'guildMemberUpdate', memberdata = {oldMember, newMember};
     const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
     if (removedRoles.size > 0) {
