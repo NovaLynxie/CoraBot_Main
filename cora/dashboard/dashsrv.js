@@ -1,6 +1,5 @@
 // Native Node Imports
-const url = require("url");
-const path = require("path");
+const url = require("url"), path = require("path"), fs = require('fs');
 
 // Fetch Bot version
 const { version } = require('../../package.json');
@@ -354,7 +353,17 @@ module.exports = (client, config) => {
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
-    guild.settings.delete(guild.id);
+    logger.debug(`WebDash executed RESET for ${guild.name} settings!`)
+    // Clean up existing settings in the bot's database for guild.
+    guild.settings.clear(guild.id);
+    // Get settings template here from bot assets/text/ directory.
+    let settingsTemplate = fs.readFileSync('./cora/assets/text/defaultSettings.txt', 'utf-8');
+    let defaultSettings = JSON.parse("[" + settingsTemplate + "]");
+    defaultSettings.forEach(setting => {
+      logger.data(`Re-generating setting ${setting.name} for ${guild.name}`)
+      guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
+    });
+    // Once this completes, call redirect to dashboard page.
     res.redirect("/dashboard/"+req.params.guildID);
   });
 
