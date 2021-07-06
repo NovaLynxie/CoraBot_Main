@@ -344,6 +344,7 @@ module.exports = (client, config) => {
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     await guild.leave();
+    req.flash("info", `Removed from ${guild.name} successfully!`);
     res.redirect("/dashboard");
   });
 
@@ -364,6 +365,7 @@ module.exports = (client, config) => {
       guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
     });
     // Once this completes, call redirect to dashboard page.
+    req.flash("info", "Settings Reset Complete!");
     res.redirect("/dashboard/"+req.params.guildID);
   });
 
