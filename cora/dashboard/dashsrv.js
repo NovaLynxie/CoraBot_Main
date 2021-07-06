@@ -100,6 +100,9 @@ module.exports = (client, config) => {
         scriptSrcElem: [
           "'self'", "https:", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net"
         ],
+        scriptSrcAttr: [
+          "'self'"
+        ],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
       },

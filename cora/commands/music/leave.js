@@ -30,12 +30,12 @@ module.exports = class LeaveCommand extends Command {
       return message.say('There are no songs in queue')
     };
     if (message.guild.musicData.radioDispatcher) {
-      message.guild.musicData.radioDispatcher.end();
+      message.guild.musicData.radioDispatcher.destroy();
       logger.info('Stopping connected radio streams.')
     }
     if (message.guild.musicData.songDispatcher) {
       message.guild.musicData.queue.length = 0;
-      message.guild.musicData.songDispatcher.end();
+      message.guild.musicData.songDispatcher.destroy();
       logger.info('Stopping current music playback.')
     }
     message.say('Finished playing 👋')
