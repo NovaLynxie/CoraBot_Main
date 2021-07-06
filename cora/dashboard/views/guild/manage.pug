@@ -1,6 +1,7 @@
 include ../blocks/header
 include ../blocks/navbar
 
+- var {announcerSettings, autoModSettings, chatBotSettings, botLogSettings, modLogSettings} = settings
 .container
   include ../blocks/guild-nav
   .jumbotron.text-center.bg-transparent
@@ -8,25 +9,40 @@ include ../blocks/navbar
     p.lead
     | This part of the dashboard is not yet completed and may not be functional. 
     br
-    | You&apos;ll have to use the commands in the meantime to change my settings.
+    | You&apos;ll have to use the commands in the meantime to change Cora's settings.
     br
     | Sorry about that. - Nova Lynxie
     .settings_card_base
-      h4 Module Settings
+      h3 Module Settings
       .settings_card_modules
-        h5 Main Modules 
-        p 
-        | AutoNotify: N/A      
-        br
-        | ChatBot: N/A
-        br
-        | ModBot: N/A
-      .settings_card_modules
-        h5 Log Modules
-        p
-        | Bot Logger: N/A
-        br
-        | Mod Logger: N/A
+        h4 All Module Status
+        .settings_card_modules.div(style='display:inline-block vertical-align:"top"')
+          h5 Main Modules
+          table.settings_table_main(border="1")
+            tr
+              th Module Name
+              th Enabled?
+            tr
+              td AutoNotify
+              td #{(announcerSettings) ? (announcerSettings.enableNotifier) ? 'Yes' : 'No' : 'Unknown'}
+            tr
+              td ChatBot
+              td #{(chatBotSettings) ? (chatBotSettings.enableAutoChat) ? 'Yes' : 'No' : 'Unknown'}
+            tr
+              td ModBot
+              td #{(autoModSettings) ? (autoModSettings.enableAutoMod) ? 'Yes' : 'No' : 'Unknown'}
+        .settings_card_modules
+          h5 Logging Modules
+          table.settings_table_main(border="1")
+            tr
+              th Module Name
+              th Enabled?
+            tr
+              td Bot Logger
+              td #{(botLogSettings) ? (botLogSettings.enableBotLogger) ? 'Yes' : 'No' : 'Unknown'}
+            tr
+              td Mod Logger
+              td #{(modLogSettings) ? (modLogSettings.enableModLogger) ? 'Yes' : 'No' : 'Unknown'}
 
-    
+
 include ../blocks/footer

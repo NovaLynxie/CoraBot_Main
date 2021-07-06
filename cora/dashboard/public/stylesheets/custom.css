@@ -63,3 +63,9 @@
   border-style: solid;
   border-width: 2px;
 }
+.settings_table_main {
+  text-align: center;
+  width: 100%;
+  border: 1px solid powderblue;
+  border-collapse: collapse;
+}

@@ -10,7 +10,7 @@ include ../blocks/navbar
   -var H = date.getHours();
   -var M = date.getMinutes(); M = (M < 9) ? `0${M}` : M
   -var S = date.getSeconds(); S = (S < 9) ? `0${S}` : S
-  -return d+' '+m+' '+y+' @ '+H+':'+M+':'+S;
+  -return d+' '+m+' '+y+' at '+H+':'+M+':'+S;
 -} 
 
 .container
@@ -32,8 +32,25 @@ include ../blocks/navbar
         br
         | Joined #{formatDate(member.joinedAt)}
         br
-        | Status: #{member.user.presence.status}
+        if (member.user.presence.status === 'online')
+          | Status: 
+          i.fas.fa-check-circle 
+          | !{' '}Online
+        if (member.user.presence.status === 'idle')
+          | Status: 
+          i.fas.fa-question-circle 
+          | !{' '}Idle
+        if (member.user.presence.status === 'dnd')
+          | Status: 
+          i.fas.fa-minus-circle 
+          | !{' '}Do Not Disturb
+        if (member.user.presence.status === 'offline')
+          | Status: 
+          i.fas.fa-circle 
+          | !{' '}Offline
+        if (!member.user.presence.status || member.user.presence.status === undefined)
+          | Status: N/A
         br 
-        | Bot Acc: #{(member.user.bot) ? 'Yes' : 'No'}
+        | Bot User: #{(member.user.bot) ? 'Yes' : 'No'}
     
 include ../blocks/footer
