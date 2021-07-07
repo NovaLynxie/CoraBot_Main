@@ -14,7 +14,7 @@ const fs = require('fs');
 logger.init('Initialising bot systems...');
 // Boot.js used to handle bot startup and config loader.
 const {config, tokens} = require('./cora/handlers/bootLoader.js');
-const {prefix, operators, debug} = config;
+const {prefix, operators, useLegacyURL, debug} = config;
 const {discordToken} = tokens;
 // Load bot handlers here before bot starts.
 const crashReporter = require('./cora/handlers/crashReporter.js');
@@ -57,6 +57,7 @@ const client = new CommandoClient({
     ] 
   }
 });
+if (useLegacyURL) client.options.http.api = "https://discordapp.com/api"
 // Load in events from event files.
 const eventFiles = fs.readdirSync('./cora/events').filter(file => file.endsWith('.js'));
 // Prepare settings database provider here.

@@ -8,6 +8,11 @@ prefix = '<PREFIX>'
 # ONLY ADD USERS YOU TRUST HERE AS THEY CAN BYPASS ALL RESTRICTIONS!
 operators = []
 
+# Use Legacy API URL
+# If the bot stops responding on the main API base URL, enable this.
+# ONLY USE IF FAILING TO LOGIN TO DISCORD MAIN API URL!
+useLegacyURL = true
+
 # Bot debug mode. [WARNING! This is a DEVELOPER only setting!]
 # Use this only for debugging the bot as this reveals sensitive data!
 debug = false

@@ -45,6 +45,16 @@ module.exports = class AnimalsCommand extends Command {
                 .setFooter('Bot created and maintained by NovaLynxie. Image provided by CheweyBotAPI.', client.user.displayAvatarURL({ format: 'png'}))
             return message.channel.send(imageEmbed); // Sends the image embed to the channel the user ran the command.
         }
+        // Status Check Function
+        function checkStatus(res) {
+          if (res.ok) { // res.status >= 200 && res.status < 300
+            return res;
+          } else {
+            logger.error('Connection Error! See status response below.')
+            logger.error(`${res.status} ${res.statusText}`);
+          }
+        }
+
         // animal command option handler. (MAY REWRITE OPTION CALLS IF API MODULE IS CHANGED!)
         if (option === 'help') {
           const helpEmbed = new MessageEmbed()
@@ -67,7 +77,7 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type);
+              imgEmbed(this.client, json.data);
             });
           return;
         } if (option === 'cat') {
@@ -77,7 +87,7 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type);
+              imgEmbed(this.client, json.data);
             });
           return;
         } if (option === 'dog') {
@@ -87,7 +97,7 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type)
+              imgEmbed(this.client, json.data)
             });
           return;
         } if (option === 'duck') {
@@ -97,7 +107,7 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type)
+              imgEmbed(this.client, json.data)
             });
           return;
         } if (option === 'fox') {
@@ -107,7 +117,7 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type)
+              imgEmbed(this.client, json.data)
             });
           return;
         } if (option === 'koala') {
@@ -117,7 +127,7 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type)
+              imgEmbed(this.client, json.data)
             });
           return;
         } if (option === 'otter') {
@@ -127,7 +137,7 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type)
+              imgEmbed(this.client, json.data)
             });
           return;
         } if (option === 'owl') {
@@ -137,7 +147,7 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type)
+              imgEmbed(this.client, json.data)
             });
           return;
         } if (option === 'panda') {
@@ -147,7 +157,7 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type)
+              imgEmbed(this.client, json.data)
             });
           return;
         } if (option === 'rabbit') {
@@ -157,7 +167,7 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type)
+              imgEmbed(this.client, json.data)
             });
           return;
         } if (option === 'redpanda') {
@@ -167,7 +177,7 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type)
+              imgEmbed(this.client, json.data)
             }).catch(err => {
               logger.error('Error occured while fetching/parsing data!');
               logger.error(err); logger.debug(err.stack);
@@ -180,7 +190,7 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type)
+              imgEmbed(this.client, json.data)
             });
           return;
         } if (option === 'turtle') {
@@ -190,17 +200,18 @@ module.exports = class AnimalsCommand extends Command {
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type)
+              imgEmbed(this.client, json.data)
             });
           return;
         } if (option === 'wolf') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'wolf'+authHeader)
+            .then(checkStatus)
             .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
-              imgEmbed(this.client, json.data, json.type)
+              imgEmbed(this.client, json.data)
             }).catch(err => {
               logger.error('Error occured while fetching/parsing data!');
               logger.error(err); logger.debug(err.stack);
