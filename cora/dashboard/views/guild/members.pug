@@ -27,33 +27,39 @@ include ../blocks/navbar
       .member_card
         img.member_avatar(src=member.user.displayAvatarURL({ dynamic: true, size: 64 }) alt="Discord Avatar" onerror="this.onerror=null;this.src=member.user.defaultAvatarURL")
         p
-        | Username: #{member.user.tag}
+        | Name: #{member.displayName}
         br
-        | Nickname: #{member.displayName}
+        | Tag: (#{member.user.tag})
+        br
+        | Status: 
+        if (member.user.presence.status === 'online')
+          i.fas.fa-check-circle(style="color:#42b581")
+          | !{' '}Online
+        if (member.user.presence.status === 'idle')
+          i.fas.fa-question-circle(style="color:#faa61a")
+          | !{' '}Idle
+        if (member.user.presence.status === 'dnd')
+          i.fas.fa-minus-circle(style="color:#f04747")
+          | !{' '}Do Not Disturb
+        if (member.user.presence.status === 'offline')
+          i.fas.fa-circle(style="color:#747f8d")
+          | !{' '}Offline
+        if (!member.user.presence.status || member.user.presence.status === undefined)
+          | Status: N/A
+        br
+        | Activity: #{(member.user.presence.activities==='') ? member.user.presence.activities : 'None'}
+        br
+        - var defaultRole = guild.roles.cache.get(guild.id);
+        - var memberRoles = member.roles.cache
+        - memberRoles.filter(role => role.id !== defaultRole.id)
+        - memberRoles.sort((a, b) => b.position - a.position)
+        - memberRoles.map(role => role.name)        
+        | Roles: #{memberRoles.length} #{(memberRoles.length) ? memberRoles.join(', ') : "None"}
         br
         | Created #{formatDate(member.user.createdAt)}
         br
         | Joined #{formatDate(member.joinedAt)}
         br
-        if (member.user.presence.status === 'online')
-          | Status: 
-          i.fas.fa-check-circle 
-          | !{' '}Online
-        if (member.user.presence.status === 'idle')
-          | Status: 
-          i.fas.fa-question-circle 
-          | !{' '}Idle
-        if (member.user.presence.status === 'dnd')
-          | Status: 
-          i.fas.fa-minus-circle 
-          | !{' '}Do Not Disturb
-        if (member.user.presence.status === 'offline')
-          | Status: 
-          i.fas.fa-circle 
-          | !{' '}Offline
-        if (!member.user.presence.status || member.user.presence.status === undefined)
-          | Status: N/A
-        br 
         | Bot User: #{(member.user.bot) ? 'Yes' : 'No'}
     
 include ../blocks/footer
