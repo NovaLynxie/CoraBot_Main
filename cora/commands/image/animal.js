@@ -36,7 +36,6 @@ module.exports = class AnimalsCommand extends Command {
     async run(message, args) {
         const { option } = args;
         let guild = message.guild;
-        if (status === -1) return message.reply("I'm sorry but there was an error starting up the cheweyApi handler. This command has been disabled to prevent bot crashes.");
         // Embed Function Handler to format output of furry image command.
         function imgEmbed (client, url) {
             const imageEmbed = new MessageEmbed()
