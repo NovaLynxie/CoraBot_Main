@@ -1,10 +1,11 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const logger = require('../../providers/WinstonPlugin');
+const fetch = require('node-fetch');
 const { stripIndents } = require('common-tags');
-const {cheweyApiToken} = process.env;
-const cheweyBot = require('cheweybot-api');
-cheweyBot.init(cheweyApiToken)
+const {cheweyApiToken} = process.env; // my unique api token.
+const authHeader = `?auth=${cheweyApiToken}`; // auth parameter.
+const apiUrl = `https://api.chewey-bot.top/`; // cheweybot api domain.
 
 module.exports = class AnimalsCommand extends Command {
     constructor(client) {
@@ -34,7 +35,8 @@ module.exports = class AnimalsCommand extends Command {
     }
     async run(message, args) {
         const { option } = args;
-
+        let guild = message.guild;
+        if (status === -1) return message.reply("I'm sorry but there was an error starting up the cheweyApi handler. This command has been disabled to prevent bot crashes.");
         // Embed Function Handler to format output of furry image command.
         function imgEmbed (client, url) {
             const imageEmbed = new MessageEmbed()
@@ -46,107 +48,121 @@ module.exports = class AnimalsCommand extends Command {
         }
         // animal command option handler. (MAY REWRITE OPTION CALLS IF API MODULE IS CHANGED!)
         if (option === 'help') {
-            const helpEmbed = new MessageEmbed()
-                .setColor('#0099ff')
-                .setTitle('You confused? Here ya go!')
-                .setDescription(stripIndents`
-                    Here are the subcommands for the \`animal\` command.
-                `)
-                .addField(
-                    {name:'Animal Options', value:'\`bird/birb, blep, cheeta, fox, lynx, wolf\`'}
-                )
-                .setThumbnail(this.client.user.avatarURL({format:"png"}))
-                .setFooter('Bot created and maintained by NovaLynxie. Image provided by CheweyBotAPI.', this.client.user.avatarURL({format:"png"}))
-            return message.channel.send(helpEmbed);
+          const helpEmbed = new MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('You confused? Here ya go!')
+            .setDescription(stripIndents`
+                Here are the subcommands for the \`animal\` command.
+            `)
+            .addField(
+                {name:'Animal Options', value:'\`birb, cat, dog, duck, fox, koala, otter, owl, panda, rabbit, red-panda, snake, turtle, wolf\`'}
+            )
+            .setThumbnail(this.client.user.avatarURL({format:"png"}))
+            .setFooter('Bot created and maintained by NovaLynxie. Image provided by CheweyBotAPI.', this.client.user.avatarURL({format:"png"}))
+          return message.channel.send(helpEmbed);
         } if (option === 'bird' || option === 'birb') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("birb").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'birb'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'cat') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("cat").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'cat'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'dog') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("dog").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'dog'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'duck') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("duck").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'duck'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'fox') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("fox").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'fox'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'koala') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("koala").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'koala'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'otter') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("otter").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'otter'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'owl') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("owl").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'owl'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'panda') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("panda").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'panda'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'rabbit') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("rabbit").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'rabbit'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'redpanda') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("red-panda").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'red-panda'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'snake') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("snake").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'snake'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'turtle') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("turtle").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'turtle'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } if (option === 'wolf') {
-            logger.debug(`opthandler -> option=${option}`)
-            cheweyBot.get("wolf").then((reply)=>{
-                imgEmbed(this.client, reply.data)
+          logger.debug(`opthandler -> option=${option}`)
+          fetch(apiUrl+'wolf'+authHeader)
+            .then(res=>res.json()).then(json=>{
+              imgEmbed(this.client, json.data, json.type)
             });
-            return;
+          return;
         } else {
-            message.reply(stripIndents`
-            I'm sorry, but that option does not exist.
-            Please check your command input and try again.
-            *Use \`c help animal\` for help with this command.*`)
+          message.reply(stripIndents`
+          I'm sorry, but that option does not exist.
+          Please check your command input and try again.
+          *Use \`${(guild.commandPrefix) ? guild.commandPrefix : client.commandPrefix} help animal\` for help with this command.*`)
         }
     }
 };
