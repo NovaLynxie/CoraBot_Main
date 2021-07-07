@@ -63,98 +63,210 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'bird' || option === 'birb') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'birb'+authHeader)
-            .then(res=>res.json()).then(json=>{
-              imgEmbed(this.client, json.data, json.type)
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
+              imgEmbed(this.client, json.data, json.type);
             });
           return;
         } if (option === 'cat') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'cat'+authHeader)
-            .then(res=>res.json()).then(json=>{
-              imgEmbed(this.client, json.data, json.type)
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
+              imgEmbed(this.client, json.data, json.type);
             });
           return;
         } if (option === 'dog') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'dog'+authHeader)
-            .then(res=>res.json()).then(json=>{
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
               imgEmbed(this.client, json.data, json.type)
             });
           return;
         } if (option === 'duck') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'duck'+authHeader)
-            .then(res=>res.json()).then(json=>{
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
               imgEmbed(this.client, json.data, json.type)
             });
           return;
         } if (option === 'fox') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'fox'+authHeader)
-            .then(res=>res.json()).then(json=>{
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
               imgEmbed(this.client, json.data, json.type)
             });
           return;
         } if (option === 'koala') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'koala'+authHeader)
-            .then(res=>res.json()).then(json=>{
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
               imgEmbed(this.client, json.data, json.type)
             });
           return;
         } if (option === 'otter') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'otter'+authHeader)
-            .then(res=>res.json()).then(json=>{
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
               imgEmbed(this.client, json.data, json.type)
             });
           return;
         } if (option === 'owl') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'owl'+authHeader)
-            .then(res=>res.json()).then(json=>{
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
               imgEmbed(this.client, json.data, json.type)
             });
           return;
         } if (option === 'panda') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'panda'+authHeader)
-            .then(res=>res.json()).then(json=>{
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
               imgEmbed(this.client, json.data, json.type)
             });
           return;
         } if (option === 'rabbit') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'rabbit'+authHeader)
-            .then(res=>res.json()).then(json=>{
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
               imgEmbed(this.client, json.data, json.type)
             });
           return;
         } if (option === 'redpanda') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'red-panda'+authHeader)
-            .then(res=>res.json()).then(json=>{
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
               imgEmbed(this.client, json.data, json.type)
             });
           return;
         } if (option === 'snake') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'snake'+authHeader)
-            .then(res=>res.json()).then(json=>{
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
               imgEmbed(this.client, json.data, json.type)
             });
           return;
         } if (option === 'turtle') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'turtle'+authHeader)
-            .then(res=>res.json()).then(json=>{
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
               imgEmbed(this.client, json.data, json.type)
             });
           return;
         } if (option === 'wolf') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'wolf'+authHeader)
-            .then(res=>res.json()).then(json=>{
+            .then(res=>{
+              logger.debug('recieving data from cheweybot api...');
+              logger.data(res);
+              logger.debug("parsing data as json object");
+              res.json();
+            })
+            .then(json=>{
+              logger.debug('verifying json object data');
+              logger.data(json);
               imgEmbed(this.client, json.data, json.type)
             });
           return;

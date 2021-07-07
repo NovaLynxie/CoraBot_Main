@@ -23,7 +23,6 @@
   "dependencies": {
     "@discordjs/opus": "^0.4.0",
     "body-parser": "^1.19.0",
-    "cheweybot-api": "^1.0.5",
     "common-tags": "^1.8.0",
     "connect-sqlite3": "^0.9.11",
     "discord-chatbot": "^2.0.1",
