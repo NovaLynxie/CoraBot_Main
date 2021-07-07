@@ -3,7 +3,8 @@ const { MessageEmbed } = require('discord.js');
 const logger = require('../../providers/WinstonPlugin');
 const fetch = require('node-fetch');
 const { stripIndents } = require('common-tags');
-const {cheweyApiToken} = process.env; // my unique api token.
+const {tokens} = require('../../handlers/bootLoader');
+const {cheweyApiToken} = tokens; // my unique api token.
 const authHeader = `?auth=${cheweyApiToken}`; // auth parameter.
 const apiUrl = `https://api.chewey-bot.top/`; // cheweybot api domain.
 
@@ -61,6 +62,7 @@ module.exports = class AnimalsCommand extends Command {
           return message.channel.send(helpEmbed);
         } if (option === 'bird' || option === 'birb') {
           logger.debug(`opthandler -> option=${option}`)
+          logger.debug(apiUrl+'birb'+authHeader);
           fetch(apiUrl+'birb'+authHeader)
             .then(res=>{
               logger.debug('recieving data from cheweybot api...');
@@ -222,7 +224,10 @@ module.exports = class AnimalsCommand extends Command {
               logger.debug('verifying json object data');
               logger.data(json);
               imgEmbed(this.client, json.data, json.type)
-            });
+            }).catch(err => {
+              logger.error('Error occured while fetching/parsing data!');
+              logger.error(err); logger.debug(err.stack);
+            })
           return;
         } if (option === 'snake') {
           logger.debug(`opthandler -> option=${option}`)
@@ -259,7 +264,7 @@ module.exports = class AnimalsCommand extends Command {
           fetch(apiUrl+'wolf'+authHeader)
             .then(res=>{
               logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
+              logger.data(res); console.log(res); console.log(res.headers);
               logger.debug("parsing data as json object");
               res.json();
             })
@@ -267,7 +272,10 @@ module.exports = class AnimalsCommand extends Command {
               logger.debug('verifying json object data');
               logger.data(json);
               imgEmbed(this.client, json.data, json.type)
-            });
+            }).catch(err => {
+              logger.error('Error occured while fetching/parsing data!');
+              logger.error(err); logger.debug(err.stack);
+            })
           return;
         } else {
           message.reply(stripIndents`
