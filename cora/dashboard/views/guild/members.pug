@@ -47,14 +47,9 @@ include ../blocks/navbar
         if (!member.user.presence.status || member.user.presence.status === undefined)
           | Status: N/A
         br
-        | Activity: #{(member.user.presence.activities==='') ? member.user.presence.activities : 'None'}
+        | Activity: 
         br
-        - var defaultRole = guild.roles.cache.get(guild.id);
-        - var memberRoles = member.roles.cache
-        - memberRoles.filter(role => role.id !== defaultRole.id)
-        - memberRoles.sort((a, b) => b.position - a.position)
-        - memberRoles.map(role => role.name)        
-        | Roles: #{memberRoles.length} #{(memberRoles.length) ? memberRoles.join(', ') : "None"}
+        | #{(member.user.presence.activities) ? member.user.presence.activities : 'None'}
         br
         | Created #{formatDate(member.user.createdAt)}
         br
