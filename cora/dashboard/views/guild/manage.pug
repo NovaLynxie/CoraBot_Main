@@ -71,14 +71,15 @@ include ../blocks/navbar
                 td Yes
               if (!modLogSettings.enableModLogger)
                 td No
-      .settings_card_modules(style="display:'block'")
+      .settings_card_modules
         h4 Danger Zone
         .settings_card_modules.danger_block
-          h5 Reset Settings?
-          a.btn.btn-block.btn-outline-danger(href=`/dashboard/${guild.id}/reset`) RESET
+          h5 Reset Settings
+          a.btn.btn-block.btn-outline-danger(data-toggle='modal' data-target='#settingsResetModal' role='button' #serverLeaveModal) RESET DEFAULTS
           br
-          h5 Leave Guild?
-          a.btn.btn-block.btn-outline-danger(href=`/dashboard/${guild.id}/leave`) DISCONNECT
+          h5 Leave Guild
+          a.btn.btn-block.btn-outline-danger(data-toggle='modal' data-target='#serverLeaveModal' role='button') LEAVE GUILD
+      include ../blocks/guild-modals
           
 
 

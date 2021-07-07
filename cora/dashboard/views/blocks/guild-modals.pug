@@ -1,0 +1,28 @@
+// Manage Page Modals
+#serverLeaveModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='serverLeaveModalLabel' aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#serverLeaveModalLabel.modal-title Leave Server?
+        button.close(type='button' data-dismiss='modal' aria-label='Close')
+          span(aria-hidden='true') &times;
+      .modal-body
+        p
+          | Are you sure you want
+      .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-dismiss='modal') CANCEL
+        a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/leave` role='button') LEAVE
+// Manage Page Modals
+#settingsResetModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='settingsResetModalLabel' aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#settingsResetModalLabel.modal-title Reset Settings?
+        button.close(type='button' data-dismiss='modal' aria-label='Close')
+          span(aria-hidden='true') &times;
+      .modal-body
+        p
+          | Are you sure you want to reset to the default settings?
+      .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-dismiss='modal') CANCEL
+        a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/reset` role='button') RESET
