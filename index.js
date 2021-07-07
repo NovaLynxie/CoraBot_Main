@@ -58,7 +58,7 @@ const client = new CommandoClient({
   }
 });
 if (useLegacyURL) {
-  logger.warn('Using legacy API URL. This is not recommended!')
+  logger.warn('Using Legacy API domain. This is not recommended!')
   client.options.http.api = "https://discordapp.com/api"
 }
 // Load in events from event files.
