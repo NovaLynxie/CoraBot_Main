@@ -8,7 +8,7 @@
           span(aria-hidden='true') &times;
       .modal-body
         p
-          | Are you sure you want this bot to leave #{guild.name}?
+          | Are you sure you want #{bot.user.username} to leave this server?
       .modal-footer
         button.btn.btn-outline-secondary(type='button' data-dismiss='modal') CANCEL
         a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/leave` role='button') LEAVE
