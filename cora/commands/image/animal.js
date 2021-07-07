@@ -1,7 +1,7 @@
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const logger = require('../../providers/WinstonPlugin');
-const fetch = require('node-fetch');
+const fetch = require('node-fetch'); // used for parsing json response.
 const { stripIndents } = require('common-tags');
 const {tokens} = require('../../handlers/bootLoader');
 const {cheweyApiToken} = tokens; // my unique api token.
@@ -56,7 +56,7 @@ module.exports = class AnimalsCommand extends Command {
           }
         }
 
-        // animal command option handler. (MAY REWRITE OPTION CALLS IF API MODULE IS CHANGED!)
+        // animal command option handler.
         if (option === 'help') {
           const helpEmbed = new MessageEmbed()
             .setColor('#0099ff')
@@ -65,7 +65,8 @@ module.exports = class AnimalsCommand extends Command {
                 Here are the subcommands for the \`animal\` command.
             `)
             .addField(
-                {name:'Animal Options', value:'\`birb, cat, dog, duck, fox, koala, otter, owl, panda, rabbit, red-panda, snake, turtle, wolf\`'}
+                'Animal Options',
+                '\`birb, cat, dog, duck, fox, koala, otter, owl, panda, rabbit, red-panda, snake, turtle, wolf\`'
             )
             .setThumbnail(this.client.user.avatarURL({format:"png"}))
             .setFooter('Bot created and maintained by NovaLynxie. Image provided by CheweyBotAPI.', this.client.user.avatarURL({format:"png"}))
