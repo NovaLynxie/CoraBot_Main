@@ -52,6 +52,7 @@ module.exports = class AnimalsCommand extends Command {
           } else {
             logger.error('Connection Error! See status response below.')
             logger.error(`${res.status} ${res.statusText}`);
+            message.reply('unable to fetch image from CheweyBotAPI! Please contact my owner for help as this should not happen!')
           }
         }
 
@@ -73,21 +74,29 @@ module.exports = class AnimalsCommand extends Command {
           logger.debug(`opthandler -> option=${option}`)
           logger.debug(apiUrl+'birb'+authHeader);
           fetch(apiUrl+'birb'+authHeader)
+            .then(checkStatus)
             .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
               imgEmbed(this.client, json.data);
+            }).catch(err => {
+              logger.error('Error occured while fetching/parsing data!');
+              logger.error(err); logger.debug(err.stack);
             });
           return;
         } if (option === 'cat') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'cat'+authHeader)
+            .then(checkStatus)
             .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
               imgEmbed(this.client, json.data);
+            }).catch(err => {
+              logger.error('Error occured while fetching/parsing data!');
+              logger.error(err); logger.debug(err.stack);
             });
           return;
         } if (option === 'dog') {
@@ -98,36 +107,51 @@ module.exports = class AnimalsCommand extends Command {
               logger.debug('verifying json object data');
               logger.data(json);
               imgEmbed(this.client, json.data)
+            }).catch(err => {
+              logger.error('Error occured while fetching/parsing data!');
+              logger.error(err); logger.debug(err.stack);
             });
           return;
         } if (option === 'duck') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'duck'+authHeader)
+            .then(checkStatus)
             .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
               imgEmbed(this.client, json.data)
+            }).catch(err => {
+              logger.error('Error occured while fetching/parsing data!');
+              logger.error(err); logger.debug(err.stack);
             });
           return;
         } if (option === 'fox') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'fox'+authHeader)
+            .then(checkStatus)
             .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
               imgEmbed(this.client, json.data)
+            }).catch(err => {
+              logger.error('Error occured while fetching/parsing data!');
+              logger.error(err); logger.debug(err.stack);
             });
           return;
         } if (option === 'koala') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'koala'+authHeader)
+            .then(checkStatus)
             .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
               imgEmbed(this.client, json.data)
+            }).catch(err => {
+              logger.error('Error occured while fetching/parsing data!');
+              logger.error(err); logger.debug(err.stack);
             });
           return;
         } if (option === 'otter') {
@@ -138,21 +162,29 @@ module.exports = class AnimalsCommand extends Command {
               logger.debug('verifying json object data');
               logger.data(json);
               imgEmbed(this.client, json.data)
+            }).catch(err => {
+              logger.error('Error occured while fetching/parsing data!');
+              logger.error(err); logger.debug(err.stack);
             });
           return;
         } if (option === 'owl') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'owl'+authHeader)
+            .then(checkStatus)
             .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
               imgEmbed(this.client, json.data)
+            }).catch(err => {
+              logger.error('Error occured while fetching/parsing data!');
+              logger.error(err); logger.debug(err.stack);
             });
           return;
         } if (option === 'panda') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'panda'+authHeader)
+            .then(checkStatus)
             .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
@@ -163,6 +195,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'rabbit') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'rabbit'+authHeader)
+            .then(checkStatus)
             .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
@@ -173,6 +206,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'redpanda') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'red-panda'+authHeader)
+            .then(checkStatus)
             .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
@@ -186,21 +220,29 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'snake') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'snake'+authHeader)
+            .then(checkStatus)
             .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
               imgEmbed(this.client, json.data)
+            }).catch(err => {
+              logger.error('Error occured while fetching/parsing data!');
+              logger.error(err); logger.debug(err.stack);
             });
           return;
         } if (option === 'turtle') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'turtle'+authHeader)
+            .then(checkStatus)
             .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
               imgEmbed(this.client, json.data)
+            }).catch(err => {
+              logger.error('Error occured while fetching/parsing data!');
+              logger.error(err); logger.debug(err.stack);
             });
           return;
         } if (option === 'wolf') {
@@ -215,7 +257,7 @@ module.exports = class AnimalsCommand extends Command {
             }).catch(err => {
               logger.error('Error occured while fetching/parsing data!');
               logger.error(err); logger.debug(err.stack);
-            })
+            });
           return;
         } else {
           message.reply(stripIndents`
