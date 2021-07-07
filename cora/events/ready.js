@@ -1,5 +1,5 @@
 const {assets, config} = require('../handlers/bootLoader');
-const {activities} = assets, {enableDash, dashPort} = config;
+const {activities} = assets, {debug, enableDash, dashPort, reportOnly} = config;
 const logger = require('../providers/WinstonPlugin');
 const fs = require('fs');
 
@@ -16,6 +16,7 @@ module.exports = {
     const dashConfig = {
       "dashboard" : {
         "dashPort": dashPort,
+        "reportOnly": reportOnly,
         "clientID" : client.application.id,
         "oauthSecret" : process.env.clientSecret,
         "sessionSecret" : process.env.sessionSecret,

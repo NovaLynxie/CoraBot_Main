@@ -36,7 +36,7 @@ if (!youtubeApiKey) youtubeApiKey = process.env.youtubeApiKey;
 
 const {general, dashboard, runtime} = mainConfig;
 const {prefix, operators, useLegacyURL, debug} = general;
-const {enableDash, dashSrvPort} = dashboard;
+const {enableDash, dashSrvPort, reportOnly} = dashboard;
 const {useDotEnv} = runtime;
 // If useDotEnv is enabled, attempt to get credentials from process.env instead.
 if (useDotEnv) {
@@ -58,5 +58,5 @@ const { responses } = require('../assets/json/responses.json');
 logger.debug('Loaded responses from responses.json');
 
 module.exports.assets = { activities, responses };
-module.exports.config = { prefix, operators, useLegacyURL, debug, enableDash, dashSrvPort };
+module.exports.config = { prefix, operators, useLegacyURL, debug, enableDash, dashSrvPort, reportOnly };
 module.exports.tokens = { discordToken, yiffyApiKey, cheweyApiToken, youtubeApiKey };

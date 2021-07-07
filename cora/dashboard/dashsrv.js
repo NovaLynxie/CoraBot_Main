@@ -79,33 +79,35 @@ module.exports = (client, config) => {
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
+        // supported by most browsers
         defaultSrc: ["'self'", "https:"],
         scriptSrc: [
-          "'self'", "https:", "*.bootstrapcdn.com", "*.googleapis.com"
+          "'self'", "https:", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net", "*.googleapis.com"
         ],
         fontSrc: [
           "'self'", "https:", "fonts.googleapis.com",
           "*.gstatic.com", "maxcdn.bootstrapcdn.com"
         ],
         styleSrc: [
-          "'self'", "'unsafe-inline'", "*.bootstrapcdn.com", "*.googleapis.com"
+          "'self'", "https:", "'unsafe-inline'", "*.bootstrapcdn.com", "*.googleapis.com"
         ],
         imgSrc: [
           "'self'", "cdn.discordapp.com", "i.giphy.com", "media.tenor.com"
-        ],
-        styleSrcElem: [
-          "'self'", "https:", "*.bootstrapcdn.com", "*.googleapis.com"
-        ],
+        ],        
+        objectSrc: ["'none'"],
+        // supported by some browsers (firefox doesn't at this time)
         scriptSrcElem: [
           "'self'", "https:", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net"
         ],
         scriptSrcAttr: [
           "'self'"
         ],
-        objectSrc: ["'none'"],
+        styleSrcElem: [
+          "'self'", "https:", "*.bootstrapcdn.com", "*.googleapis.com"
+        ],
         upgradeInsecureRequests: [],
       },
-      reportOnly: false
+      reportOnly: config.dashboard.reportOnly || false // used for debugging purposes
     }
   }));
 

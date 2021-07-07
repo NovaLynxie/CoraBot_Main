@@ -30,3 +30,5 @@ useDotEnv = <DOTENV>
 enableDash = false
 # Dashboard port. Default is '3000'.
 dashSrvPort = 3000
+# CSP options. reportOnly logs Content Security Protocols response in browser console.
+reportOnly = true
