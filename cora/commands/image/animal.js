@@ -36,7 +36,6 @@ module.exports = class AnimalsCommand extends Command {
     }
     async run(message, args) {
         const { option } = args;
-        let guild = message.guild;
         // Embed Function Handler to format output of furry image command.
         function imgEmbed (client, url) {
             const imageEmbed = new MessageEmbed()
@@ -211,7 +210,7 @@ module.exports = class AnimalsCommand extends Command {
           message.reply(stripIndents`
           I'm sorry, but that option does not exist.
           Please check your command input and try again.
-          *Use \`${(guild.commandPrefix) ? guild.commandPrefix : client.commandPrefix} help animal\` for help with this command.*`)
+          *Use \`<prefix> help animal\` for help with this command.*`)
         }
     }
 };
