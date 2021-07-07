@@ -1,3 +1,8 @@
+/* 
+  DISABLED DUE TO ERRORS WITH CHEWEYBOT API HANDLER!
+  Requires a rewrite to handle requests manually instead.
+*/
+/*
 const { Command } = require('discord.js-commando');
 const { MessageEmbed } = require('discord.js');
 const logger = require('../../providers/WinstonPlugin');
@@ -156,3 +161,4 @@ module.exports = class AnimalsCommand extends Command {
         }
     }
 };
+*/
