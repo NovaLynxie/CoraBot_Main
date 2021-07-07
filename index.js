@@ -57,7 +57,10 @@ const client = new CommandoClient({
     ] 
   }
 });
-if (useLegacyURL) client.options.http.api = "https://discordapp.com/api"
+if (useLegacyURL) {
+  logger.warn('Using legacy API URL. This is not recommended!')
+  client.options.http.api = "https://discordapp.com/api"
+}
 // Load in events from event files.
 const eventFiles = fs.readdirSync('./cora/events').filter(file => file.endsWith('.js'));
 // Prepare settings database provider here.
