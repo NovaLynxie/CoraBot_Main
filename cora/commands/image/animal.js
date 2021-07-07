@@ -64,12 +64,7 @@ module.exports = class AnimalsCommand extends Command {
           logger.debug(`opthandler -> option=${option}`)
           logger.debug(apiUrl+'birb'+authHeader);
           fetch(apiUrl+'birb'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -79,12 +74,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'cat') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'cat'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -94,12 +84,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'dog') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'dog'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -109,12 +94,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'duck') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'duck'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -124,12 +104,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'fox') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'fox'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -139,12 +114,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'koala') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'koala'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -154,12 +124,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'otter') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'otter'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -169,12 +134,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'owl') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'owl'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -184,12 +144,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'panda') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'panda'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -199,12 +154,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'rabbit') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'rabbit'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -214,12 +164,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'redpanda') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'red-panda'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -232,12 +177,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'snake') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'snake'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -247,12 +187,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'turtle') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'turtle'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
@@ -262,12 +197,7 @@ module.exports = class AnimalsCommand extends Command {
         } if (option === 'wolf') {
           logger.debug(`opthandler -> option=${option}`)
           fetch(apiUrl+'wolf'+authHeader)
-            .then(res=>{
-              logger.debug('recieving data from cheweybot api...');
-              logger.data(res); console.log(res); console.log(res.headers);
-              logger.debug("parsing data as json object");
-              res.json();
-            })
+            .then(res=>res.json())
             .then(json=>{
               logger.debug('verifying json object data');
               logger.data(json);
