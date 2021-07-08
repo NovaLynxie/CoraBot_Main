@@ -82,7 +82,7 @@ module.exports = (client, config) => {
         // supported by most browsers
         defaultSrc: ["'self'", "https:"],
         scriptSrc: [
-          "'self'", "https:", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net", "*.googleapis.com"
+          "'self'", "https:", "'unsafe-inline'", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net", "*.googleapis.com", "nonce-1346c5f32c"
         ],
         fontSrc: [
           "'self'", "https:", "fonts.googleapis.com",
@@ -100,7 +100,7 @@ module.exports = (client, config) => {
           "'self'", "https:", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net"
         ],
         scriptSrcAttr: [
-          "'self'"
+          "'self'", "https:", "'unsafe-inline'", "'nonce-1346c5f32c'"
         ],
         styleSrcElem: [
           "'self'", "https:", "*.bootstrapcdn.com", "*.googleapis.com"

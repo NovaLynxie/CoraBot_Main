@@ -23,8 +23,11 @@ include ../blocks/navbar
     | This is a list of all members currently in the guild. If some intents are missing or not enabled, you will only see ONLINE users listed here.
     br
     p There are currently #{guild.members.cache.filter(member => !member.user.bot).size} users and #{guild.members.cache.filter(member => member.user.bot).size} bots in this guild!
+    - var memberIDs = members.map(member => member.user.id)
+    include ../blocks/guild-modals
+    - var memberPos = 0;
     each member in members
-      .member_card
+      .member_card#member_card
         img.member_avatar(src=member.user.displayAvatarURL({ dynamic: true, size: 64 }) alt="Discord Avatar" onerror="this.onerror=null;this.src=member.user.defaultAvatarURL")
         p
         | Name: #{member.displayName}
@@ -47,14 +50,24 @@ include ../blocks/navbar
         if (!member.user.presence.status || member.user.presence.status === undefined)
           | Status: N/A
         br
-        | Activity: 
-        br
-        | #{(member.user.presence.activities) ? member.user.presence.activities : 'None'}
+        each activity in (member.user.presence.activities.length) ? member.user.presence.activities : ['No Activity']
+          if (activity === 'No Activity')
+            | No Activity
+            br
+          else
+            | #{(activity.type) ? activity.type : 'NO DATA'}
+            br
+            | #{activity} #{(activity.details) ? `- ${activity.details}` : ''}
         br
         | Created #{formatDate(member.user.createdAt)}
         br
         | Joined #{formatDate(member.joinedAt)}
         br
         | Bot User: #{(member.user.bot) ? 'Yes' : 'No'}
-    
+        br
+        .btn-group.btn-block(role='group' aria-label='Basic example')
+          button.btn.btn-outline-info(data-toggle='modal' data-target='#memberDetailsModal' data-member=member type='button') Details
+          button.btn.btn-outline-danger(data-toggle='modal' data-target='#memberKickModal' data-member=member.displayName type='button') Kick
+
+
 include ../blocks/footer
