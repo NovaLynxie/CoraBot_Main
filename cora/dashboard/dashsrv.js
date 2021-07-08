@@ -382,6 +382,40 @@ module.exports = (client, config) => {
     res.redirect("/dashboard/"+req.params.guildID);
   });
 
+  // Kicks specified member by their unique user ID.
+  app.get("/dashboard/:guildID/kick/:userID", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID);
+    const member = guild.members.cache.get(req.params.userID);
+    if (!guild) return res.status(404);
+    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    member.kick('Kicked by Dashboard Operator')
+      .then(req.flash("success", `Removed from ${guild.name} successfully!`))
+      .catch(err => {
+        req.flash("danger", `Could not kick ${member.user.tag} due to missing permissions or another error occured.`)
+        logger.warn(`WebDash Operator KICK ${member.user.tag} failed.`)
+        logger.error(err); logger.debug(err.stack);
+      });
+    res.redirect("/dashboard");
+  });
+  // Bans specified member by their unique user ID.
+  app.get("/dashboard/:guildID/ban/:userID", checkAuth, async (req, res) => {
+    const guild = client.guilds.cache.get(req.params.guildID);
+    const member = guild.members.cache.get(req.params.userID);
+    if (!guild) return res.status(404);
+    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    member.ban({days: 7, reason: 'Banned by Dashboard Operator'})
+      .then(req.flash("success", `Banned ${member.user.tag} Successfully!`))
+      .catch(err => {
+        req.flash("danger", `Could not ban ${member.user.tag} due to missing permissions or another error occured.`)
+        logger.warn(`WebDash Operator BAN ${member.user.tag} failed.`)
+        logger.error(err); logger.debug(err.stack);
+      });
+    req.flash("success", `Removed from ${guild.name} successfully!`);
+    res.redirect("/dashboard");
+  });
+  
   // Fallback Middleware.
 
   // 404 Not Found Handler (Only occurs if no error was thrown)
