@@ -1,5 +1,8 @@
-body {
-  background: #2a2d32;
+.media {  
+  display: inline-block;
+  padding: 10px;
+  min-height: 200px;
+  min-width: 240px;
 }
 
 .roleBox {
@@ -35,6 +38,13 @@ body {
 .offline {
   background-color: #747f8d;
   border-color: #9099a4;
+}
+
+.guild_card {
+  display: inline-block;
+  padding: 10px;
+  min-height: 200px;
+  min-width: 240px;
 }
 
 .member_card {
