@@ -1,24 +1,7 @@
-.commands_help {
-  padding: 2rem;
-  background-color: rgba(100, 148, 237, 0.233);
-  border-color: rgba(100, 205, 237, 0.425);
-  border-style: solid;
-  border-width: 5px;
-}
-.commands_list {
-  padding: 2rem;
-  background-color: rgba(100, 148, 237, 0.274);
-  border-color: rgba(100, 205, 237, 0.425);
-  border-style: solid;
-  border-width: 5px;
+.btn-group.btn-flex {
+  display: flex;
 }
 
-.dev_warning {
-  text-align: center;
-  margin-top: 1rem;
-  padding: 0.5rem 1rem 0.5rem 2rem;
-  background-color: rgba(255, 101, 40, 0.26);
-  border-color: rgba(255, 72, 0, 0.288);
-  border-style: solid;
-  border-width: 1px;
+.btn, .btn-flex {
+  flex: 1
 }

@@ -29,10 +29,20 @@ include ../blocks/navbar
       if (member.user.id !== bot.user.id)
       .member_card#member_card
         img.member_avatar(src=member.user.displayAvatarURL({ dynamic: true, size: 64 }) alt="Discord Avatar" onerror="this.onerror=null;this.src=member.user.defaultAvatarURL")
+        .member_actions
+          .btn-group-vertical(role='group' aria-label='Basic example')
+            button.btn.btn-outline-warning(class=(member.user.id===bot.user.id) ? "disabled" : "" data-bs-toggle='modal' data-bs-target='#memberKickModal' data-bs-memberid=member.user.id  type='button') KICK
+            button.btn.btn-outline-danger(class=(member.user.id===bot.user.id) ? "disabled" : "" data-bs-toggle='modal' data-bs-target='#memberBanModal' data-bs-memberid=member.user.id type='button') BAN
         p
         | Name: #{member.displayName}
         br
-        | Tag: (#{member.user.tag})
+        | Tag: @#{member.user.tag}
+        br        
+        | Created #{formatDate(member.user.createdAt)}
+        br
+        | Joined #{formatDate(member.joinedAt)}
+        br
+        | Bot User: #{(member.user.bot) ? 'Yes' : 'No'}
         br
         | Status: 
         if (member.user.presence.status === 'online')
@@ -50,24 +60,36 @@ include ../blocks/navbar
         if (!member.user.presence.status || member.user.presence.status === undefined)
           | Status: N/A
         br
+        | Activity Info
+        br
+        - var pos = 0;
         each activity in (member.user.presence.activities.length) ? member.user.presence.activities : ['No Activity']
           if (activity === 'No Activity')
-            | No Activity
+            | No Activity Data
             br
-          else
-            | #{(activity.type) ? activity.type : 'NO DATA'}
+            |
+            !=(pos > member.user.presence.activities.length) ? '' : br
+          if (activity.type === 'PLAYING')
+            | Playing #{activity.name}
             br
-            | #{activity} #{(activity.details) ? `- ${activity.details}` : ''}
-        br
-        | Created #{formatDate(member.user.createdAt)}
-        br
-        | Joined #{formatDate(member.joinedAt)}
-        br
-        | Bot User: #{(member.user.bot) ? 'Yes' : 'No'}
-        br
-        .btn-group.btn-block(role='group' aria-label='Basic example')
-          button.btn.btn-outline-warning(class=(member.user.id===bot.user.id) ? "disabled" : "" data-bs-toggle='modal' data-bs-target='#memberKickModal' data-bs-memberid=member.user.id  type='button') KICK
-          button.btn.btn-outline-danger(class=(member.user.id===bot.user.id) ? "disabled" : "" data-bs-toggle='modal' data-bs-target='#memberBanModal' data-bs-memberid=member.user.id type='button') BAN
+            | #{(activity.details) ? `- ${activity.details}` : ''}
+            !=(pos > member.user.presence.activities.length) ? '' : br
+          if (activity.type === 'WATCHING')
+            | Watching #{activity.name}
+            br
+            | #{(activity.details) ? `- ${activity.details}` : ''}
+            !=(pos > member.user.presence.activities.length) ? '' : br
+          if (activity.type === 'LISTENING')
+            | Listening to #{activity.name}
+            br
+            | #{(activity.details) ? `- ${activity.details}` : ''}
+            !=(pos > member.user.presence.activities.length) ? '' : br
+          if (activity.type === 'CUSTOM_STATUS')
+            | "#{activity.state}"
+            br
+            |
+            !=(pos > member.user.presence.activities.length) ? '' : br
+        
 
 
 include ../blocks/footer
