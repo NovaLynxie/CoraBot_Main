@@ -23,7 +23,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
         if (user)
           li.nav-item.dropdown
             img.d-inline-block.align-middle.rounded-circle(src=userAvatar width='25' height='25' alt=user.username)
-            a#userDropdown.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+            a#userDropdown.nav-link.dropdown-toggle(href='#' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
             .dropdown-menu.dropdown-menu-right(aria-labelledby='userDropdown')
               h5.dropdown-header
                 i.fa.fa-user(aria-hidden='true')  Hello #{user.username}!
