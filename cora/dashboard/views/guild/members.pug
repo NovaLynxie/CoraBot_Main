@@ -23,7 +23,6 @@ include ../blocks/navbar
     | This is a list of all members currently in the guild. If some intents are missing or not enabled, you will only see ONLINE users listed here.
     br
     p There are currently #{guild.members.cache.filter(member => !member.user.bot).size} users and #{guild.members.cache.filter(member => member.user.bot).size} bots in this guild! (Bot for Dashboard is hidden)
-    - var memberIDs = members.map(member => member.user.id)
     include ../blocks/guild-modals
     - var memberPos = 0;
     each member in members

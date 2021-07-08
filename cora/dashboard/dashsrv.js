@@ -340,7 +340,6 @@ module.exports = (client, config) => {
   });
   // Displays all members in the Discord guild being viewed.
   app.get("/dashboard/:guildID/members", checkAuth, (req, res) => {
-    console.log(req.params)
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
