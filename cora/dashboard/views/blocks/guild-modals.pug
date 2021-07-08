@@ -69,10 +69,10 @@ script(nonce="memberModals").
   memberBanModal.addEventListener('show.bs.modal', function (event) {
     var memberID = getMemberID(event)
     var confirmBtn = exampleModal.querySelector('.modal-title')
-    confirmBtn.href = `/dashboard/${guild.id}/kick`
+    confirmBtn.href = `/dashboard/${guild.id}/kick/${memberID}`
   })
   memberKickModal.addEventListener('show.bs.modal', function (event) {
     var memberID = getMemberID(event)
     var confirmBtn = exampleModal.querySelector('.modal-title')
-    confirmBtn.href = `/dashboard/${guild.id}/kick`
+    confirmBtn.href = `/dashboard/${guild.id}/kick/${memberID}`
   })
