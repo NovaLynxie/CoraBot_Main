@@ -82,7 +82,7 @@ module.exports = (client, config) => {
         // supported by most browsers
         defaultSrc: ["'self'", "https:"],
         scriptSrc: [
-          "'self'", "https:", "'unsafe-inline'", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net", "*.googleapis.com", "nonce-1346c5f32c"
+          "'self'", "https:", "'unsafe-inline'", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net", "*.googleapis.com", "nonce-memberModals"
         ],
         fontSrc: [
           "'self'", "https:", "fonts.googleapis.com",
@@ -97,10 +97,10 @@ module.exports = (client, config) => {
         objectSrc: ["'none'"],
         // supported by some browsers (firefox doesn't at this time)
         scriptSrcElem: [
-          "'self'", "https:", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net"
+          "'self'", "https:", "'unsafe-inline'", "'nonce-memberModals'", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net"
         ],
         scriptSrcAttr: [
-          "'self'", "https:", "'unsafe-inline'", "'nonce-1346c5f32c'"
+          "'self'", "https:"
         ],
         styleSrcElem: [
           "'self'", "https:", "*.bootstrapcdn.com", "*.googleapis.com"
@@ -340,6 +340,7 @@ module.exports = (client, config) => {
   });
   // Displays all members in the Discord guild being viewed.
   app.get("/dashboard/:guildID/members", checkAuth, (req, res) => {
+    console.log(req.params)
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;

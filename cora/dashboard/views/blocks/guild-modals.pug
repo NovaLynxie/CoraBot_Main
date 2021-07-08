@@ -1,37 +1,37 @@
 // Manage Page Modals
-#serverLeaveModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='serverLeaveModalLabel' aria-hidden='true')
+#serverLeaveModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='serverLeaveModalLabel' aria-hidden='true')
   .modal-dialog(role='document')
     .modal-content
       .modal-header
         h5#serverLeaveModalLabel.modal-title Leave Server?
-        button.close(type='button' data-dismiss='modal' aria-label='Close')
+        button.close(type='button' data-bs-dismiss='modal' aria-label='Close')
           span(aria-hidden='true') &times;
       .modal-body
         p
           | Are you sure you want #{bot.user.username} to leave this server?
       .modal-footer
-        button.btn.btn-outline-secondary(type='button' data-dismiss='modal') CANCEL
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
         a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/leave` role='button') LEAVE
-#settingsResetModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='settingsResetModalLabel' aria-hidden='true')
+#settingsResetModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='settingsResetModalLabel' aria-hidden='true')
   .modal-dialog(role='document')
     .modal-content
       .modal-header
         h5#settingsResetModalLabel.modal-title Reset Settings?
-        button.close(type='button' data-dismiss='modal' aria-label='Close')
+        button.close(type='button' data-bs-dismiss='modal' aria-label='Close')
           span(aria-hidden='true') &times;
       .modal-body
         p
           | Are you sure you want to reset to the default settings?
       .modal-footer
-        button.btn.btn-outline-secondary(type='button' data-dismiss='modal') CANCEL
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
         a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/reset` role='button') RESET
 // Members Page Modals
-#memberBanModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='settingsResetModalLabel' aria-hidden='true')
+#memberBanModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='memberBanModalLabel' aria-hidden='true')
   .modal-dialog(role='document')
     .modal-content
       .modal-header
-        h5#settingsResetModalLabel.modal-title Kick User?
-        button.close(type='button' data-dismiss='modal' aria-label='Close')
+        h5#memberBanModal.modal-title Kick User?
+        button.close(type='button' data-bs-dismiss='modal' aria-label='Close')
           span(aria-hidden='true') &times;
       .modal-body
         p.main
@@ -39,14 +39,14 @@
           br
           | They will not be able to rejoin on this account.
       .modal-footer
-        button.btn.btn-outline-secondary(type='button' data-dismiss='modal') CANCEL
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
         a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/ban` role='button') CONFIRM
-#memberKickModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='settingsResetModalLabel' aria-hidden='true')
+#memberKickModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='memberKickModalLabel' aria-hidden='true')
   .modal-dialog(role='document')
     .modal-content
       .modal-header
-        h5#settingsResetModalLabel.modal-title Kick User?
-        button.close(type='button' data-dismiss='modal' aria-label='Close')
+        h5#memberKickModal.modal-title Kick User?
+        button.close(type='button' data-bs-dismiss='modal' aria-label='Close')
           span(aria-hidden='true') &times;
       .modal-body
         p.main
@@ -54,5 +54,25 @@
           br
           | They can rejoin with a valid invite link later.
       .modal-footer
-        button.btn.btn-outline-secondary(type='button' data-dismiss='modal') CANCEL
-        button.btn.btn-outline-danger(href=`/dashboard/${guild.id}/kick` type='button') CONFIRM
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+        a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/kick` role='button') CONFIRM
+script(nonce="memberModals").
+  var memberBanModal = document.getElementById('memberBanModal')
+  var memberKickModal = document.getElementById('memberKickModal')
+
+  function getMemberID(event) {
+    var button = event.relatedTarget
+    var data = button.getAttribute('data-bs-memberid')
+    return data
+  }
+
+  memberBanModal.addEventListener('show.bs.modal', function (event) {
+    var memberID = getMemberID(event)
+    var confirmBtn = exampleModal.querySelector('.modal-title')
+    confirmBtn.href = `/dashboard/${guild.id}/kick`
+  })
+  memberKickModal.addEventListener('show.bs.modal', function (event) {
+    var memberID = getMemberID(event)
+    var confirmBtn = exampleModal.querySelector('.modal-title')
+    confirmBtn.href = `/dashboard/${guild.id}/kick`
+  })

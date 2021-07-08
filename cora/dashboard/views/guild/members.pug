@@ -22,11 +22,12 @@ include ../blocks/navbar
     p.lead
     | This is a list of all members currently in the guild. If some intents are missing or not enabled, you will only see ONLINE users listed here.
     br
-    p There are currently #{guild.members.cache.filter(member => !member.user.bot).size} users and #{guild.members.cache.filter(member => member.user.bot).size} bots in this guild!
+    p There are currently #{guild.members.cache.filter(member => !member.user.bot).size} users and #{guild.members.cache.filter(member => member.user.bot).size} bots in this guild! (Bot for Dashboard is hidden)
     - var memberIDs = members.map(member => member.user.id)
     include ../blocks/guild-modals
     - var memberPos = 0;
     each member in members
+      if (member.user.id !== bot.user.id)
       .member_card#member_card
         img.member_avatar(src=member.user.displayAvatarURL({ dynamic: true, size: 64 }) alt="Discord Avatar" onerror="this.onerror=null;this.src=member.user.defaultAvatarURL")
         p
@@ -65,9 +66,10 @@ include ../blocks/navbar
         br
         | Bot User: #{(member.user.bot) ? 'Yes' : 'No'}
         br
+        -console.log(member)
         .btn-group.btn-block(role='group' aria-label='Basic example')
-          button.btn.btn-outline-warning(data-toggle='modal' data-target='#memberKickModal' data-member=member.displayName type='button') KICK
-          button.btn.btn-outline-danger(data-toggle='modal' data-target='#memberBanModal' data-member=member type='button') BAN
+          button.btn.btn-outline-warning(class=(member.user.id===bot.user.id) ? "disabled" : "" data-bs-toggle='modal' data-bs-target='#memberKickModal' data-bs-memberid=member.userID  type='button') KICK
+          button.btn.btn-outline-danger(class=(member.user.id===bot.user.id) ? "disabled" : "" data-bs-toggle='modal' data-bs-target='#memberBanModal' data-bs-memberid=member.userID type='button') BAN
 
 
 include ../blocks/footer
