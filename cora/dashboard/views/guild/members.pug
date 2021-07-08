@@ -66,8 +66,8 @@ include ../blocks/navbar
         | Bot User: #{(member.user.bot) ? 'Yes' : 'No'}
         br
         .btn-group.btn-block(role='group' aria-label='Basic example')
-          button.btn.btn-outline-info(data-toggle='modal' data-target='#memberDetailsModal' data-member=member type='button') Details
-          button.btn.btn-outline-danger(data-toggle='modal' data-target='#memberKickModal' data-member=member.displayName type='button') Kick
+          button.btn.btn-outline-warning(data-toggle='modal' data-target='#memberKickModal' data-member=member.displayName type='button') KICK
+          button.btn.btn-outline-danger(data-toggle='modal' data-target='#memberBanModal' data-member=member type='button') BAN
 
 
 include ../blocks/footer

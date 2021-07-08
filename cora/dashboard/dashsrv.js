@@ -107,7 +107,8 @@ module.exports = (client, config) => {
         ],
         upgradeInsecureRequests: [],
       },
-      reportOnly: config.dashboard.reportOnly || false // used for debugging purposes
+      // used for debugging purposes to determine if csp is working.
+      reportOnly: config.dashboard.reportOnly || false       
     }
   }));
 
@@ -181,6 +182,11 @@ module.exports = (client, config) => {
     req.breadcrumbs = get_breadcrumbs(req.originalUrl);
     next();
   });
+
+  // Uptime Robot or Ping Service URL
+  app.get("/ping", (req, res, next) => {
+    res.send('DiscordBot/Dashboard Heartbeat Endpoint. Nothing to see here. :)')
+  })
 
   // Dashboard Actions - All Interaction & Authentication actions.
 
@@ -386,6 +392,7 @@ module.exports = (client, config) => {
   // Error Handling
   app.use(function(err, req, res, next) {
     if (err.message.indexOf('Failed to lookup view') !== -1) {
+      req.flash("danger", "Error occured while attempting to render template! A requested template asset file is missing or was not found. Please contact my owner for help.")
       return res.status(404), renderView(res, req, 'errors/404.pug');
     }
     res.status(500);

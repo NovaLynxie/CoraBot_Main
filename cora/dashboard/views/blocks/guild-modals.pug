@@ -26,17 +26,21 @@
         button.btn.btn-outline-secondary(type='button' data-dismiss='modal') CANCEL
         a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/reset` role='button') RESET
 // Members Page Modals
-#memberDetailsModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='settingsResetModalLabel' aria-hidden='true')
+#memberBanModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='settingsResetModalLabel' aria-hidden='true')
   .modal-dialog(role='document')
     .modal-content
       .modal-header
-        h5#settingsResetModalLabel.modal-title Member Details (WIP)
+        h5#settingsResetModalLabel.modal-title Kick User?
         button.close(type='button' data-dismiss='modal' aria-label='Close')
           span(aria-hidden='true') &times;
       .modal-body
         p.main
-          | NO DATA AVAILABLE!
+          | Are you sure you want to ban this user?
+          br
+          | They will not be able to rejoin on this account.
       .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-dismiss='modal') CANCEL
+        a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/ban` role='button') CONFIRM
 #memberKickModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='settingsResetModalLabel' aria-hidden='true')
   .modal-dialog(role='document')
     .modal-content
@@ -51,16 +55,4 @@
           | They can rejoin with a valid invite link later.
       .modal-footer
         button.btn.btn-outline-secondary(type='button' data-dismiss='modal') CANCEL
-        a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/kick` role='button') CONFIRM
-script(nonce="1346c5f32c").
-  $('#memberDetailsModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget) // Button that triggered the modal
-    var member = button.data('member') // Extract info from data-* attributes
-    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-    var modal = $(this)
-    modal.find('.main').text(`
-    Name: ${member.displayName}
-    Tag: ${member.user.tag}
-    `)
-  })
+        button.btn.btn-outline-danger(href=`/dashboard/${guild.id}/kick` type='button') CONFIRM
