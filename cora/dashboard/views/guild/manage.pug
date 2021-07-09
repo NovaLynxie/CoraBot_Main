@@ -28,9 +28,9 @@ block content
                 td AutoNotify
                 if (!announcerSettings)
                   td Unknown
-                if (announcerSettings.enableBotLogger)
+                if (announcerSettings.enableNotifier)
                   td Yes
-                if (!announcerSettings.enableBotLogger)
+                if (!announcerSettings.enableNotifier)
                   td No
               tr
                 td ChatBot
@@ -72,10 +72,12 @@ block content
                   td No
         .settings_card_modules.settings_card_wrapper
           h4 Module Settings
+          p.lead Change settings for each module from here. (WIP - Read Only for now)
           .settings_card_modules
             h5 Bot Notifications
             .settings_text_wrapper
-              p
+              | Enabled? #{(announcerSettings.enableNotifier)?'Yes':'No'}
+              br
               | Event Settings
               br
               | Join: #{(announcerSettings.events.join)?'Enabled':'Disabled'}
@@ -90,27 +92,22 @@ block content
                 th Event Type
                 th Message
               tr
-                td
-                  | Join
-                  br
-                  | Leave
-                  br
-                  | Kick
-                  br
-                  | Ban
-                td
-                  | #{announcerSettings.eventMessages.userJoin}
-                  br
-                  | #{announcerSettings.eventMessages.userLeave}
-                  br
-                  | #{announcerSettings.eventMessages.userKick}
-                  br
-                  | #{announcerSettings.eventMessages.userBan}
-                  br
+                td Join
+                td #{announcerSettings.eventMessages.userJoin}
+              tr
+                td Leave
+                td #{announcerSettings.eventMessages.userLeave}
+              tr
+                td Kick
+                td #{announcerSettings.eventMessages.userKick}
+              tr
+                td Ban
+                td #{announcerSettings.eventMessages.userBan}
           .settings_card_modules
             h5 Auto Moderation
             .settings_text_wrapper
-              p
+              | Enabled? #{(autoModSettings.enableAutoMod)?'Yes':'No'}
+              br
               | Media Removal
               br
               | Animated Gifs: #{(autoModSettings.mediaOptions.removeGifs)?'Yes':'No'}
@@ -131,19 +128,20 @@ block content
           .settings_card_modules
             h5 Smart Chat Bot
             .settings_text_wrapper
-              p
-              | placeholder.text
+              | Enabled? #{(chatBotSettings.enableAutoChat)?'Yes':'No'}
+              br
             table.settings_table_main(border="1")
               tr
                 th Chat Channels
               tr
                 td #{(chatBotSettings.chatChannels.length >=1)? chatBotSettings.chatChannels.join(', ') : 'No Channels Set'}
-        .settings_card_modules
+        .settings_card_modules.danger_block
           h4 Danger Zone
-          .settings_card_modules.danger_block
-            h5 Reset Settings
-            a.btn.btn-block.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#settingsResetModal' role='button') RESET DEFAULTS
-            br
-            h5 Leave Guild
-            a.btn.btn-block.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#serverLeaveModal' role='button') LEAVE GUILD
+          p.lead Beware, these are destructive actions!
+            .settings_card_wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
+              h5 Reset Settings
+              a.btn.btn-block.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#settingsResetModal' role='button') RESET
+            .settings_card_wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
+              h5 Leave Guild
+              a.btn.btn-block.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#serverLeaveModal' role='button') LEAVE
         include ../blocks/guild-modals
