@@ -24,7 +24,7 @@
       "channelsList":[
          
       ],
-      "urlBlackList":[
+      "urlBlacklist":[
          
       ],
       "mediaOptions":{

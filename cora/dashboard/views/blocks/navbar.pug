@@ -45,29 +45,4 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
           li.nav-item
             a.nav-link(href='/login')
               i.fa.fa-key(aria-hidden='true')
-              |  Login
-body
-  // Flash Messages
-  for message in flash
-    -flash.shift();
-    .alert.alert-dismissible.fade.show.span(class='alert-'+message.type)
-      strong
-      | !{message.message}
-      button.close(type='button' data-bs-dismiss='alert' aria-label='Close')
-        span(aria-hidden='true') &times;
-      
-  .container
-    .dev_warning
-      i.fas.fa-exclamation-triangle(aria-hidden='true')
-      | !{'  '} Dashboard is still being developed! Some parts may be missing or incomplete. Things may be added, changed or removed.!{'  '}
-      i.fas.fa-exclamation-triangle(aria-hidden='true')
-  if breadcrumbs
-    nav.nav-breadcrumb(style='width: 100%; margin-top: 16px;')
-      .container
-        ol.breadcrumb
-          each crumb, index in breadcrumbs
-            if index == breadcrumbs.length - 1
-              li(class='breadcrumb-item active' aria-current='page') #{crumb.name}
-            else
-              li(class='breadcrumb-item') #[a(href=crumb.url) #{crumb.name}]
-              
+              |  Login              

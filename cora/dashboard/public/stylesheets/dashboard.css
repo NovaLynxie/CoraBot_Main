@@ -12,9 +12,10 @@
   border-style: solid;
   border-width: 5px;
 }
+
 .dev_warning {
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 0.5rem; margin-bottom: 0.5rem;
   padding: 0.5rem 1rem 0.5rem 2rem;
   background-color: rgba(255, 101, 40, 0.521);
   border-color: rgba(255, 72, 0, 0.479);
@@ -127,6 +128,11 @@
   border-color: rgba(88, 95, 126, 0.288);
   border-style: solid;
   border-width: 2px;
+}
+.settings_card_wrapper {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
 }
 .settings_table_main {
   text-align: center;

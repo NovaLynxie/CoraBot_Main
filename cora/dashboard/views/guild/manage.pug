@@ -16,9 +16,9 @@ block content
       | Sorry about that. - Nova Lynxie
       .settings_card_base
         h3 Bot Control Panel
-        .settings_card_modules
+        .settings_card_modules.settings_card_wrapper
           h4 All Module Status
-          .settings_card_modules.div(style='display:inline-block vertical-align:"top"')
+          .settings_card_modules
             h5 Main Modules
             table.settings_table_main(border="1")
               tr
@@ -70,6 +70,63 @@ block content
                   td Yes
                 if (!modLogSettings.enableModLogger)
                   td No
+        .settings_card_modules.settings_card_wrapper
+          h4 Module Settings
+          .settings_card_modules
+            h5 Bot Notifications
+            p
+            | Event Settings
+            br
+            | Join: #{(announcerSettings.events.join)?'Enabled':'Disabled'}
+            br
+            | Leave: #{(announcerSettings.events.leave)?'Enabled':'Disabled'}
+            br
+            | Kick: #{(announcerSettings.events.kick)?'Enabled':'Disabled'}
+            br
+            | Ban: #{(announcerSettings.events.ban)?'Enabled':'Disabled'}
+            br
+            table.settings_table_main(border="1")
+              tr
+                th Event Type
+                th Message
+              tr
+                td
+                  | Join
+                  br
+                  | Leave
+                  br
+                  | Kick
+                  br
+                  | Ban
+                td
+                  | #{announcerSettings.eventMessages.userJoin}
+                  br
+                  | #{announcerSettings.eventMessages.userLeave}
+                  br
+                  | #{announcerSettings.eventMessages.userKick}
+                  br
+                  | #{announcerSettings.eventMessages.userBan}
+                  br
+          .settings_card_modules
+            h5 Smart Chat Bot
+            table.settings_table_main(border="1")
+              tr
+                th Chat Channels
+              tr
+                td #{(chatBotSettings.chatChannels.length >=1)? chatBotSettings.chatChannels.join(', ') : 'No Channels Set'}
+          .settings_card_modules
+            h5 Auto Moderation
+            table.settings_table_main(border="1")
+              tr
+                th Setting
+                th Value
+              tr
+                td Channels List
+                td #{(autoModSettings.channelsList.length >=1)? autoModSettings.channelsList.join(', ') : 'No Channels Set'}
+              tr
+                td URL Blacklist
+                td #{(autoModSettings.urlBlacklist.length >=1)? autoModSettings.urlBlacklist.join(', ') : 'No Channels Set'}
+          
         .settings_card_modules
           h4 Danger Zone
           .settings_card_modules.danger_block
