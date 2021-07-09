@@ -117,7 +117,7 @@
   border-style: solid;
   border-width: 2px;
 }
-.settings_card_modules {
+.settings_card_status {
   vertical-align: top;
   min-height: 200px;
   min-width: 150px;
@@ -128,6 +128,25 @@
   border-color: rgba(88, 95, 126, 0.288);
   border-style: solid;
   border-width: 2px;
+}
+.settings_card_modules {
+  vertical-align: top;
+  min-height: 350px;
+  min-width: 150px;
+  display: inline-block;
+  text-align: left;
+  padding: 0.5rem;
+  background-color: rgba(118, 118, 145, 0.295);
+  border-color: rgba(88, 95, 126, 0.288);
+  border-style: solid;
+  border-width: 2px;
+}
+.settings_text_wrapper {
+  min-height: 150px;
+  background-color: rgba(118, 118, 145, 0.295);
+  border-color: rgba(88, 95, 126, 0.288);
+  border-style: solid;
+  border-width: 1px;
 }
 .settings_card_wrapper {
   display: inline-block;

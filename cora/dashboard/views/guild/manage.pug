@@ -18,7 +18,7 @@ block content
         h3 Bot Control Panel
         .settings_card_modules.settings_card_wrapper
           h4 All Module Status
-          .settings_card_modules
+          .settings_card_status
             h5 Main Modules
             table.settings_table_main(border="1")
               tr
@@ -48,7 +48,7 @@ block content
                   td Yes
                 if (!autoModSettings.enableAutoMod)
                   td No
-          .settings_card_modules
+          .settings_card_status
             h5 Logging Modules
             table.settings_table_main(border="1")
               tr
@@ -74,17 +74,17 @@ block content
           h4 Module Settings
           .settings_card_modules
             h5 Bot Notifications
-            p
-            | Event Settings
-            br
-            | Join: #{(announcerSettings.events.join)?'Enabled':'Disabled'}
-            br
-            | Leave: #{(announcerSettings.events.leave)?'Enabled':'Disabled'}
-            br
-            | Kick: #{(announcerSettings.events.kick)?'Enabled':'Disabled'}
-            br
-            | Ban: #{(announcerSettings.events.ban)?'Enabled':'Disabled'}
-            br
+            .settings_text_wrapper
+              p
+              | Event Settings
+              br
+              | Join: #{(announcerSettings.events.join)?'Enabled':'Disabled'}
+              br
+              | Leave: #{(announcerSettings.events.leave)?'Enabled':'Disabled'}
+              br
+              | Kick: #{(announcerSettings.events.kick)?'Enabled':'Disabled'}
+              br
+              | Ban: #{(announcerSettings.events.ban)?'Enabled':'Disabled'}
             table.settings_table_main(border="1")
               tr
                 th Event Type
@@ -108,14 +108,16 @@ block content
                   | #{announcerSettings.eventMessages.userBan}
                   br
           .settings_card_modules
-            h5 Smart Chat Bot
-            table.settings_table_main(border="1")
-              tr
-                th Chat Channels
-              tr
-                td #{(chatBotSettings.chatChannels.length >=1)? chatBotSettings.chatChannels.join(', ') : 'No Channels Set'}
-          .settings_card_modules
             h5 Auto Moderation
+            .settings_text_wrapper
+              p
+              | Media Removal
+              br
+              | Animated Gifs: #{(autoModSettings.mediaOptions.removeGifs)?'Yes':'No'}
+              br
+              | Static Images: #{(autoModSettings.mediaOptions.removeImgs)?'Yes':'No'}
+              br
+              | Links/URLs: #{(autoModSettings.mediaOptions.removeUrls)?'Yes':'No'}
             table.settings_table_main(border="1")
               tr
                 th Setting
@@ -125,8 +127,17 @@ block content
                 td #{(autoModSettings.channelsList.length >=1)? autoModSettings.channelsList.join(', ') : 'No Channels Set'}
               tr
                 td URL Blacklist
-                td #{(autoModSettings.urlBlacklist.length >=1)? autoModSettings.urlBlacklist.join(', ') : 'No Channels Set'}
-          
+                td #{(autoModSettings.urlBlacklist.length >=1)? autoModSettings.urlBlacklist.join(', ') : 'No Channels Set'}        
+          .settings_card_modules
+            h5 Smart Chat Bot
+            .settings_text_wrapper
+              p
+              | placeholder.text
+            table.settings_table_main(border="1")
+              tr
+                th Chat Channels
+              tr
+                td #{(chatBotSettings.chatChannels.length >=1)? chatBotSettings.chatChannels.join(', ') : 'No Channels Set'}
         .settings_card_modules
           h4 Danger Zone
           .settings_card_modules.danger_block
