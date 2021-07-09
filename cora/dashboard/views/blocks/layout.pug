@@ -5,9 +5,8 @@ doctype html
 html(lang="en")
   head
     include header
-    //title #{bot.user.username} Dashboard
   body(id="page-top" role="document")
-    include navbar
-    content
-      block content
-  include footer
+    include navbar  
+    block content
+  block footer
+    include footer

@@ -1,61 +1,58 @@
-include blocks/header
-include blocks/navbar
-
-.container
-  .jumbotron
-    .row.justify-content-md-center
-      .col-5.text-nowrap
-        i.fas.fa-server(aria-hidden='true')
-        |  Servers:
-      .col-5.text-nowrap
-        strong #{stats.servers}
-    .row.justify-content-md-center
-      .col-5.text-nowrap
-        i.far.fa-clock(aria-hidden='true')
-        |  Uptime:
-      .col-5.text-nowrap
-        strong #{stats.uptime}
-    .row.justify-content-md-center
-      .col-5.text-nowrap
-        i.fas.fa-users(aria-hidden='true')
-        |  Members:
-      .col-5.text-nowrap
-        strong #{stats.members}
-    .row.justify-content-md-center
-      .col-5.text-nowrap
-        i.fas.fa-memory(aria-hidden='true')
-        |  Memory:
-      .col-5.text-nowrap
-        strong #{stats.memoryUsage}
-    .row.justify-content-md-center
-      .col-5.text-nowrap
-        i.fas.fa-hashtag(aria-hidden='true')
-        |  Text Channels:
-      .col-5.text-nowrap
-        strong #{stats.text}
-    .row.justify-content-md-center
-      .col-5.text-nowrap
-        i.fas.fa-microphone(aria-hidden='true')
-        |  Voice Channels:
-      .col-5.text-nowrap
-        strong #{stats.voice}
-    .row.justify-content-md-center
-      .col-5.text-nowrap
-        i.fas.fa-robot(aria-hidden='true')
-        |  Bot App Version:
-      .col-5.text-nowrap
-        strong v#{stats.botVer}
-    .row.justify-content-md-center
-      .col-5.text-nowrap
-        i.fab.fa-discord(aria-hidden='true')
-        |  Discord.js Version:
-      .col-5.text-nowrap
-        strong v#{stats.discordVer}
-    .row.justify-content-md-center
-      .col-5.text-nowrap
-        i.fab.fa-node-js(aria-hidden='true')
-        |  Node.js Version:
-      .col-5.text-nowrap
-        strong #{stats.nodeVer}
-        
-include blocks/footer
+extends blocks/layout
+block content  
+  .container
+    .jumbotron
+      .row.justify-content-md-center
+        .col-5.text-nowrap
+          i.fas.fa-server(aria-hidden='true')
+          |  Servers:
+        .col-5.text-nowrap
+          strong #{stats.servers}
+      .row.justify-content-md-center
+        .col-5.text-nowrap
+          i.far.fa-clock(aria-hidden='true')
+          |  Uptime:
+        .col-5.text-nowrap
+          strong #{stats.uptime}
+      .row.justify-content-md-center
+        .col-5.text-nowrap
+          i.fas.fa-users(aria-hidden='true')
+          |  Members:
+        .col-5.text-nowrap
+          strong #{stats.members}
+      .row.justify-content-md-center
+        .col-5.text-nowrap
+          i.fas.fa-memory(aria-hidden='true')
+          |  Memory:
+        .col-5.text-nowrap
+          strong #{stats.memoryUsage}
+      .row.justify-content-md-center
+        .col-5.text-nowrap
+          i.fas.fa-hashtag(aria-hidden='true')
+          |  Text Channels:
+        .col-5.text-nowrap
+          strong #{stats.text}
+      .row.justify-content-md-center
+        .col-5.text-nowrap
+          i.fas.fa-microphone(aria-hidden='true')
+          |  Voice Channels:
+        .col-5.text-nowrap
+          strong #{stats.voice}
+      .row.justify-content-md-center
+        .col-5.text-nowrap
+          i.fas.fa-robot(aria-hidden='true')
+          |  Bot App Version:
+        .col-5.text-nowrap
+          strong v#{stats.botVer}
+      .row.justify-content-md-center
+        .col-5.text-nowrap
+          i.fab.fa-discord(aria-hidden='true')
+          |  Discord.js Version:
+        .col-5.text-nowrap
+          strong v#{stats.discordVer}
+      .row.justify-content-md-center
+        .col-5.text-nowrap
+          i.fab.fa-node-js(aria-hidden='true')
+          |  Node.js Version:
+        .col-5.text-nowrap
+          strong #{stats.nodeVer}
