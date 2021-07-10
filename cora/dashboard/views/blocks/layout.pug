@@ -9,10 +9,10 @@ html(lang="en")
     // Flash Messages
     for message in flash
       -flash.shift();
-      .alert.alert-dismissible.fade.show.span(class='alert-'+message.type)
+      .alert.alert-warning.alert-dismissible.fade.show(role='alert' class='alert-'+message.type)
         strong
         | !{message.message}
-        button.close(type='button' data-bs-dismiss='alert' aria-label='Close')
+        button.btn-close(type='button' data-bs-dismiss='alert' aria-label='Close')
           span(aria-hidden='true') &times;
     // main navigation bar
     include navbar

@@ -7,8 +7,8 @@
 	.navbar .nav-item:hover .dropdown-menu{ transition: .3s; opacity:1; visibility:visible; top:100%; transform: rotateX(0deg); }
 }
 
-.container {
-  padding-top: 0.5rem;
+.alert {
+  padding: 0.5rem 0.5rem;
 }
 
 .bg-base {
@@ -18,9 +18,12 @@
 .btn-group.btn-flex {
   display: flex;
 }
-
 .btn, .btn-flex {
   flex: 1
+}
+
+.container {
+  padding-top: 0.5rem;
 }
 
 td {
