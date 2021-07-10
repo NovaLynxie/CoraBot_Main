@@ -27,7 +27,7 @@ block content
       | Status Icons: 
       i.fas.fa-check-circle(style="color:#42b581")
       | !{' '}- Online 
-      i.fas.fa-question-circle(style="color:#faa61a")
+      i.fas.fa-moon(style="color:#faa61a")
       | !{' '}- Idle/Away 
       i.fas.fa-minus-circle(style="color:#f04747")
       | !{' '}- Do Not Disturb 
@@ -72,7 +72,7 @@ block content
           if (member.user.presence.status === 'online')
             i.fas.fa-check-circle(style="color:#42b581")
           if (member.user.presence.status === 'idle')
-            i.fas.fa-question-circle(style="color:#faa61a")
+            i.fas.fa-moon(style="color:#faa61a")
           if (member.user.presence.status === 'dnd')
             i.fas.fa-minus-circle(style="color:#f04747")
           if (member.user.presence.status === 'offline')
