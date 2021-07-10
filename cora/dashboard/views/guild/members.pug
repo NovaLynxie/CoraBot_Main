@@ -26,23 +26,23 @@ block content
       br
       | Status Icons: 
       i.fas.fa-check-circle(style="color:#42b581")
-      | !{' '}Online 
+      | !{' '}- Online 
       i.fas.fa-question-circle(style="color:#faa61a")
-      | !{' '}Idle/Away
+      | !{' '}- Idle/Away 
       i.fas.fa-minus-circle(style="color:#f04747")
-      | !{' '}Do Not Disturb
+      | !{' '}- Do Not Disturb 
       i.fas.fa-circle(style="color:#747f8d")
-      | !{' '}Offline 
-      i.fas.fa-exclamation-circle(style="color:#e46927")
-      | !{' '}N/A
+      | !{' '}- Offline 
+      i.fas.fa-exclamation-circle(style="color:#ed7738")
+      | !{' '}- N/A 
       br
       | Device Icons: 
       i.fas.fa-mobile-alt 
-      | !{' '}Mobile (Android/IOS)
+      | !{' '}- Mobile (Android/IOS) 
       i.fas.fa-desktop 
-      | !{' '}Desktop (Win/Mac/Linux)
+      | !{' '}- Desktop (Win/Mac/Linux) 
       i.fas.fa-globe 
-      | !{' '}Web (Browser/Cloud*)
+      | !{' '}- Web (Browser/Cloud*) 
       br
       | *Cloud refers to BOT users only.
       br
@@ -70,15 +70,15 @@ block content
           br
           | Status: 
           if (member.user.presence.status === 'online')
-            i.fas.fa-check-circle(style="color:#42b581")
+            i.fas.fa-check-circle(style="color:#42b581") !{' '}
           if (member.user.presence.status === 'idle')
-            i.fas.fa-question-circle(style="color:#faa61a")
+            i.fas.fa-question-circle(style="color:#faa61a") !{' '}
           if (member.user.presence.status === 'dnd')
-            i.fas.fa-minus-circle(style="color:#f04747")
+            i.fas.fa-minus-circle(style="color:#f04747") !{' '}
           if (member.user.presence.status === 'offline')
-            i.fas.fa-circle(style="color:#747f8d")
+            i.fas.fa-circle(style="color:#747f8d") !{' '}
           if (!member.user.presence.status || member.user.presence.status === undefined)
-            i.fas.fa-exclamation-circle(style="color:#e46927")
+            i.fas.fa-exclamation-circle(style="color:#ed7738") !{' '}
           if (member.user.presence.clientStatus)
             | !{' | '}
             if (member.user.presence.clientStatus.mobile)
