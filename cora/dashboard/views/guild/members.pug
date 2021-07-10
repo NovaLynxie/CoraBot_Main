@@ -70,23 +70,23 @@ block content
           br
           | Status: 
           if (member.user.presence.status === 'online')
-            i.fas.fa-check-circle(style="color:#42b581") !{' '}
+            i.fas.fa-check-circle(style="color:#42b581")
           if (member.user.presence.status === 'idle')
-            i.fas.fa-question-circle(style="color:#faa61a") !{' '}
+            i.fas.fa-question-circle(style="color:#faa61a")
           if (member.user.presence.status === 'dnd')
-            i.fas.fa-minus-circle(style="color:#f04747") !{' '}
+            i.fas.fa-minus-circle(style="color:#f04747")
           if (member.user.presence.status === 'offline')
-            i.fas.fa-circle(style="color:#747f8d") !{' '}
+            i.fas.fa-circle(style="color:#747f8d")
           if (!member.user.presence.status || member.user.presence.status === undefined)
-            i.fas.fa-exclamation-circle(style="color:#ed7738") !{' '}
+            i.fas.fa-exclamation-circle(style="color:#ed7738")
           if (member.user.presence.clientStatus)
             | !{' | '}
             if (member.user.presence.clientStatus.mobile)
-              i.fas.fa-mobile-alt !{' '}
+              i.fas.fa-mobile-alt
             if (member.user.presence.clientStatus.desktop)
-              i.fas.fa-desktop !{' '}
+              i.fas.fa-desktop
             if (member.user.presence.clientStatus.web)
-              i.fas.fa-globe !{' '}
+              i.fas.fa-globe
           if (!member.user.presence.clientStatus)
             | !{' | '}
             i.far.fa-question-circle
