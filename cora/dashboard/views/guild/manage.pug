@@ -16,70 +16,42 @@ block content
       .settings_card_base
         h3 Bot Control Panel
         .settings_card_modules.settings_card_wrapper
-          h4 Guild Settings
+          h4 Guild Details
           .settings_card_status
-            h5 Guild Information
+            h5 Basic Information
             - iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`
-            img.d-flex.mr-3.rounded-circle(src=iconUrl style='width: 80px' alt='')
-            p
-            | Name: #{guild.name}
-            | (ID: #{guild.id})
-            br
-            - var guildPrefix = (guild._commandPrefix) ? guild._commandPrefix : bot.options.commandPrefix
-            | Guild Prefix is '#{guildPrefix}'
-          h4 All Module Status
+            img.d-flex.mr-3.rounded-circle.guild_icon(src=iconUrl style='width: 80px' alt='Guild Icon')
+            .guild_details_wrapper
+              p
+              | Name: #{guild.name}
+              | (ID: #{guild.id})
+              br
+              - var guildPrefix = (guild._commandPrefix) ? guild._commandPrefix : bot.options.commandPrefix
+              | Guild's command prefix is '#{guildPrefix}'
+              br
+              | Region: #{guild.region}
+              br
+              | Locale: #{guild.preferredLocale}
+              br
+              | Owner: #{guild.members.cache.get(guild.ownerID).user.tag} 
+              br
+              | Members: #{guild.memberCount} (#{guild.members.cache.filter(member => !member.user.bot).size} users #{guild.members.cache.filter(member => member.user.bot).size} bots)
           .settings_card_status
-            h5 Main Modules
-            table.settings_table_main(border="1")
-              tr
-                th Module Name
-                th Enabled?
-              tr
-                td AutoNotify
-                if (!announcerSettings)
-                  td Unknown
-                if (announcerSettings.enableNotifier)
-                  td Yes
-                if (!announcerSettings.enableNotifier)
-                  td No
-              tr
-                td ChatBot
-                if (!chatBotSettings)
-                  td Unknown
-                if (chatBotSettings.enableAutoChat)
-                  td Yes
-                if (!chatBotSettings.enableAutoChat)
-                  td No
-              tr
-                td ModBot
-                if (!autoModSettings)
-                  td Unknown
-                if (autoModSettings.enableAutoMod)
-                  td Yes
-                if (!autoModSettings.enableAutoMod)
-                  td No
-          .settings_card_status
-            h5 Logging Modules
-            table.settings_table_main(border="1")
-              tr
-                th Module Name
-                th Enabled?
-              tr
-                td Bot Logger
-                if (!botLogSettings)
-                  td Unknown
-                if (botLogSettings.enableBotLogger)
-                  td Yes
-                if (!modLogSettings.enableBotLogger)
-                  td No
-              tr
-                td Mod Logger
-                if (!modLogSettings)
-                  td Unknown
-                if (modLogSettings.enableModLogger)
-                  td Yes
-                if (!modLogSettings.enableModLogger)
-                  td No
+            h5 Server Details
+            .guild_details_wrapper(style="min-height:90px")
+              h6 Description
+              p
+              | #{(guild.description)?guild.description:'None Set'}
+            .guild_details_wrapper
+              h6 Subscriptions
+              p
+              | Boost Tier: #{guild.premiumTier}
+              br
+              | Total Subs: #{guild.premiumSubscriptionCount}
+              br
+              | Vanity URL
+              br 
+              | Code: #{(guild.vanityURLCode)?guild.vanityURLCode:'N/A'} (Used #{(guild.vanityURLUses)?guild.vanityURLUses:'NaN'} times)
         .settings_card_modules.settings_card_wrapper
           h4 Module Settings
           p.lead Change settings for each module from here. (WIP - Read Only for now)
@@ -147,6 +119,7 @@ block content
                 td #{(chatBotSettings.chatChannels.length >=1)? chatBotSettings.chatChannels.join(', ') : 'No Channels Set'}
         .settings_card_modules.danger_block
           h4 Danger Zone
+          - disableAction
           p.lead Beware, these are destructive actions!
             .settings_card_wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
               h5 Reset Settings

@@ -21,8 +21,10 @@ block content
       p.lead
       | This is a list of all members currently in the guild. If some intents are missing or not enabled, you will only see ONLINE users listed here.
       br
+      | NB: You cannot kick/ban yourself or the bot, this has been disabled to prevent errors, there is no way to override this.
+      br
       p
-      | There are currently #{guild.members.cache.filter(member => !member.user.bot).size} users and #{guild.members.cache.filter(member => member.user.bot).size} bots in this guild! (Bot for Dashboard is hidden)
+      | There are currently #{guild.members.cache.filter(member => !member.user.bot).size} users and #{guild.members.cache.filter(member => member.user.bot).size} bots in this guild!
       br
       | Status Icons: 
       i.fas.fa-check-circle(style="color:#42b581")
