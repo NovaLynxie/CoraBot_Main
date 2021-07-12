@@ -1,13 +1,12 @@
 extends ../blocks/layout
 block content
   - var {announcerSettings, autoModSettings, chatBotSettings, botLogSettings, modLogSettings} = settings
-
   .container
     include ../blocks/guild-nav
     block navtab
       - var activeTab = 'manage'  
     .jumbotron.text-center
-      h3.display-4 #{guild.name} Settings
+      h3.display-4 Guild Settings
       p.lead
       | This part of the dashboard is not yet completed and may not be functional. 
       br
@@ -17,6 +16,17 @@ block content
       .settings_card_base
         h3 Bot Control Panel
         .settings_card_modules.settings_card_wrapper
+          h4 Guild Settings
+          .settings_card_status
+            h5 Guild Information
+            - iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`
+            img.d-flex.mr-3.rounded-circle(src=iconUrl style='width: 80px' alt='')
+            p
+            | Name: #{guild.name}
+            | (ID: #{guild.id})
+            br
+            - var guildPrefix = (guild._commandPrefix) ? guild._commandPrefix : bot.options.commandPrefix
+            | Guild Prefix is '#{guildPrefix}'
           h4 All Module Status
           .settings_card_status
             h5 Main Modules
