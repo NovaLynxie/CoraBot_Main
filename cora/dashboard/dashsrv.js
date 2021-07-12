@@ -311,9 +311,6 @@ module.exports = (client, config) => {
   // Settings page to change the guild configuration. Definitely more fancy than using
   // the `set` command!
   app.get("/dashboard/:guildID/manage", checkAuth, (req, res) => {
-    //renderView(res, req, "placeholder.pug");
-    // Not yet ready... sorry. XC - NovaLynxie
-
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
@@ -326,7 +323,6 @@ module.exports = (client, config) => {
       modLogSettings = guild.settings.get('modlogger', undefined);
     let settings = {announcerSettings, autoModSettings, chatBotSettings, botLogSettings, modLogSettings};
     renderView(res, req, "guild/manage.pug", {guild, settings});
-
   });
   // This calls when settings are saved using POST requests to get parameters to save.
   app.post("/dashboard/:guildID/manage", checkAuth, (req, res) => {
@@ -391,9 +387,9 @@ module.exports = (client, config) => {
     if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
       req.flash("warning", `Unable to kick ${member.user.tag}. Insufficient permissions or action was rejected by bot server.`)
       logger.warn(`WebDash Operator BAN ${member.user.tag} aborted by DashService!`)
-      logger.warn("Reason: The requested MemberID was the User's or Bot's unique ID.")
+      logger.warn(`Reason: The requested MemberID of ${member.user.tag}was the User's or Bot's unique ID.`)
     } else {
-      member.kick('Kicked by Dashboard Operator')
+      member.kick(`Kicked by WebDash Operator (ID :${req.user.id})`)
         .then(req.flash("success", `${member.user.tag} has been removed from ${guild.name} successfully!`))
       .catch(err => {
         req.flash("danger", `Could not kick ${member.user.tag} due to missing permissions or another error occured.`)
@@ -413,9 +409,9 @@ module.exports = (client, config) => {
     if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
       req.flash("warning", `Unable to kick ${member.user.tag}. Insufficient permissions or action was rejected by bot server.`)
       logger.warn(`WebDash Operator BAN ${member.user.tag} aborted by DashService!`)
-      logger.warn("Reason: The requested MemberID was the User's or Bot's unique ID.")
+      logger.warn(`Reason: The requested MemberID of ${member.user.tag}was the User's or Bot's unique ID.`)
     } else {
-      member.ban({days: 7, reason: 'Banned by Dashboard Operator'})
+      member.ban({days: 7, reason: `Banned by Dashboard Operator (ID: ${req.user.id})`})
         .then(req.flash("success", `Banned ${member.user.tag} Successfully!`))
       .catch(err => {
         req.flash("danger", `Could not ban ${member.user.tag} due to missing permissions or another error occured.`)
