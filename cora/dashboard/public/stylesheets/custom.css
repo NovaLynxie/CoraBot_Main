@@ -9,12 +9,16 @@
 
 .alert {
   padding: 1rem 2rem;
+  margin: auto;
 }
 
 .bg-base {
   background-color: rgba(163, 105, 255, 0.13)
 }
 
+.alert-dismissible .btn-close {
+  padding: 1.25rem 1rem;
+}
 .btn-group.btn-flex {
   display: flex;
 }

@@ -50,13 +50,13 @@ block content
       include ../blocks/guild-modals
       - var memberPos = 0;
       each member in members
-        if (member.user.id !== bot.user.id)
         .member_card#member_card
           img.member_avatar(src=member.user.displayAvatarURL({ dynamic: true, size: 64 }) alt="Discord Avatar" onerror="this.onerror=null;this.src=member.user.defaultAvatarURL")
           .member_actions
             .btn-group-vertical(role='group' aria-label='Basic example')
-              button.btn.btn-outline-warning(class=(member.user.id===bot.user.id) ? "disabled" : "" data-bs-toggle='modal' data-bs-target='#memberKickModal' data-bs-memberid=member.user.id  type='button') KICK
-              button.btn.btn-outline-danger(class=(member.user.id===bot.user.id) ? "disabled" : "" data-bs-toggle='modal' data-bs-target='#memberBanModal' data-bs-memberid=member.user.id type='button') BAN
+              - var userCheck = (member.user.id===bot.user.id || member.user.id===user.id) ? "disabled" : "" 
+              button.btn.btn-outline-warning(class=userCheck data-bs-toggle='modal' data-bs-target='#memberKickModal' data-bs-memberid=member.user.id  type='button') KICK
+              button.btn.btn-outline-danger(class=userCheck data-bs-toggle='modal' data-bs-target='#memberBanModal' data-bs-memberid=member.user.id type='button') BAN
           p
           | Name: #{member.displayName}
           br
