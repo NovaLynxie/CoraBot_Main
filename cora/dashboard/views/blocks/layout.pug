@@ -6,7 +6,9 @@ html(lang="en")
   head
     include header
   body(id="page-top" role="document")
-    // Flash Messages
+    // main navigation bar
+    include navbar
+    // flash messages
     for message in flash
       -flash.shift();
       .alert.alert-warning.alert-dismissible.fade.show(role='alert' class='alert-'+message.type)
@@ -14,8 +16,6 @@ html(lang="en")
         | !{message.message}
         button.btn-close(type='button' data-bs-dismiss='alert' aria-label='Close')
           span(aria-hidden='true') &times;
-    // main navigation bar
-    include navbar
     .container.bg-base
       .dev_warning
         i.fas.fa-exclamation-triangle(aria-hidden='true')
