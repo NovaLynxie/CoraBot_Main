@@ -388,10 +388,10 @@ module.exports = (client, config) => {
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
-    if (req.params.userID === bot.user.id || req.params.userID === req.user.id) {
+    if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
       req.flash("warning", `Unable to kick ${member.user.tag}. Insufficient permissions or action was rejected by bot server.`)
       logger.warn(`WebDash Operator BAN ${member.user.tag} aborted by DashService!`)
-      logger.warn("Reason: The requested MemberID was the User's Bot's unique ID.")
+      logger.warn("Reason: The requested MemberID was the User's or Bot's unique ID.")
     } else {
       member.kick('Kicked by Dashboard Operator')
         .then(req.flash("success", `${member.user.tag} has been removed from ${guild.name} successfully!`))
@@ -410,10 +410,10 @@ module.exports = (client, config) => {
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
-    if (req.params.userID === bot.user.id || req.params.userID === req.user.id) {
+    if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
       req.flash("warning", `Unable to kick ${member.user.tag}. Insufficient permissions or action was rejected by bot server.`)
       logger.warn(`WebDash Operator BAN ${member.user.tag} aborted by DashService!`)
-      logger.warn("Reason: The requested MemberID was the User's Bot's unique ID.")
+      logger.warn("Reason: The requested MemberID was the User's or Bot's unique ID.")
     } else {
       member.ban({days: 7, reason: 'Banned by Dashboard Operator'})
         .then(req.flash("success", `Banned ${member.user.tag} Successfully!`))

@@ -105,16 +105,17 @@ for (const file of eventFiles) {
 }
 // Catch unhandled exceptions and rejections not caught by my code to avoid crashes.
 process.on('unhandledRejection', error => {
-    logger.warn(`Uncaught Promise Rejection Exception thrown!`)
-    logger.error(`Caused by: ${error.message}`)
-    if (debug == true) {
-      logger.debug(error.stack)
-    }
+    logger.warn(`Uncaught Promise Rejection Exception thrown!`);
+    logger.error(`Caused by: ${error.message}`);
+    logger.debug('Debug data hidden, enable debug mode to log error.');
+    if (debug) logger.debug(error.stack);
 });
 process.on('uncaughtException', error => {
     crashReporter(error);
-    logger.error(`Bot crashed! Check the logs directory for crash report!`); 
     // Error thrown and logged to console window.
+    logger.error(`Bot crashed! Check the logs directory for crash report!`);
+    logger.debug('Debug data hidden, enable debug mode to log error.');
+    if (debug) logger.debug(error.stack);
 });
 // Begin logging into the bot using the provided discord token.
 logger.init(`Connecting to Discord...`);
