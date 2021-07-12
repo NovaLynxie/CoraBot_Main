@@ -26,16 +26,19 @@ block content
               | Name: #{guild.name}
               | (ID: #{guild.id})
               br
-              - var guildPrefix = (guild._commandPrefix) ? guild._commandPrefix : bot.options.commandPrefix
-              | Guild's command prefix is '#{guildPrefix}'
+              | Verified: #{(guild.verified)?'Yes':'No'}
               br
-              | Region: #{guild.region}
-              br
-              | Locale: #{guild.preferredLocale}
+              - var guildPrefix = (guild._commandPrefix) ? guild._commandPrefix : bot.commandPrefix
+              | Guild Prefix: '#{guildPrefix}'
               br
               | Owner: #{guild.members.cache.get(guild.ownerID).user.tag} 
               br
               | Members: #{guild.memberCount} (#{guild.members.cache.filter(member => !member.user.bot).size} users #{guild.members.cache.filter(member => member.user.bot).size} bots)
+              br
+              | Region: #{guild.region}
+              br
+              | Locale: #{guild.preferredLocale}
+              
           .settings_card_status
             h5 Server Details
             .guild_details_wrapper(style="min-height:90px")
