@@ -11,7 +11,7 @@ const { Structures } = require('discord.js');
 // ------------------- Bot's Modules ------------------
 const fs = require('fs');
 // Requiring bot's own modules here for usage.
-logger.init('Initialising bot systems...');
+logger.init('Booting up CoraBot...');
 // Boot.js used to handle bot startup and config loader.
 const {config, tokens} = require('./cora/handlers/bootLoader.js');
 const {prefix, operators, useLegacyURL, debug} = config;

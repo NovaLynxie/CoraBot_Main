@@ -18,7 +18,7 @@ function configLoader(configPath) {
   );
   return configData;
 };
-logger.init('Loading bot settings...')
+logger.init('Loading settings data...')
 const authConfig = configLoader("./settings/auth.toml");
 logger.debug('Loaded credentials from auth.toml');
 const mainConfig = configLoader("./settings/main.toml");
@@ -51,7 +51,7 @@ if (debug) {
 }
 
 // Load bot assets from folders as necessary.
-logger.init('Fetching bot assets...');
+logger.init('Fetching asset files...');
 const { activities } = require('../assets/json/activities.json');
 logger.debug('Loaded activities from activities.json');
 const { responses } = require('../assets/json/responses.json');
