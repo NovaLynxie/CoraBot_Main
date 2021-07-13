@@ -73,11 +73,32 @@
   min-height: 200px;
   min-width: 240px;
 }
-.guild_icon {
+.guild_thumb {
   margin: 10px;
   background-color: #2C2F33;
   border-color: #7289DA;
   border-radius: 10%;
+  border-style: solid;
+  border-width: 4px;
+}
+.guild_icon {
+  position: absolute;
+  top: 2; left: 3; z-index: 2;
+  margin: 10px;
+  max-height: 96px; 
+  max-width: 96px;
+  background-color: #2C2F33;
+  border-color: #7289DA;
+  border-radius: 10%;
+  border-style: solid;
+  border-width: 4px;
+}
+.guild_banner {
+  position: relative;
+  z-index: 1;
+  background-color: #2C2F33;
+  border-color: #7289DA;
+  border-radius: 5%;
   border-style: solid;
   border-width: 4px;
 }

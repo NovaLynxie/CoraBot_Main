@@ -19,8 +19,10 @@ block content
           h4 Guild Details
           .settings_card_status
             h5 Basic Information
-            - iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`
-            img.d-flex.mr-3.rounded-circle.guild_icon(src=iconUrl style='width: 80px;' alt='Guild Icon')
+            - iconUrl = (guild.icon) ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` : 'https://via.placeholder.com/128.png?text=No Guild Icon'
+            - bannerUrl = (guild.banner) ? `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.png` : 'https://via.placeholder.com/320x180.png?text=No Guild Banner'
+            img.d-flex.mr-3.rounded-circle.guild_icon(src=iconUrl alt='Guild Icon')
+            img.guild_banner(src=bannerUrl)
             .guild_details_wrapper
               p
               | Name: #{guild.name}
