@@ -17,7 +17,7 @@ module.exports = class FurryCommand extends Command {
             description: 'Gets images from e621 using your tags.',
             details: ` VERY WIP! MAY BREAK AT ANY TIME!
             This command allows users to get images from e621, just input your tags and it will search e621 for you
-            *We are not responsible for the image results that come up from your tags, you have been warned.*.`,
+            *We are not responsible for the image results that come up from your tags, you have been warned.*`,
             examples: ['e621 search <tags>'],
             args: [
                 {

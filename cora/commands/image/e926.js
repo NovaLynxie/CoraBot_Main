@@ -14,9 +14,10 @@ module.exports = class FurryCommand extends Command {
             aliases: ['e9'],
             group: 'image',
             memberName: 'e926',
-            description: 'Some fun furry images using FurryBotAPI.',
+            description: 'Gets images from e926 using your tags.',
             details: ` VERY WIP! MAY BREAK AT ANY TIME!
-            This command allows users to get images from e926.`,
+            This command allows users to get images from e926, just input your tags and it will search e926 for you
+            *We are not responsible for the image results that come up from your tags, you have been warned.*`,
             examples: ['e926 search <tags>'],
             args: [
                 {
