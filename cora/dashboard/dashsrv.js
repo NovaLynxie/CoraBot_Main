@@ -82,7 +82,7 @@ module.exports = (client, config) => {
         // supported by most browsers
         defaultSrc: ["'self'", "https:"],
         scriptSrc: [
-          "'self'", "https:", "'unsafe-inline'", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net", "*.googleapis.com", "nonce-memberModals"
+          "'self'", "https:", "'unsafe-inline'", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net", "*.googleapis.com", "'nonce-themeLoader'", "'nonce-memberModals'"
         ],
         fontSrc: [
           "'self'", "https:", "fonts.googleapis.com",
@@ -97,7 +97,7 @@ module.exports = (client, config) => {
         objectSrc: ["'none'"],
         // supported by some browsers (firefox doesn't at this time)
         scriptSrcElem: [
-          "'self'", "https:", "'unsafe-inline'", "'nonce-memberModals'", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net"
+          "'self'", "https:", "'unsafe-inline'", "'nonce-themeLoader'", "'nonce-memberModals'", "*.jquery.com", "*.cloudflare.com", "*.bootstrapcdn.com", "*.datatables.net", "*.jsdelivr.net"
         ],
         scriptSrcAttr: [
           "'self'", "https:"

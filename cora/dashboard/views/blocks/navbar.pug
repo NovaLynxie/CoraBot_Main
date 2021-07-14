@@ -40,9 +40,13 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
                 a.dropdown-item(href='/logout')
                   i.fa.fa-sign-out(aria-hidden='true')
                   |  Logout
+            button#toggleTheme Toggle Theme
+            script(src='/public/javascripts/siteTheme.js')
 
         else
           li.nav-item
             a.nav-link(href='/login')
               i.fa.fa-key(aria-hidden='true')
-              |  Login              
+              |  Login
+            button.nav-link#toggleTheme Toggle Theme
+            script(src='/public/javascripts/siteTheme.js')
