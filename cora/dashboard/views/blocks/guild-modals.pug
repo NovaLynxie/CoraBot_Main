@@ -1,4 +1,47 @@
-// Manage Page Modals
+// Manage Page Modals (Edit Settings)
+#settingBotNotifsModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingSmartChatBotModalLabel' aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#serverLeaveModalLabel.modal-title Leave Server?
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          span(aria-hidden='true') &times;
+      .modal-body
+        p
+          | (Planned) Nothing to see here, move along.
+      .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+        a.btn.btn-outline-primary(role='button' type='submit') SAVE CHANGES 
+          i.fas.fa-save(aria-hidden='true')
+#settingAutoModBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingSmartChatBotModalLabel' aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#serverLeaveModalLabel.modal-title Leave Server?
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          span(aria-hidden='true') &times;
+      .modal-body
+        p
+          | (Planned) Nothing to see here, move along.
+      .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+        a.btn.btn-outline-primary(role='button' type='submit') SAVE CHANGES 
+          i.fas.fa-save(aria-hidden='true')
+#settingSmartChatBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingSmartChatBotModalLabel' aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#serverLeaveModalLabel.modal-title Edit Settings
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          span(aria-hidden='true') &times;
+      .modal-body
+        p
+          | (Planned) Nothing to see here, move along.
+      .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+        a.btn.btn-outline-primary(role='button' type='submit') SAVE CHANGES 
+          i.fas.fa-save(aria-hidden='true')
+// Manage Page Modals (Danger Zone)
 #serverLeaveModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='serverLeaveModalLabel' aria-hidden='true')
   .modal-dialog(role='document')
     .modal-content
@@ -25,7 +68,7 @@
       .modal-footer
         button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
         a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/reset` role='button') RESET
-// Members Page Modals
+// Members Page Modals (Action Kick/Ban)
 #memberBanModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='memberBanModalLabel' aria-hidden='true')
   .modal-dialog(role='document')
     .modal-content

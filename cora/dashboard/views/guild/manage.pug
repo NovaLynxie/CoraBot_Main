@@ -122,14 +122,18 @@ block content
                 th Chat Channels
               tr
                 td #{(chatBotSettings.chatChannels.length >=1)? chatBotSettings.chatChannels.join(', ') : 'No Channels Set'}
+            br
+            button.btn.btn-light(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
+              i.fas.fa-edit
+              
         .settings_card_modules.danger_block
           h4 Danger Zone
           - disableAction
           p.lead Beware, these are destructive actions!
             .settings_card_wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
               h5 Reset Settings
-              a.btn.btn-block.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#settingsResetModal' role='button') RESET
+              a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#settingsResetModal' role='button') RESET
             .settings_card_wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
               h5 Leave Guild
-              a.btn.btn-block.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#serverLeaveModal' role='button') LEAVE
+              a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#serverLeaveModal' role='button') LEAVE
         include ../blocks/guild-modals
