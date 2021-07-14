@@ -10,8 +10,8 @@ html(lang="en")
     include navbar
     // flash messages
     for message in flash
-      -flash.shift();
-      .alert.alert-warning.alert-dismissible.fade.show(role='alert' class='alert-'+message.type)
+      - flash.shift();
+      .alert.alert-dismissible.fade.show(role='alert' class='alert-'+message.type)
         strong
         | !{message.message}
         button.btn-close(type='button' data-bs-dismiss='alert' aria-label='Close')
