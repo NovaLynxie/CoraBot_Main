@@ -17,15 +17,16 @@ block content
         h3 Bot Control Panel
         .settings_card_modules.settings_card_wrapper
           h4 Guild Details
-          .settings_card_status
+          .guild_details_card
             h5 Basic Information
             - iconUrl = (guild.icon) ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` : 'https://via.placeholder.com/128.png?text=No Guild Icon'
-            - bannerUrl = (guild.banner) ? `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.png` : 'https://via.placeholder.com/320x180.png?text=No Guild Banner'
+            - bannerUrl = (guild.banner) ? `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.png` : 'https://via.placeholder.com/288x162.png?text=No Guild Banner'
             img.d-flex.mr-3.rounded-circle.guild_icon(src=iconUrl alt='Guild Icon')
             img.guild_banner(src=bannerUrl)
             .guild_details_wrapper
               p
               | Name: #{guild.name}
+              br
               | (ID: #{guild.id})
               br
               | Verified: #{(guild.verified)?'Yes':'No'}
@@ -41,7 +42,7 @@ block content
               br
               | Locale: #{guild.preferredLocale}
               
-          .settings_card_status
+          .guild_details_card
             h5 Server Details
             .guild_details_wrapper
               h6 Description
@@ -51,8 +52,7 @@ block content
               h6 Subscriptions
               p
               | Boost Tier: #{guild.premiumTier}
-              br
-              | Total Subs: #{guild.premiumSubscriptionCount}
+              | (Total Subs: #{guild.premiumSubscriptionCount})
               br
               | Vanity URL
               br 
