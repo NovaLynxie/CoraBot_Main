@@ -30,7 +30,7 @@ module.exports = {
       logger.info(`Settings generated successfully for ${guild.name}.`);
     } else {
       // Do not override the current configuration if settings are defined.
-      logger.warn(`${guild.name} seems to already have been configured! Skipping settings check.`);
+      logger.warn(`${guild.name} has already been configured! Skipped settings check.`);
       logger.debug(`${guild.name} (${guild.id}) already has a configuration!`);
       logger.debug('No new guild configurations were generated.');
     };
