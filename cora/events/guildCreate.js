@@ -1,8 +1,11 @@
 const logger = require('../providers/WinstonPlugin');
+const fs = require('fs');
 
 module.exports = {
   name: 'guildCreate',
   execute(guild, client) {
+    logger.info(`${client.user.tag} joined ${guild.name}. Running settings check.`);
+    logger.debug(`Joined ${guild.name} (${guild.id}) Preparing to create settings.`);
     let 
       announcerSettings = guild.settings.get('announcer', undefined),
       autoModSettings = guild.settings.get('automod', undefined),
@@ -14,79 +17,16 @@ module.exports = {
       // If they are not configured, setup with default settings.
       // Increase counter by one for each new guild configuration.
       guildsConfigured++; 
-      let defaultSettings = [
-        {
-          name: 'announcer',
-          value: {
-            enableNotifier: false,
-            events: {
-              join: false,
-              leave: false,
-              kick: false,
-              ban: false
-            },
-            eventMessages: {
-              userJoin: '<user> has joined the server.',
-              userLeave: '<user> has left the server.',
-              userKick: '<user> was kicked from the server.',
-              userBan: '<user> was banned from the server.'
-            }
-          }
-        },        
-        {
-          name: 'automod',
-          value: {
-            enableAutoMod: false,
-            chListMode: 'whitelist',
-            channelsList: [],
-            urlBlackList: [],
-            mediaOptions: {
-              removeGifs: false,
-              removeImgs: false,
-              removeUrls: false
-            }
-          }
-        },        
-        {
-          name: 'chatbot',
-          value: {
-            enableAutoChat: false,
-            chatChannels: []
-          }
-        },
-        {
-          name: 'botlogger',
-          value: {
-            enableBotLogger: false,
-            logChannels: [],
-            ignoreChannels: [],
-            logEvents: {
-              messageUpdates: true,
-              userJoinLeave: true,
-              userRoleUpdate: true
-            }
-          }
-        },
-        {
-          name: 'modlogger',
-          value: {
-            enableModLogger: false,
-            logChannels: [],
-            ignoreChannels: [],
-            logEvents: {
-              guildMemberRemove: true
-            }
-          }
-        }
-      ];
+      // Fetch Settings Template from ./cora/assets/text/
+      let settingsTemplate = fs.readFileSync('./cora/assets/text/defaultSettings.txt', 'utf-8');
+      // Attempt to parse to a usable Array of objects.
+      let defaultSettings = JSON.parse("[" + settingsTemplate + "]");
       // Apply default settings using guild as reference for configuration.
       defaultSettings.forEach(setting => {
         logger.data(`Generating setting ${setting.name} for ${guild.name}`)
         guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
-      }).then(() => {
-        logger.info(`Configured settings for ${guild.name}.`)
-        logger.debug(`Added configuration for ${guild.name} with unique ID ${guild.id}.`)
       }); 
+      logger.debug('Successfully generated settings for guild ${guild.name} (${guild.id}).');
     } else {
       // Do not override the current configuration if settings are defined.
       logger.warn(`${guild.name} seems to already have been configured!`);
