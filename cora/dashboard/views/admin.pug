@@ -32,4 +32,8 @@ block content
             - href = `https://discordapp.com/oauth2/authorize?client_id=${bot.application.id}&scope=bot&guild_id=${guild.id}&response_type=code&redirect_uri=${encodeURIComponent(config.dashboard.callbackURL)}`;
             - text = "Invite Bot";
             - enabled = bot.application.botPublic;
-          a.btn.btn-primary(class=(!enabled)?'btn-lg-disabled':'btn-lg-enabled' role='button' href=href) #{text}
+          a.btn.btn-primary(class=(!enabled)?'btn-lg-disabled':'btn-lg-enabled' role='button' href=href) #{text} 
+            if (text==="Manage")
+              i.fas.fa-tasks
+            else
+              i.fas.fa-sign-in-alt

@@ -91,7 +91,7 @@ block content
                 td Ban
                 td #{announcerSettings.eventMessages.userBan}
             br
-            button.btn.btn-light(data-bs-toggle='modal' data-bs-target='#settingBotNotifsModal') Edit 
+            button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingBotNotifsModal') Edit 
               i.fas.fa-edit
           .settings_card_modules
             h5 Auto Moderation
@@ -116,7 +116,7 @@ block content
                 td URL Blacklist
                 td #{(autoModSettings.urlBlacklist.length >=1)? autoModSettings.urlBlacklist.join(', ') : 'No Channels Set'}
             br
-            button.btn.btn-light(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
+            button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
               i.fas.fa-edit
           .settings_card_modules
             h5 Smart Chat Bot
@@ -129,7 +129,7 @@ block content
               tr
                 td #{(chatBotSettings.chatChannels.length >=1)? chatBotSettings.chatChannels.join(', ') : 'No Channels Set'}
             br
-            button.btn.btn-light(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
+            button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
               i.fas.fa-edit
               
         .settings_card_modules.danger_block
