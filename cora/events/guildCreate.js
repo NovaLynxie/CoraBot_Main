@@ -15,8 +15,6 @@ module.exports = {
     // Check if these settings are defined using falsy checks.
     if (!announcerSettings||!autoModSettings||!chatBotSettings||!botLogSettings||!modLogSettings) {
       // If they are not configured, setup with default settings.
-      // Increase counter by one for each new guild configuration.
-      guildsConfigured++; 
       // Fetch Settings Template from ./cora/assets/text/
       let settingsTemplate = fs.readFileSync('./cora/assets/text/defaultSettings.txt', 'utf-8');
       // Attempt to parse to a usable Array of objects.
