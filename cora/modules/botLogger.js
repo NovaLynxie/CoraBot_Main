@@ -48,6 +48,12 @@ module.exports = async function botLogger(event, data, client) {
     }
   }
   function sendLog(guild, embed) {
+    // Check first if any log channels are set, warn if none are available.
+    if (logChannels.length <= 0) {
+      logger.debug(`No log channel set for ${guild.name}!`);
+      logger.debug(`Log data not sent due to no channels configured.`)
+      return;
+    };
     logChannels.forEach(channel => {
       let logChannel = guild.channels.cache.get(channel);
       if (logChannel && logChannel !== undefined) {
