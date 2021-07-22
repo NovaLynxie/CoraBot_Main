@@ -78,6 +78,8 @@ module.exports = async function botLogger(event, data, client) {
 
     switch (event) {
       case 'messageDelete':
+        // If disabled, stop here. Otherwise continue.
+        if (!messageUpdates) break;
         logger.debug(`message was deleted -> ${message}`);
         // Fetch message author from message object.
         var author = message.author;
@@ -104,6 +106,8 @@ module.exports = async function botLogger(event, data, client) {
         break;
 
       case 'messageUpdate':
+        // If disabled, stop here. Otherwise continue.
+        if (!messageUpdates) break;
         // Fetch necessary information from the 'data' parameter.
         var
           oldMessage = data.oldMessage,
@@ -131,6 +135,8 @@ module.exports = async function botLogger(event, data, client) {
         sendLog(server, logEmbed);
         break;
       case 'guildMemberAdd':
+        // If disabled, stop here. Otherwise continue.
+        if (!userJoinLeaves) break;
         // Fetch member data from input.
         member = data.member;
         // Prepare new field data for embed object.
@@ -152,6 +158,8 @@ module.exports = async function botLogger(event, data, client) {
         sendLog(server, logEmbed);
         break;
       case 'guildMemberRemove':
+        // If disabled, stop here. Otherwise continue.
+        if (!userJoinLeaves) break;
         // Fetch member data from input.
         member = data.member;
         // Prepare new field data for embed object.
