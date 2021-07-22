@@ -79,74 +79,98 @@ module.exports = async function botLogger(event, data, client) {
     switch (event) {
       case 'messageDelete':
         logger.debug(`message was deleted -> ${message}`);
+        // Fetch message author from message object.
         var author = message.author;
-        var logEmbed = new MessageEmbed()
-          .setTitle('Message Deleted!')
-          .setAuthor(author.tag, author.avatarURL())
-          .setDescription('A message was deleted in a channel.')
-          .addFields(
-            {
+        // Set field values to update embed object.
+        var title = 'Message Deleted Notification!';
+        var desc = 'A message was deleted in a channel in this guild.';
+        var fields = [
+          {
               name: "Message Author Details",
               value: stripIndents`
               User Tag: ${author.tag}
               User ID: ${author.id}`
-            },
-            {
-              name: 'Deleted Message Contents',
-              value: (message.content) ? message.content : 'Not available.'
-            }
-          )
-          .setColor(0x00ae86)
-          .setTimestamp()
-          .setFooter(
-            'Bot created and maintained by NovaLynxie.',
-            client.user.displayAvatarURL({ format: 'png' })
-          );
+          },
+          {
+            name: 'Deleted Message Contents',
+            value: (message.content) ? message.content : 'Not available.'
+          }
+        ];
+        fields.forEach(obj => {
+          logEmbed.fields.push(obj);
+        });
         var server = client.guilds.cache.get(data.guild.id);
         sendLog(server, logEmbed);
         break;
 
       case 'messageUpdate':
+        // Fetch necessary information from the 'data' parameter.
         var
           oldMessage = data.oldMessage,
           newMessage = data.newMessage;
         var author = oldMessage.author;
-        var logEmbed = new MessageEmbed()
-          .setTitle('Message Data Updated!')
-          .setAuthor(author.tag, author.avatarURL())
-          .setDescription('A message was updated in a channel.')
-          .addFields(
-            {
-              name: "Author Details",
+        // Set field values to update embed object.
+        var title = 'Message Deleted Notification!';
+        var desc = 'A message was deleted in a channel in this guild.';
+        var fields = [
+          {
+              name: "Message Author Details",
               value: stripIndents`
               User Tag: ${author.tag}
               User ID: ${author.id}`
-            },
-            {
-              name: 'Message Before',
-              value: (oldMessage) ? oldMessage : 'Not available - Cannot fetch old message contents.'
-            },
-            {
-              name: 'Message After',
-              value: (newMessage) ? newMessage : 'Not available'
-            }
-          )
-          .setColor(0x00ae86)
-          .setTimestamp()
-          .setFooter(
-            'Bot created and maintained by NovaLynxie.',
-            client.user.displayAvatarURL({ format: 'png' })
-          );
+          },
+          {
+            name: 'Deleted Message Contents',
+            value: (message.content) ? message.content : 'Not available.'
+          }
+        ];
+        fields.forEach(obj => {
+          logEmbed.fields.push(obj);
+        });
         var server = client.guilds.cache.get(newMessage.guild.id);
         sendLog(server, logEmbed);
         break;
       case 'guildMemberAdd':
+        // Fetch member data from input.
+        member = data.member;
+        // Prepare new field data for embed object.
+        var title = 'Guild Member Joined!';
+        var desc = 'A new member has joined your guild.';
+        var fields = [
+          {
+            name: "Member Information",
+            value: stripIndents`
+            Username: ${member.user.tag}
+            Joined member.joinDate.placeholder
+            Acc. Age: ${}`
+          }
+        ];
+        fields.forEach(obj => {
+          logEmbed.fields.push(obj);
+        });
+        var server = client.guilds.cache.get(newMember.guild.id);
+        sendLog(server, logEmbed);
+        break;
       case 'guildMemberRemove':
         // Fetch member data from input.
         member = data.member;
-        var logEmbed = new MessageEmbed()
-          .setTitle('Member Join/Leave Notification!')
-          .setDescription('Someone has dropped in.')
+        // Prepare new field data for embed object.
+        var title = 'Guild Member Left!';
+        var desc = 'A member just left your guild.';
+        var fields = [
+          {
+            name: "Member Information",
+            value: stripIndents`
+            Username: ${member.user.tag}
+            Joined member.joinDate.placeholder
+            Acc. Age: ${}`
+          }
+        ];
+        fields.forEach(obj => {
+          logEmbed.fields.push(obj);
+        });
+        var server = client.guilds.cache.get(newMember.guild.id);
+        sendLog(server, logEmbed);
         break;
       case 'guildMemberUpdate':
         var 
@@ -156,25 +180,28 @@ module.exports = async function botLogger(event, data, client) {
           // Save role changes here. 
           removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id)),
           addedRoles = newMember.roles.cache.filter(role=>!oldMember.roles.cache.has(role.id));
-        var logEmbed = new MessageEmbed()
-          .setTitle('Member Info Updated!')
-          .setDescription('A member has updated their identity!')
-          .addFields(
-            {
-              name: "Old Member Data",
-              value: stripIndents`
-              Nickname: ${oldMember.displayName}
-              Roles Removed:
-              ${removedRoles.map(r=>r.name)}`
-            },
-            {
-              name: "New Member Data",
-              value: stripIndents`
-              Nickname: ${newMember.displayName}
-              Roles Added:
-              ${addedRoles.map(r=>r.name)}`
-            }
-          )
+        // Set field values to update embed object.
+        var title = 'Guild Member Updated!';
+        var desc = 'A member has updated their identity in your guild.';
+        var fields = [
+          {
+            name: "Old Member Data",
+            value: stripIndents`
+            Nickname: ${oldMember.displayName}
+            Roles Removed:
+            ${removedRoles.map(r=>r.name)}`
+          },
+          {
+            name: "New Member Data",
+            value: stripIndents`
+            Nickname: ${newMember.displayName}
+            Roles Added:
+            ${addedRoles.map(r=>r.name)}`
+          }
+        ];
+        fields.forEach(obj => {
+          logEmbed.fields.push(obj);
+        });
         var server = client.guilds.cache.get(newMember.guild.id);
         sendLog(server, logEmbed);
         break;
@@ -183,27 +210,30 @@ module.exports = async function botLogger(event, data, client) {
           // Fetch user data from input.
           oldUser = data.oldUser,
           newUser = data.newUser;
-        var logEmbed = new MessageEmbed()
-          .setTitle('Member Info Updated!')
-          .setDescription('A user has updated their profile.')
-          .addFields(
-            {
-              name: "Old User Data",
-              value: stripIndents`
-              Username: ${oldUser.username}
-              Discriminator: ${oldUser.discriminator}
-              Old Avatar
-              ${oldUser.avatarURL({format:'png'})}`
-            },
-            {
-              name: "New User Data",
-              value: stripIndents`
-              Username: ${newUser.username}
-              Discriminator: ${newUser.discriminator}
-              New Avatar
-              ${newUser.avatarURL({format:'png'})}`
-            }
-          )
+        // Set field values to update embed object.
+        var title = 'User Data Updated!';
+        var desc = 'A user has updated their profile information.';
+        var fields = [
+          {
+            name: "Old User Data",
+            value: stripIndents`
+            Username: ${oldUser.username}
+            Discriminator: ${oldUser.discriminator}
+            Old Avatar
+            ${oldUser.avatarURL({format:'png'})}`
+          },
+          {
+            name: "New User Data",
+            value: stripIndents`
+            Username: ${newUser.username}
+            Discriminator: ${newUser.discriminator}
+            New Avatar
+            ${newUser.avatarURL({format:'png'})}`
+          }
+        ];
+        fields.forEach(obj => {
+          logEmbed.fields.push(obj);
+        });
         var server = client.guilds.cache.get(newMember.guild.id);
         sendLog(server, logEmbed);
         break;
