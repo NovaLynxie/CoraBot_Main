@@ -246,7 +246,8 @@ module.exports = (client, config) => {
   // Logout Endpoint - Destroys the session to log out the user.
   app.get("/logout", function(req, res) {
     req.session.destroy(() => {
-      req.logout();
+      req.logout(); 
+      req.flash('info', 'You have now been logged out of the dashboard.');
       res.redirect("/"); //Inside a callback… bulletproof!
     });
   });
