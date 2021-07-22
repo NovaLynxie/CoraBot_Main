@@ -54,9 +54,10 @@
          
       ],
       "logEvents":{
-         "messageUpdates":true,
          "userJoinLeave":true,
-         "userRoleUpdate":true
+         "messageUpdates":true,
+         "userUpdates":true,
+         "memberUpdates":true,         
       }
    }
 },

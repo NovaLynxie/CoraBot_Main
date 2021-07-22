@@ -6,7 +6,7 @@ module.exports = async function botLogger(event, data, client) {
   // Fetch settings from guild settings provider, client settings provider is not used.
   let guild = client.guilds.cache.get(data.newMember.guild.id) || client.guilds.cache.get(data.newMessage.guild.id) || client.guilds.cache.get(data.guild.id);
   let botLoggerSettings = guild.settings.get('botlogger', undefined);
-  let { enableBotLogger, logChannels, ignoredChannels, messageUpdates, userJoinLeaves, roleUpdates } = botLoggerSettings;  
+  let { enableBotLogger, logChannels, ignoredChannels, messageUpdates, userJoinLeaves, userUpdates, memberUpdates } = botLoggerSettings;  
   // Check if either oldMessage OR newMessage is defined then process it.
   if (data.oldMessage || data.newMessage) {
     try {
@@ -181,6 +181,8 @@ module.exports = async function botLogger(event, data, client) {
         sendLog(server, logEmbed);
         break;
       case 'guildMemberUpdate':
+        // If disabled, stop here. Otherwise continue.
+        if (!memberUpdates) break;
         var 
           // Fetch member data from input.
           oldMember = data.oldMember,
@@ -214,6 +216,8 @@ module.exports = async function botLogger(event, data, client) {
         sendLog(server, logEmbed);
         break;
       case 'userUpdate':
+        // If disabled, stop here. Otherwise continue.
+        if (!userUpdates) break;
         var 
           // Fetch user data from input.
           oldUser = data.oldUser,
