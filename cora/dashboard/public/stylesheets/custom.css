@@ -12,6 +12,11 @@
   margin: auto;
 }
 
+.auth-fail {
+  width: 25%;
+  height: 25%;
+}
+
 .bg-base {
   background-color: rgba(79, 93, 112, 0.486)
 }

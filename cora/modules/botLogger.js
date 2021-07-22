@@ -22,8 +22,8 @@ module.exports = async function botLogger(event, data, client) {
       };
     } catch (err) {
       logger.warn(`Missing arg oldMessage/newMessage! Data is either malformed or missing.`)
-      logger.error(err)
-      logger.debug(err.stack)
+      logger.error(err.message);
+      logger.debug(err.stack);
     }
   }
   // Check if either oldMember OR newMember is defined then process it.
@@ -37,6 +37,16 @@ module.exports = async function botLogger(event, data, client) {
       logger.warn('Attempting to process incomplete information may cause unusual errors.');
     }
   }
+  if (data.member) {
+    try {
+      logger.data(`usertag: ${data.member.user.tag}`);
+      logger.data(`userid: ${data.member.user.id}`);
+    } catch (err) {
+      logger.warn(`Data is not a valid GuildMember object!`)
+      logger.error(err.message);
+      logger.debug(err.stack);
+    }
+  }
   function sendLog(guild, embed) {
     logChannels.forEach(channel => {
       let logChannel = guild.channels.cache.get(channel);
@@ -47,7 +57,19 @@ module.exports = async function botLogger(event, data, client) {
   }
   if (enableBotLogger) {
     logger.verbose('botLogger.checkIfEnabled => true')
-    let message = data;
+    let message = data; var logEmbed = {
+      color: 0x00ae86,
+      title: 'logEmbed.title.placeholder',
+      description: 'logEmbed.desc.placeholder',
+      thumbnail: {},
+      fields: [],
+      timestamp: new Date(),
+      footer: {
+        text: 'Bot created and maintained by NovaLynxie.',
+        icon_url: client.user.displayAvatarURL({ format: 'png' }),
+      },
+    };
+
     switch (event) {
       case 'messageDelete':
         logger.debug(`message was deleted -> ${message}`);
@@ -112,7 +134,15 @@ module.exports = async function botLogger(event, data, client) {
         var server = client.guilds.cache.get(newMessage.guild.id);
         sendLog(server, logEmbed);
         break;
-        case 'memberUpdate':
+      case 'guildMemberAdd':
+      case 'guildMemberRemove':
+        // Fetch member data from input.
+        member = data.member;
+        var logEmbed = new MessageEmbed()
+          .setTitle('Member Join/Leave Notification!')
+          .setDescription('Someone has dropped in.')
+        break;
+      case 'guildMemberUpdate':
         var 
           // Fetch member data from input.
           oldMember = data.oldMember,
@@ -122,7 +152,7 @@ module.exports = async function botLogger(event, data, client) {
           addedRoles = newMember.roles.cache.filter(role=>!oldMember.roles.cache.has(role.id));
         var logEmbed = new MessageEmbed()
           .setTitle('Member Info Updated!')
-          .setDescription('A member updated their user data.')
+          .setDescription('A member has updated their identity!')
           .addFields(
             {
               name: "Old Member Data",
@@ -142,14 +172,14 @@ module.exports = async function botLogger(event, data, client) {
         var server = client.guilds.cache.get(newMember.guild.id);
         sendLog(server, logEmbed);
         break;
-        case 'userUpdate':
+      case 'userUpdate':
         var 
           // Fetch user data from input.
           oldUser = data.oldUser,
           newUser = data.newUser;
         var logEmbed = new MessageEmbed()
           .setTitle('Member Info Updated!')
-          .setDescription('A user updated their profile.')
+          .setDescription('A user has updated their profile.')
           .addFields(
             {
               name: "Old User Data",
@@ -174,7 +204,7 @@ module.exports = async function botLogger(event, data, client) {
       default: 
       // these will not show in production mode unless logLevel=debug is included in process.env variables.
         logger.debug(`event ${event} not found in case states!`);
-        logger.debug(`logged message data may have been lost.`)
+        logger.debug(`logged message/user data may have been lost.`)
     }
   } else {
     logger.verbose('botLogger.checkIfEnabled => false')

@@ -138,9 +138,11 @@ module.exports = (client, config) => {
   */
   function checkAuth(req, res, next) {
     if (req.isAuthenticated()) return next();
+    logger.debug(`req.url='${req.url}'`)
     req.session.backURL = req.url;
+    logger.debug(`req.session.backURL='${req.session.backURL}'`)
     res.redirect("/login");
-  }
+  };
   /*
   Breadcrumb Fetcher. This uses the current page URL from ‘req’ to create breadcrumbs as an array of crumb objects, which is added to ‘req’. 
   Source: https://vidler.app/blog/javascript/nodejs/simple-and-dynamic-breadcrumbs-for-a-nodejs-express-application/
@@ -433,13 +435,25 @@ module.exports = (client, config) => {
 
   // Error Handling
   app.use(function(err, req, res, next) {
+    logger.debug('Error occured in dashboard service!');
     if (err.message.indexOf('Failed to lookup view') !== -1) {
-      req.flash("danger", "Error occured while attempting to render template! A requested template asset file is missing or was not found. Please contact my owner for help.")
+      req.flash("danger", "Error occured while attempting to render template! A requested template asset file is missing or was not found. Please contact my owner for help.");
+      logger.debug(`Error! Missing asset file!`);
+      logger.debug(err.stack);
       return res.status(404), renderView(res, req, 'errors/404.pug');
     }
-    res.status(500);
-    renderView(res, req, 'errors/500.pug');
-    logger.error(err);
+    else 
+    if (err.code === 'ERR_HTTP_HEADERS_SENT') {
+      logger.warn('Server tried to send more than one header to client!');
+      logger.debug('Too many headers sent or called by dashboard service!');
+      logger.debug(err.stack);
+      return;
+    }
+    else {
+      res.status(500);
+      renderView(res, req, 'errors/500.pug');
+      logger.error(err); logger.debug(err.stack);
+    }
   });
 
   app.listen(config.dashPort, () => {

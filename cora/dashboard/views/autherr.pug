@@ -1,10 +1,12 @@
 extends blocks/layout
 block content
   .container
-    .jumbotron
+    .jumbotron(style='text-align: center;')
       h1.text-warning Authentication Error
-      img(src="" alt="broken padlock")
-      p Whoops! Something went wrong during authentication!
-      | Either the previous action was interrupted by the user or verification did not complete successfully.
-      | Please go back and retry the action you were doing.
-      | If this error persists, please contact my owner.
+      img.auth-fail(src="/public/images/authfail.png" alt="broken padlock")
+      p.lead
+        | Whoops! Something went wrong during authentication!
+      p 
+        | Either the previous action was interrupted by the user or verification did not complete successfully.
+        | Please go back and retry the action you were doing.
+        | If this error persists, please contact my owner.

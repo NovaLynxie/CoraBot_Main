@@ -122,6 +122,12 @@ block content
               | #{(activity.details) ? `- ${activity.details}` : ''}
               if (pos <= member.user.presence.activities.length) 
                 br
+            if (activity.type === 'STREAMING')
+              | Streaming at #{activity.url}
+              br
+              | #{(activity.details) ? `- ${activity.details}` : ''}
+              if (pos <= member.user.presence.activities.length) 
+                br
             if (activity.type === 'CUSTOM_STATUS')
               | "#{activity.state}"
               br
