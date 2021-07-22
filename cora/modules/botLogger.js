@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const moment = require('moment'); require('moment-timezone');
 const logger = require('../providers/WinstonPlugin');
 const { stripIndents } = require('common-tags');
 
@@ -147,8 +148,8 @@ module.exports = async function botLogger(event, data, client) {
             name: "Member Information",
             value: stripIndents`
             Username: ${member.user.tag}
-            Joined member.joinDate.placeholder
-            Acc. Age: ${}`
+            Joined ${moment().format('DDD-MMM-YYYY HH:MM:SS-ZZZ')}
+            Acc. Age: ${Date.now() - member.user.createdAt() /1000/60/60/24} days`
           }
         ];
         fields.forEach(obj => {
@@ -170,8 +171,7 @@ module.exports = async function botLogger(event, data, client) {
             name: "Member Information",
             value: stripIndents`
             Username: ${member.user.tag}
-            Joined member.joinDate.placeholder
-            Acc. Age: ${}`
+            Joined ${moment().format('DDD-MMM-YYYY HH:MM:SS-ZZZ')}`
           }
         ];
         fields.forEach(obj => {
