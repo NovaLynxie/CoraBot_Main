@@ -13,6 +13,10 @@ module.exports = class SettingsCommand extends Command {
       guildOnly: true,
       memberName: 'settings',
       description: 'Allows for altering some settings without restarting the bot.',
+      details: stripIndents`
+        This command allows for altering guild specific settings without needing to restart the bot. 
+        From here you can modify and tweak how each module works per server, allowing your staff and you to customise them how you want!
+        It is for **guild specific** settings only, for this bot's settings, please check the config files.`,
       throttling: {
         usages: 1,
         duration: 5,
@@ -242,8 +246,8 @@ module.exports = class SettingsCommand extends Command {
               Guild ID: ||${message.guild.id}||
               To view any of the settings run this command below.
               \`settings <menu_name>\`
-              Menu Options: \`automod, autochat, botlogger*, modlogger, autonotifs*\`
-              \*These options are placeholders till the new menus are ready!
+              Menu Options: \`autonotifs*, automod, autochat, botlogger*, modlogger, \`
+              \*Some of these options are not yet fully implemented!
               `)
               .addFields(
                 {
