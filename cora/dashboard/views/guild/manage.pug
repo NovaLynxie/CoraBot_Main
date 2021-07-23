@@ -61,6 +61,31 @@ block content
           h4 Module Settings
           p.lead Change settings for each module from here. (WIP - Read Only for now)
           .settings_card_modules
+            h5 Auto Moderation
+            .settings_text_wrapper
+              | Enabled? #{(autoModSettings.enableAutoMod)?'Yes':'No'}
+              br
+              | Media Removal
+              br
+              | Animated Gifs: #{(autoModSettings.mediaOptions.removeGifs)?'Yes':'No'}
+              br
+              | Static Images: #{(autoModSettings.mediaOptions.removeImgs)?'Yes':'No'}
+              br
+              | Links/URLs: #{(autoModSettings.mediaOptions.removeUrls)?'Yes':'No'}
+            table.settings_table_main(border="1")
+              tr
+                th Setting
+                th Value
+              tr
+                td Channels List
+                td #{(autoModSettings.channelsList.length >=1)? autoModSettings.channelsList.join(', ') : 'No Channels Set'}
+              tr
+                td URL Blacklist
+                td #{(autoModSettings.urlBlacklist.length >=1)? autoModSettings.urlBlacklist.join(', ') : 'No Channels Set'}
+            br
+            button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
+              i.fas.fa-edit
+          .settings_card_modules
             h5 Bot Notifications
             .settings_text_wrapper
               | Enabled? #{(announcerSettings.enableNotifier)?'Yes':'No'}
@@ -92,31 +117,6 @@ block content
                 td #{announcerSettings.eventMessages.userBan}
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingBotNotifsModal') Edit 
-              i.fas.fa-edit
-          .settings_card_modules
-            h5 Auto Moderation
-            .settings_text_wrapper
-              | Enabled? #{(autoModSettings.enableAutoMod)?'Yes':'No'}
-              br
-              | Media Removal
-              br
-              | Animated Gifs: #{(autoModSettings.mediaOptions.removeGifs)?'Yes':'No'}
-              br
-              | Static Images: #{(autoModSettings.mediaOptions.removeImgs)?'Yes':'No'}
-              br
-              | Links/URLs: #{(autoModSettings.mediaOptions.removeUrls)?'Yes':'No'}
-            table.settings_table_main(border="1")
-              tr
-                th Setting
-                th Value
-              tr
-                td Channels List
-                td #{(autoModSettings.channelsList.length >=1)? autoModSettings.channelsList.join(', ') : 'No Channels Set'}
-              tr
-                td URL Blacklist
-                td #{(autoModSettings.urlBlacklist.length >=1)? autoModSettings.urlBlacklist.join(', ') : 'No Channels Set'}
-            br
-            button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
               i.fas.fa-edit
           .settings_card_modules
             h5 Smart Chat Bot

@@ -9,10 +9,9 @@
             span(aria-hidden='true') &times;
         .modal-body
           .form-group
-            label(for='enableNotifier') Enable Module? 
-            select#enableNotifier.custom-select.mb-3(name="enableNotifier")
-              option(value='enable') Yes
-              option(value='disable') No
+            .form-check.form-switch
+              input#enableNotifier.form-check-input(type='checkbox', name="enableNotifier")
+              label.form-check-label(for='enableNotifier') Enabled?
         .modal-footer
           button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
