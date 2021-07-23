@@ -242,7 +242,7 @@ module.exports = class SettingsCommand extends Command {
               Guild ID: ||${message.guild.id}||
               To view any of the settings run this command below.
               \`settings <menu_name>\`
-              Menu Options: \`automod, autochat, botlogger*, joinleave*\`
+              Menu Options: \`automod, autochat, botlogger*, modlogger, autonotifs*\`
               \*These options are placeholders till the new menus are ready!
               `)
               .addFields(
@@ -254,6 +254,7 @@ module.exports = class SettingsCommand extends Command {
                     AutoMod     | ${(enableAutoMod===true) ? 'ENABLED' : 'DISABLED'}
                     ChatterBox  | ${(enableAutoChat===true) ? 'ENABLED' : 'DISABLED'}
                     Bot Logging | ${(enableBotLogger===true) ? 'ENABLED' : 'DISABLED'}
+                    Mod Logging | ${(enableModLogger===true) ? 'ENABLED' : 'DISABLED'}
                     \`\`\`
                   `
                 }
