@@ -329,12 +329,93 @@ module.exports = (client, config) => {
   });
   // This calls when settings are saved using POST requests to get parameters to save.
   app.post("/dashboard/:guildID/manage", checkAuth, (req, res) => {
+    logger.dash('WebDash called POST to save_settings.');
+    logger.data(req.body); console.debug(req.body);
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    /* // Not yet implemented or working yet!!!
+    let announcerSettings = {
+      "name":"announcer",
+      "value":{
+        "enableNotifier":(req.body.enableNotifier === 'enable') ? true : false,
+        "events":{
+          "join":false,
+          "leave":false,
+          "kick":false,
+          "ban":false
+        },
+        "eventMessages":{
+          "userJoin":"<user> has joined the server.",
+          "userLeave":"<user> has left the server.",
+          "userKick":"<user> was kicked from the server.",
+          "userBan":"<user> was banned from the server."
+        }
+      }
+    }
+    let autoModSettings = {
+      "name":"automod",
+      "value":{
+        "enableAutoMod":false,
+        "chListMode":"whitelist",
+        "channelsList":[
+          
+        ],
+        "urlBlacklist":[
+          
+        ],
+        "mediaOptions":{
+          "removeGifs":false,
+          "removeImgs":false,
+          "removeUrls":false
+        }
+      }
+    }
+    let chatBotSettings = {
+      "name":"chatbot",
+      "value":{
+        "enableAutoChat":false,
+        "chatChannels":[
+          
+        ]
+      }
+    } 
+    let botLogSettings = {
+      "name":"botlogger",
+      "value":{
+        "enableBotLogger":false,
+        "logChannels":[
+          
+        ],
+        "ignoreChannels":[
+          
+        ],
+        "logEvents":{
+          "userJoinLeave":true,
+          "messageUpdates":true,
+          "userUpdates":true,
+          "memberUpdates":true      
+        }
+      }
+    }
+    let modLogSettings = {
+      "name":"modlogger",
+      "value":{
+        "enableModLogger":false,
+        "logChannels":[
+          
+        ],
+        "ignoreChannels":[
+          
+        ],
+        "logEvents":{
+          "guildMemberRemove":true
+        }
+      }
+    }
+    */
     //guild.settings.set();
-    //client.writeSettings(guild.id, req.body);
     res.redirect("/dashboard/" + req.params.guildID + "/manage");
   });
   // Displays all members in the Discord guild being viewed.

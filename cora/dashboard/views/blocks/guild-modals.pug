@@ -1,23 +1,27 @@
 // Manage Page Modals (Edit Settings)
 #settingBotNotifsModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingSmartChatBotModalLabel' aria-hidden='true')
-  .modal-dialog(role='document')
-    .modal-content
-      .modal-header
-        h5#serverLeaveModalLabel.modal-title Edit Settings
-        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
-          span(aria-hidden='true') &times;
-      .modal-body
-        p
-          | (Planned) Nothing to see here, move along.
-      .modal-footer
-        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
-        a.btn.btn-outline-primary(role='button' type='submit') SAVE CHANGES 
-          i.fas.fa-save(aria-hidden='true')
+  form(action=`/dashboard/${guild.id}/manage`, method='POST')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5#settingBotNotifsModalLabel.modal-title Edit Settings
+          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+            span(aria-hidden='true') &times;
+        .modal-body
+          .form-group
+            label(for='enableNotifier') Enable Module? 
+            select#enableNotifier.custom-select.mb-3(name="enableNotifier")
+              option(value='enable') Yes
+              option(value='disable') No
+        .modal-footer
+          button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+          button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
+            i.fas.fa-save(aria-hidden='true')
 #settingAutoModBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingSmartChatBotModalLabel' aria-hidden='true')
   .modal-dialog(role='document')
     .modal-content
       .modal-header
-        h5#serverLeaveModalLabel.modal-title Edit Settings
+        h5#settingAutoModBotModalLabel.modal-title Edit Settings
         button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
           span(aria-hidden='true') &times;
       .modal-body
@@ -31,7 +35,7 @@
   .modal-dialog(role='document')
     .modal-content
       .modal-header
-        h5#serverLeaveModalLabel.modal-title Edit Settings
+        h5#settingSmartChatBotModalLabel.modal-title Edit Settings
         button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
           span(aria-hidden='true') &times;
       .modal-body
