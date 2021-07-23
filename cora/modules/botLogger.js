@@ -99,6 +99,8 @@ module.exports = async function botLogger(event, data, client) {
             value: (message.content) ? message.content : 'Not available.'
           }
         ];
+        logEmbed.title = title;
+        logEmbed.description = desc;
         fields.forEach(obj => {
           logEmbed.fields.push(obj);
         });
@@ -129,6 +131,8 @@ module.exports = async function botLogger(event, data, client) {
             value: (message.content) ? message.content : 'Not available.'
           }
         ];
+        logEmbed.title = title;
+        logEmbed.description = desc;
         fields.forEach(obj => {
           logEmbed.fields.push(obj);
         });
@@ -152,6 +156,8 @@ module.exports = async function botLogger(event, data, client) {
             Acc. Age: ${Date.now() - member.user.createdAt() /1000/60/60/24} days`
           }
         ];
+        logEmbed.title = title;
+        logEmbed.description = desc;
         fields.forEach(obj => {
           logEmbed.fields.push(obj);
         });
@@ -174,6 +180,8 @@ module.exports = async function botLogger(event, data, client) {
             Joined ${moment().format('DDD-MMM-YYYY HH:MM:SS-ZZZ')}`
           }
         ];
+        logEmbed.title = title;
+        logEmbed.description = desc;
         fields.forEach(obj => {
           logEmbed.fields.push(obj);
         });
@@ -209,6 +217,8 @@ module.exports = async function botLogger(event, data, client) {
             ${addedRoles.map(r=>r.name)}`
           }
         ];
+        logEmbed.title = title;
+        logEmbed.description = desc;
         fields.forEach(obj => {
           logEmbed.fields.push(obj);
         });
@@ -243,6 +253,8 @@ module.exports = async function botLogger(event, data, client) {
             ${newUser.avatarURL({format:'png'})}`
           }
         ];
+        logEmbed.title = title;
+        logEmbed.description = desc;
         fields.forEach(obj => {
           logEmbed.fields.push(obj);
         });
