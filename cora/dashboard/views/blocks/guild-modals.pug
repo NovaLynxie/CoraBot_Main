@@ -8,10 +8,11 @@
           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
             span(aria-hidden='true') &times;
         .modal-body
+          .form-check.form-switch
+            input#enableNotifier.form-check-input(type='checkbox', name="enableNotifier")
+            label.form-check-label(for='enableNotifier') Enabled?
           .form-group
-            .form-check.form-switch
-              input#enableNotifier.form-check-input(type='checkbox', name="enableNotifier")
-              label.form-check-label(for='enableNotifier') Enabled?
+            label.form-label(for='placeholder') WIP! More coming soon. ;)
         .modal-footer
           button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
