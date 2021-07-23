@@ -48,7 +48,8 @@ module.exports = class helpDescCommand extends Command {
             if(commands.length === 1){
                 let helpDesc = stripIndents`
                     ${oneLine`
-                        __Command **${commands[0].name}**:__ ${commands[0].description}
+                        __Command **${commands[0].name}**:__ 
+                        ${commands[0].description}
                         ${commands[0].guildOnly ? ' (Usable only in servers)' : ''}
                         ${commands[0].nsfw ? ' (NSFW) ' : ''}
                     `}
