@@ -22,7 +22,7 @@ const session = require("express-session"); // express session manager
 const SQLiteStore = require("connect-sqlite3")(session);
 const Strategy = require("passport-discord").Strategy;
 
-logger.init('Starting Dashboard Service...');
+logger.dash('Starting Dashboard Service...');
 
 module.exports = (client, config) => {
   // Dashboard root directory from bot working directory.
@@ -350,6 +350,7 @@ module.exports = (client, config) => {
   // Leaves the guild (this is triggered from the manage page, and only
   // from the modal dialog)
   app.get("/dashboard/:guildID/leave", checkAuth, async (req, res) => {
+    logger.dash('Action LEAVE called by WebDash Operator.');
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
@@ -361,6 +362,7 @@ module.exports = (client, config) => {
 
   // Resets the guild's settings to the defaults, by simply deleting them.
   app.get("/dashboard/:guildID/reset", checkAuth, async (req, res) => {
+    logger.dash('Action RESET called by WebDash Operator.');
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
@@ -382,6 +384,7 @@ module.exports = (client, config) => {
 
   // Kicks specified member by their unique user ID.
   app.get("/dashboard/:guildID/kick/:userID", checkAuth, async (req, res) => {
+    logger.dash('Action USER-KICK called by WebDash Operator.');
     const guild = client.guilds.cache.get(req.params.guildID);
     const member = guild.members.cache.get(req.params.userID);
     if (!guild) return res.status(404);
@@ -404,6 +407,7 @@ module.exports = (client, config) => {
   });
   // Bans specified member by their unique user ID.
   app.get("/dashboard/:guildID/ban/:userID", checkAuth, async (req, res) => {
+    logger.dash('Action USER-BAN called by WebDash Operator.');
     const guild = client.guilds.cache.get(req.params.guildID);
     const member = guild.members.cache.get(req.params.userID);
     if (!guild) return res.status(404);
@@ -458,6 +462,6 @@ module.exports = (client, config) => {
   });
 
   app.listen(config.dashPort, () => {
-    logger.info('Dashboard service running!');
+    logger.dash('Dashboard service running!');
   });
 };
