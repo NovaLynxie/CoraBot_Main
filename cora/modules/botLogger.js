@@ -1,11 +1,17 @@
-const { MessageEmbed } = require('discord.js');
+//const { MessageEmbed } = require('discord.js'); //replaced with  embed object.
 const moment = require('moment'); require('moment-timezone');
 const logger = require('../providers/WinstonPlugin');
 const { stripIndents } = require('common-tags');
 
 module.exports = async function botLogger(event, data, client) {
   // Fetch settings from guild settings provider, client settings provider is not used.
-  let guild = client.guilds.cache.get(data.newMember.guild.id) || client.guilds.cache.get(data.newMessage.guild.id) || client.guilds.cache.get(data.guild.id);
+  let guild;
+  try {
+    guild = client.guilds.cache.get(data.newMember.guild.id) || client.guilds.cache.get(data.newMessage.guild.id) || client.guilds.cache.get(data.member.guild.id);
+  } catch (err) {
+    logger.warn('Guild could not be fetched from data parameter!');
+    logger.error(err.message); logger.debug(err.stack);
+  };
   let botLoggerSettings = guild.settings.get('botlogger', undefined);
   let { enableBotLogger, logChannels, ignoredChannels, messageUpdates, userJoinLeaves, userUpdates, memberUpdates } = botLoggerSettings;  
   // Check if either oldMessage OR newMessage is defined then process it.
