@@ -1,7 +1,8 @@
 const { Command } = require('discord.js-commando');
-const { stripIndents, oneLine } = require('common-tags');
+const { stripIndents } = require('common-tags');
 const { MessageEmbed } = require('discord.js');
 const logger = require('../../providers/WinstonPlugin');
+const fs = require('fs');
 
 module.exports = class SettingsCommand extends Command {
   constructor(client) {
@@ -40,71 +41,7 @@ module.exports = class SettingsCommand extends Command {
     async function resetGuildSettings(guild) {
       // Removes and reset all settings.
       guild.settings.clear();
-      let defaultSettings = [        
-        {
-          name: 'announcer',
-          value: {
-            enableNotifier: false,
-            events: {
-              join: false,
-              leave: false,
-              kick: false,
-              ban: false
-            },
-            eventMessages: {
-              userJoin: '<user> has joined the server.',
-              userLeave: '<user> has left the server.',
-              userKick: '<user> was kicked from the server.',
-              userBan: '<user> was banned from the server.'
-            }
-          }
-        },
-        {
-          name: 'automod',
-          value: {
-            enableAutoMod: false,
-            chListMode: 'whitelist',
-            channelsList: [],
-            urlBlackList: [],
-            mediaOptions: {
-              removeGifs: false,
-              removeImgs: false,
-              removeUrls: false
-            }
-          }
-        },        
-        {
-          name: 'chatbot',
-          value: {
-            enableAutoChat: false,
-            chatChannels: []
-          }
-        },
-        {
-          name: 'botlogger',
-          value: {
-            enableBotLogger: false,
-            logChannels: [],
-            ignoreChannels: [],
-            logEvents: {
-              messageUpdates: true,
-              userJoinLeave: true,
-              userRoleUpdate: true
-            }
-          }
-        },
-        {
-          name: 'modlogger',
-          value: {
-            enableModLogger: false,
-            logChannels: [],
-            ignoreChannels: [],
-            logEvents: {
-              guildMemberRemove: true
-            }
-          }
-        }
-      ]
+      let defaultSettings = fs.readFileSync('./cora/assets/text/defaultSettings.txt', 'utf-8');
       defaultSettings.forEach(setting => {
         logger.data(`Generating setting ${setting.name} for ${guild.name}`)
         guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
