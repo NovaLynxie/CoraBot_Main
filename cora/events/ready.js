@@ -12,31 +12,7 @@ module.exports = {
     logger.data(`Bot User ID: ${client.user.id}`);
     client.user.setActivity('with Commando');
     client.application = await client.fetchApplication();
-    // Spin up built-in server once client is online and ready.
-    const dashConfig = {
-      "dashboard" : {
-        "dashPort": dashPort,
-        "reportOnly": reportOnly,
-        "clientID" : client.application.id,
-        "oauthSecret" : process.env.clientSecret,
-        "sessionSecret" : process.env.sessionSecret,
-        "botDomain" : process.env.botDomain || botDomain,
-        "callbackURL" : process.env.callbackURL || callbackURL      
-      }
-    };
-    try {
-      logger.verbose(`enableDash=${enableDash}`);
-      if (enableDash) {
-        logger.debug('Initialising dashboard service.');
-        require('../dashboard/dashsrv.js')(client, dashConfig);
-      }
-    } catch (err) {
-      // fallback to websrv silently if fails.
-      logger.error('Dashboard service failed to start!');
-      logger.warn('Dashboard cannot be loaded. Report this to developers.');
-      logger.debug(err.stack);
-      require('../internal/websrv.js');
-    };
+
     // Database checks for guilds with no configured settings.
     logger.warn('Running database checks. This may take a bit.');
     logger.debug("Checking all bot's connected guilds now...")
@@ -74,6 +50,33 @@ module.exports = {
       };        
     });
     logger.info('Database checks finished, ready for use.');
+    
+    // Spin up built-in server once client is online and ready.
+    const dashConfig = {
+      "dashboard" : {
+        "dashPort": dashPort,
+        "reportOnly": reportOnly,
+        "clientID" : client.application.id,
+        "oauthSecret" : process.env.clientSecret,
+        "sessionSecret" : process.env.sessionSecret,
+        "botDomain" : process.env.botDomain || botDomain,
+        "callbackURL" : process.env.callbackURL || callbackURL      
+      }
+    };
+    try {
+      logger.verbose(`enableDash=${enableDash}`);
+      if (enableDash) {
+        logger.debug('Initialising dashboard service.');
+        require('../dashboard/dashsrv.js')(client, dashConfig);
+      }
+    } catch (err) {
+      // fallback to websrv silently if fails.
+      logger.error('Dashboard service failed to start!');
+      logger.warn('Dashboard cannot be loaded. Report this to developers.');
+      logger.debug(err.stack);
+      require('../internal/websrv.js');
+    };
+    
     // Setup interval timers to update status and database.
     setInterval(async () => {    
       // status updater
