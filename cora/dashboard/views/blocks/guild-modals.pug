@@ -10,7 +10,10 @@
             span(aria-hidden='true') &times;
         .modal-body
           .form-check.form-switch
-            input#enableNotifier.form-check-input(type='checkbox', name="enableNotifier", (enableNotifier==='on') ? 'checked' : '')
+            if (enableNotifier==='on')
+              input#enableNotifier.form-check-input(type='checkbox' name="enableNotifier" checked)
+            if (enableNotifier==='off')
+              input#enableNotifier.form-check-input(type='checkbox' name="enableNotifier")
             label.form-check-label(for='enableNotifier') Enabled?
           .form-group
             label.form-label(for='placeholder') WIP! More coming soon. ;)
