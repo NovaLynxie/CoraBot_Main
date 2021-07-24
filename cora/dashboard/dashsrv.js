@@ -374,9 +374,9 @@ module.exports = (client, config) => {
   // Leaves the guild (this is triggered from the manage page, and only
   // from the modal dialog)
   app.get("/dashboard/:guildID/leave", checkAuth, async (req, res) => {
-    logger.dash('Action LEAVE called by WebDash Operator.');
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
+    logger.dash(`WebDash called GUILD_LEAVE action on user ${member.user.id} in guild ${guild.name}.`);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     await guild.leave();
@@ -386,9 +386,9 @@ module.exports = (client, config) => {
 
   // Resets the guild's settings to the defaults, by simply deleting them.
   app.get("/dashboard/:guildID/reset", checkAuth, async (req, res) => {
-    logger.dash('Action RESET called by WebDash Operator.');
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
+    logger.dash(`WebDash called RESET_SETTINGS action on guild ${guild.name}.`);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     logger.debug(`WebDash executed RESET for ${guild.name} settings!`)
@@ -408,16 +408,16 @@ module.exports = (client, config) => {
 
   // Kicks specified member by their unique user ID.
   app.get("/dashboard/:guildID/kick/:userID", checkAuth, async (req, res) => {
-    logger.dash('Action USER-KICK called by WebDash Operator.');
     const guild = client.guilds.cache.get(req.params.guildID);
     const member = guild.members.cache.get(req.params.userID);
     if (!guild) return res.status(404);
+    logger.dash(`WebDash called USER_KICK action on user ${member.user.id} in guild ${guild.name}.`);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
-      req.flash("warning", `Unable to kick ${member.user.tag}. Insufficient permissions or action was rejected by bot server.`)
-      logger.warn(`WebDash Operator BAN ${member.user.tag} aborted by DashService!`)
-      logger.warn(`Reason: The requested MemberID of ${member.user.tag}was the User's or Bot's unique ID.`)
+      req.flash("warning", `Unable to kick ${member.user.tag}. Insufficient permissions or action was rejected by bot server.`);
+      logger.warn(`WebDash Operator BAN ${member.user.tag} aborted by DashService!`);
+      logger.warn(`Reason: The requested MemberID of ${member.user.tag}was the User's or Bot's unique ID.`);
     } else {
       member.kick(`Kicked by WebDash Operator (ID :${req.user.id})`)
         .then(req.flash("success", `${member.user.tag} has been removed from ${guild.name} successfully!`))
@@ -431,10 +431,10 @@ module.exports = (client, config) => {
   });
   // Bans specified member by their unique user ID.
   app.get("/dashboard/:guildID/ban/:userID", checkAuth, async (req, res) => {
-    logger.dash('Action USER-BAN called by WebDash Operator.');
     const guild = client.guilds.cache.get(req.params.guildID);
     const member = guild.members.cache.get(req.params.userID);
     if (!guild) return res.status(404);
+    logger.dash(`WebDash called USER_BAN action on user ${member.user.id} in guild ${guild.name}.`);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     if (req.params.userID === client.user.id || req.params.userID === req.user.id) {

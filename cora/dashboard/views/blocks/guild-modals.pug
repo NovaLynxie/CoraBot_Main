@@ -1,4 +1,5 @@
 // Manage Page Modals (Edit Settings)
+- var enableNotifier = (announcerSettings.enableNotifier) ? 'on' : 'off';
 #settingBotNotifsModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingSmartChatBotModalLabel' aria-hidden='true')
   form(action=`/dashboard/${guild.id}/manage`, method='POST')
     .modal-dialog(role='document')
@@ -9,7 +10,7 @@
             span(aria-hidden='true') &times;
         .modal-body
           .form-check.form-switch
-            input#enableNotifier.form-check-input(type='checkbox', name="enableNotifier")
+            input#enableNotifier.form-check-input(type='checkbox', name="enableNotifier", (enableNotifier==='on') ? 'checked' : '')
             label.form-check-label(for='enableNotifier') Enabled?
           .form-group
             label.form-label(for='placeholder') WIP! More coming soon. ;)
