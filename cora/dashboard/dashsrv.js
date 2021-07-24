@@ -92,7 +92,7 @@ module.exports = (client, config) => {
           "'self'", "https:", "'unsafe-inline'", "*.bootstrapcdn.com", "*.googleapis.com"
         ],
         imgSrc: [
-          "'self'", "https:", "http:", "w3.org", "via.placeholder.com", "cdn.discordapp.com", "i.giphy.com", "media.tenor.com"
+          "'self'", "https:", "http:", "data:", "w3.org", "via.placeholder.com", "cdn.discordapp.com", "i.giphy.com", "media.tenor.com"
         ],        
         objectSrc: ["'none'"],
         // supported by some browsers (firefox doesn't at this time)
