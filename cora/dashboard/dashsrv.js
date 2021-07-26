@@ -217,12 +217,6 @@ module.exports = (client, config) => {
     logger.data(`data type: ${typeof client.options.owner}`);
     // Check if request user ID is an owner.
     (client.options.owner.includes(req.user.id)) ? req.session.isAdmin = true : req.session.isAdmin = false;
-    /*
-    for (const user of client.options.owner) {
-      logger.data(user);
-      (user === req.user.id) ? req.session.isAdmin = true : req.session.isAdmin = false;
-    };
-    */
     if (req.session.isAdmin) {
       logger.debug(`DiscordUser with ID:${req.user.id} logged in as 'ADMIN'.`)
     } else {
