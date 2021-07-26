@@ -347,21 +347,36 @@ module.exports = (client, config) => {
     try {
       // Update each setting setup respectively and save changes.
       if (req.body.enableNotifier) {
-        logger.debug('Found Announcer settings data!');
+        logger.debug("Detected 'Announcer' settings data!");
         announcerSettings.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
-        
-      };      
+        logger.debug("Prepared 'Announcer' settings data for writing.");
+      };    
       if (req.body.enableAutoMod) {
-        logger.debug('Found AutoMod settings data!');
+        logger.debug("Detected 'AutoMod' settings data!");
         autoModSettings.enableAutoMod = (req.body.enableAutoMod === 'on') ? true : false;
         let channelsList = req.body.channelsList.split(",");
         autoModSettings.channelsList = (req.body.channelsList) ? channelsList : autoModSettings.channelsList;
+        autoModSettings.mediaOptions = {
+          removeGifs: (req.body.) ? :
+        }
+        logger.debug("Prepared 'AutoMod' settings data for writing.");
       };      
       if (req.body.enableChatBot) {
-        logger.debug('Found ChatBot settings data!');
+        logger.debug("Detected 'ChatBot' settings data!");
         chatBotSettings.enableChatBot = (req.body.enableChatBot === 'on') ? true : false;
         let chatChannels = req.body.chatChannels.split(",");
         chatBotSettings.chatChannels = (req.body.chatChannels) ? chatChannels : chatBotSettings.chatChannels;
+        logger.debug("Prepared 'ChatBot' settings data for writing.");
+      };
+      if (req.body.enableBotLogger) {
+        logger.debug("Detected 'BotLogger' settings data!");
+        // to be implemented ;)
+        logger.debug("Prepared 'BotLogger' settings data for writing.");
+      };
+      if (req.body.enableModLogger) {
+        logger.debug("Detected 'ModLogger' settings data!");
+        // to be implemented ;)
+        logger.debug("Prepared 'ModLogger' settings data for writing.");
       }
       // Update settings after checking for changes.
       guild.settings.set('announcer', announcerSettings);

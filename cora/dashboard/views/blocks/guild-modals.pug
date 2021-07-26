@@ -45,6 +45,19 @@
             br
             | Example URLs: i.imgur.com/, www.tenor.com/, etc.
             input#urlsBlacklist.form-control(type='text' name='urlsBlacklist' value=autoModSettings.urlBlacklist.join(",") )
+          .form-check.form-switch
+            p Media Removal Settings            
+            input#removeUrlsSwitch.form-check-input(type='checkbox' name='removeUrls')
+            label.form-check-label(for='removeUrlsSwitch') Remove Links/URLs?
+            br
+            input#removeGifsSwitch.form-check-input(type='checkbox' name='removeGifs')
+            label.form-check-label(for='removeGifsSwitch') Remove Gifs?
+            br
+            input#removeImgsSwitch.form-check-input(type='checkbox' name='removeImgs')
+            label.form-check-label(for='removeImgsSwitch') Remove Images?
+            br
+            input#removeVidsSwitch.form-check-input(type='checkbox' name='removeVids' disabled)
+            label.form-check-label(for='removeVidsSwitch') Remove Videos? (EXPERIMENTAL)
           .form-group
             label.form-label(for='placeholder') WIP! More coming soon. ;)
         .modal-footer
