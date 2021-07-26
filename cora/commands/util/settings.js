@@ -231,8 +231,8 @@ module.exports = class SettingsCommand extends Command {
         default:
           // Fetch only ENABLED status for each of the configurable modules here.
           var 
-            {enableAutoChat} = autoChatSettings,
-            {announceJoinLeave} = autoNotiferSettings,
+            {enableChatBot} = autoChatSettings,
+            {enableNotifier} = autoNotiferSettings,
             {enableAutoMod} = autoModSettings,
             {enableBotLogger} = botLoggerSettings,
             {enableModLogger} = modLoggerSettings;
@@ -254,9 +254,9 @@ module.exports = class SettingsCommand extends Command {
                   name: 'Bot Modules',
                   value: stripIndents`
                     \`\`\`
-                    AutoNotify  | ${(announceJoinLeave===true) ? 'ENABLED' : 'DISABLED'}
+                    AutoNotify  | ${(enableNotifier===true) ? 'ENABLED' : 'DISABLED'}
                     AutoMod     | ${(enableAutoMod===true) ? 'ENABLED' : 'DISABLED'}
-                    ChatterBox  | ${(enableAutoChat===true) ? 'ENABLED' : 'DISABLED'}
+                    ChatterBox  | ${(enableChatBot===true) ? 'ENABLED' : 'DISABLED'}
                     Bot Logging | ${(enableBotLogger===true) ? 'ENABLED' : 'DISABLED'}
                     Mod Logging | ${(enableModLogger===true) ? 'ENABLED' : 'DISABLED'}
                     \`\`\`
