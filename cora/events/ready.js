@@ -70,7 +70,7 @@ module.exports = {
     } catch (err) {
       // fallback to websrv silently if fails.
       logger.error('Dashboard service failed to start!');
-      logger.warn('Dashboard cannot be loaded. Report this to developers.');
+      logger.warn('Dashboard cannot be loaded. Report this to the developers!');
       logger.debug(err.stack);
       require('../internal/websrv.js');
     };
