@@ -83,7 +83,7 @@ block content
                 td URL Blacklist
                 td #{(autoModSettings.urlBlacklist.length >=1)? autoModSettings.urlBlacklist.join(', ') : 'No Channels Set'}
             br
-            button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
+            button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingAutoModBotModal') Edit 
               i.fas.fa-edit
           .settings_card_modules
             h5 Bot Notifications
@@ -121,7 +121,7 @@ block content
           .settings_card_modules
             h5 Smart Chat Bot
             .settings_text_wrapper
-              | Enabled? #{(chatBotSettings.enableAutoChat)?'Yes':'No'}
+              | Enabled? #{(chatBotSettings.enableChatBot)?'Yes':'No'}
               br
             table.settings_table_main(border="1")
               tr

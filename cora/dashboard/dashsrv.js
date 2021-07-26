@@ -124,8 +124,8 @@ module.exports = (client, config) => {
   // body-parser reads incoming JSON or FORM data and simplifies their
   // use in code.
   var bodyParser = require("body-parser");
-  app.use(bodyParser.json());       // to support JSON-encoded bodies
-  app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  app.use(express.json());       // to support JSON-encoded bodies
+  app.use(express.urlencoded({     // to support URL-encoded bodies
     extended: true
   }));
 
@@ -346,12 +346,26 @@ module.exports = (client, config) => {
     // Use try/catch to capture errors from the bot or dashboard.
     try {
       // Update each setting setup respectively and save changes.
-      announcerSettings.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
+      if (req.body.enableNotifier) {
+        logger.debug('Found Announcer settings data!');
+        announcerSettings.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
+        
+      };      
+      if (req.body.enableAutoMod) {
+        logger.debug('Found AutoMod settings data!');
+        autoModSettings.enableAutoMod = (req.body.enableAutoMod === 'on') ? true : false;
+        
+      };      
+      if (req.body.enableChatBot) {
+        logger.debug('Found ChatBot settings data!');
+        chatBotSettings.enableChatBot = (req.body.enableChatBot === 'on') ? true : false;
+        let chatChannels = req.body.chatChannels.split(",");
+        chatBotSettings.chatChannels = (req.body.chatChannels) ? chatChannels : chatBotSettings.chatChannels;
+      }
+      // Update settings after checking for changes.
       guild.settings.set('announcer', announcerSettings);
-      autoModSettings.enableAutoMod = (req.body.enableAutoMod === 'on') ? true : false;
       guild.settings.set('automod', autoModSettings);
-      chatBotSettings.enableChatBot = (req.body.enableChatBot === 'on') ? true : false;
-      guild.settings.set('automod', autoModSettings);
+      guild.settings.set('chatbot', chatBotSettings);
       req.flash('success', 'Saved settings successfully!');
     } catch (err) {
       // Should it fail, catch and try to log the error from the bot/dashboard.

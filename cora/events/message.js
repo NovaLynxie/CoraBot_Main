@@ -17,8 +17,11 @@ module.exports = {
       logger.debug('Prefix detected! Ignoring as command request.')
       return;
     }
+    logger.verbose('running autoRespond')
     autoRespond(message);
+    logger.verbose('running autoModerator')
     autoModerator(message, client);
+    logger.verbose('running chatBot')
     chatBot(message, client);
   },
 };
