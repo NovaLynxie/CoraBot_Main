@@ -45,9 +45,9 @@ module.exports = (client, config) => {
   // - clientSecret is a secret code for oauth2 handling.
   // - callbackURL is the url to handle discord api callbacks.
   passport.use(new Strategy({
-    clientID: config.dashboard.clientID,
-    clientSecret: config.dashboard.oauthSecret,
-    callbackURL: config.dashboard.callbackURL,
+    clientID: config.clientID,
+    clientSecret: config.oauthSecret,
+    callbackURL: config.callbackURL,
     scope: ["identify", "guilds"]
   },
     (accessToken, refreshToken, profile, done) => {
@@ -62,7 +62,7 @@ module.exports = (client, config) => {
       dir: "./data/storage/"
     }),
     // session secret - verification step
-    secret: process.env.SESSION_SECRET || config.dashboard.sessionSecret,
+    secret: process.env.SESSION_SECRET || config.sessionSecret,
     // session cookie - remove after one week elapses
     //cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }, //disabled temporarily
     // session options
@@ -108,7 +108,7 @@ module.exports = (client, config) => {
         upgradeInsecureRequests: [],
       },
       // used for debugging purposes to determine if csp is working.
-      reportOnly: config.dashboard.reportOnly || false       
+      reportOnly: config.reportOnly || false       
     }
   }));
 

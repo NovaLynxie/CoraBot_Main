@@ -53,15 +53,13 @@ module.exports = {
     
     // Spin up built-in server once client is online and ready.
     const dashConfig = {
-      "dashboard" : {
-        "dashPort": dashSrvPort,
-        "reportOnly": reportOnly,
-        "clientID" : client.application.id,
-        "oauthSecret" : process.env.clientSecret,
-        "sessionSecret" : process.env.sessionSecret,
-        "botDomain" : process.env.botDomain || botDomain,
-        "callbackURL" : process.env.callbackURL || callbackURL      
-      }
+      "dashPort": dashSrvPort,
+      "reportOnly": reportOnly,
+      "clientID" : client.application.id,
+      "oauthSecret" : process.env.clientSecret,
+      "sessionSecret" : process.env.sessionSecret,
+      "botDomain" : process.env.botDomain || botDomain,
+      "callbackURL" : process.env.callbackURL || callbackURL
     };
     try {
       logger.verbose(`enableDash=${enableDash}`);
