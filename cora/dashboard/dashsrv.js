@@ -357,7 +357,10 @@ module.exports = (client, config) => {
         let channelsList = req.body.channelsList.split(",");
         autoModSettings.channelsList = (req.body.channelsList) ? channelsList : autoModSettings.channelsList;
         autoModSettings.mediaOptions = {
-          removeGifs: (req.body.) ? :
+          removeUrls: (req.body.removeUrls) ? true : false,
+          removeGifs: (req.body.removeGifs) ? true : false,
+          removeImgs: (req.body.removeImgs) ? true : false,
+          removeVids: (req.body.removeVids) ? true : false
         }
         logger.debug("Prepared 'AutoMod' settings data for writing.");
       };      
