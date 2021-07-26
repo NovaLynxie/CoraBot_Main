@@ -52,9 +52,9 @@ block content
       include ../blocks/guild-member-modals
       - var memberPos = 0;
       each member in members
-        .member_card#member_card
-          img.member_avatar(src=member.user.displayAvatarURL({ dynamic: true, size: 64 }) alt="Discord Avatar" onerror="this.onerror=null;this.src=member.user.defaultAvatarURL")
-          .member_actions
+        .member-card#member-card
+          img.member-avatar(src=member.user.displayAvatarURL({ dynamic: true, size: 64 }) alt="Discord Avatar" onerror="this.onerror=null;this.src=member.user.defaultAvatarURL")
+          .member-actions
             .btn-group-vertical(role='group' aria-label='Basic example')
               - var userCheck = (member.user.id===bot.user.id || member.user.id===user.id) ? "disabled" : "" 
               button.btn.btn-outline-warning(class=userCheck data-bs-toggle='modal' data-bs-target='#memberKickModal' data-bs-memberid=member.user.id  type='button') KICK
