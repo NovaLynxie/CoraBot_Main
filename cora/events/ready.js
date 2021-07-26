@@ -1,5 +1,5 @@
 const {assets, config} = require('../handlers/bootLoader');
-const {activities} = assets, {debug, enableDash, dashPort, reportOnly} = config;
+const {activities} = assets, {debug, enableDash, dashSrvPort, reportOnly} = config;
 const logger = require('../providers/WinstonPlugin');
 const fs = require('fs');
 
@@ -54,7 +54,7 @@ module.exports = {
     // Spin up built-in server once client is online and ready.
     const dashConfig = {
       "dashboard" : {
-        "dashPort": dashPort,
+        "dashPort": dashSrvPort,
         "reportOnly": reportOnly,
         "clientID" : client.application.id,
         "oauthSecret" : process.env.clientSecret,

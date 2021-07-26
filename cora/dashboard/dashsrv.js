@@ -329,7 +329,7 @@ module.exports = (client, config) => {
   });
   // This calls when settings are saved using POST requests to get parameters to save.
   app.post("/dashboard/:guildID/manage", checkAuth, (req, res) => {
-    logger.dash('WebDash called POST to save_settings.');
+    logger.debug("WebDash called POST action 'save_settings'!");
     logger.data(req.body); // debug line only, remove when not in use.
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
@@ -398,6 +398,7 @@ module.exports = (client, config) => {
       logger.error(err.message); logger.debug(err.stack);
       req.flash('danger', 'One or more settings failed to save! Please try again. If this error persists, ask an admin to check the logs.');
     };
+    logger.debug("Finished updating settings database. Redirecting to dashboard manage page.");
     res.redirect("/dashboard/" + req.params.guildID + "/manage");
   });
   // Displays all members in the Discord guild being viewed.
@@ -523,8 +524,7 @@ module.exports = (client, config) => {
       logger.error(err); logger.debug(err.stack);
     }
   });
-
   app.listen(config.dashPort, () => {
-    logger.dash('Dashboard service running!');
+    logger.dash(`Dashboard service running on port ${config.dashPort}`);
   });
 };
