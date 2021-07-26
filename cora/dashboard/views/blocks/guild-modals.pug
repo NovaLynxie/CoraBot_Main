@@ -32,8 +32,19 @@
                 input#optionsRadios2.form-check-input(type='radio' name='enableAutoMod' value='off')
                 | Disable
           .form-group
-            label.form-label.mt-4(for='channelsList') Example textarea
-            textarea#channelsList.form-control(rows='3')
+            label.form-label.mt-4(for='channelsList') 
+            | Channels List (Will only accepts channel IDs)
+            br
+            | Separate using commas between each one like this: 12345678901234567, 12345678901234567
+            input#channelsList.form-control(type='text' name='channelsList' value=autoModSettings.channelsList.join(",") )
+          .form-group
+            label.form-label.mt-4(for='urlsBlacklist') 
+            | URLs Blacklist
+            br
+            | These can be generalised or specific URLs.       
+            br
+            | Example URLs: i.imgur.com/, www.tenor.com/, etc.
+            input#urlsBlacklist.form-control(type='text' name='urlsBlacklist' value=autoModSettings.urlBlacklist.join(",") )
           .form-group
             label.form-label(for='placeholder') WIP! More coming soon. ;)
         .modal-footer
@@ -67,16 +78,16 @@
                 | Disable
           .form-group
             label.form-label.mt-4(for='joinMessage') Join Message
-            textarea#joinMessage.form-control(rows='3')
+            input#joinMessage.form-control(type='text' value=announcerSettings.eventMessages.userJoin)
           .form-group
             label.form-label.mt-4(for='leaveMessage') Leave Message
-            textarea#joinMessage.form-control(rows='3')
+            input#leaveMessage.form-control(type='text' value=announcerSettings.eventMessages.userLeave)
           .form-group
             label.form-label.mt-4(for='kickMessage') Kick Message
-            textarea#joinMessage.form-control(rows='3')
+            input#kickMessage.form-control(type='text' value=announcerSettings.eventMessages.userKick)
           .form-group
             label.form-label.mt-4(for='banMessage') Ban Message
-            textarea#joinMessage.form-control(rows='3')
+            input#banMessage.form-control(type='text' value=announcerSettings.eventMessages.userBan)
           .form-group
             label.form-label(for='placeholder') WIP! More coming soon. ;)
         .modal-footer
@@ -109,10 +120,10 @@
                 | Disable
           .form-group
             label.form-label.mt-4(for='chatChannels') 
-              | Chat Channels (Will only accepts channel IDs.)
+              | Chat Channels (Will only accepts channel IDs)
               br
               | Separate using commas between each one like this: 12345678901234567, 12345678901234567
-            textarea#chatChannels.form-control(name='chatChannels' rows='3' value=(chatBotSettings.chatChannels)?r:'' )
+            input#chatChannels.form-control(type='text' name='chatChannels' value=(chatBotSettings.chatChannels)? `${chatBotSettings.chatChannels.join(",")}`:'' )
           .form-group
             label.form-label(for='placeholder') WIP! More coming soon. ;)
         .modal-footer

@@ -354,7 +354,8 @@ module.exports = (client, config) => {
       if (req.body.enableAutoMod) {
         logger.debug('Found AutoMod settings data!');
         autoModSettings.enableAutoMod = (req.body.enableAutoMod === 'on') ? true : false;
-        
+        let channelsList = req.body.channelsList.split(",");
+        autoModSettings.channelsList = (req.body.channelsList) ? channelsList : autoModSettings.channelsList;
       };      
       if (req.body.enableChatBot) {
         logger.debug('Found ChatBot settings data!');

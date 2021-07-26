@@ -13,17 +13,17 @@ block content
       | You&apos;ll have to use the commands in the meantime to change Cora's settings.
       br
       | Sorry about that. - Nova Lynxie
-      .settings_card_base
+      .settings-card-base
         h3 Bot Control Panel
-        .settings_card_modules.settings_card_wrapper
+        .settings-card-modules.settings-card-wrapper
           h4 Guild Details
-          .guild_details_card
+          .guild-details-card
             h5 Basic Information
             - iconUrl = (guild.icon) ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` : 'https://via.placeholder.com/128.png?text=No Guild Icon'
             - bannerUrl = (guild.banner) ? `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.png` : 'https://via.placeholder.com/288x162.png?text=No Guild Banner'
-            img.d-flex.mr-3.rounded-circle.guild_icon(src=iconUrl alt='Guild Icon')
-            img.guild_banner(src=bannerUrl)
-            .guild_details_wrapper
+            img.d-flex.mr-3.rounded-circle.guild-icon(src=iconUrl alt='Guild Icon')
+            img.guild-banner(src=bannerUrl)
+            .guild-details-wrapper
               p
               | Name: #{guild.name}
               br
@@ -42,13 +42,13 @@ block content
               br
               | Locale: #{guild.preferredLocale}
               
-          .guild_details_card
+          .guild-details-card
             h5 Server Details
-            .guild_details_wrapper
+            .guild-details-wrapper
               h6 Description
               p
               | #{(guild.description)?guild.description:'None Set'}
-            .guild_details_wrapper
+            .guild-details-wrapper
               h6 Subscriptions
               p
               | Boost Tier: #{guild.premiumTier}
@@ -57,13 +57,15 @@ block content
               | Vanity URL
               br 
               | Code: #{(guild.vanityURLCode)?guild.vanityURLCode:'N/A'} (Used #{(guild.vanityURLUses)?guild.vanityURLUses:'NaN'} times)
-        .settings_card_modules.settings_card_wrapper
+        .settings-card-modules.settings-card-wrapper
           h4 Module Settings
           p.lead Change settings for each module from here. (WIP - Read Only for now)
-          .settings_card_modules
+          .settings-card-modules.settings-card-block
             h5 Auto Moderation
-            .settings_text_wrapper
+            .settings-text-wrapper
               | Enabled? #{(autoModSettings.enableAutoMod)?'Yes':'No'}
+              br
+              | Channel List Mode: #{(autoModSettings.chListMode==='whitelist')?'Whitelist':(autoModSettings.chListMode==='blacklist')?'Blacklist':'Not Set!'}
               br
               | Media Removal
               br
@@ -72,7 +74,7 @@ block content
               | Static Images: #{(autoModSettings.mediaOptions.removeImgs)?'Yes':'No'}
               br
               | Links/URLs: #{(autoModSettings.mediaOptions.removeUrls)?'Yes':'No'}
-            table.settings_table_main(border="1")
+            table.settings-table-main(border="1")
               tr
                 th Setting
                 th Value
@@ -85,9 +87,9 @@ block content
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingAutoModBotModal') Edit 
               i.fas.fa-edit
-          .settings_card_modules
+          .settings-card-modules.settings-card-block
             h5 Bot Notifications
-            .settings_text_wrapper
+            .settings-text-wrapper
               | Enabled? #{(announcerSettings.enableNotifier)?'Yes':'No'}
               br
               | Event Settings
@@ -99,7 +101,7 @@ block content
               | Kick: #{(announcerSettings.events.kick)?'Enabled':'Disabled'}
               br
               | Ban: #{(announcerSettings.events.ban)?'Enabled':'Disabled'}
-            table.settings_table_main(border="1")
+            table.settings-table-main(border="1")
               tr
                 th Event Type
                 th Message
@@ -118,12 +120,12 @@ block content
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingBotNotifsModal') Edit 
               i.fas.fa-edit
-          .settings_card_modules
+          .settings-card-modules.settings-card-block
             h5 Smart Chat Bot
-            .settings_text_wrapper
+            .settings-text-wrapper
               | Enabled? #{(chatBotSettings.enableChatBot)?'Yes':'No'}
               br
-            table.settings_table_main(border="1")
+            table.settings-table-main(border="1")
               tr
                 th Chat Channels
               tr
@@ -132,14 +134,14 @@ block content
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
               i.fas.fa-edit
               
-        .settings_card_modules.danger_block
+        .settings-card-modules.danger-block
           h4 Danger Zone
           - disableAction
           p.lead Beware, these are destructive actions!
-            .settings_card_wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
+            .settings-card-wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
               h5 Reset Settings
               a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#settingsResetModal' role='button') RESET
-            .settings_card_wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
+            .settings-card-wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
               h5 Leave Guild
               a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#serverLeaveModal' role='button') LEAVE
         include ../blocks/guild-modals

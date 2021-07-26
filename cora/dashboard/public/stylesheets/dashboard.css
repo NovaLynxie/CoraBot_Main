@@ -1,11 +1,11 @@
-.commands_help {
+.commands-help {
   padding: 2rem;
   background-color: rgba(100, 148, 237, 0.233);
   border-color: rgba(100, 205, 237, 0.425);
   border-style: solid;
   border-width: 5px;
 }
-.commands_list {
+.commands-list {
   padding: 2rem;
   background-color: rgba(100, 148, 237, 0.274);
   border-color: rgba(100, 205, 237, 0.425);
@@ -13,7 +13,7 @@
   border-width: 5px;
 }
 
-.dev_warning {
+.dev-warning {
   text-align: center;
   margin-top: 0.5rem; margin-bottom: 0.5rem;
   padding: 0.5rem 1rem 0.5rem 2rem;
@@ -73,13 +73,13 @@
   border-color: #9099a4;
 }
 
-.guild_card {
+.guild-card {
   display: inline-block;
   padding: 10px;
   min-height: 200px;
   min-width: 240px;
 }
-.guild_thumb {
+.guild-thumb {
   margin: 10px;
   background-color: #2C2F33;
   border-color: #7289DA;
@@ -87,7 +87,7 @@
   border-style: solid;
   border-width: 4px;
 }
-.guild_icon {
+.guild-icon {
   position: absolute;
   top: 2; left: 3; z-index: 2;
   margin: 10px;
@@ -99,7 +99,7 @@
   border-style: solid;
   border-width: 4px;
 }
-.guild_banner {
+.guild-banner {
   position: relative;
   z-index: 1;
   max-height: 162px;
@@ -111,7 +111,7 @@
   border-style: solid;
   border-width: 4px;
 }
-.guild_details_card {
+.guild-details-card {
   vertical-align: top;
   min-height: 450px;
   min-width: 300px;
@@ -123,7 +123,7 @@
   border-style: solid;
   border-width: 2px;
 }
-.guild_details_wrapper {
+.guild-details-wrapper {
   min-height: 180px;
   min-width: 300px;
   background-color: rgba(118, 118, 145, 0.295);
@@ -132,7 +132,7 @@
   border-width: 1px;
 }
 
-.member_card {
+.member-card {
   position: relative;
   vertical-align: top;
   height: 300px;
@@ -145,14 +145,14 @@
   border-style: solid;
   border-width: 2px;
 }
-.member_actions {
+.member-actions {
   float: right;
   width: auto;
   position: absolute;
   bottom: 36%;
   right: 5%;
 }
-.member_avatar {
+.member-avatar {
   float: right;
   margin: 10px;
   text-align: center;
@@ -168,7 +168,7 @@
   border-width: 4px;
 }
 
-.settings_card_base {
+.settings-card-base {
   text-align: left;  
   padding: 0.5rem;
   background-color: rgba(118, 118, 145, 0.295);
@@ -176,7 +176,7 @@
   border-style: solid;
   border-width: 2px;
 }
-.settings_card_status {
+.settings-card-status {
   vertical-align: top;
   min-height: 320px;
   min-width: 300px;
@@ -188,10 +188,10 @@
   border-style: solid;
   border-width: 2px;
 }
-.settings_card_modules {
+.settings-card-modules {
   position: relative;
   vertical-align: top;
-  min-height: 400px;
+  min-height: 450px;
   min-width: 300px;
   display: inline-block;
   text-align: left;
@@ -201,7 +201,10 @@
   border-style: solid;
   border-width: 2px;
 }
-.settings_text_wrapper {
+.settings-card-block {
+  max-width: 350px;
+}
+.settings-text-wrapper {
   min-height: 150px;
   min-width: 150px;
   background-color: rgba(118, 118, 145, 0.295);
@@ -209,19 +212,19 @@
   border-style: solid;
   border-width: 1px;
 }
-.settings_card_wrapper {
+.settings-card-wrapper {
   display: inline-block;
   vertical-align: top;
   width: 100%;
 }
-.settings_table_main {
+.settings-table-main {
   text-align: center;
   width: 100%;
   border: 1px solid powderblue;
   border-collapse: collapse;
 }
 
-.danger_block {
+.danger-block {
   background-color: rgba(150, 75, 46, 0.144);
   border-color: rgba(255, 31, 31, 0.288);
   border-style: solid;
