@@ -108,28 +108,28 @@
           .form-check.form-switch
             p Event Tracking Settings
             if (announcerSettings.events.join)
-              input#userJoinToggle.form-check-input(type='checkbox' name='userJoin')
+              input#userJoinToggle.form-check-input(type='checkbox' name='userJoin' checked='')
               label.form-check-label(for='userJoinToggle') Track User Joins?
             else
               input#userJoinToggle.form-check-input(type='checkbox' name='userJoin')
               label.form-check-label(for='userJoinToggle') Track User Joins?
             br
             if (announcerSettings.events.leave)
-              input#userLeaveToggle.form-check-input(type='checkbox' name='userLeave')
+              input#userLeaveToggle.form-check-input(type='checkbox' name='userLeave' checked='')
               label.form-check-label(for='userLeaveToggle') Track User Leaves?
             else
               input#userLeaveToggle.form-check-input(type='checkbox' name='userLeave')
               label.form-check-label(for='userLeaveToggle') Track User Leaves?
             br
             if (announcerSettings.events.kick)
-              input#userKickToggle.form-check-input(type='checkbox' name='userKick')
+              input#userKickToggle.form-check-input(type='checkbox' name='userKick' checked='')
               label.form-check-label(for='userKickToggle') Track User Kicked?
             else
               input#userKickToggle.form-check-input(type='checkbox' name='userKick')
               label.form-check-label(for='userKickToggle') Track User Kicked?
             br
             if (announcerSettings.events.ban)
-              input#userBanToggle.form-check-input(type='checkbox' name='userBan')
+              input#userBanToggle.form-check-input(type='checkbox' name='userBan' checked='')
               label.form-check-label(for='userBanToggle') Track User Banned?
             else
               input#userBanToggle.form-check-input(type='checkbox' name='userBan')
