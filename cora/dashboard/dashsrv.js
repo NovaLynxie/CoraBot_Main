@@ -330,7 +330,7 @@ module.exports = (client, config) => {
   // This calls when settings are saved using POST requests to get parameters to save.
   app.post("/dashboard/:guildID/manage", checkAuth, (req, res) => {
     logger.dash('WebDash called POST to save_settings.');
-    console.debug(req.body); // debug line only, remove when not in use.
+    logger.data(req.body); // debug line only, remove when not in use.
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
@@ -349,6 +349,12 @@ module.exports = (client, config) => {
       if (req.body.enableNotifier) {
         logger.debug("Detected 'Announcer' settings data!");
         announcerSettings.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
+        announcerSettings.events = {
+          join: (req.body.userJoin) ? true : false,
+          leave: (req.body.userLeave) ? true : false,
+          kick: (req.body.userKick) ? true : false,
+          ban: (req.body.userBan) ? true : false
+        };
         logger.debug("Prepared 'Announcer' settings data for writing.");
       };    
       if (req.body.enableAutoMod) {
