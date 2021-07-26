@@ -101,9 +101,11 @@ block content
               | Kick: #{(announcerSettings.events.kick)?'Enabled':'Disabled'}
               br
               | Ban: #{(announcerSettings.events.ban)?'Enabled':'Disabled'}
+              br
+              | Notifs Channel: !{guild.channels.cache.find(ch => ch.id === announcerSettings.notifsChannel).name}
             table.settings-table-main(border="1")
               tr
-                th Event Type
+                th Event
                 th Message
               tr
                 td Join
