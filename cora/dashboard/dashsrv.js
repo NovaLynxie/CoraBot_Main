@@ -324,7 +324,7 @@ module.exports = (client, config) => {
   // This calls when settings are saved using POST requests to get parameters to save.
   app.post("/dashboard/:guildID/manage", checkAuth, (req, res) => {
     logger.debug("WebDash called POST action 'save_settings'!");
-    logger.data(req.body); // debug line only, remove when not in use.
+    logger.data(JSON.stringify(req.body)); // debug line only, remove when not in use.
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
@@ -355,6 +355,7 @@ module.exports = (client, config) => {
         logger.debug("Detected 'AutoMod' settings data!");
         autoModSettings.enableAutoMod = (req.body.enableAutoMod === 'on') ? true : false;
         let channelsList = req.body.channelsList.split(",");
+        autoModSettings.chListMode = (req.body.chListMode) ? req.body.chListMode : autoModSettings.chListMode;
         autoModSettings.channelsList = (req.body.channelsList) ? channelsList : autoModSettings.channelsList;
         autoModSettings.mediaOptions = {
           removeUrls: (req.body.removeUrls) ? true : false,

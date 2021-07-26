@@ -15,6 +15,7 @@
           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
             span(aria-hidden='true') &times;
         .modal-body
+          label Enable/Disable Module
           .form-check
             label.form-check-label
               if (enableAutoMod==='on')
@@ -31,6 +32,23 @@
               else 
                 input#optionsRadios2.form-check-input(type='radio' name='enableAutoMod' value='off')
                 | Disable
+          label Channel List Mode
+          .form-check
+            label.form-check-label
+              if (autoModSettings.chListMode==='whitelist')
+                input#optionsRadios1.form-check-input(type='radio' name='chListMode' value='whitelist' checked='')
+                | Whitelist
+              else
+                input#optionsRadios1.form-check-input(type='radio' name='chListMode' value='whitelist')
+                | Whitelist
+          .form-check
+            label.form-check-label
+              if (autoModSettings.chListMode==='blacklist')
+                input#optionsRadios2.form-check-input(type='radio' name='chListMode' value='blacklist' checked='')
+                | Blacklist
+              else 
+                input#optionsRadios2.form-check-input(type='radio' name='chListMode' value='blacklist')
+                | Blacklist
           .form-group
             label.form-label.mt-4(for='channelsList') 
             | Channels List (Will only accepts channel IDs)
