@@ -5,6 +5,9 @@
 //- var enableBotLogs = (botLogSettings.enableBotLogs) ? 'on' : 'off';
 //- var enableModLogs = (modLogSettings.enableModLogs) ? 'on' : 'off';
 
+// Guild specific information
+- var channelData = guild.channels.cache.filter(ch => ch.type === 'text');
+- textChannels = Object.fromEntries(channelData);
 // Manage Page Modals (Edit Settings)
 #settingAutoModBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingAutoModBotModalLabel' aria-hidden='true')
   form(action=`/dashboard/${guild.id}/manage`, method='POST')
@@ -15,7 +18,7 @@
           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
             span(aria-hidden='true') &times;
         .modal-body
-          label Enable/Disable Module
+          label.form-label.mt-4 Enable/Disable Module
           .form-check
             label.form-check-label
               if (enableAutoMod==='on')
@@ -32,7 +35,7 @@
               else 
                 input#optionsRadios2.form-check-input(type='radio' name='enableAutoMod' value='off')
                 | Disable
-          label Channel List Mode
+          label.form-label.mt-4 Channel List Mode
           .form-check
             label.form-check-label
               if (autoModSettings.chListMode==='whitelist')
@@ -63,37 +66,36 @@
             br
             | Example URLs: i.imgur.com/, www.tenor.com/, etc.
             input#urlsBlacklist.form-control(type='text' name='urlsBlacklist' value=autoModSettings.urlBlacklist.join(",") )
+          label.form-label.mt-4
+          | Media Removal Settings
           .form-check.form-switch
-            p Media Removal Settings
-            if (autoModSettings.mediaOptions.removeUrls)
-              input#removeUrlsSwitch.form-check-input(type='checkbox' name='removeUrls' checked='')
-              label.form-check-label(for='removeUrlsSwitch') Remove Links/URLs?
-            else
-              input#removeUrlsSwitch.form-check-input(type='checkbox' name='removeUrls')
-              label.form-check-label(for='removeUrlsSwitch') Remove Links/URLs?
-            br
             if (autoModSettings.mediaOptions.removeGifs)
               input#removeGifsSwitch.form-check-input(type='checkbox' name='removeGifs' checked='')
               label.form-check-label(for='removeGifsSwitch') Remove Gifs?
             else
               input#removeGifsSwitch.form-check-input(type='checkbox' name='removeGifs')
               label.form-check-label(for='removeGifsSwitch') Remove Gifs?
-            br
+          .form-check.form-switch
             if (autoModSettings.mediaOptions.removeImgs)
               input#removeImgsSwitch.form-check-input(type='checkbox' name='removeImgs' checked='')
               label.form-check-label(for='removeImgsSwitch') Remove Images?
             else
               input#removeImgsSwitch.form-check-input(type='checkbox' name='removeImgs')
               label.form-check-label(for='removeImgsSwitch') Remove Images?
-            br
+          .form-check.form-switch
             if (autoModSettings.mediaOptions.removeVids)
               input#removeVidsSwitch.form-check-input(type='checkbox' name='removeVids' checked='' disabled='')
               label.form-check-label(for='removeVidsSwitch') Remove Videos? (EXPERIMENTAL)
             else
               input#removeVidsSwitch.form-check-input(type='checkbox' name='removeVids' disabled)
               label.form-check-label(for='removeVidsSwitch') Remove Videos? (EXPERIMENTAL)
-          .form-group
-            label.form-label(for='placeholder') WIP! More coming soon. ;)
+          .form-check.form-switch
+            if (autoModSettings.mediaOptions.removeUrls)
+              input#removeUrlsSwitch.form-check-input(type='checkbox' name='removeUrls' checked='')
+              label.form-check-label(for='removeUrlsSwitch') Remove Links/URLs?
+            else
+              input#removeUrlsSwitch.form-check-input(type='checkbox' name='removeUrls')
+              label.form-check-label(for='removeUrlsSwitch') Remove Links/URLs?
         .modal-footer
           button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
@@ -123,8 +125,8 @@
               else 
                 input#optionsRadios2.form-check-input(type='radio' name='enableNotifier' value='off')
                 | Disable
+          label.form-label.mt-4 Event Tracking Settings
           .form-check.form-switch
-            p Event Tracking Settings
             if (announcerSettings.events.join)
               input#userJoinToggle.form-check-input(type='checkbox' name='userJoin' checked='')
               label.form-check-label(for='userJoinToggle') Track User Joins?
@@ -153,6 +155,14 @@
               input#userBanToggle.form-check-input(type='checkbox' name='userBan')
               label.form-check-label(for='userBanToggle') Track User Banned?
           .form-group
+            label.form-label.mt-4(for='notifsChannel') Example select
+            select#notifsChannel.form-select(name='notifsChannel')
+              for channel in textChannels
+                if (announcerSettings.notifsChannel === channel.id)
+                  option(value=channel.id selected='') #{channel.name}
+                else
+                  option(value=channel.id) #{channel.name}
+          .form-group
             label.form-label.mt-4(for='joinMessage') Join Message
             input#joinMessage.form-control(type='text' value=announcerSettings.eventMessages.userJoin)
           .form-group
@@ -164,8 +174,6 @@
           .form-group
             label.form-label.mt-4(for='banMessage') Ban Message
             input#banMessage.form-control(type='text' value=announcerSettings.eventMessages.userBan)
-          .form-group
-            label.form-label(for='placeholder') WIP! More coming soon. ;)
         .modal-footer
           button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
@@ -200,8 +208,6 @@
               br
               | Separate using commas between each one like this: 12345678901234567, 12345678901234567
             input#chatChannels.form-control(type='text' name='chatChannels' value=(chatBotSettings.chatChannels)? `${chatBotSettings.chatChannels.join(",")}`:'' )
-          .form-group
-            label.form-label(for='placeholder') WIP! More coming soon. ;)
         .modal-footer
           button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 

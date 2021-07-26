@@ -8,6 +8,7 @@
          "kick":false,
          "ban":false
       },
+      "notifsChannel":"",
       "eventMessages":{
          "userJoin":"<user> has joined the server.",
          "userLeave":"<user> has left the server.",

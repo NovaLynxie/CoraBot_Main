@@ -124,8 +124,8 @@ module.exports = (client, config) => {
   // body-parser reads incoming JSON or FORM data and simplifies their
   // use in code.
   var bodyParser = require("body-parser");
-  app.use(express.json());       // to support JSON-encoded bodies
-  app.use(express.urlencoded({     // to support URL-encoded bodies
+  app.use(bodyParser.json());       // to support JSON-encoded bodies
+  app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
   }));
 
@@ -324,12 +324,11 @@ module.exports = (client, config) => {
   // This calls when settings are saved using POST requests to get parameters to save.
   app.post("/dashboard/:guildID/manage", checkAuth, (req, res) => {
     logger.debug("WebDash called POST action 'save_settings'!");
-    logger.data(JSON.stringify(req.body)); // debug line only, remove when not in use.
+    logger.data(JSON.stringify(req.body));
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
-    // Not yet implemented or working yet!!!
     // Fetch Main Module Settings
     let announcerSettings = guild.settings.get('announcer', undefined);
     let autoModSettings = guild.settings.get('automod', undefined);
@@ -343,6 +342,7 @@ module.exports = (client, config) => {
       if (req.body.enableNotifier) {
         logger.debug("Detected 'Announcer' settings data!");
         announcerSettings.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
+        announcerSettings.notifsChannel = (req.body.notifsChannel) ? req.body.notifsChannel : '';
         announcerSettings.events = {
           join: (req.body.userJoin) ? true : false,
           leave: (req.body.userLeave) ? true : false,
