@@ -10,6 +10,7 @@ module.exports = (message, client) => {
   if (enableChatBot) {
     logger.debug('chatbot responding...')
     chatChannels.forEach(chatChannel => {
+      logger.debug(`searching for channel with ID ${chatChannel}`)
       if (chatChannel === message.channel.id) {
         chatbot.chat(message).then(res => {
           logger.debug(`sending message (${res}) to channel ${message.channel.name}`)
