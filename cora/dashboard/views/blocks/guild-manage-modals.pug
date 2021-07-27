@@ -1,12 +1,12 @@
 // All settings variables for handling settings data.
-- var enableAutoMod = (autoModSettings.enableAutoMod) ? 'on' : 'off';
-- var enableChatBot = (chatBotSettings.enableChatBot) ? 'on' : 'off';
-- var enableNotifier = (announcerSettings.enableNotifier) ? 'on' : 'off';
+- enableAutoMod = (autoModSettings.enableAutoMod) ? 'on' : 'off';
+- enableChatBot = (chatBotSettings.enableChatBot) ? 'on' : 'off';
+- enableNotifier = (announcerSettings.enableNotifier) ? 'on' : 'off';
 //- var enableBotLogs = (botLogSettings.enableBotLogs) ? 'on' : 'off';
 //- var enableModLogs = (modLogSettings.enableModLogs) ? 'on' : 'off';
 
 // Guild specific information
-- var channelData = guild.channels.cache.filter(ch => ch.type === 'text');
+- channelData = guild.channels.cache.filter(ch => ch.type === 'text');
 - textChannels = Object.fromEntries(channelData);
 // Manage Page Modals (Edit Settings)
 #settingAutoModBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingAutoModBotModalLabel' aria-hidden='true')
@@ -16,7 +16,6 @@
         .modal-header
           h5#settingAutoModBotModalLabel.modal-title Edit Settings
           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
-            span(aria-hidden='true') &times;
         .modal-body
           label.form-label.mt-4 Enable/Disable Module
           .form-check
@@ -54,10 +53,15 @@
                 | Blacklist
           .form-group
             label.form-label.mt-4(for='channelsList') 
-            | Channels List (Will only accepts channel IDs)
-            br
-            | Separate using commas between each one like this: 12345678901234567, 12345678901234567
-            input#channelsList.form-control(type='text' name='channelsList' value=autoModSettings.channelsList.join(",") )
+              | Channels List
+              br
+              | Select the channels below by using ctrl + left click
+            select#chatChannels.form-select(multiple='' name='channelsList')
+              for channel in textChannels
+                if (autoModSettings.channelsList.indexOf(channel.id) > -1)
+                  option(value=channel.id selected='') #{channel.name}
+                else
+                  option(value=channel.id) #{channel.name}
           .form-group
             label.form-label.mt-4(for='urlsBlacklist') 
             | URLs Blacklist
@@ -204,10 +208,15 @@
                 | Disable
           .form-group
             label.form-label.mt-4(for='chatChannels') 
-              | Chat Channels (Will only accepts channel IDs)
+              | Chat Channels
               br
-              | Separate using commas between each one like this: 12345678901234567, 12345678901234567
-            input#chatChannels.form-control(type='text' name='chatChannels' value=(chatBotSettings.chatChannels)? `${chatBotSettings.chatChannels.join(",")}`:'' )
+              | Select the channels below by using ctrl + left click
+            select#chatChannels.form-select(multiple='' name='chatChannels')
+              for channel in textChannels
+                if (chatBotSettings.chatChannels.indexOf(channel.id) > -1)
+                  option(value=channel.id selected='') #{channel.name}
+                else
+                  option(value=channel.id) #{channel.name}
         .modal-footer
           button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
@@ -219,7 +228,6 @@
       .modal-header
         h5#serverLeaveModalLabel.modal-title Leave Server?
         button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
-          span(aria-hidden='true') &times;
       .modal-body
         p
           | Are you sure you want #{bot.user.username} to leave this server?
@@ -232,7 +240,6 @@
       .modal-header
         h5#settingsResetModalLabel.modal-title Reset Settings?
         button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
-          span(aria-hidden='true') &times;
       .modal-body
         p
           | Are you sure you want to reset to the default settings?

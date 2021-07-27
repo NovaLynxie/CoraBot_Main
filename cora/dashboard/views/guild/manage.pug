@@ -102,7 +102,7 @@ block content
               br
               | Ban: #{(announcerSettings.events.ban)?'Enabled':'Disabled'}
               br
-              | Notifs Channel: !{guild.channels.cache.find(ch => ch.id === announcerSettings.notifsChannel).name}
+              | Notifs Channel: !{(announcerSettings.notifsChannel) ? guild.channels.cache.find(ch => ch.id === announcerSettings.notifsChannel).name : 'None Set!'}
             table.settings-table-main(border="1")
               tr
                 th Event
