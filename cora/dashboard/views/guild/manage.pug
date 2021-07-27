@@ -131,7 +131,7 @@ block content
               tr
                 th Chat Channels
               tr
-                td #{(chatBotSettings.chatChannels.length >=1) ? `Monitoring ${chatBotSettings.chatChannels.length} channels` : 'No Channels Set'}
+                td #{(typeof chatBotSettings.chatChannels === 'string') ? `Monitoring 1 channel` : (chatBotSettings.chatChannels.length > -1) ? `Monitoring ${chatBotSettings.chatChannels.length} channels` : 'No Channels Set'}
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
               i.fas.fa-edit
