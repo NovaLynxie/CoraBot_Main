@@ -170,25 +170,25 @@
             label.form-label.mt-4(for='joinMessage')
               | Join Message
               br
-              | Format: !{"{user}"} (mention user)
+              | Syntax: @user (mention user)
             input#joinMessage.form-control(type='text' value=announcerSettings.eventMessages.userJoin)
           .form-group
             label.form-label.mt-4(for='leaveMessage') 
               | Leave Message
               br
-              | Format: !{"{user}"} (mention user)
+              | Syntax: @user (mention user)
             input#leaveMessage.form-control(type='text' value=announcerSettings.eventMessages.userLeave)
           .form-group
             label.form-label.mt-4(for='kickMessage')
               | Kick Message
               br
-              | Format: !{"{user}"} (mention user)
+              | Syntax: @user (mention user)
             input#kickMessage.form-control(type='text' value=announcerSettings.eventMessages.userKick)
           .form-group
             label.form-label.mt-4(for='banMessage') 
               | Ban Message
               br
-              | Format: !{"{user}"} (mention user)
+              | Syntax: @user (mention user)
             input#banMessage.form-control(type='text' value=announcerSettings.eventMessages.userBan)
         .modal-footer
           button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL

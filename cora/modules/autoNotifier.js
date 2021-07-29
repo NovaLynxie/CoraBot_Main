@@ -19,7 +19,7 @@ module.exports = (member, event) => {
   } else {
     return logger.debug('Unknown or invalid event name! Maybe wrongly parsed?');
   }
-  msgdata = msgdata.replace(/(<user>)/gi, `<@${member.id}>`);
+  msgdata = msgdata.replace(/(@user)/gi, `<@${member.id}>`);
   try {
     logger.debug(`Attempting to send message to ${channel.id}...`);
     channel.send(msgdata);
