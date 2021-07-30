@@ -202,22 +202,46 @@
           h5#settingSmartChatBotModalLabel.modal-title Edit Settings
           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
         .modal-body
-          .form-check
-            label.form-check-label
-              if (enableChatBot==='on')
-                input#optionsRadios1.form-check-input(type='radio' name='enableChatBot' value='on' checked='')
-                | Enable
+          fieldset.form-group
+            legend.modal-legend Enable/Disable Module
+            .form-check
+              label.form-check-label
+                if (enableChatBot==='on')
+                  input#optionsRadios1.form-check-input(type='radio' name='enableChatBot' value='on' checked='')
+                  | Enable
+                else
+                  input#optionsRadios1.form-check-input(type='radio' name='enableChatBot' value='on')
+                  | Enable
+            .form-check
+              label.form-check-label
+                if (enableChatBot==='off')
+                  input#optionsRadios2.form-check-input(type='radio' name='enableChatBot' value='off' checked='')
+                  | Disable
+                else 
+                  input#optionsRadios2.form-check-input(type='radio' name='enableChatBot' value='off')
+                  | Disable
+          - chatBotUser = chatBotSettings.chatBotUser
+          fieldset.form-group
+            legend.modal-legend ChatBot Options
+            label.form-label.mt-4(for='chatBotName') 
+            | Name
+            input#urlsBlacklist.form-control(type='text' name='botName' value=chatBotSettings.chatBotUser.botName)
+            .form-check
+              label.form-check-label
+              if (chatBotUser.botGender==='male')
+                  input#optionsRadios2.form-check-input(type='radio' name='botGender' value='male' checked='')
+                  | Male
               else
-                input#optionsRadios1.form-check-input(type='radio' name='enableChatBot' value='on')
-                | Enable
-          .form-check
-            label.form-check-label
-              if (enableChatBot==='off')
-                input#optionsRadios2.form-check-input(type='radio' name='enableChatBot' value='off' checked='')
-                | Disable
+                input#optionsRadios2.form-check-input(type='radio' name='botGender' value='male')
+                | Male
+            .form-check
+              label.form-check-label
+              if (chatBotUser.botGender==='female')
+                  input#optionsRadios2.form-check-input(type='radio' name='botGender' value='female' checked='')
+                  | Female
               else 
-                input#optionsRadios2.form-check-input(type='radio' name='enableChatBot' value='off')
-                | Disable
+                input#optionsRadios2.form-check-input(type='radio' name='botGender' value='female')
+                | Female
           .form-group
             label.form-label.mt-4(for='chatChannels') 
               | Chat Channels

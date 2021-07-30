@@ -127,6 +127,11 @@ block content
             .settings-text-wrapper
               | Enabled? #{(chatBotSettings.enableChatBot)?'Yes':'No'}
               br
+              | ChatBot Settings
+              br
+              | Name: #{(chatBotSettings.chatBotUser) ? (chatBotSettings.chatBotUser.botName.length > 0) ? chatBotSettings.chatBotUser.botName : "Cora" : "N/A"}
+              br
+              | Gender: #{(chatBotSettings.chatBotUser) ? (chatBotSettings.chatBotUser.botGender.length > 0) ? chatBotSettings.chatBotUser.botGender : "Female" : "N/A"}
             table.settings-table-main(border="1")
               tr
                 th Chat Channels

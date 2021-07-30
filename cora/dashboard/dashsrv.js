@@ -16,6 +16,7 @@ const app = express();
 const moment = require("moment");
 require("moment-duration-format");
 // Express Plugins
+const morgan = require('morgan'); // server-side logger
 const passport = require("passport"); // oauth2 helper plugin
 const helmet = require('helmet'); // security plugin
 const session = require("express-session"); // express session manager
@@ -25,6 +26,12 @@ const Strategy = require("passport-discord").Strategy;
 logger.dash('Starting Dashboard Service...');
 
 module.exports = (client, config) => {
+  // Initialise morgan logger for server side logging.
+  app.use(morgan("tiny", {
+    stream: {
+      write: message => logger.debug(`dash => ${message}`)
+    }
+  }));
   // Dashboard root directory from bot working directory.
   const dashDir = path.resolve(`${process.cwd()}/cora/dashboard`);
   // Public and Views resource paths within Dashboard directory.
@@ -364,13 +371,19 @@ module.exports = (client, config) => {
           removeVids: (req.body.removeVids) ? true : false
         }
         logger.debug("Prepared 'AutoMod' settings data for writing.");
-      };      
+      };
       if (req.body.enableChatBot) {
         logger.debug("Detected 'ChatBot' settings data!");
         chatBotSettings.enableChatBot = (req.body.enableChatBot === 'on') ? true : false;
+        let chatBotUser = {
+          botName: (req.body.botName) ? req.body.botName : "Cora",
+          botGender: (req.body.botGender) ? req.body.botGender : "female"
+        };
         let chatChannels = req.body.chatChannels;
+        logger.debug(`chatBotUser=${JSON.stringify(chatBotUser)}`);
         logger.debug(`chatChannels=${JSON.stringify(chatChannels)}`);
-        chatBotSettings.chatChannels = (req.body.chatChannels) ? chatChannels : chatBotSettings.chatChannels;
+        chatBotSettings.chatBotUser = chatBotUser;
+        chatBotSettings.chatChannels = chatChannels;
         logger.debug("Prepared 'ChatBot' settings data for writing.");
       };
       if (req.body.enableBotLogger) {

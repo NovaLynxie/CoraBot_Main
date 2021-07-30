@@ -39,6 +39,10 @@
    "name":"chatbot",
    "value":{
       "enableChatBot":false,
+      "chatBotUser":{
+        "botName":"",
+        "botGender":""
+      },
       "chatChannels":[
          
       ]

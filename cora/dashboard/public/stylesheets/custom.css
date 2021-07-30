@@ -46,6 +46,10 @@ fieldset {
   box-sizing: border-box;
 }
 
+.modal-legend {
+  font-size: 1.25rem;
+}
+
 input:invalid {
   box-shadow: 0 0 5px 1px red;
 }
