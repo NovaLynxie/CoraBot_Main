@@ -53,6 +53,7 @@ module.exports = {
     
     // Spin up built-in server once client is online and ready.
     const dashConfig = {
+      "debug": debug, // used to enable debug console log data.
       "dashPort": dashSrvPort,
       "reportOnly": reportOnly,
       "clientID" : client.application.id,

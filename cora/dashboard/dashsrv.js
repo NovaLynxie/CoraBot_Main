@@ -26,12 +26,14 @@ const Strategy = require("passport-discord").Strategy;
 logger.dash('Starting Dashboard Service...');
 
 module.exports = (client, config) => {
-  // Initialise morgan logger for server side logging.
-  app.use(morgan("tiny", {
-    stream: {
-      write: message => logger.debug(`dash => ${message}`)
-    }
-  }));
+  // Initialise morgan logger for server side logging. (debug only)
+  if (config.debug) {
+    app.use(morgan("tiny", {
+      stream: {
+        write: message => logger.debug(`dash => ${message}`)
+      }
+    }));
+  };
   // Dashboard root directory from bot working directory.
   const dashDir = path.resolve(`${process.cwd()}/cora/dashboard`);
   // Public and Views resource paths within Dashboard directory.
