@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
 require('moment-duration-format');
 const { stripIndents } = require('common-tags');
-const { version } = require('../../../package.json')
+const { version } = require('../../../package.json');
 module.exports = class BotInfoCommand extends Command {
     constructor(client) {
         super(client, {

@@ -1,18 +1,47 @@
 const logger = require('../providers/WinstonPlugin');
-const fs = require('fs');
+const fs = require('fs'), {stripIndents} = require('common-tags');
+const { name, version } = require('../../package.json');
 
 module.exports = {
   name: 'guildCreate',
   execute(guild, client) {
     logger.info(`${client.user.tag} joined ${guild.name}!`);
     logger.debug(`Joined ${guild.name} (${guild.id}) Preparing to create settings.`);
-
     // Require welcomeEmbed json object and load it.
     let welcomeEmbed = require('../assets/json/welcomeEmbed.json');
-    
+    // Update welcomeEmbed object with new data dynamically here.
+    welcomeEmbed.author = client.user;
+    welcomeEmbed.thumbnail = client.user.avatarURL;
+    welcomeEmbed.fields[0] = {
+      name: 'Version Information',
+      value: stripIndents`
+        Running ${name} v${version}
+        Discord.JS ${Discord.version}
+        NodeJS ${process.version}
+      `,
+      inline: true
+    };
+    welcomeEmbed.fields[1] = {
+      name: 'New to CoraBot?',
+      value: stripIndents`
+        Go to my dashboard to set this guilds the settings from [here](${process.env.botDomain}).
+        You can also find my commands there or use the help all command to list all of my commands.
+      `,
+      inline: true
+    }
+    welcomeEmbed.fields[2] = {
+      name: 'Found a bug or unusual glitch?',
+      value: stripIndents`
+        Make sure you are using the latest version before making a bug report [here!](https://github.com/NovaLynxie/CoraBot_Main/issues)      
+      `,
+      inline: true
+    }
+    welcomeEmbed.timestamp = new Date();
+    // Try to send message, catch errors so bot doesn't crash here.
     try {
-      let channel = guild.systemChannel || guild.channels.cache.get(ch => ch.id === guild.systemChannelID);
-      channel.send({ embeds: [welcomeEmbed] });
+      let channel = (guild.systemChannel) ? guild.systemChannel : guild.channels.cache.find(ch => ch.type === 'text');
+      logger.debug(`Trying to send welcomeEmbed to channel ${channel.name} (id:${channel.id})`);
+      channel.send({embed: welcomeEmbed});
     } catch (err) {
       logger.warn(`Unable to send bot welcome message in server ${guild.name}!`);
       logger.error(err.message); logger.debug(err.stack);
