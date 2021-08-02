@@ -5,7 +5,7 @@
 		"name":"bot.user.username",
 		"icon_url":"bot.user.avatarURL"
 	},
-	"description":"Hello there! My name is Cora. I am packed with features that can help moderate your community, provide interesting images and gifs, play your favourite music in voice channels and much more. Please take some time to run through my features and configure me for your server's needs.",
+	"description":"",
 	"fields":[
 		{
 			"name":"welcomeEmbed.versionInfoTitle.placeholder",

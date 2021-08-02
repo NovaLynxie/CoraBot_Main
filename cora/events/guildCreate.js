@@ -13,6 +13,10 @@ module.exports = {
     // Update welcomeEmbed object with new data dynamically here.
     welcomeEmbed.author = client.user;
     welcomeEmbed.thumbnail = client.user.avatarURL;
+    welcomeEmbed.description = stripIndents`
+      Hello there! My name is Cora. 
+      I am packed with features that can help moderate your community, provide interesting images and gifs, play your favourite music in voice channels and much more. 
+      Please take some time to search through my available features and configure me for your server's needs.`;
     welcomeEmbed.fields[0] = {
       name: 'Version Information',
       value: stripIndents`
