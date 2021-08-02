@@ -20,7 +20,7 @@ module.exports = {
         Discord.JS ${Discord.version}
         NodeJS ${process.version}
       `,
-      inline: true
+      inline: false
     };
     welcomeEmbed.fields[1] = {
       name: 'New to CoraBot?',
