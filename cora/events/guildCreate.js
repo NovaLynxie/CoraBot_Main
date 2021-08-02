@@ -29,7 +29,7 @@ module.exports = {
     welcomeEmbed.fields[1] = {
       name: 'New to CoraBot?',
       value: stripIndents`
-        Go to my dashboard to set this guilds the settings from [here](${process.env.botDomain}).
+        Go to my dashboard to customise this guilds settings from [here!](${process.env.botDomain})
         You can also find my commands there or use the help all command to list all of my commands.
       `,
       inline: true
