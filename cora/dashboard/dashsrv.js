@@ -432,7 +432,7 @@ module.exports = (client, config) => {
   app.get("/dashboard/:guildID/leave", checkAuth, async (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
-    logger.dash(`WebDash called GUILD_LEAVE action on user ${member.user.id} in guild ${guild.name}.`);
+    logger.dash(`WebDash called GUILD_LEAVE action for guild ${guild.name}.`);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     await guild.leave();
