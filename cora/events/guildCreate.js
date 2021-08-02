@@ -1,4 +1,5 @@
 const logger = require('../providers/WinstonPlugin');
+const Discord = require('discord.js');
 const fs = require('fs'), {stripIndents} = require('common-tags');
 const { name, version } = require('../../package.json');
 
