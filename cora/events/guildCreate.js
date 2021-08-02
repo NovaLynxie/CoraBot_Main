@@ -28,14 +28,14 @@ module.exports = {
         You can also find my commands there or use the help all command to list all of my commands.
       `,
       inline: true
-    }
+    };
     welcomeEmbed.fields[2] = {
       name: 'Found a bug or unusual glitch?',
       value: stripIndents`
         Make sure you are using the latest version before making a bug report [here!](https://github.com/NovaLynxie/CoraBot_Main/issues)      
       `,
       inline: true
-    }
+    };
     welcomeEmbed.timestamp = new Date();
     // Try to send message, catch errors so bot doesn't crash here.
     try {
