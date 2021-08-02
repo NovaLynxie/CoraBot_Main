@@ -1,0 +1,43 @@
+{
+	"color": "0x0099ff",
+	"title": "Thank you for adding CoraBot to your server!",	
+	"author": {
+		"name": "bot.user.username",
+		"icon_url": "bot.user.avatarURL",
+	},
+	"description": 
+    "Hello there! My name is Cora. I am packed with features that can help moderate your community, provide interesting images and gifs, play your favourite music in voice channels and much more. Please take some time to run through my features and configure me for your server's needs.",
+	"thumbnail": {
+		"url": "bot.user.avatarURL",
+	},
+	"fields": [
+		{
+			"name": "First time using me?",
+			"value": "Try using my dashboard to set this guilds the settings. You can also find my commands there or use the help all command to list all of my commands.",
+		},    
+		{
+			"name": "\u200b",
+			"value": "\u200b",
+			"inline": false,
+		},
+		{
+			"name": "Version Information",
+			"value": "bot.version.placeholder",
+			"inline": true,
+		},
+		{
+			"name": "Module Settings",
+			"value": "bot.settings.placeholder",
+			"inline": true,
+		},
+		{
+			"name": "Found a bug or unusual glitch?",
+			"value": "Make sure you are using the latest version before making a bug report at https://github.com/NovaLynxie/CoraBot_Main/issues.",
+			"inline": true,
+		},
+	],
+	"timestamp": {},
+	"footer": {
+		"text": "Created by NovaLynxie#9725",
+	},
+}

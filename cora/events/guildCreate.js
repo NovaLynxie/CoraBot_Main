@@ -6,6 +6,17 @@ module.exports = {
   execute(guild, client) {
     logger.info(`${client.user.tag} joined ${guild.name}!`);
     logger.debug(`Joined ${guild.name} (${guild.id}) Preparing to create settings.`);
+
+    // Require welcomeEmbed json object and load it.
+    let welcomeEmbed = require('../assets/json/welcomeEmbed.json');
+    
+    try {
+      let channel = guild.systemChannel || guild.channels.cache.get(ch => ch.id === guild.systemChannelID);
+      channel.send({ embeds: [welcomeEmbed] });
+    } catch (err) {
+      logger.warn(`Unable to send bot welcome message in server ${guild.name}!`);
+      logger.error(err.message); logger.debug(err.stack);
+    }
     let 
       announcerSettings = guild.settings.get('announcer', undefined),
       autoModSettings = guild.settings.get('automod', undefined),

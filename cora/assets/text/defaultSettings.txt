@@ -1,83 +1,83 @@
 {
-   "name":"announcer",
-   "value":{
-      "enableNotifier":false,
-      "events":{
-         "join":false,
-         "leave":false,
-         "kick":false,
-         "ban":false
-      },
-      "notifsChannel":"",
-      "eventMessages":{
-         "userJoin":"@user has joined the server.",
-         "userLeave":"@user has left the server.",
-         "userKick":"@user was kicked from the server.",
-         "userBan":"@user was banned from the server."
-      }
-   }
+  "name":"announcer",
+  "value":{
+    "enableNotifier":false,
+    "events":{
+        "join":false,
+        "leave":false,
+        "kick":false,
+        "ban":false
+    },
+    "notifsChannel":"",
+    "eventMessages":{
+        "userJoin":"@user has joined the server.",
+        "userLeave":"@user has left the server.",
+        "userKick":"@user was kicked from the server.",
+        "userBan":"@user was banned from the server."
+    }
+  }
 },
 {
-   "name":"automod",
-   "value":{
-      "enableAutoMod":false,
-      "chListMode":"whitelist",
-      "channelsList":[
-         
-      ],
-      "urlBlacklist":[
-         
-      ],
-      "mediaOptions":{
-         "removeGifs":false,
-         "removeImgs":false,
-         "removeUrls":false
-      }
-   }
+  "name":"automod",
+  "value":{
+    "enableAutoMod":false,
+    "chListMode":"whitelist",
+    "channelsList":[
+        
+    ],
+    "urlBlacklist":[
+        
+    ],
+    "mediaOptions":{
+        "removeGifs":false,
+        "removeImgs":false,
+        "removeUrls":false
+    }
+  }
 },
 {
-   "name":"chatbot",
-   "value":{
-      "enableChatBot":false,
-      "chatBotUser":{
-        "botName":"",
-        "botGender":""
-      },
-      "chatChannels":[
-         
-      ]
-   }
+  "name":"chatbot",
+  "value":{
+    "enableChatBot":false,
+    "chatBotUser":{
+      "botName":"",
+      "botGender":""
+    },
+    "chatChannels":[
+        
+    ]
+  }
 },
 {
-   "name":"botlogger",
-   "value":{
-      "enableBotLogger":false,
-      "logChannels":[
-         
-      ],
-      "ignoreChannels":[
-         
-      ],
-      "logEvents":{
-         "userJoinLeave":true,
-         "messageUpdates":true,
-         "userUpdates":true,
-         "memberUpdates":true      
-      }
-   }
+  "name":"botlogger",
+  "value":{
+    "enableBotLogger":false,
+    "logChannels":[
+        
+    ],
+    "ignoreChannels":[
+        
+    ],
+    "logEvents":{
+        "userJoinLeave":true,
+        "messageUpdates":true,
+        "userUpdates":true,
+        "memberUpdates":true      
+    }
+  }
 },
 {
-   "name":"modlogger",
-   "value":{
-      "enableModLogger":false,
-      "logChannels":[
-         
-      ],
-      "ignoreChannels":[
-         
-      ],
-      "logEvents":{
-         "guildMemberRemove":true
-      }
-   }
+  "name":"modlogger",
+  "value":{
+    "enableModLogger":false,
+    "logChannels":[
+        
+    ],
+    "ignoreChannels":[
+        
+    ],
+    "logEvents":{
+        "guildMemberRemove":true
+    }
+  }
 }
