@@ -12,45 +12,47 @@ module.exports = {
     logger.data(`Bot User ID: ${client.user.id}`);
     client.user.setActivity('with Commando');
     client.application = await client.fetchApplication();
-
-    // Database checks for guilds with no configured settings.
-    logger.warn('Running database checks. This may take a bit.');
-    logger.debug("Checking all bot's connected guilds now...")
-    let guildsChecked = 0, guildsConfigured = 0;
-    const Guilds = client.guilds.cache.map(guild => guild);
-    Guilds.forEach(guild => {
-      // Increase counter by one for each connected guild checked.
-      guildsChecked++;
-      let 
-        announcerSettings = guild.settings.get('announcer', undefined),
-        autoModSettings = guild.settings.get('automod', undefined),
-        chatBotSettings = guild.settings.get('chatbot', undefined),
-        botLogSettings = guild.settings.get('botlogger', undefined),
-        modLogSettings = guild.settings.get('modlogger', undefined);
-      // Check if these settings are defined using falsy checks.
-      if (!announcerSettings||!autoModSettings||!chatBotSettings||!botLogSettings||!modLogSettings) {
-        // If they are not configured, setup with default settings.
-        // Increase counter by one for each new guild configuration.
-        guildsConfigured++;
-        // Fetch Settings Template from ./cora/assets/text/
-        let settingsTemplate = fs.readFileSync('./cora/assets/text/defaultSettings.txt', 'utf-8');
-        // Attempt to parse to a usable Array of objects.
-        let defaultSettings = JSON.parse("[" + settingsTemplate + "]");
-        // Apply default settings using guild as reference for configuration.
-        defaultSettings.forEach(setting => {
-          logger.data(`Generating setting ${setting.name} for ${guild.name}`)
-          guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
-        }); 
-        logger.debug('Finished checking connected guilds.');
-        logger.debug(`Checked ${guildsChecked} guilds and configured ${guildsConfigured}.`);
-      } else {
-        // Do not override the current configuration if settings are defined.
-        logger.debug('Finished checking connected guilds.');
-        logger.debug('No new guild configurations needed.');
-      };        
-    });
-    logger.info('Database checks finished, ready for use.');
-    
+    logger.debug('Preparing database checks...');
+    setTimeout(() => {
+      // Database checks for guilds with no configured settings.
+      logger.warn('Running guild settings checks. This may take a bit.');
+      logger.debug("Checking all bot's connected guilds now...");
+      let guildsChecked = 0, guildsConfigured = 0;
+      const Guilds = client.guilds.cache.map(guild => guild);
+      Guilds.forEach(guild => {
+        // Increase counter by one for each connected guild checked.
+        guildsChecked++;
+        let 
+          announcerSettings = guild.settings.get('announcer', undefined),
+          autoModSettings = guild.settings.get('automod', undefined),
+          chatBotSettings = guild.settings.get('chatbot', undefined),
+          botLogSettings = guild.settings.get('botlogger', undefined),
+          modLogSettings = guild.settings.get('modlogger', undefined);
+        // Check if these settings are defined using falsy checks.
+        if (!announcerSettings||!autoModSettings||!chatBotSettings||!botLogSettings||!modLogSettings) {
+          // If they are not configured, setup with default settings.
+          // Increase counter by one for each new guild configuration.
+          guildsConfigured++;
+          // Fetch Settings Template from ./cora/assets/text/
+          let settingsTemplate = fs.readFileSync('./cora/assets/text/defaultSettings.txt', 'utf-8');
+          // Attempt to parse to a usable Array of objects.
+          let defaultSettings = JSON.parse("[" + settingsTemplate + "]");
+          // Apply default settings using guild as reference for configuration.
+          defaultSettings.forEach(setting => {
+            logger.data(`Generating setting ${setting.name} for ${guild.name}`)
+            guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
+          }); 
+          logger.debug('Finished checking connected guilds.');
+          logger.debug(`Checked ${guildsChecked} guilds and configured ${guildsConfigured}.`);
+        } else {
+          // Do not override the current configuration if settings are defined.
+          logger.debug('Finished checking connected guilds.');
+          logger.debug('No new guild configurations needed.');
+        };        
+      });
+      logger.info('Database checks finished, ready for use.');
+    }, 1000);
+        
     // Spin up built-in server once client is online and ready.
     const dashConfig = {
       "debug": debug, // used to enable debug console log data.
