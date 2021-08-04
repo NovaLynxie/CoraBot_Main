@@ -314,15 +314,28 @@ module.exports = (client, config) => {
   });
 
   app.get("/admin/reset", checkAuth, (req,res) => {
-    client.destroy().then(() => {
-      logger.debug('Disconnected from Discord. Preparing to reconnect.')
-    })
+    // not yet implemented.
+    req.flash('warning', "Endpoint/Action is not yet implemented!");
+    res.redirect('/admin');
   });
   app.get("/admin/reconnect", checkAuth, (req,res) => {
-    // 
+    client.destroy();
+    logger.debug('Disconnected from Discord. Preparing to reconnect.');
+    let {tokens} = require('../handlers/bootLoader');
+    let {discordToken} = tokens;
+    client.login(discordToken).then(
+      logger.debug(`Awaiting for Discord API response...`)
+    ).catch(err => {
+      logger.error('Bot token is INVALID! Login aborted.');
+      logger.error('Unable to login as token was invalid or malformed.');
+      logger.error(err);
+    });
+    req.flash('success', "Reconnected bot successfully!");
   });
   app.get("/admin/shutdown", checkAuth, (req,res) => {
-    // 
+    // not yet implemented.
+    req.flash('warning', "Endpoint/Action is not yet implemented!");
+    res.redirect('/admin');
   });
 
   // Simple redirect to the "Settings" page (aka "manage")
