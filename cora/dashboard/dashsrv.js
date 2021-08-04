@@ -132,9 +132,9 @@ module.exports = (client, config) => {
 
   // body-parser reads incoming JSON or FORM data and simplifies their
   // use in code.
-  var bodyParser = require("body-parser");
-  app.use(bodyParser.json());       // to support JSON-encoded bodies
-  app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  var bodyParser = require("body-parser"); // depreciated as of express 4.16+ it is now available in the module.
+  app.use(express.json());       // to support JSON-encoded bodies
+  app.use(express.urlencoded({     // to support URL-encoded bodies
     extended: true
   }));
 
@@ -315,9 +315,9 @@ module.exports = (client, config) => {
   });
 
   app.get("/admin/reset", checkAuth, (req,res) => {
-    client.destroy().then(() => {
-      logger.debug('Disconnected from Discord. Preparing to reconnect.')
-    })
+    client.destroy()
+    logger.debug('Disconnected from Discord. Preparing to reconnect.')
+    client.login()
   });
   app.get("/admin/reconnect", checkAuth, (req,res) => {
     // 
