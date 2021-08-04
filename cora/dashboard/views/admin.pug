@@ -37,3 +37,20 @@ block content
               i.fas.fa-tasks
             else
               i.fas.fa-sign-in-alt
+
+    include blocks/admin-modals
+
+    div.danger-block
+      h3 Admin Controls
+      p.lead 
+      | Warning! These controls will affect ALL instances of this bot. Do not use these unless absolutely necessary.
+      br
+      div(style="display:inline-block; width: auto; margin: 5px;")
+        h5 Reset Database
+        a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#resetDatabaseModal' role='button') RESET
+      div(style="display:inline-block; width: auto; margin: 5px;")
+        h5 Reset Connection
+        a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#restartBotModal' role='button') RESTART
+      div(style="display:inline-block; width: auto; margin: 5px;")
+        h5 Shutdown Instance
+        a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#shutdownBotModal' role='button') SHUTDOWN

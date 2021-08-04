@@ -146,11 +146,14 @@ module.exports = (client, config) => {
   Authentication Checks. For each page where the user should be logged in, double-checks whether the login is valid and the session is still active.
   */
   function checkAuth(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    logger.debug(`req.url='${req.url}'`)
-    req.session.backURL = req.url;
-    logger.debug(`req.session.backURL='${req.session.backURL}'`)
-    res.redirect("/login");
+    if (req.isAuthenticated()) {
+      next();
+    } else {
+      logger.debug(`req.url='${req.url}'`);
+      req.session.backURL = req.url; res.status(401);
+      logger.debug(`req.session.backURL='${req.session.backURL}'`)
+      res.redirect("/login");
+    };
   };
   /*
   Breadcrumb Fetcher. This uses the current page URL from ‘req’ to create breadcrumbs as an array of crumb objects, which is added to ‘req’. 
@@ -171,6 +174,7 @@ module.exports = (client, config) => {
   // with the passing of these 4 variables, and from a base path. 
   // Objectassign(object, newobject) simply merges 2 objects together, in case you didn't know!
   const renderView = (res, req, template, data = {}) => {
+    logger.debug(`Preparing template ${template}`);
     const baseData = {
       bot: client,
       config: config,
@@ -179,6 +183,7 @@ module.exports = (client, config) => {
       isAdmin: req.session.isAdmin,
       breadcrumbs: req.breadcrumbs
     };
+    if (config.debug) logger.data(`baseData=${JSON.stringify(baseData)}`);
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
   // Express Messages Middleware
@@ -309,11 +314,22 @@ module.exports = (client, config) => {
     renderView(res, req, "admin.pug");
   });
 
+  app.get("/admin/reset", checkAuth, (req,res) => {
+    client.destroy().then(() => {
+      logger.debug('Disconnected from Discord. Preparing to reconnect.')
+    })
+  });
+  app.get("/admin/reconnect", checkAuth, (req,res) => {
+    // 
+  });
+  app.get("/admin/shutdown", checkAuth, (req,res) => {
+    // 
+  });
+
   // Simple redirect to the "Settings" page (aka "manage")
   app.get("/dashboard/:guildID", checkAuth, (req, res) => {
     res.redirect(`/dashboard/${req.params.guildID}/manage`);
   });
-
   // Settings page to change the guild configuration. Definitely more fancy than using
   // the `set` command!
   app.get("/dashboard/:guildID/manage", checkAuth, (req, res) => {

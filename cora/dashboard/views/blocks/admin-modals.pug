@@ -1,0 +1,45 @@
+// Admin Dashboard Modals
+#resetDatabaseModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='resetDatabaseModalLabel' aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#memberBanModal.modal-title Reset All Bot Settings?
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+      .modal-body
+        p.main
+          | Are you sure you want to reset all the bot's settings?
+          br
+          | This will completely wipe all of the settings and reset everything back to the default presets!
+      .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') ABORT
+        a.btn.btn-outline-danger(href=`/admin/reset_settings` role='button') CONFIRM
+#restartBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='restartBotModalLabel' aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#memberBanModal.modal-title Reset All Bot Connections?
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+      .modal-body
+        p.main
+          | Are you sure you want to force reconnect the bot?
+          br
+          | This will interrupt #[strong ALL] outbound connections such as voice channel and text channel interactions!
+      .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') ABORT
+        a.btn.btn-outline-danger(href=`/admin/reconnect` role='button') CONFIRM
+#shutdownBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='shutdownBotModalLabel' aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#memberBanModal.modal-title Shutdown Bot Instances?
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+      .modal-body
+        p.main
+          | Are you sure you wish to shutdown this bot?
+          br
+          | This will effectively halt #[strong ALL] all instances of the bot and will require a manual restart.
+          br
+          strong PLEASE ONLY USE THIS AS A LAST RESORT IF THE BOT IS NOT RESPONDING CORRECTLY OR HAVING ISSUES!
+      .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') ABORT
+        a.btn.btn-outline-danger(href=`/admin/shutdown` role='button') CONFIRM
