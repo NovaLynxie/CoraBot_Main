@@ -159,7 +159,7 @@
               input#userBanToggle.form-check-input(type='checkbox' name='userBan')
               label.form-check-label(for='userBanToggle') Track User Banned?
           .form-group
-            label.form-label.mt-4(for='notifsChannel') Example select
+            label.form-label.mt-4(for='notifsChannel') Notifications Channel
             select#notifsChannel.form-select(name='notifsChannel')
               for channel in textChannels
                 if (announcerSettings.notifsChannel === channel.id)
