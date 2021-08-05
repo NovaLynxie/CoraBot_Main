@@ -7,10 +7,13 @@
           h5#clientSettingsModal.modal-title Client Settings
           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
         .modal-body
+          legend.modal-legend Bot Settings
           .form-group
             label.form-label.mt-4(for='botPrefix') 
             | Bot Prefix (Can only be changed from config files!)
             input#botPrefix.form-control(type='text' name='botPrefix' value=bot.options.commandPrefix disabled)
+          br
+          legend.modal-legend Module Enable/Disable
           .form-check.form-switch
             if (enableAutoMod)
               input#enableAutoMod.form-check-input(type='checkbox' name='enableAutoMod' checked='')
@@ -27,10 +30,10 @@
               label.form-check-label(for='enableNotifier') Bot Notifications
           .form-check.form-switch
             if (enableChatBot)
-              input#enableChatBot.form-check-input(type='checkbox' name='enableChatBot' checked='' disabled='')
+              input#enableChatBot.form-check-input(type='checkbox' name='enableChatBot' checked='')
               label.form-check-label(for='enableChatBot') Chat Bot
             else
-              input#enableChatBot.form-check-input(type='checkbox' name='enableChatBot' disabled)
+              input#enableChatBot.form-check-input(type='checkbox' name='enableChatBot')
               label.form-check-label(for='enableChatBot') Chat Bot
           .form-check.form-switch
             if (enableBotLogs)

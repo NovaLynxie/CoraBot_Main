@@ -1,6 +1,6 @@
 {
-  name: "moduleControl",
-  value: {
+  "name": "moduleControl",
+  "value": {
     "enableAutoMod": true,
     "enableChatBot": true,
     "enableNotifier": true,    

@@ -323,19 +323,26 @@ module.exports = (client, config) => {
   });
 
   app.get("/admin/reset_settings", checkAuth, (req,res) => {
+    // Fetch all settings templates from ./cora/assets/text/
+    var clientSettingsTemplate = fs.readFileSync('./cora/assets/text/clientDefaultSettings.txt', 'utf-8');
+    
+    var guildSettingsTemplate = fs.readFileSync('./cora/assets/text/guildDefaultSettings.txt', 'utf-8');
+    // Attempt to parse to a usable Array of objects.
+    let clientSettings = JSON.parse("["+clientSettingsTemplate+"]");
+    let guildSettings = JSON.parse("["+guildSettingsTemplate+"]");
     // Clear client settings and reset to default. (has no settings yet)
     client.settings.clear();
+    clientSettings.forEach(setting => {
+      logger.data(`Generating setting ${setting.name} in client settings.`)
+      client.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} in client settings`));
+    });
     // Fetch all guilds before running through them one by one.
     const Guilds = client.guilds.cache.map(guild => guild);
     Guilds.forEach(guild => {
       // Remove the guild's settings.
       guild.settings.clear();
-      // Fetch Settings Template from ./cora/assets/text/
-      let settingsTemplate = fs.readFileSync('./cora/assets/text/guildDefaultSettings.txt', 'utf-8');
-      // Attempt to parse to a usable Array of objects.
-      let defaultSettings = JSON.parse("[" + settingsTemplate + "]");
       // Apply default settings using guild as reference for configuration.
-      defaultSettings.forEach(setting => {
+      guildSettings.forEach(setting => {
         logger.data(`Generating setting ${setting.name} for ${guild.name}`)
         guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
       });
@@ -347,6 +354,15 @@ module.exports = (client, config) => {
   });
   app.post("/admin/save_clsettings", checkAuth, (req, res) => {
     client.commandPrefix = (req.body.botPrefix) ? req.body.botPrefix : client.options.commandPrefix;
+    let moduleControl = {
+      enableAutoMod: (req.body.enableAutoMod) ? true : false,
+      enableChatBot: (req.body.enableChatBot) ? true : false,
+      enableNotifier: (req.body.enableNotifier) ? true : false,
+      enableBotLogs: (req.body.enableBotLogs) ? true : false,
+      enableModLogs: (req.body.enableModLogs) ? true : false
+    };
+    console.log(moduleControl);
+    client.settings.set("moduleControl", moduleControl);
     req.flash('success', 'Saved preferences successfully!');
     res.redirect('/admin');
   })

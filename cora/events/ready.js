@@ -15,7 +15,17 @@ module.exports = {
     logger.debug('Preparing database checks...');
     setTimeout(() => {
       // Database checks for guilds with no configured settings.
-      logger.warn('Running guild settings checks. This may take a bit.');
+      logger.warn('Running settings checks. This may take a few seconds.')
+      logger.debug("Checking bot client settings now...");
+      moduleControlSettings = client.settings.get('moduleControl', undefined);
+      if (!moduleControlSettings) {
+        let settingsTemplate = fs.readFileSync('./cora/assets/text/clientDefaultSettings.txt', 'utf-8');
+        let clientSettings = JSON.parse("["+settingsTemplate+"]");
+        clientSettings.forEach(setting => {
+          logger.data(`Generating setting ${setting.name} in client settings.`)
+          client.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} in client settings`));
+        })
+      }
       logger.debug("Checking all bot's connected guilds now...");
       let guildsChecked = 0, guildsConfigured = 0;
       const Guilds = client.guilds.cache.map(guild => guild);
