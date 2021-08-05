@@ -1,9 +1,60 @@
 // Admin Dashboard Modals
+#clientSettingsModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='clientSettingsModalLabel' aria-hidden='true')
+  form(action=`/admin/save_clsettings`, method='POST')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5#clientSettingsModal.modal-title Client Settings
+          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+        .modal-body
+          .form-group
+            label.form-label.mt-4(for='botPrefix') 
+            | Bot Prefix (Can only be changed from config files!)
+            input#botPrefix.form-control(type='text' name='botPrefix' value=bot.options.commandPrefix disabled)
+          .form-check.form-switch
+            if (enableAutoMod)
+              input#enableAutoMod.form-check-input(type='checkbox' name='enableAutoMod' checked='')
+              label.form-check-label(for='enableAutoMod') Auto Moderation
+            else
+              input#enableAutoMod.form-check-input(type='checkbox' name='enableAutoMod')
+              label.form-check-label(for='enableAutoMod') Auto Moderation
+          .form-check.form-switch
+            if (enableNotifier)
+              input#enableNotifier.form-check-input(type='checkbox' name='enableNotifier' checked='')
+              label.form-check-label(for='enableNotifier') Bot Notifications
+            else
+              input#enableNotifier.form-check-input(type='checkbox' name='enableNotifier')
+              label.form-check-label(for='enableNotifier') Bot Notifications
+          .form-check.form-switch
+            if (enableChatBot)
+              input#enableChatBot.form-check-input(type='checkbox' name='enableChatBot' checked='' disabled='')
+              label.form-check-label(for='enableChatBot') Chat Bot
+            else
+              input#enableChatBot.form-check-input(type='checkbox' name='enableChatBot' disabled)
+              label.form-check-label(for='enableChatBot') Chat Bot
+          .form-check.form-switch
+            if (enableBotLogs)
+              input#enableBotLogs.form-check-input(type='checkbox' name='enableBotLogs' checked='')
+              label.form-check-label(for='enableBotLogs') Bot Logger
+            else
+              input#enableBotLogs.form-check-input(type='checkbox' name='enableBotLogs')
+              label.form-check-label(for='enableBotLogs') Bot Logger
+          .form-check.form-switch
+            if (enableModLogs)
+              input#enableModLogs.form-check-input(type='checkbox' name='enableModLogs' checked='')
+              label.form-check-label(for='enableModLogs') Mod Logger
+            else
+              input#enableModLogs.form-check-input(type='checkbox' name='enableModLogs')
+              label.form-check-label(for='enableModLogs') Mod Logger
+        .modal-footer
+          button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+          button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
+            i.fas.fa-save(aria-hidden='true')
 #resetDatabaseModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='resetDatabaseModalLabel' aria-hidden='true')
   .modal-dialog(role='document')
     .modal-content
       .modal-header
-        h5#memberBanModal.modal-title Reset All Bot Settings?
+        h5#resetDatabaseModal.modal-title Reset All Bot Settings?
         button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
       .modal-body
         p.main
@@ -13,33 +64,3 @@
       .modal-footer
         button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') ABORT
         a.btn.btn-outline-danger(href=`/admin/reset_settings` role='button') CONFIRM
-#restartBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='restartBotModalLabel' aria-hidden='true')
-  .modal-dialog(role='document')
-    .modal-content
-      .modal-header
-        h5#memberBanModal.modal-title Reset All Bot Connections?
-        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
-      .modal-body
-        p.main
-          | Are you sure you want to force reconnect the bot?
-          br
-          | This will interrupt #[strong ALL] outbound connections such as voice channel and text channel interactions!
-      .modal-footer
-        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') ABORT
-        a.btn.btn-outline-danger(href=`/admin/reconnect` role='button') CONFIRM
-#shutdownBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='shutdownBotModalLabel' aria-hidden='true')
-  .modal-dialog(role='document')
-    .modal-content
-      .modal-header
-        h5#memberBanModal.modal-title Shutdown Bot Instances?
-        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
-      .modal-body
-        p.main
-          | Are you sure you wish to shutdown this bot?
-          br
-          | This will effectively halt #[strong ALL] all instances of the bot and will require a manual restart.
-          br
-          strong PLEASE ONLY USE THIS AS A LAST RESORT IF THE BOT IS NOT RESPONDING CORRECTLY OR HAVING ISSUES!
-      .modal-footer
-        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') ABORT
-        a.btn.btn-outline-danger(href=`/admin/shutdown` role='button') CONFIRM

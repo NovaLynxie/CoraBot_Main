@@ -1,0 +1,10 @@
+{
+  name: "moduleControl",
+  value: {
+    "enableAutoMod": true,
+    "enableChatBot": true,
+    "enableNotifier": true,    
+    "enableBotLogs": true,
+    "enableModLogs": true
+  }
+}

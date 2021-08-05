@@ -1,5 +1,6 @@
 extends blocks/layout
 block content
+  - var {enableAutoMod, enableChatBot, enableNotifier, enableBotLogs, enableModLogs} = moduleControl;
   .container
     h1.display-3 Admin Dashboard
     p.lead Welcome back Admin #{user.username}!
@@ -44,13 +45,12 @@ block content
       h3 Admin Controls
       p.lead 
       | Warning! These controls will affect ALL instances of this bot. Do not use these unless absolutely necessary.
+      
+      br
+      div(style="display:inline-block; width: auto; margin: 5px;")
+        h5 Bot Settings
+        a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#clientSettingsModal' role='button') OPEN SETTINGS
       br
       div(style="display:inline-block; width: auto; margin: 5px;")
         h5 Reset Database
-        a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#resetDatabaseModal' role='button') RESET
-      div(style="display:inline-block; width: auto; margin: 5px;")
-        h5 Reset Connection
-        a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#restartBotModal' role='button') RESTART
-      div(style="display:inline-block; width: auto; margin: 5px;")
-        h5 Shutdown Instance
-        a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#shutdownBotModal' role='button') SHUTDOWN
+        a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#resetDatabaseModal' role='button') RESET DATABASE

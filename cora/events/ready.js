@@ -34,7 +34,7 @@ module.exports = {
           // Increase counter by one for each new guild configuration.
           guildsConfigured++;
           // Fetch Settings Template from ./cora/assets/text/
-          let settingsTemplate = fs.readFileSync('./cora/assets/text/defaultSettings.txt', 'utf-8');
+          let settingsTemplate = fs.readFileSync('./cora/assets/text/guildDefaultSettings.txt', 'utf-8');
           // Attempt to parse to a usable Array of objects.
           let defaultSettings = JSON.parse("[" + settingsTemplate + "]");
           // Apply default settings using guild as reference for configuration.

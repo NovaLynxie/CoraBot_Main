@@ -10,6 +10,9 @@ const logger = require('../providers/WinstonPlugin');
 // For Discord Permission Handling
 const Discord = require("discord.js");
 
+// For Handling the toml configuration files.
+const toml = require('toml');
+
 // Express Session
 const express = require("express");
 const app = express();
@@ -182,7 +185,12 @@ module.exports = (client, config) => {
       isAdmin: req.session.isAdmin,
       breadcrumbs: req.breadcrumbs
     };
-    if (config.debug) logger.data(`baseData=${JSON.stringify(baseData)}`);
+    if (config.debug) {
+      logger.debug('Dumping data from render parameters');
+      logger.data(`baseData=${JSON.stringify(baseData)}`);
+      logger.data(`data=${JSON.stringify(data)}`);
+    };
+    logger.debug(`Rendering template ${template} with 'baseData' and 'data' parameters.`);
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
   // Express Messages Middleware
@@ -309,35 +317,39 @@ module.exports = (client, config) => {
 
   // Admin Dashboard - Shows all guilds the bot is connected to, including ones not joined by the user.
   app.get("/admin", checkAuth, (req, res) => {
+    let moduleControl = client.settings.get("moduleControl", undefined);
     if (!req.session.isAdmin) return res.redirect("/");
-    renderView(res, req, "admin.pug");
+    renderView(res, req, "admin.pug", {moduleControl});
   });
 
-  app.get("/admin/reset", checkAuth, (req,res) => {
-    // not yet implemented.
-    req.flash('warning', "Endpoint/Action is not yet implemented!");
-    res.redirect('/admin');
-  });
-  app.get("/admin/reconnect", checkAuth, (req,res) => {
-    client.destroy();
-    logger.debug('Disconnected from Discord. Preparing to reconnect.');
-    let {tokens} = require('../handlers/bootLoader');
-    let {discordToken} = tokens;
-    client.login(discordToken).then(
-      logger.debug(`Awaiting for Discord API response...`)
-    ).catch(err => {
-      logger.error('Bot token is INVALID! Login aborted.');
-      logger.error('Unable to login as token was invalid or malformed.');
-      logger.error(err);
+  app.get("/admin/reset_settings", checkAuth, (req,res) => {
+    // Clear client settings and reset to default. (has no settings yet)
+    client.settings.clear();
+    // Fetch all guilds before running through them one by one.
+    const Guilds = client.guilds.cache.map(guild => guild);
+    Guilds.forEach(guild => {
+      // Remove the guild's settings.
+      guild.settings.clear();
+      // Fetch Settings Template from ./cora/assets/text/
+      let settingsTemplate = fs.readFileSync('./cora/assets/text/guildDefaultSettings.txt', 'utf-8');
+      // Attempt to parse to a usable Array of objects.
+      let defaultSettings = JSON.parse("[" + settingsTemplate + "]");
+      // Apply default settings using guild as reference for configuration.
+      defaultSettings.forEach(setting => {
+        logger.data(`Generating setting ${setting.name} for ${guild.name}`)
+        guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
+      });
+      logger.debug(`${guild.name} settings reset!`);
     });
-    req.flash('success', "Reconnected bot successfully!");
-  });
-  app.get("/admin/shutdown", checkAuth, (req,res) => {
-    // not yet implemented.
+    logger.debug('Finished resetting all settings.')
     req.flash('warning', "Endpoint/Action is not yet implemented!");
     res.redirect('/admin');
   });
-
+  app.post("/admin/save_clsettings", checkAuth, (req, res) => {
+    client.commandPrefix = (req.body.botPrefix) ? req.body.botPrefix : client.options.commandPrefix;
+    req.flash('success', 'Saved preferences successfully!');
+    res.redirect('/admin');
+  })
   // Simple redirect to the "Settings" page (aka "manage")
   app.get("/dashboard/:guildID", checkAuth, (req, res) => {
     res.redirect(`/dashboard/${req.params.guildID}/manage`);
