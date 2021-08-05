@@ -63,7 +63,7 @@ module.exports = {
       logger.warn(`Generating settings now... please wait.`)
       // If they are not configured, setup with default settings.
       // Fetch Settings Template from ./cora/assets/text/
-      let settingsTemplate = fs.readFileSync('./cora/assets/text/guildDefault.txt', 'utf-8');
+      let settingsTemplate = fs.readFileSync('./cora/assets/text/guildDefaultSettings.txt', 'utf-8');
       // Attempt to parse to a usable Array of objects.
       let defaultSettings = JSON.parse("[" + settingsTemplate + "]");
       // Apply default settings using guild as reference for configuration.
