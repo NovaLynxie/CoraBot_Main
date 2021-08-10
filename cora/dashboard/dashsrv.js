@@ -317,15 +317,14 @@ module.exports = (client, config) => {
 
   // Admin Dashboard - Shows all guilds the bot is connected to, including ones not joined by the user.
   app.get("/admin", checkAuth, (req, res) => {
-    let moduleControl = client.settings.get("moduleControl", undefined);
+    let clSettings = client.settings.get("moduleControl", undefined);
     if (!req.session.isAdmin) return res.redirect("/");
-    renderView(res, req, "admin.pug", {moduleControl});
+    renderView(res, req, "admin.pug", {clSettings});
   });
 
   app.get("/admin/reset_settings", checkAuth, (req,res) => {
     // Fetch all settings templates from ./cora/assets/text/
-    var clientSettingsTemplate = fs.readFileSync('./cora/assets/text/clientDefaultSettings.txt', 'utf-8');
-    
+    var clientSettingsTemplate = fs.readFileSync('./cora/assets/text/clientDefaultSettings.txt', 'utf-8');    
     var guildSettingsTemplate = fs.readFileSync('./cora/assets/text/guildDefaultSettings.txt', 'utf-8');
     // Attempt to parse to a usable Array of objects.
     let clientSettings = JSON.parse("["+clientSettingsTemplate+"]");
@@ -353,6 +352,7 @@ module.exports = (client, config) => {
     res.redirect('/admin');
   });
   app.post("/admin/save_clsettings", checkAuth, (req, res) => {
+    logger.data(JSON.stringify(req.body));
     client.commandPrefix = (req.body.botPrefix) ? req.body.botPrefix : client.options.commandPrefix;
     let moduleControl = {
       enableAutoMod: (req.body.enableAutoMod) ? true : false,
@@ -361,7 +361,6 @@ module.exports = (client, config) => {
       enableBotLogs: (req.body.enableBotLogs) ? true : false,
       enableModLogs: (req.body.enableModLogs) ? true : false
     };
-    console.log(moduleControl);
     client.settings.set("moduleControl", moduleControl);
     req.flash('success', 'Saved preferences successfully!');
     res.redirect('/admin');

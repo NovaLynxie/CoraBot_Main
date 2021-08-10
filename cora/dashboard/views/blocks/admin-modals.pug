@@ -10,8 +10,8 @@
           legend.modal-legend Bot Settings
           .form-group
             label.form-label.mt-4(for='botPrefix') 
-            | Bot Prefix (Can only be changed from config files!)
-            input#botPrefix.form-control(type='text' name='botPrefix' value=bot.options.commandPrefix disabled)
+            | Bot Prefix (This affects #[strong ALL] servers that use this prefix.)
+            input#botPrefix.form-control(type='text' name='botPrefix' value=bot.options.commandPrefix)
           br
           legend.modal-legend Module Enable/Disable
           .form-check.form-switch

@@ -1,5 +1,5 @@
 {
-  "name": "moduleControl",
+  "name": "botSettings",
   "value": {
     "enableAutoMod": true,
     "enableChatBot": true,
