@@ -317,7 +317,7 @@ module.exports = (client, config) => {
 
   // Admin Dashboard - Shows all guilds the bot is connected to, including ones not joined by the user.
   app.get("/admin", checkAuth, (req, res) => {
-    let botSettings = client.settings.get("moduleControl", undefined);
+    let botSettings = client.settings.get("botSettings", undefined);
     if (!req.session.isAdmin) return res.redirect("/");
     renderView(res, req, "admin.pug", {botSettings});
   });
