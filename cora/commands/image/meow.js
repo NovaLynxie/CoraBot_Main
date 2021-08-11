@@ -16,8 +16,6 @@ module.exports = class MeowCommand extends Command {
     async run(message) {
         const { file } = await fetch('https://aws.random.cat/meow')
             .then(response => response.json());
-        //console.log(file)
-        //return message.channel.send(file);
         const embed = new MessageEmbed()
             .setColor(0x00AE86)
             .setDescription('Meow! 🐱')

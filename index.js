@@ -19,7 +19,6 @@ const {discordToken} = tokens;
 // Load bot handlers here before bot starts.
 const crashReporter = require('./cora/handlers/crashReporter.js');
 logger.debug('Loaded crashReporter functions from crashReporter.js');
-// Start dashsrv to handle heartbeat ping requests. (eg. UptimeRobot)
 // ------------------- Bot's Modules ------------------
 // Load path module for code file to use file directories.
 const path = require('path'); 

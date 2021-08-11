@@ -28,14 +28,6 @@ module.exports = class GuildInfoCommand extends Command {
         });
     }
     run(message) {
-        //Debug console log parts, uncomment when needed.
-        //console.log(message.guild);
-        //console.log(message.guild.channels);
-        //console.log(message.guild.channels.cache.size);
-        //message.say(message.guild.channels.cache.size);
-        //console.log(message.guild.roles.cache.size);
-        //message.say(message.guild.roles.cache.size);
-        //message.say('Printing information');
         const verifGetLvl = message.guild.verificationLevel;
         try {
             if (verifGetLvl === 'NONE') {

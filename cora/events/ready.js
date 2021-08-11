@@ -74,6 +74,7 @@ module.exports = {
       "botDomain" : process.env.botDomain || botDomain,
       "callbackURL" : process.env.callbackURL || callbackURL
     };
+    // Start dashsrv to handle heartbeat ping requests. (eg. UptimeRobot)
     try {
       logger.verbose(`enableDash=${enableDash}`);
       if (enableDash) {

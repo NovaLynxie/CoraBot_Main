@@ -23,7 +23,6 @@ module.exports = class UserInfoCommand extends Command {
                     key: 'user',
                     prompt: 'who would you like information about?',
                     type: 'user',
-                    //default: 'message.author'
                 }
             ]
         });

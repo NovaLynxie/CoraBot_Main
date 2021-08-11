@@ -3,8 +3,6 @@ const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 const logger = require('../../providers/WinstonPlugin');
 const getLocalTime = require('../../handlers/serverRegion');
-//const moment = require('moment');
-//require('moment-timezone');
 
 module.exports = class SuggestCommand extends Command {
     constructor(client) {
