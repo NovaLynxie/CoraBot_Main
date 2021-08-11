@@ -95,13 +95,13 @@ module.exports = {
       logger.verbose("ran task update_status")
       const index = Math.floor(Math.random() * (activities.length - 1) + 1);
       if (index >= 0 && index <= 1) {
-        var statusType = 1 // 1 - Playing
+        var statusType = 'PLAYING'
       };
       if (index >= 2 && index <= 3) {
-        var statusType = 2 // 2 - Listening
+        var statusType = 'LISTENING'
       };
       if (index >= 4 && index <= 5) {
-        var statusType = 3 // 3 - Watching
+        var statusType = 'WATCHING'
       };
       client.user.setActivity(activities[index], {type: statusType});
       logger.verbose(`Updated status to activity ${index} of ${activities.length-1}`)
