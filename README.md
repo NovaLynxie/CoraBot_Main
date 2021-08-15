@@ -11,9 +11,8 @@ I can play some music for you, give you information about me or help you moderat
 Don't worry, I also come with a help command so you can find out what commands I have, just ask whenever you're having trouble remembering one of my commands.
 
 ## Setting up the bot instance (WIP)
-***WARNING! CoraBot v3.x.x is not backwards compatible with v2.x.x and older versions since there are multiple breaking changes to how it runs!*** 
-*If you have v2.x.x installed, please backup before upgrading or install v3.x.x to a different directory! 
-It is recommended to remove older versions since v3.x will be more up to date.*  
+***WARNING! CoraBot v4 is not backwards compatible with v3.x.x and older versions since there are multiple breaking changes to how it runs! No support will be offered if you do not install it correctly!***  
+*If you have v3 or older installed, please backup before upgrading or install in a different directory!*
 ### Requirements
 - Node.js v12 or higher.
 - FFmpeg v4 or higher.
