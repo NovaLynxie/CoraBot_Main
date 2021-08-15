@@ -1,3 +1,4 @@
+***WARNING! CoraBot v4.x.x is still in alpha stages! It may be broken or not work at all due to continuous developmental changes! Please remain on CoraBot v3 at this time.***
 # CoraBot - A customizable discord bot built on DiscordJS with NodeJS
 CoraBot Discord.JS bot for managing your discord guild or community server!
 
@@ -30,12 +31,4 @@ Once installation is completed, run this command: `npm run setup`.
 This will start the setup utility, follow the on-screen prompts to complete the bot setup process.  
 **IMPORTANT!!**
 **Privileged intents are required for the bot to start. Check you have it enabled for your bot user before starting or the bot WILL crash!**
-## My bot doesn't work or music will not play back... help?
-The bot may be missing permissions to speak or connect to the connected voice channel in your server. Please check any roles it has and that the correct permissions are granted.
-It is also possible there may have been an error installing the `opus`,`ytdl-core` or `ffmpeg-static` modules during `npm install`. These are responsible for handling music play back and audio streaming functions.
-You might also be missing FFmpeg on your system, this is mentioned in the requirements.
-Try reinstalling the aformentioned modules by running these commands in this order:  
-1. `npm uninstall <module_name>`  
-2. `npm install --s <module_name>`  
-Should this still fail, try running `npm clean-install`.  
-Please note running a clean install will take a while as this uninstalls all bot dependencies and downloads a fresh install, so only use this as a last resort.
+
