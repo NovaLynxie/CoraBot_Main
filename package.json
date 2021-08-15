@@ -1,12 +1,9 @@
 {
   "name": "corabot",
-  "version": "3.0.0",
+  "version": "4.0.0-alpha1",
   "description": "NovaLynxie's Personal Discord Bot",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test-files": "node ./cora/internal/fileSelfTest.js",
-    "clear-logs": "node ./cora/internal/logCleaner.js",
-    "setup": "node ./cora/internal/setuputil.js",
     "start": "node index.js || node .",
     "dev": "nodemon index.js || nodemon ."
   },
@@ -21,42 +18,14 @@
   "author": "NovaLynxie",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/opus": "^0.4.0",
-    "body-parser": "^1.19.0",
-    "common-tags": "^1.8.0",
-    "connect-sqlite3": "^0.9.11",
-    "discord-chatbot": "^2.0.1",
-    "discord.js": "^12.5.3",
-    "discord.js-commando": "^0.12.3",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.2",
-    "ffmpeg-static": "^4.2.7",
-    "flash": "^1.1.0",
-    "helmet": "^4.6.0",
-    "log-timestamp": "^0.3.0",
-    "minecraft-server-util": "^3.4.2",
-    "moment": "^2.29.1",
-    "moment-duration-format": "^2.3.2",
-    "moment-timezone": "^0.5.28",
-    "morgan": "^1.10.0",
-    "node-fetch": "^2.6.1",
-    "passport": "^0.4.1",
-    "passport-discord": "^0.1.4",
-    "pug": "^3.0.2",
-    "simple-youtube-api": "^5.2.1",
-    "sqlite": "^4.0.2",
-    "sqlite3": "^5.0.2",
-    "toml": "^3.0.0",
-    "winston": "^3.2.1",
-    "winston-daily-rotate-file": "^4.5.2",
-    "yiff": "^2.0.2",
-    "yiffy": "^2.0.8",
-    "ytdl-core": "^4.4.5"
+    "ascii-table": "^0.0.9",
+    "colors": "^1.4.0",
+    "discord.js": "^13.1.0",
+    "glob": "^7.1.7",
+    "moment": "^2.29.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7",
-    "prompt": "^1.1.0"
+    "nodemon": "^2.0.7"
   },
   "nodemonConfig": {
     "ignore": [
