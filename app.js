@@ -17,9 +17,9 @@ const client = new Client({
 });
 module.exports = client;
 
-const config = require("./config/config.json");
+const config = require("./settings/config.json");
 
-const ee = require("./config/embed.json");
+const ee = require("./settings/embed.json");
 const prefix = config.prefix;
 const token = config.token;
 // Global Variables
