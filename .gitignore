@@ -11,3 +11,4 @@ start_win.bat
 update_linux.sh
 update_win.bat
 *.env
+package-lock.json
