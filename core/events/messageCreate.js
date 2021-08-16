@@ -1,5 +1,6 @@
 const {globalPrefix, ownerIDs} = require('../modules/bootloader');
 
+const {storeHandler} = require('../modules/storehandler');
 
 module.exports = {
 	name: 'messageCreate',
@@ -15,7 +16,13 @@ module.exports = {
         prefix = globalPrefix;
       } else {
         // check the guild-level prefix
-        const guildPrefix = await prefixes.get(message.guild.id);
+        let data = {
+          mode: 'r', // single character only!
+          guild: message.guild
+        };  
+        const guildSettings = await storeHandler(data, client);
+        console.log(JSON.stringify(guildSettings));
+        const {guildPrefix} = guildSettings;
         if (message.content.startsWith(guildPrefix)) prefix = guildPrefix;
       }
 
