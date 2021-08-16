@@ -8,26 +8,30 @@ async function storeHandler(data, client) {
   function verifyGuildObject(object) {
     if (!object.guild || typeof object.guild !== 'object') {
       console.error("Undefined or incorrect data type for 'guild'!");
-    }
+    };  
+  };
+  function verifySettingsObject(object) {
     if (!object.settings || typeof object.settings !== 'object') {
       console.error("Undefined or incorrect data type for 'settings'!");
-    }
-  };
+    };
+  }
   let settingsObject;
-  if (data.mode.match(/r[ead]+/gi)) {
+  console.warn('Updating database... this may take a while.');
+  if (data.mode === 'r') {
     verifyGuildObject(data);
     settingsObject = await guildStore.get(data.guild.id);
-    return settingsObject;
+    return res = settingsObject;
   } else
-  if (data.mode.match(/w[rite]+/gi)) {
+  if (data.mode === 'w') {
     verifyGuildObject(data);
     await guildStore.set(data.guild.id, data.settings);
   } else
-  if (data.mode.match(/g[enerate]+/gi)) {
-    let guilds = client.guilds.cache.map(g => g.id);
-    guilds.forEach(async (guild) => {
+  if (data.mode === 'g') {
+    let guilds = data.guilds;
+    guilds.forEach(async (guildId) => {
+      console.log(`parsing ${guildId} of guilds`)
       let settings = guildSettings;
-      await guildStore.set(data.guild.id, settings);
+      await guildStore.set(guildId, settings);
     });
   };
 };
