@@ -1,0 +1,40 @@
+{
+  "prefix": "",
+  "settings": {
+    "announcer": {
+      "enableAnnouncer": false,
+      "trackEvents": {
+        "joinEvent": false,
+        "leaveEvent": false,
+        "kickEvent": false,
+        "banEvent": false
+      },
+      "notifsChannel": "",
+      "eventMsgTxt": {
+        "joinMsg": "@user has joined the server.",
+        "leaveMsg": "@user has left the server.",
+        "kickMsg": "@user was kicked from the server.",
+        "banMsg": "@user was banned from the server."
+      }
+    },
+    "automod": {
+      "enableAutoMod": false,
+      "chListMode": "whitelist",
+      "channelsList": [],
+      "urlBlacklist": [],
+      "mediaTrackers": {
+        "removeGifs": false,
+        "removeImgs": false,
+        "removeUrls": false
+      }
+    },
+    "chatbot": {
+      "enableChatBot": false,
+      "chatBotOpts": {
+        "name": "",
+        "gender": ""
+      },
+      "chatChannels": []
+    }
+  }
+}

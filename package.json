@@ -1,38 +1,30 @@
 {
-  "name": "corabot",
-  "version": "4.0.0-alpha1",
-  "description": "NovaLynxie's Personal Discord Bot",
+  "name": "zeonbot",
+  "version": "1.0.0",
+  "description": "Experimental Discord.JS v13 bot.",
   "main": "app.js",
   "scripts": {
-    "start": "node index.js || node .",
-    "dev": "nodemon index.js || nodemon ."
+    "start": "node .",
+    "dev": "nodemon ."
   },
   "keywords": [
-    "Discord.JS",
-    "Commando",
-    "Node.JS",
-    "Discord"
+    "discord.js",
+    "v13",
+    "bot"
   ],
-  "homepage": "https://github.com/NovaLynxie/CoraBot_Main#readme",
-  "repository": "github:NovaLynxie/CoraBot_Main",
   "author": "NovaLynxie",
   "license": "ISC",
   "dependencies": {
-    "ascii-table": "^0.0.9",
-    "colors": "^1.4.0",
+    "@discordjs/builders": "^0.5.0",
+    "@discordjs/rest": "0.1.0-canary.0",
+    "@keyv/sqlite": "^2.0.2",
+    "discord-api-types": "^0.22.0",
     "discord.js": "^13.1.0",
-    "glob": "^7.1.7",
-    "moment": "^2.29.1"
+    "keyv": "^4.0.3",
+    "toml": "^3.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "cora/commands/*",
-      "data/*",
-      "logs/*"
-    ],
-    "delay": "2500"
+    "node": "^16.6.1",
+    "nodemon": "^2.0.12"
   }
 }
