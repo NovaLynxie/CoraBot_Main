@@ -1,0 +1,23 @@
+# Bot Authentication Configuration.
+
+# ALWAYS KEEP THESE SECURE! NEVER SHARE WITH ANYONE!
+# If they are leaked, regenerate a new one as soon as possible.
+[credentials]
+
+  [discord]
+  # Discord Credentials.
+  # Discord API token. Required for bot to interact with Discord's API.
+  discordToken='<DISCORDTOKEN>'
+  # Discord client secret. Used for OAuth verification.
+  clientSecret='<CLIENTSECRET>'
+  # Dashboard session secret. Unique key for identification.
+  sessionSecret='<SESSIONSECRET>'
+
+  [external]
+  # API Keys. Used to authenticate access to modules using these resources.
+  # Yiffy API -> Obtain key here [to be confirmed]
+  yiffyApiKey='<YIFFYAPIKEY>'
+  # CheweyBot API -> Obtain key here [https://discord.gg/ubHYJ7w]
+  cheweyApiToken='<CHEWEYAPITOKEN>'
+  # Youtube Data API -> Setup your key at Google Cloud Dashboard.
+  youtubeApiKey='<YOUTUBEAPIKEY>'
