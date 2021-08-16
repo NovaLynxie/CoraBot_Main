@@ -1,22 +1,6 @@
 const toml = require('toml');
 const fs = require('fs');
 
-// Generates data and storage directories.
-fs.mkdir('./data/storage', {recursive: true}, (err) => {
-  if (err) {
-      return console.error(err);
-  }
-  console.log('./data/storage generated');
-});
-// Generates bot settings directory.
-fs.mkdir('./settings', (err) => {
-  if (err) {
-    if (err.code === 'EEXIST') return;
-    else return console.error(err);
-  }
-  console.log('./settings generated');
-});
-
 let authCfgData, mainCfgData;
 try {
   authCfgData = toml.parse(fs.readFileSync('./settings/auth.toml', 'utf-8'));
@@ -34,7 +18,9 @@ try {
 }
 
 var {discordToken, ytApiKey} = authCfgData;
-if (!discordToken) discordToken = process.env.DISCORD_TOKEN;
+if (!discordToken || discordToken === 'NOT_SET') {
+  discordToken = process.env.DISCORD_TOKEN;
+}
 
 const {general} = mainCfgData;
 var {globalPrefix, ownerIDs} = general;
