@@ -14,9 +14,9 @@ async function storeHandler(data, client) {
     if (!object.settings || typeof object.settings !== 'object') {
       console.error("Undefined or incorrect data type for 'settings'!");
     };
-  }
-  let settingsObject;
+  };
   console.warn('Updating database... this may take a while.');
+  let settingsObject;
   if (data.mode === 'r') {
     verifyGuildObject(data);
     settingsObject = await guildStore.get(data.guild.id);
@@ -34,5 +34,6 @@ async function storeHandler(data, client) {
       await guildStore.set(guildId, settings);
     });
   };
+  console.info('Finished updating database.');
 };
 module.exports = {storeHandler};
