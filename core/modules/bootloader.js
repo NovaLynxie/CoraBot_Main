@@ -17,7 +17,8 @@ try {
   console.warn('Cannot proceed with bot boot up.')
 }
 
-var {discordToken, ytApiKey} = authCfgData;
+var {discord} = authCfgData.credentials;
+var {discordToken, ytApiKey} = discord;
 if (!discordToken || discordToken === 'NOT_SET') {
   discordToken = process.env.DISCORD_TOKEN;
 }
