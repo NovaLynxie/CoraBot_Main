@@ -29,7 +29,7 @@ async function storeHandler(data, client) {
   if (data.mode === 'g') {
     let guilds = data.guilds;
     guilds.forEach(async (guildId) => {
-      console.log(`parsing ${guildId} of guilds`)
+      console.debug(`Parsing ${guildId} of guilds`);
       let settings = guildSettings;
       await guildStore.set(guildId, settings);
     });
