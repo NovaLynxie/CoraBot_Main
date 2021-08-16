@@ -34,49 +34,63 @@ for (const file of eventFiles) {
 // Define command directory paths here.
 const prefixCmdDir = './core/commands/prefixcmds';
 const slashCmdDir = './core/commands/slashcmds';
-// Load prefix-based commands from command files.
-readdirSync(prefixCmdDir).forEach(subDir => {
-  
-  let dirPath = `${msgCmdDir}/${subDir}/`;
-  var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
-  for (const file of cmdfiles) {
-    console.log(`Parsing ${file} of ${subDir} in prefixcmds`);
-    console.log(`cmdfile -> ${file}`);
-    const cmd = require(`${dirPath}/${file}`);
-    if (cmd.data) {
-      if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
-        client.prefixcmds.set(cmd.data.name, cmd);
+
+try {
+  // Load prefix-based commands from command files.
+  readdirSync(prefixCmdDir).forEach(subDir => {
+    
+    let dirPath = `${msgCmdDir}/${subDir}/`;
+    var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
+    for (const file of cmdfiles) {
+      console.log(`Parsing ${file} of ${subDir} in prefixcmds`);
+      console.log(`cmdfile -> ${file}`);
+      const cmd = require(`${dirPath}/${file}`);
+      if (cmd.data) {
+        if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
+          client.prefixcmds.set(cmd.data.name, cmd);
+        } else {
+          console.error('Command name tag invalid type!');
+        };
       } else {
-        console.error('Command name tag invalid type!');
+        console.error('Missing cmd.data! Skipping invalid command file.');
       };
-    } else {
-      console.error('Missing cmd.data! Skipping invalid command file.');
     };
-  };
-});
+  });
+} catch (error) {
+  console.error(`${error.code} ${error.message}`);
+  console.error('Unable to find prefixcmds directory! It is either missing or a permission error has occured.');
+  console.warn("Skipping loading directory 'prefixcmds'. Please inform developers!")
+}
+
 // Load slash commands from command files.
 let commands = [];
-readdirSync(slashCmdDir).forEach(subDir => {
-  let dirPath = `${slashCmdDir}/${subDir}/`;
-  var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
-  for (const file of cmdfiles) {
-    console.log(`Parsing ${file} of ${subDir} in slashcmds`);
-    console.log(`cmdfile -> ${file}`);
-    const cmd = require(`${dirPath}/${file}`);
+try {
+  readdirSync(slashCmdDir).forEach(subDir => {
+    let dirPath = `${slashCmdDir}/${subDir}/`;
+    var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
+    for (const file of cmdfiles) {
+      console.log(`Parsing ${file} of ${subDir} in slashcmds`);
+      console.log(`cmdfile -> ${file}`);
+      const cmd = require(`${dirPath}/${file}`);
 
-    commands.push(cmd.data);
+      commands.push(cmd.data);
 
-    if (cmd.data) {
-      if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
-        client.slashcmds.set(cmd.data.name, cmd);
+      if (cmd.data) {
+        if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
+          client.slashcmds.set(cmd.data.name, cmd);
+        } else {
+          console.error('Command name tag invalid type!');
+        };
       } else {
-        console.error('Command name tag invalid type!');
+        console.error('Missing cmd.data! Skipping invalid command file.');
       };
-    } else {
-      console.error('Missing cmd.data! Skipping invalid command file.');
     };
-  };
-});
+  });
+} catch (error) {  
+  console.error(`${error.code} ${error.message}`);
+  console.error('Unable to find slashcmds directory! It is either missing or a permission error has occured.');
+  console.warn("Skipping loading directory 'slashcmds'. Please inform developers as this should not happen!")
+}
 
 let clientId = '362941748923727872', guildId = process.env.devGuildId || '694830379756027924';
 const rest =  new REST({ version: '9' }).setToken(discordToken);
