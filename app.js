@@ -141,7 +141,7 @@ process.on('uncaughtException', error => {
 });
 
 console.log('Logging into Discord.')
-client.login().then(console.log('Awaiting API Response...'))
+client.login(discordToken).then(console.log('Awaiting API Response...'))
 .catch((error)=>{
   console.warn('Unable to connect to Discord!');
   console.error(error.message);
