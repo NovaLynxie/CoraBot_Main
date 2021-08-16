@@ -23,7 +23,9 @@
     "discord-api-types": "^0.22.0",
     "discord.js": "^13.1.0",
     "keyv": "^4.0.3",
-    "toml": "^3.0.0"
+    "toml": "^3.0.0",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.5"
   },
   "devDependencies": {
     "node": "^16.6.1",
