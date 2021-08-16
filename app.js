@@ -41,6 +41,7 @@ readdirSync(prefixCmdDir).forEach(subDir => {
   var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
   for (const file of cmdfiles) {
     console.log(`Parsing ${file} of ${subDir} in prefixcmds`);
+    console.log(`cmdfile -> ${file}`);
     const cmd = require(`${dirPath}/${file}`);
     if (cmd.data) {
       if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
@@ -60,12 +61,7 @@ readdirSync(slashCmdDir).forEach(subDir => {
   var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
   for (const file of cmdfiles) {
     console.log(`Parsing ${file} of ${subDir} in slashcmds`);
-    console.log(`file -> ${file}`);
-    try {
-      console.log(JSON.stringify(file));
-    } catch (error) {
-      // do nothing..
-    };
+    console.log(`cmdfile -> ${file}`);
     const cmd = require(`${dirPath}/${file}`);
 
     commands.push(cmd.data);
@@ -82,7 +78,7 @@ readdirSync(slashCmdDir).forEach(subDir => {
   };
 });
 
-let clientId = '362941748923727872', guildId = '694830379756027924';
+let clientId = '362941748923727872', guildId = process.env.devGuildId || '694830379756027924';
 const rest =  new REST({ version: '9' }).setToken(discordToken);
 
 (async () => {
