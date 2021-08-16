@@ -14,20 +14,19 @@ Don't worry, I also come with a help command so you can find out what commands I
 ***WARNING! CoraBot v4 is not backwards compatible with v3.x.x and older versions since there are multiple breaking changes to how it runs! No support will be offered if you do not install it correctly!***  
 *If you have v3 or older installed, please backup before upgrading or install in a different directory!*
 ### Requirements
-- Node.js v12 or higher.
-- FFmpeg v4 or higher.
-- privileged Intents enabled on Discord Bot User! (3.x.x ONLY!)
+- Node.js v16 or higher - Discord.js v13 requires this!!
+- FFmpeg v4 or higher - For voice channel support. (Not Yet Implemented)
+- privileged Intents enabled on Discord Bot User!
 
 FFmpeg is required for all voice interactions to work correctly.
 
 To setup a local host instance, clone this repository, navigate to the bot's directory root and open a command line, and type either of the following:  
 1. Use `npm install` if setting up for the first time.  
-2. Use `npm clean-install` if upgrading from CoraBot v2. (BACKUP FIRST!)
+2. Use `npm clean-install` if upgrading from an older version of CoraBot. (BACKUP FIRST!)
 
 This will install all required modules for the bot to run correctly. *Option 2 will take longer as it has to check for existing modules.*
 
 Once installation is completed, run this command: `npm run setup`.  
-This will start the setup utility, follow the on-screen prompts to complete the bot setup process.  
+This will start the setup utility, follow the on-screen prompts to complete the bot setup process. (Not yet implemented!)  
 **IMPORTANT!!**
 **Privileged intents are required for the bot to start. Check you have it enabled for your bot user before starting or the bot WILL crash!**
-
