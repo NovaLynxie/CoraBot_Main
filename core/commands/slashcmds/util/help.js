@@ -6,16 +6,13 @@ module.exports = {
     description: "Provides a useful help embed and button menu!"
   },
 	async execute(interaction, client) {
-    console.log(MessageActionRow);
-    const row = new MessageActionRow
-    /*
+    const row = new MessageActionRow()
       .addComponents(
         new MessageButton()
           .setCustomId('primary')
           .setLabel('Primary')
           .setStyle('PRIMARY')
       );
-    */
     const helpEmbed = {
       color: '#0099ff',
       title: 'Help Menu',
@@ -30,7 +27,7 @@ module.exports = {
     await interaction.reply(
       { 
         embeds: [helpEmbed, embed],
-        //components: [row],
+        components: [row],
       }
     );
 	},
