@@ -58,7 +58,7 @@ try {
     };
   });
 } catch (error) {
-  logger.error(error.message);
+  logger.error(error.message); logger.debug(error.stack);
   logger.error('Unable to find prefixcmds directory!');
   logger.warn('It is either missing or a permission error has occured.');
   logger.warn("Skipping loading directory 'prefixcmds'.");
@@ -89,7 +89,7 @@ try {
     };
   });
 } catch (error) {  
-  logger.error(error.message);
+  logger.error(error.message); logger.debug(error.stack);
   logger.error('Unable to find slashcmds directory!');
   logger.warn('It is either missing or a permission error has occured.');
   logger.warn("Skipping loading directory 'slashcmds'.");
