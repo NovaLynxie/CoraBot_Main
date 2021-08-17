@@ -31,15 +31,15 @@ module.exports = function crashReporter (error) {
   ${randomMsg}
     Caused by: ${error}
     Stacktrace:
-      ${stack}`
+      ${stack}`;
 
   fs.writeFile(filepath, crashdata, function(error) {
     if (error) {
       let stack = error.stack;
-      logger.error(`Something went wrong while writing crash report!`)
-      logger.error(`Caused by: ${error}`)
-      logger.warn(`Error details may have been lost, check console.`)
-    }
-    logger.warn(`Log saved to ${filepath}`)
+      logger.error(`Something went wrong while writing crash report!`);
+      logger.error(`Caused by: ${error.message}`); logger.debug(stack);
+      logger.warn(`Error details may have been lost, check console.`);
+    };
+    logger.warn(`Log saved to ${filepath}`);
   });
 };

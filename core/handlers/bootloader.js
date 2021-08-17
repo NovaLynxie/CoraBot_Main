@@ -1,9 +1,19 @@
 const logger = require('../plugins/winstonplugin.js');
-const toml = require('toml');
-const fs = require('fs');
+const toml = require('toml'); const fs = require('fs');
+const {version} = require('../../package.json');
 
 let authConfig, mainConfig; var fileData;
 let authLoaded = false, mainLoaded = false;
+
+// Check if NodeJS version is the right one BEFORE even starting.
+logger.debug('System Version Diagnostics.');
+logger.debug(`NodeJS: ${process.version}`);
+logger.debug(`App Version: ${version}`);
+
+const NODE_MAJOR_VERSION = process.versions.node.split('.')[0];
+if (NODE_MAJOR_VERSION < 16) {
+  throw new Error('Requires Node 16 (or higher)');
+};
 
 try {
   fileData = fs.readFileSync('./settings/auth.toml', 'utf-8');

@@ -121,7 +121,8 @@ process.on('unhandledRejection', error => {
 process.on('uncaughtException', error => {
   // Error thrown and logged to console window.
   logger.error(`Bot crashed! Check below for crash error data!`);
-  logger.error(error);
+  logger.error(error.message); logger.debug(error.stack);
+  process.exit(1);
 });
 
 logger.info('Logging into Discord.')
