@@ -1,4 +1,5 @@
 const logger = require('./core/plugins/winstonplugin');
+const { readdirSync } = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { loadPrefixCmds, loadSlashCmds } = require('./core/handlers/cmdloader');
 
