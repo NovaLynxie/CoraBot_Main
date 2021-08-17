@@ -29,7 +29,7 @@ for (const file of eventFiles) {
 		client.once(event.name, (...args) => event.execute(...args, client));
 	} else {
 		client.on(event.name, (...args) => event.execute(...args, client));
-	}
+	};
 };
 
 // Define command directory paths here.
@@ -62,7 +62,7 @@ try {
   logger.error('Unable to find prefixcmds directory!');
   logger.warn('It is either missing or a permission error has occured.');
   logger.warn("Skipping loading directory 'prefixcmds'.");
-}
+};
 
 // Load slash commands from command files.
 let commands = [];
@@ -93,7 +93,7 @@ try {
   logger.error('Unable to find slashcmds directory!');
   logger.warn('It is either missing or a permission error has occured.');
   logger.warn("Skipping loading directory 'slashcmds'.");
-}
+};
 
 let clientId = '362941748923727872', guildId = process.env.devGuildId || '694830379756027924';
 const rest =  new REST({ version: '9' }).setToken(discordToken);
