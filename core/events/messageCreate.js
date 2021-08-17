@@ -21,7 +21,6 @@ module.exports = {
           guild: message.guild
         };  
         const guildSettings = await storeHandler(data, client);
-        console.log(JSON.stringify(guildSettings));
         const {guildPrefix} = guildSettings;
         if (message.content.startsWith(guildPrefix)) prefix = guildPrefix;
       }
