@@ -13,6 +13,8 @@
     "v13",
     "bot"
   ],
+  "homepage": "https://github.com/NovaLynxie/CoraBot_Main#readme",
+  "repository": "github:NovaLynxie/CoraBot_Main",
   "author": "NovaLynxie",
   "license": "ISC",
   "dependencies": {
@@ -22,6 +24,7 @@
     "common-tags": "^1.8.0",
     "discord-api-types": "^0.22.0",
     "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
     "keyv": "^4.0.3",
     "toml": "^3.0.0",
     "winston": "^3.3.3",

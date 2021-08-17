@@ -1,3 +1,4 @@
+const logger = require('../plugins/winstonplugin.js');
 const Keyv = require('keyv');
 const clientStore = new Keyv({ store: new Keyv('sqlite://data/storage/settings.db'), namespace: 'clientSettings' });
 const guildStore = new Keyv({ store: new Keyv('sqlite://data/storage/settings.db'), namespace: 'guildSettings' });

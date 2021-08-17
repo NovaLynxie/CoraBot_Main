@@ -1,3 +1,4 @@
+const logger = require('../plugins/winstonplugin.js');
 const toml = require('toml');
 const fs = require('fs');
 
