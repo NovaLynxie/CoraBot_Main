@@ -1,6 +1,7 @@
 const logger = require('../plugins/winstonplugin');
 const {config} = require('../handlers/bootloader');
 const {debug, dashboard} = config;
+const {enableDash, dashSrvPort, reportOnly} = dashboard;
 const {storeHandler} = require('../handlers/storehandler');
 module.exports = {
 	name: 'ready',
@@ -15,8 +16,8 @@ module.exports = {
       "clientID" : client.application.id,
       "oauthSecret" : process.env.clientSecret,
       "sessionSecret" : process.env.sessionSecret || 'ZeonX64',
-      "botDomain" : process.env.botDomain || botDomain,
-      "callbackURL" : process.env.callbackURL || callbackURL
+      "botDomain" : process.env.botDomain || `https://localhost:${dashSrvPort}`,
+      "callbackURL" : process.env.callbackURL || `https://localhost:${dashSrvPort}/auth/discord/callback`
     };
     // Start dashsrv to handle heartbeat ping requests. (eg. UptimeRobot)
     try {
@@ -26,11 +27,11 @@ module.exports = {
         require('../dashboard/dashsrv.js')(client, dashConfig);
       }
     } catch (err) {
-      // fallback to websrv silently if fails.
+      // fallback to basicsrv silently if fails.
       logger.error('Dashboard service failed to start!');
       logger.warn('Dashboard cannot be loaded. Report this to the developers!');
       logger.debug(err.stack);
-      require('../internal/websrv.js');
+      require('../dashboard/basicsrv.js');
     };
     let guilds = client.guilds.cache.map(g => g.id);
     let data = {
