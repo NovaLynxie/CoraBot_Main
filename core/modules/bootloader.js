@@ -10,18 +10,18 @@ try {
   authConfig = toml.parse(fileData);
   authLoaded = true;
 } catch (err) {
-  console.error('Failed to load auth.toml configuration!');
-  console.error(err.message); console.debug(err.stack);
-  console.warn('Falling back to environment variables.');
+  logger.error('Failed to load auth.toml configuration!');
+  logger.error(err.message); logger.debug(err.stack);
+  logger.warn('Falling back to environment variables.');
 }
 try {
   fileData = fs.readFileSync('./settings/main.toml', 'utf-8');
   mainConfig = toml.parse(fileData);
   mainLoaded = true;
 } catch (err) {
-  console.error('Failed to load main.toml configuration!');
-  console.error(err.message); console.debug(err.stack);
-  console.warn('Cannot proceed with bot boot up.')
+  logger.error('Failed to load main.toml configuration!');
+  logger.error(err.message); logger.debug(err.stack);
+  logger.warn('Cannot proceed with bot boot up.')
 }
 
 var general = {}; var globalPrefix = '', ownerIDs = [];

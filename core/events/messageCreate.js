@@ -1,5 +1,5 @@
+const logger = require('../plugins/winstonplugin');
 const {globalPrefix, ownerIDs} = require('../modules/bootloader');
-
 const {storeHandler} = require('../modules/storehandler');
 
 module.exports = {

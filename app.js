@@ -1,3 +1,4 @@
+const logger = require('./core/plugins/winstonplugin');
 const { Client, Collection, Intents } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
@@ -42,25 +43,25 @@ try {
     let dirPath = `${msgCmdDir}/${subDir}/`;
     var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
     for (const file of cmdfiles) {
-      console.log(`Parsing ${file} of ${subDir} in prefixcmds`);
-      console.log(`cmdfile -> ${file}`);
+      logger.debug(`Parsing ${file} of ${subDir} in prefixcmds`);
+      logger.debug(`cmdfile -> ${file}`);
       const cmd = require(`${dirPath}/${file}`);
       if (cmd.data) {
         if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
           client.prefixcmds.set(cmd.data.name, cmd);
         } else {
-          console.error('Command name tag invalid type!');
+          logger.error('Command name tag invalid type!');
         };
       } else {
-        console.error('Missing cmd.data! Skipping invalid command file.');
+        logger.error('Missing cmd.data! Skipping invalid command file.');
       };
     };
   });
 } catch (error) {
-  console.error(error.message);
-  console.error('Unable to find prefixcmds directory!');
-  console.warn('It is either missing or a permission error has occured.');
-  console.warn("Skipping loading directory 'prefixcmds'.");
+  logger.error(error.message);
+  logger.error('Unable to find prefixcmds directory!');
+  logger.warn('It is either missing or a permission error has occured.');
+  logger.warn("Skipping loading directory 'prefixcmds'.");
 }
 
 // Load slash commands from command files.
@@ -70,8 +71,8 @@ try {
     let dirPath = `${slashCmdDir}/${subDir}/`;
     var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
     for (const file of cmdfiles) {
-      console.log(`Parsing ${file} of ${subDir} in slashcmds`);
-      console.log(`cmdfile -> ${file}`);
+      logger.debug(`Parsing ${file} of ${subDir} in slashcmds`);
+      logger.debug(`cmdfile -> ${file}`);
       const cmd = require(`${dirPath}/${file}`);
 
       commands.push(cmd.data);
@@ -80,18 +81,18 @@ try {
         if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
           client.slashcmds.set(cmd.data.name, cmd);
         } else {
-          console.error('Command name tag invalid type!');
+          logger.error('Command name tag invalid type!');
         };
       } else {
-        console.error('Missing cmd.data! Skipping invalid command file.');
+        logger.error('Missing cmd.data! Skipping invalid command file.');
       };
     };
   });
 } catch (error) {  
-  console.error(error.message);
-  console.error('Unable to find slashcmds directory!');
-  console.warn('It is either missing or a permission error has occured.');
-  console.warn("Skipping loading directory 'slashcmds'.");
+  logger.error(error.message);
+  logger.error('Unable to find slashcmds directory!');
+  logger.warn('It is either missing or a permission error has occured.');
+  logger.warn("Skipping loading directory 'slashcmds'.");
 }
 
 let clientId = '362941748923727872', guildId = process.env.devGuildId || '694830379756027924';
@@ -99,33 +100,33 @@ const rest =  new REST({ version: '9' }).setToken(discordToken);
 
 (async () => {
   try {
-    console.log('Started refreshing application (/) commands.');
+    logger.debug('Started refreshing application (/) commands.');
     await rest.put(
       Routes.applicationGuildCommands(clientId, guildId),
       { body: commands },
     );
-    console.log('Successfully reloaded application (/) commands.');
+    logger.debug('Successfully reloaded application (/) commands.');
   } catch (error) {
-    console.error('Unable to refresh application (/) commands!')
-    console.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
+    logger.error('Unable to refresh application (/) commands!')
+    logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
   }
 })();
 
 // Catch unhandled exceptions and rejections not caught by my code to avoid crashes.
 process.on('unhandledRejection', error => {
-  console.warn(`Uncaught Promise Rejection Exception thrown!`);
-  console.error(`Caused by: ${error.message}`);
-  console.debug(error.stack);
+  logger.warn(`Uncaught Promise Rejection Exception thrown!`);
+  logger.error(`Caused by: ${error.message}`);
+  logger.debug(error.stack);
 });
 process.on('uncaughtException', error => {
   // Error thrown and logged to console window.
-  console.error(`Bot crashed! Check below for crash error data!`);
-  console.error(error);
+  logger.error(`Bot crashed! Check below for crash error data!`);
+  logger.error(error);
 });
 
-console.log('Logging into Discord.')
-client.login(discordToken).then(console.log('Awaiting API Response...'))
+logger.info('Logging into Discord.')
+client.login(discordToken).then(logger.debug('Awaiting API Response...'))
 .catch((error)=>{
-  console.warn('Unable to connect to Discord!');
-  console.error(error.message);
+  logger.warn('Unable to connect to Discord!');
+  logger.error(error.message);
 });

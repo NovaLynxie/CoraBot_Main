@@ -8,15 +8,15 @@ const guildSettings = require('../assets/json/guildSettings.json');
 async function storeHandler(data, client) {
   function verifyGuildObject(object) {
     if (!object.guild || typeof object.guild !== 'object') {
-      console.error("Undefined or incorrect data type for 'guild'!");
+      logger.error("Undefined or incorrect data type for 'guild'!");
     };  
   };
   function verifySettingsObject(object) {
     if (!object.settings || typeof object.settings !== 'object') {
-      console.error("Undefined or incorrect data type for 'settings'!");
+      logger.error("Undefined or incorrect data type for 'settings'!");
     };
   };
-  console.warn('Updating database... this may take a while.');
+  logger.warn('Updating database... this may take a while.');
   let settingsObject;
   if (data.mode === 'r') {
     verifyGuildObject(data);
@@ -30,11 +30,11 @@ async function storeHandler(data, client) {
   if (data.mode === 'g') {
     let guilds = data.guilds;
     guilds.forEach(async (guildId) => {
-      console.debug(`Parsing ${guildId} of guilds`);
+      logger.debug(`Parsing ${guildId} of guilds`);
       let settings = guildSettings;
       await guildStore.set(guildId, settings);
     });
   };
-  console.info('Finished updating database.');
+  logger.info('Finished updating database.');
 };
 module.exports = {storeHandler};
