@@ -1,4 +1,3 @@
-const { InteractionResponseType } = require('discord-api-types');
 const { loadPrefixCmds, loadSlashCmds } = require('../../../handlers/cmdloader');
 const logger = require('../../../plugins/winstonplugin');
 module.exports = {
