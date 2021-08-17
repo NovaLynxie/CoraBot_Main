@@ -1,7 +1,7 @@
 module.exports = {
   data: {
     name: 'reload',
-    aliases: ['refresh']
+    aliases: ['refresh'],
     category: 'util',
     description: "Allows reload of all commands without restarting bot."
   },
