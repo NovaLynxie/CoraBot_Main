@@ -5,14 +5,18 @@ const {version} = require('../../package.json');
 let authConfig, mainConfig; var fileData;
 let authLoaded = false, mainLoaded = false;
 
-// Check if NodeJS version is the right one BEFORE even starting.
+// Display version information here for easier diagnostics.
+logger.debug('==========================================================');
 logger.debug('System Version Diagnostics.');
-logger.debug(`NodeJS: ${process.version}`);
-logger.debug(`App Version: ${version}`);
-
+logger.debug(`NodeJS: v${process.versions.node}`);
+logger.debug(`App Version: v${version}`);
+logger.debug('==========================================================');
+// Check if NodeJS version is the right one BEFORE even starting.
 const NODE_MAJOR_VERSION = process.versions.node.split('.')[0];
-if (NODE_MAJOR_VERSION < 16) {
-  throw new Error('Requires Node 16 (or higher)');
+const NODE_MINOR_VERSION = process.versions.node.split('.')[1];
+if (NODE_MAJOR_VERSION < 16 || NODE_MINOR_VERSION < 6) {
+  logger.fatal('This app requires NodeJS v16.6.0 or higher to work correctly!');
+  throw new Error('Requires Node 16.6.0 (or higher)');
 };
 
 try {

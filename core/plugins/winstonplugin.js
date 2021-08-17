@@ -29,8 +29,8 @@ const customLevels = {
     data: 'dim blue',
     dash: 'cyan',
     warn: 'bold yellow',
-    error: 'bold red',
-    severe: 'bold dim red',
+    error: 'red',
+    fatal: 'bold red',
     debug: 'blue',
     verbose: 'magenta'
   }
