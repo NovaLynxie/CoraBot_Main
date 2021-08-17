@@ -19,14 +19,9 @@ module.exports = {
       url: 'https://discord.js.org',
       description: 'WIP! This menu is not yet ready!'
     };
-    const embed = new MessageEmbed()
-			.setColor('#0099ff')
-			.setTitle('Some title')
-			.setURL('https://discord.js.org')
-			.setDescription('Some description here');
     await interaction.reply(
       { 
-        embeds: [helpEmbed, embed],
+        embeds: [helpEmbed],
         components: [row],
       }
     );
