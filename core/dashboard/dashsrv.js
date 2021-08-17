@@ -35,7 +35,7 @@ module.exports = (client, config) => {
     }));
   };
   // Dashboard root directory from bot working directory.
-  const dashDir = path.resolve(`${process.cwd()}/cora/dashboard`);
+  const dashDir = path.resolve(`${process.cwd()}/core/dashboard`);
   // Public and Views resource paths within Dashboard directory.
   const viewsDir = path.resolve(`${dashDir}/views/`)
   const publicDir = path.resolve(`${dashDir}/public/`)
@@ -324,9 +324,9 @@ module.exports = (client, config) => {
   });
 
   app.get("/admin/reset_settings", checkAuth, (req,res) => {
-    // Fetch all settings templates from ./cora/assets/text/
-    var clientSettingsTemplate = fs.readFileSync('./cora/assets/text/clientDefaultSettings.txt', 'utf-8');    
-    var guildSettingsTemplate = fs.readFileSync('./cora/assets/text/guildDefaultSettings.txt', 'utf-8');
+    // Fetch all settings templates from ./core/assets/text/
+    var clientSettingsTemplate = fs.readFileSync('./core/assets/text/clientDefaultSettings.txt', 'utf-8');    
+    var guildSettingsTemplate = fs.readFileSync('./core/assets/text/guildDefaultSettings.txt', 'utf-8');
     // Attempt to parse to a usable Array of objects.
     let clientSettings = JSON.parse("["+clientSettingsTemplate+"]");
     let guildSettings = JSON.parse("["+guildSettingsTemplate+"]");
@@ -507,7 +507,7 @@ module.exports = (client, config) => {
     // Clean up existing settings in the bot's database for guild.
     guild.settings.clear(guild.id);
     // Get settings template here from bot assets/text/ directory.
-    let settingsTemplate = fs.readFileSync('./cora/assets/text/defaultSettings.txt', 'utf-8');
+    let settingsTemplate = fs.readFileSync('./core/assets/text/defaultSettings.txt', 'utf-8');
     let defaultSettings = JSON.parse("[" + settingsTemplate + "]");
     defaultSettings.forEach(setting => {
       logger.data(`Re-generating setting ${setting.name} for ${guild.name}`)
