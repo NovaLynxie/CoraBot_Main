@@ -3,4 +3,6 @@ data/*
 logs/*
 settings/*
 *.env
+*.bat
+*.sh
 package-lock.json
