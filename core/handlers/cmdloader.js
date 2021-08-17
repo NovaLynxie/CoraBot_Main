@@ -1,40 +1,7 @@
-const logger = require('./core/plugins/winstonplugin');
-const { Client, Collection, Intents } = require('discord.js');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const { readdirSync } = require('fs'); 
-
-const {config, credentials} = require('./core/handlers/bootloader');
-const {discordToken} = credentials; const {useLegacyURL} = config;
-
-// Initialise client instance.
-const client = new Client({ 
-  intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES
-  ]
-});
-
-if (useLegacyURL) {
-  logger.warn('Using Legacy API domain. This is not recommended!')
-  client.options.http.api = "https://discordapp.com/api"
-};
-
-// Commands collection object.
-let commandCollections = ["prefixcmds", "slashcmds"];
-commandCollections.forEach(data => client[data] = new Collection());
-
-// Load in events from event files.
-const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
-// Event handler to process discord event triggers.
-for (const file of eventFiles) {
-	const event = require(`./core/events/${file}`);
-	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args, client));
-	} else {
-		client.on(event.name, (...args) => event.execute(...args, client));
-	};
-};
+const logger = require('../plugins/winstonplugin');
+const { readdirSync } = require('fs');
+const { credentials } = require('./bootloader');
+const { discordToken } = credentials;
 
 // Define command directory paths here.
 const prefixCmdDir = './core/commands/prefixcmds';
@@ -63,7 +30,8 @@ try {
   });
 } catch (error) {
   logger.error(error.message); logger.debug(error.stack);
-  logger.error('There was an error loading commands from prefixcmds directory!');
+  logger.error('Unable to find prefixcmds directory!');
+  logger.warn('It is either missing or a permission error has occured.');
   logger.warn("Skipping loading directory 'prefixcmds'.");
 };
 
@@ -93,7 +61,8 @@ try {
   });
 } catch (error) {  
   logger.error(error.message); logger.debug(error.stack);
-  logger.error('There was an error loading commands from slashcmds directory!');
+  logger.error('Unable to find slashcmds directory!');
+  logger.warn('It is either missing or a permission error has occured.');
   logger.warn("Skipping loading directory 'slashcmds'.");
 };
 
@@ -113,23 +82,3 @@ const rest =  new REST({ version: '9' }).setToken(discordToken);
     logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
   }
 })();
-
-// Catch unhandled exceptions and rejections not caught by my code to avoid crashes.
-process.on('unhandledRejection', error => {
-  logger.warn(`Uncaught Promise Rejection Exception thrown!`);
-  logger.error(`Caused by: ${error.message}`);
-  logger.debug(error.stack);
-});
-process.on('uncaughtException', error => {
-  // Error thrown and logged to console window.
-  logger.error(`Bot crashed! Check below for crash error data!`);
-  logger.error(error.message); logger.debug(error.stack);
-  process.exit(1);
-});
-
-logger.info('Logging into Discord.')
-client.login(discordToken).then(logger.debug('Awaiting API Response...'))
-.catch((error)=>{
-  logger.warn('Unable to connect to Discord!');
-  logger.error(error.message);
-});

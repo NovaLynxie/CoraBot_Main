@@ -1,0 +1,50 @@
+// Navigation Bar
+
+// Fetch Bot's Avatar for use.
+- var botAvatar = bot.user.avatarURL()
+// Check if 'user' is defined then fetch User avatar using their id and avatar hash.
+if (user)
+  - var userAvatar = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`
+a(name='top')
+nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
+  .container
+    a.navbar-brand(href='/')
+      img.d-inline-block.rounded-circle(src=botAvatar width='30' height='30' alt=bot.user.username)
+      span.align-middle  #{bot.user.username}
+    button.navbar-toggler.navbar-toggler-right(type='button' data-bs-toggle='collapse' data-bs-target='#navbarColor01' aria-controls='navbarColor01' aria-expanded='false' aria-label='Toggle navigation')
+      span.fas.fa-bars
+      //span.navbar-toggler-icon
+    #navbarColor01.collapse.navbar-collapse
+      ul.navbar-nav.me-auto
+        li.nav-item
+          a.nav-link(href='/') Home
+        li.nav-item
+          a.nav-link(href='/stats') Stats
+        li.nav-item
+          a.nav-link(href='https://github.com/NovaLynxie/CoraBot_Main') GitHub
+      ul.navbar-nav.ms-auto
+        if (user)
+          li.nav-item.dropdown
+            img.d-inline-block.align-middle.rounded-circle(src=userAvatar width='25' height='25' alt=user.username)
+            a#userDropdown.nav-link.dropdown-toggle(href='#' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+            .dropdown-menu.dropdown-menu-end.fade-down(aria-labelledby='userDropdown')
+              h5.dropdown-header
+                i.fa.fa-user(aria-hidden='true')  Hello #{user.username}!
+                .dropdown-divider
+                a.dropdown-item(href='/dashboard')
+                  i.fa.fa-cogs(aria-hidden='true')
+                  |  Dashboard
+                if (isAdmin)
+                  a.dropdown-item(href='/admin')
+                    i.fa.fa-user-secret(aria-hidden='true')
+                    |  Admin
+                .dropdown-divider
+                a.dropdown-item(href='/logout')
+                  i.fa.fa-sign-out(aria-hidden='true')
+                  |  Logout
+
+        else
+          li.nav-item
+            a.nav-link(href='/login')
+              i.fa.fa-key(aria-hidden='true')
+              |  Login

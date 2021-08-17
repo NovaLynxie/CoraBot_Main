@@ -1,0 +1,154 @@
+extends ../blocks/layout
+block content
+  - var {announcerSettings, autoModSettings, chatBotSettings, botLogSettings, modLogSettings} = settings
+  .container
+    include ../blocks/guild-nav
+    block navtab
+      - var activeTab = 'manage'  
+    .jumbotron.text-center
+      h3.display-4 Guild Settings
+      p.lead
+      | This part of the dashboard is not yet completed and may not be functional. 
+      br
+      | You&apos;ll have to use the commands in the meantime to change Cora's settings.
+      br
+      | Sorry about that. - Nova Lynxie
+      .settings-card-base
+        h3 Bot Control Panel
+        .settings-card-modules.settings-card-wrapper
+          h4 Guild Details
+          .guild-details-card
+            h5 Basic Information
+            - iconUrl = (guild.icon) ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` : 'https://via.placeholder.com/128.png?text=No Guild Icon'
+            - bannerUrl = (guild.banner) ? `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.png` : 'https://via.placeholder.com/288x162.png?text=No Guild Banner'
+            img.d-flex.mr-3.rounded-circle.guild-icon(src=iconUrl alt='Guild Icon')
+            img.guild-banner(src=bannerUrl)
+            .guild-details-wrapper
+              p
+              | Name: #{guild.name}
+              br
+              | (ID: #{guild.id})
+              br
+              | Verified: #{(guild.verified)?'Yes':'No'}
+              br
+              - var guildPrefix = (guild._commandPrefix) ? guild._commandPrefix : bot.commandPrefix
+              | Guild Prefix: '#{guildPrefix}'
+              br
+              | Owner: #{guild.members.cache.get(guild.ownerID).user.tag} 
+              br
+              | Members: #{guild.memberCount} (#{guild.members.cache.filter(member => !member.user.bot).size} users #{guild.members.cache.filter(member => member.user.bot).size} bots)
+              br
+              | Region: #{guild.region}
+              br
+              | Locale: #{guild.preferredLocale}
+              
+          .guild-details-card
+            h5 Server Details
+            .guild-details-wrapper
+              h6 Description
+              p
+              | #{(guild.description)?guild.description:'None Set'}
+            .guild-details-wrapper
+              h6 Subscriptions
+              p
+              | Boost Tier: #{guild.premiumTier}
+              | (Total Subs: #{guild.premiumSubscriptionCount})
+              br
+              | Vanity URL
+              br 
+              | Code: #{(guild.vanityURLCode)?guild.vanityURLCode:'N/A'} (Used #{(guild.vanityURLUses)?guild.vanityURLUses:'NaN'} times)
+        .settings-card-modules.settings-card-wrapper
+          h4 Module Settings
+          p.lead Change settings for each module from here. (WIP - Layout may change!)
+          .settings-card-modules.settings-card-block
+            h5 Auto Moderation
+            .settings-text-wrapper
+              | Enabled? #{(autoModSettings.enableAutoMod)?'Yes':'No'}
+              br
+              | Channel List Mode: #{(autoModSettings.chListMode==='whitelist')?'Whitelist':(autoModSettings.chListMode==='blacklist')?'Blacklist':'Not Set!'}
+              br
+              | Media Removal
+              br
+              | Animated Gifs: #{(autoModSettings.mediaOptions.removeGifs)?'Yes':'No'}
+              br
+              | Static Images: #{(autoModSettings.mediaOptions.removeImgs)?'Yes':'No'}
+              br
+              | Links/URLs: #{(autoModSettings.mediaOptions.removeUrls)?'Yes':'No'}
+            table.settings-table-main(border="1")
+              tr
+                th Setting
+                th Value
+              tr
+                td Channels List
+                td #{(autoModSettings.channelsList.length >=1)? `${autoModSettings.channelsList.length} channels` : 'No Channels Set'}
+              tr
+                td URL Blacklist
+                td #{(autoModSettings.urlBlacklist.length >=1)? `${autoModSettings.urlBlacklist.length} URLs` : 'No URLs Set'}
+            br
+            button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingAutoModBotModal') Edit 
+              i.fas.fa-edit
+          .settings-card-modules.settings-card-block
+            h5 Bot Notifications
+            .settings-text-wrapper
+              | Enabled? #{(announcerSettings.enableNotifier)?'Yes':'No'}
+              br
+              | Event Trackers
+              br
+              | Join: #{(announcerSettings.events.join)?'Enabled':'Disabled'}
+              br
+              | Leave: #{(announcerSettings.events.leave)?'Enabled':'Disabled'}
+              br
+              | Kick: #{(announcerSettings.events.kick)?'Enabled':'Disabled'}
+              br
+              | Ban: #{(announcerSettings.events.ban)?'Enabled':'Disabled'}
+              br
+              | Notifs Channel: !{(announcerSettings.notifsChannel) ? guild.channels.cache.find(ch => ch.id === announcerSettings.notifsChannel).name : 'None Set!'}
+            table.settings-table-main(border="1")
+              tr
+                th Event
+                th Message
+              tr
+                td Join
+                td #{announcerSettings.eventMessages.userJoin}
+              tr
+                td Leave
+                td #{announcerSettings.eventMessages.userLeave}
+              tr
+                td Kick
+                td #{announcerSettings.eventMessages.userKick}
+              tr
+                td Ban
+                td #{announcerSettings.eventMessages.userBan}
+            br
+            button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingBotNotifsModal') Edit 
+              i.fas.fa-edit
+          .settings-card-modules.settings-card-block
+            h5 Smart Chat Bot
+            .settings-text-wrapper
+              | Enabled? #{(chatBotSettings.enableChatBot)?'Yes':'No'}
+              br
+              | ChatBot Settings
+              br
+              | Name: #{(chatBotSettings.chatBotUser) ? (chatBotSettings.chatBotUser.botName.length > 0) ? chatBotSettings.chatBotUser.botName[0].toUpperCase() + chatBotSettings.chatBotUser.botName.substring(1) : "Cora" : "N/A"}
+              br
+              | Gender: #{(chatBotSettings.chatBotUser) ? (chatBotSettings.chatBotUser.botGender.length > 0) ? chatBotSettings.chatBotUser.botGender[0].toUpperCase() + chatBotSettings.chatBotUser.botGender.substring(1) : "Female" : "N/A"}
+            table.settings-table-main(border="1")
+              tr
+                th Chat Channels
+              tr
+                td #{(typeof chatBotSettings.chatChannels === 'string') ? `Monitoring 1 chat channel` : (chatBotSettings.chatChannels.length > -1) ? `Monitoring ${chatBotSettings.chatChannels.length} chat channels` : 'No Channels Set'}
+            br
+            button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
+              i.fas.fa-edit
+              
+        .settings-card-modules.danger-block
+          h4 Danger Zone
+          - disableAction
+          p.lead Beware, these are destructive actions!
+            .settings-card-wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
+              h5 Reset Settings
+              a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#settingsResetModal' role='button') RESET
+            .settings-card-wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
+              h5 Leave Guild
+              a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#serverLeaveModal' role='button') LEAVE
+        include ../blocks/guild-manage-modals

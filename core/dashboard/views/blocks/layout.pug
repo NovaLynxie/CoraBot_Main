@@ -1,0 +1,35 @@
+// page master layout
+  Main Dashboard Layout. All page templates extend from this.
+block global_vars
+doctype html
+html(lang="en")
+  head
+    include header
+  body(id="page-top" role="document")
+    // main navigation bar
+    include navbar
+    // flash messages
+    for message in flash
+      - flash.shift();
+      .alert.alert-dismissible.fade.show(role='alert' class='alert-'+message.type)
+        strong
+        | !{message.message}
+        button.btn-close(type='button' data-bs-dismiss='alert' aria-label='Close')
+    .container.bg-base
+      .dev-warning
+        i.fas.fa-exclamation-triangle(aria-hidden='true')
+        | !{'  '} Dashboard is still being developed! Some parts may be missing or incomplete. Things may be added, changed or removed.!{'  '}
+        i.fas.fa-exclamation-triangle(aria-hidden='true')
+      // navigation breadcrumb
+      if breadcrumbs
+        nav.nav-breadcrumb(style='width: 100%; margin: 16px 8px;')
+          .container
+            ol.breadcrumb
+              each crumb, index in breadcrumbs
+                if index == breadcrumbs.length - 1
+                  li(class='breadcrumb-item active' aria-current='page') #{crumb.name}
+                else
+                  li(class='breadcrumb-item') #[a(href=crumb.url) #{crumb.name}]
+      block content
+  block footer
+    include footer

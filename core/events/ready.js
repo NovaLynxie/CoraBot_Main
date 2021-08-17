@@ -1,10 +1,38 @@
 const logger = require('../plugins/winstonplugin');
+const {config} = require('../handlers/bootloader');
+const {debug, dashboard} = config;
 const {storeHandler} = require('../handlers/storehandler');
 module.exports = {
 	name: 'ready',
 	once: true,
 	async execute(client) {
-		logger.info(`Logged in as ${client.user.tag}. Bot Online!`);
+		logger.info(`Logged in as ${client.user.tag}. Bot Online!`);    
+    client.application = await client.fetchApplication();
+    // Prepare configuration for the dashboard service.
+    const dashConfig = {
+      "debug": debug, // used to enable debug console log data.
+      "dashPort": dashSrvPort,
+      "reportOnly": reportOnly,
+      "clientID" : client.application.id,
+      "oauthSecret" : process.env.clientSecret,
+      "sessionSecret" : process.env.sessionSecret || 'ZeonX64',
+      "botDomain" : process.env.botDomain || botDomain,
+      "callbackURL" : process.env.callbackURL || callbackURL
+    };
+    // Start dashsrv to handle heartbeat ping requests. (eg. UptimeRobot)
+    try {
+      logger.verbose(`enableDash=${enableDash}`);
+      if (enableDash) {
+        logger.debug('Initialising dashboard service.');
+        require('../dashboard/dashsrv.js')(client, dashConfig);
+      }
+    } catch (err) {
+      // fallback to websrv silently if fails.
+      logger.error('Dashboard service failed to start!');
+      logger.warn('Dashboard cannot be loaded. Report this to the developers!');
+      logger.debug(err.stack);
+      require('../internal/websrv.js');
+    };
     let guilds = client.guilds.cache.map(g => g.id);
     let data = {
       guilds: guilds,

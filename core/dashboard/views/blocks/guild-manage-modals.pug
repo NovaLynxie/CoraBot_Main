@@ -1,0 +1,284 @@
+// All settings variables for handling settings data.
+- enableAutoMod = (autoModSettings.enableAutoMod) ? 'on' : 'off';
+- enableChatBot = (chatBotSettings.enableChatBot) ? 'on' : 'off';
+- enableNotifier = (announcerSettings.enableNotifier) ? 'on' : 'off';
+//- enableBotLogs = (botLogSettings.enableBotLogs) ? 'on' : 'off';
+//- enableModLogs = (modLogSettings.enableModLogs) ? 'on' : 'off';
+
+// Guild specific information
+- channelData = guild.channels.cache.filter(ch => ch.type === 'text');
+- textChannels = Object.fromEntries(channelData);
+// Manage Page Modals (Edit Settings)
+#settingAutoModBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingAutoModBotModalLabel' aria-hidden='true')
+  form(action=`/dashboard/${guild.id}/manage`, method='POST')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5#settingAutoModBotModalLabel.modal-title Edit Settings
+          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+        .modal-body
+          label.form-label.mt-4 Enable/Disable Module
+          .form-check
+            label.form-check-label
+              if (enableAutoMod==='on')
+                input#optionsRadios1.form-check-input(type='radio' name='enableAutoMod' value='on' checked='')
+                | Enable
+              else
+                input#optionsRadios1.form-check-input(type='radio' name='enableAutoMod' value='on')
+                | Enable
+          .form-check
+            label.form-check-label
+              if (enableAutoMod==='off')
+                input#optionsRadios2.form-check-input(type='radio' name='enableAutoMod' value='off' checked='')
+                | Disable
+              else 
+                input#optionsRadios2.form-check-input(type='radio' name='enableAutoMod' value='off')
+                | Disable
+          label.form-label.mt-4 Channel List Mode
+          .form-check
+            label.form-check-label
+              if (autoModSettings.chListMode==='whitelist')
+                input#optionsRadios1.form-check-input(type='radio' name='chListMode' value='whitelist' checked='')
+                | Whitelist
+              else
+                input#optionsRadios1.form-check-input(type='radio' name='chListMode' value='whitelist')
+                | Whitelist
+          .form-check
+            label.form-check-label
+              if (autoModSettings.chListMode==='blacklist')
+                input#optionsRadios2.form-check-input(type='radio' name='chListMode' value='blacklist' checked='')
+                | Blacklist
+              else 
+                input#optionsRadios2.form-check-input(type='radio' name='chListMode' value='blacklist')
+                | Blacklist
+          .form-group
+            label.form-label.mt-4(for='channelsList') 
+              | Channels List
+              br
+              | Select the channels below by using ctrl + left click
+            select#chatChannels.form-select(multiple='' name='channelsList')
+              for channel in textChannels
+                if (autoModSettings.channelsList.indexOf(channel.id) > -1)
+                  option(value=channel.id selected='') #{channel.name}
+                else
+                  option(value=channel.id) #{channel.name}
+          .form-group
+            label.form-label.mt-4(for='urlsBlacklist') 
+            | URLs Blacklist
+            br
+            | These can be generalised or specific URLs.       
+            br
+            | Example URLs: i.imgur.com/, www.tenor.com/, etc.
+            input#urlsBlacklist.form-control(type='text' name='urlsBlacklist' value=autoModSettings.urlBlacklist.join(",") )
+          label.form-label.mt-4
+          | Media Removal Settings
+          .form-check.form-switch
+            if (autoModSettings.mediaOptions.removeGifs)
+              input#removeGifsSwitch.form-check-input(type='checkbox' name='removeGifs' checked='')
+              label.form-check-label(for='removeGifsSwitch') Remove Gifs?
+            else
+              input#removeGifsSwitch.form-check-input(type='checkbox' name='removeGifs')
+              label.form-check-label(for='removeGifsSwitch') Remove Gifs?
+          .form-check.form-switch
+            if (autoModSettings.mediaOptions.removeImgs)
+              input#removeImgsSwitch.form-check-input(type='checkbox' name='removeImgs' checked='')
+              label.form-check-label(for='removeImgsSwitch') Remove Images?
+            else
+              input#removeImgsSwitch.form-check-input(type='checkbox' name='removeImgs')
+              label.form-check-label(for='removeImgsSwitch') Remove Images?
+          .form-check.form-switch
+            if (autoModSettings.mediaOptions.removeVids)
+              input#removeVidsSwitch.form-check-input(type='checkbox' name='removeVids' checked='' disabled='')
+              label.form-check-label(for='removeVidsSwitch') Remove Videos? (EXPERIMENTAL)
+            else
+              input#removeVidsSwitch.form-check-input(type='checkbox' name='removeVids' disabled)
+              label.form-check-label(for='removeVidsSwitch') Remove Videos? (EXPERIMENTAL)
+          .form-check.form-switch
+            if (autoModSettings.mediaOptions.removeUrls)
+              input#removeUrlsSwitch.form-check-input(type='checkbox' name='removeUrls' checked='')
+              label.form-check-label(for='removeUrlsSwitch') Remove Links/URLs?
+            else
+              input#removeUrlsSwitch.form-check-input(type='checkbox' name='removeUrls')
+              label.form-check-label(for='removeUrlsSwitch') Remove Links/URLs?
+        .modal-footer
+          button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+          button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
+            i.fas.fa-save(aria-hidden='true')
+#settingBotNotifsModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingSmartChatBotModalLabel' aria-hidden='true')
+  form(action=`/dashboard/${guild.id}/manage`, method='POST')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5#settingBotNotifsModalLabel.modal-title Edit Settings
+          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+        .modal-body
+          p.lead Bot Notifications Settings
+          .form-check
+            label.form-check-label
+              if (enableNotifier==='on')
+                input#optionsRadios1.form-check-input(type='radio' name='enableNotifier' value='on' checked='')
+                | Enable
+              else
+                input#optionsRadios1.form-check-input(type='radio' name='enableNotifier' value='on')
+                | Enable
+          .form-check
+            label.form-check-label
+              if (enableNotifier==='off')
+                input#optionsRadios2.form-check-input(type='radio' name='enableNotifier' value='off' checked='')
+                | Disable
+              else 
+                input#optionsRadios2.form-check-input(type='radio' name='enableNotifier' value='off')
+                | Disable
+          label.form-label.mt-4 Event Tracking Settings
+          .form-check.form-switch
+            if (announcerSettings.events.join)
+              input#userJoinToggle.form-check-input(type='checkbox' name='userJoin' checked='')
+              label.form-check-label(for='userJoinToggle') Track User Joins?
+            else
+              input#userJoinToggle.form-check-input(type='checkbox' name='userJoin')
+              label.form-check-label(for='userJoinToggle') Track User Joins?
+            br
+            if (announcerSettings.events.leave)
+              input#userLeaveToggle.form-check-input(type='checkbox' name='userLeave' checked='')
+              label.form-check-label(for='userLeaveToggle') Track User Leaves?
+            else
+              input#userLeaveToggle.form-check-input(type='checkbox' name='userLeave')
+              label.form-check-label(for='userLeaveToggle') Track User Leaves?
+            br
+            if (announcerSettings.events.kick)
+              input#userKickToggle.form-check-input(type='checkbox' name='userKick' checked='')
+              label.form-check-label(for='userKickToggle') Track User Kicked?
+            else
+              input#userKickToggle.form-check-input(type='checkbox' name='userKick')
+              label.form-check-label(for='userKickToggle') Track User Kicked?
+            br
+            if (announcerSettings.events.ban)
+              input#userBanToggle.form-check-input(type='checkbox' name='userBan' checked='')
+              label.form-check-label(for='userBanToggle') Track User Banned?
+            else
+              input#userBanToggle.form-check-input(type='checkbox' name='userBan')
+              label.form-check-label(for='userBanToggle') Track User Banned?
+          .form-group
+            label.form-label.mt-4(for='notifsChannel') Notifications Channel
+            select#notifsChannel.form-select(name='notifsChannel')
+              for channel in textChannels
+                if (announcerSettings.notifsChannel === channel.id)
+                  option(value=channel.id selected='') #{channel.name}
+                else
+                  option(value=channel.id) #{channel.name}
+          .form-group
+            label.form-label.mt-4(for='joinMessage')
+              | Join Message
+              br
+              | Syntax: @user (mention user)
+            input#joinMessage.form-control(type='text' value=announcerSettings.eventMessages.userJoin)
+          .form-group
+            label.form-label.mt-4(for='leaveMessage') 
+              | Leave Message
+              br
+              | Syntax: @user (mention user)
+            input#leaveMessage.form-control(type='text' value=announcerSettings.eventMessages.userLeave)
+          .form-group
+            label.form-label.mt-4(for='kickMessage')
+              | Kick Message
+              br
+              | Syntax: @user (mention user)
+            input#kickMessage.form-control(type='text' value=announcerSettings.eventMessages.userKick)
+          .form-group
+            label.form-label.mt-4(for='banMessage') 
+              | Ban Message
+              br
+              | Syntax: @user (mention user)
+            input#banMessage.form-control(type='text' value=announcerSettings.eventMessages.userBan)
+        .modal-footer
+          button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+          button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
+            i.fas.fa-save(aria-hidden='true')
+#settingSmartChatBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingSmartChatBotModalLabel' aria-hidden='true')
+  form(action=`/dashboard/${guild.id}/manage`, method='POST')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5#settingSmartChatBotModalLabel.modal-title Edit Settings
+          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+        .modal-body
+          fieldset.form-group
+            legend.modal-legend Enable/Disable Module
+            .form-check
+              label.form-check-label
+                if (enableChatBot==='on')
+                  input#optionsRadios1.form-check-input(type='radio' name='enableChatBot' value='on' checked='')
+                  | Enable
+                else
+                  input#optionsRadios1.form-check-input(type='radio' name='enableChatBot' value='on')
+                  | Enable
+            .form-check
+              label.form-check-label
+                if (enableChatBot==='off')
+                  input#optionsRadios2.form-check-input(type='radio' name='enableChatBot' value='off' checked='')
+                  | Disable
+                else 
+                  input#optionsRadios2.form-check-input(type='radio' name='enableChatBot' value='off')
+                  | Disable
+          - chatBotUser = chatBotSettings.chatBotUser
+          fieldset.form-group
+            legend.modal-legend ChatBot Options
+            label.form-label.mt-4(for='chatBotName') 
+            | Name
+            input#urlsBlacklist.form-control(type='text' name='botName' value=chatBotSettings.chatBotUser.botName)
+            .form-check
+              label.form-check-label
+              if (chatBotUser.botGender==='male')
+                  input#optionsRadios2.form-check-input(type='radio' name='botGender' value='male' checked='')
+                  | Male
+              else
+                input#optionsRadios2.form-check-input(type='radio' name='botGender' value='male')
+                | Male
+            .form-check
+              label.form-check-label
+              if (chatBotUser.botGender==='female')
+                  input#optionsRadios2.form-check-input(type='radio' name='botGender' value='female' checked='')
+                  | Female
+              else 
+                input#optionsRadios2.form-check-input(type='radio' name='botGender' value='female')
+                | Female
+          .form-group
+            label.form-label.mt-4(for='chatChannels') 
+              | Chat Channels
+              br
+              | Select the channels below by using ctrl + left click
+            select#chatChannels.form-select(multiple='' name='chatChannels')
+              for channel in textChannels
+                if (chatBotSettings.chatChannels.indexOf(channel.id) > -1)
+                  option(value=channel.id selected='') #{channel.name}
+                else
+                  option(value=channel.id) #{channel.name}
+        .modal-footer
+          button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+          button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
+            i.fas.fa-save(aria-hidden='true')
+// Manage Page Modals (Danger Zone)
+#serverLeaveModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='serverLeaveModalLabel' aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#serverLeaveModalLabel.modal-title Leave Server?
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+      .modal-body
+        p
+          | Are you sure you want #{bot.user.username} to leave this server?
+      .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+        a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/leave` role='button') LEAVE
+#settingsResetModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='settingsResetModalLabel' aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#settingsResetModalLabel.modal-title Reset Settings?
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+      .modal-body
+        p
+          | Are you sure you want to reset to the default settings?
+      .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+        a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/reset` role='button') RESET

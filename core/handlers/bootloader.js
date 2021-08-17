@@ -40,10 +40,11 @@ try {
 
 var general = {}; var globalPrefix = '', ownerIDs = [];
 var discord = {}, discordToken = '', ytApiKey = '';
+var runtime = {};
 
 if (mainLoaded) {
-  var {general} = mainConfig;
-  var {globalPrefix, ownerIDs} = general;
+  var {general, dashboard, runtime} = mainConfig;
+  var {globalPrefix, ownerIDs, useLegacyURL, debug} = general;
 };
 if (authLoaded) {
   var {discord} = authConfig;
@@ -56,4 +57,4 @@ if (authLoaded) {
 };
 
 module.exports.credentials = {discordToken, ytApiKey};
-module.exports.config = {globalPrefix, ownerIDs};
+module.exports.config = {globalPrefix, ownerIDs, useLegacyURL, debug, dashboard};

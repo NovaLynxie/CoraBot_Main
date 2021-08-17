@@ -1,0 +1,46 @@
+// Members Page Modals (Action Kick/Ban)
+#memberBanModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='memberBanModalLabel' aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#memberBanModal.modal-title Kick User?
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+      .modal-body
+        p.main
+          | Are you sure you want to ban this user?
+          br
+          | They will not be able to rejoin on this account.
+      .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+        a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/ban` role='button') CONFIRM
+#memberKickModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='memberKickModalLabel' aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#memberKickModal.modal-title Kick User?
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+          span(aria-hidden='true') &times;
+      .modal-body
+        p.main
+          | Are you sure you want to kick this user?
+          br
+          | They can rejoin with a valid invite link later.
+      .modal-footer
+        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+        a.btn.btn-outline-danger(href=`/dashboard/${guild.id}/kick` role='button') CONFIRM
+script(nonce="memberModals").
+  var memberBanModal = document.getElementById('memberBanModal')
+  var memberKickModal = document.getElementById('memberKickModal')
+  // Member Modal Listeners
+  memberBanModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget; var guildID = '#{guild.id}';
+    var memberID = button.getAttribute('data-bs-memberid'); 
+    var confirmBtn = memberBanModal.querySelector('a.btn.btn-outline-danger')
+    confirmBtn.href = `/dashboard/${guildID}/kick/${memberID}`
+  });
+  memberKickModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget; var guildID = '#{guild.id}'
+    var memberID = button.getAttribute('data-bs-memberid');
+    var confirmBtn = memberKickModal.querySelector('a.btn.btn-outline-danger')
+    confirmBtn.href = `/dashboard/${guildID}/kick/${memberID}`
+  });

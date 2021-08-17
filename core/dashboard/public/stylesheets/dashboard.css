@@ -1,0 +1,232 @@
+.commands-help {
+  padding: 2rem;
+  background-color: rgba(100, 148, 237, 0.233);
+  border-color: rgba(100, 205, 237, 0.425);
+  border-style: solid;
+  border-width: 5px;
+}
+.commands-list {
+  padding: 2rem;
+  background-color: rgba(100, 148, 237, 0.274);
+  border-color: rgba(100, 205, 237, 0.425);
+  border-style: solid;
+  border-width: 5px;
+}
+
+.dev-warning {
+  text-align: center;
+  margin-top: 0.5rem; margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem 0.5rem 2rem;
+  background-color: rgba(255, 101, 40, 0.521);
+  border-color: rgba(255, 72, 0, 0.479);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+}
+
+.edit-settings {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.media {  
+  display: inline-block;
+  padding: 10px;
+  min-height: 200px;
+  min-width: 240px;
+}
+
+
+.roleBox {
+  border-radius: 3px;
+  padding: 0px 3px;
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+
+.status {
+  box-sizing: border-box;
+  border-width: 2px;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+  float: left;
+  vertical-align: middle;
+  margin: 5px;
+}
+
+.online {
+  background-color: #42b581;
+  border-color: #69c49a;
+}
+.idle {
+  background-color: #faa61a;
+  border-color: #fbb848;
+}
+.dnd {
+  background-color: #f04747;
+  border-color: #f36c6c;
+}
+.offline {
+  background-color: #747f8d;
+  border-color: #9099a4;
+}
+
+.guild-card {
+  display: inline-block;
+  padding: 10px;
+  min-height: 200px;
+  min-width: 240px;
+}
+.guild-thumb {
+  margin: 10px;
+  background-color: #2C2F33;
+  border-color: #7289DA;
+  border-radius: 10%;
+  border-style: solid;
+  border-width: 4px;
+}
+.guild-icon {
+  position: absolute;
+  top: 2; left: 3; z-index: 2;
+  margin: 10px;
+  max-height: 96px; 
+  max-width: 96px;
+  background-color: #2C2F33;
+  border-color: #7289DA;
+  border-radius: 10%;
+  border-style: solid;
+  border-width: 4px;
+}
+.guild-banner {
+  position: relative;
+  z-index: 1;
+  max-height: 162px;
+  max-width: 288px;
+  margin-bottom: 12px;
+  background-color: #2C2F33;
+  border-color: #7289DA;
+  border-radius: 5%;
+  border-style: solid;
+  border-width: 4px;
+}
+.guild-details-card {
+  vertical-align: top;
+  min-height: 450px;
+  min-width: 280;
+  display: inline-block;
+  text-align: left;
+  padding: 0.5rem;
+  background-color: rgba(118, 118, 145, 0.295);
+  border-color: rgba(88, 95, 126, 0.288);
+  border-style: solid;
+  border-width: 2px;
+}
+.guild-details-wrapper {
+  min-height: 180px;
+  min-width: 300px;
+  background-color: rgba(118, 118, 145, 0.295);
+  border-color: rgba(88, 95, 126, 0.288);
+  border-style: solid;
+  border-width: 1px;
+}
+
+.member-card {
+  position: relative;
+  vertical-align: top;
+  height: 300px;
+  width: 400px;
+  display: inline-block;
+  text-align: left;
+  padding: 0.5rem;
+  background-color: rgba(40, 140, 255, 0.26);
+  border-color: rgba(0, 132, 255, 0.288);
+  border-style: solid;
+  border-width: 2px;
+}
+.member-actions {
+  float: right;
+  width: auto;
+  position: absolute;
+  bottom: 36%;
+  right: 5%;
+}
+.member-avatar {
+  float: right;
+  margin: 10px;
+  text-align: center;
+  max-height: 64px;
+  max-width: 64px;
+  position: absolute;
+  top: 3%;
+  right: 5%;
+  background-color: #2C2F33;
+  border-color: #7289DA;
+  border-radius: 10%;
+  border-style: solid;
+  border-width: 4px;
+}
+
+.settings-card-base {
+  text-align: left;  
+  padding: 0.5rem;
+  background-color: rgba(118, 118, 145, 0.295);
+  border-color: rgba(88, 95, 126, 0.288);
+  border-style: solid;
+  border-width: 2px;
+}
+.settings-card-status {
+  vertical-align: top;
+  min-height: 320px;
+  min-width: 300px;
+  display: inline-block;
+  text-align: left;
+  padding: 0.5rem;
+  background-color: rgba(118, 118, 145, 0.295);
+  border-color: rgba(88, 95, 126, 0.288);
+  border-style: solid;
+  border-width: 2px;
+}
+.settings-card-modules {
+  position: relative;
+  vertical-align: top;
+  min-height: 450px;
+  min-width: 300px;
+  display: inline-block;
+  text-align: left;
+  padding: 0.5rem;
+  background-color: rgba(116, 143, 192, 0.548);
+  border-color: rgba(95, 115, 151, 0.548);
+  border-style: solid;
+  border-width: 2px;
+}
+.settings-card-block {
+  max-width: 320px;
+}
+.settings-text-wrapper {
+  min-height: 180px;
+  min-width: 280px;
+  background-color: rgba(118, 118, 145, 0.295);
+  border-color: rgba(88, 95, 126, 0.288);
+  border-style: solid;
+  border-width: 1px;
+}
+.settings-card-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+}
+.settings-table-main {
+  text-align: center;
+  width: 100%;
+  border: 1px solid powderblue;
+  border-collapse: collapse;
+}
+
+.danger-block {
+  background-color: rgba(150, 75, 46, 0.144);
+  border-color: rgba(255, 31, 31, 0.288);
+  border-style: solid;
+  border-width: 2px;
+}
