@@ -1,8 +1,6 @@
 const logger = require('./core/plugins/winstonplugin');
 const { Client, Collection, Intents } = require('discord.js');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const { readdirSync } = require('fs'); 
+const { loadPrefixCmds, loadSlashCmds } = require('./core/handlers/cmdloader');
 
 const {config, credentials} = require('./core/handlers/bootloader');
 const {discordToken} = credentials; const {useLegacyURL} = config;
@@ -36,6 +34,11 @@ for (const file of eventFiles) {
 	};
 };
 
+// Load commands using functions in cmdloader.
+loadPrefixCmds(client); // load prefixed commands.
+loadSlashCmds(client); // load slash commands.
+
+/*
 // Define command directory paths here.
 const prefixCmdDir = './core/commands/prefixcmds';
 const slashCmdDir = './core/commands/slashcmds';
@@ -113,7 +116,7 @@ const rest =  new REST({ version: '9' }).setToken(discordToken);
     logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
   }
 })();
-
+*/
 // Catch unhandled exceptions and rejections not caught by my code to avoid crashes.
 process.on('unhandledRejection', error => {
   logger.warn(`Uncaught Promise Rejection Exception thrown!`);

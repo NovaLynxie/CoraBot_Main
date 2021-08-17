@@ -1,4 +1,6 @@
 const logger = require('../plugins/winstonplugin');
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
 const { readdirSync } = require('fs');
 const { credentials } = require('./bootloader');
 const { discordToken } = credentials;
@@ -7,69 +9,81 @@ const { discordToken } = credentials;
 const prefixCmdDir = './core/commands/prefixcmds';
 const slashCmdDir = './core/commands/slashcmds';
 
-try {
-  // Load prefix-based commands from command files.
-  readdirSync(prefixCmdDir).forEach(subDir => {
-    
-    let dirPath = `${msgCmdDir}/${subDir}/`;
-    var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
-    for (const file of cmdfiles) {
-      logger.debug(`Parsing ${file} of ${subDir} in prefixcmds`);
-      logger.debug(`cmdfile -> ${file}`);
-      const cmd = require(`${dirPath}/${file}`);
-      if (cmd.data) {
-        if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
-          client.prefixcmds.set(cmd.data.name, cmd);
+async function loadPrefixCmds(client) {
+  try {
+    // Load prefix-based commands from command files.
+    readdirSync(prefixCmdDir).forEach(subDir => {
+      let dirPath = `${prefixCmdDir}/${subDir}/`;
+      var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
+      for (const file of cmdfiles) {
+        logger.debug(`Parsing ${file} of ${subDir} in prefixcmds`);
+        logger.debug(`cmdfile -> ${file}`);
+        const cmd = require(`../commands/prefixcmds/${subDir}/${file}`);
+        if (cmd.data) {
+          if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
+            client.prefixcmds.set(cmd.data.name, cmd);
+          } else {
+            logger.error('Command name tag invalid type!');
+          };
         } else {
-          logger.error('Command name tag invalid type!');
+          logger.error('Missing cmd.data! Skipping invalid command file.');
         };
-      } else {
-        logger.error('Missing cmd.data! Skipping invalid command file.');
       };
+    });
+  } catch (error) {
+    if (error.code === 'ENOENT') {      
+      logger.error('Unable to find prefixcmds directory!')
+    } else
+    if (error.message.indexOf('Cannot find module') > -1) {
+      logger.error('Unable to find or load specified command file!');
+      logger.warn('It is either missing or a permission error has occured.');
+    } else {
+      logger.error('An error occured loading the commands!');
+      logger.error(error.message); logger.debug(error.stack);
     };
-  });
-} catch (error) {
-  logger.error(error.message); logger.debug(error.stack);
-  logger.error('Unable to find prefixcmds directory!');
-  logger.warn('It is either missing or a permission error has occured.');
-  logger.warn("Skipping loading directory 'prefixcmds'.");
-};
+    logger.warn("Skipping loading directory 'prefixcmds'.");
+  };
+}
+async function loadSlashCmds(client) {
+  // Load slash commands from command files.
+  let commands = [];
+  try {
+    readdirSync(slashCmdDir).forEach(subDir => {
+      let dirPath = `${slashCmdDir}/${subDir}/`;
+      var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
+      for (const file of cmdfiles) {
+        logger.debug(`Parsing ${file} of ${subDir} in slashcmds`);
+        logger.debug(`cmdfile -> ${file}`);
+        const cmd = require(`../commands/slashcmds/${subDir}/${file}`);
 
-// Load slash commands from command files.
-let commands = [];
-try {
-  readdirSync(slashCmdDir).forEach(subDir => {
-    let dirPath = `${slashCmdDir}/${subDir}/`;
-    var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
-    for (const file of cmdfiles) {
-      logger.debug(`Parsing ${file} of ${subDir} in slashcmds`);
-      logger.debug(`cmdfile -> ${file}`);
-      const cmd = require(`${dirPath}/${file}`);
+        commands.push(cmd.data);
 
-      commands.push(cmd.data);
-
-      if (cmd.data) {
-        if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
-          client.slashcmds.set(cmd.data.name, cmd);
+        if (cmd.data) {
+          if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
+            client.slashcmds.set(cmd.data.name, cmd);
+          } else {
+            logger.error('Command name tag invalid type!');
+          };
         } else {
-          logger.error('Command name tag invalid type!');
+          logger.error('Missing cmd.data! Skipping invalid command file.');
         };
-      } else {
-        logger.error('Missing cmd.data! Skipping invalid command file.');
       };
+    });
+  } catch (error) {  
+    if (error.code === 'ENOENT') {      
+      logger.error('Unable to find slashcmds directory!')
+    } else
+    if (error.message.indexOf('Cannot find module') > -1) {
+      logger.error('Unable to find or load specified command file!');
+      logger.warn('It is either missing or a permission error has occured.');
+    } else {
+      logger.error('An error occured loading the commands!');
+      logger.error(error.message); logger.debug(error.stack);
     };
-  });
-} catch (error) {  
-  logger.error(error.message); logger.debug(error.stack);
-  logger.error('Unable to find slashcmds directory!');
-  logger.warn('It is either missing or a permission error has occured.');
-  logger.warn("Skipping loading directory 'slashcmds'.");
-};
+  };
 
-let clientId = '362941748923727872', guildId = process.env.devGuildId || '694830379756027924';
-const rest =  new REST({ version: '9' }).setToken(discordToken);
-
-(async () => {
+  let clientId = '362941748923727872', guildId = process.env.devGuildId || '694830379756027924';
+  const rest =  new REST({ version: '9' }).setToken(discordToken);
   try {
     logger.debug('Started refreshing application (/) commands.');
     await rest.put(
@@ -80,5 +94,7 @@ const rest =  new REST({ version: '9' }).setToken(discordToken);
   } catch (error) {
     logger.error('Unable to refresh application (/) commands!')
     logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
-  }
-})();
+  };
+}
+
+module.exports = {loadPrefixCmds, loadSlashCmds};
