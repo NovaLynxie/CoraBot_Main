@@ -6,8 +6,7 @@ module.exports = {
 	name: 'ready',
 	once: true,
 	async execute(client) {
-		logger.info(`Logged in as ${client.user.tag}. Bot Online!`);    
-    client.application = await client.fetchApplication();
+		logger.info(`Logged in as ${client.user.tag}. Bot Online!`);
     // Prepare configuration for the dashboard service.
     const dashConfig = {
       "debug": debug, // used to enable debug console log data.
