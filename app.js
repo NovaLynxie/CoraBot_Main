@@ -57,9 +57,10 @@ try {
     };
   });
 } catch (error) {
-  console.error(`${error.code} ${error.message}`);
-  console.error('Unable to find prefixcmds directory! It is either missing or a permission error has occured.');
-  console.warn("Skipping loading directory 'prefixcmds'. Please inform developers!")
+  console.error(error.message);
+  console.error('Unable to find prefixcmds directory!');
+  console.warn('It is either missing or a permission error has occured.');
+  console.warn("Skipping loading directory 'prefixcmds'.");
 }
 
 // Load slash commands from command files.
@@ -87,9 +88,10 @@ try {
     };
   });
 } catch (error) {  
-  console.error(`${error.code} ${error.message}`);
-  console.error('Unable to find slashcmds directory! It is either missing or a permission error has occured.');
-  console.warn("Skipping loading directory 'slashcmds'. Please inform developers as this should not happen!")
+  console.error(error.message);
+  console.error('Unable to find slashcmds directory!');
+  console.warn('It is either missing or a permission error has occured.');
+  console.warn("Skipping loading directory 'slashcmds'.");
 }
 
 let clientId = '362941748923727872', guildId = process.env.devGuildId || '694830379756027924';
@@ -108,26 +110,7 @@ const rest =  new REST({ version: '9' }).setToken(discordToken);
     console.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
   }
 })();
-/*
-// Load commands from command files. (LEGACY Command Loader)
-const cmdDir = './core/commands'
-readdirSync(cmdDir).forEach(subDir => {
-  let dirPath = `${cmdDir}/${subDir}/`
-  const commands = readdirSync(dirPath).filter(file => file.endsWith('.js'));
-  for (const file of commands) {
-    const cmd = require(`${dirPath}/${file}`);
-    if (cmd.data) {
-      if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
-        client.commands.set(cmd.data.name, cmd);
-      } else {
-        console.error('Command name tag invalid type!');
-      };
-    } else {
-      console.error('Missing cmd.data! Skipping invalid command file.');
-    };
-  };
-});
-*/
+
 // Catch unhandled exceptions and rejections not caught by my code to avoid crashes.
 process.on('unhandledRejection', error => {
   console.warn(`Uncaught Promise Rejection Exception thrown!`);
