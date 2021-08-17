@@ -4,7 +4,7 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { readdirSync } = require('fs'); 
 
-const {credentials} = require('./core/modules/bootloader');
+const {credentials} = require('./core/handlers/bootloader');
 const {discordToken} = credentials;
 
 // Initialise client instance.

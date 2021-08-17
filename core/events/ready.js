@@ -1,5 +1,5 @@
 const logger = require('../plugins/winstonplugin');
-const {storeHandler} = require('../modules/storehandler');
+const {storeHandler} = require('../handlers/storehandler');
 module.exports = {
 	name: 'ready',
 	once: true,
