@@ -65,9 +65,14 @@ if (authLoaded) {
   var {discord, external} = authConfig;
   var {discordToken, clientSecret, sessionSecret} = discord;
   var {cheweyApiToken, yiffyApiKey, youtubeApiKey} = external;
-  if (!discordToken || discordToken === 'NOT_SET') {
-    discordToken = process.env.discordToken;
-  };
+
+  // check credentials and fallback to process.env if missing.
+  discordToken = (!discordToken || discordToken === 'NOT_SET') ? process.env.discordToken : discordToken;
+  clientSecret = (!clientSecret || clientSecret === 'NOT_SET') ? process.env.clientSecret : clientSecret;
+  sessionSecret = (!sessionSecret || sessionSecret === 'NOT_SET') ? process.env.sessionSecret : sessionSecret;
+  cheweyApiToken = (!cheweyApiToken || cheweyApiToken === 'NOT_SET') ? process.env.cheweyApiToken : cheweyApiToken;
+  yiffyApiKey = (!yiffyApiKey || yiffyApiKey === 'NOT_SET') ? process.env.yiffyApiKey : yiffyApiKey;
+  youtubeApiKey = (!youtubeApiKey || youtubeApiKey === 'NOT_SET') ? process.env.youtubeApiKey : youtubeApiKey;
 } else {
   discordToken = process.env.discordToken;
 };
