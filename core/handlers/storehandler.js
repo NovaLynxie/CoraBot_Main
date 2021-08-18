@@ -16,7 +16,6 @@ async function storeHandler(data, client) {
       logger.error("Undefined or incorrect data type for 'settings'!");
     };
   };
-  logger.warn('Updating database... this may take a while.');
   let settingsObject;
   if (data.mode === 'r') {
     verifyGuildObject(data);
@@ -24,17 +23,21 @@ async function storeHandler(data, client) {
     return res = settingsObject;
   } else
   if (data.mode === 'w') {
+    logger.warn('Updating database... this may take a while.');
     verifyGuildObject(data);
     await guildStore.set(data.guild.id, data.settings);
+    logger.info('Finished updating database.');
   } else
   if (data.mode === 'g') {
+    logger.warn('Updating database... this may take a while.');
     let guilds = data.guilds;
     guilds.forEach(async (guildId) => {
       logger.debug(`Parsing ${guildId} of guilds`);
       let settings = guildSettings;
       await guildStore.set(guildId, settings);
     });
+    logger.info('Finished updating database.');
   };
-  logger.info('Finished updating database.');
+  
 };
 module.exports = {storeHandler};
