@@ -1,8 +1,10 @@
-extends ../blocks/layout
-block content
-  .container
-    .jumbotron.text-center.bg-transparent
-      h1.display-4 404 Not Found
-      p.lead
-      | I'm sorry but the requested resource is not available or does not exist.
-      | If you feel this is in error, please contact my administrator.
+include ../blocks/header
+.container
+  .jumbotron.text-center.bg-transparent
+    h1.display-4 404 Not Found
+    p.lead
+    | I'm sorry but the requested resource is not available or does not exist. It may have been moved or the link is broken at this time.
+    br
+    | Try going back, or head to the #[a(href='/') home] page.
+    br
+    | If you feel this is in error, please contact my administrator.
