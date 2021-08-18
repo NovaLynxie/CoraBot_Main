@@ -35,11 +35,10 @@ module.exports = function crashReporter (error) {
 
   fs.writeFile(filepath, crashdata, function(error) {
     if (error) {
-      let stack = error.stack;
       logger.error(`Something went wrong while writing crash report!`)
       logger.error(`Caused by: ${error}`)
-      logger.warn(`Error details may have been lost, check console.`)
+      logger.warn(`Error details may have been lost, check console for crash trace stack.`);
     }
-    logger.warn(`Log saved to ${filepath}`)
+    logger.warn(`Log saved to ${filepath}`);
   })
 }

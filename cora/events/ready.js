@@ -63,7 +63,7 @@ module.exports = {
       logger.info('Database checks finished, ready for use.');
     }, 1000);
         
-    // Spin up built-in server once client is online and ready.
+    // Prepare configuration for the dashboard service.
     const dashConfig = {
       "debug": debug, // used to enable debug console log data.
       "dashPort": dashSrvPort,
