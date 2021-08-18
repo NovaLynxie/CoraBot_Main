@@ -223,10 +223,10 @@ module.exports = (client, config) => {
   // Once user returns, this is called to complete authorization.
   app.get("/api/discord/callback", passport.authenticate("discord", { failureRedirect: "/autherror" }), (req, res) => {
     logger.debug("Checking req.user.id against owner IDs")
-    logger.data(`client.options.owner => ${client.options.owner}`);
-    logger.data(`data type: ${typeof client.options.owner}`);
+    logger.data(`client.options.owners => ${client.options.owners}`);
+    logger.data(`data type: ${typeof client.options.owners}`);
     // Check if request user ID is an owner.
-    (client.options.owner.includes(req.user.id)) ? req.session.isAdmin = true : req.session.isAdmin = false;
+    (client.options.owners.includes(req.user.id)) ? req.session.isAdmin = true : req.session.isAdmin = false;
     if (req.session.isAdmin) {
       logger.debug(`DiscordUser with ID:${req.user.id} logged in as 'ADMIN'.`)
     } else {
