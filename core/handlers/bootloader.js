@@ -29,8 +29,8 @@ try {
   logger.warn('Cannot proceed with bot boot up.')
 }
 
-let general = {}, discord = {}, runtime = {};
-let discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey;
+var general = {}, discord = {}, runtime = {};
+var discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey;
 
 if (mainLoaded) {
   var {general, dashboard, runtime} = mainConfig;
