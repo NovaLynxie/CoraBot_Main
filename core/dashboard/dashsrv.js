@@ -279,8 +279,8 @@ module.exports = (client, config) => {
   app.get("/stats", (req, res) => {
     const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
     const members = client.guilds.cache.reduce((p, c) => p + c.memberCount, 0);
-    const textChannels = client.channels.cache.filter(c => c.type === "text").size;
-    const voiceChannels = client.channels.cache.filter(c => c.type === "voice").size;
+    const textChannels = client.channels.cache.filter(c => c.type === "GUILD_TEXT").size;
+    const voiceChannels = client.channels.cache.filter(c => c.type === "GUILD_VOICE").size;
     const totalGuilds = client.guilds.cache.size;
     renderView(res, req, "stats.pug", {
       stats: {
