@@ -1,4 +1,5 @@
-const fs = require('fs');
+const fs = require('fs'); 
+const {version} = require('../../package.json');
 const logger = require('../providers/WinstonPlugin');
 // Sets time and date of the crash report file as logstamp.
 function timeStamp (date) { 
@@ -31,7 +32,15 @@ module.exports = function crashReporter (error) {
   ${randomMsg}
     Caused by: ${error}
     Stacktrace:
-      ${stack}`;
+      ${stack}
+    ==============================================================
+    Version Information
+    Please provide this otherwise we cannot provide any support!
+    --------------------------------------------------------------
+    NodeJS: v${process.versions.node}
+    BotApp: v${version}
+    ==============================================================
+    `;
 
   fs.writeFile(filepath, crashdata, function(error) {
     if (error) {
