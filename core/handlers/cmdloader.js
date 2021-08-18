@@ -14,34 +14,42 @@ async function loadPrefixCmds(client) {
     // Load prefix-based commands from command files.
     readdirSync(prefixCmdDir).forEach(subDir => {
       let dirPath = `${prefixCmdDir}/${subDir}/`;
-      var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
+      var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));      
       for (const file of cmdfiles) {
         logger.debug(`Parsing ${file} of ${subDir} in prefixcmds`);
         logger.debug(`cmdfile -> ${file}`);
-        const cmd = require(`../commands/prefixcmds/${subDir}/${file}`);
-        if (cmd.data) {
-          if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
-            client.prefixcmds.set(cmd.data.name, cmd);
+        try {
+          const cmd = require(`../commands/prefixcmds/${subDir}/${file}`);
+          if (cmd.data) {
+            if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
+              client.prefixcmds.set(cmd.data.name, cmd);
+            } else {
+              logger.error('Command name tag invalid type!');
+            };
           } else {
-            logger.error('Command name tag invalid type!');
+            logger.error('Missing cmd.data! Skipping invalid command file.');
           };
-        } else {
-          logger.error('Missing cmd.data! Skipping invalid command file.');
-        };
+        } catch (error) {
+          
+        };        
       };
     });
   } catch (error) {
     if (error.code === 'ENOENT') {      
-      logger.error('Unable to find prefixcmds directory!')
+      logger.fatal('Unable to find prefixcmds directory!')
     } else
     if (error.message.indexOf('Cannot find module') > -1) {
-      logger.error('Unable to find or load specified command file!');
+      logger.fatal('Unable to find or load specified command file!');
       logger.warn('It is either missing or a permission error has occured.');
+    } else
+    if (error.message.indexOf('Unexpected token') > -1) {
+      logger.error('Errored while loading a command file');
+      logger.error(`${error.code} ${error.message}`); logger.debug(error.stack);
     } else {
-      logger.error('An error occured loading the commands!');
+      logger.error('Unknown error occured while loading the commands!');
       logger.error(error.message); logger.debug(error.stack);
     };
-    logger.warn("Skipping loading directory 'prefixcmds'.");
+    logger.warn("Stopped loading directory 'prefixcmds'. Some commands may fail to respond.");
   };
 }
 async function loadSlashCmds(client) {
@@ -71,15 +79,20 @@ async function loadSlashCmds(client) {
     });
   } catch (error) {  
     if (error.code === 'ENOENT') {      
-      logger.error('Unable to find slashcmds directory!')
+      logger.fatal('Unable to find slashcmds directory!')
     } else
     if (error.message.indexOf('Cannot find module') > -1) {
-      logger.error('Unable to find or load specified command file!');
+      logger.fatal('Unable to find or load specified command file!');
       logger.warn('It is either missing or a permission error has occured.');
+    } else
+    if (error.message.indexOf('Unexpected token') > -1) {
+      logger.error('Errored while loading a command file');
+      logger.error(`${error.code} ${error.message}`); logger.debug(error.stack);
     } else {
-      logger.error('An error occured loading the commands!');
+      logger.error('Unknown error occured while loading the commands!');
       logger.error(error.message); logger.debug(error.stack);
     };
+    logger.warn("Stopped loading directory 'slashcmds'. Some commands may fail to respond.");
   };
 
   let clientId = '362941748923727872', guildId = process.env.devGuildId || '694830379756027924';

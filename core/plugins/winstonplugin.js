@@ -7,7 +7,7 @@ const {combine, colorize, errors, timestamp, printf} = format;
 var {logLevel} = process.env; // gets logLevel from os process.env vars
 if (!logLevel||logLevel==undefined) {
   // if not defined then set as 'error' by default.
-  logLevel = 'error';
+  logLevel = 'fatal';
 }
 
 // Logging Levels
@@ -18,7 +18,7 @@ const customLevels = {
     dash: 2,
     warn: 3,
     error: 4,
-    severe: 5,
+    fatal: 5,
     data: 6,
     debug: 7,
     verbose: 8,
@@ -58,7 +58,7 @@ const logger = createLogger({
       handleExceptions: true
     }),
     new transports.DailyRotateFile({      
-      level: 'error',
+      level: 'fatal',
       format: combine(
         errors({stack: true}),
         timestamp({format: 'HH:mm:ss'}),
