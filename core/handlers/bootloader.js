@@ -62,8 +62,9 @@ if (useDotEnv) {
 }
 
 if (authLoaded) {
-  var {discord} = authConfig;
-  var {discordToken, ytApiKey} = discord;
+  var {discord, external} = authConfig;
+  var {discordToken, clientSecret, sessionSecret} = discord;
+  var {cheweyApiToken, yiffyApiKey, youtubeApiKey} = external;
   if (!discordToken || discordToken === 'NOT_SET') {
     discordToken = process.env.discordToken;
   };
