@@ -64,7 +64,6 @@ if (authLoaded) {
   var {discord, external} = authConfig;
   var {discordToken, clientSecret, sessionSecret} = discord;
   var {cheweyApiToken, yiffyApiKey, youtubeApiKey} = external;
-
   // check main credentials and fallback to process.env if missing.
   discordToken = (!discordToken || discordToken === 'NOT_SET') ? process.env.discordToken : discordToken;
   clientSecret = (!clientSecret || clientSecret === 'NOT_SET') ? process.env.clientSecret : clientSecret;
