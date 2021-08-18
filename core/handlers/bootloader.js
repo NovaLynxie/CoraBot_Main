@@ -29,9 +29,8 @@ try {
   logger.warn('Cannot proceed with bot boot up.')
 }
 
-var general = {}; var globalPrefix = '', ownerIDs = [];
-var discord = {}, discordToken = '', youtubeApiKey = '';
-var runtime = {};
+let general = {}, discord = {}, runtime = {};
+let discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey;
 
 if (mainLoaded) {
   var {general, dashboard, runtime} = mainConfig;
@@ -75,7 +74,9 @@ if (authLoaded) {
   yiffyApiKey = (!yiffyApiKey || yiffyApiKey === 'NOT_SET') ? process.env.yiffyApiKey : yiffyApiKey;
   youtubeApiKey = (!youtubeApiKey || youtubeApiKey === 'NOT_SET') ? process.env.youtubeApiKey : youtubeApiKey;
 } else {
-  discordToken = process.env.discordToken;
+  var {
+    discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey
+  } = process.env;
 };
 
 module.exports.credentials = {discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey};
