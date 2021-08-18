@@ -1,7 +1,8 @@
 const logger = require('../plugins/winstonplugin');
-const {config} = require('../handlers/bootloader');
+const {config, credentials} = require('../handlers/bootloader');
 const {debug, dashboard} = config;
-const {enableDash, dashSrvPort, reportOnly} = dashboard;
+const {clientSecret, sessionSecret} = credentials;
+const {enableDash, dashDomain, dashSrvPort, reportOnly} = dashboard;
 const {storeHandler} = require('../handlers/storehandler');
 module.exports = {
 	name: 'ready',
@@ -17,9 +18,9 @@ module.exports = {
       "dashPort": dashSrvPort,
       "reportOnly": reportOnly,
       "clientID" : client.application.id,
-      "oauthSecret" : process.env.clientSecret,
-      "sessionSecret" : process.env.sessionSecret || 'ZeonX64',
-      "botDomain" : process.env.botDomain || `https://localhost:${dashSrvPort}`,
+      "oauthSecret" : clientSecret,
+      "sessionSecret" : sessionSecret || 'ZeonX64',
+      "botDomain" : dashDomain || `https://localhost:${dashSrvPort}`,
       "callbackURL" : process.env.callbackURL || `https://localhost:${dashSrvPort}/auth/discord/callback`
     };
     // Start dashsrv to handle heartbeat ping requests. (eg. UptimeRobot)
