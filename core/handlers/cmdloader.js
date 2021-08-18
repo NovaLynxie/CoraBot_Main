@@ -44,7 +44,7 @@ async function loadPrefixCmds(client) {
     } else
     if (error.message.indexOf('Unexpected token') > -1) {
       logger.error('Errored while loading a command file');
-      logger.error(`${error.code} ${error.message}`); logger.debug(error.stack);
+      logger.error(error.message); logger.debug(error.stack);
     } else {
       logger.error('Unknown error occured while loading the commands!');
       logger.error(error.message); logger.debug(error.stack);
@@ -87,7 +87,7 @@ async function loadSlashCmds(client) {
     } else
     if (error.message.indexOf('Unexpected token') > -1) {
       logger.error('Errored while loading a command file');
-      logger.error(`${error.code} ${error.message}`); logger.debug(error.stack);
+      logger.error(error.message); logger.debug(error.stack);
     } else {
       logger.error('Unknown error occured while loading the commands!');
       logger.error(error.message); logger.debug(error.stack);
