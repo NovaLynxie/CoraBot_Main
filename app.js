@@ -2,6 +2,7 @@ const logger = require('./core/plugins/winstonplugin');
 const { readdirSync } = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { loadPrefixCmds, loadSlashCmds } = require('./core/handlers/cmdloader');
+const { crashReporter } = require('./core/handlers/crashreporter');
 
 const {config, credentials} = require('./core/handlers/bootloader');
 const {globalPrefix, ownerIDs, useLegacyURL, debug} = config;
@@ -52,9 +53,10 @@ process.on('unhandledRejection', error => {
 });
 process.on('uncaughtException', error => {
   // Error thrown and logged to console window.
-  logger.error(`Bot crashed! Check below for crash error data!`);
+  crashReporter(error); // prepare crash report with error data.
+  logger.error(`Bot crashed! Generating a crash report.`);
   logger.error(error.message); logger.debug(error.stack);
-  process.exit(1);
+  setTimeout(() => {process.exit(1);}, 5000);  
 });
 
 // Initialize timers and reference them here.

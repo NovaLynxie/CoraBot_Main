@@ -20,7 +20,7 @@ function timeStamp (date) {
   // Now combine both logtime and logdate to get full logstamp.
   return logstamp = `${logdate}_${logtime}`;
 }
-module.exports = function crashReporter (error) {
+function crashReporter(error) {
   let stack = error.stack;
   let messages = ["Did I do that?","Erm... whoops.","Hehe, my bad...", "Well, feck if I how that happened. ¯\\_(ツ)_/¯","CoraBot.exe stopped unexpectedly (X_X)"]
   let randomMsg = messages[Math.floor(Math.random() * messages.length)];
@@ -52,3 +52,4 @@ module.exports = function crashReporter (error) {
     logger.warn(`Log saved to ${filepath}`);
   });
 };
+module.exports = {crashReporter};
