@@ -14,11 +14,12 @@ logger.debug('==========================================================');
 // Check if NodeJS version is the right one BEFORE even starting.
 const NODE_MAJOR_VERSION = process.versions.node.split('.')[0];
 const NODE_MINOR_VERSION = process.versions.node.split('.')[1];
-if (NODE_MAJOR_VERSION < 16 || NODE_MINOR_VERSION < 6) {
-  logger.fatal('This app requires NodeJS v16.6.0 or higher to work correctly!');
+if (NODE_MAJOR_VERSION < 16 && NODE_MINOR_VERSION < 6) {
+  logger.fatal('This app requires NodeJS v16.6.0 or higher to run!');
   throw new Error('Requires Node 16.6.0 (or higher)');
 };
 
+logger.init('Loading configuration files...');
 try {
   fileData = fs.readFileSync('./settings/main.toml', 'utf-8');
   mainConfig = toml.parse(fileData);
@@ -27,7 +28,7 @@ try {
   logger.error('Failed to load main.toml configuration!');
   logger.error(err.message); logger.debug(err.stack);
   logger.warn('Cannot proceed with bot boot up.')
-}
+};
 
 var general = {}, discord = {}, runtime = {};
 var discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey;
@@ -38,6 +39,7 @@ if (mainLoaded) {
   var {useDotEnv} = runtime;
 };
 
+logger.init('Loading bot credentials...');
 if (useDotEnv) {
   var {
     discordToken,
@@ -77,6 +79,6 @@ if (authLoaded) {
     discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey
   } = process.env;
 };
-
+logger.init('Spinning up bot instance...');
 module.exports.credentials = {discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey};
 module.exports.config = {globalPrefix, ownerIDs, useLegacyURL, debug, dashboard};
