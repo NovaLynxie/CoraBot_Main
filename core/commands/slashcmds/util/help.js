@@ -31,7 +31,7 @@ module.exports = {
             url: 'https://zeonbot.novalynxie.repl.co',
             disabled: false
           },
-          MessageButton {
+          MessageButton: {
             type: 'BUTTON',
             label: 'Dashboard',
             customId: null,
