@@ -52,8 +52,17 @@ process.on('uncaughtException', error => {
   process.exit(1);
 });
 
-logger.info('Logging into Discord.')
-client.login(discordToken).then(logger.debug('Awaiting API Response...'))
+// Initialize timers and reference them here.
+let rateLimitWarn = setTimeout(() => {
+  logger.warn('Bot taking longer than normal to connect. Maybe bot is rate limited?');
+}, 30 * 1000);
+// Bind timers to property 'timers' on client object.
+client.timers = {rateLimitWarn};
+
+logger.info('Logging into Discord.');
+client.login(discordToken).then(() => {
+  logger.debug('Awaiting API Response...');
+})
 .catch((error)=>{
   logger.warn('Unable to connect to Discord!');
   logger.error(error.message);

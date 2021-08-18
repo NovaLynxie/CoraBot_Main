@@ -23,7 +23,7 @@ const session = require("express-session"); // express session manager
 const SQLiteStore = require("connect-sqlite3")(session);
 const Strategy = require("passport-discord").Strategy;
 
-logger.dash('Starting Dashboard Service...');
+logger.init('Starting Dashboard Service...');
 
 module.exports = (client, config) => {
   // Initialise morgan logger for server side logging. (debug only)
@@ -599,6 +599,6 @@ module.exports = (client, config) => {
     }
   });
   app.listen(config.dashPort, () => {
-    logger.dash(`Dashboard service running on port ${config.dashPort}`);
+    logger.info(`Dashboard service running on port ${config.dashPort}`);
   });
 };

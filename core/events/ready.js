@@ -8,6 +8,8 @@ module.exports = {
 	once: true,
 	async execute(client) {
 		logger.info(`Logged in as ${client.user.tag}. Bot Online!`);
+    clearTimeout(client.timers.rateLimitWarn);
+    logger.debug('Cleared ratelimit warning timer.');
     client.application = await client.application.fetch();
     // Prepare configuration for the dashboard service.
     const dashConfig = {
@@ -24,7 +26,7 @@ module.exports = {
     try {
       logger.verbose(`enableDash=${enableDash}`);
       if (enableDash) {
-        logger.debug('Initialising dashboard service.');
+        logger.init('Initialising dashboard service.');
         require('../dashboard/dashsrv.js')(client, dashConfig);
       }
     } catch (err) {
