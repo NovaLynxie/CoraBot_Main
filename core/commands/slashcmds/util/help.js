@@ -11,7 +11,11 @@ module.exports = {
         new MessageButton()
           .setCustomId('allcommands')
           .setLabel('All Commands')
-          .setStyle('PRIMARY'),
+          .setStyle('SECONDARY'),
+        new MessageButton()
+          .setCustomId('settings')
+          .setLabel('Bot Settings')
+          .setStyle('SECONDARY'),
         new MessageButton()
           .setLabel('Dashboard')
           .setStyle('LINK')
@@ -21,10 +25,33 @@ module.exports = {
       color: '#0099ff',
       title: 'Help Menu',
       url: 'https://discord.js.org',
-      description: 'WIP! This menu is not yet ready!'
+      description: 'Welcome to the help menu!',
+      fields: [
+        {
+          name: 'Commands (WIP)',
+          value: `
+          This lists all the prefix and slash commands.
+          Tap the 'Commands' button to open the help menu.
+          `
+        },
+        {
+          name: 'Settings (WIP)',
+          value: `
+          Configure the bot prefix, modules and other options from here.
+          Tap the settings button to open the menu.
+          `
+        },
+        {
+          name: 'Dashboard (WIP)',
+          value: `
+          You can use the dashboard to configure the bot, join or leave any server you are linked to!
+          Tap the Dashboard button to bring you to the web dashboard.
+          `
+        }
+      ]
     };
     await interaction.reply(
-      { 
+      {
         embeds: [helpEmbed],
         components: [helpButtons1],
       }
