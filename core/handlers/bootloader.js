@@ -20,15 +20,6 @@ if (NODE_MAJOR_VERSION < 16 || NODE_MINOR_VERSION < 6) {
 };
 
 try {
-  fileData = fs.readFileSync('./settings/auth.toml', 'utf-8');
-  authConfig = toml.parse(fileData);
-  authLoaded = true;
-} catch (err) {
-  logger.error('Failed to load auth.toml configuration!');
-  logger.error(err.message); logger.debug(err.stack);
-  logger.warn('Falling back to environment variables.');
-}
-try {
   fileData = fs.readFileSync('./settings/main.toml', 'utf-8');
   mainConfig = toml.parse(fileData);
   mainLoaded = true;
@@ -39,13 +30,37 @@ try {
 }
 
 var general = {}; var globalPrefix = '', ownerIDs = [];
-var discord = {}, discordToken = '', ytApiKey = '';
+var discord = {}, discordToken = '', youtubeApiKey = '';
 var runtime = {};
 
 if (mainLoaded) {
   var {general, dashboard, runtime} = mainConfig;
   var {globalPrefix, ownerIDs, useLegacyURL, debug} = general;
+  var {useDotEnv} = runtime;
 };
+
+if (useDotEnv) {
+  var {
+    discordToken,
+    clientSecret,
+    sessionSecret,
+    cheweyApiToken,
+    yiffyApiKey,
+    youtubeApiKey
+  } = process.env;
+  discordToken = process.env.discordToken;
+} else {
+  try {
+    fileData = fs.readFileSync('./settings/auth.toml', 'utf-8');
+    authConfig = toml.parse(fileData);
+    authLoaded = true;
+  } catch (err) {
+    logger.error('Failed to load auth.toml configuration!');
+    logger.error(err.message); logger.debug(err.stack);
+    logger.warn('Falling back to environment variables.');
+  }
+}
+
 if (authLoaded) {
   var {discord} = authConfig;
   var {discordToken, ytApiKey} = discord;
@@ -56,5 +71,5 @@ if (authLoaded) {
   discordToken = process.env.discordToken;
 };
 
-module.exports.credentials = {discordToken, ytApiKey};
+module.exports.credentials = {discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey};
 module.exports.config = {globalPrefix, ownerIDs, useLegacyURL, debug, dashboard};
