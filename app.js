@@ -8,7 +8,11 @@ const {globalPrefix, ownerIDs, useLegacyURL, debug} = config;
 const {discordToken} = credentials; 
 
 // Initialise client instance.
-const client = new Client({ 
+const client = new Client({
+  // bot prefix and owners.
+  globalPrefix: globalPrefix,
+  owners: ownerIDs,
+  // bot intents. (required!)
   intents: [
     Intents.FLAGS.GUILDS,
     Intents.FLAGS.GUILD_MESSAGES
