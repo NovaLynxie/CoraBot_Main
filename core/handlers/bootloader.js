@@ -66,10 +66,11 @@ if (authLoaded) {
   var {discordToken, clientSecret, sessionSecret} = discord;
   var {cheweyApiToken, yiffyApiKey, youtubeApiKey} = external;
 
-  // check credentials and fallback to process.env if missing.
+  // check main credentials and fallback to process.env if missing.
   discordToken = (!discordToken || discordToken === 'NOT_SET') ? process.env.discordToken : discordToken;
   clientSecret = (!clientSecret || clientSecret === 'NOT_SET') ? process.env.clientSecret : clientSecret;
   sessionSecret = (!sessionSecret || sessionSecret === 'NOT_SET') ? process.env.sessionSecret : sessionSecret;
+  // check other credentials and fallback to process.env if missing.
   cheweyApiToken = (!cheweyApiToken || cheweyApiToken === 'NOT_SET') ? process.env.cheweyApiToken : cheweyApiToken;
   yiffyApiKey = (!yiffyApiKey || yiffyApiKey === 'NOT_SET') ? process.env.yiffyApiKey : yiffyApiKey;
   youtubeApiKey = (!youtubeApiKey || youtubeApiKey === 'NOT_SET') ? process.env.youtubeApiKey : youtubeApiKey;
