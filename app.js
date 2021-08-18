@@ -4,7 +4,8 @@ const { Client, Collection, Intents } = require('discord.js');
 const { loadPrefixCmds, loadSlashCmds } = require('./core/handlers/cmdloader');
 
 const {config, credentials} = require('./core/handlers/bootloader');
-const {discordToken} = credentials; const {useLegacyURL} = config;
+const {globalPrefix, ownerIDs, useLegacyURL, debug} = config;
+const {discordToken} = credentials; 
 
 // Initialise client instance.
 const client = new Client({ 
@@ -55,7 +56,7 @@ process.on('uncaughtException', error => {
 // Initialize timers and reference them here.
 let rateLimitWarn = setTimeout(() => {
   logger.warn('Bot taking longer than normal to connect. Maybe bot is rate limited?');
-}, 30 * 1000);
+}, 10 * 1000);
 // Bind timers to property 'timers' on client object.
 client.timers = {rateLimitWarn};
 
@@ -65,5 +66,5 @@ client.login(discordToken).then(() => {
 })
 .catch((error)=>{
   logger.warn('Unable to connect to Discord!');
-  logger.error(error.message);
+  logger.error(error.message); logger.debug(error.stack);
 });

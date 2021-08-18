@@ -137,8 +137,6 @@ module.exports = (client, config) => {
     extended: true
   }));
 
-  // connect-flash used for express-messages status messages down further below.
-  //app.use(require('connect-flash'));
   // flash used for displaying alert messages
   app.use(require('flash')());
   /* 
@@ -190,13 +188,7 @@ module.exports = (client, config) => {
     logger.debug(`Rendering template ${template} with 'baseData' and 'data' parameters.`);
     res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
   };
-  // Express Messages Middleware
-  /*
-  app.use(function(req, res, next) {
-    res.locals.messages = require('express-messages')(req, res);
-    next();
-  });
-  */
+  
   // Breadcrumb Handler Middleware
   app.use(function(req, res, next) {
     req.breadcrumbs = get_breadcrumbs(req.originalUrl);

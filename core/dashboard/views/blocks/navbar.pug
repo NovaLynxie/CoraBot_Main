@@ -25,9 +25,9 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
       ul.navbar-nav.ms-auto
         if (user)
           li.nav-item.dropdown
-            img.d-inline-block.align-middle.rounded-circle(src=userAvatar width='25' height='25' alt=user.username)
             a#userDropdown.nav-link.dropdown-toggle(href='#' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-            .dropdown-menu.dropdown-menu-end.fade-down(aria-labelledby='userDropdown')
+              img.d-inline-block.align-middle.rounded-circle(src=userAvatar width='25' height='25' alt=user.username)
+            .dropdown-menu.dropdown-menu-end.fade-down(aria-labelledby='userDropdown')              
               h5.dropdown-header
                 i.fa.fa-user(aria-hidden='true')  Hello #{user.username}!
                 .dropdown-divider
@@ -42,7 +42,6 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
                 a.dropdown-item(href='/logout')
                   i.fa.fa-sign-out(aria-hidden='true')
                   |  Logout
-
         else
           li.nav-item
             a.nav-link(href='/login')
