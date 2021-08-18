@@ -5,7 +5,7 @@ module.exports = {
     name: 'reload',
     aliases: ['refresh'],
     category: 'util',
-    description: "Allows reload of all commands without restarting bot."
+    description: "Allows reload of prefix commands without restarting bot. (CANNOT RELOAD SLASH COMMANDS!)"
   },
 	async execute(interaction, client) {
     logger.warn('Reloading commands! This may take a while');

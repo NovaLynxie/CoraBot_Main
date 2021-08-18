@@ -5,45 +5,18 @@ module.exports = {
     category: 'util',
     description: "Provides a useful help embed and button menu!"
   },
-	async execute(interaction, client) {
-    /*
-    const row = new MessageActionRow()
+	async execute(interaction, client) {    
+    const helpButtons1 = new MessageActionRow()
       .addComponents(
         new MessageButton()
-          .setCustomId('primary')
-          .setLabel('Primary')
+          .setCustomId('allcommands')
+          .setLabel('All Commands')
           .setStyle('PRIMARY'),
         new MessageButton()
           .setLabel('Dashboard')
           .setStyle('LINK')
+          .setURL('https://zeonbot.novalynxie.repl.co')
       );
-    */
-    const row = {
-      MessageActionRow: {
-        type: 'ACTION_ROW',
-        components: [
-          MessageButton: {
-            type: 'BUTTON',
-            label: 'Settings',
-            customId: 'settings',
-            style: 'PRIMARY',
-            emoji: null,
-            url: 'https://zeonbot.novalynxie.repl.co',
-            disabled: false
-          },
-          MessageButton: {
-            type: 'BUTTON',
-            label: 'Dashboard',
-            customId: null,
-            style: 'LINK',
-            emoji: null,
-            url: 'https://zeonbot.novalynxie.repl.co',
-            disabled: false
-          }
-        ]
-      }
-    }
-    console.log(row);
     const helpEmbed = {
       color: '#0099ff',
       title: 'Help Menu',
@@ -53,8 +26,8 @@ module.exports = {
     await interaction.reply(
       { 
         embeds: [helpEmbed],
-        components: [row],
+        components: [helpButtons1],
       }
-    );
+    );   
 	},
 };
