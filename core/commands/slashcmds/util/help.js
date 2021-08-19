@@ -39,7 +39,7 @@ module.exports = {
       fields: [],
       footer: 'Built on Node.js using Discord.js with Commando.',
       thumbnail: client.user.displayAvatarURL({ format: 'png'})
-    }
+    };
     const helpEmbed, cmdsEmbed, settingsEmbed = baseEmbed;
     helpEmbed.title = 'Help Menu';
     helpEmbed.description = `Hello ${interaction.user.tag}! How may I be of assistance?`;
