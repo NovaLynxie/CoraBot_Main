@@ -40,7 +40,7 @@ module.exports = {
       footer: `Built on Node.js using Discord.js with Commando.`
       thumbnail: client.user.displayAvatarURL({ format: 'png'})
     }
-    const helpEmbed, cmdsEmbed = baseEmbed;
+    const helpEmbed, cmdsEmbed, settingsEmbed = baseEmbed;
     helpEmbed.title = 'Help Menu';
     helpEmbed.description = `Hello ${interaction.user.tag}! How may I be of assistance?`;
     helpEmbed.fields = [
@@ -78,6 +78,18 @@ module.exports = {
         `
       }
     ];
+
+    settingsEmbed.title = 'Bot Settings';
+    settingsEmbed.description = `Change the settings for your guild here.`;
+    settingsEmbed.fields = [
+      {
+        name: 'Feature not yet ready!!',
+        value: `
+        Argh! This submenu is not yet ready and is under construction.
+        It will be available in a future update. Sorry about that. XC - NovaLynxie
+        `
+      }
+    ];
     // Internal help menu collector.
     collector.on('collect', async i => {
       switch (i.customId) {
@@ -87,7 +99,7 @@ module.exports = {
           await i.editReply(
             {
               content: 'allcommands.button.triggered', 
-              embeds: [helpEmbed], 
+              embeds: [cmdsEmbed], 
               components: [helpButtons1]
             }
           );
@@ -98,7 +110,7 @@ module.exports = {
           await i.editReply(
             {
               content: 'botsettings.button.triggered', 
-              embeds: [helpEmbed], 
+              embeds: [settingsEmbed], 
               components: [helpButtons1]
             }
           );
