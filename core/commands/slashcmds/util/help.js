@@ -45,7 +45,7 @@ module.exports = {
     
     // Declare embed objects here.
     let helpEmbed, cmdsEmbed, settingsEmbed;
-    helpEmbed = cmdsEmbed = settingsEmbed = baseEmbed;
+    helpEmbed = baseEmbed; cmdsEmbed = baseEmbed; settingsEmbed = baseEmbed;
 
     helpEmbed.title = 'Help Menu';
     helpEmbed.description = `Hello ${interaction.user.tag}! How may I be of assistance?`;
