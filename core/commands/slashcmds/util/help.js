@@ -8,8 +8,9 @@ module.exports = {
     description: "Provides a useful help embed and button menu!"
   },
 	async execute(interaction, client) {
-    const filter = i => i.customId === 'allcommands';
-    const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 }); 
+    const buttonIDs = ['allcommands', 'botsettings'];
+    const filter = i => buttonIDs.indexOf(i.customId);
+    const collector = interaction.channel.createMessageComponentCollector({ time: 30000}); 
 
     const helpButtons1 = new MessageActionRow()
       .addComponents(
