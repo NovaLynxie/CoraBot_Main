@@ -18,7 +18,7 @@ module.exports = {
           .setLabel('All Commands')
           .setStyle('SECONDARY'),
         new MessageButton()
-          .setCustomId('settings')
+          .setCustomId('botsettings')
           .setLabel('Bot Settings')
           .setStyle('SECONDARY'),
         new MessageButton()
@@ -57,7 +57,22 @@ module.exports = {
     // Internal help menu collector.
     collector.on('collect', async i => {
       if (i.customId === 'allcommands') {
-        await i.update({ content: 'A button was clicked!', components: [] });
+        await i.update(
+          {
+            content: 'allcommands.button.triggered', 
+            embeds: [helpEmbed], 
+            components: [helpButtons1]
+          }
+        );
+      };
+      if (i.customId === 'botsettings') {
+        await i.update(
+          {
+            content: 'botsettings.button.triggered', 
+            embeds: [helpEmbed], 
+            components: [helpButtons1]
+          }
+        );
       }
     });
     // Log on collector end (temporary)
