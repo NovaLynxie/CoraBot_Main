@@ -1,5 +1,6 @@
 const { MessageActionRow, MessageButton } = require('discord.js');
 const logger = require('../../../plugins/winstonplugin');
+const wait = require('util').promisify(setTimeout);
 const {config} = require('../../../handlers/bootloader'); const {dashboard} = config;
 module.exports = {
   data: {
@@ -63,7 +64,9 @@ module.exports = {
     collector.on('collect', async i => {
       switch (i.customId) {
         case 'allcommands':
-          await i.update(
+          await i.deferUpdate();
+          await wait(1000);
+          await i.editReply(
             {
               content: 'allcommands.button.triggered', 
               embeds: [helpEmbed], 
@@ -72,7 +75,9 @@ module.exports = {
           );
           break;
         case 'botsettings':
-          await i.update(
+          await i.deferUpdate();
+          await wait(1000);
+          await i.editReply(
             {
               content: 'botsettings.button.triggered', 
               embeds: [helpEmbed], 
@@ -81,15 +86,19 @@ module.exports = {
           );
           break;
         case 'closemenu':
-          await i.update(
+          await i.deferUpdate();
+          await wait(1000);
+          await i.editReply(
             {
               content: 'Help menu closed. Have a nice day! :D',
-              ephemeral: true
+              embeds: [], components: []
             }
           );
+          await wait(5000);
+          await i.deleteReply();
           break;
         default: 
-          logger.warn('Invalid button pressed for this menu!')
+          logger.warn('Invalid button pressed for this menu!');
           await i.update(
             {
               content: 'That button is invalid or not recognised in this menu!', 
