@@ -16,16 +16,12 @@ module.exports = {
     const helpMainMenuBtns = new MessageActionRow()
       .addComponents(
         new MessageButton()
-          .setCustomId('helpmenu')
+          .setCustomId('helpindex')
           .setLabel('Main Menu')
           .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('allcommands')
           .setLabel('All Commands')
-          .setStyle('SECONDARY'),
-        new MessageButton()
-          .setCustomId('botsettings')
-          .setLabel('Bot Settings')
           .setStyle('SECONDARY'),
         new MessageButton()
           .setLabel('Dashboard')
@@ -79,7 +75,7 @@ module.exports = {
     // Internal help menu collector.
     collector.on('collect', async i => {
       switch (i.customId) {
-        case 'helpmenu': 
+        case 'helpindex': 
           await i.deferUpdate();
           await wait(1000);
           await i.editReply(
@@ -106,27 +102,6 @@ module.exports = {
           await i.editReply(
             {
               embeds: [cmdsEmbed], 
-              components: [helpMainMenuBtns]
-            }
-          );
-          break;
-        case 'botsettings':
-          settingsEmbed.title = 'Bot Settings';
-          settingsEmbed.description = `Change the settings for your guild here.`;
-          settingsEmbed.fields = [
-            {
-              name: 'Feature not yet ready!!',
-              value: `
-              Argh! This submenu is not yet ready and is under construction.
-              It will be available in a future update. Sorry about that. XC - NovaLynxie
-              `
-            }
-          ];
-          await i.deferUpdate();
-          await wait(1000);
-          await i.editReply(
-            { 
-              embeds: [settingsEmbed], 
               components: [helpMainMenuBtns]
             }
           );
