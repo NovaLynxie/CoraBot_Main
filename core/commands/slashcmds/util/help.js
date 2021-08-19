@@ -1,4 +1,5 @@
 const { MessageActionRow, MessageButton } = require('discord.js');
+const logger = require('../../../plugins/winstonplugin');
 const {config} = require('../../../handlers/bootloader'); const {dashboard} = config;
 module.exports = {
   data: {
@@ -6,7 +7,17 @@ module.exports = {
     category: 'util',
     description: "Provides a useful help embed and button menu!"
   },
-	async execute(interaction, client) {    
+	async execute(interaction, client) {
+    const filter = i => i.customId === 'allcommands';
+    const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 });
+
+    collector.on('collect', async i => {
+      if (i.customId === 'allcommands') {
+        await i.update({ content: 'A button was clicked!', components: [] });
+      }
+    });
+    collector.on('end', collected => logger.debug(`Collected ${collected.size} items`));
+
     const helpButtons1 = new MessageActionRow()
       .addComponents(
         new MessageButton()
