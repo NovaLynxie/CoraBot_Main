@@ -9,14 +9,7 @@ module.exports = {
   },
 	async execute(interaction, client) {
     const filter = i => i.customId === 'allcommands';
-    const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 });
-
-    collector.on('collect', async i => {
-      if (i.customId === 'allcommands') {
-        await i.update({ content: 'A button was clicked!', components: [] });
-      }
-    });
-    collector.on('end', collected => logger.debug(`Collected ${collected.size} items`));
+    const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 }); 
 
     const helpButtons1 = new MessageActionRow()
       .addComponents(
@@ -61,6 +54,15 @@ module.exports = {
         }
       ]
     };
+    // Internal help menu collector.
+    collector.on('collect', async i => {
+      if (i.customId === 'allcommands') {
+        await i.update({ content: 'A button was clicked!', components: [] });
+      }
+    });
+    // Log on collector end (temporary)
+    collector.on('end', collected => logger.debug(`Collected ${collected.size} items`));
+
     await interaction.reply(
       {
         embeds: [helpEmbed],
