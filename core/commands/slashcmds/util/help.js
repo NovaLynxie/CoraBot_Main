@@ -131,7 +131,7 @@ module.exports = {
       };
     });
     // Log on collector end (temporary)
-    collector.on('end', collected => {
+    collector.on('end', async collected => {
       await interaction.reply({ 
         content: 'Timed out. Please run /help again to continue using the help menu.',
         ephemeral: true 
