@@ -32,6 +32,8 @@ module.exports = {
           .setLabel('Close Menu')
           .setStyle('DANGER'),
       );
+    
+    // Prepare base 'template' object here.
     const baseEmbed = {
       color: '#0099ff',
       title: 'Help Menu',
@@ -40,7 +42,11 @@ module.exports = {
       footer: 'Built on Node.js using Discord.js with Commando.',
       thumbnail: client.user.displayAvatarURL({ format: 'png'})
     };
-    const helpEmbed, cmdsEmbed, settingsEmbed = baseEmbed;
+    
+    // Declare embed objects here.
+    let helpEmbed, cmdsEmbed, settingsEmbed;
+    helpEmbed = cmdsEmbed = settingsEmbed = baseEmbed;
+
     helpEmbed.title = 'Help Menu';
     helpEmbed.description = `Hello ${interaction.user.tag}! How may I be of assistance?`;
     helpEmbed.fields = [
