@@ -1,4 +1,5 @@
 const { MessageActionRow, MessageButton } = require('discord.js');
+const {config} = require('../../../handlers/bootloader'); const {dashboard} = config;
 module.exports = {
   data: {
     name: 'help',
@@ -19,12 +20,11 @@ module.exports = {
         new MessageButton()
           .setLabel('Dashboard')
           .setStyle('LINK')
-          .setURL('https://zeonbot.novalynxie.repl.co')
+          .setURL(dashboard.dashDomain)
       );
     const helpEmbed = {
       color: '#0099ff',
       title: 'Help Menu',
-      url: 'https://discord.js.org',
       description: 'Welcome to the help menu!',
       fields: [
         {
