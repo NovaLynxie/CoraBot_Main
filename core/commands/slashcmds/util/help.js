@@ -32,12 +32,17 @@ module.exports = {
           .setLabel('Close Menu')
           .setStyle('DANGER'),
       );
-    const helpEmbed = {
+    const baseEmbed = {
       color: '#0099ff',
       title: 'Help Menu',
       description: 'Welcome to the help menu!',
-      fields: [
-        {
+      fields: [],
+      footer: `Built on Node.js using Discord.js with Commando.`
+      thumbnail: client.user.displayAvatarURL({ format: 'png'})
+    }
+    const helpEmbed, cmdsEmbed = baseEmbed;
+    const helpEmbed.fields = [
+      {
           name: 'Commands (WIP)',
           value: `
           This lists all the prefix and slash commands.
@@ -58,8 +63,31 @@ module.exports = {
           Tap the Dashboard button to bring you to the web dashboard.
           `
         }
-      ]
-    };
+    ];
+    
+    cmdsEmbed.fields = [
+      {
+        name: 'Commands (WIP)',
+        value: `
+        This lists all the prefix and slash commands.
+        Tap the 'Commands' button to open the help menu.
+        `
+      },
+      {
+        name: 'Settings (WIP)',
+        value: `
+        Configure the bot prefix, modules and other options from here.
+        Tap the settings button to open the menu.
+        `
+      },
+      {
+        name: 'Dashboard (WIP)',
+        value: `
+        You can use the dashboard to configure the bot, join or leave any server you are linked to!
+        Tap the Dashboard button to bring you to the web dashboard.
+        `
+      }
+    ];
     // Internal help menu collector.
     collector.on('collect', async i => {
       switch (i.customId) {
