@@ -35,13 +35,15 @@ module.exports = {
     const baseEmbed = {
       color: '#0099ff',
       title: 'Help Menu',
-      description: 'Welcome to the help menu!',
+      description: '',
       fields: [],
       footer: `Built on Node.js using Discord.js with Commando.`
       thumbnail: client.user.displayAvatarURL({ format: 'png'})
     }
     const helpEmbed, cmdsEmbed = baseEmbed;
-    const helpEmbed.fields = [
+    helpEmbed.title = 'Help Menu';
+    helpEmbed.description = `Hello ${interaction.user.tag}! How may I be of assistance?`;
+    helpEmbed.fields = [
       {
           name: 'Commands (WIP)',
           value: `
@@ -65,26 +67,14 @@ module.exports = {
         }
     ];
     
+    cmdsEmbed.title = 'Commands Help';
+    cmdsEmbed.description = `Here is a list of all my commands ${interaction.user.tag}.`;
     cmdsEmbed.fields = [
       {
-        name: 'Commands (WIP)',
+        name: 'Feature not yet ready!!',
         value: `
-        This lists all the prefix and slash commands.
-        Tap the 'Commands' button to open the help menu.
-        `
-      },
-      {
-        name: 'Settings (WIP)',
-        value: `
-        Configure the bot prefix, modules and other options from here.
-        Tap the settings button to open the menu.
-        `
-      },
-      {
-        name: 'Dashboard (WIP)',
-        value: `
-        You can use the dashboard to configure the bot, join or leave any server you are linked to!
-        Tap the Dashboard button to bring you to the web dashboard.
+        Argh! This submenu is not yet ready and is under construction.
+        It will be available in a future update. Sorry about that. XC - NovaLynxie
         `
       }
     ];
