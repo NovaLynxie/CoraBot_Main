@@ -25,7 +25,11 @@ module.exports = {
         new MessageButton()
           .setLabel('Dashboard')
           .setStyle('LINK')
-          .setURL(dashboard.dashDomain)
+          .setURL(dashboard.dashDomain),
+          new MessageButton()
+          .setCustomId('closemenu')
+          .setLabel('Close Menu')
+          .setStyle('DANGER'),
       );
     const helpEmbed = {
       color: '#0099ff',
@@ -57,24 +61,43 @@ module.exports = {
     };
     // Internal help menu collector.
     collector.on('collect', async i => {
-      if (i.customId === 'allcommands') {
-        await i.update(
-          {
-            content: 'allcommands.button.triggered', 
-            embeds: [helpEmbed], 
-            components: [helpButtons1]
-          }
-        );
+      switch (i.customId) {
+        case 'allcommands':
+          await i.update(
+            {
+              content: 'allcommands.button.triggered', 
+              embeds: [helpEmbed], 
+              components: [helpButtons1]
+            }
+          );
+          break;
+        case 'botsettings':
+          await i.update(
+            {
+              content: 'botsettings.button.triggered', 
+              embeds: [helpEmbed], 
+              components: [helpButtons1]
+            }
+          );
+          break;
+        case 'closemenu':
+          await i.update(
+            {
+              content: 'Help menu closed. Have a nice day! :D',
+              ephemeral: true
+            }
+          );
+          break;
+        default: 
+          logger.warn('Invalid button pressed for this menu!')
+          await i.update(
+            {
+              content: 'That button is invalid or not recognised in this menu!', 
+              embeds: [helpEmbed], 
+              components: [helpButtons1]
+            }
+          );
       };
-      if (i.customId === 'botsettings') {
-        await i.update(
-          {
-            content: 'botsettings.button.triggered', 
-            embeds: [helpEmbed], 
-            components: [helpButtons1]
-          }
-        );
-      }
     });
     // Log on collector end (temporary)
     collector.on('end', collected => logger.debug(`Collected ${collected.size} items`));
