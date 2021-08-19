@@ -14,7 +14,6 @@ module.exports = {
       }
     } else 
     if (interaction.isButton()) {
-      logger.data(JSON.stringify(interaction));
       logger.debug(`${interaction.user.tag} in #${interaction.channel.name} from ${interaction.guild.name} triggered componentType=${interaction.componentType} -> id=${interaction.customId}`);
     } else {
       logger.debug('Invalid or malformed interaction called!');
