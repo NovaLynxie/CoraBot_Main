@@ -11,7 +11,7 @@ module.exports = {
 	async execute(interaction, client) {
     const buttonIDs = ['allcommands', 'botsettings'];
     const filter = i => buttonIDs.indexOf(i.customId);
-    const collector = interaction.channel.createMessageComponentCollector({ time: 30000}); 
+    const collector = interaction.channel.createMessageComponentCollector({ time: 60000}); 
 
     const helpMainMenuBtns = new MessageActionRow()
       .addComponents(
@@ -131,7 +131,12 @@ module.exports = {
       };
     });
     // Log on collector end (temporary)
-    collector.on('end', collected => logger.debug(`Collected ${collected.size} items`));
+    collector.on('end', collected => {
+      await interaction.reply({ 
+        content: 'Timed out. Please run /help again to continue using the help menu.',
+        ephemeral: true 
+      });
+    });
     // Send this part.
     await interaction.reply(
       {
