@@ -13,8 +13,12 @@ module.exports = {
     const filter = i => buttonIDs.indexOf(i.customId);
     const collector = interaction.channel.createMessageComponentCollector({ time: 30000}); 
 
-    const helpButtons1 = new MessageActionRow()
+    const helpMainMenuBtns = new MessageActionRow()
       .addComponents(
+        new MessageButton()
+          .setCustomId('helpmenu')
+          .setLabel('Main Menu')
+          .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('allcommands')
           .setLabel('All Commands')
@@ -36,7 +40,7 @@ module.exports = {
     // Prepare base 'template' object here.
     const baseEmbed = {
       color: '#0099ff',
-      title: 'Help Menu',
+      title: '',
       description: '',
       fields: [],
       footer: 'Built on Node.js using Discord.js with Commando.',
@@ -44,7 +48,7 @@ module.exports = {
     };
     
     // Declare embed objects here.
-    let helpEmbed, cmdsEmbed, settingsEmbed;
+    var helpEmbed, cmdsEmbed, settingsEmbed;
     helpEmbed = baseEmbed; cmdsEmbed = baseEmbed; settingsEmbed = baseEmbed;
 
     helpEmbed.title = 'Help Menu';
@@ -72,52 +76,57 @@ module.exports = {
           `
         }
     ];
-    
-    cmdsEmbed.title = 'Commands Help';
-    cmdsEmbed.description = `Here is a list of all my commands ${interaction.user.tag}.`;
-    cmdsEmbed.fields = [
-      {
-        name: 'Feature not yet ready!!',
-        value: `
-        Argh! This submenu is not yet ready and is under construction.
-        It will be available in a future update. Sorry about that. XC - NovaLynxie
-        `
-      }
-    ];
-
-    settingsEmbed.title = 'Bot Settings';
-    settingsEmbed.description = `Change the settings for your guild here.`;
-    settingsEmbed.fields = [
-      {
-        name: 'Feature not yet ready!!',
-        value: `
-        Argh! This submenu is not yet ready and is under construction.
-        It will be available in a future update. Sorry about that. XC - NovaLynxie
-        `
-      }
-    ];
     // Internal help menu collector.
     collector.on('collect', async i => {
       switch (i.customId) {
-        case 'allcommands':
+        case 'helpmenu': 
           await i.deferUpdate();
           await wait(1000);
           await i.editReply(
             {
-              content: 'allcommands.button.triggered', 
+              embeds: [helpEmbed],
+              components: [helpMainMenuBtns]
+            }
+          )
+        case 'allcommands':
+          cmdsEmbed.title = 'Commands Help';
+          cmdsEmbed.description = `Here is a list of all my commands ${interaction.user.tag}.`;
+          cmdsEmbed.fields = [
+            {
+              name: 'Feature not yet ready!!',
+              value: `
+              Argh! This submenu is not yet ready and is under construction.
+              It will be available in a future update. Sorry about that. XC - NovaLynxie
+              `
+            }
+          ];
+          await i.deferUpdate();
+          await wait(1000);
+          await i.editReply(
+            {
               embeds: [cmdsEmbed], 
-              components: [helpButtons1]
+              components: [helpMainMenuBtns]
             }
           );
           break;
         case 'botsettings':
+          settingsEmbed.title = 'Bot Settings';
+          settingsEmbed.description = `Change the settings for your guild here.`;
+          settingsEmbed.fields = [
+            {
+              name: 'Feature not yet ready!!',
+              value: `
+              Argh! This submenu is not yet ready and is under construction.
+              It will be available in a future update. Sorry about that. XC - NovaLynxie
+              `
+            }
+          ];
           await i.deferUpdate();
           await wait(1000);
           await i.editReply(
-            {
-              content: 'botsettings.button.triggered', 
+            { 
               embeds: [settingsEmbed], 
-              components: [helpButtons1]
+              components: [helpMainMenuBtns]
             }
           );
           break;
@@ -135,22 +144,23 @@ module.exports = {
           break;
         default: 
           logger.warn('Invalid button pressed for this menu!');
+          console.log('button.default.trigger')
           await i.update(
             {
               content: 'That button is invalid or not recognised in this menu!', 
               embeds: [helpEmbed], 
-              components: [helpButtons1]
+              components: [helpMainMenuBtns]
             }
           );
       };
     });
     // Log on collector end (temporary)
     collector.on('end', collected => logger.debug(`Collected ${collected.size} items`));
-
+    // Send this part.
     await interaction.reply(
       {
         embeds: [helpEmbed],
-        components: [helpButtons1],
+        components: [helpMainMenuBtns],
       }
     );   
 	},
