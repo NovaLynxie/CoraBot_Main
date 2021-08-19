@@ -87,7 +87,8 @@ module.exports = {
               embeds: [helpEmbed],
               components: [helpMainMenuBtns]
             }
-          )
+          );
+          break;
         case 'allcommands':
           cmdsEmbed.title = 'Commands Help';
           cmdsEmbed.description = `Here is a list of all my commands ${interaction.user.tag}.`;
