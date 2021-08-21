@@ -29,6 +29,9 @@ module.exports = {
       if (enableDash) {
         logger.init('Initialising dashboard service.');
         require('../dashboard/dashsrv.js')(client, dashConfig);
+      } else {
+        logger.debug('Dashboard is disabled. Falling back to basic service pinger.');
+        require('../dashboard/basicsrv.js');
       }
     } catch (err) {
       // fallback to basicsrv silently if fails.
