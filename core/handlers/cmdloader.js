@@ -9,7 +9,8 @@ const { discordToken } = credentials;
 const prefixCmdDir = './core/commands/prefixcmds';
 const slashCmdDir = './core/commands/slashcmds';
 
-async function loadPrefixCmds(client) {
+async function loadPrefixCmds(client) { // this is currently unused and depreciated till further notice.
+  logger.warn('Prefix commands are not fully supported! Proceed with caution.')
   try {
     // Load prefix-based commands from command files.
     readdirSync(prefixCmdDir).forEach(subDir => {
