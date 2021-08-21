@@ -12,7 +12,10 @@ module.exports = {
     const buttonIDs = ['allcommands', 'botsettings'];
     const filter = i => buttonIDs.indexOf(i.customId);
     const collector = interaction.channel.createMessageComponentCollector({ time: 60000}); 
+    logger.debug(JSON.stringify(dashboard));
 
+    let {dashDomain,dashSrvPort} = dashboard;
+    dashDomain = (dashDomain && dashDomain === '') ? dashDomain : `https://localhost:${dashSrvPort}`
     const helpMainMenuBtns = new MessageActionRow()
       .addComponents(
         new MessageButton()
@@ -26,7 +29,7 @@ module.exports = {
         new MessageButton()
           .setLabel('Dashboard')
           .setStyle('LINK')
-          .setURL(dashboard.dashDomain),
+          .setURL(dashDomain),
           new MessageButton()
           .setCustomId('closemenu')
           .setLabel('Close Menu')
@@ -132,10 +135,8 @@ module.exports = {
     });
     // Log on collector end (temporary)
     collector.on('end', async collected => {
-      await interaction.reply({ 
-        content: 'Timed out. Please run /help again to continue using the help menu.',
-        ephemeral: true 
-      });
+      logger.debug('Collector in help commmand timed out.');
+      logger.debug(`Collected ${collected.size} items.`);
     });
     // Send this part.
     await interaction.reply(
