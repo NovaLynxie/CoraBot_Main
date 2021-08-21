@@ -2,10 +2,10 @@ const { stripIndents } = require("common-tags");
 
 module.exports = {
     data: {
-        name: 'botinfo',
-        aliases: ['aboutbot', 'whois'],
+        name: 'info',
+        aliases: ['about'],
         category: 'info',
-        description: 'Displays basic information about the bot.'
+        description: 'Displays basic information about the bot or server.'
     },
     execute(message, client) {
         const embed = {
