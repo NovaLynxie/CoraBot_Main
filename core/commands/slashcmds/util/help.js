@@ -45,53 +45,40 @@ module.exports = {
       footer: 'Built on Node.js using Discord.js with Commando.',
       thumbnail: client.user.displayAvatarURL({ format: 'png'})
     };
-    
-    // Declare embed objects here.
-    var helpEmbed, cmdsEmbed, settingsEmbed;
-    helpEmbed = baseEmbed; cmdsEmbed = baseEmbed; settingsEmbed = baseEmbed;
 
-    helpEmbed.title = 'Help Menu';
-    helpEmbed.description = `Hello ${interaction.user.tag}! How may I be of assistance?`;
-    helpEmbed.fields = [
-      {
-          name: 'Commands (WIP)',
-          value: `
-          This lists all the prefix and slash commands.
-          Tap the 'Commands' button to open the help menu.
-          `
-        },
-        {
-          name: 'Settings (WIP)',
-          value: `
-          Configure the bot prefix, modules and other options from here.
-          Tap the settings button to open the menu.
-          `
-        },
-        {
-          name: 'Dashboard (WIP)',
-          value: `
-          You can use the dashboard to configure the bot, join or leave any server you are linked to!
-          Tap the Dashboard button to bring you to the web dashboard.
-          `
-        }
-    ];
-    // Internal help menu collector.
-    collector.on('collect', async i => {
-      switch (i.customId) {
-        case 'helpindex': 
-          await i.deferUpdate();
-          await wait(1000);
-          await i.editReply(
+    function dynamicEmbeds(menu, embed) {
+      switch(menu) {
+        case 'help':
+          embed.title = 'Help Menu';
+          embed.description = `Hello ${interaction.user.tag}! How may I be of assistance?`;
+          embed.fields = [
             {
-              embeds: [helpEmbed],
-              components: [helpMainMenuBtns]
-            }
-          );
+                name: 'Commands (WIP)',
+                value: `
+                This lists all the prefix and slash commands.
+                Tap the 'Commands' button to open the help menu.
+                `
+              },
+              {
+                name: 'Settings (WIP)',
+                value: `
+                Configure the bot prefix, modules and other options from here.
+                Tap the settings button to open the menu.
+                `
+              },
+              {
+                name: 'Dashboard (WIP)',
+                value: `
+                You can use the dashboard to configure the bot, join or leave any server you are linked to!
+                Tap the Dashboard button to bring you to the web dashboard.
+                `
+              }
+          ];
           break;
-        case 'allcommands':
-          cmdsEmbed.title = 'Commands Help';
-          cmdsEmbed.description = `Here is a list of all my commands ${interaction.user.tag}.`;
-          cmdsEmbed.fields = [
+        case 'cmds': 
+          embed.title = 'Commands Help';
+          embed.description = `Here is a list of all my commands ${interaction.user.tag}.`;
+          embed.fields = [
             {
               name: 'Feature not yet ready!!',
               value: `
@@ -100,11 +87,33 @@ module.exports = {
               `
             }
           ];
+          break;
+        default:
+          logger.debug(`Embed ${menu} not found! Silently ignored as INVALID_EMBED_MENU.`);
+      };
+      return embed;
+    }
+    
+    // Internal help menu collector.
+    collector.on('collect', async i => {
+      switch (i.customId) {
+        case 'helpindex': 
           await i.deferUpdate();
           await wait(1000);
           await i.editReply(
             {
-              embeds: [cmdsEmbed], 
+              embeds: [dynamicEmbeds('help', baseEmbed)],
+              components: [helpMainMenuBtns]
+            }
+          );
+          break;
+        case 'allcommands':
+          
+          await i.deferUpdate();
+          await wait(1000);
+          await i.editReply(
+            {
+              embeds: [dynamicEmbeds('cmds', baseEmbed)], 
               components: [helpMainMenuBtns]
             }
           );
@@ -114,7 +123,7 @@ module.exports = {
           await wait(1000);
           await i.editReply(
             {
-              content: 'Help menu closed. Have a nice day! :D',
+              content: 'Help menu has been closed. Run /help to re-open the help menu at any time.',
               embeds: [], components: []
             }
           );
@@ -138,10 +147,10 @@ module.exports = {
       logger.debug('Collector in help commmand timed out.');
       logger.debug(`Collected ${collected.size} items.`);
     });
-    // Send this part.
+    // Send this part.    
     await interaction.reply(
       {
-        embeds: [helpEmbed],
+        embeds: [dynamicEmbeds('help', baseEmbed)],
         components: [helpMainMenuBtns],
       }
     );   
