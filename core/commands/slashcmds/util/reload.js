@@ -10,7 +10,7 @@ module.exports = {
 	async execute(interaction, client) {
     logger.warn('Reloading commands! This may take a while');
     logger.debug('Reloading prefix commands.');
-    await loadPrefixCmds(client);
+    await loadPrefixCmds(client); // depreciated! may no longer be used.
     logger.debug('Reloading slash commands.');
     await loadSlashCmds(client);
     logger.info('Finished reloading commands!')

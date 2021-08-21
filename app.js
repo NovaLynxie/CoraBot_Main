@@ -42,7 +42,7 @@ for (const file of eventFiles) {
 };
 
 // Load commands using functions in cmdloader.
-loadPrefixCmds(client); // load prefixed commands.
+//loadPrefixCmds(client); // load prefixed commands. (DEPRECIATED!)
 loadSlashCmds(client); // load slash commands.
 
 // Catch unhandled exceptions and rejections not caught by my code to avoid crashes.
