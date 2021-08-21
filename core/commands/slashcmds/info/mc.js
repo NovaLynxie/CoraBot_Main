@@ -10,7 +10,7 @@ module.exports = {
         category: 'info',
         description: 'Displays basic information about requested minecraft server.'
     },
-    async run(message, {ip, port, options}) {
+    async execute(message, {ip, port, options}) {
         options=options.toLowerCase();
         logger.debug(`ip=${ip}; port=${port};`);
         function hostValidator(ip) {
