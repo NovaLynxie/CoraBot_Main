@@ -45,7 +45,8 @@ module.exports = {
       footer: 'Built on Node.js using Discord.js with Commando.',
       thumbnail: client.user.displayAvatarURL({ format: 'png'})
     };
-
+    
+    // Dynamically create embed here on call and return as an embed object.
     function dynamicEmbeds(menu, embed) {
       switch(menu) {
         case 'help':
