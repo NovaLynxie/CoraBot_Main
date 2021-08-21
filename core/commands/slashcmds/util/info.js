@@ -14,7 +14,7 @@ module.exports = {
             title: 'About Me',
             color: 0xE7A3F0,
             description: stripIndents`
-                Hello ${message.author.username}! My name is ${client.user.username}, I am a multi-purpose Discord Bot built on Discord.JS v13.`,
+                Hello ${interaction.user.username}! My name is ${client.user.username}, I am a multi-purpose Discord Bot built on Discord.JS v13.`,
             fields: [
                 {
                     name: "A little bit about myself",
