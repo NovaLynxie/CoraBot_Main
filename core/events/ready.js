@@ -20,8 +20,8 @@ module.exports = {
       "clientID" : client.application.id,
       "oauthSecret" : clientSecret,
       "sessionSecret" : sessionSecret || 'ZeonX64',
-      "botDomain" : dashDomain || `https://localhost:${dashSrvPort}`,
-      "callbackURL" : process.env.callbackURL || `https://localhost:${dashSrvPort}/auth/discord/callback`
+      "botDomain" : (dashDomain && dashDomain === '') ? dashDomain : `https://localhost:${dashSrvPort}`,
+      "callbackURL" : (dashDomain && dashDomain === '') ? `${dashDomain}/auth/discord/callback` : `https://localhost:${dashSrvPort}/auth/discord/callback`
     };
     // Start dashsrv to handle heartbeat ping requests. (eg. UptimeRobot)
     try {
