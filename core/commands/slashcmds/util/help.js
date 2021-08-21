@@ -1,5 +1,5 @@
 const { MessageActionRow, MessageButton } = require('discord.js');
-const logger = require('../../../plugins/winstonplugin');
+const logger = require('../../../plugins/winstonlogger');
 const wait = require('util').promisify(setTimeout);
 const {config} = require('../../../handlers/bootloader'); const {dashboard} = config;
 module.exports = {

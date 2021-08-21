@@ -1,4 +1,4 @@
-const logger = require('../plugins/winstonplugin');
+const logger = require('../plugins/winstonlogger');
 const {config} = require('../handlers/bootloader');
 const {debug} = config;
 let retries = 4;

@@ -1,4 +1,4 @@
-const logger = require('../plugins/winstonplugin');
+const logger = require('../plugins/winstonlogger');
 const express = require('express');
 const app = express();
 

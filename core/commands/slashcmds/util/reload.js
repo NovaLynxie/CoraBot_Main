@@ -1,5 +1,5 @@
 const { loadPrefixCmds, loadSlashCmds } = require('../../../handlers/cmdloader');
-const logger = require('../../../plugins/winstonplugin');
+const logger = require('../../../plugins/winstonlogger');
 module.exports = {
   data: {
     name: 'reload',

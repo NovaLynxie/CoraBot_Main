@@ -32,6 +32,7 @@
     "helmet": "^4.6.0",
     "html": "^1.0.0",
     "keyv": "^4.0.3",
+    "minecraft-server-util": "^3.6.0",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "morgan": "^1.10.0",

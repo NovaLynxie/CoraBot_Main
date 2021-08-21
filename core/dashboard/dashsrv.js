@@ -5,7 +5,7 @@ const url = require("url"), path = require("path"), fs = require('fs');
 const { version } = require('../../package.json');
 
 // Winston Logger Plugin
-const logger = require('../plugins/winstonplugin');
+const logger = require('../plugins/winstonlogger');
 
 // For Discord Permission Handling
 const Discord = require("discord.js");

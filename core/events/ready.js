@@ -1,4 +1,4 @@
-const logger = require('../plugins/winstonplugin');
+const logger = require('../plugins/winstonlogger');
 const {config, credentials} = require('../handlers/bootloader');
 const {debug, dashboard} = config;
 const {clientSecret, sessionSecret} = credentials;

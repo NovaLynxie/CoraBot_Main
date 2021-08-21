@@ -1,4 +1,4 @@
-const logger = require('../plugins/winstonplugin');
+const logger = require('../plugins/winstonlogger');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { readdirSync } = require('fs');
