@@ -11,7 +11,15 @@ module.exports = {
     // handle messages in a guild
     if (message.guild) {
       let prefix;
+      let data = {
+        mode: 'r', guild: message.guild
+      };
+      const guildSettings = await storeHandler(data, client);
+      const { guildPrefix } = guildSettings;
 
+      prefix = (guildPrefix) ? guildPrefix : globalPrefix;
+
+      /*
       if (message.content.startsWith(globalPrefix)) {
         prefix = globalPrefix;
       } else {
@@ -24,6 +32,7 @@ module.exports = {
         const {guildPrefix} = guildSettings;
         if (message.content.startsWith(guildPrefix)) prefix = guildPrefix;
       }
+      */
 
       // if we found a prefix, setup args; otherwise, this isn't a command
       if (!prefix) return;
