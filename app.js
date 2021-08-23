@@ -41,7 +41,7 @@ client.settings = {
   }
 }
 
-// Commands collection object.
+// Initialize commands collection objects.
 let commandCollections = ["prefixcmds", "slashcmds"];
 commandCollections.forEach(data => client[data] = new Collection());
 
@@ -56,10 +56,6 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args, client));
 	};
 };
-
-// Load commands using functions in cmdloader.
-//loadPrefixCmds(client); // load prefixed commands. (DEPRECIATED!)
-loadSlashCmds(client); // load slash commands.
 
 // Catch unhandled exceptions and rejections not caught by my code to avoid crashes.
 process.on('unhandledRejection', error => {

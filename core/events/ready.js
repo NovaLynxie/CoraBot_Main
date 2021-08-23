@@ -18,7 +18,10 @@ module.exports = {
     await client.settings.init();
     let guilds = client.guilds.cache.map(g => g.id);
     await client.settings.guild.init(guilds);
-    logger.info('Finished final checks. Bot ready to accept commands.');
+    logger.info('Finished final checks. Preparing commands.');
+    // Load commands here using the client's unique ID.
+    //loadPrefixCmds(client); // load prefixed commands. (DEPRECIATED!)
+    loadSlashCmds(client); // load slash commands.
     // Prepare configuration for the dashboard service.
     const dashConfig = {
       "debug": debug, // used to enable debug console log data.
