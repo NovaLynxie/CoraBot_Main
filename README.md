@@ -16,7 +16,7 @@ Don't worry, I also come with a help command so you can find out what commands I
 ### Requirements
 - Node.js v16 or higher - Discord.js v13 requires this!!
 - FFmpeg v4 or higher - For voice channel support. (Not Yet Implemented)
-- privileged Intents enabled on Discord Bot User!
+- Privileged Intents enabled on Discord Bot User!
 
 FFmpeg is required for all voice interactions to work correctly.
 
