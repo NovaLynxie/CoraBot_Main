@@ -3,7 +3,11 @@ const { readdirSync } = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { loadPrefixCmds, loadSlashCmds } = require('./core/handlers/cmdloader');
 const { crashReporter } = require('./core/handlers/crashreporter');
-
+const { 
+  generateClientSettings, generateGuildSettings
+  saveClientSettings, saveGuildSettings,
+  readClientSettings, readGuildSettings
+} = require('./core/handlers/settingsmanager');
 const {config, credentials} = require('./core/handlers/bootloader');
 const {globalPrefix, ownerIDs, useLegacyURL, debug} = config;
 const {discordToken} = credentials; 
@@ -24,6 +28,18 @@ if (useLegacyURL) {
   logger.warn('Using Legacy API domain. This is not recommended!')
   client.options.http.api = "https://discordapp.com/api"
 };
+
+// Add settings handlers to client object.
+client.settings = {
+  get: readClientSettings,
+  set: saveClientSettings,
+  init: generateClientSettings,
+  guild: {
+    get: readGuildSettings,
+    set: saveGuildSettings,
+    init: generateGuildSettings
+  }
+}
 
 // Commands collection object.
 let commandCollections = ["prefixcmds", "slashcmds"];
