@@ -10,13 +10,14 @@ function verifyDataObj (data) {
   if (data !== typeof 'object') return logger.error('Invalid data type! Expected object!');
 };
 
-async function generateGuildSettings (data, guild) {
+async function generateGuildSettings (guilds) {
+  verifyDataObj(guilds);
   guilds.forEach(async (guildId) => {
     logger.debug(`Parsing ${guildId} of guilds`);
     await guildStore.set(guildId, guildSettings);
   });
 };
-async function generateClientSettings (data, client) {
+async function generateClientSettings () {
   await clientStore.set("clientSettings", clientSettings);
 };
 

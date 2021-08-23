@@ -41,10 +41,13 @@ module.exports = {
       require('../dashboard/basicsrv.js');
     };
     let guilds = client.guilds.cache.map(g => g.id);
+    client.settings.guild.init(guilds);
+    /*
     let data = {
       guilds: guilds,
       mode: 'g'
-    };    
+    };
     await storeHandler(data, client);
+    */
 	},
 };
