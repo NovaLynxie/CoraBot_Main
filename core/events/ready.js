@@ -40,6 +40,7 @@ module.exports = {
       logger.debug(err.stack);
       require('../dashboard/basicsrv.js');
     };
+    client.settings.init();
     let guilds = client.guilds.cache.map(g => g.id);
     client.settings.guild.init(guilds);
     /*
