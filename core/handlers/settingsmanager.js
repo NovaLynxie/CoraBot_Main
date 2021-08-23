@@ -44,7 +44,7 @@ async function readGuildSettings (guild) {
 
 // Finally export functions for use in other modules.
 module.exports = {
-  generateClientSettings, generateGuildSettings
+  generateClientSettings, generateGuildSettings,
   saveClientSettings, saveGuildSettings,
   readClientSettings, readGuildSettings
 };

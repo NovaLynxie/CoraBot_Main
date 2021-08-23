@@ -4,7 +4,7 @@ const { Client, Collection, Intents } = require('discord.js');
 const { loadPrefixCmds, loadSlashCmds } = require('./core/handlers/cmdloader');
 const { crashReporter } = require('./core/handlers/crashreporter');
 const { 
-  generateClientSettings, generateGuildSettings
+  generateClientSettings, generateGuildSettings,
   saveClientSettings, saveGuildSettings,
   readClientSettings, readGuildSettings
 } = require('./core/handlers/settingsmanager');
