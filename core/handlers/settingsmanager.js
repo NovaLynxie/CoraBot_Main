@@ -5,14 +5,9 @@ const guildStore = new Keyv({ store: new Keyv('sqlite://data/storage/settings.db
 const clientSettings = require('../assets/json/clientSettings.json');
 const guildSettings = require('../assets/json/guildSettings.json');
 
-// Verification of incoming data object. (WIP)
-function verifyDataObj (data) {
-  if (data !== typeof 'object') throw new Error('Invalid data type! Expected object!');
-};
-
+// Generate settings if none is found.
 async function generateGuildSettings (guilds) {
   logger.warn('Preparing to generate guild settings now...');
-  verifyDataObj(guilds);
   guilds.forEach(async (guildId) => {
     logger.debug(`Checking ${guildId} of guilds`);
     let settings = await guildStore.get(guildId);
@@ -32,7 +27,6 @@ async function generateClientSettings () {
 
 // Read/Write functions for KeyV database - Client Settings.
 async function saveClientSettings (data, client) {
-  verifyDataObj(data);
   await guildStore.set("clientSettings", data.settings);
 };
 async function readClientSettings (client) {
@@ -43,7 +37,6 @@ async function readClientSettings (client) {
 
 // Read/Write functions for KeyV database - Guild Settings.
 async function saveGuildSettings (data, guild) {
-  verifyDataObj(data);
   await guildStore.set(guild.id, data.settings);
 };
 async function readGuildSettings (guild) {
