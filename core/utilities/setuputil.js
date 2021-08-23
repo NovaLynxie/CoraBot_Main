@@ -4,9 +4,9 @@ const { mkdir, writeFile } = fs;
 const prompt = require('prompt');
 
 console.log('Welcome to the Bot Setup Utility!');
-console.log('This setup utility will help you configure your bot credentials and basic setup.')
-console.log('Please follow the prompts to set up your bot.')
-console.log('---------------------------------------------')
+console.log('This setup utility will help you configure your bot credentials and basic setup.');
+console.log('Please follow the prompts to set up your bot.');
+console.log('---------------------------------------------');
 const schema = {
   properties: {
     // Setup credentials with env vars or toml config.
