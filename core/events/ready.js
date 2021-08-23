@@ -23,6 +23,9 @@ module.exports = {
       "botDomain" : (dashDomain) ? dashDomain : `https://localhost:${dashSrvPort}`,
       "callbackURL" : (dashDomain) ? `${dashDomain}/api/discord/callback` : `https://localhost:${dashSrvPort}/api/discord/callback`
     };
+    logger.debug('Loading dashboard configuration.');
+    logger.debug(JSON.stringify(dashConfig));
+    logger.debug('Preparing to initialize dashboard...');
     // Start dashsrv to handle heartbeat ping requests. (eg. UptimeRobot)
     try {
       logger.verbose(`enableDash=${enableDash}`);
