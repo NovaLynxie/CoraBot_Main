@@ -80,7 +80,7 @@ async function loadSlashCmds(client) {
     });
   } catch (error) {  
     if (error.code === 'ENOENT') {      
-      logger.fatal('Unable to find slashcmds directory!')
+      logger.fatal('Unable to find slashcmds directory!');
     } else
     if (error.message.indexOf('Cannot find module') > -1) {
       logger.fatal('Unable to find or load specified command file!');
@@ -96,19 +96,35 @@ async function loadSlashCmds(client) {
     logger.warn("Stopped loading directory 'slashcmds'. Some commands may fail to respond.");
   };
 
-  let clientId = process.env.clientId || client.user.id, guildId = process.env.devGuildId || '694830379756027924';
   const rest =  new REST({ version: '9' }).setToken(discordToken);
+  /* 
+  // Load commands into client as global commands.
   try {
-    logger.debug('Started refreshing application (/) commands.');
+    logger.debug(`Started refreshing application (/) commands for ${client.user.tag}.`);
     await rest.put(
-      Routes.applicationGuildCommands(clientId, guildId),
+      Routes.applicationCommands(process.env.clientId || client.user.id),
       { body: commands },
     );
-    logger.debug('Successfully reloaded application (/) commands.');
+    logger.debug(`Successfully reloaded application (/) commands for ${client.user.tag}.`);
   } catch (error) {
     logger.error('Unable to refresh application (/) commands!')
     logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
   };
-}
+  */
+  // Load commands into guilds as guild commands.
+  client.guilds.cache.forEach(async guild => {
+    try {
+      logger.debug(`Started refreshing application (/) commands in ${guild.name}.`);
+      await rest.put(
+        Routes.applicationGuildCommands(process.env.clientId || client.user.id, guild.id),
+        { body: commands },
+      );
+      logger.debug(`Successfully reloaded application (/) commands in ${guild.name}.`);
+    } catch (error) {
+      logger.error('Unable to refresh application (/) commands!')
+      logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
+    };
+  });  
+};
 
 module.exports = {loadPrefixCmds, loadSlashCmds};
