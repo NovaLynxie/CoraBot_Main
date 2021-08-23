@@ -11,13 +11,22 @@ function verifyDataObj (data) {
 };
 
 async function generateGuildSettings (guilds) {
+  logger.warn('Preparing to generate guild settings now...');
   verifyDataObj(guilds);
   guilds.forEach(async (guildId) => {
-    logger.debug(`Parsing ${guildId} of guilds`);
-    await guildStore.set(guildId, guildSettings);
+    logger.debug(`Checking ${guildId} of guilds`);
+    let settings = await guildStore.get(guildId);
+    if (settings) {
+      logger.debug(`Guild ${guildId} already has settings defined!`);
+      return; // don't do anything if <guildId> already has settings.
+    } else {
+      logger.debug(`Adding new settings for ${guildId} now...`); 
+      await guildStore.set(guildId, guildSettings);
+    };    
   });
 };
 async function generateClientSettings () {
+  logger.warn('Preparing to generate bot settings now...');
   await clientStore.set("clientSettings", clientSettings);
 };
 
