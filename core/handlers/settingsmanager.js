@@ -7,7 +7,7 @@ const guildSettings = require('../assets/json/guildSettings.json');
 
 // Verification of incoming data object. (WIP)
 function verifyDataObj (data) {
-  if (data !== typeof 'object') return logger.error('Invalid data type! Expected object!');
+  if (data !== typeof 'object') throw new Error('Invalid data type! Expected object!');
 };
 
 async function generateGuildSettings (guilds) {
