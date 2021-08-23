@@ -38,6 +38,5 @@ async function storeHandler(data, client) {
     });
     logger.info('Finished updating database.');
   };
-  
 };
 module.exports = {storeHandler};
