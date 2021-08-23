@@ -68,7 +68,7 @@ module.exports = (client, config) => {
     // session storage location
     store: new SQLiteStore({
       db: "sessions.db",
-      dir: "./data/storage/"
+      dir: "./data/"
     }),
     // session secret - verification step
     secret: process.env.SESSION_SECRET || config.sessionSecret,

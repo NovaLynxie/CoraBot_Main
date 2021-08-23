@@ -77,7 +77,7 @@ const schema = {
 prompt.start();
 
 // define paths here.
-let dataDir = './data/storage', settingsDir = './settings';
+let dataDir = './data', settingsDir = './settings';
 let authCfgPath = `${settingsDir}/auth.toml`, dirEnvPath = './.env', mainCfgPath = `${settingsDir}/main.toml`;
 
 // setup utilities functions

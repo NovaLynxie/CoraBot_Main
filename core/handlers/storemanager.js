@@ -1,7 +1,7 @@
 const logger = require('../plugins/winstonlogger.js');
 const Keyv = require('keyv');
-const clientStore = new Keyv({ store: new Keyv('sqlite://data/storage/settings.db'), namespace: 'clientSettings' });
-const guildStore = new Keyv({ store: new Keyv('sqlite://data/storage/settings.db'), namespace: 'guildSettings' });
+const clientStore = new Keyv({ store: new Keyv('sqlite://data/settings.db'), namespace: 'clientSettings' });
+const guildStore = new Keyv({ store: new Keyv('sqlite://data/settings.db'), namespace: 'guildSettings' });
 const clientSettings = require('../assets/json/clientSettings.json');
 const guildSettings = require('../assets/json/guildSettings.json');
 
