@@ -9,9 +9,16 @@ module.exports = {
 	once: true,
 	async execute(client) {
 		logger.info(`Logged in as ${client.user.tag}. Bot Online!`);
+    logger.warn('Still running final checks! Bot may be slow for a few minutes.')
     clearTimeout(client.timers.rateLimitWarn);
     logger.debug('Cleared ratelimit warning timer.');
+    // Fetch application information.
     client.application = await client.application.fetch();
+    // Check settings database.
+    await client.settings.init();
+    let guilds = client.guilds.cache.map(g => g.id);
+    await client.settings.guild.init(guilds);
+    logger.info('Finished final checks. Bot ready to accept commands.');
     // Prepare configuration for the dashboard service.
     const dashConfig = {
       "debug": debug, // used to enable debug console log data.
@@ -47,15 +54,5 @@ module.exports = {
       logger.debug(err.stack);
       require('../dashboard/basicsrv.js');
     };
-    client.settings.init();
-    let guilds = client.guilds.cache.map(g => g.id);
-    client.settings.guild.init(guilds);
-    /*
-    let data = {
-      guilds: guilds,
-      mode: 'g'
-    };
-    await storeHandler(data, client);
-    */
 	},
 };

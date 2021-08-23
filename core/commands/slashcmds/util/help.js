@@ -97,10 +97,10 @@ module.exports = {
     
     // Internal help menu collector.
     collector.on('collect', async i => {
+      await i.deferUpdate();
+      await wait(1000);
       switch (i.customId) {
         case 'helpindex': 
-          await i.deferUpdate();
-          await wait(1000);
           await i.editReply(
             {
               embeds: [dynamicEmbeds('help', baseEmbed)],
@@ -109,9 +109,6 @@ module.exports = {
           );
           break;
         case 'allcommands':
-          
-          await i.deferUpdate();
-          await wait(1000);
           await i.editReply(
             {
               embeds: [dynamicEmbeds('cmds', baseEmbed)], 
@@ -120,8 +117,6 @@ module.exports = {
           );
           break;
         case 'closemenu':
-          await i.deferUpdate();
-          await wait(1000);
           await i.editReply(
             {
               content: 'Help menu has been closed. Run /help to re-open the help menu at any time.',
