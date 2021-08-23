@@ -1,9 +1,10 @@
 const logger = require('../plugins/winstonlogger');
-const {config, credentials} = require('../handlers/bootloader');
-const {debug, dashboard} = config;
-const {clientSecret, sessionSecret} = credentials;
-const {enableDash, dashDomain, dashSrvPort, reportOnly} = dashboard;
-const {storeHandler} = require('../handlers/storemanager');
+const { loadPrefixCmds, loadSlashCmds } = require('./core/handlers/cmdloader');
+const { config, credentials } = require('../handlers/bootloader');
+const { debug, dashboard } = config;
+const { clientSecret, sessionSecret } = credentials;
+const { enableDash, dashDomain, dashSrvPort, reportOnly } = dashboard;
+const { storeHandler } = require('../handlers/storemanager');
 module.exports = {
 	name: 'ready',
 	once: true,
