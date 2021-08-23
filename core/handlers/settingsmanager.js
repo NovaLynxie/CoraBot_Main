@@ -22,7 +22,8 @@ async function generateClientSettings (data, client) {
 
 // Read/Write functions for KeyV database - Client Settings.
 async function saveClientSettings (data, client) {
-  //
+  verifyDataObj(data);
+  await guildStore.set("clientSettings", data.settings);
 };
 async function readClientSettings (client) {
   logger.debug(`Fetching settings for ${client.user.tag} (ID:${client.user.id}).`);
@@ -32,8 +33,8 @@ async function readClientSettings (client) {
 
 // Read/Write functions for KeyV database - Guild Settings.
 async function saveGuildSettings (data, guild) {
-  //
-  
+  verifyDataObj(data);
+  await guildStore.set(guild.id, data.settings);
 };
 async function readGuildSettings (guild) {
   logger.debug(`Fetching settings for ${guild.name} (ID:${guild.id}).`);
