@@ -198,7 +198,7 @@ module.exports = (client, config) => {
   // Uptime Robot or Ping Service URL
   app.get("/ping", (req, res, next) => {
     res.send('DiscordBot/Dashboard Heartbeat Endpoint. Nothing to see here. :)')
-  })
+  });
 
   // Dashboard Actions - All Interaction & Authentication actions.
 
@@ -300,7 +300,7 @@ module.exports = (client, config) => {
   // DISABLED TEMPORARILY! REQUIRES STORAGE REWORK!
 
   // Authentication Locked Pages (Discord Oauth2)
-  /* 
+  
   // Normal Dashboard - Only shows user the guilds they are bound to.
   app.get("/dashboard", checkAuth, (req, res) => {
     //const perms = Discord.EvaluatedPermissions; //depreciated in discord.js v12+
@@ -309,12 +309,12 @@ module.exports = (client, config) => {
   });
 
   // Admin Dashboard - Shows all guilds the bot is connected to, including ones not joined by the user.
-  app.get("/admin", checkAuth, (req, res) => {
-    let botSettings = client.settings.get("botSettings", undefined);
+  app.get("/admin", checkAuth, async (req, res) => {
+    let botSettings = await client.settings.get(client);
     if (!req.session.isAdmin) return res.redirect("/");
     renderView(res, req, "admin.pug", {botSettings});
   });
-
+  /* 
   app.get("/admin/reset_settings", checkAuth, (req,res) => {
     // Fetch all settings templates from ./core/assets/text/
     var clientSettingsTemplate = fs.readFileSync('./core/assets/text/clientDefaultSettings.txt', 'utf-8');    
@@ -370,11 +370,11 @@ module.exports = (client, config) => {
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     let 
-      announcerSettings = guild.settings.get('announcer', undefined),
-      autoModSettings = guild.settings.get('automod', undefined),
-      chatBotSettings = guild.settings.get('chatbot', undefined),
-      botLogSettings = guild.settings.get('botlogger', undefined),
-      modLogSettings = guild.settings.get('modlogger', undefined);
+      announcerSettings = guild.settings.get('announcer', client),
+      autoModSettings = guild.settings.get('automod', client),
+      chatBotSettings = guild.settings.get('chatbot', client),
+      botLogSettings = guild.settings.get('botlogger', client),
+      modLogSettings = guild.settings.get('modlogger', client);
     let settings = {announcerSettings, autoModSettings, chatBotSettings, botLogSettings, modLogSettings};
     renderView(res, req, "guild/manage.pug", {guild, settings});
   });
@@ -387,12 +387,12 @@ module.exports = (client, config) => {
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     // Fetch Main Module Settings
-    let announcerSettings = guild.settings.get('announcer', undefined);
-    let autoModSettings = guild.settings.get('automod', undefined);
-    let chatBotSettings = guild.settings.get('chatbot', undefined);
+    let announcerSettings = guild.settings.get('announcer', client);
+    let autoModSettings = guild.settings.get('automod', client);
+    let chatBotSettings = guild.settings.get('chatbot', client);
     // Fetch Channel Logs Module Settings
-    let botLogSettings = guild.settings.get('botlogger', undefined);
-    let modLogSettings = guild.settings.get('modlogger', undefined);
+    let botLogSettings = guild.settings.get('botlogger', client);
+    let modLogSettings = guild.settings.get('modlogger', client);
     // Use try/catch to capture errors from the bot or dashboard.
     try {
       // Update each setting setup respectively and save changes.

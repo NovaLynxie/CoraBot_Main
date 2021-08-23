@@ -12,8 +12,7 @@ block content
       br
 
       for guild in user.guilds
-        - var permsOnGuild = new perms(guild.permissions);
-        if (permsOnGuild.has("MANAGE_GUILD"))
+        if (new perms(`0x${guild.permissions}`).has(perms.FLAGS.MANAGE_GUILD))
           .media(style='padding: 10px;')
             if (guild.icon)
               - iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`
