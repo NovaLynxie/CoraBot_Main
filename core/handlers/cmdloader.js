@@ -96,7 +96,7 @@ async function loadSlashCmds(client) {
     logger.warn("Stopped loading directory 'slashcmds'. Some commands may fail to respond.");
   };
 
-  let clientId = process.env.clientId || client.id, guildId = process.env.devGuildId || '694830379756027924';
+  let clientId = process.env.clientId || client.user.id, guildId = process.env.devGuildId || '694830379756027924';
   const rest =  new REST({ version: '9' }).setToken(discordToken);
   try {
     logger.debug('Started refreshing application (/) commands.');
