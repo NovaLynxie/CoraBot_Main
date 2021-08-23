@@ -42,7 +42,7 @@ client.settings = {
 
 // Initialize commands collection objects.
 let commandCollections = ["prefixcmds", "slashcmds"];
-commandCollections.forEach(data => client[data] = new Collection());
+commandCollections.forEach(collection => client[collection] = new Collection());
 
 // Load in events from event files.
 const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
