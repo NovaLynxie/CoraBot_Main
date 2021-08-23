@@ -19,7 +19,8 @@ const client = new Client({
   // bot intents. (required!)
   intents: [
     Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS
   ]
 });
 
