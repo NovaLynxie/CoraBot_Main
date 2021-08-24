@@ -35,7 +35,7 @@ module.exports = (client, config) => {
     if (!config.callbackURL) throw new Error('Callback/Redirect URL missing or undefined!');
     if (!config.sessionSecret) logger.warn('Session Secret not set! May cause problems.');
     logger.debug('Dashboard configuration OK. Continuing with startup.');
-  },());
+  }();
   
   // Initialise morgan logger for server side logging. (debug only)
   if (config.debug) {
