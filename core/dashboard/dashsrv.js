@@ -21,7 +21,7 @@ const passport = require("passport"); // oauth2 helper plugin
 const helmet = require('helmet'); // security plugin
 const session = require("express-session"); // express session manager
 const SQLiteStore = require("connect-sqlite3")(session);
-const Strategy = require("passport-discord").Strategy;
+const DiscordStrategy = require("passport-discord-faxes").Strategy;
 
 logger.dash('Starting Dashboard Service...');
 
@@ -53,7 +53,7 @@ module.exports = (client, config) => {
   // - clientID is the bot's unique client identification string.
   // - clientSecret is a secret code for oauth2 handling.
   // - callbackURL is the url to handle discord api callbacks.
-  passport.use(new Strategy({
+  passport.use(new DiscordStrategy({
     clientID: config.clientID,
     clientSecret: config.oauthSecret,
     callbackURL: config.callbackURL,
@@ -571,23 +571,33 @@ module.exports = (client, config) => {
   // Error Handling
   app.use(function(err, req, res, next) {
     logger.debug('Error occured in dashboard service!');
-    if (err.message.indexOf('Failed to lookup view') !== -1) {
-      req.flash("danger", "Error occured while attempting to render template! A requested template asset file is missing or was not found. Please contact my owner for help.");
-      logger.debug(`Error! Missing asset file!`);
-      logger.debug(err.stack);
-      return res.status(404), renderView(res, req, 'errors/404.pug');
-    }
-    else 
-    if (err.code === 'ERR_HTTP_HEADERS_SENT') {
-      logger.warn('Server tried to send more than one header to client!');
-      logger.debug('Too many headers sent or called by dashboard service!');
-      logger.debug(err.stack);
-      return;
-    }
-    else {
+    function defaultError() {
+      logger.error('Unknown error occured! No information available.');
       res.status(500);
       renderView(res, req, 'errors/500.pug');
-      logger.error(err); logger.debug(err.stack);
+    };
+    if (err.code) {
+      if (err.code === 'invalid_client') {
+        logger.error('Invalid Client! Aborting user login.');
+        logger.warn('Mismatched client information. Please check settings.');
+        return res.status(500), renderView(res, req, 'errors/500.pug');
+      }
+      if (err.code === 'ERR_HTTP_HEADERS_SENT') {
+        logger.warn('Server tried to send more than one header to client!');
+        logger.debug('Too many headers sent or called by dashboard service!');
+        logger.debug(err.stack);
+        return;
+      };
+    };
+    if (err.message) {
+      if (err.message.indexOf('Failed to lookup view') !== -1) {
+        req.flash("danger", "Error occured while attempting to render template! A requested template asset file is missing or was not found. Please contact my owner for help.");
+        logger.debug(`Error! Missing asset file!`);
+        logger.debug(err.stack);
+        return res.status(404), renderView(res, req, 'errors/404.pug');
+      }
+    } else {
+      return defaultError();
     };
   });
   app.listen(config.dashPort, () => {
