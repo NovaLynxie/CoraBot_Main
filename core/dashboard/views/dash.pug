@@ -10,8 +10,8 @@ block content
       br
       | Should you not see the server's name here, make sure you are the owner of the guild you want the bot to join. If you are not the server owner, please ask the owner to add the bot for you.
       br
-      i(style="color:darkred;") #[strong Due to limitations with permission handling at this time, only #[u server owners] can add this bot. Sorry about that. - Nova P. Lynxie]
-      br
+      //i(style="color:darkred;") #[strong Due to limitations with permission handling at this time, only #[u server owners] can add this bot. Sorry about that. - Nova P. Lynxie]
+      //br
       for guild in user.guilds
         - let guildPerms = new Permissions(`0x${guild.permissions.toString(16)}`);
         if (guildPerms.has('MANAGE_GUILD'))
