@@ -14,10 +14,6 @@ block content
       br
       for guild in user.guilds
         - let guildPerms = new Permissions(`0x${guild.permissions.toString(16)}`);
-        - console.log(`Name: ${guild.name} ID: ${guild.id}`);
-        - console.log(`Permission (BITFIELD): 0x${guild.permissions}`);
-        - console.log(`Manage Server: ${guildPerms.has('MANAGE_GUILD')}`)
-        //if (guild.owner)
         if (guildPerms.has('MANAGE_GUILD'))
           .media(style='padding: 10px;')
             if (guild.icon)
