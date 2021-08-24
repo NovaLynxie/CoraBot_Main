@@ -10,12 +10,11 @@ block content
       br
       | Should you not see the server's name here, make sure you have the Manage Guild permission or ask someone with this permission to login to the dashboard to do it for you.
       br
-
       for guild in user.guilds
-        if (new perms(`0x${guild.permissions}`).has(perms.FLAGS.MANAGE_GUILD))
+        if (guild.owner)
           .media(style='padding: 10px;')
             if (guild.icon)
-              - iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`
+              - iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}?size=128`
               img.d-flex.mr-3.rounded-circle.guild_thumb(src=iconUrl style='width: 80px' alt='')
             else
               canvas.d-flex.mr-3.rounded-circle(style='background-color: #7289da' id=guild.name.split(' ').join('').replace("'", "") width='80px' height='80px')
