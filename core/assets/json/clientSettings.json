@@ -1,3 +1,9 @@
 {
-  
+  "enableModules": {
+    "autoMod": false,
+    "chatBot": false,
+    "notifier": false,
+    "botLogs": true,
+    "modLogs": true
+  }
 }

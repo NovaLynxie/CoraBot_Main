@@ -6,7 +6,7 @@ const {
   clearClientSettings, clearGuildSettings,
   generateClientSettings, generateGuildSettings,
   saveClientSettings, saveGuildSettings,
-  readClientSettings, readGuildSettings
+  readClientSettings, readGuildSettings, deleteGuildSettings
 } = require('./core/handlers/settingsmanager');
 const {config, credentials} = require('./core/handlers/bootloader');
 const {globalPrefix, ownerIDs, useLegacyURL, debug} = config;
@@ -39,9 +39,10 @@ client.settings = {
   init: generateClientSettings,
   guild: {
     clear: clearGuildSettings,
+    delete: deleteGuildSettings,
     get: readGuildSettings,
     set: saveGuildSettings,    
-    init: generateGuildSettings
+    init: generateGuildSettings    
   }
 }
 

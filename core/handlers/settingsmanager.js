@@ -62,8 +62,12 @@ async function readGuildSettings (guild) {
   let res = await guildStore.get(guild.id);
   return res;
 };
-async function clearGuildSettings (guild) {
+async function deleteGuildSettings (guild) {
   logger.debug(`Removing all settings for ${guild.name} (ID:${guild.id}).`);
+  await guildStore.delete(guild.id);
+}
+async function clearGuildSettings (guild) {
+  logger.debug(`Removing all guild settings.`);
   await guildStore.clear();
 }
 
@@ -72,5 +76,5 @@ module.exports = {
   clearClientSettings, clearGuildSettings,
   generateClientSettings, generateGuildSettings,
   saveClientSettings, saveGuildSettings,
-  readClientSettings, readGuildSettings
+  readClientSettings, readGuildSettings, deleteGuildSettings
 };

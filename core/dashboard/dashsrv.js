@@ -326,20 +326,26 @@ module.exports = (client, config) => {
     if (!req.session.isAdmin) return res.redirect("/");
     renderView(res, req, "admin.pug", {botSettings});
   });
-  /* 
-  app.get("/admin/reset_settings", checkAuth, (req,res) => {
+  app.get("/admin/reset_settings", checkAuth, async (req,res) => {
     // Fetch all settings templates from ./core/assets/json/
+    let clientSettingsTemplate = require('../assets/json/clientSettings.json');
+    let guildSettingsTemplate = require('../assets/json/guildSettings.json');
+    /*
     var clientSettingsTemplate = fs.readFileSync('./core/assets/text/clientDefaultSettings.txt', 'utf-8');    
     var guildSettingsTemplate = fs.readFileSync('./core/assets/text/guildDefaultSettings.txt', 'utf-8');
     // Attempt to parse to a usable Array of objects.
     let clientSettings = JSON.parse("["+clientSettingsTemplate+"]");
     let guildSettings = JSON.parse("["+guildSettingsTemplate+"]");
+    */
     // Clear client settings and reset to default. (has no settings yet)
-    client.settings.clear();
+    await client.settings.clear();
+    await client.settings.init();
+    /*
     clientSettings.forEach(setting => {
       logger.data(`Generating setting ${setting.name} in client settings.`)
       client.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} in client settings`));
     });
+    */
     // Fetch all guilds before running through them one by one.
     const Guilds = client.guilds.cache.map(guild => guild);
     Guilds.forEach(guild => {
@@ -356,17 +362,20 @@ module.exports = (client, config) => {
     req.flash('warning', "Endpoint/Action is not yet implemented!");
     res.redirect('/admin');
   });
-  app.post("/admin/save_clsettings", checkAuth, (req, res) => {
+  */
+  app.post("/admin/save_clsettings", checkAuth, async (req, res) => {
     logger.data(JSON.stringify(req.body));
-    client.commandPrefix = (req.body.botPrefix) ? req.body.botPrefix : client.options.commandPrefix;
-    let moduleControl = {
-      enableAutoMod: (req.body.enableAutoMod) ? true : false,
-      enableChatBot: (req.body.enableChatBot) ? true : false,
-      enableNotifier: (req.body.enableNotifier) ? true : false,
-      enableBotLogs: (req.body.enableBotLogs) ? true : false,
-      enableModLogs: (req.body.enableModLogs) ? true : false
+    let clsettings = await client.settings.get(client);
+    clsettings = {
+      "enableModules": {
+        autoMod: (req.body.enableAutoMod) ? true : false,
+        chatBot: (req.body.enableChatBot) ? true : false,
+        notifier: (req.body.enableNotifier) ? true : false,
+        botLogs: (req.body.enableBotLogs) ? true : false,
+        modLogs: (req.body.enableModLogs) ? true : false
+      }
     };
-    client.settings.set("moduleControl", moduleControl);
+    client.settings.set(clsettings, client);
     req.flash('success', 'Saved preferences successfully!');
     res.redirect('/admin');
   })
@@ -374,7 +383,6 @@ module.exports = (client, config) => {
   app.get("/dashboard/:guildID", checkAuth, (req, res) => {
     res.redirect(`/dashboard/${req.params.guildID}/manage`);
   });
-  */
   // Settings page to change the guild configuration. Definitely more fancy than using
   // the `set` command!
   app.get("/dashboard/:guildID/manage", checkAuth, async (req, res) => {
