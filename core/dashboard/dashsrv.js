@@ -305,7 +305,6 @@ module.exports = (client, config) => {
   app.get("/dashboard", checkAuth, (req, res) => {
     //const perms = Discord.EvaluatedPermissions; //depreciated in discord.js v12+
     const perms = Discord.Permissions;
-    req.flash('warning', 'Due to an unknown cause for behaviour with how permissions are handled right now, it will list the wrong guilds where the user does not have manage server permissions. For now the bot will only show guilds you own till this can be fixed.');
     renderView(res, req, "dash.pug", { perms });
   });
 
