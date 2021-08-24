@@ -327,16 +327,6 @@ module.exports = (client, config) => {
     renderView(res, req, "admin.pug", {botSettings});
   });
   app.get("/admin/reset_settings", checkAuth, async (req,res) => {
-    // Fetch all settings templates from ./core/assets/json/
-    let clientSettingsTemplate = require('../assets/json/clientSettings.json');
-    let guildSettingsTemplate = require('../assets/json/guildSettings.json');
-    /*
-    var clientSettingsTemplate = fs.readFileSync('./core/assets/text/clientDefaultSettings.txt', 'utf-8');    
-    var guildSettingsTemplate = fs.readFileSync('./core/assets/text/guildDefaultSettings.txt', 'utf-8');
-    // Attempt to parse to a usable Array of objects.
-    let clientSettings = JSON.parse("["+clientSettingsTemplate+"]");
-    let guildSettings = JSON.parse("["+guildSettingsTemplate+"]");
-    */
     // Clear client settings and reset to default. (has no settings yet)
     await client.settings.clear();
     await client.settings.init();
@@ -350,24 +340,20 @@ module.exports = (client, config) => {
     const Guilds = client.guilds.cache.map(guild => guild);
     Guilds.forEach(guild => {
       // Remove the guild's settings.
-      guild.settings.clear();
+      await client.settings.guild.delete(guild);
       // Apply default settings using guild as reference for configuration.
-      guildSettings.forEach(setting => {
-        logger.data(`Generating setting ${setting.name} for ${guild.name}`)
-        guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
-      });
+      await client.settings.guild.init(guild);
       logger.debug(`${guild.name} settings reset!`);
     });
     logger.debug('Finished resetting all settings.')
-    req.flash('warning', "Endpoint/Action is not yet implemented!");
+    req.flash('success', "Successfully reset all settings!");
     res.redirect('/admin');
   });
-  */
   app.post("/admin/save_clsettings", checkAuth, async (req, res) => {
     logger.data(JSON.stringify(req.body));
     let clsettings = await client.settings.get(client);
     clsettings = {
-      "enableModules": {
+      enableModules: {
         autoMod: (req.body.enableAutoMod) ? true : false,
         chatBot: (req.body.enableChatBot) ? true : false,
         notifier: (req.body.enableNotifier) ? true : false,
@@ -388,11 +374,11 @@ module.exports = (client, config) => {
   app.get("/dashboard/:guildID/manage", checkAuth, async (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
-    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    let member = guild.members.cache.get(req.user.id);
+    const isManaged = member.permissions.has("MANAGE_GUILD");
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
-    let guildSettings = await client.settings.guild.get()
-    let settings = {announcerSettings, autoModSettings, chatBotSettings, botLogSettings, modLogSettings};
-    renderView(res, req, "guild/manage.pug", {guild, settings});
+    let guildSettings = await client.settings.guild.get(guild);
+    renderView(res, req, "guild/manage.pug", {guild, guildSettings});
   });
   /*
   // This calls when settings are saved using POST requests to get parameters to save.
@@ -588,6 +574,7 @@ module.exports = (client, config) => {
   // Error Handling
   app.use(function(err, req, res, next) {
     logger.debug('Error occured in dashboard service!');
+    logger.debug(err);
     function defaultError() {
       logger.error('Unknown error occured! No information available.');
       res.status(500);

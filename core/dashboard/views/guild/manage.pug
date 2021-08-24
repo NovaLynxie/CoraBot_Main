@@ -1,6 +1,7 @@
 extends ../blocks/layout
 block content
-  - var {announcerSettings, autoModSettings, chatBotSettings, botLogSettings, modLogSettings} = settings
+  - let {announcer, automod, chatbot, botlogger, modlogger} = guildSettings.settings;
+  - let guildPrefix = guildSettings.guildPrefix;
   .container
     include ../blocks/guild-nav
     block navtab
@@ -31,10 +32,10 @@ block content
               br
               | Verified: #{(guild.verified)?'Yes':'No'}
               br
-              - var guildPrefix = (guild._commandPrefix) ? guild._commandPrefix : bot.commandPrefix
-              | Guild Prefix: '#{guildPrefix}'
-              br
-              | Owner: #{guild.members.cache.get(guild.ownerID).user.tag} 
+              //- var guildPrefix = (settings) ? guild._commandPrefix : bot.commandPrefix
+              //| Guild Prefix: '#{guildPrefix}'
+              //br
+              | Owner: #{guild.members.cache.get(guild.ownerId).user.tag} 
               br
               | Members: #{guild.memberCount} (#{guild.members.cache.filter(member => !member.user.bot).size} users #{guild.members.cache.filter(member => member.user.bot).size} bots)
               br
@@ -57,90 +58,91 @@ block content
               | Vanity URL
               br 
               | Code: #{(guild.vanityURLCode)?guild.vanityURLCode:'N/A'} (Used #{(guild.vanityURLUses)?guild.vanityURLUses:'NaN'} times)
+        
         .settings-card-modules.settings-card-wrapper
-          h4 Module Settings
-          p.lead Change settings for each module from here. (WIP - Layout may change!)
+          h4 Module Settings (Broken)
+          p.lead Change settings for each module from here. 
           .settings-card-modules.settings-card-block
             h5 Auto Moderation
             .settings-text-wrapper
-              | Enabled? #{(autoModSettings.enableAutoMod)?'Yes':'No'}
+              | Enabled? NULL
               br
-              | Channel List Mode: #{(autoModSettings.chListMode==='whitelist')?'Whitelist':(autoModSettings.chListMode==='blacklist')?'Blacklist':'Not Set!'}
+              | Channel List Mode: NULL
               br
               | Media Removal
               br
-              | Animated Gifs: #{(autoModSettings.mediaOptions.removeGifs)?'Yes':'No'}
+              | Animated Gifs: 
               br
-              | Static Images: #{(autoModSettings.mediaOptions.removeImgs)?'Yes':'No'}
+              | Static Images: 
               br
-              | Links/URLs: #{(autoModSettings.mediaOptions.removeUrls)?'Yes':'No'}
+              | Links/URLs: 
             table.settings-table-main(border="1")
               tr
                 th Setting
                 th Value
               tr
                 td Channels List
-                td #{(autoModSettings.channelsList.length >=1)? `${autoModSettings.channelsList.length} channels` : 'No Channels Set'}
+                td NULL
               tr
                 td URL Blacklist
-                td #{(autoModSettings.urlBlacklist.length >=1)? `${autoModSettings.urlBlacklist.length} URLs` : 'No URLs Set'}
+                td NULL
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingAutoModBotModal') Edit 
               i.fas.fa-edit
           .settings-card-modules.settings-card-block
             h5 Bot Notifications
             .settings-text-wrapper
-              | Enabled? #{(announcerSettings.enableNotifier)?'Yes':'No'}
+              | Enabled? NULL
               br
               | Event Trackers
               br
-              | Join: #{(announcerSettings.events.join)?'Enabled':'Disabled'}
+              | Join: NULL
               br
-              | Leave: #{(announcerSettings.events.leave)?'Enabled':'Disabled'}
+              | Leave: NULL
               br
-              | Kick: #{(announcerSettings.events.kick)?'Enabled':'Disabled'}
+              | Kick: NULL
               br
-              | Ban: #{(announcerSettings.events.ban)?'Enabled':'Disabled'}
+              | Ban: NULL
               br
-              | Notifs Channel: !{(announcerSettings.notifsChannel) ? guild.channels.cache.find(ch => ch.id === announcerSettings.notifsChannel).name : 'None Set!'}
+              | Notifs Channel: NULL
             table.settings-table-main(border="1")
               tr
                 th Event
                 th Message
               tr
                 td Join
-                td #{announcerSettings.eventMessages.userJoin}
+                td NULL
               tr
                 td Leave
-                td #{announcerSettings.eventMessages.userLeave}
+                td NULL
               tr
                 td Kick
-                td #{announcerSettings.eventMessages.userKick}
+                td NULL
               tr
                 td Ban
-                td #{announcerSettings.eventMessages.userBan}
+                td NULL
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingBotNotifsModal') Edit 
               i.fas.fa-edit
           .settings-card-modules.settings-card-block
             h5 Smart Chat Bot
             .settings-text-wrapper
-              | Enabled? #{(chatBotSettings.enableChatBot)?'Yes':'No'}
+              | Enabled? NULL
               br
               | ChatBot Settings
               br
-              | Name: #{(chatBotSettings.chatBotUser) ? (chatBotSettings.chatBotUser.botName.length > 0) ? chatBotSettings.chatBotUser.botName[0].toUpperCase() + chatBotSettings.chatBotUser.botName.substring(1) : "Cora" : "N/A"}
+              | Name: NULL
               br
-              | Gender: #{(chatBotSettings.chatBotUser) ? (chatBotSettings.chatBotUser.botGender.length > 0) ? chatBotSettings.chatBotUser.botGender[0].toUpperCase() + chatBotSettings.chatBotUser.botGender.substring(1) : "Female" : "N/A"}
+              | Gender: NULL
             table.settings-table-main(border="1")
               tr
                 th Chat Channels
               tr
-                td #{(typeof chatBotSettings.chatChannels === 'string') ? `Monitoring 1 chat channel` : (chatBotSettings.chatChannels.length > -1) ? `Monitoring ${chatBotSettings.chatChannels.length} chat channels` : 'No Channels Set'}
+                td NULL
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
               i.fas.fa-edit
-              
+
         .settings-card-modules.danger-block
           h4 Danger Zone
           - disableAction
@@ -151,4 +153,4 @@ block content
             .settings-card-wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
               h5 Leave Guild
               a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#serverLeaveModal' role='button') LEAVE
-        include ../blocks/guild-manage-modals
+        //include ../blocks/guild-manage-modals
