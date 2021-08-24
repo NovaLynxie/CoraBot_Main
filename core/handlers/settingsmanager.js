@@ -46,6 +46,10 @@ async function readClientSettings (client) {
   let res = await clientStore.get("clientSettings");
   return res;
 };
+async function clearClientSettings (client) {
+  logger.debug(`Removing all settings for ${client.user.tag} (ID:${client.user.id}).`);
+  await clientStore.clear();
+}
 
 // Read/Write functions for KeyV database - Guild Settings.
 async function saveGuildSettings (data, guild) {
@@ -58,9 +62,14 @@ async function readGuildSettings (guild) {
   let res = await guildStore.get(guild.id);
   return res;
 };
+async function clearGuildSettings (guild) {
+  logger.debug(`Removing all settings for ${guild.name} (ID:${guild.id}).`);
+  await guildStore.clear();
+}
 
 // Finally export functions for use in other modules.
 module.exports = {
+  clearClientSettings, clearGuildSettings,
   generateClientSettings, generateGuildSettings,
   saveClientSettings, saveGuildSettings,
   readClientSettings, readGuildSettings

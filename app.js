@@ -3,6 +3,7 @@ const { readdirSync } = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { crashReporter } = require('./core/handlers/crashreporter');
 const { 
+  clearClientSettings, clearGuildSettings,
   generateClientSettings, generateGuildSettings,
   saveClientSettings, saveGuildSettings,
   readClientSettings, readGuildSettings
@@ -32,12 +33,14 @@ if (useLegacyURL) {
 
 // Add settings handlers to client object.
 client.settings = {
+  clear: clearClientSettings,
   get: readClientSettings,
-  set: saveClientSettings,
+  set: saveClientSettings,  
   init: generateClientSettings,
   guild: {
+    clear: clearGuildSettings,
     get: readGuildSettings,
-    set: saveGuildSettings,
+    set: saveGuildSettings,    
     init: generateGuildSettings
   }
 }

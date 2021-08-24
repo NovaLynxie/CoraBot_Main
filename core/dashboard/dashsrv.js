@@ -328,7 +328,7 @@ module.exports = (client, config) => {
   });
   /* 
   app.get("/admin/reset_settings", checkAuth, (req,res) => {
-    // Fetch all settings templates from ./core/assets/text/
+    // Fetch all settings templates from ./core/assets/json/
     var clientSettingsTemplate = fs.readFileSync('./core/assets/text/clientDefaultSettings.txt', 'utf-8');    
     var guildSettingsTemplate = fs.readFileSync('./core/assets/text/guildDefaultSettings.txt', 'utf-8');
     // Attempt to parse to a usable Array of objects.
@@ -374,22 +374,19 @@ module.exports = (client, config) => {
   app.get("/dashboard/:guildID", checkAuth, (req, res) => {
     res.redirect(`/dashboard/${req.params.guildID}/manage`);
   });
+  */
   // Settings page to change the guild configuration. Definitely more fancy than using
   // the `set` command!
-  app.get("/dashboard/:guildID/manage", checkAuth, (req, res) => {
+  app.get("/dashboard/:guildID/manage", checkAuth, async (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
-    let 
-      announcerSettings = guild.settings.get('announcer', client),
-      autoModSettings = guild.settings.get('automod', client),
-      chatBotSettings = guild.settings.get('chatbot', client),
-      botLogSettings = guild.settings.get('botlogger', client),
-      modLogSettings = guild.settings.get('modlogger', client);
+    let guildSettings = await client.settings.guild.get()
     let settings = {announcerSettings, autoModSettings, chatBotSettings, botLogSettings, modLogSettings};
     renderView(res, req, "guild/manage.pug", {guild, settings});
   });
+  /*
   // This calls when settings are saved using POST requests to get parameters to save.
   app.post("/dashboard/:guildID/manage", checkAuth, (req, res) => {
     logger.debug("WebDash called POST action 'save_settings'!");
@@ -521,6 +518,8 @@ module.exports = (client, config) => {
     req.flash("success", "Settings Reset Complete!");
     res.redirect("/dashboard/"+req.params.guildID);
   });
+  */
+  // DISABLED TEMPORARILY! REQUIRES STORAGE REWORK!
 
   // Kicks specified member by their unique user ID.
   app.get("/dashboard/:guildID/kick/:userID", checkAuth, async (req, res) => {
@@ -569,8 +568,6 @@ module.exports = (client, config) => {
     }
     res.redirect("/dashboard");
   });
-  */
-  // DISABLED TEMPORARILY! REQUIRES STORAGE REWORK!
 
   // Fallback Middleware.
 
