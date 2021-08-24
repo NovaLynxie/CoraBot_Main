@@ -26,12 +26,12 @@ const DiscordStrategy = require("passport-discord-faxes").Strategy;
 logger.dash('Starting Dashboard Service...');
 
 module.exports = (client, config) => {
-  ((){
-    logger.debug('Checking dashboard configuration...')
+  (function(){
+    logger.debug('Checking dashboard configuration...');
     if (!config) throw new Error('Dashboard configuration missing!');
-    if (config !== 'object') throw new Error(`Invalid configuration! Expected object, got '${typeof config}'.`);
+    if (typeof config !== 'object') throw new Error(`Invalid configuration! Expected object, got '${typeof config}'.`);
     if (!config.clientID) throw new Error('Client ID missing or undefined!');
-    if (!config.clientSecret) throw new Error('Client/OAuth Secret missing or undefined!');
+    if (!config.oauthSecret) throw new Error('OAuth Secret missing or undefined!');
     if (!config.callbackURL) throw new Error('Callback/Redirect URL missing or undefined!');
     if (!config.sessionSecret) logger.warn('Session Secret not set! May cause problems.');
     logger.debug('Dashboard configuration OK. Continuing with startup.');
