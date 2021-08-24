@@ -316,8 +316,8 @@ module.exports = (client, config) => {
   // Normal Dashboard - Only shows user the guilds they are bound to.
   app.get("/dashboard", checkAuth, (req, res) => {
     //const perms = Discord.EvaluatedPermissions; //depreciated in discord.js v12+
-    const perms = Discord.Permissions;
-    renderView(res, req, "dash.pug", { perms });
+    const Permissions = Discord.Permissions;
+    renderView(res, req, "dash.pug", { Permissions });
   });
 
   // Admin Dashboard - Shows all guilds the bot is connected to, including ones not joined by the user.
