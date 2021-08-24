@@ -13,8 +13,12 @@ block content
       i(style="color:darkred;") #[strong Due to limitations with permission handling at this time, only #[u server owners] can add this bot. Sorry about that. - Nova P. Lynxie]
       br
       for guild in user.guilds
-        - let guildPerms = new perms(`0x${guild.permissions}`);
-        if (guild.owner)
+        - let guildPerms = new Permissions(`0x${guild.permissions.toString(16)}`);
+        - console.log(`Name: ${guild.name} ID: ${guild.id}`);
+        - console.log(`Permission (BITFIELD): 0x${guild.permissions}`);
+        - console.log(`Manage Server: ${guildPerms.has('MANAGE_GUILD')}`)
+        //if (guild.owner)
+        if (guildPerms.has('MANAGE_GUILD'))
           .media(style='padding: 10px;')
             if (guild.icon)
               - iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}?size=128`
