@@ -26,7 +26,7 @@ const DiscordStrategy = require("passport-discord-faxes").Strategy;
 logger.dash('Starting Dashboard Service...');
 
 module.exports = (client, config) => {
-  (() => {
+  ((){
     logger.debug('Checking dashboard configuration...')
     if (!config) throw new Error('Dashboard configuration missing!');
     if (config !== 'object') throw new Error(`Invalid configuration! Expected object, got '${typeof config}'.`);
@@ -35,7 +35,7 @@ module.exports = (client, config) => {
     if (!config.callbackURL) throw new Error('Callback/Redirect URL missing or undefined!');
     if (!config.sessionSecret) logger.warn('Session Secret not set! May cause problems.');
     logger.debug('Dashboard configuration OK. Continuing with startup.');
-  }();
+  })();
   
   // Initialise morgan logger for server side logging. (debug only)
   if (config.debug) {
