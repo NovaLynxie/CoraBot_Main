@@ -46,7 +46,7 @@ block content
       i.fas.fa-globe 
       | !{' '}- Web (Browser/Cloud*) 
       br
-      | *Cloud refers to BOT users only.
+      | *'Cloud' refers to BOT users only.
       br
 
       include ../blocks/guild-member-modals
@@ -71,66 +71,72 @@ block content
           | Bot User: #{(member.user.bot) ? 'Yes' : 'No'}
           br
           | Status: 
-          if (member.user.presence.status === 'online')
-            i.fas.fa-check-circle(style="color:#42b581")
-          if (member.user.presence.status === 'idle')
-            i.fas.fa-moon(style="color:#faa61a")
-          if (member.user.presence.status === 'dnd')
-            i.fas.fa-minus-circle(style="color:#f04747")
-          if (member.user.presence.status === 'offline')
-            i.fas.fa-circle(style="color:#747f8d")
-          if (!member.user.presence.status || member.user.presence.status === undefined)
+          if (member.presence)
+            if (member.presence.status === 'online')
+              i.fas.fa-check-circle(style="color:#42b581")
+            if (member.presence.status === 'idle')
+              i.fas.fa-moon(style="color:#faa61a")
+            if (member.presence.status === 'dnd')
+              i.fas.fa-minus-circle(style="color:#f04747")
+            if (member.presence.status === 'offline')
+              i.fas.fa-circle(style="color:#747f8d")
+            if (!member.presence.status || member.presence.status === undefined)
+              i.fas.fa-exclamation-circle(style="color:#ed7738")
+            if (member.presence.clientStatus)
+              | !{' | '}
+              if (member.presence.clientStatus.mobile)
+                i.fas.fa-mobile-alt
+              if (member.presence.clientStatus.desktop)
+                i.fas.fa-desktop
+              if (member.presence.clientStatus.web)
+                i.fas.fa-globe
+            if (!member.presence.clientStatus)
+              | !{' | '}
+              i.far.fa-question-circle
+          else
             i.fas.fa-exclamation-circle(style="color:#ed7738")
-          if (member.user.presence.clientStatus)
-            | !{' | '}
-            if (member.user.presence.clientStatus.mobile)
-              i.fas.fa-mobile-alt
-            if (member.user.presence.clientStatus.desktop)
-              i.fas.fa-desktop
-            if (member.user.presence.clientStatus.web)
-              i.fas.fa-globe
-          if (!member.user.presence.clientStatus)
-            | !{' | '}
-            i.far.fa-question-circle
           br
           | Activity Info
           br
           - var pos = 0;
-          each activity in (member.user.presence.activities.length) ? member.user.presence.activities : ['No Activity']
-            - pos = pos + 1;
-            if (activity === 'No Activity')
-              | No Activity Data
-              br
-              |
-              if (pos <= member.user.presence.activities.length) 
+          if (member.presence)
+            each activity in (member.presence.activities.length) ? member.presence.activities : ['No Activity']
+              - pos = pos + 1;
+              if (activity === 'No Activity')
+                | No Activity Data
                 br
-            if (activity.type === 'PLAYING')
-              | Playing #{activity.name}
-              br
-              | #{(activity.details) ? `- ${activity.details}` : ''}
-              if (pos <= member.user.presence.activities.length) 
+                |
+                if (pos <= member.presence.activities.length) 
+                  br
+              if (activity.type === 'PLAYING')
+                | Playing #{activity.name}
                 br
-            if (activity.type === 'WATCHING')
-              | Watching #{activity.name}
-              br
-              | #{(activity.details) ? `- ${activity.details}` : ''}
-              if (pos <= member.user.presence.activities.length) 
+                | #{(activity.details) ? `- ${activity.details}` : ''}
+                if (pos <= member.presence.activities.length) 
+                  br
+              if (activity.type === 'WATCHING')
+                | Watching #{activity.name}
                 br
-            if (activity.type === 'LISTENING')
-              | Listening to #{activity.name}
-              br
-              | #{(activity.details) ? `- ${activity.details}` : ''}
-              if (pos <= member.user.presence.activities.length) 
+                | #{(activity.details) ? `- ${activity.details}` : ''}
+                if (pos <= member.presence.activities.length) 
+                  br
+              if (activity.type === 'LISTENING')
+                | Listening to #{activity.name}
                 br
-            if (activity.type === 'STREAMING')
-              | Streaming at #{activity.url}
-              br
-              | #{(activity.details) ? `- ${activity.details}` : ''}
-              if (pos <= member.user.presence.activities.length) 
+                | #{(activity.details) ? `- ${activity.details}` : ''}
+                if (pos <= member.presence.activities.length) 
+                  br
+              if (activity.type === 'STREAMING')
+                | Streaming at #{activity.url}
                 br
-            if (activity.type === 'CUSTOM_STATUS')
-              | "#{activity.state}"
-              br
-              |
-              if (pos <= member.user.presence.activities.length) 
+                | #{(activity.details) ? `- ${activity.details}` : ''}
+                if (pos <= member.presence.activities.length) 
+                  br
+              if (activity.type === 'CUSTOM_STATUS')
+                | "#{activity.state}"
                 br
+                |
+                if (pos <= member.presence.activities.length) 
+                  br
+          else
+            | No Presence Data
