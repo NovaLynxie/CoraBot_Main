@@ -43,7 +43,6 @@ module.exports = {
     logger.debug('Preparing to initialize dashboard...');
     // Start dashsrv to handle heartbeat ping requests. (eg. UptimeRobot)
     try {
-      logger.verbose(`enableDash=${enableDash}`);
       if (enableDash) {
         logger.init('Initialising dashboard service.');
         require('../dashboard/dashsrv.js')(client, dashConfig);
