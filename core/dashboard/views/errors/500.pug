@@ -10,5 +10,24 @@ include ../blocks/header
     | An unexpected error has occured while processing your request.
     br
     | Please report this to my administrator.
-    
+    br
+    .accordion
+      .accordion-item
+        h3#technicalData.accordion-header
+          button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#debugOutput' aria-expanded='false' aria-controls='debugOutput')
+            | Technical Information (Debug Data)
+        #debugOutput.accordion-collapse.collapse(aria-labelledby='technicalData' data-bs-parent='#debugData' style='')
+          .accordion-body(style="text-align: left;")
+            strong Error Code: 
+            code #{code}
+            br
+            strong Message: 
+            code #{message}
+            br
+            strong Caused by: 
+            code #{stack[0]}
+            - stack.shift();
+            for line in stack              
+              code at #{line}
+              br
     

@@ -581,8 +581,13 @@ module.exports = (client, config) => {
     }    
     function serverError(err) {
       if (err.stack) logger.debug(err.stack);
-      res.status(500); renderView(res, req, 'errors/500.pug');
-    }
+      let errData = {
+        message: (err.message) ? err.message : 'N/A',
+        code: (err.code) ? err.code : 'N/A',
+        stack: (err.stack) ? err.stack.split('at') : 'No stacktrace provided.'
+      };
+      res.status(500); renderView(res, req, 'errors/500.pug', errData);
+    };
     function defaultError() {
       logger.error('Unknown error occured! No information available.');
       res.status(500);
