@@ -387,7 +387,7 @@ module.exports = (client, config) => {
     logger.data(`req.body => ${JSON.stringify(req.body)}`);
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
-    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    let member = guild.members.cache.get(req.user.id);     const isManaged = member.permissions.has("MANAGE_GUILD");
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     // Fetch Main Module Settings
     let announcerSettings = guild.settings.get('announcer', client);
@@ -473,7 +473,7 @@ module.exports = (client, config) => {
   app.get("/dashboard/:guildID/members", checkAuth, (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
-    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    let member = guild.members.cache.get(req.user.id);     const isManaged = member.permissions.has("MANAGE_GUILD");
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     let members = guild.members.cache.array()
     renderView(res, req, "guild/members.pug", {guild, members});
@@ -484,7 +484,7 @@ module.exports = (client, config) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     logger.dash(`WebDash called GUILD_LEAVE action for guild ${guild.name}.`);
-    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    let member = guild.members.cache.get(req.user.id);     const isManaged = member.permissions.has("MANAGE_GUILD");
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     await guild.leave();
     req.flash("success", `Removed from ${guild.name} successfully!`);
@@ -496,7 +496,7 @@ module.exports = (client, config) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     logger.dash(`WebDash called RESET_SETTINGS action on guild ${guild.name}.`);
-    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    let member = guild.members.cache.get(req.user.id);     const isManaged = member.permissions.has("MANAGE_GUILD");
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     logger.debug(`WebDash executed RESET for ${guild.name} settings!`)
     // Clean up existing settings in the bot's database for guild.
@@ -521,7 +521,7 @@ module.exports = (client, config) => {
     const member = guild.members.cache.get(req.params.userID);
     if (!guild) return res.status(404);
     logger.dash(`WebDash called USER_KICK action on user ${member.user.id} in guild ${guild.name}.`);
-    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    let member = guild.members.cache.get(req.user.id);     const isManaged = member.permissions.has("MANAGE_GUILD");
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
       req.flash("warning", `Unable to kick ${member.user.tag}. Insufficient permissions or action was rejected by bot server.`);
@@ -544,7 +544,7 @@ module.exports = (client, config) => {
     const member = guild.members.cache.get(req.params.userID);
     if (!guild) return res.status(404);
     logger.dash(`WebDash called USER_BAN action on user ${member.user.id} in guild ${guild.name}.`);
-    const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
+    let member = guild.members.cache.get(req.user.id);     const isManaged = member.permissions.has("MANAGE_GUILD");
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
       req.flash("warning", `Unable to kick ${member.user.tag}. Insufficient permissions or action was rejected by bot server.`)
