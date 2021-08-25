@@ -165,6 +165,14 @@ module.exports = (client, config) => {
     };
   };
   /*
+  Manage Server permission checks. This is a common check for all endpoints which need to confirm that the operator can edit the server region, roles, permissions, members, etc.
+  */
+  function isManaged(guild, dashuser) {
+    let member = guild.members.cache.get(dashuser.id);
+    let res = member.permissions.has("MANAGE_GUILD");
+    return res;
+  }
+  /*
   Breadcrumb Fetcher. This uses the current page URL from ‘req’ to create breadcrumbs as an array of crumb objects, which is added to ‘req’. 
   Source: https://vidler.app/blog/javascript/nodejs/simple-and-dynamic-breadcrumbs-for-a-nodejs-express-application/
   */
@@ -374,9 +382,7 @@ module.exports = (client, config) => {
   app.get("/dashboard/:guildID/manage", checkAuth, async (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
-    let member = guild.members.cache.get(req.user.id);
-    const isManaged = member.permissions.has("MANAGE_GUILD");
-    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
     let guildSettings = await client.settings.guild.get(guild);
     renderView(res, req, "guild/manage.pug", {guild, guildSettings});
   });
@@ -387,8 +393,7 @@ module.exports = (client, config) => {
     logger.data(`req.body => ${JSON.stringify(req.body)}`);
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
-    let member = guild.members.cache.get(req.user.id);     const isManaged = member.permissions.has("MANAGE_GUILD");
-    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
     // Fetch Main Module Settings
     let announcerSettings = guild.settings.get('announcer', client);
     let autoModSettings = guild.settings.get('automod', client);
@@ -473,8 +478,7 @@ module.exports = (client, config) => {
   app.get("/dashboard/:guildID/members", checkAuth, (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
-    let member = guild.members.cache.get(req.user.id);     const isManaged = member.permissions.has("MANAGE_GUILD");
-    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
     let members = guild.members.cache.array()
     renderView(res, req, "guild/members.pug", {guild, members});
   });  
@@ -484,8 +488,7 @@ module.exports = (client, config) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     logger.dash(`WebDash called GUILD_LEAVE action for guild ${guild.name}.`);
-    let member = guild.members.cache.get(req.user.id);     const isManaged = member.permissions.has("MANAGE_GUILD");
-    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
     await guild.leave();
     req.flash("success", `Removed from ${guild.name} successfully!`);
     res.redirect("/dashboard");
@@ -496,8 +499,7 @@ module.exports = (client, config) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     logger.dash(`WebDash called RESET_SETTINGS action on guild ${guild.name}.`);
-    let member = guild.members.cache.get(req.user.id);     const isManaged = member.permissions.has("MANAGE_GUILD");
-    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
     logger.debug(`WebDash executed RESET for ${guild.name} settings!`)
     // Clean up existing settings in the bot's database for guild.
     guild.settings.clear(guild.id);
@@ -521,8 +523,7 @@ module.exports = (client, config) => {
     const member = guild.members.cache.get(req.params.userID);
     if (!guild) return res.status(404);
     logger.dash(`WebDash called USER_KICK action on user ${member.user.id} in guild ${guild.name}.`);
-    let member = guild.members.cache.get(req.user.id);     const isManaged = member.permissions.has("MANAGE_GUILD");
-    if (!isManaged && !req.session.isAdmin) res.redirect("/");
+    if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
     if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
       req.flash("warning", `Unable to kick ${member.user.tag}. Insufficient permissions or action was rejected by bot server.`);
       logger.warn(`WebDash Operator BAN ${member.user.tag} aborted by DashService!`);
@@ -544,7 +545,7 @@ module.exports = (client, config) => {
     const member = guild.members.cache.get(req.params.userID);
     if (!guild) return res.status(404);
     logger.dash(`WebDash called USER_BAN action on user ${member.user.id} in guild ${guild.name}.`);
-    let member = guild.members.cache.get(req.user.id);     const isManaged = member.permissions.has("MANAGE_GUILD");
+    const isManaged = member.permissions.has("MANAGE_GUILD");
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
       req.flash("warning", `Unable to kick ${member.user.tag}. Insufficient permissions or action was rejected by bot server.`)
