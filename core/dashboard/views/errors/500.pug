@@ -18,13 +18,13 @@ include ../blocks/header
             | Technical Information (Debug Data)
         #debugOutput.accordion-collapse.collapse(aria-labelledby='technicalData' data-bs-parent='#debugData' style='')
           .accordion-body(style="text-align: left;")
-            strong Error Code: 
+            | Error Code: 
             code #{code}
             br
-            strong Message: 
+            | Message: 
             code #{message}
             br
-            strong Caused by: 
+            | Caused by: 
             code #{stack[0]}
             - stack.shift();
             for line in stack              
