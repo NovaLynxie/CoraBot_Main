@@ -35,7 +35,7 @@ block content
       | !{' '}- Do Not Disturb 
       i.fas.fa-circle(style="color:#747f8d")
       | !{' '}- Offline 
-      i.fas.fa-exclamation-circle(style="color:#ed7738")
+      i.fas.fa-question-circle(style="color:#9c5d16")
       | !{' '}- N/A 
       br
       | Device Icons: 
@@ -81,7 +81,7 @@ block content
             if (member.presence.status === 'offline')
               i.fas.fa-circle(style="color:#747f8d")
             if (!member.presence.status || member.presence.status === undefined)
-              i.fas.fa-exclamation-circle(style="color:#ed7738")
+              i.fas.fa-question-circle(style="color:#9c5d16")
             if (member.presence.clientStatus)
               | !{' | '}
               if (member.presence.clientStatus.mobile)
@@ -94,7 +94,7 @@ block content
               | !{' | '}
               i.far.fa-question-circle
           else
-            i.fas.fa-exclamation-circle(style="color:#ed7738")
+            i.fas.fa-question-circle(style="color:#9c5d16")
           br
           | Activity Info
           br
