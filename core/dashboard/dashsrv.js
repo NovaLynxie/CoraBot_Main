@@ -338,7 +338,7 @@ module.exports = (client, config) => {
     */
     // Fetch all guilds before running through them one by one.
     const Guilds = client.guilds.cache.map(guild => guild);
-    Guilds.forEach(guild => {
+    Guilds.forEach(async guild => {
       // Remove the guild's settings.
       await client.settings.guild.delete(guild);
       // Apply default settings using guild as reference for configuration.
@@ -468,6 +468,7 @@ module.exports = (client, config) => {
     logger.debug("Finished updating settings database. Redirecting to dashboard manage page.");
     res.redirect("/dashboard/" + req.params.guildID + "/manage");
   });
+  */
   // Displays all members in the Discord guild being viewed.
   app.get("/dashboard/:guildID/members", checkAuth, (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
@@ -476,8 +477,7 @@ module.exports = (client, config) => {
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     let members = guild.members.cache.array()
     renderView(res, req, "guild/members.pug", {guild, members});
-  });
-  
+  });  
   // Leaves the guild (this is triggered from the manage page, and only
   // from the modal dialog)
   app.get("/dashboard/:guildID/leave", checkAuth, async (req, res) => {
@@ -490,7 +490,7 @@ module.exports = (client, config) => {
     req.flash("success", `Removed from ${guild.name} successfully!`);
     res.redirect("/dashboard");
   });
-
+  /*
   // Resets the guild's settings to the defaults, by simply deleting them.
   app.get("/dashboard/:guildID/reset", checkAuth, async (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
@@ -574,7 +574,7 @@ module.exports = (client, config) => {
   // Error Handling
   app.use(function(err, req, res, next) {
     logger.debug('Error occured in dashboard service!');
-    logger.debug(err);
+    if (err.stack) logger.debug(err.stack);
     function defaultError() {
       logger.error('Unknown error occured! No information available.');
       res.status(500);
@@ -592,7 +592,7 @@ module.exports = (client, config) => {
         logger.debug(err.stack);
         return;
       };
-    };
+    } else
     if (err.message) {
       if (err.message.indexOf('Failed to lookup view') !== -1) {
         req.flash("danger", "Error occured while attempting to render template! A requested template asset file is missing or was not found. Please contact my owner for help.");
