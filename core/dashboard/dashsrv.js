@@ -480,7 +480,6 @@ module.exports = (client, config) => {
     if (!guild) return res.status(404);
     if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
     let members = Array.from(guild.members.cache);
-    console.log(members);
     renderView(res, req, "guild/members.pug", {guild, members});
   });  
   // Leaves the guild (this is triggered from the manage page, and only
