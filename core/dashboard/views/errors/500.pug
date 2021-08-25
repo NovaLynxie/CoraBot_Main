@@ -18,16 +18,19 @@ include ../blocks/header
             | Technical Information (Debug Data)
         #debugOutput.accordion-collapse.collapse(aria-labelledby='technicalData' data-bs-parent='#debugData' style='')
           .accordion-body(style="text-align: left;")
-            | Error Code: 
-            code #{code}
-            br
-            | Message: 
-            code #{message}
-            br
-            | Caused by: 
-            code #{stack[0]}
-            - stack.shift();
-            for line in stack              
-              code at #{line}
+            if (code || message || stack)
+              | Error Code: 
+              code #{code}
               br
+              | Message: 
+              code #{message}
+              br
+              | Caused by: 
+              code #{stack[0]}
+              - stack.shift();
+              for line in stack              
+                code at #{line}
+                br
+            else 
+              strong No technical information was provided! Check application logs or inform administrator.
     
