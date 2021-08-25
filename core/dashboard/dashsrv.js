@@ -377,8 +377,7 @@ module.exports = (client, config) => {
   app.get("/dashboard/:guildID", checkAuth, (req, res) => {
     res.redirect(`/dashboard/${req.params.guildID}/manage`);
   });
-  // Settings page to change the guild configuration. Definitely more fancy than using
-  // the `set` command!
+  // Settings page to change the guild configuration.
   app.get("/dashboard/:guildID/manage", checkAuth, async (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
@@ -386,63 +385,62 @@ module.exports = (client, config) => {
     let guildSettings = await client.settings.guild.get(guild);
     renderView(res, req, "guild/manage.pug", {guild, guildSettings});
   });
-  /*
+  
   // This calls when settings are saved using POST requests to get parameters to save.
-  app.post("/dashboard/:guildID/manage", checkAuth, (req, res) => {
+  app.post("/dashboard/:guildID/manage", checkAuth, async (req, res) => {
     logger.debug("WebDash called POST action 'save_settings'!");
     logger.data(`req.body => ${JSON.stringify(req.body)}`);
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
+    let guildSettings = await client.settings.guild.get(guild);
+    let {guildPrefix} = guildSettings;
     // Fetch Main Module Settings
-    let announcerSettings = guild.settings.get('announcer', client);
-    let autoModSettings = guild.settings.get('automod', client);
-    let chatBotSettings = guild.settings.get('chatbot', client);
+    let {autoMod, chatBot, notifier} = guildSettings;
     // Fetch Channel Logs Module Settings
-    let botLogSettings = guild.settings.get('botlogger', client);
-    let modLogSettings = guild.settings.get('modlogger', client);
+    let {botLogger, modLogger} = guildSettings;
     // Use try/catch to capture errors from the bot or dashboard.
     try {
       // Update each setting setup respectively and save changes.
       if (req.body.enableNotifier) {
-        logger.debug("Detected 'Announcer' settings data!");
-        announcerSettings.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
-        announcerSettings.notifsChannel = (req.body.notifsChannel) ? req.body.notifsChannel : '';
-        announcerSettings.events = {
+        logger.debug("Detected 'notifier' settings data!");
+        notifier.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
+        notifier.notifsChannel = (req.body.notifsChannel) ? req.body.notifsChannel : '';
+        notifier.trackEvents = {
           join: (req.body.userJoin) ? true : false,
           leave: (req.body.userLeave) ? true : false,
           kick: (req.body.userKick) ? true : false,
           ban: (req.body.userBan) ? true : false
         };
-        logger.debug("Prepared 'Announcer' settings data for writing.");
+        logger.debug("Prepared 'notifier' settings data for writing.");
       };    
       if (req.body.enableAutoMod) {
-        logger.debug("Detected 'AutoMod' settings data!");
-        autoModSettings.enableAutoMod = (req.body.enableAutoMod === 'on') ? true : false;
+        logger.debug("Detected 'autoMod' settings data!");
+        autoMod.enableAutoMod = (req.body.enableAutoMod === 'on') ? true : false;
         let channelsList = req.body.channelsList;
-        autoModSettings.chListMode = (req.body.chListMode) ? req.body.chListMode : autoModSettings.chListMode;
-        autoModSettings.channelsList = (req.body.channelsList) ? channelsList : autoModSettings.channelsList;
-        autoModSettings.mediaOptions = {
+        autoMod.chListMode = (req.body.chListMode) ? req.body.chListMode : autoMod.chListMode;
+        autoMod.channelsList = (req.body.channelsList) ? channelsList : autoMod.channelsList;
+        autoMod.mediaTrackers = {
           removeUrls: (req.body.removeUrls) ? true : false,
           removeGifs: (req.body.removeGifs) ? true : false,
           removeImgs: (req.body.removeImgs) ? true : false,
           removeVids: (req.body.removeVids) ? true : false
         }
-        logger.debug("Prepared 'AutoMod' settings data for writing.");
+        logger.debug("Prepared 'autoMod' settings data for writing.");
       };
       if (req.body.enableChatBot) {
-        logger.debug("Detected 'ChatBot' settings data!");
-        chatBotSettings.enableChatBot = (req.body.enableChatBot === 'on') ? true : false;
-        let chatBotUser = {
+        logger.debug("Detected 'chatBot' settings data!");
+        chatBot.enableChatBot = (req.body.enableChatBot === 'on') ? true : false;
+        let chatBotOpts = {
           botName: (req.body.botName) ? req.body.botName : "Cora",
           botGender: (req.body.botGender) ? req.body.botGender : "female"
         };
         let chatChannels = req.body.chatChannels;
-        logger.debug(`chatBotUser=${JSON.stringify(chatBotUser)}`);
+        logger.debug(`chatBotOpts=${JSON.stringify(chatBotOpts)}`);
         logger.debug(`chatChannels=${JSON.stringify(chatChannels)}`);
-        chatBotSettings.chatBotUser = chatBotUser;
-        chatBotSettings.chatChannels = chatChannels;
-        logger.debug("Prepared 'ChatBot' settings data for writing.");
+        chatBot.chatBotOpts = chatBotOpts;
+        chatBot.chatChannels = chatChannels;
+        logger.debug("Prepared 'chatBot' settings data for writing.");
       };
       if (req.body.enableBotLogger) {
         logger.debug("Detected 'BotLogger' settings data!");
@@ -455,14 +453,12 @@ module.exports = (client, config) => {
         logger.debug("Prepared 'ModLogger' settings data for writing.");
       }
       // Debug data dump here.
-      logger.debug('Dumping data into debug logs.')
-      logger.data(`announcerSettings: ${JSON.stringify(announcerSettings)}`);
-      logger.data(`autoModSettings: ${JSON.stringify(autoModSettings)}`);
-      logger.data(`chatBotSettings: ${JSON.stringify(chatBotSettings)}`);
+      logger.debug('Dumping data into debug logs.');      
+      logger.data(`autoMod: ${JSON.stringify(autoMod)}`);
+      logger.data(`chatBot: ${JSON.stringify(chatBot)}`);
+      logger.data(`notifier: ${JSON.stringify(notifier)}`);
       // Update settings after checking for changes.
-      guild.settings.set('announcer', announcerSettings);
-      guild.settings.set('automod', autoModSettings);
-      guild.settings.set('chatbot', chatBotSettings);
+      await client.settings.guild.set(guildSettings, guild);
       req.flash('success', 'Saved settings successfully!');
     } catch (err) {
       // Should it fail, catch and try to log the error from the bot/dashboard.
@@ -473,7 +469,7 @@ module.exports = (client, config) => {
     logger.debug("Finished updating settings database. Redirecting to dashboard manage page.");
     res.redirect("/dashboard/" + req.params.guildID + "/manage");
   });
-  */
+  
   // Displays all members in the Discord guild being viewed.
   app.get("/dashboard/:guildID/members", checkAuth, (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);

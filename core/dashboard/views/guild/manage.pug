@@ -1,6 +1,6 @@
 extends ../blocks/layout
 block content
-  - let {announcer, automod, chatbot, botlogger, modlogger} = guildSettings.settings;
+  - let {autoMod, chatBot, notifier, botlogger, modlogger} = guildSettings;
   - let guildPrefix = guildSettings.guildPrefix;
   .container
     include ../blocks/guild-nav
@@ -153,4 +153,4 @@ block content
             .settings-card-wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
               h5 Leave Guild
               a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#serverLeaveModal' role='button') LEAVE
-        //include ../blocks/guild-manage-modals
+        include ../blocks/guild-manage-modals

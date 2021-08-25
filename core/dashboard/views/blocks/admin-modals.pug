@@ -50,7 +50,7 @@
               input#enableModLogs.form-check-input(type='checkbox' name='enableModLogs')
               label.form-check-label(for='enableModLogs') Mod Logger
         .modal-footer
-          button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') CANCEL
+          button.btn.btn-outline-dark(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
             i.fas.fa-save(aria-hidden='true')
 #resetDatabaseModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='resetDatabaseModalLabel' aria-hidden='true')
@@ -65,5 +65,5 @@
           br
           | This will completely wipe all of the settings and reset everything back to the default presets!
       .modal-footer
-        button.btn.btn-outline-secondary(type='button' data-bs-dismiss='modal') ABORT
+        button.btn.btn-outline-dark(type='button' data-bs-dismiss='modal') ABORT
         a.btn.btn-outline-danger(href=`/admin/reset_settings` role='button') CONFIRM
