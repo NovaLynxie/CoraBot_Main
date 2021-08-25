@@ -580,7 +580,7 @@ module.exports = (client, config) => {
     function missingError(err) {
       if (err.stack) logger.debug(err.stack);
       return res.status(404), renderView(res, req, 'errors/404.pug');
-    }    
+    };
     function serverError(err) {
       if (err.stack) logger.debug(err.stack);
       let errData = {
