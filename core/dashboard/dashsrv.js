@@ -575,7 +575,14 @@ module.exports = (client, config) => {
   // Error Handling
   app.use(function(err, req, res, next) {
     logger.debug('Error occured in dashboard service!');
-    if (err.stack) logger.debug(err.stack);
+    function missingError(err) {
+      if (err.stack) logger.debug(err.stack);
+      res.status(404); renderView(res, req, 'errors/404.pug');
+    }    
+    function serverError(err) {
+      if (err.stack) logger.debug(err.stack);
+      res.status(500); renderView(res, req, 'errors/500.pug');
+    }
     function defaultError() {
       logger.error('Unknown error occured! No information available.');
       res.status(500);
@@ -583,23 +590,25 @@ module.exports = (client, config) => {
     };
     if (err.code) {
       if (err.code === 'invalid_client') {
+        serverError(err);
         logger.error('Invalid Client! Aborting user login.');
         logger.warn('Mismatched client information. Please check settings.');
-        return res.status(500), renderView(res, req, 'errors/500.pug');
       }
       if (err.code === 'ERR_HTTP_HEADERS_SENT') {
         logger.warn('Server tried to send more than one header to client!');
         logger.debug('Too many headers sent or called by dashboard service!');
         logger.debug(err.stack);
-        return;
       };
     } else
     if (err.message) {
-      if (err.message.indexOf('Failed to lookup view') !== -1) {
-        req.flash("danger", "Error occured while attempting to render template! A requested template asset file is missing or was not found. Please contact my owner for help.");
+      if (err.message.indexOf('is not a') > -1) {
+        serverError(err);
+        logger.error(`Errored while rendering template!`);
+      }
+      if (err.message.indexOf('Failed to lookup view') > -1) {
+        missingError(err);
         logger.debug(`Error! Missing asset file!`);
         logger.debug(err.stack);
-        return res.status(404), renderView(res, req, 'errors/404.pug');
       }
     } else {
       return defaultError();
