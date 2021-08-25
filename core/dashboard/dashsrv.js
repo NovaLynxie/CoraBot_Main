@@ -479,7 +479,8 @@ module.exports = (client, config) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
-    let members = guild.members.cache.array()
+    let members = Array.from(guild.members.cache);
+    console.log(members);
     renderView(res, req, "guild/members.pug", {guild, members});
   });  
   // Leaves the guild (this is triggered from the manage page, and only
@@ -575,9 +576,10 @@ module.exports = (client, config) => {
   // Error Handling
   app.use(function(err, req, res, next) {
     logger.debug('Error occured in dashboard service!');
+    logger.verbose(err); // only show this if logLevel is set to verbose.
     function missingError(err) {
       if (err.stack) logger.debug(err.stack);
-      res.status(404); renderView(res, req, 'errors/404.pug');
+      return res.status(404), renderView(res, req, 'errors/404.pug');
     }    
     function serverError(err) {
       if (err.stack) logger.debug(err.stack);
@@ -586,12 +588,11 @@ module.exports = (client, config) => {
         code: (err.code) ? err.code : 'N/A',
         stack: (err.stack) ? err.stack.split('at') : 'No stacktrace provided.'
       };
-      res.status(500); renderView(res, req, 'errors/500.pug', errData);
+      return res.status(500), renderView(res, req, 'errors/500.pug', errData);
     };
     function defaultError() {
-      logger.error('Unknown error occured! No information available.');
-      res.status(500);
-      renderView(res, req, 'errors/500.pug');
+      logger.debug('Unknown error occured! No information available.');
+      return res.status(500), renderView(res, req, 'errors/500.pug');
     };
     if (err.code) {
       if (err.code === 'invalid_client') {
@@ -610,14 +611,17 @@ module.exports = (client, config) => {
         serverError(err);
         logger.debug(`Errored while rendering template!`);
       }
+      if (err.message.indexOf('Cannot read property') > -1) {
+        serverError(err);
+        logger.debug(`Errored while rendering template!`);
+      }
       if (err.message.indexOf('Failed to lookup view') > -1) {
         missingError(err);
         logger.debug(`Error! Missing asset file!`);
         logger.debug(err.stack);
       }
-    } else {
-      return defaultError();
     };
+    return defaultError();
   });
   app.listen(config.dashPort, () => {
     logger.dash(`Dashboard service running on port ${config.dashPort}`);
