@@ -608,7 +608,7 @@ module.exports = (client, config) => {
     if (err.message) {
       if (err.message.indexOf('is not a') > -1) {
         serverError(err);
-        logger.error(`Errored while rendering template!`);
+        logger.debug(`Errored while rendering template!`);
       }
       if (err.message.indexOf('Failed to lookup view') > -1) {
         missingError(err);
