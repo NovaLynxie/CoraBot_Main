@@ -3,8 +3,8 @@ const Keyv = require('@keyvhq/core');
 const KeyvSQLite = require('@keyvhq/sqlite');
 const clientStore = new Keyv({ store: new KeyvSQLite({uri: 'sqlite://data/settings.db'}), namespace: 'clientSettings' });
 const guildStore = new Keyv({ store: new KeyvSQLite({uri: 'sqlite://data/settings.db'}), namespace: 'guildSettings' });
-logger.verbose(clientStore); console.log(clientStore);
-logger.verbose(guildStore); console.log(guildStore);
+logger.verbose(`clientStore: ${JSON.stringify(clientStore,null,2)}`);
+logger.verbose(`guildStore: ${JSON.stringify(guildStore,null,2)}`);
 const clientSettings = require('../assets/json/clientSettings.json');
 const guildSettings = require('../assets/json/guildSettings.json');
 
