@@ -32,9 +32,8 @@ block content
               br
               | Verified: #{(guild.verified)?'Yes':'No'}
               br
-              //- var guildPrefix = (settings) ? guild._commandPrefix : bot.commandPrefix
-              //| Guild Prefix: '#{guildPrefix}'
-              //br
+              | Guild Prefix: '#{(guildPrefix) ? guildPrefix : bot.options.globalPrefix}'
+              br
               | Owner: #{guild.members.cache.get(guild.ownerId).user.tag} 
               br
               | Members: #{guild.memberCount} (#{guild.members.cache.filter(member => !member.user.bot).size} users #{guild.members.cache.filter(member => member.user.bot).size} bots)
