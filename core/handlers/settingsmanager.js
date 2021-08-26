@@ -1,5 +1,5 @@
 const logger = require('../plugins/winstonlogger.js');
-const Keyv = require('keyv');
+const Keyv = require('@keyvhq/core');
 const clientStore = new Keyv({ store: new Keyv('sqlite://data/settings.db'), namespace: 'clientSettings' });
 const guildStore = new Keyv({ store: new Keyv('sqlite://data/settings.db'), namespace: 'guildSettings' });
 const clientSettings = require('../assets/json/clientSettings.json');
@@ -52,9 +52,9 @@ async function clearClientSettings (client) {
 }
 
 // Read/Write functions for KeyV database - Guild Settings.
-async function saveGuildSettings (data, guild) {
+async function saveGuildSettings (settings, guild) {
   logger.debug('Writing new guild settings to database.');
-  await guildStore.set(guild.id, data.settings);
+  await guildStore.set(guild.id, settings);
   logger.debug('Finished updating guild settings.');
 };
 async function readGuildSettings (guild) {

@@ -382,7 +382,9 @@ module.exports = (client, config) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
+    logger.debug(`Fetching guild settings for ${guild.name}.`);
     let guildSettings = await client.settings.guild.get(guild);
+    logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);
     renderView(res, req, "guild/manage.pug", {guild, guildSettings});
   });
   
@@ -393,7 +395,9 @@ module.exports = (client, config) => {
     const guild = client.guilds.cache.get(req.params.guildID);
     if (!guild) return res.status(404);
     if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
+    logger.debug('Preparing to update guildSettings.')
     let guildSettings = await client.settings.guild.get(guild);
+    logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);
     let {guildPrefix} = guildSettings;
     // Fetch Main Module Settings
     let {autoMod, chatBot, notifier} = guildSettings;
@@ -439,7 +443,7 @@ module.exports = (client, config) => {
         logger.debug(`chatBotOpts=${JSON.stringify(chatBotOpts)}`);
         logger.debug(`chatChannels=${JSON.stringify(chatChannels)}`);
         chatBot.chatBotOpts = chatBotOpts;
-        chatBot.chatChannels = chatChannels;
+        chatBot.chatChannels = (chatChannels) ? chatChannels : undefined;
         logger.debug("Prepared 'chatBot' settings data for writing.");
       };
       if (req.body.enableBotLogger) {
@@ -452,13 +456,16 @@ module.exports = (client, config) => {
         // to be implemented ;)
         logger.debug("Prepared 'ModLogger' settings data for writing.");
       }
-      // Debug data dump here.
-      logger.debug('Dumping data into debug logs.');      
-      logger.data(`autoMod: ${JSON.stringify(autoMod)}`);
-      logger.data(`chatBot: ${JSON.stringify(chatBot)}`);
-      logger.data(`notifier: ${JSON.stringify(notifier)}`);
+      // Verbose outputs here for debugging.
+      logger.verbose(`-------------------------------------------------`);
+      logger.verbose(`guildSettings: ${JSON.stringify(guildSettings,null,4)}`);
+      logger.verbose(`autoMod: ${JSON.stringify(autoMod,null,4)}`);
+      logger.verbose(`chatBot: ${JSON.stringify(chatBot,null,4)}`);
+      logger.verbose(`notifier: ${JSON.stringify(notifier,null,4)}`);
+      logger.verbose(`-------------------------------------------------`);
       // Update settings after checking for changes.
       await client.settings.guild.set(guildSettings, guild);
+      logger.debug('Saved guild settings successfully!');
       req.flash('success', 'Saved settings successfully!');
     } catch (err) {
       // Should it fail, catch and try to log the error from the bot/dashboard.
@@ -466,7 +473,7 @@ module.exports = (client, config) => {
       logger.error(err.message); logger.debug(err.stack);
       req.flash('danger', 'One or more settings failed to save! Please try again. If this error persists, ask an admin to check the logs.');
     };
-    logger.debug("Finished updating settings database. Redirecting to dashboard manage page.");
+    logger.debug("Redirecting to dashboard manage page.");
     res.redirect("/dashboard/" + req.params.guildID + "/manage");
   });
   

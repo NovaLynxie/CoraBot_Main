@@ -64,7 +64,7 @@ block content
           .settings-card-modules.settings-card-block
             h5 Auto Moderation
             .settings-text-wrapper
-              | Enabled? NULL
+              | Enabled? #{(autoMod.enableAutoMod)?'Yes':'No'}
               br
               | Channel List Mode: NULL
               br
@@ -91,7 +91,7 @@ block content
           .settings-card-modules.settings-card-block
             h5 Bot Notifications
             .settings-text-wrapper
-              | Enabled? NULL
+              | Enabled? #{(notifier.enableNotifier)?'Yes':'No'}
               br
               | Event Trackers
               br
@@ -126,7 +126,7 @@ block content
           .settings-card-modules.settings-card-block
             h5 Smart Chat Bot
             .settings-text-wrapper
-              | Enabled? NULL
+              | Enabled? #{(chatBot.enableChatBot)?'Yes':'No'}
               br
               | ChatBot Settings
               br
