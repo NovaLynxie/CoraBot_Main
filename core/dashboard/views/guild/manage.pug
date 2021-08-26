@@ -2,6 +2,9 @@ extends ../blocks/layout
 block content
   - let {autoMod, chatBot, notifier, botlogger, modlogger} = guildSettings;
   - let guildPrefix = guildSettings.guildPrefix;
+  - let {enableAutoMod, chListMode, channelsList, urlBlacklist, mediaTrackers} = autoMod;
+  - let {enableChatBot, chatBotOpts, chatChannels} = chatBot;
+  - let {enableNotifier, trackEvents, notifsChannel, eventMsgTxt} = notifier;
   .container
     include ../blocks/guild-nav
     block navtab
@@ -59,32 +62,33 @@ block content
               | Code: #{(guild.vanityURLCode)?guild.vanityURLCode:'N/A'} (Used #{(guild.vanityURLUses)?guild.vanityURLUses:'NaN'} times)
         
         .settings-card-modules.settings-card-wrapper
-          h4 Module Settings (Broken)
+          h4 Module Settings (WIP)
           p.lead Change settings for each module from here. 
           .settings-card-modules.settings-card-block
+            
             h5 Auto Moderation
             .settings-text-wrapper
-              | Enabled? #{(autoMod.enableAutoMod)?'Yes':'No'}
+              | Enabled? #{(enableAutoMod)?'Yes':'No'}
               br
-              | Channel List Mode: NULL
+              | Channel List Mode: #{(chListMode) ?(chListMode === 'whitelist') ? 'Whitelist' : 'Blacklist' : 'Not Set!'}
               br
               | Media Removal
               br
-              | Animated Gifs: 
+              | Animated Gifs: #{(mediaTrackers.removeGifs) ? 'Yes' : 'No'}
               br
-              | Static Images: 
+              | Static Images: #{(mediaTrackers.removeImgs) ? 'Yes' : 'No'}
               br
-              | Links/URLs: 
+              | Links/URLs: #{(mediaTrackers.removeUrls) ? 'Yes' : 'No'}
             table.settings-table-main(border="1")
               tr
                 th Setting
                 th Value
               tr
                 td Channels List
-                td NULL
+                td #{(channelsList) ? `${channelsList.length} channels set` : 'N/A'}
               tr
                 td URL Blacklist
-                td NULL
+                td #{(urlBlacklist) ? `${urlBlacklist.length} urls blocked` : 'N/A'}
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingAutoModBotModal') Edit 
               i.fas.fa-edit
@@ -95,31 +99,31 @@ block content
               br
               | Event Trackers
               br
-              | Join: NULL
+              | Join: #{(trackEvents.joinEvent) ? 'Yes' : 'No'}
               br
-              | Leave: NULL
+              | Leave: #{trackEvents.leaveEvent ? 'Yes' : 'No'}
               br
-              | Kick: NULL
+              | Kick: #{trackEvents.kickEvent ? 'Yes' : 'No'}
               br
-              | Ban: NULL
+              | Ban: #{trackEvents.banEvent ? 'Yes' : 'No'}
               br
-              | Notifs Channel: NULL
+              | Notifs Channel: #{(notifsChannel && notifsChannel.length > 0) ? notifsChannel : 'Not Set!'}
             table.settings-table-main(border="1")
               tr
                 th Event
                 th Message
               tr
                 td Join
-                td NULL
+                td #{(eventMsgTxt && eventMsgTxt.joinMsg.length > 0) ? eventMsgTxt.joinMsg : 'Not set!'}
               tr
                 td Leave
-                td NULL
+                td #{(eventMsgTxt && eventMsgTxt.leaveMsg.length > 0) ? eventMsgTxt.leaveMsg : 'Not set!'}
               tr
                 td Kick
-                td NULL
+                td #{(eventMsgTxt && eventMsgTxt.kickMsg.length > 0) ? eventMsgTxt.kickMsg : 'Not set!'}
               tr
                 td Ban
-                td NULL
+                td #{(eventMsgTxt && eventMsgTxt.banMsg.length > 0) ? eventMsgTxt.banMsg : 'Not set!'}
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingBotNotifsModal') Edit 
               i.fas.fa-edit
@@ -130,14 +134,14 @@ block content
               br
               | ChatBot Settings
               br
-              | Name: NULL
+              | Name: #{(chatBotOpts && chatBotOpts.botName.length > 0) ? chatBotOpts.botName : 'Not set!'}
               br
-              | Gender: NULL
+              | Gender: #{(chatBotOpts && chatBotOpts.botGender.length > 0) ? chatBotOpts.botGender[0].toUpperCase() + chatBotOpts.botGender.substring(1) : 'Not set!'}
             table.settings-table-main(border="1")
               tr
                 th Chat Channels
               tr
-                td NULL
+                td #{(chatChannels) ? `Monitoring ${chatChannels.length} channels` : 'N/A'}
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
               i.fas.fa-edit
