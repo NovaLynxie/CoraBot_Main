@@ -4,7 +4,6 @@ const { config, credentials } = require('../handlers/bootloader');
 const { debug, dashboard } = config;
 const { clientSecret, sessionSecret } = credentials;
 const { enableDash, dashDomain, dashSrvPort, reportOnly } = dashboard;
-const { storeHandler } = require('../handlers/storemanager');
 module.exports = {
 	name: 'ready',
 	once: true,
