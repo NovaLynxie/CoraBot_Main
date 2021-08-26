@@ -1,22 +1,25 @@
 const logger = require('../plugins/winstonlogger.js');
 const Keyv = require('@keyvhq/core');
-const clientStore = new Keyv({ store: new Keyv({uri:'sqlite://data/settings.db'}), namespace: 'clientSettings' });
-const guildStore = new Keyv({ store: new Keyv({uri:'sqlite://data/settings.db'}), namespace: 'guildSettings' });
+const KeyvSQLite = require('@keyvhq/sqlite');
+const clientStore = new Keyv({ store: new KeyvSQLite({uri: 'sqlite://data/settings.db'}), namespace: 'clientSettings' });
+const guildStore = new Keyv({ store: new KeyvSQLite({uri: 'sqlite://data/settings.db'}), namespace: 'guildSettings' });
+logger.verbose(clientStore); console.log(clientStore);
+logger.verbose(guildStore); console.log(guildStore);
 const clientSettings = require('../assets/json/clientSettings.json');
 const guildSettings = require('../assets/json/guildSettings.json');
 
 // Generate settings if none is found.
-async function generateGuildSettings (guilds) {
+async function generateGuildSettings (guildIDs) {
   logger.debug('Preparing to check guild settings now...');
-  guilds.forEach(async (guildId) => {
-    logger.debug(`Checking ${guildId} of guilds`);
-    let settings = await guildStore.get(guildId);
+  guildIDs.forEach(async (guildID) => {
+    logger.debug(`Checking ${guildID} of guildIDs`);
+    let settings = await guildStore.get(guildID);
     if (settings) {
-      logger.debug(`Guild ${guildId} already has settings defined!`);
+      logger.debug(`Guild ${guildID} already has settings defined!`);
       return; // don't do anything if <guildId> already has settings.
     } else {
-      logger.debug(`Adding new settings for ${guildId} now...`); 
-      await guildStore.set(guildId, guildSettings);
+      logger.debug(`Adding new settings for ${guildID} now...`); 
+      await guildStore.set(guildID, guildSettings);
     };    
   });
   logger.debug('Finished checking guild settings.');

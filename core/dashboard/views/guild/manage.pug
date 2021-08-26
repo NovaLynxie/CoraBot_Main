@@ -134,9 +134,9 @@ block content
               br
               | ChatBot Settings
               br
-              | Name: #{(chatBotOpts && chatBotOpts.botName.length > 0) ? chatBotOpts.botName : 'Not set!'}
+              | Name: #{(chatBotOpts.botName) ? chatBotOpts.botName : 'Not set!'}
               br
-              | Gender: #{(chatBotOpts && chatBotOpts.botGender.length > 0) ? chatBotOpts.botGender[0].toUpperCase() + chatBotOpts.botGender.substring(1) : 'Not set!'}
+              | Gender: #{(chatBotOpts.botGender) ? chatBotOpts.botGender[0].toUpperCase() + chatBotOpts.botGender.substring(1) : 'Not set!'}
             table.settings-table-main(border="1")
               tr
                 th Chat Channels
