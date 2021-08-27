@@ -1,6 +1,7 @@
 const logger = require('./core/plugins/winstonlogger');
 const { readdirSync } = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
+const { Manager } = require('erela.js');
 const { crashReporter } = require('./core/handlers/crashreporter');
 const { 
   clearClientSettings, clearGuildSettings,
@@ -26,12 +27,31 @@ const client = new Client({
   ]
 });
 
+// Configure some options for music node.
+const musicNodes = [
+  {
+    host: "localhost",
+    password: "lynxfluff",
+    port: 2333
+  }
+];
+
 if (useLegacyURL) {
   logger.warn('Using Legacy API domain. This is not recommended!')
   client.options.http.api = "https://discordapp.com/api"
 };
 
-// Add settings handlers to client object.
+// Assign Manager to the client object.
+client.manager = new Manager({
+  // music nodes here.
+  nodes: musicNodes,
+  send: (id, payload) => {
+    const guild = client.guilds.cache.get(id);
+    if (guild) guild.shard.send(payload);
+  }
+}) 
+
+// Assign settings handlers to client object.
 client.settings = {
   clear: clearClientSettings,
   get: readClientSettings,
@@ -51,16 +71,31 @@ let commandCollections = ["prefixcmds", "slashcmds"];
 commandCollections.forEach(collection => client[collection] = new Collection());
 
 // Load in events from event files.
-const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
-// Event handler to process discord event triggers.
-for (const file of eventFiles) {
-	const event = require(`./core/events/${file}`);
+const discordEventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
+const managerEventFiles = readdirSync('./core/events/music').filter(file => file.endsWith('.js'));
+// Discord Client events handler to process discord event triggers.
+for (const eventFile of discordEventFiles) {
+	const event = require(`./core/events/${eventFile}`);
 	if (event.once) {
 		client.once(event.name, (...args) => event.execute(...args, client));
 	} else {
 		client.on(event.name, (...args) => event.execute(...args, client));
 	};
 };
+
+// Music Manager events handler to process erela.js event triggers.
+for ( const eventFile of managerEventFiles) {
+  const event = require(`./core/events/music/${eventFile}`);
+  if (event.once) {
+    client.manager.once(event.name, (...args) => event.execute(...args, client));
+  } else {
+    client.manager.on(event.name, (...args) => event.execute(...args, client));
+  };
+}
+// Client Manager Events.
+client.manager.on("nodeConnect", node => {
+  logger.debug(`Node "${node.options.identifier}" connected!`);  
+})
 
 // Catch unhandled exceptions and rejections not caught by my code to avoid crashes.
 process.on('unhandledRejection', error => {

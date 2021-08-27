@@ -12,6 +12,8 @@ module.exports = {
     logger.warn('Still running final checks! Bot may be slow for a bit.')
     clearTimeout(client.timers.rateLimitWarn);
     logger.debug('Cleared ratelimit warning timer.');
+    // Initiate music manager and connect all nodes.
+    client.manager.init(client.user.id);
     // Fetch application information.
     client.application = await client.application.fetch();
     // Check settings database.
