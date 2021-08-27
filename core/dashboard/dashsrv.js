@@ -436,14 +436,14 @@ module.exports = (client, config) => {
         logger.debug("Detected 'chatBot' settings data!");
         chatBot.enableChatBot = (req.body.enableChatBot === 'on') ? true : false;
         let chatBotOpts = {
-          botName: (req.body.botName) ? req.body.botName : "Cora",
-          botGender: (req.body.botGender) ? req.body.botGender : "female"
+          botName: (req.body.botName) ? req.body.botName : "",
+          botGender: (req.body.botGender) ? req.body.botGender : ""
         };
-        let chatChannels = req.body.chatChannels;
+        let chatChannels = (typeof req.body.chatChannels === 'string') ? "["+chatChannels+"]" : req.body.chatChannels;
         logger.debug(`chatBotOpts=${JSON.stringify(chatBotOpts)}`);
         logger.debug(`chatChannels=${JSON.stringify(chatChannels)}`);
         chatBot.chatBotOpts = chatBotOpts;
-        chatBot.chatChannels = (chatChannels) ? chatChannels : undefined;
+        chatBot.chatChannels = (chatChannels) ? chatChannels : [];
         logger.debug("Prepared 'chatBot' settings data for writing.");
       };
       if (req.body.enableBotLogger) {

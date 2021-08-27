@@ -6,7 +6,7 @@
 //- enableModLogs = (modLogSettings.enableModLogs) ? 'on' : 'off';
 
 // Guild specific information
-- channelData = guild.channels.cache.filter(ch => ch.type === 'text');
+- channelData = guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT');
 - textChannels = Object.fromEntries(channelData);
 // Manage Page Modals (Edit Settings)
 #settingAutoModBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingAutoModBotModalLabel' aria-hidden='true')
