@@ -14,12 +14,19 @@
     "bot"
   ],
   "homepage": "https://github.com/NovaLynxie/CoraBot_Main#readme",
-  "repository": "github:NovaLynxie/CoraBot_Main",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NovaLynxie/CoraBot_Main.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NovaLynxie/CoraBot_Main/issues"
+  },
   "author": "NovaLynxie",
   "license": "ISC",
   "dependencies": {
     "@discordjs/builders": "^0.5.0",
     "@discordjs/rest": "0.1.0-canary.0",
+    "@discordjs/voice": "^0.6.0",
     "@keyv/sqlite": "^2.0.2",
     "@keyvhq/core": "^1.2.6",
     "@keyvhq/sqlite": "^1.2.7",
@@ -31,10 +38,12 @@
     "erela.js": "^2.3.3",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
+    "ffmpeg-static": "^4.4.0",
     "flash": "^1.1.0",
     "helmet": "^4.6.0",
     "html": "^1.0.0",
     "keyv": "^4.0.3",
+    "libsodium-wrappers": "^0.7.9",
     "minecraft-server-util": "^3.6.0",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
