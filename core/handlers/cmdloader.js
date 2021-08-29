@@ -63,8 +63,17 @@ async function loadSlashCmds(client) {
       for (const file of cmdfiles) {
         logger.debug(`Parsing ${file} of ${subDir} in slashcmds`);
         logger.debug(`cmdfile -> ${file}`);
-        const cmd = require(`../commands/slashcmds/${subDir}/${file}`);
 
+        // Require command file here.
+        const cmd = require(`../commands/slashcmds/${subDir}/${file}`);
+        // Error checking if command has no syntax errors thrown when requiring the file.
+        // If no name or empty field, don't load the commmand.
+        if (!cmd.name || cmd.name.trim() === "") return logger.error(`Command ${file} missing name property or no name provided!`);
+        // If no category, warn that help command cannot show information for it.
+        if (!cmd.category) logger.warn(`Command ${file} missing category! Help command will not show this command.`);
+        // If no execute function, do not load command as this will do nothing without it.
+        if (!cmd.execute) return logger.error(`Command ${file} missing execute() function!`);
+        // If all goes well, push cmd.data into the commands array for updating application commands later.
         commands.push(cmd.data);
 
         if (cmd.data) {
