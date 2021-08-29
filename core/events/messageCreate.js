@@ -13,7 +13,7 @@ module.exports = {
       let data = {
         mode: 'r', guild: message.guild
       };
-      const guildSettings = await storeHandler(data, client);
+      const guildSettings = await client.settings.guild.get(data, client);
       const { guildPrefix } = guildSettings;
 
       prefix = (guildPrefix) ? guildPrefix : globalPrefix;
