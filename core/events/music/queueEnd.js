@@ -1,4 +1,4 @@
-const logger = require("../../../plugins/winstonlogger");
+const logger = require("../../plugins/winstonlogger");
 
 module.exports = {
     name: 'trackStart',
