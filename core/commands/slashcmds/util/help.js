@@ -1,13 +1,12 @@
 const { MessageActionRow, MessageButton } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const logger = require('../../../plugins/winstonlogger');
 const wait = require('util').promisify(setTimeout);
 const {config} = require('../../../handlers/bootloader'); const {dashboard} = config;
 module.exports = {
-  data: {
-    name: 'help',
-    category: 'util',
-    description: "Provides a useful help embed and button menu!"
-  },
+  data: new SlashCommandBuilder()
+    .setName('help')
+    .setDescription("Provides a useful help embed and button menu!"),
 	async execute(interaction, client) {
     const buttonIDs = ['allcommands', 'botsettings'];
     const filter = i => buttonIDs.indexOf(i.customId);

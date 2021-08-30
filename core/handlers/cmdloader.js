@@ -21,14 +21,14 @@ async function loadPrefixCmds(client) { // this is currently unused and deprecia
         logger.debug(`cmdfile -> ${file}`);
         try {
           const cmd = require(`../commands/prefixcmds/${subDir}/${file}`);
-          if (cmd.data) {
-            if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
-              client.prefixcmds.set(cmd.data.name, cmd);
+          if (cmdDataJSON) {
+            if (typeof cmdDataJSON.name === "string" && typeof cmdDataJSON.category === "string") {
+              client.prefixcmds.set(cmdDataJSON.name, cmd);
             } else {
               logger.error('Command name tag invalid type!');
             };
           } else {
-            logger.error('Missing cmd.data! Skipping invalid command file.');
+            logger.error('Missing cmdDataJSON! Skipping invalid command file.');
           };
         } catch (error) {
           
@@ -66,24 +66,25 @@ async function loadSlashCmds(client) {
 
         // Require command file here.
         const cmd = require(`../commands/slashcmds/${subDir}/${file}`);
+        const cmdDataJSON = cmd.data.toJSON();
         // Error checking if command has no syntax errors thrown when requiring the file.
         // If no name or empty field, don't load the commmand.
-        if (!cmd.data.name || cmd.data.name.trim() === "") return logger.error(`Command ${file} missing name property or no name provided!`);
+        if (!cmdDataJSON.name || cmdDataJSON.name.trim() === "") return logger.error(`Command ${file} missing name property or no name provided!`);
         // If no category, warn that help command cannot show information for it.
-        if (!cmd.data.category) logger.warn(`Command ${file} missing category! Help command will not show this command.`);
+        //if (!cmdDataJSON.category) logger.warn(`Command ${file} missing category! Help command will not show this command.`); // no category available... (-_-)
         // If no execute function, do not load command as this will do nothing without it.
         if (!cmd.execute) return logger.error(`Command ${file} missing execute() function!`);
-        // If all goes well, push cmd.data into the commands array for updating application commands later.
-        commands.push(cmd.data);
+        // If all goes well, push cmdDataJSON into the commands array for updating application commands later.
+        commands.push(cmdDataJSON);
 
-        if (cmd.data) {
-          if (typeof cmd.data.name === "string" && typeof cmd.data.category === "string") {
-            client.slashcmds.set(cmd.data.name, cmd);
+        if (cmdDataJSON) {
+          if (typeof cmdDataJSON.name === "string") {
+            client.slashcmds.set(cmdDataJSON.name, cmd);
           } else {
             logger.error('Command name tag invalid type!');
           };
         } else {
-          logger.error('Missing cmd.data! Skipping invalid command file.');
+          logger.error('Missing command data! Skipping invalid command file.');
         };
       };
     });
