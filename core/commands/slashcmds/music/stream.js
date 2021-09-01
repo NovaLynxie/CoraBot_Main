@@ -10,8 +10,9 @@ module.exports = {
     .addStringOption(option => 
       option
         .setName('url')
-        .setDescription('Enter code to execute'))
-        .setRequired(false),
+        .setDescription('Enter code to execute')
+        .setRequired(false)
+    ),
   async execute(interaction, client) {
     console.debug(interaction.channel);
     joinVC(interaction.channel);
