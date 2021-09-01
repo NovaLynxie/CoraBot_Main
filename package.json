@@ -19,7 +19,9 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/builders": "^0.5.0",
+    "@discordjs/opus": "^0.6.0",
     "@discordjs/rest": "0.1.0-canary.0",
+    "@discordjs/voice": "^0.6.0",
     "@keyv/sqlite": "^2.0.2",
     "@keyvhq/core": "^1.2.6",
     "@keyvhq/sqlite": "^1.2.7",
