@@ -8,6 +8,7 @@ const {
 	AudioPlayerStatus,
 	VoiceConnectionStatus,
 	joinVoiceChannel,
+  getVoiceConnection
 } = require('@discordjs/voice');
 
 const player = createAudioPlayer({
@@ -17,14 +18,19 @@ const player = createAudioPlayer({
 	},
 });
 
-let connection;
+function checkVC(guild) {
+  let voiceConnection = getVoiceConnection(guild.id);
+  return voiceConnection;
+};
+
 function joinVC(channel) {
   logger.data(JSON.stringify(channel,null,2));
-  connection = joinVoiceChannel({
+  let voiceConnection = joinVoiceChannel({
     channelId: channel.id,
     guildId: channel.guild.id,
     adapterCreator: channel.guild.voiceAdapterCreator,
   });
+  return voiceConnection;
 };
 
 player.on('stateChange', (oldState, newState) => {
@@ -36,4 +42,4 @@ player.on('stateChange', (oldState, newState) => {
 	}
 });
 
-module.exports = { joinVC };
+module.exports = { checkVC, joinVC };

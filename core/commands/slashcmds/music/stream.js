@@ -1,5 +1,5 @@
 const logger = require('../../../plugins/winstonlogger');
-const { joinVC } = require('../../../handlers/music/audioManager');
+const { checkVC, joinVC } = require('../../../handlers/voice/voiceManager');
 const { MessageActionRow, MessageButton } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
@@ -14,7 +14,13 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction, client) {
-    joinVC(interaction.channel);
+    let connection = checkVC(interaction.guild);
+    if (!connection || connection === undefined) {
+      logger.debug(`No connections active for ${interaction.guild.name}! Creating one now.`);
+      joinVC(interaction.member.voice.channel);
+    } else {
+      logger.debug(`Connection active in ${interaction.guild.name}! Using this instead.`);
+    }
     interaction.reply({ 
       content: 'Not yet implemented! This may not work as expected.',
       ephemeral: true
