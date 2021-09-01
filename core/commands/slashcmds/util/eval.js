@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const logger = require('../../../plugins/winstonlogger');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -9,7 +10,7 @@ module.exports = {
     //
     // If the message author's ID does not equal
     // our ownerID, get outta there!
-    if (client.options.owners.indexOf(interaction.user.tag) <= -1) {
+    if (client.options.owners.indexOf(interaction.user.id) <= -1) {
       interaction.reply({
         content: `THAT IS A RESTRICTED COMMAND! YOU ARE NOT AUTHORIZED ${interaction.user.username}!`,
         ephemeral: true
@@ -19,7 +20,7 @@ module.exports = {
     // This function cleans up and prepares the
     // result of our eval command input for sending
     // to the channel
-    const clean = async (text) => {
+    const clean = async (client, text) => {
       // If our input is a promise, await it before continuing
       if (text && text.constructor.name == "Promise")
         text = await text;
@@ -35,7 +36,9 @@ module.exports = {
       text = text
         .replace(/`/g, "`" + String.fromCharCode(8203))
         .replace(/@/g, "@" + String.fromCharCode(8203));
-
+      // Then you will need to place this inside the
+      // clean function, before the result is returned.
+      text = text.replaceAll(client.token, "[REDACTED]");
       // Send off the cleaned up result
       return text;
     }
@@ -43,23 +46,33 @@ module.exports = {
     // in a try/catch block
     try {
       // Evaluate (execute) our input
-      const evaled = eval(interaction.option.code.join(" "));
-
-      // Put our eval result through the function
-      // we defined above
-      const cleaned = await clean(evaled);
-
+      const input = interaction.options.getString('code');
+      logger.debug(`input => ${input}`);
+      const evaled = eval(input);
+      // Put our eval result through the function we defined above
+      const cleaned = await clean(client, evaled);
+      logger.debug(cleaned);
       // Reply in the channel with our result
       interaction.reply({
-        content: `\`\`\`js\n${cleaned}\n\`\`\``,
+        content: `
+        \`input: '${input}'\`
+        \`\`\`js\n${cleaned}\n\`\`\``,
         ephemeral: true
       });
     } catch (err) {
       // Reply in the channel with our error
-      interaction.reply({
-        content: `\`ERROR\` \`\`\`xl\n${cleaned}\n\`\`\``,
-        ephemeral: true
-      });
+      if (err.message === 'Must be 2000 or fewer in length') {
+        interaction.reply({
+          content: `\`ERROR\` \`\`\`xl\n${err}\n\`\`\``,
+          ephemeral: true
+        });
+      } else {
+        interaction.reply({
+          content: `\`ERROR\` \`\`\`xl\n${err}\n\`\`\``,
+          ephemeral: true
+        });  
+      };
+      logger.debug(err.stack);
     }
   }
 }

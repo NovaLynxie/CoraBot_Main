@@ -60,6 +60,7 @@ async function loadSlashCmds(client) {
     readdirSync(slashCmdDir).forEach(subDir => {
       let dirPath = `${slashCmdDir}/${subDir}/`;
       var cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
+      logger.data(JSON.stringify(cmdfiles));
       for (const file of cmdfiles) {
         logger.debug(`Parsing ${file} of ${subDir} in slashcmds`);
         logger.debug(`cmdfile -> ${file}`);
@@ -95,6 +96,7 @@ async function loadSlashCmds(client) {
     if (error.message.indexOf('Cannot find module') > -1) {
       logger.fatal('Unable to find or load specified command file!');
       logger.warn('It is either missing or a permission error has occured.');
+      logger.debug(error.stack);
     } else
     if (error.message.indexOf('Unexpected token') > -1) {
       logger.error('Errored while loading a command file');
