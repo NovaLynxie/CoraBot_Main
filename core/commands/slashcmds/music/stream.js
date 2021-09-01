@@ -3,12 +3,6 @@ const { joinVC } = require('../../../handlers/music/audioManager');
 const { MessageActionRow, MessageButton } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-const connection = joinVoiceChannel({
-	channelId: channel.id,
-	guildId: channel.guild.id,
-	adapterCreator: channel.guild.voiceAdapterCreator,
-});
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('stream')

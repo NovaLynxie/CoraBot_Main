@@ -13,7 +13,7 @@ const {
 const player = createAudioPlayer({
 	behaviors: {
 		noSubscriber: NoSubscriberBehavior.Play,
-		maxMissedFrames: Math.round(config.maxTransmissionGap / 20),
+		maxMissedFrames: Math.round(5000 / 20),
 	},
 });
 
