@@ -14,7 +14,6 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction, client) {
-    console.debug(interaction.channel);
     joinVC(interaction.channel);
     interaction.reply({ 
       content: 'Not yet implemented! This may not work as expected.',

@@ -19,6 +19,7 @@ const player = createAudioPlayer({
 
 let connection;
 function joinVC(channel) {
+  logger.data(JSON.stringify(channel,null,2));
   connection = joinVoiceChannel({
     channelId: channel.id,
     guildId: channel.guild.id,
