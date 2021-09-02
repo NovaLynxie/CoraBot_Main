@@ -29,7 +29,7 @@ module.exports = {
           .setLabel('Dashboard')
           .setStyle('LINK')
           .setURL(dashDomain),
-          new MessageButton()
+        new MessageButton()
           .setCustomId('closemenu')
           .setLabel('Close Menu')
           .setStyle('DANGER'),
