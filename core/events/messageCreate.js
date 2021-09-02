@@ -14,24 +14,9 @@ module.exports = {
         mode: 'r', guild: message.guild
       };
       const guildSettings = await client.settings.guild.get(data, client);
-      const { guildPrefix } = guildSettings;
+      const guildPrefix = guildSettings?.guildPrefix;
 
       prefix = (guildPrefix) ? guildPrefix : globalPrefix;
-
-      /*
-      if (message.content.startsWith(globalPrefix)) {
-        prefix = globalPrefix;
-      } else {
-        // check the guild-level prefix
-        let data = {
-          mode: 'r', // single character only!
-          guild: message.guild
-        };  
-        const guildSettings = await storeHandler(data, client);
-        const {guildPrefix} = guildSettings;
-        if (message.content.startsWith(guildPrefix)) prefix = guildPrefix;
-      }
-      */
 
       // if we found a prefix, setup args; otherwise, this isn't a command
       if (!prefix) return;
