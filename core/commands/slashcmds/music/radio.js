@@ -14,16 +14,16 @@ module.exports = {
     let radioMainMenuBtns = MessageActionRow()
       .addComponents(
         new MessageButton()
-          .setCustomId('radioIndex')
-          .setLabel('Main Menu')
-          .setStyle('SECONDARY'),
-        new MessageButton()
           .setCustomId('joinVC')
           .setLabel('Join Voice')
           .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('leaveVC')
           .setLabel('Leave Voice')
+          .setStyle('SECONDARY'),
+        new MessageButton()
+          .setCustomId('radioPlayer')
+          .setLabel('Radio Player')
           .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('closeMenu')
@@ -45,8 +45,8 @@ module.exports = {
           .setLabel('Stop')
           .setStyle('DANGER'),
         new MessageButton()
-          .setCustomId('Stations')
-          .setLabel('Stations')
+          .setCustomId('radioIndex')
+          .setLabel('Radio Menu')
           .setStyle('PRIMARY')
       )
   }
