@@ -30,5 +30,24 @@ module.exports = {
           .setLabel('Close Menu')
           .setStyle('DANGER'),
       );
+    let radioPlayerBtns = MessageActionRow()
+      .addComponents(
+        new MessageButton()
+          .setCustomId('play')
+          .setLabel('Play')
+          .setStyle('SECONDARY'),
+        new MessageButton()
+          .setCustomId('pause')
+          .setLabel('Pause')
+          .setStyle('SECONDARY'),
+        new MessageButton()
+          .setCustomId('stop')
+          .setLabel('Stop')
+          .setStyle('DANGER'),
+        new MessageButton()
+          .setCustomId('Stations')
+          .setLabel('Stations')
+          .setStyle('PRIMARY')
+      )
   }
 };
