@@ -1,0 +1,26 @@
+{
+  "ch1": {
+    "name": "Celestia Radio",
+    "url": "http://celestia.aiverse.org:8000/stream"
+  },
+  "ch2": {
+    "name": "Luna Radio",
+    "url": "http://radio.ponyvillelive.com:8002/stream?;stream.nsv"
+  },
+  "ch3": {
+    "name": "Fillydelphia Radio",
+    "url": "http://fillyradio.com/stream-128k"
+  },
+  "ch4": {
+    "name": "BronyTunes Radio",
+    "url": "https://manehattan.bronytunes.com/stream-128.mp3"
+  },
+  "ch5": {
+    "name": "Radio Brony",
+    "url": "https://radiobrony.live/mp3"
+  },
+  "chX": {
+    "name": "radio-name-here",
+    "url": "radio-url-here"
+  }
+}
