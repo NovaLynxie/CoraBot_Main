@@ -18,15 +18,15 @@ module.exports = {
           .setLabel('Main Menu')
           .setStyle('SECONDARY'),
         new MessageButton()
-          .setCustomId('allcommands')
-          .setLabel('All Commands')
+          .setCustomId('joinVC')
+          .setLabel('Join Voice')
           .setStyle('SECONDARY'),
         new MessageButton()
-          .setLabel('Dashboard')
-          .setStyle('LINK')
-          .setURL(dashDomain),
+          .setCustomId('leaveVC')
+          .setLabel('Leave Voice')
+          .setStyle('SECONDARY'),
         new MessageButton()
-          .setCustomId('closemenu')
+          .setCustomId('closeMenu')
           .setLabel('Close Menu')
           .setStyle('DANGER'),
       );
