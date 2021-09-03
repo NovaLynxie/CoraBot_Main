@@ -1,11 +1,13 @@
 const logger = require('../../../plugins/winstonlogger');
-const { checkVC, joinVC, createSource, newPlayer } = require('../../../handlers/voice/voiceManager');
 const { 
   MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu 
 } = require('discord.js');
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const wait = require('util').promisify(setTimeout);
+// require bot voice handlers.
+const { checkVC, joinVC, createSource, newPlayer } = require('../../../handlers/voice/voiceManager');
+// fetch available stations.
 const stations = require('../../../assets/json/radioStations.json');
 const { ch1, ch2, ch3, ch4, ch5 } = stations;
 module.exports = {
@@ -15,6 +17,8 @@ module.exports = {
   async execute(interaction, client) {
     // Fetch connection before starting here.
     let connection = checkVC(interaction.guild);
+    // Define 'default' variables here.
+    let player, source, station;
     // Processing information so call this to extend the timeout.
     await interaction.deferReply({ ephemeral: false });
 
@@ -106,7 +110,7 @@ module.exports = {
           )
 
       )
-    // Radio functions which power the button actions and playback.
+    // Radio functions which control all of the radio functionality.
     async function joinChannel (channel) {
       connection = checkVC(interaction.guild);
       try {
@@ -130,19 +134,52 @@ module.exports = {
         })
       }
     }
-    function radioPlay() {
+    function radioPlay(src) {
       player.play(source);
       connection.subscribe(player);
     };
-    function radioPause() {
-
-      player.pause();
-    };
-    function radioStop() {
-      player.stop();
+    // Dynamic Radio Player Embed
+    function dynamicPlayerEmbed (station) {
+      let playerState;
+      switch (player?._state.status) {
+        case 'idle':
+          playerState = 'Idle'
+          break;
+        case 'buffering':
+          playerState = 'Buffering'
+          break;
+        case 'playing':
+          playerState = 'Playing'
+          break;
+        case 'autopaused':
+          playerState = 'AutoPaused'
+          break;
+        case 'pause':
+          playerState = 'Paused'
+          break;
+        default: 
+          playerState = 'Stopped'
+      }
+      radioPlayerEmbed.addFields(
+        {
+          name: 'Status',
+          value: playerState
+        },
+        {
+          name: 'Station',
+          value: (station) ? `${station?.name} - ${station?.desc}` : 'No station loaded.'
+        },
+        {
+          name: 'Now Playing',
+          value: `Nothing is playing...`
+        }
+      )
+      return radioPlayerEmbed;
     }
     // Create interaction collecter to fetch button interactions.
-    const collector = interaction.channel.createMessageComponentCollector({ time: 60000}); 
+    const collector = interaction.channel.createMessageComponentCollector({ time: 180_000}); 
+    // Check if player is defined. If undefined or null, create one.
+    player = (!player) ? newPlayer() : player;
     // Menu/Button collecter and handler.
     collector.on('collect', async i => {
       await i.deferUpdate();
@@ -169,23 +206,9 @@ module.exports = {
           break;
         // button actions - radio player
         case 'radioPlayer':
-          radioPlayerEmbed.addFields(
-            {
-              name: 'Status',
-              value: 'Offline'
-            },
-            {
-              name: 'Station',
-              value: 'N/A'
-            },
-            {
-              name: 'Now Playing',
-              value: `Nothing is playing...`
-            }
-          )
           await i.editReply(
             {
-              embeds: [radioPlayerEmbed], 
+              embeds: [dynamicPlayerEmbed(station)], 
               components: [radioPlayerBtns, radioStationsMenu]
             }
           );
@@ -200,7 +223,9 @@ module.exports = {
           break;
         // Radio Player Actions
         case 'play':
-          //radioPlay(source);
+          if (!player) return;
+          player.play(source);
+          connection.subscribe(player);
           break;
         case 'pause':
           if (!player) return;
@@ -210,21 +235,32 @@ module.exports = {
           if (!player) return;
           player.stop();
           break;
+        // Radio Selection Actions
+        case 'radioStations':
+          break;
         // fallback action for all radio menus
         default: 
-          logger.warn('Invalid button pressed for this menu!');
+          logger.warn('Invalid or unknown action called!');
           logger.verbose('radio.button.default.trigger');
           await i.editReply(
             {
-              content: 'That button is invalid or not recognised in this menu!'
+              content: 'That action is invalid or not available!'
             }
           );
       };
     });
     // Log on collector end (temporary)
     collector.on('end', async collected => {
-      logger.debug('Collector in help commmand timed out.');
+      logger.debug('Collector in radio commmand timed out.');
       logger.debug(`Collected ${collected.size} items.`);
+      await interaction.editReply(
+        {
+          content: 'Radio Menu timed out. To continue using the menu, run /radio again.',
+          embeds: [], components: []
+        }
+      );
+      await wait(5000);
+      await i.deleteReply();
     });
     interaction.editReply({
       embeds: [radioMenuEmbed],

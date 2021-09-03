@@ -1,7 +1,10 @@
 const logger = require('../plugins/winstonlogger');
+const {config} = require('../handlers/bootloader');
+const {debug} = config;
 module.exports = {
 	name: 'interactionCreate',
 	async execute(interaction) {
+    if (debug) logger.data(JSON.stringify(interaction,null,2));
     const client = interaction.client;
     if (interaction.isCommand()) {
       logger.debug(`${interaction.user.tag} in #${interaction.channel.name} from ${interaction.guild.name} triggered interaction '${interaction.commandName}'`);
