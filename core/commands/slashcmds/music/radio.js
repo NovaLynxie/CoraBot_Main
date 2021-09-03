@@ -60,10 +60,12 @@ module.exports = {
           .setCustomId('play')
           .setLabel('Play')
           .setStyle('SECONDARY'),
+        /* (Not really useful?)
         new MessageButton()
           .setCustomId('pause')
           .setLabel('Pause')
           .setStyle('SECONDARY'),
+        */
         new MessageButton()
           .setCustomId('stop')
           .setLabel('Stop')

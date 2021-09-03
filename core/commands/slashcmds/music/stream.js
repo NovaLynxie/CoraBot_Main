@@ -7,7 +7,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('stream')
-    .setDescription('Streams audio from a valid audio stream URL.')
+    .setDescription('Streams audio from a valid audio stream URL. (DEPRECIATED! Use /radio instead.)')
     .addStringOption(option => 
       option
         .setName('url')
