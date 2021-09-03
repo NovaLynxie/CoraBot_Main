@@ -4,8 +4,8 @@
     "url": "http://celestia.aiverse.org:8000/stream"
   },
   "ch2": {
-    "name": "Luna Radio",
-    "url": "http://radio.ponyvillelive.com:8002/stream?;stream.nsv"
+    "name": "Alicorn Radio",
+    "url": "http://104.254.246.277/radio/8000/radio.mp3"
   },
   "ch3": {
     "name": "Fillydelphia Radio",

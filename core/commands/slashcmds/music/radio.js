@@ -174,7 +174,8 @@ module.exports = {
       ]
       return radioPlayerEmbed;
     };
-    // Update player interface from dynamic embed.
+    // Update player interface from dynamic embed. 
+    let refreshTimer; // define refreshTimer reference.
     async function refreshPlayer(interact) {
       await interact.editReply(
         {
@@ -182,9 +183,12 @@ module.exports = {
           components: [radioPlayerBtns, radioStationsMenu]
         }
       );
+    };
+    function startRefresh() {
+      refreshTimer = setInterval(refreshPlayer, 10000, interact);
     }
     // Create interaction collecter to fetch button interactions.
-    const collector = interaction.channel.createMessageComponentCollector({ time: 180_000}); 
+    const collector = interaction.channel.createMessageComponentCollector({ time: 300000}); 
     // Check if player is defined. If undefined or null, create one.
     player = (!player) ? newPlayer() : player;
     // Menu/Button collecter and handler.
@@ -217,6 +221,7 @@ module.exports = {
       switch (interact.customId) {
         // button actions - radio menu
         case 'radioIndex': 
+          clearInterval(refreshTimer);
           await interact.editReply(
             {
               embeds: [radioMenuEmbed],
@@ -237,6 +242,7 @@ module.exports = {
         // button actions - radio player
         case 'radioPlayer':
           refreshPlayer(interact);
+          startRefresh();
           break;
         // Join/Leave Voice Actions
         case 'joinVC':
@@ -251,7 +257,7 @@ module.exports = {
           if (!player) return;
           player.play(source);
           connection.subscribe(player);
-          refreshPlayer(interact);
+          refreshPlayer(interact);          
           break;
         case 'pause':
           if (!player) return;
@@ -265,7 +271,8 @@ module.exports = {
           break;
         // Radio Selection Actions
         case 'radioStations':
-          selectMenu(); refreshPlayer(interact);
+          selectMenu(); 
+          refreshPlayer(interact);
           break;
         // fallback action for all radio menus
         default: 
