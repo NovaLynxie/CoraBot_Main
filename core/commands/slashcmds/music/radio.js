@@ -234,12 +234,7 @@ module.exports = {
           break;
         // button actions - radio player
         case 'radioPlayer':
-          await interact.editReply(
-            {
-              embeds: [dynamicPlayerEmbed(station)], 
-              components: [radioPlayerBtns, radioStationsMenu]
-            }
-          );
+          refreshPlayer(interact);
           break;
         // Join/Leave Voice Actions
         case 'joinVC':
@@ -254,24 +249,21 @@ module.exports = {
           if (!player) return;
           player.play(source);
           connection.subscribe(player);
+          refreshPlayer(interact);
           break;
         case 'pause':
           if (!player) return;
           player.pause();
+          refreshPlayer(interact);
           break;
         case 'stop':
           if (!player) return;
           player.stop();
+          refreshPlayer(interact);
           break;
         // Radio Selection Actions
         case 'radioStations':
-          selectMenu();
-          await interact.editReply(
-            {
-              embeds: [dynamicPlayerEmbed(station)], 
-              components: [radioPlayerBtns, radioStationsMenu]
-            }
-          );
+          selectMenu(); refreshPlayer(interact);
           break;
         // fallback action for all radio menus
         default: 
