@@ -30,3 +30,7 @@ Once installation is completed, run this command: `npm run setup`.
 This will start the setup utility, follow the on-screen prompts to complete the bot setup process. (Not yet implemented!)  
 **IMPORTANT!!**
 **Privileged intents are required for the bot to start. Check you have it enabled for your bot user before starting or the bot WILL crash!**
+
+## YouTube music support (IMPORTANT)
+This bot will not support music playback from YouTube links going forward.
+Please see issue #11 for more details.
