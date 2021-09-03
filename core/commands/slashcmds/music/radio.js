@@ -171,18 +171,27 @@ module.exports = {
         }
       )
       return radioPlayerEmbed;
+    };
+    // Update player interface from dynamic embed.
+    function refreshPlayer(interact) {
+      await interact.editReply(
+        {
+          embeds: [dynamicPlayerEmbed(station)], 
+          components: [radioPlayerBtns, radioStationsMenu]
+        }
+      );
     }
     // Create interaction collecter to fetch button interactions.
     const collector = interaction.channel.createMessageComponentCollector({ time: 180_000}); 
     // Check if player is defined. If undefined or null, create one.
     player = (!player) ? newPlayer() : player;
     // Menu/Button collecter and handler.
-    collector.on('collect', async i => {
-      await i.deferUpdate();
+    collector.on('collect', async interact => {
+      await interact.deferUpdate();
       await wait(1000);
       function selectMenu() {
         // Select Menu Switch/Case Handler
-        switch (i.values[0]) {
+        switch (interact.values[0]) {
           case ch1.name:
             station = ch1; source = createSource(ch1.url);
             break;
@@ -203,10 +212,10 @@ module.exports = {
         }
       };
       // Button Switch/Case Handler
-      switch (i.customId) {
+      switch (interact.customId) {
         // button actions - radio menu
         case 'radioIndex': 
-          await i.editReply(
+          await interact.editReply(
             {
               embeds: [radioMenuEmbed],
               components: [radioMenuBtns]
@@ -214,18 +223,18 @@ module.exports = {
           );
           break;
         case 'closeMenu':
-          await i.editReply(
+          await interact.editReply(
             {
               content: 'Turned off the Radio. Use /radio to turn it back on!',
               embeds: [], components: []
             }
           );
           await wait(5000);
-          await i.deleteReply();
+          await interact.deleteReply();
           break;
         // button actions - radio player
         case 'radioPlayer':
-          await i.editReply(
+          await interact.editReply(
             {
               embeds: [dynamicPlayerEmbed(station)], 
               components: [radioPlayerBtns, radioStationsMenu]
@@ -257,7 +266,7 @@ module.exports = {
         // Radio Selection Actions
         case 'radioStations':
           selectMenu();
-          await i.editReply(
+          await interact.editReply(
             {
               embeds: [dynamicPlayerEmbed(station)], 
               components: [radioPlayerBtns, radioStationsMenu]
@@ -268,7 +277,7 @@ module.exports = {
         default: 
           logger.warn('Invalid or unknown action called!');
           logger.verbose('radio.button.default.trigger');
-          await i.editReply(
+          await interact.editReply(
             {
               content: 'That action is invalid or not available!'
             }
@@ -286,7 +295,7 @@ module.exports = {
         }
       );
       await wait(5000);
-      await i.deleteReply();
+      await interaction.deleteReply();
     });
     interaction.editReply({
       embeds: [radioMenuEmbed],
