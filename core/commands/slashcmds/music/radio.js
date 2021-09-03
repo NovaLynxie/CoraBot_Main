@@ -184,7 +184,7 @@ module.exports = {
         }
       );
     };
-    function startRefresh() {
+    function startRefresh(interact) {
       refreshTimer = setInterval(refreshPlayer, 10000, interact);
     }
     // Create interaction collecter to fetch button interactions.
@@ -242,7 +242,7 @@ module.exports = {
         // button actions - radio player
         case 'radioPlayer':
           refreshPlayer(interact);
-          startRefresh();
+          startRefresh(interact);
           break;
         // Join/Leave Voice Actions
         case 'joinVC':
