@@ -203,16 +203,18 @@ module.exports = {
           //radioPlay(source);
           break;
         case 'pause':
+          if (!player) return;
           player.pause();
           break;
         case 'stop':
+          if (!player) return;
           player.stop();
           break;
         // fallback action for all radio menus
         default: 
           logger.warn('Invalid button pressed for this menu!');
           logger.verbose('radio.button.default.trigger');
-          await i.update(
+          await i.editReply(
             {
               content: 'That button is invalid or not recognised in this menu!'
             }
