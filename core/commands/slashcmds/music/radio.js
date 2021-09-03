@@ -173,7 +173,7 @@ module.exports = {
       return radioPlayerEmbed;
     };
     // Update player interface from dynamic embed.
-    function refreshPlayer(interact) {
+    async function refreshPlayer(interact) {
       await interact.editReply(
         {
           embeds: [dynamicPlayerEmbed(station)], 
