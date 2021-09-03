@@ -156,7 +156,7 @@ module.exports = {
         default: 
           playerState = 'Stopped'
       }
-      radioPlayerEmbed.addFields(
+      radioPlayerEmbed.fields = [
         {
           name: 'Status',
           value: playerState
@@ -169,7 +169,7 @@ module.exports = {
           name: 'Now Playing',
           value: `Nothing is playing...`
         }
-      )
+      ]
       return radioPlayerEmbed;
     };
     // Update player interface from dynamic embed.
