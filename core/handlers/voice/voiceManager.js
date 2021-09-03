@@ -29,10 +29,6 @@ function newPlayer () {
 };
 
 // Audio Source functions.
-function createStreamSource (input) {
-  let audioSource = createAudioResource(input);
-  return audioSource;
-};
 function createSource (input) {
   let audioSource = createAudioResource(input);
   return audioSource;

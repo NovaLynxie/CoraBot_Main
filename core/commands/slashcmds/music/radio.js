@@ -84,27 +84,27 @@ module.exports = {
               {
                 label: ch1.name,
                 description: ch1?.desc,
-                value: ch1.url
+                value: ch1.name
               },
               {
                 label: ch2.name,
                 description: ch2?.desc,
-                value: ch2.url
+                value: ch2.name
               },
               {
                 label: ch3.name,
                 description: ch3?.desc,
-                value: ch3.url
+                value: ch3.name
               },
               {
                 label: ch4.name,
                 description: ch4?.desc,
-                value: ch4.url
+                value: ch4.name
               },
               {
                 label: ch5.name,
                 description: ch5?.desc,
-                value: ch5.url
+                value: ch5.name
               }
             ]
           )
@@ -133,10 +133,6 @@ module.exports = {
           embeds: [errEmbed]
         })
       }
-    }
-    function radioPlay(src) {
-      player.play(source);
-      connection.subscribe(player);
     };
     // Dynamic Radio Player Embed
     function dynamicPlayerEmbed (station) {
@@ -184,6 +180,29 @@ module.exports = {
     collector.on('collect', async i => {
       await i.deferUpdate();
       await wait(1000);
+      function selectMenu() {
+        // Select Menu Switch/Case Handler
+        switch (i.values[0]) {
+          case ch1.name:
+            station = ch1; source = createSource(ch1.url);
+            break;
+          case ch2.name:
+            station = ch2; source = createSource(ch2.url);
+            break;
+          case ch3.name:
+            station = ch3; source = createSource(ch3.url);
+            break;
+          case ch4.name:
+            station = ch4; source = createSource(ch4.url);
+            break;
+          case ch5.name:
+            station = ch5; source = createSource(ch5.url);
+            break;
+          default:
+            logger.debug('Select Menu option Invalid/Unknown!');
+        }
+      };
+      // Button Switch/Case Handler
       switch (i.customId) {
         // button actions - radio menu
         case 'radioIndex': 
@@ -237,6 +256,13 @@ module.exports = {
           break;
         // Radio Selection Actions
         case 'radioStations':
+          selectMenu();
+          await i.editReply(
+            {
+              embeds: [dynamicPlayerEmbed(station)], 
+              components: [radioPlayerBtns, radioStationsMenu]
+            }
+          );
           break;
         // fallback action for all radio menus
         default: 
@@ -267,94 +293,5 @@ module.exports = {
       components: [radioMenuBtns],
       ephemeral: false
     });
-/*
-    //let connection = checkVC(interaction.guild);
-    //let streamURL = interaction.options.getString('url');
-    if (streamURL) {
-      try {
-        if (!connection || connection === undefined) {
-          logger.debug(`No connections active for ${interaction.guild.name}! Creating one now.`);
-          connection = await joinVC(interaction.member.voice.channel);
-        } else {
-          logger.debug(`Connection active in ${interaction.guild.name}! Using this instead.`);
-        };
-      } catch (err) {
-        logger.error('An error occured while opening a connection!');
-        logger.error(err.message); logger.debug(err.stack);
-        let errEmbed = new MessageEmbed()
-          .setTitle('Error occured!')
-          .addFields(
-            { name: "Error Data", value: `\`\`\`${err}\`\`\`` }
-          );
-        return interaction.editReply({
-          embeds: [errEmbed]
-        })
-      }
-      let player = newPlayer();
-      let source = createSource(streamURL);
-      // not yet functional!
-      try {
-        logger.debug('Starting player now.')
-        player.play(source);
-        logger.debug('Binding player to connection.')
-        connection.subscribe(player);
-        logger.debug('Bound connection to Player!');
-        player.on('stateChange', (oldState, newState) => {
-          logger.debug(`oldState.status => ${oldState?.status}`);        
-          logger.debug(`newState.status => ${newState?.status}`);
-        });
-        player.on(AudioPlayerStatus.Playing, () => {
-          logger.debug('Player has started playing!');        
-          let radioEmbed = new MessageEmbed()
-            .setColor('#5E2071')
-            .addFields(
-              { name: 'State', value: 'Playing' },
-              { name: 'Now Playing', value: streamURL }
-            )
-          interaction.editReply({ embeds: [radioEmbed] });
-        });
-        player.on(AudioPlayerStatus.Idle, () => {
-          let radioEmbed = new MessageEmbed()
-            .setColor('#5E2071')
-            .addFields(
-              { name: 'State', value: 'Idle/Paused' },
-              { name: 'Now Playing', value: streamURL }
-            )
-          interaction.editReply({ embeds: [radioEmbed] });
-          logger.debug('Player currently idle/paused. Awaiting new requests.');
-        });
-        player.on(AudioPlayerStatus.AutoPaused, () => {
-          player.pause();
-          let radioEmbed = new MessageEmbed()
-            .setColor('#5E2071')
-            .addFields(
-              { name: 'State', value: 'AutoPaused' },
-              { name: 'Now Playing', value: streamURL }
-            )
-          interaction.editReply({ embeds: [radioEmbed] });
-          logger.debug('Player currently autopaused. Awaiting new requests.');
-        });
-        player.on('error', err => {
-          interaction.editReply({ 
-            content: 'Error occured during stream playback!',
-            embeds: [],
-            ephemeral: true
-          });
-          logger.error('Error occured while playing stream!');
-          logger.error(err.message); logger.debug(err.stack);
-          player.stop();
-        })
-      } catch (err) {
-        logger.error('There was a problem trying to start the stream!');
-        logger.error(err.message); logger.debug(err.stack);
-        interaction.editReply({
-          content: 'Something went wrong in executing this command!',
-          ephemeral: true
-        })
-      };
-    } else {
-      //
-    };
-*/
   }
 };

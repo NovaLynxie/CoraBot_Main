@@ -118,6 +118,7 @@ async function loadSlashCmds(client) {
       { body: commands },
     );
     logger.debug(`Successfully reloaded application (/) commands for ${client.user.tag}.`);
+    logger.info('Global slash commands are now available.');
   } catch (error) {
     logger.error('Unable to refresh application (/) commands!')
     logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
@@ -132,8 +133,9 @@ async function loadSlashCmds(client) {
         { body: commands },
       );
       logger.debug(`Successfully reloaded application (/) commands in ${guild.name}.`);
+      logger.info('Guild slash commands are now available.');
     } catch (error) {
-      logger.error('Unable to refresh application (/) commands!')
+      logger.error('Unable to refresh application (/) commands!');
       logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
     };
   });  
