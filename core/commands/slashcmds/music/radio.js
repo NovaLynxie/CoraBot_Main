@@ -174,23 +174,47 @@ module.exports = {
       ]
       return radioPlayerEmbed;
     };
-    // Update player interface from dynamic embed. 
-    let refreshTimer; // define refreshTimer reference.
+    // Update player interface from dynamic embed.
     async function refreshPlayer(interact) {
-      await interact.editReply(
-        {
-          embeds: [dynamicPlayerEmbed(station)], 
-          components: [radioPlayerBtns, radioStationsMenu]
-        }
-      );
+      try {
+        await interact.editReply(
+          {
+            embeds: [dynamicPlayerEmbed(station)], 
+            components: [radioPlayerBtns, radioStationsMenu]
+          }
+        );
+      } catch (err) {
+        logger.debug('Error updating player interface! Maybe collector timed out?');
+        logger.debug(err.stack);
+      };    
     };
-    function startRefresh(interact) {
-      refreshTimer = setInterval(refreshPlayer, 10000, interact);
-    }
     // Create interaction collecter to fetch button interactions.
     const collector = interaction.channel.createMessageComponentCollector({ time: 300000}); 
     // Check if player is defined. If undefined or null, create one.
     player = (!player) ? newPlayer() : player;
+
+    // Player Event Handler.
+    player.on('stateChange', (oldState, newState) => {
+      logger.debug(`oldState.status => ${oldState?.status}`);        
+      logger.debug(`newState.status => ${newState?.status}`);
+      refreshPlayer(interaction);
+    });
+    player.on(AudioPlayerStatus.Playing, () => {
+      logger.debug('Player has started playing!');
+    });
+    player.on(AudioPlayerStatus.Idle, () => {
+      logger.debug('Player currently idle/paused. Awaiting new requests.');
+    });
+    player.on(AudioPlayerStatus.AutoPaused, () => {
+      player.pause();
+      logger.debug('Player auto paused since not connected. Waiting for connections.');
+    });
+    player.on('error', err => {
+      logger.error('Error occured while playing stream!');
+      logger.error(err.message); logger.debug(err.stack);
+      player.stop();
+    });
+    
     // Menu/Button collecter and handler.
     collector.on('collect', async interact => {
       await interact.deferUpdate();
@@ -221,7 +245,6 @@ module.exports = {
       switch (interact.customId) {
         // button actions - radio menu
         case 'radioIndex': 
-          clearInterval(refreshTimer);
           await interact.editReply(
             {
               embeds: [radioMenuEmbed],
@@ -242,14 +265,30 @@ module.exports = {
         // button actions - radio player
         case 'radioPlayer':
           refreshPlayer(interact);
-          startRefresh(interact);
           break;
         // Join/Leave Voice Actions
         case 'joinVC':
-          if (!interaction.member.voice.channel) return;
+          if (!interaction.member.voice.channel) {
+            interact.followUp({
+              content: "You are not in a voice channel! Please join one first!",
+              ephemeral: true
+            })
+          }
           connection = await joinVC(interaction.member.voice.channel);
           break;
         case 'leaveVC':
+          if (!interaction.member.voice.channel) {
+            interact.followUp({
+              content: "You are not in a voice channel! Join the bot's voice channel first.",
+              ephemeral: true
+            })
+          } else 
+          if (!connection) {
+            interact.followUp({
+              content: "The bot",
+              ephemeral: true
+            })
+          }
           connection.destroy();
           break;
         // Radio Player Actions
@@ -257,17 +296,16 @@ module.exports = {
           if (!player) return;
           player.play(source);
           connection.subscribe(player);
-          refreshPlayer(interact);          
           break;
         case 'pause':
           if (!player) return;
           player.pause();
-          refreshPlayer(interact);
+          
           break;
         case 'stop':
           if (!player) return;
           player.stop();
-          refreshPlayer(interact);
+          
           break;
         // Radio Selection Actions
         case 'radioStations':
@@ -287,6 +325,7 @@ module.exports = {
     });
     // Log on collector end (temporary)
     collector.on('end', async collected => {
+      clearInterval(refreshTimer); // clear on collector timeout.
       logger.debug('Collector in radio commmand timed out.');
       logger.debug(`Collected ${collected.size} items.`);
       await interaction.editReply(
