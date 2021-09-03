@@ -232,7 +232,7 @@ module.exports = {
         case 'closeMenu':
           await interact.editReply(
             {
-              content: 'Turned off the Radio. Use /radio to turn it back on!',
+              content: 'Radio menu closed.',
               embeds: [], components: []
             }
           );
