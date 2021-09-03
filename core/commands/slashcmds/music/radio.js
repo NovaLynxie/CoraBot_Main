@@ -1,10 +1,13 @@
 const logger = require('../../../plugins/winstonlogger');
 const { checkVC, joinVC, createSource, newPlayer } = require('../../../handlers/voice/voiceManager');
-const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const { 
+  MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu 
+} = require('discord.js');
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const wait = require('util').promisify(setTimeout);
 const stations = require('../../../assets/json/radioStations.json');
+const { ch1, ch2, ch3, ch4, ch5 } = stations;
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('radio')
@@ -66,6 +69,43 @@ module.exports = {
           .setLabel('Radio Menu')
           .setStyle('PRIMARY')
       )
+    // Radio Selection for choosing the station to play back.
+    let radioStationsMenu = new MessageActionRow()
+      .addComponents(
+        new MessageSelectMenu()
+          .setCustomId('radioStations')
+          .setPlaceholder('Select a station.')
+          .addOptions(
+            [
+              {
+                label: ch1.name,
+                description: ch1?.desc,
+                value: ch1.url
+              },
+              {
+                label: ch2.name,
+                description: ch2?.desc,
+                value: ch2.url
+              },
+              {
+                label: ch3.name,
+                description: ch3?.desc,
+                value: ch3.url
+              },
+              {
+                label: ch4.name,
+                description: ch4?.desc,
+                value: ch4.url
+              },
+              {
+                label: ch5.name,
+                description: ch5?.desc,
+                value: ch5.url
+              }
+            ]
+          )
+
+      )
     // Radio functions which power the button actions and playback.
     async function joinChannel (channel) {
       connection = checkVC(interaction.guild);
@@ -108,6 +148,7 @@ module.exports = {
       await i.deferUpdate();
       await wait(1000);
       switch (i.customId) {
+        // button actions - radio menu
         case 'radioIndex': 
           await i.editReply(
             {
@@ -116,11 +157,26 @@ module.exports = {
             }
           );
           break;
+        case 'closeMenu':
+          await i.editReply(
+            {
+              content: 'Turned off the Radio. Use /radio to turn it back on!',
+              embeds: [], components: []
+            }
+          );
+          await wait(5000);
+          await i.deleteReply();
+          break;
+        // button actions - radio player
         case 'radioPlayer':
           radioPlayerEmbed.addFields(
             {
               name: 'Status',
               value: 'Offline'
+            },
+            {
+              name: 'Station',
+              value: 'N/A'
             },
             {
               name: 'Now Playing',
@@ -130,7 +186,7 @@ module.exports = {
           await i.editReply(
             {
               embeds: [radioPlayerEmbed], 
-              components: [radioPlayerBtns]
+              components: [radioPlayerBtns, radioStationsMenu]
             }
           );
           break;
@@ -152,16 +208,7 @@ module.exports = {
         case 'stop':
           player.stop();
           break;
-        case 'closeMenu':
-          await i.editReply(
-            {
-              content: 'Turned off the Radio. Use /radio to turn it back on!',
-              embeds: [], components: []
-            }
-          );
-          await wait(5000);
-          await i.deleteReply();
-          break;
+        // fallback action for all radio menus
         default: 
           logger.warn('Invalid button pressed for this menu!');
           logger.verbose('radio.button.default.trigger');
