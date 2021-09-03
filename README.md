@@ -39,3 +39,7 @@ Try reinstalling the aformentioned modules by running these commands in this ord
 2. `npm install --s <module_name>`  
 Should this still fail, try running `npm clean-install`.  
 Please note running a clean install will take a while as this uninstalls all bot dependencies and downloads a fresh install, so only use this as a last resort.
+
+## YouTube music support (IMPORTANT)
+This bot will not support music playback from YouTube links going forward.
+Please see issue #11 for more details.
