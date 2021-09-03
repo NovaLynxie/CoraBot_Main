@@ -166,7 +166,7 @@ module.exports = {
           value: (station) ? `${station?.name} - ${station?.desc}` : 'No station loaded.'
         },
         {
-          name: 'Now Playing',
+          name: 'Now Playing (WIP)',
           value: `Nothing is playing...`
         }
       ]
