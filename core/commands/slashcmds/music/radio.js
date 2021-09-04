@@ -164,8 +164,9 @@ module.exports = {
           value: playerState
         },
         {
-          name: 'Station',
-          value: (station) ? `${station?.name} - ${station?.desc}` : 'No station loaded.'
+          name: 'Station Information',
+          value: (station) ? `Name: ${station?.name}
+          Desc:  ${station?.desc}` : 'No station loaded.'
         },
         {
           name: 'Now Playing (WIP)',
