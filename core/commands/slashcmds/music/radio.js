@@ -160,7 +160,7 @@ module.exports = {
       }
       radioPlayerEmbed.fields = [
         {
-          name: 'Status',
+          name: 'Player Status',
           value: playerState
         },
         {
