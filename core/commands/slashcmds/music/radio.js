@@ -85,27 +85,27 @@ module.exports = {
             [
               {
                 label: ch1.name,
-                description: ch1?.desc,
+                description: ch1?.site,
                 value: ch1.name
               },
               {
                 label: ch2.name,
-                description: ch2?.desc,
+                description: ch2?.site,
                 value: ch2.name
               },
               {
                 label: ch3.name,
-                description: ch3?.desc,
+                description: ch3?.site,
                 value: ch3.name
               },
               {
                 label: ch4.name,
-                description: ch4?.desc,
+                description: ch4?.site,
                 value: ch4.name
               },
               {
                 label: ch5.name,
-                description: ch5?.desc,
+                description: ch5?.site,
                 value: ch5.name
               }
             ]
@@ -189,7 +189,8 @@ module.exports = {
       };    
     };
     // Create interaction collecter to fetch button interactions.
-    const collector = interaction.channel.createMessageComponentCollector({ time: 300000}); 
+    const collector = interaction.channel.createMessageComponentCollector({ time: 300000});
+    var menuOpen;
     // Check if player is defined. If undefined or null, create one.
     player = (!player) ? newPlayer() : player;
 
@@ -253,6 +254,7 @@ module.exports = {
           );
           break;
         case 'closeMenu':
+          menuOpen = false;
           await interact.editReply(
             {
               content: 'Radio menu closed.',
@@ -261,6 +263,7 @@ module.exports = {
           );
           await wait(5000);
           await interact.deleteReply();
+          collector.stop();
           break;
         // button actions - radio player
         case 'radioPlayer':
@@ -325,9 +328,9 @@ module.exports = {
     });
     // Log on collector end (temporary)
     collector.on('end', async collected => {
-      clearInterval(refreshTimer); // clear on collector timeout.
-      logger.debug('Collector in radio commmand timed out.');
+      logger.debug('Collector in radio commmand timed out or was stopped.');
       logger.debug(`Collected ${collected.size} items.`);
+      if (!menuOpen) return; // don't edit replies after this is called!
       await interaction.editReply(
         {
           content: 'Radio Menu timed out. To continue using the menu, run /radio again.',
@@ -337,6 +340,7 @@ module.exports = {
       await wait(5000);
       await interaction.deleteReply();
     });
+    menuOpen = true;
     interaction.editReply({
       embeds: [radioMenuEmbed],
       components: [radioMenuBtns],

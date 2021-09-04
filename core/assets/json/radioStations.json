@@ -2,7 +2,7 @@
   "pony": [
     {
       "name": "Celestia Radio",
-      "desc": "'All pony, all the time' is the creed we go by at Celestia Radio. CR is an online streaming radio station that specializes in pony based music and live programming. So stop clopping and turn it up!",
+      "desc": "'All pony, all the time!', an online streaming radio station that specializes in pony based music and live programming. So stop clopping and turn it up!",
       "site": "https://celestiaradio.com",
       "url": "http://celestia.aiverse.org:8000/stream"
     },
@@ -57,7 +57,7 @@
   ],
   "ch1": {
     "name": "Celestia Radio",
-    "desc": "'All pony, all the time' is the creed we go by at Celestia Radio. CR is an online streaming radio station that specializes in pony based music and live programming. So stop clopping and turn it up!",
+    "desc": "'All pony, all the time!', an online streaming radio station that specializes in pony based music and live programming. So stop clopping and turn it up!",
     "site": "https://celestiaradio.com",
     "url": "http://celestia.aiverse.org:8000/stream"
   },
