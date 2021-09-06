@@ -8,7 +8,7 @@ const wait = require('util').promisify(setTimeout);
 // require bot voice handlers.
 const { checkVC, joinVC, createSource, newPlayer } = require('../../../handlers/voice/voiceManager');
 // fetch available stations.
-const stations = require('../../../assets/json/radioStations.json');
+const stations = require('../../../assets/json/resources/radioStations.json');
 const { ch1, ch2, ch3, ch4, ch5 } = stations;
 module.exports = {
   data: new SlashCommandBuilder()

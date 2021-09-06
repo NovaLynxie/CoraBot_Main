@@ -87,8 +87,7 @@ client.timers = {rateLimitWarn};
 logger.info('Logging into Discord.');
 client.login(discordToken).then(() => {
   logger.debug('Awaiting API Response...');
-})
-.catch((error)=>{
+}).catch((error)=>{
   clearTimeout(client.timers.rateLimitWarn); // clear if bot fails to login with invalid token.
   logger.warn('Unable to connect to Discord!');
   logger.error(error.message); logger.debug(error.stack);
