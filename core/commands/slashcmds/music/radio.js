@@ -321,6 +321,7 @@ module.exports = {
         // Radio Selection Actions
         case 'radioStations':
           selectMenu(); 
+          player.play(source);
           refreshPlayer(interact);
           break;
         case 'radioSelectSubmenu': 
