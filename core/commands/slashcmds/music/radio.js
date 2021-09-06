@@ -197,7 +197,7 @@ module.exports = {
       };    
     };
     // Create interaction collecter to fetch button interactions.
-    const collector = interaction.channel.createMessageComponentCollector({ time: 300000});
+    const collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
     var menuOpen;
     // Check if player is defined. If undefined or null, create one.
     player = (!player) ? newPlayer() : player;
@@ -322,6 +322,9 @@ module.exports = {
         case 'radioStations':
           selectMenu(); 
           refreshPlayer(interact);
+          break;
+        case 'radioSelectSubmenu': 
+          
           break;
         // fallback action for all radio menus
         default: 
