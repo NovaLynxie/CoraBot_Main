@@ -22,18 +22,25 @@ module.exports = {
     // Processing information so call this to extend the timeout.
     await interaction.deferReply({ ephemeral: false });
 
+    let radioEmbedThumb = client.user.displayAvatarURL({ dynamic: true });
+    let radioEmbedFooter = 'Powered by DiscordJS Voice (OPUS)';
     // Radio Menu Embed
     let radioMenuEmbed = new MessageEmbed()
-      .setTitle('Radio Menu')
+      .setTitle('Radio Main Menu')
       .setDescription('Personal Radio Service')      
-      .setFooter('Powered by DiscordJS Voice (OPUS)')
-      .setThumbnail(client.user.displayAvatarURL({ dynamic: true }));
+      .setFooter(radioEmbedFooter)
+      .setThumbnail(radioEmbedThumb);
     // Radio Player Embed
     let radioPlayerEmbed = new MessageEmbed()
       .setTitle('Radio Player v1.0')
-      .setFooter('Powered by DiscordJS Voice (OPUS)')
-      .setThumbnail(client.user.displayAvatarURL({ dynamic: true }));
-    
+      .setFooter(radioEmbedFooter)
+      .setThumbnail(radioEmbedThumb);
+    // Radio Selecton Embed
+    let radioSelectorEmbed = new MessageEmbed()
+      .setTitle('Radio Selection Menu')
+      .setFooter(radioEmbedFooter)
+      .setThumbnail(radioEmbedThumb);
+
     // Radio Buttons to control the playback.
     let radioMenuBtns = new MessageActionRow()
       .addComponents(

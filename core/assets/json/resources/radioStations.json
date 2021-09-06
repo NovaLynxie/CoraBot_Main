@@ -1,4 +1,28 @@
 {
+  "rock": [
+    {
+      "name": "radio-name-here",
+      "desc": "radio-desc-here",
+      "site": "radio-site-here",
+      "url": "radio-url-here"
+    }
+  ],
+  "pop": [
+    {
+      "name": "radio-name-here",
+      "desc": "radio-desc-here",
+      "site": "radio-site-here",
+      "url": "radio-url-here"
+    }
+  ],
+  "country": [
+    {
+      "name": "radio-name-here",
+      "desc": "radio-desc-here",
+      "site": "radio-site-here",
+      "url": "radio-url-here"
+    }
+  ],
   "pony": [
     {
       "name": "Celestia Radio",
@@ -24,30 +48,6 @@
       "site": "https://bronytunes.com/",
       "url": "https://manehattan.bronytunes.com/stream-128.mp3"
     },
-    {
-      "name": "radio-name-here",
-      "desc": "radio-desc-here",
-      "site": "radio-site-here",
-      "url": "radio-url-here"
-    }
-  ],
-  "rock": [
-    {
-      "name": "radio-name-here",
-      "desc": "radio-desc-here",
-      "site": "radio-site-here",
-      "url": "radio-url-here"
-    }
-  ],
-  "pop": [
-    {
-      "name": "radio-name-here",
-      "desc": "radio-desc-here",
-      "site": "radio-site-here",
-      "url": "radio-url-here"
-    }
-  ],
-  "country": [
     {
       "name": "radio-name-here",
       "desc": "radio-desc-here",
@@ -85,10 +85,14 @@
     "site": "https://radiobrony.fr/",
     "url": "https://radiobrony.live/mp3"
   },
-  "chX": {
-    "name": "radio-name-here",
-    "desc": "radio-desc-here",
-    "site": "radio-site-here",
-    "url": "radio-url-here"
-  }
+  "unnamed": [
+    {
+      "ch0": {
+      "name": "radio-name-here",
+      "desc": "radio-desc-here",
+      "site": "radio-site-here",
+      "url": "radio-url-here"
+      }
+    }
+  ]  
 }
