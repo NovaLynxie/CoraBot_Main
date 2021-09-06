@@ -1,4 +1,4 @@
-const logger = require('../../plugins/winstonlogger');
+const logger = require('../../plugins/winstonLogger');
 const {
 	NoSubscriberBehavior,
 	StreamType,

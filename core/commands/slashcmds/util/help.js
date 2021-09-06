@@ -1,8 +1,9 @@
 const { MessageActionRow, MessageButton } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const logger = require('../../../plugins/winstonlogger');
+const logger = require('../../../plugins/winstonLogger');
 const wait = require('util').promisify(setTimeout);
-const {config} = require('../../../handlers/bootloader'); const {dashboard} = config;
+const { config } = require('../../../handlers/bootLoader');
+const { dashboard } = config;
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('help')

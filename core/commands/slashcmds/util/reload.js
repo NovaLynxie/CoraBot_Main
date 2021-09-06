@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { loadPrefixCmds, loadSlashCmds } = require('../../../handlers/cmdloader');
-const logger = require('../../../plugins/winstonlogger');
+const { loadPrefixCmds, loadSlashCmds } = require('../../../handlers/cmdLoader');
+const logger = require('../../../plugins/winstonLogger');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('reload')

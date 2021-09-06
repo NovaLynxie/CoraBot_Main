@@ -1,14 +1,14 @@
-const logger = require('./core/plugins/winstonlogger');
+const logger = require('./core/plugins/winstonLogger');
 const { readdirSync } = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { crashReporter } = require('./core/handlers/crashreporter');
+const { crashReporter } = require('./core/handlers/crashReporter');
 const { 
   clearClientSettings, clearGuildSettings,
   generateClientSettings, generateGuildSettings,
   saveClientSettings, saveGuildSettings,
   readClientSettings, readGuildSettings, deleteGuildSettings
-} = require('./core/handlers/settingsmanager');
-const {config, credentials} = require('./core/handlers/bootloader');
+} = require('./core/handlers/settingsManager');
+const {config, credentials} = require('./core/handlers/bootLoader');
 const {globalPrefix, ownerIDs, useLegacyURL, debug} = config;
 const {discordToken} = credentials; 
 

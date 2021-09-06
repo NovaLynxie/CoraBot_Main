@@ -1,6 +1,6 @@
 const fs = require('fs'); 
 const {version} = require('../../package.json');
-const logger = require('../plugins/winstonlogger');
+const logger = require('../plugins/winstonLogger');
 // Sets time and date of the crash report file as logstamp.
 function timeStamp (date) { 
   var hrs, mins, secs, logtime, day, month, year, logdate;

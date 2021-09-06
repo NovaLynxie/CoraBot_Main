@@ -1,4 +1,4 @@
-const logger = require('../plugins/winstonlogger.js');
+const logger = require('../plugins/winstonLogger.js');
 const Keyv = require('@keyvhq/core');
 const KeyvSQLite = require('@keyvhq/sqlite');
 const clientStore = new Keyv({ store: new KeyvSQLite({uri: 'sqlite://data/settings.db'}), namespace: 'clientSettings' });

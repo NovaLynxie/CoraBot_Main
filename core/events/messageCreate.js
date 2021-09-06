@@ -1,5 +1,5 @@
-const logger = require('../plugins/winstonlogger');
-const {globalPrefix, ownerIDs} = require('../handlers/bootloader');
+const logger = require('../plugins/winstonLogger');
+const {globalPrefix, ownerIDs} = require('../handlers/bootLoader');
 
 module.exports = {
 	name: 'messageCreate',

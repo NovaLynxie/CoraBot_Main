@@ -1,4 +1,4 @@
-const logger = require('../../../plugins/winstonlogger');
+const logger = require('../../../plugins/winstonLogger');
 const { checkVC, joinVC, createSource, newPlayer } = require('../../../handlers/voice/voiceManager');
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const { AudioPlayerStatus } = require('@discordjs/voice');

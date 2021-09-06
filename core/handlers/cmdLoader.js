@@ -1,8 +1,8 @@
-const logger = require('../plugins/winstonlogger');
+const logger = require('../plugins/winstonLogger');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { readdirSync } = require('fs');
-const { credentials } = require('./bootloader');
+const { credentials } = require('./bootLoader');
 const { discordToken } = credentials;
 
 // Define command directory paths here.

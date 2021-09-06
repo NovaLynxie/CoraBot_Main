@@ -1,4 +1,4 @@
-const logger = require('./winstonlogger');
+const logger = require('./winstonLogger');
 const { activities } = require('../assets/json/resources/activitiesList.json');
 
 module.exports = (client) => {

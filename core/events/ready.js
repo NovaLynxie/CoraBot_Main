@@ -1,6 +1,6 @@
-const logger = require('../plugins/winstonlogger');
-const { loadPrefixCmds, loadSlashCmds } = require('../handlers/cmdloader');
-const { config, credentials } = require('../handlers/bootloader');
+const logger = require('../plugins/winstonLogger');
+const { loadPrefixCmds, loadSlashCmds } = require('../handlers/cmdLoader');
+const { config, credentials } = require('../handlers/bootLoader');
 const { debug, dashboard } = config;
 const { clientSecret, sessionSecret } = credentials;
 const { enableDash, dashDomain, dashSrvPort, reportOnly } = dashboard;
