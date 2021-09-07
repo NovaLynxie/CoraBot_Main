@@ -439,7 +439,7 @@ module.exports = (client, config) => {
           botName: (req.body.botName) ? req.body.botName : "",
           botGender: (req.body.botGender) ? req.body.botGender : ""
         };
-        let chatChannels = (typeof req.body.chatChannels === 'string') ? "["+chatChannels+"]" : req.body.chatChannels;
+        let chatChannels = (typeof req.body.chatChannels === 'string') ? "["+req.body.chatChannels+"]" : req.body.chatChannels;
         logger.debug(`chatBotOpts=${JSON.stringify(chatBotOpts)}`);
         logger.debug(`chatChannels=${JSON.stringify(chatChannels)}`);
         chatBot.chatBotOpts = chatBotOpts;
