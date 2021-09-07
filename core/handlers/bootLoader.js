@@ -16,7 +16,7 @@ const NODE_MAJOR_VERSION = process.versions.node.split('.')[0];
 const NODE_MINOR_VERSION = process.versions.node.split('.')[1];
 if (NODE_MAJOR_VERSION < 16 && NODE_MINOR_VERSION < 6) {
   logger.fatal('This app requires NodeJS v16.6.0 or higher to run!');
-  throw new Error('Requires Node 16.6.0 (or higher)');
+  throw new Error('Incompatible NodeJS version!');
 };
 
 logger.init('Loading configuration files...');
