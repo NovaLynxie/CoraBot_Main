@@ -13,22 +13,16 @@ const {
   getVoiceConnection
 } = require('@discordjs/voice');
 
-const player = createAudioPlayer({
-	behaviors: {
-		noSubscriber: NoSubscriberBehavior.Pause,
-		maxMissedFrames: Math.round(5000 / 20),
-	},
-});
-
-
+// Audio Player creation.
 function newPlayer () {
   let player = createAudioPlayer({
-    noSubscriber: NoSubscriberBehavior.Pause
+    noSubscriber: NoSubscriberBehavior.Pause,
+    maxMissedFrames: Math.round(5000 / 20)
   });
   return player;
 };
 
-// Audio Source functions.
+// Audio Source creation.
 function createSource (input) {
   let audioSource = createAudioResource(input);
   return audioSource;
