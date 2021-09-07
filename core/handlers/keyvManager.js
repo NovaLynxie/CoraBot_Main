@@ -3,7 +3,7 @@ const Keyv = require('@keyvhq/core');
 const KeyvSQLite = require('@keyvhq/sqlite');
 
 // Configure settings storage paths.
-const clientPrefStore. = new Keyv({ store: new KeyvSQLite({uri: 'sqlite://data/settings.db'}), namespace: 'clientSettings' });
+const clientPrefStore = new Keyv({ store: new KeyvSQLite({uri: 'sqlite://data/settings.db'}), namespace: 'clientSettings' });
 const guildPrefStore = new Keyv({ store: new KeyvSQLite({uri: 'sqlite://data/settings.db'}), namespace: 'guildSettings' });
 // Configure data storage paths.
 const guildDataStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }) });
@@ -103,12 +103,12 @@ async function resetGuildData () {
 };
 
 // Finally export handler functions for use in other modules.
-module.exports.settings = {
+module.exports.settingsHandlers = {
   clearClientSettings, clearGuildSettings,
   generateClientSettings, generateGuildSettings,
   saveClientSettings, saveGuildSettings,
   readClientSettings, readGuildSettings, deleteGuildSettings
 };
-module.exports.data = {
+module.exports.dataHandlers = {
   getGuildData, setGuildData, deleteGuildData, resetGuildData
 };
