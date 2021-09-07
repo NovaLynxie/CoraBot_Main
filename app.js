@@ -2,13 +2,16 @@ const logger = require('./core/plugins/winstonLogger');
 const { readdirSync } = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { crashReporter } = require('./core/handlers/crashReporter');
-const { settingsHandlers } = require('./core/handlers/keyvManager');
+const { settingsHandlers, dataHandlers } = require('./core/handlers/keyvManager');
 const { 
   clearClientSettings, clearGuildSettings,
   generateClientSettings, generateGuildSettings,
   saveClientSettings, saveGuildSettings,
   readClientSettings, readGuildSettings, deleteGuildSettings
 } = settingsHandlers;
+const {
+  getGuildData, setGuildData, deleteGuildData, generateGuildData
+} = dataHandlers;
 const {config, credentials} = require('./core/handlers/bootLoader');
 const {globalPrefix, ownerIDs, useLegacyURL, debug} = config;
 const {discordToken} = credentials; 
@@ -33,7 +36,7 @@ if (useLegacyURL) {
   client.options.http.api = "https://discordapp.com/api"
 };
 
-// Add settings handlers to client object.
+// Bind all handlers to client object.
 client.settings = {
   clear: clearClientSettings,
   get: readClientSettings,
@@ -46,6 +49,12 @@ client.settings = {
     set: saveGuildSettings,    
     init: generateGuildSettings    
   }
+};
+client.data = {
+  get: readGuildData,
+  set: saveGuildData,
+  init: generateGuildData,
+  delete: deleteGuildData
 }
 
 // Initialize commands collection objects.

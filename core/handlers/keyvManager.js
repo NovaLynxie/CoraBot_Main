@@ -83,12 +83,28 @@ async function clearGuildSettings (guild) {
 }
 
 // Guild Data Handlers
-async function getGuildData (guild) {
+async function generateGuildData (guildID) {
+  logger.debug('Preparing to check guild data now...');
+  guildIDs.forEach(async (guildID) => {
+    logger.debug(`Checking ${guildID} of guildIDs`);
+    let settings = await guildDataStore.get(guildID);
+    if (settings) {
+      logger.debug(`Guild ${guildID} already has settings defined!`);
+      return; // don't do anything if <guildId> already has settings.
+    } else {
+      logger.debug(`Adding new settings for ${guildID} now...`); 
+      await guildPrefStore.set(guildID, guildTemplate);
+    };    
+  });
+  logger.debug('Finished checking guild settings.');
+  logger.info('Guild data is now available.');
+};
+async function readGuildData (guild) {
   logger.debug(`Fetching guild data for ${guild.name} (ID:${guild.id}).`);
   let res = await guildDataStore.get(guild.id);
   return res;
 };
-async function setGuildData (data, guild) {
+async function saveGuildData (data, guild) {
   logger.debug(`Updating guild data for ${guild.name} (ID:${guild.id}).`);
   await guildDataStore.set(guild.id, data);
   logger.debug(`Updated guild data for ${guild.name} (ID:${guild.id}).`);
@@ -110,5 +126,5 @@ module.exports.settingsHandlers = {
   readClientSettings, readGuildSettings, deleteGuildSettings
 };
 module.exports.dataHandlers = {
-  getGuildData, setGuildData, deleteGuildData, resetGuildData
+  readGuildData, saveGuildData, deleteGuildData, generateGuildData, resetGuildData
 };
