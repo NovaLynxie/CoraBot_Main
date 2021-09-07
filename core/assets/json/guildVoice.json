@@ -1,0 +1,14 @@
+{
+  "music": {
+    "state": null,
+    "connected": false,
+    "channel": "",
+    "queue": []
+  },
+  "radio": {
+    "state": null,
+    "connected": false,
+    "channel": "",
+    "station": {}
+  }  
+}
