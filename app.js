@@ -10,7 +10,7 @@ const {
   readClientSettings, readGuildSettings, deleteGuildSettings
 } = settingsHandlers;
 const {
-  getGuildData, setGuildData, deleteGuildData, generateGuildData
+  readGuildData, saveGuildData, deleteGuildData, generateGuildData
 } = dataHandlers;
 const {config, credentials} = require('./core/handlers/bootLoader');
 const {globalPrefix, ownerIDs, useLegacyURL, debug} = config;

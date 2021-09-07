@@ -11,10 +11,12 @@ const guildDataStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/gu
 // Debug outputs for database managers. (VERBOSE ONLY)
 logger.verbose(`clientPrefStore: ${JSON.stringify(clientPrefStore,null,2)}`);
 logger.verbose(`guildPrefStore: ${JSON.stringify(guildPrefStore,null,2)}`);
+logger.verbose(`guildDataStore: ${JSON.stringify(guildDataStore,null,2)}`);
 
 // Require settings templates for use.
-const clientTemplate = require('../assets/json/clientSettings.json');
-const guildTemplate = require('../assets/json/guildSettings.json');
+const clientSettingsTemplate = require('../assets/json/clientSettings.json');
+const guildSettingsTemplate = require('../assets/json/guildSettings.json');
+const guildDataTemplate = require('../assets/json/guildData.json');
 
 // Generate settings if none is found.
 async function generateGuildSettings (guildIDs) {
@@ -27,7 +29,7 @@ async function generateGuildSettings (guildIDs) {
       return; // don't do anything if <guildId> already has settings.
     } else {
       logger.debug(`Adding new settings for ${guildID} now...`); 
-      await guildPrefStore.set(guildID, guildTemplate);
+      await guildPrefStore.set(guildID, guildSettingsTemplate);
     };    
   });
   logger.debug('Finished checking guild settings.');
@@ -41,7 +43,7 @@ async function generateClientSettings () {
   } else {
     logger.debug('Bot settings not yet set! Adding new settings now.');
   }
-  await clientPrefStore.set("clientSettings", clientTemplate);
+  await clientPrefStore.set("clientSettings", clientSettingsTemplate);
   logger.debug('Finished checking bot settings.');
   logger.info('Bot settings are now available.');
 };
@@ -83,17 +85,17 @@ async function clearGuildSettings (guild) {
 }
 
 // Guild Data Handlers
-async function generateGuildData (guildID) {
+async function generateGuildData (guildIDs) {
   logger.debug('Preparing to check guild data now...');
   guildIDs.forEach(async (guildID) => {
     logger.debug(`Checking ${guildID} of guildIDs`);
-    let settings = await guildDataStore.get(guildID);
-    if (settings) {
-      logger.debug(`Guild ${guildID} already has settings defined!`);
+    let data = await guildDataStore.get(guildID);
+    if (data) {
+      logger.debug(`Guild ${guildID} data entries already added!`);
       return; // don't do anything if <guildId> already has settings.
     } else {
-      logger.debug(`Adding new settings for ${guildID} now...`); 
-      await guildPrefStore.set(guildID, guildTemplate);
+      logger.debug(`Adding new data entries for ${guildID} now...`); 
+      await guildDataStore.set(guildID, guildDataTemplate);
     };    
   });
   logger.debug('Finished checking guild settings.');

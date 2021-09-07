@@ -17,8 +17,17 @@ module.exports = {
     // Check settings database.
     await client.settings.init();
     let guilds = client.guilds.cache.map(g => g.id);
-    await client.settings.guild.init(guilds);
-    logger.info('Finished final checks. Preparing commands.');
+    try {
+      logger.init('Running settings and data initial checks...');
+      await client.settings.guild.init(guilds);
+      await client.data.init(guilds);
+      logger.info('Finished final checks. Preparing commands.');
+    } catch (err) {
+      logger.error('Failed to initialize guild settings/data!');
+      logger.error(err.message); logger.debug(err.stack);
+      logger.error('Encountered some errors during bot post start.');
+      logger.warn('Please check logs before restarting the bot.');
+    };
     // Load commands here using the client's unique ID.
     //loadPrefixCmds(client); // load prefixed commands. (DEPRECIATED!)
     loadSlashCmds(client); // load slash commands.
