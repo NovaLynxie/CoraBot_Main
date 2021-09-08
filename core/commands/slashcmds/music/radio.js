@@ -132,33 +132,41 @@ module.exports = {
             [
               {
                 label: 'Rock',
-                description: ch1?.site,
+                description: 'WIP',
                 value: 'rock'
               },
               {
                 label: 'Pop',
-                description: ch2?.site,
+                description: 'WIP',
                 value: ch2.name
               },
               {
                 label: 'Country',
-                description: ch3?.site,
+                description: 'WIP',
                 value: 'country'
               },
               {
                 label: 'Pony',
-                description: ch4?.site,
+                description: 'Fan-made pony music radio stations!',
                 value: 'pony'
               }
             ]
           )
       )
-    function dynamicStationSelector (category) {
+    function dynamicStationSelector (selection) {
+      let category;
+      switch (selection) {
+        case: 'pony'
+          category = pony;
+          break;
+        default:
+          return logger.debug('Invalid selection!');
+      };
       let options = [];
       category.forEach(item => {
         let object = {
           label: item.name,
-          description: item?.site,
+          //description: item?.site,
           value: item.name
         };
         options.push(object);
@@ -171,6 +179,28 @@ module.exports = {
             .addOptions(options)
         );
       return radioStationsSelector;
+    };
+    function selectMenu(interact) {
+      // Select Menu Switch/Case Handler
+      switch (interact.values[0]) {
+        case ch1.name:
+          station = ch1; source = createSource(ch1.url);
+          break;
+        case ch2.name:
+          station = ch2; source = createSource(ch2.url);
+          break;
+        case ch3.name:
+          station = ch3; source = createSource(ch3.url);
+          break;
+        case ch4.name:
+          station = ch4; source = createSource(ch4.url);
+          break;
+        case ch5.name:
+          station = ch5; source = createSource(ch5.url);
+          break;
+        default:
+          logger.debug('Select Menu option Invalid/Unknown!');
+      }
     };
     // Radio functions which control all of the radio functionality.
     async function joinChannel (channel) {
@@ -281,28 +311,6 @@ module.exports = {
     collector.on('collect', async interact => {
       await interact.deferUpdate();
       await wait(1000);
-      function selectMenu() {
-        // Select Menu Switch/Case Handler
-        switch (interact.values[0]) {
-          case ch1.name:
-            station = ch1; source = createSource(ch1.url);
-            break;
-          case ch2.name:
-            station = ch2; source = createSource(ch2.url);
-            break;
-          case ch3.name:
-            station = ch3; source = createSource(ch3.url);
-            break;
-          case ch4.name:
-            station = ch4; source = createSource(ch4.url);
-            break;
-          case ch5.name:
-            station = ch5; source = createSource(ch5.url);
-            break;
-          default:
-            logger.debug('Select Menu option Invalid/Unknown!');
-        }
-      };
       // Button Switch/Case Handler
       switch (interact.customId) {
         // button actions - radio menu
@@ -376,12 +384,24 @@ module.exports = {
           break;
         // Radio Selection Actions
         case 'radioStations':
-          selectMenu(); 
+          selectMenu(interact); 
           player.play(source);
           refreshPlayer(interact);
           break;
+        case 'openCategoryMenu':
+          await interact.editReply(
+            {
+              embeds: [radioStationsCategories]
+            }
+          )
+          break;
         case 'selectCategory': 
-          //
+          let category = interact.values[0];
+          await interact.editReply(
+            {
+              embeds: [dynamicStationSelector(category)]
+            }
+          )
           break;
         case 'selectStation':
           //
