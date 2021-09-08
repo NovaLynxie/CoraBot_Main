@@ -123,63 +123,6 @@ module.exports = {
 
       )
 
-    let radioStationsCategories = new MessageActionRow()
-      .addComponents(
-        new MessageSelectMenu()
-          .setCustomId('selectCategory')
-          .setPlaceholder('Select a station.')
-          .addOptions(
-            [
-              {
-                label: 'Rock',
-                description: 'WIP',
-                value: 'rock'
-              },
-              {
-                label: 'Pop',
-                description: 'WIP',
-                value: ch2.name
-              },
-              {
-                label: 'Country',
-                description: 'WIP',
-                value: 'country'
-              },
-              {
-                label: 'Pony',
-                description: 'Fan-made pony music radio stations!',
-                value: 'pony'
-              }
-            ]
-          )
-      )
-    function dynamicStationSelector (selection) {
-      let category;
-      switch (selection) {
-        case: 'pony'
-          category = pony;
-          break;
-        default:
-          return logger.debug('Invalid selection!');
-      };
-      let options = [];
-      category.forEach(item => {
-        let object = {
-          label: item.name,
-          //description: item?.site,
-          value: item.name
-        };
-        options.push(object);
-      });
-      let radioStationsSelector = new MessageActionRow()
-        .addComponents(
-          new MessageSelectMenu()
-            .setCustomId('selectStation')
-            .setPlaceholder('Select a station.')
-            .addOptions(options)
-        );
-      return radioStationsSelector;
-    };
     function selectMenu(interact) {
       // Select Menu Switch/Case Handler
       switch (interact.values[0]) {
@@ -387,24 +330,6 @@ module.exports = {
           selectMenu(interact); 
           player.play(source);
           refreshPlayer(interact);
-          break;
-        case 'openCategoryMenu':
-          await interact.editReply(
-            {
-              embeds: [radioStationsCategories]
-            }
-          )
-          break;
-        case 'selectCategory': 
-          let category = interact.values[0];
-          await interact.editReply(
-            {
-              embeds: [dynamicStationSelector(category)]
-            }
-          )
-          break;
-        case 'selectStation':
-          //
           break;
         // fallback action for all radio menus
         default: 
