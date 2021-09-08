@@ -15,8 +15,8 @@ Don't worry, I also come with a help command so you can find out what commands I
 *If you have v3 or older installed, please backup before upgrading or install in a different directory!*
 ### Requirements
 - Node.js v16 or higher - Discord.js v13 requires this!!
-- FFmpeg v4 or higher - For voice channel support. (Not Yet Implemented)
-- Privileged Intents enabled on Discord Bot User!
+- FFmpeg v4 or higher - For voice channel support. (Experimental)
+- Privileged Intents enabled on your Discord Bot User! (See Priviledged Intents for more info)
 
 FFmpeg is required for all voice interactions to work correctly.
 
@@ -30,6 +30,10 @@ Once installation is completed, run this command: `npm run setup`.
 This will start the setup utility, follow the on-screen prompts to complete the bot setup process. (Not yet implemented!)  
 **IMPORTANT!!**
 **Privileged intents are required for the bot to start. Check you have it enabled for your bot user before starting or the bot WILL crash!**
+
+## Privileged Intents
+Privileged intents at this time are presence and server members intents, both are required for the dashboard utilities to work.  
+_A new intent, message content, is planned to be established in April 2022, this change will be applied as soon as the intent becomes available._
 
 ## YouTube music support (IMPORTANT)
 This bot will not support music playback from YouTube links going forward.
