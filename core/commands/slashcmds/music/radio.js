@@ -8,8 +8,21 @@ const wait = require('util').promisify(setTimeout);
 // require bot voice handlers.
 const { checkVC, joinVC, createSource, newPlayer } = require('../../../handlers/voice/voiceManager');
 // fetch available stations.
+const { stations } = require('../../../assets/resources/radioStations.json');
 const radioData = require('../../../assets/resources/radioStations.json');
 const { ch1, ch2, ch3, ch4, ch5 } = radioData;
+
+let stationsList = [];
+stations.forEach(station => {
+  let stationData = {
+    name: station.name,
+    genre: station?.genre
+  }
+  stationsList.push(stationData);
+});
+logger.debug('Loading stations for radio...')
+logger.debug(`stationsList: ${JSON.stringify(stationsList)}`);
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('radio')
