@@ -171,25 +171,25 @@
               | Join Message
               br
               | Syntax: @user (mention user)
-            input#joinMessage.form-control(type='text' value=notifier.eventMsgTxt.userJoin)
+            input#joinMessage.form-control(type='text' value=notifier.eventMsgTxt.joinMsg)
           .form-group
             label.form-label.mt-4(for='leaveMessage') 
               | Leave Message
               br
               | Syntax: @user (mention user)
-            input#leaveMessage.form-control(type='text' value=notifier.eventMsgTxt.userLeave)
+            input#leaveMessage.form-control(type='text' value=notifier.eventMsgTxt.leaveMsg)
           .form-group
             label.form-label.mt-4(for='kickMessage')
               | Kick Message
               br
               | Syntax: @user (mention user)
-            input#kickMessage.form-control(type='text' value=notifier.eventMsgTxt.userKick)
+            input#kickMessage.form-control(type='text' value=notifier.eventMsgTxt.kickMsg)
           .form-group
             label.form-label.mt-4(for='banMessage') 
               | Ban Message
               br
               | Syntax: @user (mention user)
-            input#banMessage.form-control(type='text' value=notifier.eventMsgTxt.userBan)
+            input#banMessage.form-control(type='text' value=notifier.eventMsgTxt.banMsg)
         .modal-footer
           button.btn.btn-outline-dark(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 

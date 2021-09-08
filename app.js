@@ -94,7 +94,7 @@ let rateLimitWarn = setTimeout(() => {
 // Bind timers to property 'timers' on client object.
 client.timers = {rateLimitWarn};
 
-logger.info('Logging into Discord.');
+logger.info('Connecting to Discord.');
 client.login(discordToken).then(() => {
   logger.debug('Awaiting API Response...');
 }).catch((error)=>{
