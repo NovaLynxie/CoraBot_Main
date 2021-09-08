@@ -9,7 +9,7 @@ const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newPlayer } = require('../../../handlers/voice/voiceManager');
 // fetch available stations.
 const radioData = require('../../../assets/resources/radioStations.json');
-const { ch1, ch2, ch3, ch4 } = radioData;
+const { ch1, ch2, ch3, ch4, ch5 } = radioData;
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('radio')
@@ -109,14 +109,12 @@ module.exports = {
                 label: ch4.name,
                 description: ch4?.site,
                 value: ch4.name
-              }
-              /*
+              },
               {
-                label: chX.name,
-                description: chX?.site,
-                value: chX.name
+                label: ch5.name,
+                description: ch5?.site,
+                value: ch5.name
               }
-              */
             ]
           )
 
