@@ -8,8 +8,9 @@ const wait = require('util').promisify(setTimeout);
 // require bot voice handlers.
 const { checkVC, joinVC, createSource, newPlayer } = require('../../../handlers/voice/voiceManager');
 // fetch available stations.
-const stations = require('../../../assets/json/resources/radioStations.json');
-const { ch1, ch2, ch3, ch4, ch5 } = stations;
+const radioData = require('../../../assets/resources/radioStations.json');
+const { ch1, ch2, ch3, ch4, ch5 } = radioData;
+const { rock, pop, country, pony } = radioData;
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('radio')
@@ -109,16 +110,68 @@ module.exports = {
                 label: ch4.name,
                 description: ch4?.site,
                 value: ch4.name
-              },
-              {
-                label: ch5.name,
-                description: ch5?.site,
-                value: ch5.name
               }
+              /*
+              {
+                label: chX.name,
+                description: chX?.site,
+                value: chX.name
+              }
+              */
             ]
           )
 
       )
+
+    let radioStationsCategories = new MessageActionRow()
+      .addComponents(
+        new MessageSelectMenu()
+          .setCustomId('selectCategory')
+          .setPlaceholder('Select a station.')
+          .addOptions(
+            [
+              {
+                label: 'Rock',
+                description: ch1?.site,
+                value: 'rock'
+              },
+              {
+                label: 'Pop',
+                description: ch2?.site,
+                value: ch2.name
+              },
+              {
+                label: 'Country',
+                description: ch3?.site,
+                value: 'country'
+              },
+              {
+                label: 'Pony',
+                description: ch4?.site,
+                value: 'pony'
+              }
+            ]
+          )
+      )
+    function dynamicStationSelector (category) {
+      let options = [];
+      category.forEach(item => {
+        let object = {
+          label: item.name,
+          description: item?.site,
+          value: item.name
+        };
+        options.push(object);
+      });
+      let radioStationsSelector = new MessageActionRow()
+        .addComponents(
+          new MessageSelectMenu()
+            .setCustomId('selectStation')
+            .setPlaceholder('Select a station.')
+            .addOptions(options)
+        );
+      return radioStationsSelector;
+    };
     // Radio functions which control all of the radio functionality.
     async function joinChannel (channel) {
       connection = checkVC(interaction.guild);
@@ -192,13 +245,13 @@ module.exports = {
           }
         );
       } catch (err) {
-        logger.debug('Error updating player interface! Maybe collector timed out?');
+        logger.debug('Error updating player interface!');
         logger.debug(err.stack);
       };    
     };
     // Create interaction collecter to fetch button interactions.
     const collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
-    var menuOpen;
+    var menuOpen, playerOpen;
     // Check if player is defined. If undefined or null, create one.
     player = (!player) ? newPlayer() : player;
 
@@ -206,7 +259,7 @@ module.exports = {
     player.on('stateChange', (oldState, newState) => {
       logger.debug(`oldState.status => ${oldState?.status}`);        
       logger.debug(`newState.status => ${newState?.status}`);
-      refreshPlayer(interaction);
+      if (playerOpen) refreshPlayer(interaction);
     });
     player.on(AudioPlayerStatus.Playing, () => {
       logger.debug('Player has started playing!');
@@ -254,6 +307,8 @@ module.exports = {
       switch (interact.customId) {
         // button actions - radio menu
         case 'radioIndex': 
+          playerOpen = false;
+          menuOpen = true;
           await interact.editReply(
             {
               embeds: [radioMenuEmbed],
@@ -275,6 +330,7 @@ module.exports = {
           break;
         // button actions - radio player
         case 'radioPlayer':
+          playerOpen = true;
           refreshPlayer(interact);
           break;
         // Join/Leave Voice Actions

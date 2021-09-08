@@ -1,5 +1,5 @@
 const logger = require('./winstonLogger');
-const { activities } = require('../assets/json/resources/activitiesList.json');
+const { activities } = require('../assets/resources/activitiesList.json');
 
 module.exports = (client) => {
   // Setup interval timers to update status and database.

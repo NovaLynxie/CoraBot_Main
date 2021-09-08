@@ -14,9 +14,9 @@ logger.verbose(`guildPrefStore: ${JSON.stringify(guildPrefStore,null,2)}`);
 logger.verbose(`guildDataStore: ${JSON.stringify(guildDataStore,null,2)}`);
 
 // Require settings templates for use.
-const clientSettingsTemplate = require('../assets/json/clientSettings.json');
-const guildSettingsTemplate = require('../assets/json/guildSettings.json');
-const guildDataTemplate = require('../assets/json/guildData.json');
+const clientSettingsTemplate = require('../assets/templates/database/clientSettings.json');
+const guildSettingsTemplate = require('../assets/templates/database/guildSettings.json');
+const guildDataTemplate = require('../assets/templates/database/guildData.json');
 
 // Generate settings if none is found.
 async function generateGuildSettings (guildIDs) {
