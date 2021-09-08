@@ -10,7 +10,6 @@ const { checkVC, joinVC, createSource, newPlayer } = require('../../../handlers/
 // fetch available stations.
 const radioData = require('../../../assets/resources/radioStations.json');
 const { ch1, ch2, ch3, ch4, ch5 } = radioData;
-const { rock, pop, country, pony } = radioData;
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('radio')
