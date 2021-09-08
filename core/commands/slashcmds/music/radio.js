@@ -380,8 +380,11 @@ module.exports = {
           player.play(source);
           refreshPlayer(interact);
           break;
-        case 'radioSelectSubmenu': 
-          
+        case 'selectCategory': 
+          //
+          break;
+        case 'selectStation':
+          //
           break;
         // fallback action for all radio menus
         default: 
