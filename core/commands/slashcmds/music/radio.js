@@ -117,9 +117,7 @@ module.exports = {
               }
             ]
           )
-
       )
-
     function selectMenu(interact) {
       // Select Menu Switch/Case Handler
       switch (interact.values[0]) {
