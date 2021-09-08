@@ -12,11 +12,13 @@ const { stations } = require('../../../assets/resources/radioStations.json');
 const radioData = require('../../../assets/resources/radioStations.json');
 const { ch1, ch2, ch3, ch4, ch5 } = radioData;
 
-let stationsList = [];
+let stationsList = []; // define options for radioStationsMenu;
 stations.forEach(station => {
   let stationData = {
-    name: station.name,
-    genre: station?.genre
+    // must be this structure or it will fail!
+    label: station.name,
+    description: station?.genre.join(', '), // array to string
+    value: station.name
   }
   stationsList.push(stationData);
 });
@@ -32,9 +34,8 @@ module.exports = {
     let connection = checkVC(interaction.guild);
     // Define 'default' variables here.
     let player, source, station;
-    // Processing information so call this to extend the timeout.
+    // Processing information so call this as early as possible.
     await interaction.deferReply({ ephemeral: false });
-
     let radioEmbedThumb = client.user.displayAvatarURL({ dynamic: true });
     let radioEmbedFooter = 'Powered by DiscordJS Voice (OPUS)';
     // Radio Menu Embed
@@ -99,61 +100,20 @@ module.exports = {
     let radioStationsMenu = new MessageActionRow()
       .addComponents(
         new MessageSelectMenu()
-          .setCustomId('radioStations')
-          .setPlaceholder('Select a station.')
-          .addOptions(
-            [
-              {
-                label: ch1.name,
-                description: ch1?.site,
-                value: ch1.name
-              },
-              {
-                label: ch2.name,
-                description: ch2?.site,
-                value: ch2.name
-              },
-              {
-                label: ch3.name,
-                description: ch3?.site,
-                value: ch3.name
-              },
-              {
-                label: ch4.name,
-                description: ch4?.site,
-                value: ch4.name
-              },
-              {
-                label: ch5.name,
-                description: ch5?.site,
-                value: ch5.name
-              }
-            ]
-          )
-      )
-    function selectMenu(interact) {
-      // Select Menu Switch/Case Handler
-      switch (interact.values[0]) {
-        case ch1.name:
-          station = ch1; source = createSource(ch1.url);
-          break;
-        case ch2.name:
-          station = ch2; source = createSource(ch2.url);
-          break;
-        case ch3.name:
-          station = ch3; source = createSource(ch3.url);
-          break;
-        case ch4.name:
-          station = ch4; source = createSource(ch4.url);
-          break;
-        case ch5.name:
-          station = ch5; source = createSource(ch5.url);
-          break;
-        default:
-          logger.debug('Select Menu option Invalid/Unknown!');
-      }
-    };
+          .setCustomId('stationSelect')
+          .setPlaceholder('Select a station to tune into!')
+          .addOptions(stationsList) // use this as options.
+      )    
     // Radio functions which control all of the radio functionality.
+    function loadStation(interact) {
+      for (let i = 0; i < stations.length; ++i) {
+        station = stations[i];
+        if (interact.values[0] === station.name) break;
+      };
+      logger.debug(`station:${JSON.stringify(station)}`);
+      source = createSource(station.url);
+      if (!found) logger.debug('Station not found or mismatched names!');
+    };
     async function joinChannel (channel) {
       connection = checkVC(interaction.guild);
       try {
@@ -175,7 +135,7 @@ module.exports = {
         return interaction.editReply({
           embeds: [errEmbed]
         })
-      }
+      };
     };
     // Dynamic Radio Player Embed
     function dynamicPlayerEmbed (station) {
@@ -198,7 +158,7 @@ module.exports = {
           break;
         default: 
           playerState = 'Stopped'
-      }
+      };
       radioPlayerEmbed.fields = [
         {
           name: 'Player Status',
@@ -213,7 +173,7 @@ module.exports = {
           name: 'Now Playing (WIP)',
           value: `Nothing is playing...`
         }
-      ]
+      ];
       return radioPlayerEmbed;
     };
     // Update player interface from dynamic embed.
@@ -235,11 +195,11 @@ module.exports = {
     var menuOpen, playerOpen;
     // Check if player is defined. If undefined or null, create one.
     player = (!player) ? newPlayer() : player;
-
     // Player Event Handler.
     player.on('stateChange', (oldState, newState) => {
       logger.debug(`oldState.status => ${oldState?.status}`);        
       logger.debug(`newState.status => ${newState?.status}`);
+      // refresh only if player is shown.
       if (playerOpen) refreshPlayer(interaction);
     });
     player.on(AudioPlayerStatus.Playing, () => {
@@ -334,8 +294,9 @@ module.exports = {
           
           break;
         // Radio Selection Actions
-        case 'radioStations':
-          selectMenu(interact); 
+        case 'stationSelect':
+          if (!player) return;
+          loadStation(interact);
           player.play(source);
           refreshPlayer(interact);
           break;
