@@ -109,37 +109,45 @@ async function loadSlashCmds(client) {
     logger.warn("Stopped loading directory 'slashcmds'. Some commands may fail to respond.");
   };
 
-  const rest =  new REST({ version: '9' }).setToken(discordToken);
-  /* 
-  // Load commands into client as global commands.
-  try {
-    logger.debug(`Started refreshing application (/) commands for ${client.user.tag}.`);
-    await rest.put(
-      Routes.applicationCommands(process.env.clientId || client.user.id),
-      { body: commands },
-    );
-    logger.debug(`Successfully reloaded application (/) commands for ${client.user.tag}.`);
-    logger.info('Global slash commands are now available.');
-  } catch (error) {
-    logger.error('Unable to refresh application (/) commands!')
-    logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
-  };
-  */
-  // Load commands into guilds as guild commands.
-  client.guilds.cache.forEach(async guild => {
+  if (forceUpdateCmds) {
+    logger.debug('Forcing application command updates!')
+    const rest =  new REST({ version: '9' }).setToken(discordToken);
+    /* 
+    // Load commands into client as global commands.
     try {
-      logger.debug(`Started refreshing application (/) commands in ${guild.name}.`);
+      logger.debug(`Started refreshing application (/) commands for ${client.user.tag}.`);
       await rest.put(
-        Routes.applicationGuildCommands(process.env.clientId || client.user.id, guild.id),
+        Routes.applicationCommands(process.env.clientId || client.user.id),
         { body: commands },
       );
-      logger.debug(`Successfully reloaded application (/) commands in ${guild.name}.`);
-      logger.info('Guild slash commands are now available.');
+      logger.debug(`Successfully reloaded application (/) commands for ${client.user.tag}.`);
+      logger.info('Global slash commands are now available.');
     } catch (error) {
-      logger.error('Unable to refresh application (/) commands!');
+      logger.error('Unable to refresh application (/) commands!')
       logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
     };
-  });  
+    */
+    // Load commands into guilds as guild commands.
+    client.guilds.cache.forEach(async guild => {
+      try {
+        logger.debug(`Started refreshing application (/) commands in ${guild.name}.`);
+        await rest.put(
+          Routes.applicationGuildCommands(process.env.clientId || client.user.id, guild.id),
+          { body: commands },
+        );
+        logger.debug(`Successfully reloaded application (/) commands in ${guild.name}.`);
+        logger.info('Guild slash commands are now available.');
+      } catch (error) {
+        logger.error('Unable to refresh application (/) commands!');
+        logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
+        logger.debug(error.stack);
+      };
+    });  
+  } else {
+    // do nothing...
+  }
+
+  
 };
 
 module.exports = {loadPrefixCmds, loadSlashCmds};
