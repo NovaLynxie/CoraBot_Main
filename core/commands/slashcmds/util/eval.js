@@ -7,9 +7,8 @@ module.exports = {
     .setDescription('Evaluate javascript to test code! (WARNING! CAN CAUSE DAMAGE! USE WITH CAUTION!)')
     .addStringOption(option => option.setName('code').setDescription('Enter code to execute')),
   async execute(interaction, client) {
-    //
-    // If the message author's ID does not equal
-    // our ownerID, get outta there!
+    // If the message author's ID does not match
+    // our configured owners list, get outta there!
     if (client.options.owners.indexOf(interaction.user.id) <= -1) {
       interaction.reply({
         content: `THAT IS A RESTRICTED COMMAND! YOU ARE NOT AUTHORIZED ${interaction.user.username}!`,
