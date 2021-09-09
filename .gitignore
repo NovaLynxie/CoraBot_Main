@@ -2,8 +2,8 @@ node_modules
 data/*
 logs/*
 settings/*
-utilities/deployCmds.js
 *.env
 *.bat
 *.sh
+deployCmds.js
 package-lock.json
