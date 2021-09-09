@@ -23,6 +23,9 @@ debug = false
 # Set this to 'false' to use local toml configuration files instead.
 # ONLY CHANGE THIS IF YOU OWN THE HOST SYSTEM OR TRUST ITS SECURITY!
 useDotEnv = <DOTENV>
+# Force update commands.
+# Only enable this IF you are changing versions which include command updates/changes.
+forceCmdUpdate = false
 
 [dashboard]
 # Bot Dashboard.
