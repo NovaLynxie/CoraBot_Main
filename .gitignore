@@ -2,6 +2,7 @@ node_modules
 data/*
 logs/*
 settings/*
+utilities/deployCmds.js
 *.env
 *.bat
 *.sh
