@@ -5,14 +5,13 @@ const {
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const wait = require('util').promisify(setTimeout);
-// require bot voice handlers.
+// require bot voice method handlers.
 const { checkVC, joinVC, createSource, newPlayer } = require('../../../handlers/voice/voiceManager');
 // fetch available stations.
 const { stations } = require('../../../assets/resources/radioStations.json');
-const radioData = require('../../../assets/resources/radioStations.json');
-const { ch1, ch2, ch3, ch4, ch5 } = radioData;
 
 let stationsList = []; // define options for radioStationsMenu;
+logger.debug('Loading radio stations information...');
 stations.forEach(station => {
   let stationData = {
     // must be this structure or it will fail!
@@ -22,8 +21,8 @@ stations.forEach(station => {
   }
   stationsList.push(stationData);
 });
-logger.debug('Loading stations for radio...')
-logger.debug(`stationsList: ${JSON.stringify(stationsList)}`);
+// verbose output for verifying stations have loaded correctly.
+logger.verbose(`stationsList: ${JSON.stringify(stationsList)}`);
 
 module.exports = {
   data: new SlashCommandBuilder()
