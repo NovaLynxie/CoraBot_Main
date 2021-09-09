@@ -36,7 +36,7 @@ var discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, yout
 if (mainLoaded) {
   var {general, dashboard, runtime} = mainConfig;
   var {globalPrefix, ownerIDs, useLegacyURL, debug} = general;
-  var {useDotEnv} = runtime;
+  var {useDotEnv, forceUpdateCmds} = runtime;
 };
 
 logger.init('Loading bot credentials...');
@@ -81,4 +81,4 @@ if (authLoaded) {
 };
 logger.init('Spinning up bot instance...');
 module.exports.credentials = {discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey};
-module.exports.config = {globalPrefix, ownerIDs, useLegacyURL, debug, dashboard};
+module.exports.config = {globalPrefix, ownerIDs, useLegacyURL, forceUpdateCmds, debug, dashboard};

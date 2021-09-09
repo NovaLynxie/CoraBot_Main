@@ -25,7 +25,7 @@ debug = false
 useDotEnv = <DOTENV>
 # Force update commands.
 # Only enable this IF you are changing versions which include command updates/changes.
-forceCmdUpdate = false
+forceUpdateCmds = false
 
 [dashboard]
 # Bot Dashboard.
