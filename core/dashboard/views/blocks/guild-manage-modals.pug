@@ -69,7 +69,7 @@
             | These can be generalised or specific URLs.       
             br
             | Example URLs: i.imgur.com/, www.tenor.com/, etc.
-            input#urlBlacklist.form-control(type='text' name='urlBlacklist' value=autoMod.urlBlacklist.join(",") )
+            input#urlBlacklist.form-control(type='text' name='urlBlacklist' value=autoMod.urlBlacklist.join(" ") )
           label.form-label.mt-4
           | Media Removal Settings
           .form-check.form-switch

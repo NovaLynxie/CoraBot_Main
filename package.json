@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon .",
-    "setup": "node ./core/utilities/setuputil.js"
+    "setup": "node ./core/utilities/setupUtil.js"
   },
   "keywords": [
     "discord.js",
