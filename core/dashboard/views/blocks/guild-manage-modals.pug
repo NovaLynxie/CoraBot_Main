@@ -63,13 +63,13 @@
                 else
                   option(value=channel.id) #{channel.name}
           .form-group
-            label.form-label.mt-4(for='urlsBlacklist') 
+            label.form-label.mt-4(for='urlBlacklist') 
             | URLs Blacklist
             br
             | These can be generalised or specific URLs.       
             br
             | Example URLs: i.imgur.com/, www.tenor.com/, etc.
-            input#urlsBlacklist.form-control(type='text' name='urlsBlacklist' value=autoMod.urlBlacklist.join(",") )
+            input#urlBlacklist.form-control(type='text' name='urlBlacklist' value=autoMod.urlBlacklist.join(",") )
           label.form-label.mt-4
           | Media Removal Settings
           .form-check.form-switch
