@@ -12,10 +12,10 @@ const {
 const {
   readGuildData, saveGuildData, deleteGuildData, generateGuildData
 } = dataHandlers;
-const {config, credentials} = require('./core/handlers/bootLoader');
-const {globalPrefix, ownerIDs, useLegacyURL, debug} = config;
-const {discordToken} = credentials; 
-
+const { config, credentials } = require('./core/handlers/bootLoader');
+const { globalPrefix, ownerIDs, useLegacyURL, debug } = config;
+const { discordToken } = credentials; 
+logger.init('Spinning up bot instance...');
 // Initialise client instance.
 const client = new Client({
   // bot prefix and owners.

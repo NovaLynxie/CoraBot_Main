@@ -5,5 +5,4 @@ settings/*
 *.env
 *.bat
 *.sh
-deployCmds.js
 package-lock.json

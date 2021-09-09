@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon .",
+    "deploy": "node ./core/utilities/deployCmds.js",
     "setup": "node ./core/utilities/setupUtil.js"
   },
   "keywords": [

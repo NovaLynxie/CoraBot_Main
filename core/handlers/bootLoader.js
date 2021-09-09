@@ -34,9 +34,10 @@ var general = {}, discord = {}, runtime = {};
 var discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey;
 
 if (mainLoaded) {
-  var {general, dashboard, runtime} = mainConfig;
-  var {globalPrefix, ownerIDs, useLegacyURL, debug} = general;
-  var {useDotEnv, forceUpdateCmds} = runtime;
+  var { general, advanced, dashboard, runtime } = mainConfig;
+  var { globalPrefix, ownerIDs, useLegacyURL } = general;
+  var { clientId, guildId, debug } = advanced;
+  var { useDotEnv, forceUpdateCmds } = runtime;
 };
 
 logger.init('Loading bot credentials...');
@@ -63,9 +64,9 @@ if (useDotEnv) {
 }
 
 if (authLoaded) {
-  var {discord, external} = authConfig;
-  var {discordToken, clientSecret, sessionSecret} = discord;
-  var {cheweyApiToken, yiffyApiKey, youtubeApiKey} = external;
+  var { discord, external } = authConfig;
+  var { discordToken, clientSecret, sessionSecret } = discord;
+  var { cheweyApiToken, yiffyApiKey, youtubeApiKey } = external;
   // check main credentials and fallback to process.env if missing.
   discordToken = (!discordToken || discordToken === 'NOT_SET') ? process.env.discordToken : discordToken;
   clientSecret = (!clientSecret || clientSecret === 'NOT_SET') ? process.env.clientSecret : clientSecret;
@@ -79,6 +80,6 @@ if (authLoaded) {
     discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey
   } = process.env;
 };
-logger.init('Spinning up bot instance...');
-module.exports.credentials = {discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey};
-module.exports.config = {globalPrefix, ownerIDs, useLegacyURL, forceUpdateCmds, debug, dashboard};
+module.exports.credentials = { discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey };
+module.exports.config = { globalPrefix, ownerIDs, useLegacyURL, forceUpdateCmds, debug, dashboard };
+module.exports.deploy = { clientId, guildId };

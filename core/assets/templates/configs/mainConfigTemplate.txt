@@ -13,6 +13,15 @@ ownerIDs = []
 # ONLY USE IF FAILING TO LOGIN TO DISCORD MAIN API URL!
 useLegacyURL = false
 
+[advanced]
+# Advanced setup options.
+# Deploy commands configuration. ONLY USE IF HOSTING THIS YOURSELF!
+# Client ID for your bot user. 
+# You can obtain this from discord.com/developers/applications or enabling developer mode on the client and right clicking your bot user.
+clientID = ''
+# Test Guild ID to deploy commands to.
+# This is where you can test the commands.
+guildID = ''
 # Bot debug mode. [WARNING! This is a DEVELOPER only setting!]
 # Use this only for debugging the bot as this reveals sensitive data!
 debug = false
