@@ -115,13 +115,14 @@ async function loadSlashCmds(client) {
     /* 
     // Load commands into client as global commands.
     try {
-      logger.debug(`Started refreshing application (/) commands for ${client.user.tag}.`);
+      logger.debug(`Started loading global application (/) commands for ${client.user.tag}.`);
       await rest.put(
-        Routes.applicationCommands(process.env.clientId || client.user.id),
+        Routes.applicationCommands(client.user.id),
         { body: commands },
       );
-      logger.debug(`Successfully reloaded application (/) commands for ${client.user.tag}.`);
-      logger.info('Global slash commands are now available.');
+      logger.debug(`Successfully loaded global application (/) commands for ${client.user.tag}.`);
+      logger.info('Global slash commands update completed!');
+      logger.warn('It may take up to an hour to sync changes across Discord.');
     } catch (error) {
       logger.error('Unable to refresh application (/) commands!')
       logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
@@ -130,15 +131,16 @@ async function loadSlashCmds(client) {
     // Load commands into guilds as guild commands.
     client.guilds.cache.forEach(async guild => {
       try {
-        logger.debug(`Started refreshing application (/) commands in ${guild.name}.`);
+        logger.debug(`Started loading guild application (/) commands for ${guild.name}.`);
         await rest.put(
-          Routes.applicationGuildCommands(process.env.clientId || client.user.id, guild.id),
+          Routes.applicationGuildCommands(client.user.id, guild.id),
           { body: commands },
         );
-        logger.debug(`Successfully reloaded application (/) commands in ${guild.name}.`);
+        logger.debug(`Successfully loaded guild application (/) commands for ${guild.name}.`);
+        logger.info('Guild slash commands update completed!');
         logger.info('Guild slash commands are now available.');
       } catch (error) {
-        logger.error('Unable to refresh application (/) commands!');
+        logger.error('Unable to refresh guild application (/) commands!');
         logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
         logger.debug(error.stack);
       };
