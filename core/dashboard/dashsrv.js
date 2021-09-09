@@ -422,14 +422,16 @@ module.exports = (client, config) => {
         logger.debug("Detected 'autoMod' settings data!");
         autoMod.enableAutoMod = (req.body.enableAutoMod === 'on') ? true : false;
         let channelsList = req.body.channelsList;
+        let urlBlacklist = (req.body.urlBlacklist) ? req.body.urlBlacklist.split(' ') : [];
         autoMod.chListMode = (req.body.chListMode) ? req.body.chListMode : autoMod.chListMode;
         autoMod.channelsList = (req.body.channelsList) ? channelsList : autoMod.channelsList;
+        autoMod.urlBlacklist = (urlBlacklist) ? urlBlacklist : autoMod.urlBlacklist;
         autoMod.mediaTrackers = {
           removeUrls: (req.body.removeUrls) ? true : false,
           removeGifs: (req.body.removeGifs) ? true : false,
           removeImgs: (req.body.removeImgs) ? true : false,
           removeVids: (req.body.removeVids) ? true : false
-        }
+        };
         logger.debug("Prepared 'autoMod' settings data for writing.");
       };
       if (req.body.enableChatBot) {
