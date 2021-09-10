@@ -111,7 +111,6 @@ module.exports = {
       };
       logger.debug(`station:${JSON.stringify(station)}`);
       source = createSource(station.url);
-      if (!found) logger.debug('Station not found or mismatched names!');
     };
     async function joinChannel (channel) {
       connection = checkVC(interaction.guild);
