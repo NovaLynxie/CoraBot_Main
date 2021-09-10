@@ -17,10 +17,11 @@ module.exports = {
         .setDescription('Reason for ban?')
         .setRequired(false)
     ),
-  execute(interaction, client) {
-    const user = interaction.options.getUser('target');
-    const staff = interaction.user;
-    if (staff.roles.cache.some(role => staffRoles.indexOf(role.id))) {
+  async execute(interaction, client) {
+    const member = interaction.options.getUser('target');
+    const user = interaction.user; const guild = interaction.guild;
+    const settings = await client.settings.guild.get(guild); const { staff } = settings;
+    if (member.roles.cache.some(role => staff.roles.indexOf(role.id))) {
 	    // ...
     } else {
       interaction.reply({

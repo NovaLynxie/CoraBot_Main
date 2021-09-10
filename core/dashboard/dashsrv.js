@@ -602,7 +602,8 @@ module.exports = (client, config) => {
       return res.status(500), renderView(res, req, 'errors/500.pug', errData);
     };
     function defaultError() {
-      logger.debug('Unknown error occured! No information available.');
+      logger.debug('An unknown error occured!');
+      logger.debug(err);
       return res.status(500), renderView(res, req, 'errors/500.pug');
     };
     if (err.code) {
@@ -631,8 +632,7 @@ module.exports = (client, config) => {
         logger.debug(`Error! Missing asset file!`);
         logger.debug(err.stack);
       }
-    };
-    return defaultError();
+    }; return defaultError();
   });
   app.listen(config.dashPort, () => {
     logger.dash(`Dashboard service running on port ${config.dashPort}`);

@@ -63,9 +63,19 @@ block content
           .settings-card-modules.guild-details-card
             h5 Server Settings
             .settings-text-wrapper
-              h6 Staff Roles (WIP)
+              h6 Server Roles (WIP)
               p
               | NOT YET IMPLEMENTED!
+              table.settings-table-main(border="1")
+                tr
+                  th Role Type
+                  th No. of Roles
+                tr
+                  td Staff Roles
+                  td #{(staff.roles) ? `${staff.roles.length} roles set` : 'N/A'}
+                tr
+                  td (TBC)
+                  td -
               button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingGuildStaffRolesModal') Edit 
                 i.fas.fa-edit
         .settings-card-modules.settings-card-wrapper
