@@ -3,7 +3,8 @@ const {
   MessageActionRow, MessageButton, MessageEmbed 
 } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fetch = require('node-fetch'); // used for parsing json response.
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args)); // used for parsing json response.
+//const fetch = require('node-fetch'); // used for parsing json response.
 const { stripIndents } = require('common-tags');
 const { credentials } = require('../../../handlers/bootLoader');
 const { cheweyApiToken } = credentials; // my unique api token.
