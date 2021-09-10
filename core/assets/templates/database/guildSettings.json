@@ -1,5 +1,8 @@
 {
   "guildPrefix": "",
+  "staff": {
+    "roles": []
+  },
   "autoMod": {
     "enableAutoMod": false,
     "chListMode": "whitelist",

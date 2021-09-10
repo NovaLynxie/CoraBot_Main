@@ -402,12 +402,17 @@ module.exports = (client, config) => {
     logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);
     let {guildPrefix} = guildSettings;
     // Fetch Main Module Settings
-    let {autoMod, chatBot, notifier} = guildSettings;
+    let {autoMod, chatBot, notifier, staff} = guildSettings;
     // Fetch Channel Logs Module Settings
     let {botLogger, modLogger} = guildSettings;
     // Use try/catch to capture errors from the bot or dashboard.
     try {
       // Update each setting setup respectively and save changes.
+      if (req.body.staffRoles) {
+        logger.debug("Detected 'staffRoles' settings data!");
+        let staffRoles = (typeof req.body.staffRoles === 'string') ? "["+req.body.staffRoles+"]" : req.body.staffRoles;
+        staff.roles = staffRoles;
+      };
       if (req.body.enableNotifier) {
         logger.debug("Detected 'notifier' settings data!");
         notifier.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
