@@ -9,12 +9,33 @@
 - channelData = guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT');
 - textChannels = Object.fromEntries(channelData);
 // Manage Page Modals (Edit Settings)
+#settingGuildStaffRolesModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingGuildStaffRolesModalLabel' aria-hidden='true')
+  form(action=`/dashboard/${guild.id}/manage`, method='POST')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          h5#settingGuildStaffRolesModalLabel.modal-title Edit Settings - Server Settings
+          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+        .modal-body
+          legend.modal-legend Role Management
+          .form-group
+            label.form-label.mt-4(for='staffRoles') 
+              | Staff Roles (WIP)
+              br
+              | Select the roles to use below by using ctrl + left click
+            select#chatChannels.form-select(multiple='' name='staffRoles')
+              each role in roles
+                option(value=role.id) #{role.name}
+        .modal-footer
+          button.btn.btn-outline-dark(type='button' data-bs-dismiss='modal') CANCEL
+          button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
+            i.fas.fa-save(aria-hidden='true')
 #settingAutoModBotModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingAutoModBotModalLabel' aria-hidden='true')
   form(action=`/dashboard/${guild.id}/manage`, method='POST')
     .modal-dialog(role='document')
       .modal-content
         .modal-header
-          h5#settingAutoModBotModalLabel.modal-title Edit Settings
+          h5#settingAutoModBotModalLabel.modal-title Edit Settings - Auto Moderation
           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
         .modal-body
           label.form-label.mt-4 Enable/Disable Module
@@ -58,7 +79,7 @@
               | Select the channels below by using ctrl + left click
             select#chatChannels.form-select(multiple='' name='channelsList')
               for channel in textChannels
-                if (autoMod.channelsList.indexOf(channel.id) > -1)
+                if (channelsList.indexOf(channel.id) > -1)
                   option(value=channel.id selected='') #{channel.name}
                 else
                   option(value=channel.id) #{channel.name}
@@ -109,10 +130,10 @@
     .modal-dialog(role='document')
       .modal-content
         .modal-header
-          h5#settingBotNotifsModalLabel.modal-title Edit Settings
+          h5#settingBotNotifsModalLabel.modal-title Edit Settings - Bot Notifications
           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
         .modal-body
-          p.lead Bot Notifications Settings
+          label.form-label.mt-4 Enable/Disable Module
           .form-check
             label.form-check-label
               if (enableNotifier==='on')
@@ -199,11 +220,10 @@
     .modal-dialog(role='document')
       .modal-content
         .modal-header
-          h5#settingSmartChatBotModalLabel.modal-title Edit Settings
+          h5#settingSmartChatBotModalLabel.modal-title Edit Settings - Chat Bot
           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
         .modal-body
-          fieldset.form-group
-            legend.modal-legend Enable/Disable Module
+            label.form-label.mt-4 Enable/Disable Module
             .form-check
               label.form-check-label
                 if (enableChatBot==='on')
@@ -220,9 +240,7 @@
                 else 
                   input#optionsRadios2.form-check-input(type='radio' name='enableChatBot' value='off')
                   | Disable
-          - chatBotOpts = chatBot.chatBotOpts
-          fieldset.form-group
-            legend.modal-legend ChatBot Options
+            - chatBotOpts = chatBot.chatBotOpts
             label.form-label.mt-4(for='chatBotName') 
             | Name
             input#chatBotName.form-control(type='text' name='botName' value=chatBot.chatBotOpts.botName)
@@ -242,17 +260,17 @@
               else 
                 input#optionsRadios2.form-check-input(type='radio' name='botGender' value='female')
                 | Female
-          .form-group
-            label.form-label.mt-4(for='chatChannels') 
-              | Chat Channels
-              br
-              | Select the channels below by using ctrl + left click
-            select#chatChannels.form-select(multiple='' name='chatChannels')
-              for channel in textChannels
-                if (chatBot.chatChannels.indexOf(channel.id) > -1)
-                  option(value=channel.id selected='') #{channel.name}
-                else
-                  option(value=channel.id) #{channel.name}
+            .form-group
+              label.form-label.mt-4(for='chatChannels') 
+                | Chat Channels
+                br
+                | Select the channels below by using ctrl + left click
+              select#chatChannels.form-select(multiple='' name='chatChannels')
+                for channel in textChannels
+                  if (chatBot.chatChannels.indexOf(channel.id) > -1)
+                    option(value=channel.id selected='') #{channel.name}
+                  else
+                    option(value=channel.id) #{channel.name}
         .modal-footer
           button.btn.btn-outline-dark(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 

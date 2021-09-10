@@ -60,7 +60,14 @@ block content
               | Vanity URL
               br 
               | Code: #{(guild.vanityURLCode)?guild.vanityURLCode:'N/A'} (Used #{(guild.vanityURLUses)?guild.vanityURLUses:'NaN'} times)
-        
+          .settings-card-modules.guild-details-card
+            h5 Server Settings
+            .settings-text-wrapper
+              h6 Staff Roles (WIP)
+              p
+              | NOT YET IMPLEMENTED!
+              button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingGuildStaffRolesModal') Edit 
+                i.fas.fa-edit
         .settings-card-modules.settings-card-wrapper
           h4 Module Settings (WIP)
           p.lead Change settings for each module from here. 

@@ -380,12 +380,14 @@ module.exports = (client, config) => {
   // Settings page to change the guild configuration.
   app.get("/dashboard/:guildID/manage", checkAuth, async (req, res) => {
     const guild = client.guilds.cache.get(req.params.guildID);
+    let roles = []; // prepare new array, then push one at a time.
+    guild.roles.cache.forEach(role => roles.push(role));
     if (!guild) return res.status(404);
     if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
     logger.debug(`Fetching guild settings for ${guild.name}.`);
     let guildSettings = await client.settings.guild.get(guild);
     logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);
-    renderView(res, req, "guild/manage.pug", {guild, guildSettings});
+    renderView(res, req, "guild/manage.pug", {guild, roles, guildSettings});
   });
   
   // This calls when settings are saved using POST requests to get parameters to save.
