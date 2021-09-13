@@ -51,8 +51,8 @@ async function joinVC(channel) {
 		logger.error('Connection error! Clearing connection!'); voiceConnection.destroy();
 		logger.error(error.message); logger.debug(error.stack);
 		logger.warn('Forced closed connection to save resources.');
-    // abort here if connection errored out.
-		throw new Error(error); 
+		// abort here if connection errored out.
+		throw new Error(error);
 	}
 }
 
