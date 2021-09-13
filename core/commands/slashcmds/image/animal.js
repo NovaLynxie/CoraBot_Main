@@ -3,13 +3,13 @@ const {
 	MessageActionRow, MessageButton, MessageEmbed,
 } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args)); // used for parsing json response.
-// const fetch = require('node-fetch'); // used for parsing json response.
+//const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = require('node-fetch');
 const { stripIndents } = require('common-tags');
 const { credentials } = require('../../../handlers/bootLoader');
-const { cheweyApiToken } = credentials; // my unique api token.
-const authHeader = `?auth=${cheweyApiToken}`; // auth parameter.
-const apiUrl = 'https://api.chewey-bot.top/'; // cheweybot api domain.
+const { cheweyApiToken } = credentials;
+const authHeader = `?auth=${cheweyApiToken}`;
+const apiUrl = 'https://api.chewey-bot.top/';
 
 module.exports = {
 	data: new SlashCommandBuilder()

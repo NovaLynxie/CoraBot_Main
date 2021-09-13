@@ -40,7 +40,7 @@
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "morgan": "^1.10.0",
-    "node-fetch": "^3.0.0",
+    "node-fetch": "^2.6.2",
     "passport": "^0.4.1",
     "passport-discord": "^0.1.4",
     "passport-discord-faxes": "^0.1.4",
