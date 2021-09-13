@@ -23,12 +23,12 @@ module.exports = {
 		logger.verbose(`input=${input}`);
     const tags = input.split(' ');
     // Generate embed with provided parameters.
-		function generateEmbed(url) {
+		function generateEmbed(data) {
 			const imageEmbed = new MessageEmbed()
 				.setColor('#0099ff')
 				.setTitle('E621 Image Fetcher v2')
         .setDescription(`You searched: ${tags}`)
-				.setImage(url)
+				.setImage(data.image)
 				.setFooter('Bot created and maintained by NovaLynxie. Image provided by E621.', client.user.displayAvatarURL({ format: 'png' }));
 			return interaction.reply({ embeds: [imageEmbed] });
 			// Send the image embed to the channel the user ran the command.
@@ -37,6 +37,8 @@ module.exports = {
     logger.debug('Requesting image from user defined tags.');
     e6.request(tags).then(res => {
       logger.debug('Received  response! Parsing data into embed.');
+      logger.data(`res => ${JSON.stringify(res, null, 2)}`);
+      let data = JSON.parse(JSON.stringify(res));
       generateEmbed(res);
       logger.debug('Embed sent to user channel.');
     }).catch(err => {

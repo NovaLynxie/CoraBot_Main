@@ -8,6 +8,7 @@
     "dev": "nodemon .",
     "lint": "eslint .",
     "deploy": "node ./core/utilities/deployCmds.js",
+    "reset": "node ./core/utilities/removeCmds.js",
     "setup": "node ./core/utilities/setupUtil.js"
   },
   "keywords": [
