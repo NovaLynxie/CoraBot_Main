@@ -67,6 +67,7 @@ async function loadBotCmds (client) {
 	if (forceUpdateCmds) {
 		logger.debug('Forcing application command updates!');
 		const rest = new REST({ version: '9' }).setToken(discordToken);
+    console.log(rest);
 		/*
     // Load commands into client as global commands.
     try {
@@ -85,6 +86,7 @@ async function loadBotCmds (client) {
     */
 		// Load commands into guilds as guild commands.
 		client.guilds.cache.forEach(async guild => {
+      console.log(guild.name, guild.id);
 			try {
 				logger.debug(`Started loading guild application (/) commands for ${guild.name}.`);
 				await rest.put(

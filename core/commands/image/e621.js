@@ -15,14 +15,13 @@ module.exports = {
 		.addStringOption(option =>
 			option
 				.setName('input')
-				.setDescription('Type in the tags you would like to search separated with a comma.')
+				.setDescription('Type in the tags you would like to search with. Separate each tag with a space.')
 				.setRequired(false)
 		),
 	execute(interaction, client) {
 		const input = interaction.options.getString('input');
 		logger.verbose(`input=${input}`);
-    const tags = input.split(', ');
-		logger.debug(`${apiUrl}${option}${authHeader}`);
+    const tags = input.split(' ');
     // Generate embed with provided parameters.
 		function generateEmbed(url) {
 			const imageEmbed = new MessageEmbed()
