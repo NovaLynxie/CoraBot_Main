@@ -31,12 +31,12 @@ module.exports = function autoModerator(message, client) {
 	const channel = guild.channels.cache.get(message.channel.id);
 	const user = message.author;
 	logger.verbose(`user=${user.name}(#${user.discriminator})`);
-	//const member = message.guild.member(user.id);
+	// const member = message.guild.member(user.id);
 	logger.verbose(`channelID=${channel.id} (${typeof channel.id});`);
 	logger.verbose(`channels=${channelsList} (${typeof channelsList})`);
 	logger.verbose(`channelsListMode=${chListMode} (${typeof chListMode})`);
 	logger.verbose(`mediaOptions={removeGifs=${typeof removeGifs}, removeImgs=${typeof removeImgs}, removeVids=${typeof removeVids}, removeURLs=${typeof removeURLs}}`);
-	//const roles = message.guild.roles;
+	// const roles = message.guild.roles;
 	let channelSearcher;
 	if (!chListMode || chListMode === undefined || chListMode === null) {
 		logger.error('Severe Error! channelsListMode was not defined!');

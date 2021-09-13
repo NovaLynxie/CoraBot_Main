@@ -1,13 +1,13 @@
 const logger = require('../../plugins/winstonLogger');
 const {
 	NoSubscriberBehavior,
-	StreamType,
-	AudioPlayerStatus,
-	VoiceConnectionDisconnectReason,
+	// StreamType,
+	// AudioPlayerStatus,
+	// VoiceConnectionDisconnectReason,
 	VoiceConnectionStatus,
 	createAudioPlayer,
 	createAudioResource,
-	demuxProbe,
+	// demuxProbe,
 	entersState,
 	joinVoiceChannel,
 	getVoiceConnection,
@@ -51,7 +51,8 @@ async function joinVC(channel) {
 		logger.error('Connection error! Clearing connection!'); voiceConnection.destroy();
 		logger.error(error.message); logger.debug(error.stack);
 		logger.warn('Forced closed connection to save resources.');
-		throw new Error(error); // abort if connection errored out.
+    // abort here if connection errored out.
+		throw new Error(error); 
 	}
 }
 
