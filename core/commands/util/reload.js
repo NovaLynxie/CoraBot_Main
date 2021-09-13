@@ -4,7 +4,7 @@ const logger = require('../../../plugins/winstonLogger');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('reload')
-		.setDescription('Allows reload of prefix commands without restarting bot. (CANNOT RELOAD SLASH COMMANDS!)'),
+		.setDescription('Force an update of the app (/) commands.'),
 	async execute(interaction, client) {
 		logger.warn('Reloading commands! This may take a while');
 		logger.debug('Reloading slash commands.');

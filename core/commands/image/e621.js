@@ -10,7 +10,7 @@ const e6 = new yiff.e621();
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('animal')
+		.setName('e621')
 		.setDescription('Fetches animal images and displays them back to the user.')
 		.addStringOption(option =>
 			option

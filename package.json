@@ -48,7 +48,7 @@
     "toml": "^3.0.0",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5",
-    "yiff": "^3.1.2",
+    "yiff": "^2.0.3",
     "yiffy": "^2.0.14"
   },
   "devDependencies": {
