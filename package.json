@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon .",
+    "lint": "eslint .",
     "deploy": "node ./core/utilities/deployCmds.js",
     "setup": "node ./core/utilities/setupUtil.js"
   },
