@@ -18,6 +18,8 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction, client) {
+    // processing information so call this to extend the timeout.
+		await interaction.deferReply({ ephemeral: true });
     const member = interaction.options.getUser('target');
     const user = interaction.user; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { staff } = settings;
