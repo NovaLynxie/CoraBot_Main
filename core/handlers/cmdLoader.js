@@ -107,7 +107,7 @@ async function loadBotCmds (client) {
 		// do nothing...
 	};
 };
-
+/*
 async function loadPrefixCmds(client) { // this is currently unused and depreciated till further notice.
 	logger.warn('Prefix commands are not fully supported! Proceed with caution.');
 	try {
@@ -159,7 +159,8 @@ async function loadPrefixCmds(client) { // this is currently unused and deprecia
 		}
 		logger.warn('Stopped loading directory \'prefixcmds\'. Some commands may fail to respond.');
 	}
-}
+};
+*/
 async function loadSlashCmds(client) {
 	// Load slash commands from command files.
 	const commands = [];
