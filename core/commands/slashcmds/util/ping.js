@@ -9,7 +9,7 @@ module.exports = {
 			{
 				content: `Pong! :heartpulse: ${client.ws.ping}ms`,
 				ephemeral: true,
-			},
+			}
 		);
 	},
 };
