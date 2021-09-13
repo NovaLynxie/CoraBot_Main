@@ -1,5 +1,5 @@
 const logger = require('../plugins/winstonLogger');
-const { loadBotCmds, loadSlashCmds } = require('../handlers/cmdLoader');
+const { loadBotCmds } = require('../handlers/cmdLoader');
 const { config, credentials } = require('../handlers/bootLoader');
 const { debug, dashboard } = config;
 const { clientSecret, sessionSecret } = credentials;
