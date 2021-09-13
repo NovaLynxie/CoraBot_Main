@@ -1,9 +1,9 @@
-const logger = require('../WinstonLogger');
+const logger = require('./winstonLogger');
 
 let status = 0;
 // global override unless actually enabled, settings overrides this fallback setting.
 // Auto Moderation (BETA)
-module.exports = function autoModerator(message, client) {
+function autoModerator(message, client) {
 	const guild = message.guild;
 	// Fetch automod settings here.
 	const settings = client.settings.guild.get(guild);
@@ -151,3 +151,5 @@ module.exports = function autoModerator(message, client) {
 		return res;
 	}
 };
+
+module.exports = { autoModerator };
