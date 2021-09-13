@@ -3,6 +3,7 @@ const logger = require('../plugins/winstonLogger');
 module.exports = {
 	name: 'reconnect',
 	execute(client) {
-		logger.warn('Client reconnected to Discord.');
+		logger.info('Client reconnected to Discord.');
+    logger.info(`Logged in as ${client.user.tag}`);
 	},
 };

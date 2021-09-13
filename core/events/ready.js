@@ -1,5 +1,5 @@
 const logger = require('../plugins/winstonLogger');
-const { loadPrefixCmds, loadSlashCmds } = require('../handlers/cmdLoader');
+const { /*loadPrefixCmds*/, loadSlashCmds } = require('../handlers/cmdLoader');
 const { config, credentials } = require('../handlers/bootLoader');
 const { debug, dashboard } = config;
 const { clientSecret, sessionSecret } = credentials;
@@ -30,8 +30,8 @@ module.exports = {
 			logger.warn('Please check logs before restarting the bot.');
 		}
 		// Load commands here using the client's unique ID.
-		// loadPrefixCmds(client); // load prefixed commands. (DEPRECIATED!)
-		loadSlashCmds(client); // load slash commands.
+		// loadPrefixCmds(client); (DEPRECIATED!)
+		loadSlashCmds(client); 
 		// Prepare configuration for the dashboard service.
 		const dashConfig = {
 			'debug': debug, // used to enable debug console log data.
