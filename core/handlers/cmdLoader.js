@@ -15,15 +15,15 @@ async function loadBotCmds (client) {
   // Load slash commands from command files.
 	const commands = [];
 	try {
-		readdirSync(slashCmdDir).forEach(subDir => {
-			const dirPath = `${slashCmdDir}/${subDir}/`;
+		readdirSync(botCmdsDir).forEach(subDir => {
+			const dirPath = `${botCmdsDir}/${subDir}/`;
 			const cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
 			logger.data(JSON.stringify(cmdfiles));
 			for (const file of cmdfiles) {
 				logger.debug(`Parsing ${file} of ${subDir} in slashcmds`);
 				logger.debug(`cmdfile -> ${file}`);
 				// Require command file here.
-				const cmd = require(`../commands/slashcmds/${subDir}/${file}`);
+				const cmd = require(`../commands/${subDir}/${file}`);
 				const cmdDataJSON = cmd.data.toJSON();
 				// Error checking if command has no syntax errors thrown when requiring the file.
 				// If no name or empty field, don't load the commmand.
