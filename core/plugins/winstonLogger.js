@@ -1,10 +1,11 @@
-require('dotenv').config(); // load .env as early as possible
+require('dotenv').config();
 const winston = require('winston');
-require('winston-daily-rotate-file'); // re-added for daily logs.
+require('winston-daily-rotate-file');
 const { name } = require('../../package.json');
 const { addColors, createLogger, format, transports } = winston;
 const { combine, colorize, errors, timestamp, printf } = format;
-let { logLevel } = process.env; // gets logLevel from os process.env vars
+// get logLevel from os process.env vars
+let { logLevel } = process.env;
 if (!logLevel || logLevel == undefined) {
 	// if not defined then set as 'error' by default.
 	logLevel = 'fatal';
