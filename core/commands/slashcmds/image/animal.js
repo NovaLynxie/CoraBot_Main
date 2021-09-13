@@ -1,7 +1,5 @@
 const logger = require('../../../plugins/winstonLogger');
-const {
-	MessageActionRow, MessageButton, MessageEmbed,
-} = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const fetch = require('node-fetch');
 const { stripIndents } = require('common-tags');
