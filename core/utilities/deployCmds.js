@@ -6,13 +6,13 @@ const { readdirSync } = require('fs');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
-const commands = []; const slashCmdDir = './core/commands/slashcmds';
+const commands = []; const botCmdsDir = './core/commands';
 
 logger.info(`clientId: ${clientId}`); logger.info(`guildId: ${guildId}`);
 
 try {
-	readdirSync(slashCmdDir).forEach(subDir => {
-		const dirPath = `${slashCmdDir}/${subDir}/`;
+	readdirSync(botCmdsDir).forEach(subDir => {
+		const dirPath = `${botCmdsDir}/${subDir}/`;
 		const cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
 		logger.data(JSON.stringify(cmdfiles));
 		for (const file of cmdfiles) {

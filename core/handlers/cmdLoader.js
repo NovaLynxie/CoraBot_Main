@@ -7,9 +7,7 @@ const { forceUpdateCmds } = config;
 const { discordToken } = credentials;
 
 // Define command directory paths here.
-const prefixCmdDir = './core/commands/prefixcmds';
-const slashCmdDir = './core/commands/slashcmds';
-const botCmdsDir = './core/commands/';
+const botCmdsDir = './core/commands';
 
 async function loadBotCmds (client) {
   // Load slash commands from command files.

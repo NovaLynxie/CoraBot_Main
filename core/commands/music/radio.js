@@ -1,4 +1,4 @@
-const logger = require('../../../plugins/winstonLogger');
+const logger = require('../../plugins/winstonLogger');
 const {
 	MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu,
 } = require('discord.js');
@@ -6,9 +6,9 @@ const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const wait = require('util').promisify(setTimeout);
 // require bot voice method handlers.
-const { checkVC, joinVC, createSource, newPlayer } = require('../../../handlers/voice/voiceManager');
+const { checkVC, joinVC, createSource, newPlayer } = require('../../handlers/voice/voiceManager');
 // fetch available stations.
-const { stations } = require('../../../assets/resources/radioStations.json');
+const { stations } = require('../../assets/resources/radioStations.json');
 
 const stationsList = []; // define options for radioStationsMenu;
 logger.debug('Loading radio stations information...');

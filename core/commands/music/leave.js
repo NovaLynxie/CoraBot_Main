@@ -1,5 +1,5 @@
-const logger = require('../../../plugins/winstonLogger');
-const { checkVC } = require('../../../handlers/voice/voiceManager');
+const logger = require('../../plugins/winstonLogger');
+const { checkVC } = require('../../handlers/voice/voiceManager');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
