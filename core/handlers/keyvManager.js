@@ -26,7 +26,8 @@ async function generateGuildSettings(guildIDs) {
 		const settings = await guildPrefStore.get(guildID);
 		if (settings) {
 			logger.debug(`Guild ${guildID} already has settings defined!`);
-			return; // don't do anything if <guildId> already has settings.
+			// don't do anything if <guildId> already has settings.
+			return;
 		}
 		else {
 			logger.debug(`Adding new settings for ${guildID} now...`);
@@ -81,7 +82,7 @@ async function deleteGuildSettings(guild) {
 	logger.debug(`Removing all settings for ${guild.name} (ID:${guild.id}).`);
 	await guildPrefStore.delete(guild.id);
 }
-async function clearGuildSettings(guild) {
+async function clearGuildSettings() {
 	logger.debug('Removing all guild settings.');
 	await guildPrefStore.clear();
 }
@@ -94,7 +95,8 @@ async function generateGuildData(guildIDs) {
 		const data = await guildDataStore.get(guildID);
 		if (data) {
 			logger.debug(`Guild ${guildID} data entries already added!`);
-			return; // don't do anything if <guildId> already has settings.
+			// don't do anything if <guildId> already has settings.
+			return;
 		}
 		else {
 			logger.debug(`Adding new data entries for ${guildID} now...`);
