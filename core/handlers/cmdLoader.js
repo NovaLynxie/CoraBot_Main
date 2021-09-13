@@ -160,7 +160,6 @@ async function loadPrefixCmds(client) { // this is currently unused and deprecia
 		logger.warn('Stopped loading directory \'prefixcmds\'. Some commands may fail to respond.');
 	}
 };
-*/
 async function loadSlashCmds(client) {
 	// Load slash commands from command files.
 	const commands = [];
@@ -225,7 +224,6 @@ async function loadSlashCmds(client) {
 	if (forceUpdateCmds) {
 		logger.debug('Forcing application command updates!');
 		const rest = new REST({ version: '9' }).setToken(discordToken);
-		/*
     // Load commands into client as global commands.
     try {
       logger.debug(`Started loading global application (/) commands for ${client.user.tag}.`);
@@ -240,7 +238,6 @@ async function loadSlashCmds(client) {
       logger.error('Unable to refresh application (/) commands!')
       logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
     };
-    */
 		// Load commands into guilds as guild commands.
 		client.guilds.cache.forEach(async guild => {
 			try {
@@ -263,6 +260,6 @@ async function loadSlashCmds(client) {
 	else {
 		// do nothing...
 	};
-}
-
-module.exports = { loadBotCmds, loadPrefixCmds, loadSlashCmds };
+};
+*/
+module.exports = { loadBotCmds/*, loadPrefixCmds, loadSlashCmds*/ };
