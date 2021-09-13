@@ -21,7 +21,8 @@ async function loadPrefixCmds(client) { // this is currently unused and deprecia
 				logger.debug(`Parsing ${file} of ${subDir} in prefixcmds`);
 				logger.debug(`cmdfile -> ${file}`);
 				try {
-					const cmd = require(`../commands/prefixcmds/${subDir}/${file}`);
+					const cmd = require(`../commands/prefixcmds/${subDir}/${file}`)
+          ;
 					if (cmdDataJSON) {
 						if (typeof cmdDataJSON.name === 'string' && typeof cmdDataJSON.category === 'string') {
 							client.prefixcmds.set(cmdDataJSON.name, cmd);
