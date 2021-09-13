@@ -3,7 +3,7 @@ const logger = require('../WinstonLogger');
 let status = 0;
 // global override unless actually enabled, settings overrides this fallback setting.
 // Auto Moderation (BETA)
-module.exports = function autoMod(message, client) {
+module.exports = function autoModerator(message, client) {
 	const guild = message.guild;
 	// Fetch automod settings here.
 	const settings = client.settings.guild.get(guild);
@@ -106,13 +106,15 @@ module.exports = function autoMod(message, client) {
 	}
 	logger.debug(`channelSearcher resolved as ${channelSearcher}`);
 	// In case the user tries to bypass blacklisted options
-	function attachedIsGif(msgAttach) { // Check for gif file extension.
+	function attachedIsGif(msgAttach) {
+		// Check for gif file extension.
 		const url = msgAttach.url;
 		// True if this url is a gif image.
 		logger.debug('Scanning for extension gif in url.');
 		return url.indexOf('gif', url.length - 'gif'.length) !== -1;
 	}
-	function attachedIsImage(msgAttach) { // Check for image file extension.
+	function attachedIsImage(msgAttach) {
+		// Check for image file extension.
 		const url = msgAttach.url;
 		logger.verbose(`msgAttach.url=${url}`);
 		// Define image filetype extensions here.
@@ -123,7 +125,6 @@ module.exports = function autoMod(message, client) {
 			logger.verbose(typeof ext);
 			logger.debug(`Scanning for extension ${ext} in url.`);
 			if (url.indexOf(ext, url.length - ext.length) !== -1) {
-				// if (url.indexOf(ext, url.length) - ext.length !== -1) {
 				logger.debug(`Found extension type ${ext} in url!`);
 				// If true return if exists.
 				return false, res = url.indexOf(ext, url.length - ext.length) !== -1;
@@ -131,7 +132,8 @@ module.exports = function autoMod(message, client) {
 		});
 		return res;
 	}
-	function attachedIsVideo(msgAttach) { // Check for video file extension.
+	function attachedIsVideo(msgAttach) {
+		// Check for video file extension.
 		const url = msgAttach.url;
 		// Define image filetype extensions here.
 		const fileType = ['mp4', 'm4v', 'webm', 'mov', 'flv', 'avi'];
