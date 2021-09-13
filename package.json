@@ -47,7 +47,9 @@
     "pug": "^3.0.2",
     "toml": "^3.0.0",
     "winston": "^3.3.3",
-    "winston-daily-rotate-file": "^4.5.5"
+    "winston-daily-rotate-file": "^4.5.5",
+    "yiff": "^3.1.2",
+    "yiffy": "^2.0.14"
   },
   "devDependencies": {
     "node": "^16.6.1",
