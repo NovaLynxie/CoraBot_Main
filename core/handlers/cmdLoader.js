@@ -11,7 +11,7 @@ const prefixCmdDir = './core/commands/prefixcmds';
 const slashCmdDir = './core/commands/slashcmds';
 const botCmdsDir = './core/commands/';
 
-async function loadCommands(client) {
+async function loadBotCmds (client) {
   // Load slash commands from command files.
 	const commands = [];
 	try {
@@ -264,4 +264,4 @@ async function loadSlashCmds(client) {
 	};
 }
 
-module.exports = { loadCommands, loadPrefixCmds, loadSlashCmds };
+module.exports = { loadBotCmds, loadPrefixCmds, loadSlashCmds };
