@@ -47,8 +47,8 @@ module.exports = {
 				.setFooter('Bot created and maintained by NovaLynxie. Image provided by CheweyBotAPI.', client.user.displayAvatarURL({ format: 'png' }));
 			return interaction.reply({ embeds: [imageEmbed] });
 			// Send the image embed to the channel the user ran the command.
-		}
-
+		};
+    // Begin fetch for image data using url, option and auth parameter.
 		fetch(`${apiUrl}${option}${authHeader}`) `${apiUrl}${option}${authHeader}`
 			.then(checkStatus)
 			.then(res => res.json())
