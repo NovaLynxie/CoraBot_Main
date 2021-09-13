@@ -30,8 +30,7 @@ module.exports = {
 			logger.warn('Please check logs before restarting the bot.');
 		}
 		// Load commands here using the client's unique ID.
-		// loadPrefixCmds(client); (DEPRECIATED!)
-		loadSlashCmds(client); 
+		loadBotCmds(client);
 		// Prepare configuration for the dashboard service.
 		const dashConfig = {
 			'debug': debug, // used to enable debug console log data.
