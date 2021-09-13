@@ -67,8 +67,6 @@ async function loadBotCmds (client) {
 	if (forceUpdateCmds) {
 		logger.debug('Forcing application command updates!');
 		const rest = new REST({ version: '9' }).setToken(discordToken);
-    console.log(rest);
-		/*
     // Load commands into client as global commands.
     try {
       logger.debug(`Started loading global application (/) commands for ${client.user.tag}.`);
@@ -82,27 +80,7 @@ async function loadBotCmds (client) {
     } catch (error) {
       logger.error('Unable to refresh application (/) commands!')
       logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
-    };
-    */
-		// Load commands into guilds as guild commands.
-		client.guilds.cache.forEach(async guild => {
-      console.log(guild.name, guild.id);
-			try {
-				logger.debug(`Started loading guild application (/) commands for ${guild.name}.`);
-				await rest.put(
-					Routes.applicationGuildCommands(client.user.id, guild.id),
-					{ body: commands },
-				);
-				logger.debug(`Successfully loaded guild application (/) commands for ${guild.name}.`);
-				logger.info('Guild slash commands update completed!');
-				logger.info('Guild slash commands are now available.');
-			}
-			catch (error) {
-				logger.error('Unable to refresh guild application (/) commands!');
-				logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
-				logger.debug(error.stack);
-			}
-		});
+    };		
 	}	else {
 		// do nothing...
 	};
