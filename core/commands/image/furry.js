@@ -74,7 +74,7 @@ module.exports = {
     function getFurryImg (endpoint) {
       if (isNsfw) {
         if (!interaction.channel.nsfw) return interaction.reply({
-          content: 'NSFW content not allowed in normal channels! Try again in a NSFW enabled channel.'
+          content: 'NSFW content not allowed in channels not marked as NSFW! Try again in a different channel or enable NSFW for this channel first.'
         });
         logger.debug(`response => yiffy.furry.yiff.${endpoint}("json", 1)`);
         yiffy.furry.yiff[endpoint]("json", 1).then(res => generateEmbed(res, { title, desc }));
