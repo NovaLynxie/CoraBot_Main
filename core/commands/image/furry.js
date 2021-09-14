@@ -44,7 +44,7 @@ module.exports = {
     function generateEmbed (data, opts = {}) {
       let artists = (data.artists !== "") ? data.artists.join(', ') : 'N/A';
       let sources = (data.sources !== "") ? data.sources.join('\n') : 'N/A';
-      let reports = data.report;
+      let reports = data.reportURL;
       logger.data(JSON.stringify(data));
       logger.data(JSON.stringify(opts));
       logger.data(artists); logger.data(sources);
