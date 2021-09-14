@@ -42,12 +42,10 @@ module.exports = {
     let isNsfw, title, desc;
     logger.verbose(`option=${option}`);
     function generateEmbed (data, opts = {}) {
+      logger.verbose(JSON.stringify(data, null, 2))
       let artists = (data.artists !== "") ? data.artists.join(', ') : 'N/A';
       let sources = (data.sources !== "") ? data.sources.join('\n') : 'N/A';
       let reports = data.reportURL;
-      logger.data(JSON.stringify(data));
-      logger.data(JSON.stringify(opts));
-      logger.data(artists); logger.data(sources);
       const imageEmbed = new MessageEmbed()
         .setColor('#0099ff')
         .setTitle(`${opts.title} - Furry`)
@@ -66,7 +64,6 @@ module.exports = {
         .setThumbnail(client.user.avatarURL({format:"png"}))
         .setImage(data.url)
         .setFooter('Bot created and maintained by NovaLynxie. Image provided by Yiffy API.', client.user.avatarURL({format:"png"}));
-      logger.data(JSON.stringify(imageEmbed));
       return interaction.reply({ embeds: [imageEmbed] });
       // Send the image embed to the channel the user ran the command.
     };
