@@ -36,7 +36,6 @@ module.exports = {
 		const option = interaction.options.getString('option');
 		logger.verbose(`option=${option}`);
 		logger.debug(`${apiUrl}${option}${authHeader}`);
-
 		function imgEmbed(url) {
 			const imageEmbed = new MessageEmbed()
 				.setColor('#0099ff')
