@@ -16,10 +16,14 @@ module.exports = {
 			option
 				.setName('input')
 				.setDescription('Type in the tags you would like to search with. Separate each tag with a space.')
-				.setRequired(false)
+				.setRequired(true)
 		),
 	execute(interaction, client) {
 		const input = interaction.options.getString('input');
+    console.log(interaction.channel);
+    if (!interaction.channel.nsfw) return interaction.reply({
+      content: 'Whoops! This command only works in NSFW channels!'
+    });
 		logger.verbose(`input=${input}`);
     const tags = input.split(' ');
     // Generate embed with provided parameters.
