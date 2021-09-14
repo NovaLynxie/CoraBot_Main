@@ -36,7 +36,8 @@ module.exports = {
         .addChoice('lesbian', 'lesbian')
         .addChoice('shemale', 'gynomorph')
     ),
-  execute(interaction, client) {
+  async execute(interaction, client) {
+    await interaction.deferReply({ ephemeral: false });
     const option = interaction.options.getString('option');
     // default redeclarable variables.
     let isNsfw, title, desc;
@@ -64,7 +65,7 @@ module.exports = {
         .setThumbnail(client.user.avatarURL({format:"png"}))
         .setImage(data.url)
         .setFooter('Bot created and maintained by NovaLynxie. Image provided by Yiffy API.', client.user.avatarURL({format:"png"}));
-      return interaction.reply({ embeds: [imageEmbed] });
+      return interaction.editReply({ embeds: [imageEmbed] });
       // Send the image embed to the channel the user ran the command.
     };
     // Dynamic endpoint handler.
@@ -74,11 +75,27 @@ module.exports = {
           content: 'NSFW content not allowed in channels not marked as NSFW! Try again in a different channel or enable NSFW for this channel first.'
         });
         logger.debug(`response => yiffy.furry.yiff.${endpoint}("json", 1)`);
-        yiffy.furry.yiff[endpoint]("json", 1).then(res => generateEmbed(res, { title, desc }));
+        try {
+          yiffy.furry.yiff[endpoint]("json", 1).then(res => generateEmbed(res, { title, desc }));
+        } catch (err) {
+          logger.error(err.message); logger.debug(err.stack);
+          interaction.editReply({
+            content: 'Failed to fetch image from endpoint!',
+            ephemeral: true
+          });
+        };        
       } else {
         logger.debug(`response => yiffy.furry.${endpoint}("json", 1)`);
-        yiffy.furry[endpoint]("json", 1).then(res => generateEmbed(res, { title, desc }));
-      }
+        try {
+          yiffy.furry[endpoint]("json", 1).then(res => generateEmbed(res, { title, desc }));
+        } catch (err) {
+          logger.error(err.message); logger.debug(err.stack);
+          interaction.reply({
+            content: 'Failed to fetch image from endpoint!',
+            ephemeral: true
+          });
+        };        
+      };
     };
     // Switch/Case to add custom titles and descriptions.
     switch (option) {
@@ -169,7 +186,7 @@ module.exports = {
         break;
       // fallback if option is invalid?
       default:
-        interaction.reply({
+        await interaction.editReply({
           content: 'Invalid option or the endpoint does not exist!'
         })
     };
