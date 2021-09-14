@@ -60,7 +60,7 @@ module.exports = {
               name:'Sources', value:(sources !== '') ? sources : 'N/A'
             },
             {
-              name:'Report Content', value:`Is this inappropriate content? Report it at ${reports}`
+              name:'Report Content', value:`Is this inappropriate content? Report it [here]${reports}!`
             }
         )
         .setThumbnail(client.user.avatarURL({format:"png"}))
