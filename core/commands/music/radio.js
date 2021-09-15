@@ -5,23 +5,19 @@ const {
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const wait = require('util').promisify(setTimeout);
-// require bot voice method handlers.
 const { checkVC, joinVC, createSource, newPlayer } = require('../../handlers/voice/voiceManager');
-// fetch available stations.
 const { stations } = require('../../assets/resources/radioStations.json');
 
-const stationsList = []; // define options for radioStationsMenu;
+const stationsList = [];
 logger.debug('Loading radio stations information...');
 stations.forEach(station => {
 	const stationData = {
-		// must be this structure or it will fail!
 		label: station.name,
-		description: station?.genre.join(', '), // array to string
+		description: station?.genre.join(', '),
 		value: station.name,
 	};
 	stationsList.push(stationData);
 });
-// verbose output for verifying stations have loaded correctly.
 logger.verbose(`stationsList: ${JSON.stringify(stationsList)}`);
 
 module.exports = {
@@ -29,15 +25,11 @@ module.exports = {
 		.setName('radio')
 		.setDescription('Starts up the radio!'),
 	async execute(interaction, client) {
-		// Fetch connection before starting here.
 		let connection = checkVC(interaction.guild);
-		// Define 'default' variables here.
 		let player, source, station;
-		// Processing information so call this as early as possible.
 		await interaction.deferReply({ ephemeral: false });
 		const radioEmbedThumb = client.user.displayAvatarURL({ dynamic: true });
 		const radioEmbedFooter = 'Powered by DiscordJS Voice (OPUS)';
-		// Radio Menu Embed
 		const radioMenuEmbed = new MessageEmbed()
 			.setTitle('Radio Main Menu')
 			.setDescription('Personal Radio Service')
@@ -175,7 +167,7 @@ module.exports = {
 				},
 			];
 			return radioPlayerEmbed;
-		}
+		};
 		// Update player interface from dynamic embed.
 		async function refreshPlayer(interact) {
 			try {
@@ -194,13 +186,11 @@ module.exports = {
 		// Create interaction collecter to fetch button interactions.
 		const collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
 		let menuOpen, playerOpen;
-		// Check if player is defined. If undefined or null, create one.
 		player = (!player) ? newPlayer() : player;
 		// Player Event Handler.
 		player.on('stateChange', (oldState, newState) => {
 			logger.debug(`oldState.status => ${oldState?.status}`);
 			logger.debug(`newState.status => ${newState?.status}`);
-			// refresh only if player is shown.
 			if (playerOpen) refreshPlayer(interaction);
 		});
 		player.on(AudioPlayerStatus.Playing, () => {

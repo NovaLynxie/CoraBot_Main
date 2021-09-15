@@ -15,7 +15,6 @@ module.exports = {
 				.setRequired(false),
 		),
 	async execute(interaction, client) {
-		// processing information so call this to extend the timeout.
 		await interaction.deferReply({ ephemeral: true });
 		let connection = checkVC(interaction.guild);
 		const streamURL = interaction.options.getString('url');
@@ -43,7 +42,6 @@ module.exports = {
 			}
 			const player = newPlayer();
 			const source = createSource(streamURL);
-			// not yet functional!
 			try {
 				logger.debug('Starting player now.');
 				player.play(source);
