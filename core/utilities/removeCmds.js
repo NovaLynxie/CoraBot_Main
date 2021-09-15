@@ -2,7 +2,6 @@ const logger = require('../plugins/winstonLogger');
 const { credentials, deploy } = require('../handlers/bootLoader');
 const { discordToken } = credentials;
 const { clientId, guildId } = deploy;
-const { readdirSync } = require('fs');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
