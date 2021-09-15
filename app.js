@@ -33,8 +33,9 @@ const client = new Client({
 
 if (useLegacyURL) {
 	logger.warn('Using Legacy API domain. This is not recommended!');
+  logger.debug('Switching http API to legacy domain.');
 	client.options.http.api = 'https://discordapp.com/api';
-}
+} else { logger.debug('Using default API domain.'); };
 
 // Bind all handlers to client object.
 client.settings = {
