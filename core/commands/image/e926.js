@@ -26,7 +26,6 @@ module.exports = {
     });
 		logger.verbose(`input=${input}`);
     const tags = input.split(' ');
-    // Generate embed with provided parameters.
 		function generateEmbed(data) {
 			const imageEmbed = new MessageEmbed()
 				.setColor('#0099ff')
@@ -35,9 +34,7 @@ module.exports = {
 				.setImage(data.image)
 				.setFooter('Bot created and maintained by NovaLynxie. Image provided by E926.', client.user.displayAvatarURL({ format: 'png' }));
 			return interaction.reply({ embeds: [imageEmbed] });
-			// Send the image embed to the channel the user ran the command.
 		};
-    // Begin fetch for image using user search tags on e926.
     logger.debug('Requesting image from user defined tags.');
     e9.request(tags).then(res => {
       logger.debug('Received  response! Parsing data into embed.');

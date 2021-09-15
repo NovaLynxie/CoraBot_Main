@@ -39,7 +39,6 @@ module.exports = {
   async execute(interaction, client) {
     await interaction.deferReply({ ephemeral: false });
     const option = interaction.options.getString('option');
-    // default redeclarable variables.
     let isNsfw, title, desc;
     logger.verbose(`option=${option}`);
     function generateEmbed (data, opts = {}) {
@@ -66,9 +65,7 @@ module.exports = {
         .setImage(data.url)
         .setFooter('Bot created and maintained by NovaLynxie. Image provided by Yiffy API.', client.user.avatarURL({format:"png"}));
       return interaction.editReply({ embeds: [imageEmbed] });
-      // Send the image embed to the channel the user ran the command.
     };
-    // Dynamic endpoint handler.
     function getFurryImg (endpoint) {
       if (isNsfw) {
         if (!interaction.channel.nsfw) return interaction.reply({
@@ -97,7 +94,6 @@ module.exports = {
         };        
       };
     };
-    // Switch/Case to add custom titles and descriptions.
     switch (option) {
       // sfw options
       case 'boop':
@@ -184,7 +180,6 @@ module.exports = {
         desc = "Them gals sure be showing off their junk.";
         getFurryImg(option);
         break;
-      // fallback if option is invalid?
       default:
         await interaction.editReply({
           content: 'Invalid option or the endpoint does not exist!'
