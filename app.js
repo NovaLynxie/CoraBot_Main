@@ -16,12 +16,10 @@ const { config, credentials } = require('./core/handlers/bootLoader');
 const { globalPrefix, ownerIDs, useLegacyURL, debug } = config;
 const { discordToken } = credentials;
 logger.init('Spinning up bot instance...');
-// Initialise client instance.
+// Initialise client instance
 const client = new Client({
-	// bot prefix and owners.
 	globalPrefix: globalPrefix,
 	owners: ownerIDs,
-	// bot intents. (required!)
 	intents: [
 		Intents.FLAGS.GUILDS,
 		Intents.FLAGS.GUILD_MESSAGES,
@@ -37,7 +35,7 @@ if (useLegacyURL) {
 	client.options.http.api = 'https://discordapp.com/api';
 } else { logger.debug('Using default API domain.'); };
 
-// Bind all handlers to client object.
+// Client handlers bind to bot instance
 client.settings = {
 	clear: clearClientSettings,
 	get: readClientSettings,
@@ -62,7 +60,6 @@ client.data = {
 const commandCollections = ['prefixcmds', 'slashcmds'];
 commandCollections.forEach(collection => client[collection] = new Collection());
 
-// Load in events from event files.
 const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
 // Event handler to process discord event triggers.
 for (const file of eventFiles) {
@@ -75,32 +72,30 @@ for (const file of eventFiles) {
 	}
 }
 
-// Catch unhandled exceptions and rejections not caught by my code to avoid crashes.
+// Unhandled error handling in process
 process.on('unhandledRejection', error => {
 	logger.warn('Uncaught Promise Rejection Exception thrown!');
 	logger.error(`Caused by: ${error.message}`);
 	logger.debug(error.stack);
 });
 process.on('uncaughtException', error => {
-	// Error thrown and logged to console window.
-	crashReporter(error); // prepare crash report with error data.
+	crashReporter(error);
 	logger.error('Bot crashed! Generating a crash report.');
 	logger.error(error.message); logger.debug(error.stack);
 	setTimeout(() => {process.exit(1);}, 5000);
 });
 
-// Initialize timers and reference them here.
+// Client timers references
 const rateLimitWarn = setTimeout(() => {
 	logger.warn('Bot taking longer than normal to connect. Maybe bot is rate limited?');
 }, 10 * 1000);
-// Bind timers to property 'timers' on client object.
 client.timers = { rateLimitWarn };
 
 logger.info('Connecting to Discord.');
 client.login(discordToken).then(() => {
 	logger.debug('Awaiting API Response...');
 }).catch((error) => {
-	clearTimeout(client.timers.rateLimitWarn); // clear if bot fails to login with invalid token.
+	clearTimeout(client.timers.rateLimitWarn); 
 	logger.warn('Unable to connect to Discord!');
 	logger.error(error.message); logger.debug(error.stack);
 });
