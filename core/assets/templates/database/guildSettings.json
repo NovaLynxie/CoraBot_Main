@@ -1,7 +1,8 @@
 {
-  "guildPrefix": "",
-  "staff": {
-    "roles": []
+  "prefix": "",
+  "roles": {
+    "staff": [],
+    "mute": ""
   },
   "autoMod": {
     "enableAutoMod": false,
