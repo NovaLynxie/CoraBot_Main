@@ -24,8 +24,8 @@
               br
               | Select the roles to use below by using ctrl + left click
             select#chatChannels.form-select(multiple='' name='staffRoles')
-              each role in roles
-                if (staff.roles.indexOf(role.id) > -1)
+              each role in guildRoles
+                if (roles.staff.indexOf(role.id) > -1)
                   option(value=role.id selected='') #{role.name}
                 else
                   option(value=role.id) #{role.name}

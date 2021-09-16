@@ -1,7 +1,7 @@
 extends ../blocks/layout
 block content
-  - let {autoMod, chatBot, notifier, staff, botlogger, modlogger} = guildSettings;
-  - let guildPrefix = guildSettings.guildPrefix;
+  - let {autoMod, chatBot, notifier, roles, botlogger, modlogger} = guildSettings;
+  - let guildPrefix = guildSettings.prefix;
   - let {enableAutoMod, chListMode, channelsList, urlBlacklist, mediaTrackers} = autoMod;
   - let {enableChatBot, chatBotOpts, chatChannels} = chatBot;
   - let {enableNotifier, trackEvents, notifsChannel, eventMsgTxt} = notifier;
@@ -72,7 +72,7 @@ block content
                   th No. of Roles
                 tr
                   td Staff Roles
-                  td #{(staff.roles) ? `${staff.roles.length} roles set` : 'N/A'}
+                  td #{(roles.staff) ? `${roles.staff.length} roles set` : 'N/A'}
                 tr
                   td (TBC)
                   td -
