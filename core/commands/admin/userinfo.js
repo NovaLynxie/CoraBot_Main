@@ -22,7 +22,7 @@ module.exports = {
     const roles = member.roles.cache   
       .filter( role => role.id !== defaultRole.id)
       .sort((a, b) => b.position - a.position)
-      .map(role => role.name)
+      .map(role => role.name);
     const userInfoEmbed = new MessageEmbed()
       .setTitle('User Information')
       .setColor(0xE7A3F0)
@@ -43,8 +43,8 @@ module.exports = {
           value: stripIndents`
             Bot Acc: ${user.bot}
             Created: ${moment.utc(user.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss Z')}
-            Status: ${user.presence.status}
-            Game: ${user.presence.game ? user.presence.game.name : 'None'}
+            Status: ${member.presence.status}
+            Game: ${member.presence.game ? member.presence.game.name : 'None'}
           `
         }
       )
