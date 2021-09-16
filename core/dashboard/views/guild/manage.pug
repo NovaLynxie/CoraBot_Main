@@ -70,6 +70,7 @@ block content
               h6 Server Roles (WIP)
               p
               | NOT YET IMPLEMENTED!
+              - console.log(roles)
               table.settings-table-main(border="1")
                 tr
                   th Role Type
@@ -79,7 +80,8 @@ block content
                   td #{(roles.staff) ? `${roles.staff.length} roles set` : 'Not set'}
                 tr
                   td Mute Role
-                  td Not set
+                  
+                  td #{(roles.mute) ? 'Role set!' : 'Not set'}
               button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingGuildStaffRolesModal') Edit 
                 i.fas.fa-edit
         .settings-card-modules.settings-card-wrapper

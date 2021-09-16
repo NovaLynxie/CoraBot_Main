@@ -29,6 +29,16 @@
                   option(value=role.id selected='') #{role.name}
                 else
                   option(value=role.id) #{role.name}
+            label.form-label.mt-4(for='staffRoles') 
+              | Mute Role (WIP)
+              br
+              | Select the role to use for the muting the user with.
+            select#chatChannels.form-select(name='muteRole')
+              each role in guildRoles
+                if (roles.staff.indexOf(role.id) > -1)
+                  option(value=role.id selected='') #{role.name}
+                else
+                  option(value=role.id) #{role.name}
         .modal-footer
           button.btn.btn-outline-dark(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 

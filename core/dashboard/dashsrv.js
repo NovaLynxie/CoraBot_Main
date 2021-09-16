@@ -417,6 +417,11 @@ module.exports = (client, config) => {
 				const staffRoles = (typeof req.body.staffRoles === 'string') ? '[' + req.body.staffRoles + ']' : req.body.staffRoles;
 				roles.staff = staffRoles;
 			}
+      if (req.body.muteRole) {
+        logger.debug('Detected \'muteRole\' settings data!');
+        const muteRole = req.body.muteRole;
+        roles.mute = muteRole;
+      }
 			if (req.body.enableNotifier) {
 				logger.debug('Detected \'notifier\' settings data!');
 				notifier.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
