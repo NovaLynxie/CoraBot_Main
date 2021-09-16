@@ -21,15 +21,14 @@ module.exports = {
 		await interaction.deferReply({ ephemeral: true });
 		const member = interaction.options.getUser('target');
 		const user = interaction.user; const guild = interaction.guild;
-		const settings = await client.settings.guild.get(guild); const { staff } = settings;
-		if (member.roles.cache.some(role => staff.roles.indexOf(role.id))) {
+		const settings = await client.settings.guild.get(guild); const { roles } = settings;
+		if (user.roles.cache.some(role => roles.staff.indexOf(role.id))) {
 	    // ...
-		}
-		else {
+		} else {
 			interaction.reply({
 				content: 'You do not have permission to ban this member!',
 				ephemeral: true,
 			});
-		}
-	},
+		};
+	}
 };

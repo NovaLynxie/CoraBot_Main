@@ -3,8 +3,8 @@ const logger = require('../../plugins/winstonLogger');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('kick')
-    .setDescription('Kicks mentioned user with optional reason.')
+    .setName('warn')
+    .setDescription('Issues a warning mentioned user with optional reason.')
     .addUserOption(option => 
       option
         .setName('target')
@@ -14,7 +14,7 @@ module.exports = {
     .addStringOption(option => 
       option
         .setName('reason')
-        .setDescription('Reason for ban?')
+        .setDescription('Reason for warning?')
         .setRequired(false)
     ),
   async execute(interaction, client) {
