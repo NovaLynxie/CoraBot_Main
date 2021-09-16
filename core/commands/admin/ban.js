@@ -19,11 +19,20 @@ module.exports = {
 		),
 	async execute(interaction, client) {
 		await interaction.deferReply({ ephemeral: true });
-		const member = interaction.options.getUser('target');
-		const user = interaction.user; const guild = interaction.guild;
+		// const user = interaction.options.getUser('target');
+    const member = interaction.options.getMember('target');
+    const reason = interaction.options.getString('reason');
+		const executor = interaction.user; const guild = interaction.guild;
 		const settings = await client.settings.guild.get(guild); const { roles } = settings;
-		if (user.roles.cache.some(role => roles.staff.indexOf(role.id))) {
-	    // ...
+		if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
+      logger.debug(`Preparing to ban user ${user.tag}`);
+      try {
+        member.ban({ reason: (reason) ? reason : 'Banned by a  moderator.'});
+        // guild.members.ban(user);
+      } catch (error) {
+        logger.error(`Failed to ban ${user.tag}!`);
+        logger.error(error.message); logger.debug(error.stack);
+      };
 		} else {
 			interaction.reply({
 				content: 'You do not have permission to ban this member!',

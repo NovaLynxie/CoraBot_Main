@@ -20,9 +20,9 @@ module.exports = {
   async execute(interaction, client) {
 		await interaction.deferReply({ ephemeral: true });
     const member = interaction.options.getUser('target');
-    const user = interaction.user; const guild = interaction.guild;
+    const executor = interaction.user; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
-		if (user.roles.cache.some(role => roles.staff.indexOf(role.id))) {
+		if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
 	    // ...
 		} else {
 			interaction.reply({
