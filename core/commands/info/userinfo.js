@@ -17,7 +17,6 @@ module.exports = {
   async execute (interaction, client) {
     await interaction.deferReply({ ephemeral: true });
     const member = interaction.options.getMember('target');
-    console.log(member);
     const user = member.user;
     const defaultRole = interaction.guild.roles.cache.get(interaction.guild.id);
     const roles = member.roles.cache   
