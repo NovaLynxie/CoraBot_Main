@@ -14,8 +14,7 @@ module.exports = {
         .setDescription('Select a user')
         .setRequired(true)
     ),
-  async execute (interaction, client) {
-    await interaction.deferReply();
+  execute (interaction, client) {
     const member = interaction.options.getMember('target');
     const user = member.user;
     const defaultRole = interaction.guild.roles.cache.get(interaction.guild.id);
@@ -49,6 +48,6 @@ module.exports = {
         }
       )
       .setThumbnail(user.displayAvatarURL({ format: 'png' }))
-    return interaction.editReply({ embeds: [userInfoEmbed] });
+    return interaction.reply({ embeds: [userInfoEmbed] });
   }
 };
