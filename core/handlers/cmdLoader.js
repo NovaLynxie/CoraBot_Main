@@ -69,12 +69,12 @@ async function loadBotCmds (client) {
 		const rest = new REST({ version: '9' }).setToken(discordToken);
     // Load commands into client as global commands.
     try {
-      logger.debug(`Started loading global application (/) commands for ${client.user.tag}.`);
+      logger.debug(`Started loading client application (/) commands for ${client.user.tag}.`);
       await rest.put(
         Routes.applicationCommands(client.user.id),
         { body: commands },
       );
-      logger.debug(`Successfully loaded global application (/) commands for ${client.user.tag}.`);
+      logger.debug(`Successfully loaded client application (/) commands for ${client.user.tag}.`);
       logger.info('Global slash commands update completed!');
       logger.warn('It may take up to an hour to sync changes across Discord.');
     } catch (error) {

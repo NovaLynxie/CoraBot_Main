@@ -1,3 +1,4 @@
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
 require('moment-duration-format');
@@ -5,7 +6,9 @@ const { stripIndents } = require('common-tags');
 const { version } = require('../../../package.json');
 
 module.exports = {
-  data: {}
+  data: new SlashCommandBuilder()
+    .setName('stats')
+		.setDescription('Gets basic statistics on the bot.'),
   execute(interaction, client) {
     var Servers = client.guilds.cache.size
     var Channels = client.channels.cache.size
