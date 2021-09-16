@@ -43,8 +43,8 @@ module.exports = {
           value: stripIndents`
             Bot Acc: ${user.bot}
             Created: ${moment.utc(user.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss Z')}
-            Status: ${(member?.presence.status) ? member?.presence.status : 'unknown'}
-            Activity: ${(member?.presence.game) ? member?.presence.game.name : 'no data'}
+            Status: ${(member?.presence) ? member?.presence.status : 'unknown'}
+            Activity: ${(member?.presence) ? member?.presence.game.name : 'no data'}
           `
         }
       )
