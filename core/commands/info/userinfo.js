@@ -16,7 +16,7 @@ module.exports = {
     ),
   execute (interaction, client) {
     const member = interaction.options.getMember('target');
-    const user = member.user;
+    const user = member.user; console.log(member.presence);
     const defaultRole = interaction.guild.roles.cache.get(interaction.guild.id);
     const roles = member.roles.cache   
       .filter( role => role.id !== defaultRole.id)
@@ -42,8 +42,8 @@ module.exports = {
           value: stripIndents`
             Bot Acc: ${user.bot}
             Created: ${moment.utc(user.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss Z')}
-            Status: ${(member?.presence) ? member?.presence.status : 'unknown'}
-            Activity: ${(member?.presence) ? member?.presence.game.name : 'no data'}
+            Status: ${(member.presence) ? member.presence.status : 'unknown'}
+            Activity: ${(member.presence) ? member.presence.activities.join('\n') : 'no data'}
           `
         }
       )
