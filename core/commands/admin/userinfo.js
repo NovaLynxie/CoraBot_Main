@@ -18,6 +18,7 @@ module.exports = {
     await interaction.deferReply({ ephemeral: true });
     const data = interaction.options.getMember('user');
     const user = interaction.user; const member = interaction.member;
+    const defaultRole = interaction.guild.roles.cache.get(interaction.guild.id);
     const roles = member.roles.cache   
       .filter( role => role.id !== defaultRole.id)
       .sort((a, b) => b.position - a.position)
