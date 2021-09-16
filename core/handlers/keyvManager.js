@@ -26,7 +26,17 @@ async function generateGuildSettings(guildIDs) {
 		const settings = await guildPrefStore.get(guildID);
 		if (settings) {
 			logger.debug(`Guild ${guildID} already has settings defined!`);
-			// don't do anything if <guildId> already has settings.
+      logger.debug(`Checking settings for ${guildID} for any updates.`);
+      const guildSettings = Object.keys(guildSettingsTemplate);
+      guildSettings.forEach(key => {
+        if (settings[key] === undefined) {
+          logger.debug(`Setting property '${key}' not found! Adding setting property.`)
+          settings[key] = guildSettingsTemplate[key];
+        } else {
+          logger.debug(`Setting name '${key}' already exists!`);
+        }
+      });
+			await guildPrefStore.set(guildID, settings);
 			return;
 		}
 		else {

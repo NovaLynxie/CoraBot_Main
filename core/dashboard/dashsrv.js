@@ -412,7 +412,6 @@ module.exports = (client, config) => {
 		const { botLogger, modLogger } = guildSettings;
 		// Use try/catch to capture errors from the bot or dashboard.
 		try {
-			// Update each setting setup respectively and save changes.
 			if (req.body.staffRoles) {
 				logger.debug('Detected \'staffRoles\' settings data!');
 				const staffRoles = (typeof req.body.staffRoles === 'string') ? '[' + req.body.staffRoles + ']' : req.body.staffRoles;
