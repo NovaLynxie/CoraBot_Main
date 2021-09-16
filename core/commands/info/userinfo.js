@@ -16,7 +16,7 @@ module.exports = {
     ),
   execute (interaction, client) {
     const member = interaction.options.getMember('target');
-    const user = member.user; console.log(member.presence);
+    const user = member.user;
     const defaultRole = interaction.guild.roles.cache.get(interaction.guild.id);
     const roles = member.roles.cache   
       .filter( role => role.id !== defaultRole.id)
