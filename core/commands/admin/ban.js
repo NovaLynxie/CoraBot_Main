@@ -14,7 +14,7 @@ module.exports = {
 		.addStringOption(option =>
 			option
 				.setName('reason')
-				.setDescription('Reason for ban?')
+				.setDescription('Reason? (optional)')
 				.setRequired(false),
 		),
 	async execute(interaction, client) {
