@@ -33,9 +33,9 @@ block content
       | !{' '}- Idle/Away 
       i.fas.fa-minus-circle(style="color:#f04747")
       | !{' '}- Do Not Disturb 
-      i.fas.fa-circle(style="color:#665f53")
-      | !{' '}- Invisble
-      i.fas.fa-question-circle(style="color:#747f8d")
+      i.fas.fa-question-circle(style="color:#665f53")
+      | !{' '}- Invisble 
+      i.fas.fa-circle(style="color:#747f8d")
       | !{' '}- Offline 
       br
       | Device Icons: 
@@ -79,7 +79,7 @@ block content
             if (member.presence.status === 'dnd')
               i.fas.fa-minus-circle(style="color:#f04747")
             if (member.presence.status === 'offline')
-              i.fas.fa-circle(style="color:#747f8d")
+              i.fas.fa-question-circle(style="color:#665f53")
             if (!member.presence.status || member.presence.status === undefined)
               i.fas.fa-question-circle(style="color:#9c5d16")
             if (member.presence.clientStatus)
@@ -94,7 +94,7 @@ block content
               | !{' | '}
               i.far.fa-question-circle
           else
-            i.fas.fa-question-circle(style="color:#9c5d16")
+            i.fas.fa-circle(style="color:#747f8d")
           br
           | Activity Info
           br
