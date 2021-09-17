@@ -110,7 +110,7 @@ module.exports = (client, config) => {
 					'*.gstatic.com', 'maxcdn.bootstrapcdn.com',
 				],
 				styleSrc: [
-					`'self'`, 'https:', `'unsafe-inline'`', '*.bootstrapcdn.com', '*.googleapis.com',
+					`'self'`, 'https:', `'unsafe-inline'`, '*.bootstrapcdn.com', '*.googleapis.com',
 				],
 				imgSrc: [
 					`'self'`, 'https:', 'http:', 'data:', 'w3.org', 'via.placeholder.com', 'cdn.discordapp.com', 'i.giphy.com', 'media.tenor.com',
