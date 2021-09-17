@@ -1,5 +1,6 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
 const logger = require('../../plugins/winstonLogger');
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { guildLogger } = require('../../plugins/guildLogging');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -26,7 +27,7 @@ module.exports = {
       content: 'You cannot warn yourself!', ephemeral: true
     });
 		if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
-	    // ...
+	    guildLogger(action, member, reason, client);
 		} else {
 			interaction.editReply({
 				content: 'You are not a staff member or are missing the required roles to use this command here!', ephemeral: true
