@@ -46,7 +46,7 @@ function guildLogger (action, member, reason, client) {
   } else 
   if (action === 'mute') {
     logEmbed
-      .setColor('#e8411c')
+      .setColor('#e8a11c')
       .setDescription('🤐 Silence you fool!')
       .addFields(
         {
@@ -63,7 +63,7 @@ function guildLogger (action, member, reason, client) {
   } else 
   if (action === 'warn') {
     logEmbed
-      .setColor('#e8411c')
+      .setColor('#e8bc1c')
       .setDescription('⚠️ Issued a warning this time.')
       .addFields(
         {
