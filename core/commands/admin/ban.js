@@ -40,6 +40,7 @@ module.exports = {
       logger.debug(`Preparing to ban user ${user.tag}`);
       try {
         member.ban({ days: (days) ? days : 7, reason: (reason) ? reason : 'Banned by a  moderator.'});
+        guildLogger('ban', member, reason, client);
       } catch (error) {
         logger.error(`Failed to ban ${user.tag}!`);
         logger.error(error.message); logger.debug(error.stack);

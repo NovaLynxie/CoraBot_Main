@@ -31,6 +31,7 @@ module.exports = {
 	    logger.debug(`Preparing to kick user ${member.user.tag}`);
       try {
         member.kick({ reason: (reason) ? reason : 'Kicked by a  moderator.'});
+        guildLogger('kick', member, reason, client);
       } catch (error) {
         logger.error(`Failed to kick ${member.user.tag}!`);
         logger.error(error.message); logger.debug(error.stack);

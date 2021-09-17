@@ -21,6 +21,7 @@ module.exports = {
   async execute(interaction, client) {
 		await interaction.deferReply({ ephemeral: true });
     const member = interaction.options.getMember('target');
+    const reason = interaction.options.getString('reason');
     const executor = interaction.member; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
     const muteRole = guild.roles.cache.find(role => role.id === roles.mute);
@@ -31,6 +32,7 @@ module.exports = {
 	    logger.debug(`Adding mute role to ${member.user.tag}`);
       try {
         member.roles.add(muteRole);
+        guildLogger('mute', member, reason, client);
       } catch (error) {
         logger.error(`Failed to add mute role to ${member.user.tag}!`);
         logger.error(error.message); logger.debug(error.stack);
