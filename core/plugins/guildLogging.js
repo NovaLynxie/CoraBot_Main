@@ -83,7 +83,9 @@ function guildLogger (action, member, reason, client) {
   };
   try {
     // to be implemented.
+    logger.debug('Sending moderation log to channel now...');
     //client.channels.cache.get('CHANNEL ID').send('Hello here!');
+    logger.debug('Moderation log sent successfully!');
   } catch (err) {
     logger.error('Failed to save moderation log embed!');
     logger.error(err.message); logger.debug(err.stack);

@@ -4,6 +4,10 @@
     "staff": [],
     "mute": ""
   },
+  "logChannels": {
+    "modLogID": "",
+    "botLogID": ""
+  },
   "autoMod": {
     "enableAutoMod": false,
     "chListMode": "whitelist",
