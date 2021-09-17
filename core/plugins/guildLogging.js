@@ -8,8 +8,9 @@ const logEmbed = new MessageEmbed()
   .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
 
 function guildLogger (action, member, reason, client) {
-  reason = (reason) ? reason : 'No reason was provided.'
-
+  let guild = member.guild;
+  let { logChannels } = client.settings.guild.get(guild);
+  reason = (reason) ? reason : 'No reason was provided.';
   if (action === 'ban') {
     logEmbed
       .setColor('#e8411c')
@@ -84,13 +85,13 @@ function guildLogger (action, member, reason, client) {
   try {
     // to be implemented.
     logger.debug('Sending moderation log to channel now...');
-    //client.channels.cache.get('CHANNEL ID').send('Hello here!');
+    let modLogChannel = guild.channels.cache.get(logChannels.modLogChID);
+    modLogChannel.send({ embeds: [logEmbed] });
     logger.debug('Moderation log sent successfully!');
   } catch (err) {
     logger.error('Failed to save moderation log embed!');
     logger.error(err.message); logger.debug(err.stack);
-  }
-  
+  };  
 };
 
 module.exports = { guildLogger };
