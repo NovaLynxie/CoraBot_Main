@@ -1,6 +1,6 @@
 extends ../blocks/layout
 block content
-  - let {autoMod, chatBot, notifier, roles, botlogger, modlogger} = guildSettings;
+  - let {autoMod, chatBot, notifier, roles, logChannels} = guildSettings;
   - let guildPrefix = guildSettings.prefix;
   - let {enableAutoMod, chListMode, channelsList, urlBlacklist, mediaTrackers} = autoMod;
   - let {enableChatBot, chatBotOpts, chatChannels} = chatBot;
@@ -80,8 +80,22 @@ block content
                 tr
                   td Mute Role                  
                   td #{(roles.mute) ? 'Role set!' : 'Not set'}
-              button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingGuildStaffRolesModal') Edit 
-                i.fas.fa-edit
+            .settings-text-wrapper
+              h6 Log Channels (WIP)
+              p
+              | NOT YET IMPLEMENTED!
+              table.settings-table-main(border="1")
+                tr
+                  th Log Channels
+                  th Set?
+                tr
+                  td Bot Logs
+                  td #{(logChannels.botLogID) ? 'Yes' : 'No'}
+                tr
+                  td Mod Logs
+                  td #{(logChannels.modLogID) ? 'Yes' : 'No'}
+            button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingGuildStaffRolesModal') Edit 
+              i.fas.fa-edit
         .settings-card-modules.settings-card-wrapper
           h4 Module Settings (WIP)
           p.lead Change settings for each module from here. 

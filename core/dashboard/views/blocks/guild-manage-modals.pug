@@ -39,6 +39,26 @@
                   option(value=role.id selected='') #{role.name}
                 else
                   option(value=role.id) #{role.name}
+            label.form-label.mt-4(for='botLogChID') 
+              | Bot Generic Logs (WIP)
+              br
+              | Select the channel for bot logs to be output into.
+            select#chatChannels.form-select(name='botLogChID')
+              for channel in textChannels
+                if (channelsList.indexOf(channel.id) > -1)
+                  option(value=channel.id selected='') #{channel.name}
+                else
+                  option(value=channel.id) #{channel.name}
+            label.form-label.mt-4(for='modLogChID') 
+              | Moderation Logs (WIP)
+              br
+              | Select the channel for mod logs to be output into.
+            select#chatChannels.form-select(name='modLogChID')
+              for channel in textChannels
+                if (channelsList.indexOf(channel.id) > -1)
+                  option(value=channel.id selected='') #{channel.name}
+                else
+                  option(value=channel.id) #{channel.name}
         .modal-footer
           button.btn.btn-outline-dark(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 

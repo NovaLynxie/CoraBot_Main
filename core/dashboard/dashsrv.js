@@ -101,30 +101,30 @@ module.exports = (client, config) => {
 			useDefaults: true,
 			directives: {
 				// supported by most browsers
-				defaultSrc: ['\'self\'', 'https:'],
+				defaultSrc: [`'self'`, 'https:'],
 				scriptSrc: [
-					'\'self\'', 'https:', '\'unsafe-inline\'', '*.jquery.com', '*.cloudflare.com', '*.bootstrapcdn.com', '*.datatables.net', '*.jsdelivr.net', '*.googleapis.com', '\'nonce-themeLoader\'', '\'nonce-memberModals\'',
+					`'self'`, 'https:', `'unsafe-inline'`, '*.jquery.com', '*.cloudflare.com', '*.bootstrapcdn.com', '*.datatables.net', '*.jsdelivr.net', '*.googleapis.com', `'nonce-themeLoader'`, `'nonce-memberModals'`,
 				],
 				fontSrc: [
-					'\'self\'', 'https:', 'fonts.googleapis.com',
+					`'self'`, 'https:', 'fonts.googleapis.com',
 					'*.gstatic.com', 'maxcdn.bootstrapcdn.com',
 				],
 				styleSrc: [
-					'\'self\'', 'https:', '\'unsafe-inline\'', '*.bootstrapcdn.com', '*.googleapis.com',
+					`'self'`, 'https:', `'unsafe-inline'`', '*.bootstrapcdn.com', '*.googleapis.com',
 				],
 				imgSrc: [
-					'\'self\'', 'https:', 'http:', 'data:', 'w3.org', 'via.placeholder.com', 'cdn.discordapp.com', 'i.giphy.com', 'media.tenor.com',
+					`'self'`, 'https:', 'http:', 'data:', 'w3.org', 'via.placeholder.com', 'cdn.discordapp.com', 'i.giphy.com', 'media.tenor.com',
 				],
-				objectSrc: ['\'none\''],
+				objectSrc: [`'none'`],
 				// supported by some browsers (firefox doesn't at this time)
 				scriptSrcElem: [
-					'\'self\'', 'https:', '\'unsafe-inline\'', '\'nonce-themeLoader\'', '\'nonce-memberModals\'', '*.jquery.com', '*.cloudflare.com', '*.bootstrapcdn.com', '*.datatables.net', '*.jsdelivr.net',
+					`'self'`, 'https:', `'unsafe-inline'`, `'nonce-themeLoader'`, `'nonce-memberModals'`, '*.jquery.com', '*.cloudflare.com', '*.bootstrapcdn.com', '*.datatables.net', '*.jsdelivr.net',
 				],
 				scriptSrcAttr: [
-					'\'self\'', 'https:',
+					`'self'`, 'https:',
 				],
 				styleSrcElem: [
-					'\'self\'', 'https:', '*.bootstrapcdn.com', '*.googleapis.com',
+					`'self'`, 'https:', '*.bootstrapcdn.com', '*.googleapis.com',
 				],
 				upgradeInsecureRequests: [],
 			},
@@ -136,11 +136,6 @@ module.exports = (client, config) => {
 	// The PUG templating engine allows for simpler setups and easy to read formatting in pages.
 	// It allows us separate header and footer components.
 	app.set('view engine', 'pug');
-
-	// The EJS templating engine gives us more power to create complex web pages.
-	// This lets us have a separate header, footer, and "blocks" we can use in our pages.
-	// app.engine("html", require("ejs").renderFile);
-	// app.set("view engine", "html");
 
 	// body-parser reads incoming JSON or FORM data and simplifies their
 	// use in code.
@@ -397,7 +392,7 @@ module.exports = (client, config) => {
 
 	// This calls when settings are saved using POST requests to get parameters to save.
 	app.post('/dashboard/:guildID/manage', checkAuth, async (req, res) => {
-		logger.debug('WebDash called POST action \'save_settings\'!');
+		logger.debug(`WebDash called POST action 'save_settings'!`);
 		logger.data(`req.body => ${JSON.stringify(req.body)}`);
 		const guild = client.guilds.cache.get(req.params.guildID);
 		if (!guild) return res.status(404);
@@ -413,17 +408,23 @@ module.exports = (client, config) => {
 		// Use try/catch to capture errors from the bot or dashboard.
 		try {
 			if (req.body.staffRoles) {
-				logger.debug('Detected \'staffRoles\' settings data!');
+				logger.debug(`Detected 'staffRoles' settings data!`);
 				const staffRoles = (typeof req.body.staffRoles === 'string') ? '[' + req.body.staffRoles + ']' : req.body.staffRoles;
 				roles.staff = staffRoles;
 			}
       if (req.body.muteRole) {
-        logger.debug('Detected \'muteRole\' settings data!');
+        logger.debug(`Detected 'muteRole' settings data!`);
         const muteRole = req.body.muteRole;
         roles.mute = muteRole;
       }
+      if (req.body.botLogChID) {
+        logger.debug(`Detected 'botLogChID' settings data!`)
+      }
+      if (req.body.botLogChID) {
+
+      }
 			if (req.body.enableNotifier) {
-				logger.debug('Detected \'notifier\' settings data!');
+				logger.debug(`Detected 'notifier' settings data!`);
 				notifier.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
 				notifier.notifsChannel = (req.body.notifsChannel) ? req.body.notifsChannel : '';
 				notifier.trackEvents = {
@@ -432,10 +433,10 @@ module.exports = (client, config) => {
 					kick: (req.body.userKick) ? true : false,
 					ban: (req.body.userBan) ? true : false,
 				};
-				logger.debug('Prepared \'notifier\' settings data for writing.');
+				logger.debug(`Prepared 'notifier' settings data for writing.`);
 			}
 			if (req.body.enableAutoMod) {
-				logger.debug('Detected \'autoMod\' settings data!');
+				logger.debug(`Detected 'autoMod' settings data!`);
 				autoMod.enableAutoMod = (req.body.enableAutoMod === 'on') ? true : false;
 				const channelsList = req.body.channelsList;
 				const urlBlacklist = (req.body.urlBlacklist) ? req.body.urlBlacklist.split(' ') : [];
@@ -448,10 +449,10 @@ module.exports = (client, config) => {
 					removeImgs: (req.body.removeImgs) ? true : false,
 					removeVids: (req.body.removeVids) ? true : false,
 				};
-				logger.debug('Prepared \'autoMod\' settings data for writing.');
+				logger.debug(`Prepared 'autoMod' settings data for writing.`);
 			}
 			if (req.body.enableChatBot) {
-				logger.debug('Detected \'chatBot\' settings data!');
+				logger.debug(`Detected 'chatBot' settings data!`);
 				chatBot.enableChatBot = (req.body.enableChatBot === 'on') ? true : false;
 				const chatBotOpts = {
 					botName: (req.body.botName) ? req.body.botName : '',
@@ -462,17 +463,17 @@ module.exports = (client, config) => {
 				logger.debug(`chatChannels=${JSON.stringify(chatChannels)}`);
 				chatBot.chatBotOpts = chatBotOpts;
 				chatBot.chatChannels = (chatChannels) ? chatChannels : [];
-				logger.debug('Prepared \'chatBot\' settings data for writing.');
+				logger.debug(`Prepared 'chatBot' settings data for writing.`);
 			}
 			if (req.body.enableBotLogger) {
-				logger.debug('Detected \'BotLogger\' settings data!');
+				logger.debug(`Detected 'BotLogger' settings data!`);
 				// to be implemented ;)
-				logger.debug('Prepared \'BotLogger\' settings data for writing.');
+				logger.debug(`Prepared 'BotLogger' settings data for writing.`);
 			}
 			if (req.body.enableModLogger) {
-				logger.debug('Detected \'ModLogger\' settings data!');
+				logger.debug(`Detected 'ModLogger' settings data!`);
 				// to be implemented ;)
-				logger.debug('Prepared \'ModLogger\' settings data for writing.');
+				logger.debug(`Prepared 'ModLogger' settings data for writing.`);
 			}
 			// Verbose outputs here for debugging.
 			logger.verbose('-------------------------------------------------');
