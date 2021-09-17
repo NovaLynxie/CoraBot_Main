@@ -3,13 +3,12 @@ const { format } = require('date-fns');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 
-const logEmbed = new MessageEmbed()
-  .setTitle('Moderation Action Logged!')
-  .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
-
 function guildLogger (action, member, reason, client) {
   let guild = member.guild;
   let { logChannels } = client.settings.guild.get(guild);
+  const logEmbed = new MessageEmbed()
+    .setTitle('Moderation Action Logged!')
+    .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
   reason = (reason) ? reason : 'No reason was provided.';
   if (action === 'ban') {
     logEmbed
