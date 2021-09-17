@@ -86,14 +86,14 @@ block content
               | NOT YET IMPLEMENTED!
               table.settings-table-main(border="1")
                 tr
-                  th Log Channels
+                  th Log Type
                   th Set?
                 tr
                   td Bot Logs
-                  td #{(logChannels.botLogID) ? 'Yes' : 'No'}
+                  td #{(logChannels.botLogChID) ? 'Yes' : 'No'}
                 tr
                   td Mod Logs
-                  td #{(logChannels.modLogID) ? 'Yes' : 'No'}
+                  td #{(logChannels.modLogChID) ? 'Yes' : 'No'}
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingGuildStaffRolesModal') Edit 
               i.fas.fa-edit
         .settings-card-modules.settings-card-wrapper
@@ -142,7 +142,7 @@ block content
               br
               | Ban: #{trackEvents.banEvent ? 'Yes' : 'No'}
               br
-              | Notifs Channel: #{(notifsChannel && notifsChannel.length > 0) ? notifsChannel : 'Not Set!'}
+              | Notifs Channel: #{(notifsChannel && notifsChannel.length > 0) ? `#${bot.channels.cache.get(notifsChannel).name}` : 'Not Set!'}
             table.settings-table-main(border="1")
               tr
                 th Event
