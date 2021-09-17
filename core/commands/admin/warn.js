@@ -18,7 +18,6 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction, client) {
-    console.log(interaction);
 		await interaction.deferReply({ ephemeral: true });
     const member = interaction.options.getMember('target');
     const executor = interaction.member; const guild = interaction.guild;
