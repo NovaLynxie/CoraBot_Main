@@ -28,7 +28,7 @@ module.exports = {
 		if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
 	    // ...
 		} else {
-			interaction.reply({
+			interaction.editReply({
 				content: 'You are not a staff member or are missing the required roles to use this command here!', ephemeral: true
 			});
 		};

@@ -35,7 +35,7 @@ module.exports = {
         logger.error(error.message); logger.debug(error.stack);
       };
 		} else {
-			interaction.reply({
+			interaction.editReply({
 				content: 'You are not a staff member or are missing the required roles to use this command here!', ephemeral: true
 			});
 		};
