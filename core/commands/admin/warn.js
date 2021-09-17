@@ -22,6 +22,9 @@ module.exports = {
     const member = interaction.options.getUser('target');
     const executor = interaction.user; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
+    if (executor.id === member.user.id) return interaction.editReply({
+      content: 'You cannot warn yourself!', ephemeral: true
+    });
 		if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
 	    // ...
 		} else {
