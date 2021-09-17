@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { Util } = require('discord.js');
 const logger = require('../../plugins/winstonLogger');
 // source: https://anidiots.guide/examples/making-an-eval-command
 module.exports = {
@@ -7,6 +8,7 @@ module.exports = {
 		.setDescription('Evaluate javascript to test code! (WARNING! CAN CAUSE DAMAGE! USE WITH CAUTION!)')
 		.addStringOption(option => option.setName('code').setDescription('Enter code to execute')),
 	async execute(interaction, client) {
+    await interaction.deferReply({ ephemeral: true });
 		if (client.options.owners.indexOf(interaction.user.id) <= -1) {
 			interaction.reply({
 				content: `THAT IS A RESTRICTED COMMAND! YOU ARE NOT AUTHORIZED ${interaction.user.username}!`,
@@ -28,22 +30,38 @@ module.exports = {
 			logger.debug(`input => ${input}`);
 			const evaled = eval(input);
 			const cleaned = await clean(client, evaled);
-			logger.debug(cleaned);
-			interaction.reply({
-				content: `
-        \`input: '${input}'\`
-        \`\`\`js\n${cleaned}\n\`\`\``,
-				ephemeral: true,
-			});
-		}
-		catch (err) {
-			if (err.message === 'Must be 2000 or fewer in length') {
+      const [first, ...rest] = Util.splitMessage(cleaned, { maxLength: 1920 });
+      logger.debug(first); logger.debug(`first.length => ${first.length}`);
+      if (!rest.length) {
+        await interaction.editReply({
+          content: `
+          \`\`\`js\n${first}\n\`\`\``,
+          ephemeral: true,
+        });
+        return;
+      } else {
+        await interaction.editReply({
+          content: `
+          \`\`\`js\n${first}\n\`\`\``,
+          ephemeral: true,
+        });
+      };
+      for (const text of rest) {
+        logger.debug(`length of rest ${rest.length}`);
+        await interaction.followUp({
+          content: `
+          \`\`\`js\n${text}\n\`\`\``,
+          ephemeral: true,
+        });
+      };
+		}	catch (err) {
+      logger.error(err.message); logger.debug(err.stack);
+			if (err.message.startsWith('Invalid Form Body') > -1 ) {
 				interaction.reply({
 					content: `\`ERROR\` \`\`\`xl\n${err}\n\`\`\``,
 					ephemeral: true,
 				});
-			}
-			else {
+			} else {
 				interaction.reply({
 					content: `\`ERROR\` \`\`\`xl\n${err}\n\`\`\``,
 					ephemeral: true,
