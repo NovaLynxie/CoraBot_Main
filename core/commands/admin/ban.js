@@ -20,7 +20,7 @@ module.exports = {
     .addIntegerOption(option => 
       option
         .setName('days')
-        .setDescription('Days? (optional)')
+        .setDescription('Days? (defaults to 7 days)')
         .setRequired(false)
     ),
 	async execute(interaction, client) {

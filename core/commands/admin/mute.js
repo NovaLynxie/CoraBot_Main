@@ -19,7 +19,7 @@ module.exports = {
     ),
   async execute(interaction, client) {
 		await interaction.deferReply({ ephemeral: true });
-    const member = interaction.options.getUser('target');
+    const member = interaction.options.getMember('target');
     const executor = interaction.user; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
     const muteRole = guild.roles.cache.find(role => role.id === roles.mute);
