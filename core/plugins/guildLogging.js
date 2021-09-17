@@ -45,10 +45,38 @@ function guildLogger (action, member, reason, client) {
       )
   } else 
   if (action === 'mute') {
-    // .. to be implemented
+    logEmbed
+      .setColor('#e8411c')
+      .setDescription('🤐 Silence you fool!')
+      .addFields(
+        {
+          name: 'Member Details',
+          value: stripIndents`
+            Username: ${member.user.tag} (${member.displayName})
+            Created: ${format(member.user.createdAt, 'PPPPpppp')}`
+        },
+        {
+          name: 'Reason for Mute',
+          value: reason
+        }
+      )
   } else 
   if (action === 'warn') {
-    // .. to be implemented
+    logEmbed
+      .setColor('#e8411c')
+      .setDescription('⚠️ Issued a warning this time.')
+      .addFields(
+        {
+          name: 'Member Details',
+          value: stripIndents`
+            Username: ${member.user.tag} (${member.displayName})
+            Created: ${format(member.user.createdAt, 'PPPPpppp')}`
+        },
+        {
+          name: 'Reason for Warning',
+          value: reason
+        }
+      )
   }
 
   //client.channels.cache.get('CHANNEL ID').send('Hello here!');
