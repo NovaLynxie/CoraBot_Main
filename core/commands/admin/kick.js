@@ -23,6 +23,9 @@ module.exports = {
     const reason = interaction.options.getString('reason');
     const executor = interaction.user; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
+    if (executor.id === member.user.id) return interaction.editReply({
+      content: 'You cannot ban yourself!', ephemeral: true
+    });
 		if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
 	    logger.debug(`Preparing to kick user ${member.user.tag}`);
       try {
@@ -33,8 +36,7 @@ module.exports = {
       };
 		} else {
 			interaction.reply({
-				content: 'You do not have permission to ban this member!',
-				ephemeral: true,
+				content: 'You are not a staff member or are missing the required roles to use this command here!', ephemeral: true
 			});
 		};
   }

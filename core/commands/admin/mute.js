@@ -26,8 +26,7 @@ module.exports = {
 	    // ...
 		} else {
 			interaction.reply({
-				content: 'You do not have permission to ban this member!',
-				ephemeral: true,
+				content: 'You are not a staff member or are missing the required roles to use this command here!', ephemeral: true
 			});
 		};
   }
