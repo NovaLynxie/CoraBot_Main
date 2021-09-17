@@ -18,9 +18,10 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction, client) {
+    console.log(interaction);
 		await interaction.deferReply({ ephemeral: true });
     const member = interaction.options.getMember('target');
-    const executor = interaction.user; const guild = interaction.guild;
+    const executor = interaction.member; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
     if (executor.id === member.user.id) return interaction.editReply({
       content: 'You cannot warn yourself!', ephemeral: true

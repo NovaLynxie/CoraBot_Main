@@ -21,18 +21,21 @@ module.exports = {
 		await interaction.deferReply({ ephemeral: true });
     const member = interaction.options.getMember('target');
     const reason = interaction.options.getString('reason');
-    const executor = interaction.user; const guild = interaction.guild;
+    const executor = interaction.member; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
     if (executor.id === member.user.id) return interaction.editReply({
       content: 'You cannot kick yourself!', ephemeral: true
     });
-		if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
+    if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
 	    logger.debug(`Preparing to kick user ${member.user.tag}`);
       try {
         member.kick({ reason: (reason) ? reason : 'Kicked by a  moderator.'});
       } catch (error) {
         logger.error(`Failed to kick ${member.user.tag}!`);
         logger.error(error.message); logger.debug(error.stack);
+        interaction.editReply({
+          content: `Failed to kick ${member.user.tag}!`, ephemeral: true
+        });
       };
 		} else {
 			interaction.editReply({
