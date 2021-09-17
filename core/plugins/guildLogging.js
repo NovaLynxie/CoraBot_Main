@@ -36,7 +36,8 @@ function guildLogger (action, member, reason, client) {
           name: 'Member Details',
           value: stripIndents`
             Username: ${member.user.tag} (${member.displayName})
-            Created: ${format(member.user.createdAt, 'PPPPpppp')}`
+            Created: ${format(member.user.createdAt, 'PPPPpppp')}
+            Joined: ${format(member.joinedAt, 'PPPPpppp')}`
         },
         {
           name: 'Reason for Kick',
@@ -53,7 +54,8 @@ function guildLogger (action, member, reason, client) {
           name: 'Member Details',
           value: stripIndents`
             Username: ${member.user.tag} (${member.displayName})
-            Created: ${format(member.user.createdAt, 'PPPPpppp')}`
+            Created: ${format(member.user.createdAt, 'PPPPpppp')}
+            Joined: ${format(member.joinedAt, 'PPPPpppp')}`
         },
         {
           name: 'Reason for Mute',
@@ -70,16 +72,23 @@ function guildLogger (action, member, reason, client) {
           name: 'Member Details',
           value: stripIndents`
             Username: ${member.user.tag} (${member.displayName})
-            Created: ${format(member.user.createdAt, 'PPPPpppp')}`
+            Created: ${format(member.user.createdAt, 'PPPPpppp')}
+            Joined: ${format(member.joinedAt, 'PPPPpppp')}`
         },
         {
           name: 'Reason for Warning',
           value: reason
         }
       )
+  };
+  try {
+    // to be implemented.
+    //client.channels.cache.get('CHANNEL ID').send('Hello here!');
+  } catch (err) {
+    logger.error('Failed to save moderation log embed!');
+    logger.error(err.message); logger.debug(err.stack);
   }
-
-  //client.channels.cache.get('CHANNEL ID').send('Hello here!');
+  
 };
 
 module.exports = { guildLogger };
