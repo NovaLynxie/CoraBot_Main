@@ -9,33 +9,40 @@ module.exports = {
 			option
 				.setName('target')
 				.setDescription('Select a user')
-				.setRequired(true),
+				.setRequired(true)
 		)
 		.addStringOption(option =>
 			option
 				.setName('reason')
 				.setDescription('Reason? (optional)')
-				.setRequired(false),
-		),
+				.setRequired(false)
+		)
+    .addIntegerOption(option => 
+      option
+        .setName('days')
+        .setDescription('Days? (optional)')
+        .setRequired(false)
+    ),
 	async execute(interaction, client) {
 		await interaction.deferReply({ ephemeral: true });
-		// const user = interaction.options.getUser('target');
+    const days = interaction.options.getInteger('days');
     const member = interaction.options.getMember('target');
     const reason = interaction.options.getString('reason');
 		const executor = interaction.user; const guild = interaction.guild;
 		const settings = await client.settings.guild.get(guild); const { roles } = settings;
+    if (!executor.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({ content: 'You do not have the required permissions to use this command!'});
+    if (!client.guild.me.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({ content: 'Unable to ban member! Missing permission `BAN_MEMBERS`!'});
 		if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
       logger.debug(`Preparing to ban user ${user.tag}`);
       try {
-        member.ban({ reason: (reason) ? reason : 'Banned by a  moderator.'});
-        // guild.members.ban(user);
+        member.ban({ days: (days) ? days : 7, reason: (reason) ? reason : 'Banned by a  moderator.'});
       } catch (error) {
         logger.error(`Failed to ban ${user.tag}!`);
         logger.error(error.message); logger.debug(error.stack);
       };
 		} else {
 			interaction.reply({
-				content: 'You do not have permission to ban this member!',
+				content: 'You are not a staff member or are missing the required roles for this server.',
 				ephemeral: true,
 			});
 		};
