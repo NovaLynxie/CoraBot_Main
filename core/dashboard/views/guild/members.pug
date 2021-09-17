@@ -27,7 +27,7 @@ block content
       | There are currently #{guild.members.cache.filter(member => !member.user.bot).size} users and #{guild.members.cache.filter(member => member.user.bot).size} bots in this guild!
       br
       | Status Icons: 
-      i.fas.fa-check-circle(style="color:#42b581")
+      i.fas.fa-check-circle(style="color:#0fa840")
       | !{' '}- Online 
       i.fas.fa-moon(style="color:#faa61a")
       | !{' '}- Idle/Away 
@@ -73,7 +73,7 @@ block content
           | Status: 
           if (member.presence)
             if (member.presence.status === 'online')
-              i.fas.fa-check-circle(style="color:#42b581")
+              i.fas.fa-check-circle(style="color:#0fa840")
             if (member.presence.status === 'idle')
               i.fas.fa-moon(style="color:#faa61a")
             if (member.presence.status === 'dnd')
