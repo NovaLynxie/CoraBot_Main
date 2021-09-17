@@ -5,8 +5,8 @@
     "mute": ""
   },
   "logChannels": {
-    "modLogID": "",
-    "botLogID": ""
+    "modLogChID": "",
+    "botLogChID": ""
   },
   "autoMod": {
     "enableAutoMod": false,
