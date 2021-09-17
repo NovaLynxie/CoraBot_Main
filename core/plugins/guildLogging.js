@@ -6,10 +6,12 @@ const { stripIndents } = require('common-tags');
 function guildLogger (action, member, reason, client) {
   let guild = member.guild;
   let { logChannels } = client.settings.guild.get(guild);
+  reason = (reason) ? reason : 'No reason was provided.';
+  
   const logEmbed = new MessageEmbed()
     .setTitle('Moderation Action Logged!')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
-  reason = (reason) ? reason : 'No reason was provided.';
+  
   if (action === 'ban') {
     logEmbed
       .setColor('#e8411c')
