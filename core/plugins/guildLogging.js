@@ -20,6 +20,10 @@ function guildLogger (action, member, reason, client) {
           value: stripIndents`
             Username: ${member.user.tag} (${member.displayName})
             Created: ${format(member.user.createdAt, 'PPPPpppp')}`
+        },
+        {
+          name: 'Reason for Ban',
+          value: reason
         }
       )
   } else
@@ -33,6 +37,10 @@ function guildLogger (action, member, reason, client) {
           value: stripIndents`
             Username: ${member.user.tag} (${member.displayName})
             Created: ${format(member.user.createdAt, 'PPPPpppp')}`
+        },
+        {
+          name: 'Reason for Kick',
+          value: reason
         }
       )
   } else 
