@@ -5,7 +5,8 @@ const { stripIndents } = require('common-tags');
 
 function guildLogger (action, member, reason, client) {
   let guild = member.guild;
-  let { logChannels } = client.settings.guild.get(guild);
+  let settings = client.settings.guild.get(guild);
+  let { logChannels } = settings;
   reason = (reason) ? reason : 'No reason was provided.';
   
   const logEmbed = new MessageEmbed()

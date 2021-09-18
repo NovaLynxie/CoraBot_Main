@@ -34,7 +34,7 @@ async function generateGuildSettings(guildIDs) {
           settings[key] = guildSettingsTemplate[key];
         } else {
           logger.debug(`Setting name '${key}' already exists!`);
-        }
+        };
       });
 			await guildPrefStore.set(guildID, settings);
 			return;
@@ -63,6 +63,7 @@ async function generateClientSettings() {
 
 // Read/Write functions for KeyV database - Client Settings.
 async function saveClientSettings(data, client) {
+  logger.verbose(JSON.stringify(data));
 	logger.debug(`Writing new settings for ${client.user.tag} to database.`);
 	await guildPrefStore.set('clientSettings', data.settings);
 	logger.debug(`Finished updating bot settings for ${client.user.tag}.`);
@@ -70,6 +71,7 @@ async function saveClientSettings(data, client) {
 async function readClientSettings(client) {
 	logger.debug(`Fetching settings for ${client.user.tag} (ID:${client.user.id}).`);
 	const res = await clientPrefStore.get('clientSettings');
+  logger.verbose(JSON.stringify(res));
 	return res;
 }
 async function clearClientSettings(client) {
