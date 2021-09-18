@@ -62,10 +62,10 @@ async function generateClientSettings() {
 }
 
 // Read/Write functions for KeyV database - Client Settings.
-async function saveClientSettings(data, client) {
-  logger.verbose(JSON.stringify(data));
+async function saveClientSettings(settings, client) {
+  logger.verbose(JSON.stringify(settings));
 	logger.debug(`Writing new settings for ${client.user.tag} to database.`);
-	await guildPrefStore.set('clientSettings', data.settings);
+	await guildPrefStore.set('clientSettings', settings);
 	logger.debug(`Finished updating bot settings for ${client.user.tag}.`);
 }
 async function readClientSettings(client) {
@@ -81,6 +81,7 @@ async function clearClientSettings(client) {
 
 // Read/Write functions for KeyV database - Guild Settings.
 async function saveGuildSettings(settings, guild) {
+  logger.verbose(JSON.stringify(settings));
 	logger.debug('Writing new guild settings to database.');
 	await guildPrefStore.set(guild.id, settings);
 	logger.debug('Finished updating guild settings.');
@@ -88,6 +89,7 @@ async function saveGuildSettings(settings, guild) {
 async function readGuildSettings(guild) {
 	logger.debug(`Fetching settings for ${guild.name} (ID:${guild.id}).`);
 	const res = await guildPrefStore.get(guild.id);
+  logger.verbose(JSON.stringify(res));
 	return res;
 }
 async function deleteGuildSettings(guild) {
