@@ -29,6 +29,9 @@ module.exports = {
     });
 		if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
 	    guildLogger('warn', member, reason, client);
+      interaction.editReply({
+        content: `Issued warning for ${member.user.tag} successfully!`, ephemeral: true
+      });
 		} else {
 			interaction.editReply({
 				content: 'You are not a staff member or are missing the required roles to use this command here!', ephemeral: true
