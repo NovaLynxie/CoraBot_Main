@@ -33,6 +33,9 @@ module.exports = {
       try {
         member.roles.add(muteRole);
         guildLogger('mute', member, reason, client);
+        interaction.editReply({
+          content: `Issued mute for ${member.user.tag} successfully!`, ephemeral: true
+        });
       } catch (error) {
         logger.error(`Failed to add mute role to ${member.user.tag}!`);
         logger.error(error.message); logger.debug(error.stack);
