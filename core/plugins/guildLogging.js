@@ -3,9 +3,9 @@ const { format } = require('date-fns');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 
-function guildLogger (action, member, reason, client) {
+async function guildLogger (action, member, reason, client) {
   let guild = member.guild;
-  let settings = client.settings.guild.get(guild);
+  let settings = await client.settings.guild.get(guild);
   let { logChannels } = settings;
   reason = (reason) ? reason : 'No reason was provided.';
   
