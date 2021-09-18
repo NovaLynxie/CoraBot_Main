@@ -15,6 +15,7 @@ module.exports = {
 				ephemeral: true,
 			});
 			logger.warn(`User ${interaction.user.tag} tried to use eval but is not an owner!`);
+      return;
 		};
 		const clean = async (client, text) => {
 			if (text && text.constructor.name == 'Promise') {text = await text;};
