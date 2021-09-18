@@ -1,5 +1,6 @@
 const logger = require('../../plugins/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { Permissions } = require('discord.js');
 const { guildLogger } = require('../../plugins/guildLogging');
 
 module.exports = {
@@ -24,6 +25,8 @@ module.exports = {
     const reason = interaction.options.getString('reason');
     const executor = interaction.member; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
+    if (!executor.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) return interaction.reply({ content: 'You do not have the required permissions to use this command!'});
+    if (!client.guild.me.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) return interaction.reply({ content: 'Unable to ban member! Missing permission `BAN_MEMBERS`!'});
     if (executor.id === member.user.id) return interaction.editReply({
       content: 'You cannot kick yourself!', ephemeral: true
     });
