@@ -6,7 +6,6 @@ const { yiffyApiKey } = credentials;
 const { stripIndents } = require('common-tags');
 const Yiffy = require('yiffy');
 const yiffy = new Yiffy({
-  //userAgent: myUserAgent,
   apiKey: yiffyApiKey
 });
 
