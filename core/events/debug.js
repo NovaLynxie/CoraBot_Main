@@ -2,6 +2,7 @@ const logger = require('../plugins/winstonLogger');
 const { config } = require('../handlers/bootLoader');
 const { debug } = config;
 let retries = 4;
+
 module.exports = {
 	name: 'debug',
 	execute(data) {

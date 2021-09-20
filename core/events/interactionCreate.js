@@ -1,6 +1,7 @@
 const logger = require('../plugins/winstonLogger');
 const { config } = require('../handlers/bootLoader');
 const { debug } = config;
+
 module.exports = {
 	name: 'interactionCreate',
 	async execute(interaction) {

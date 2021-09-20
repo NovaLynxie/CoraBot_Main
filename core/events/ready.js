@@ -4,6 +4,7 @@ const { config, credentials } = require('../handlers/bootLoader');
 const { debug, dashboard } = config;
 const { clientSecret, sessionSecret } = credentials;
 const { enableDash, dashDomain, dashSrvPort, reportOnly } = dashboard;
+
 module.exports = {
 	name: 'ready',
 	once: true,
