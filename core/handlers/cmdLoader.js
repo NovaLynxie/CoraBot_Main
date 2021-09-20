@@ -45,7 +45,7 @@ async function loadBotCmds (client) {
 		});
 	}	catch (error) {
 		if (error.code === 'ENOENT') {
-			logger.fatal('Unable to find slashcmds directory!');
+			logger.fatal('Unable to find app commands directory!');
 		}
 		else
 		if (error.message.indexOf('Cannot find module') > -1) {
@@ -62,7 +62,7 @@ async function loadBotCmds (client) {
 			logger.error('Unknown error occured while loading the commands!');
 			logger.error(error.message); logger.debug(error.stack);
 		}
-		logger.warn('Stopped loading directory \'slashcmds\'. Some commands may fail to respond.');
+		logger.warn('Aborted command loading due to error! Some commands may fail to respond.');
 	};
 	if (forceUpdateCmds) {
 		logger.debug('Forcing application command updates!');
