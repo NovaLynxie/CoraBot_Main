@@ -7,30 +7,6 @@ async function guildLogger (action, params = {}, client) {
   let guild = member.guild;
   let settings = await client.settings.guild.get(guild);
   let { logChannels } = settings;
-  let placeholderMember = {
-    "displayName": "Unknown",
-    "user": {
-      "id": "12345678912345678", 
-      "username": "Unknown",
-      "discriminator": "0000",
-      "avatar": undefined,
-      "verified": false,
-      "email": "placeholder@example.com",
-      "flags": 64,
-      "banner": null,
-      "accent_color": 16711680,
-      "premium_type": 0,
-      "public_flags": 64
-    },
-    "nick": "Unknown User",
-    "roles": [],
-    "joined_at": "2015-04-26T06:26:56.936000+00:00",
-    "deaf": false,
-    "mute": false
-  };
-  function placeholderUserTag () {
-    return res = `${placeholderUser.user.username}${placeholderUser.user.discriminator}`;
-  };
 
   let messages = (params?.messages) ? params.messages : 'No message data.';
   let executor = params?.executor, member = params?.member;
