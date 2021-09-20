@@ -31,11 +31,11 @@ async function guildLogger (action, params = {}, member, reason, client) {
   function placeholderUserTag () {
     return res = `${placeholderUser.user.username}${placeholderUser.user.discriminator}`;
   };
-  let x = (params?.x) ? params.x : '...';
-  let x = (params?.x) ? params.x : '...';
+
+  let messages = (params?.messages) ? params.messages : 'No message data.';
   let executor = params?.executor, member = params?.member;
   let reason = (params?.reason) ? params.reason : 'No reason provided.';
-  
+
   const guildLogEmbed = new MessageEmbed()
     .setTitle('Moderation Action Logged!')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
@@ -51,8 +51,8 @@ async function guildLogger (action, params = {}, member, reason, client) {
       res = 'No Member Details available!';
     };
     return res;
-  }
-  
+  };
+
   if (action === 'ban') {
     guildLogEmbed
       .setColor('#e8411c')
@@ -117,7 +117,6 @@ async function guildLogger (action, params = {}, member, reason, client) {
     guildLogEmbed
       .setColor('#4bdb23')
       .setDescription('🧹 Sweeping away old messages.')
-      /*
       .addFields(
         {
           name: 'Message Contents',
@@ -129,8 +128,8 @@ async function guildLogger (action, params = {}, member, reason, client) {
             Removed ${messages.size}`
         }
       )
-      */
-  }
+  };
+
   try {
     logger.debug('Sending moderation log to channel now...');
     let modLogChannel = guild.channels.cache.get(logChannels.modLogChID);
