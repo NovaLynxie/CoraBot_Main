@@ -1,6 +1,6 @@
 {
   "name": "corabot",
-  "version": "4.0.0-alpha27",
+  "version": "4.0.0-alpha28",
   "description": "Experimental Discord.JS v13 bot.",
   "main": "app.js",
   "scripts": {
