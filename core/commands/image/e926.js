@@ -5,7 +5,6 @@ const fetch = require('node-fetch');
 const { stripIndents } = require('common-tags');
 const { credentials } = require('../../handlers/bootLoader');
 const yiff = require('yiff');
-// const { eImg } = require('../../handlers/bootLoader');
 const e9 = new yiff.e926();
 
 module.exports = {
