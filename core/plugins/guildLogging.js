@@ -10,12 +10,21 @@ async function guildLogger (action, params = {}, client) {
   let messages = (params?.messages) ? params.messages : 'No message data.';
   let executor = params?.executor, member = params?.member;
   let reason = (params?.reason) ? params.reason : 'No reason provided.';
-  let guild = member.guild;
+  let guild = member.guild, logdate = new Date();
 
   const guildLogEmbed = new MessageEmbed()
     .setTitle('Moderation Action Logged!')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
   
+  function fetchModActionDetails () {
+    let res = stripIndents`
+      Executor: ${executor.user.tag} (${executor.displayName})
+      Log Date: ${format(logdate, 'PPPPpppp')}
+      __**Reason**__
+      ${reason}`;
+    return res;
+  }
+
   function fetchMemberDetails() {
     let res;
     if (member) {
