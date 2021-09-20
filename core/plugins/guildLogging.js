@@ -85,7 +85,6 @@ async function guildLogger (action, member, reason, client) {
       )
   };
   try {
-    // to be implemented.
     logger.debug('Sending moderation log to channel now...');
     let modLogChannel = guild.channels.cache.get(logChannels.modLogChID);
     modLogChannel.send({ embeds: [logEmbed] });
