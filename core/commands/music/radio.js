@@ -5,7 +5,7 @@ const {
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const wait = require('util').promisify(setTimeout);
-const { checkVC, joinVC, createSource, newPlayer } = require('../../handlers/voice/voiceManager');
+const { checkVC, joinVC, createSource, newPlayer } = require('../../handlers/voiceManager');
 const { stations } = require('../../assets/resources/radioStations.json');
 
 const stationsList = [];
