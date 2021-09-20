@@ -41,7 +41,8 @@ module.exports = {
       logger.debug(`Preparing to ban user ${user.tag}`);
       try {
         member.ban({ days: (days) ? days : 7, reason: (reason) ? reason : 'Banned by a  moderator.'});
-        guildLogger('ban', member, reason, client);
+        
+        guildLogger('ban', { member, reason }, client);
         interaction.editReply({
           content: `Banned ${member.user.tag} successfully from the server!`, ephemeral: true
         });

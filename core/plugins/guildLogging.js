@@ -3,7 +3,7 @@ const { format } = require('date-fns');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 
-async function guildLogger (action, params = {}, member, reason, client) {
+async function guildLogger (action, params = {}, client) {
   let guild = member.guild;
   let settings = await client.settings.guild.get(guild);
   let { logChannels } = settings;

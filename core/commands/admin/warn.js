@@ -28,7 +28,7 @@ module.exports = {
       content: 'You cannot warn yourself!', ephemeral: true
     });
 		if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
-	    guildLogger('warn', member, reason, client);
+	    guildLogger('warn', { member, reason }, client);
       interaction.editReply({
         content: `Issued warning for ${member.user.tag} successfully!`, ephemeral: true
       });
