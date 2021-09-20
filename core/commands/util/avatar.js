@@ -5,7 +5,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('avatar')
 		.setDescription('Replies with \'Pong\' and response time.')
-    .addMemberOption(option =>
+    .addUserOption(option =>
 			option
 				.setName('target')
 				.setDescription('Enter any member mentionable or username.')
