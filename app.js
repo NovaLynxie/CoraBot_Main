@@ -80,10 +80,11 @@ process.on('uncaughtException', error => {
 	setTimeout(() => {process.exit(1);}, 5000);
 });
 // Client timers references
-const rateLimitWarn = setTimeout(() => {
-	logger.warn('Bot taking longer than normal to connect. Maybe bot is rate limited?');
+const apiConnectWarn = setTimeout(() => {
+	logger.warn('Bot taking longer than normal to connect.');
+  logger.warn('Possibly slow connection or rate limited?');
 }, 10 * 1000);
-client.timers = { rateLimitWarn };
+client.timers.apiConnectWarn = apiConnectWarn;
 
 logger.info('Connecting to Discord.');
 client.login(discordToken).then(() => {

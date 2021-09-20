@@ -10,7 +10,7 @@ module.exports = {
 	async execute(client) {
 		logger.info(`Logged in as ${client.user.tag}. Bot Online!`);
 		logger.warn('Running final checks! Bot may be slow for a bit.');
-		clearTimeout(client.timers.rateLimitWarn);
+		clearTimeout(client.timers.apiConnectWarn);
 		logger.debug('Cleared ratelimit warning timer.');
 		// Fetch application information.
 		client.application = await client.application.fetch();
