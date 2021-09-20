@@ -45,7 +45,7 @@ async function loadBotCmds (client) {
 		});
 	}	catch (error) {
 		if (error.code === 'ENOENT') {
-			logger.fatal('Unable to find app commands directory!');
+			logger.fatal('Unable to find commands directory!');
 		}
 		else
 		if (error.message.indexOf('Cannot find module') > -1) {
