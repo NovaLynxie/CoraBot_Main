@@ -6,7 +6,6 @@ module.exports = {
 		.setName('info')
 		.setDescription('Displays basic information about the bot or server.'),
 	async execute(interaction, client) {
-
 		const embed = {
 			title: 'About Me',
 			color: 0xE7A3F0,
@@ -33,7 +32,6 @@ module.exports = {
 			footer: 'Built on Node.JS v16 using Discord.JS v13.',
 			thumbnail: client.user.displayAvatarURL({ format: 'png' }),
 		};
-
 		await interaction.reply({ embeds: [embed] });
 	},
 };
