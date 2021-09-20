@@ -34,7 +34,7 @@ module.exports = {
 	    logger.debug(`Preparing to kick user ${member.user.tag}`);
       try {
         member.kick({ reason: (reason) ? reason : 'Kicked by a  moderator.'});
-        guildLogger('kick', { member, reason }, client);
+        guildLogger('kick', { executor, member, reason }, client);
         interaction.editReply({
           content: `Kicked ${member.user.tag} successfully from the server!`, ephemeral: true
         });
