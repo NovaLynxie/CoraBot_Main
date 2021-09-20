@@ -4,13 +4,13 @@ const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 
 async function guildLogger (action, params = {}, client) {
-  let guild = member.guild;
   let settings = await client.settings.guild.get(guild);
   let { logChannels } = settings;
 
   let messages = (params?.messages) ? params.messages : 'No message data.';
   let executor = params?.executor, member = params?.member;
   let reason = (params?.reason) ? params.reason : 'No reason provided.';
+  let guild = member.guild;
 
   const guildLogEmbed = new MessageEmbed()
     .setTitle('Moderation Action Logged!')
