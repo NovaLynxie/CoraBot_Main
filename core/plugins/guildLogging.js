@@ -16,87 +16,51 @@ async function guildLogger (action, params = {}, client) {
     .setTitle('Moderation Action Logged!')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
   
-  function fetchModActionDetails () {
-    let res = stripIndents`
-      Executor: ${executor.user.tag} (${executor.displayName})
-      Log Date: ${format(logdate, 'PPPPpppp')}
-      __**Reason**__
-      ${reason}`;
-    return res;
-  }
-
-  function fetchMemberDetails() {
-    let res;
-    if (member) {
-      res = stripIndents`
+  let modLogFields = [
+    {
+      name: 'Member Details',
+      value: stripIndents`
         Username: ${member.user.tag} (${member.displayName})
         Created: ${format(member.user.createdAt, 'PPPPpppp')}
-        Joined: ${format(member.joinedAt, 'PPPPpppp')}`;
-    } else {
-      res = 'No Member Details available!';
-    };
-    return res;
-  };
+        Joined: ${format(member.joinedAt, 'PPPPpppp')}`
+    },
+    {
+      name: 'Moderator Details',
+      value: stripIndents`
+        Executor: ${executor.user.tag} (${executor.displayName})`
+    },
+    {
+      name: 'Action Details',
+      value: stripIndents`
+        Log Date: ${format(logdate, 'PPPPpppp')}
+        __**Reason**__
+        ${reason}`
+    }
+  ];
 
   if (action === 'ban') {
     guildLogEmbed
       .setColor('#e8411c')
       .setDescription('🔨 The ban hammer has spoken.')
-      .addFields(
-        {
-          name: 'Member Details',
-          value: fetchMemberDetails()
-        },
-        {
-          name: 'Reason for Ban',
-          value: reason
-        }
-      )
+      .addFields(modLogFields)
   } else
   if (action === 'kick') {
     guildLogEmbed
       .setColor('#e8411c')
       .setDescription('👢 A magical boot gives them a swift kick.')
-      .addFields(
-        {
-          name: 'Member Details',
-          value: fetchMemberDetails()
-        },
-        {
-          name: 'Reason for Kick',
-          value: reason
-        }
-      )
+      .addFields(modLogFields)
   } else 
   if (action === 'mute') {
     guildLogEmbed
       .setColor('#e8a11c')
       .setDescription('🤐 Silence you fool!')
-      .addFields(
-        {
-          name: 'Member Details',
-          value: fetchMemberDetails()
-        },
-        {
-          name: 'Reason for Mute',
-          value: reason
-        }
-      )
+      .addFields(modLogFields)
   } else 
   if (action === 'warn') {
     guildLogEmbed
       .setColor('#e8bc1c')
       .setDescription('⚠️ Issued a warning this time.')
-      .addFields(
-        {
-          name: 'Member Details',
-          value: fetchMemberDetails()
-        },
-        {
-          name: 'Reason for Warning',
-          value: reason
-        }
-      )
+      .addFields(modLogFields)
   } else 
   if (action === 'clear') {
     guildLogEmbed
@@ -104,11 +68,7 @@ async function guildLogger (action, params = {}, client) {
       .setDescription('🧹 Sweeping away old messages.')
       .addFields(
         {
-          name: 'Message Contents',
-          value: ''
-        },
-        {
-          name: 'Channel Details',
+          name: 'Message Cleaner Results',
           value: stripIndents`
             Removed ${messages.size}`
         }
