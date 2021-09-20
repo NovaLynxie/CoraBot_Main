@@ -45,13 +45,13 @@ client.settings = {
 		get: readGuildSettings,
 		set: saveGuildSettings,
 		init: generateGuildSettings,
-	},
+	}
 };
 client.data = {
 	get: readGuildData,
 	set: saveGuildData,
 	init: generateGuildData,
-	delete: deleteGuildData,
+	delete: deleteGuildData
 };
 // Initialize commands collection objects.
 const commandCollections = ['prefixcmds', 'slashcmds'];
