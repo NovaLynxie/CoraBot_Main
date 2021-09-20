@@ -85,7 +85,6 @@ const apiConnectWarn = setTimeout(() => {
   logger.warn('Possibly slow connection or rate limited?');
 }, 10 * 1000);
 client.timers.apiConnectWarn = apiConnectWarn;
-
 logger.info('Connecting to Discord.');
 client.login(discordToken).then(() => {
 	logger.debug('Awaiting API Response...');
