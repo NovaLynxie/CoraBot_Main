@@ -10,6 +10,7 @@ module.exports = {
     .setName('stats')
 		.setDescription('Gets basic statistics on the bot.'),
   execute(interaction, client) {
+
     var Servers = client.guilds.cache.size
     var Channels = client.channels.cache.size
     var Users = client.users.cache.filter(user => !user.bot).size
@@ -42,6 +43,6 @@ module.exports = {
         }
       )
       .setThumbnail(client.user.displayAvatarURL({ formant: 'png' }))
-    return interaction.editReply({ embeds: [statsEmbed] });
+    return interaction.reply({ embeds: [statsEmbed] });
   }
 };
