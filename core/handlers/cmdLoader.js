@@ -62,7 +62,7 @@ async function loadBotCmds (client) {
 			logger.error('Unknown error occured while loading the commands!');
 			logger.error(error.message); logger.debug(error.stack);
 		}
-		logger.warn('Aborted command loading due to error! Some commands may fail to respond.');
+		logger.warn('Aborted command loading due to error! Some interactions may fail.');
 	};
 	if (forceUpdateCmds) {
 		logger.debug('Forcing application command updates!');
