@@ -10,5 +10,9 @@
     "connected": false,
     "channel": "",
     "station": {}
-  }  
+  },
+  "trackers": {
+    "suggestions": [],
+    "tickets": []
+  }
 }
