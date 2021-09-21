@@ -32,15 +32,14 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction, client) {
-    const member = interaction.member;
+    const member = interaction.member; const guild = interaction.guild;
     const title = interaction.options.getString('title');
     const category = interaction.options.getString('category');
-    const description = interaction.options.getString('description');
-
-    let data = await client.data.guild.get(guild);
-    let suggestions = data.trackers.suggestions;
-    const settings await client.settings.guild.get(guild);
+    const description = interaction.options.getString('description');    
+    const settings = await client.settings.guild.get(guild);
     const suggestChID = settings.logChannels.suggestChID;
+    let data = await client.data.get(guild);
+    let suggestions = data.trackers.suggestions;
 
     const suggestEmbed = new MessageEmbed()
       .setTitle(title)
@@ -55,13 +54,13 @@ module.exports = {
       )
     
     const channel = client.channels.cache.get(suggestChID);
-    channel.send({ embeds: [suggestEmbed] }).then(message => {
+    channel.send({ embeds: [suggestEmbed] }).then(async message => {
       message.react('👍'); message.react('👎');
+      suggestions.push(message.id);
+      await client.data.set(guild, data);
     });
-    const message = await interaction.reply(
+    interaction.reply(
       { content: 'Suggestion created!', ephemeral: true }
-    );
-    suggestions.push(message.id);
-    client.data.guild.set(guild, data);
+    );    
   }
 };
