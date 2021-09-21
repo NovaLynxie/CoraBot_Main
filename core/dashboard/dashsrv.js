@@ -317,8 +317,6 @@ module.exports = (client, config) => {
 		});
 	});
 
-	// DISABLED TEMPORARILY! REQUIRES STORAGE REWORK!
-
 	// Authentication Locked Pages (Discord Oauth2)
 
 	// Normal Dashboard - Only shows user the guilds they are bound to.
@@ -425,6 +423,10 @@ module.exports = (client, config) => {
       if (req.body.modLogChID) {
         logger.debug(`Detected 'modLogChID' settings data!`);
         logChannels.modLogChID = req.body.modLogChID;
+      }
+      if (req.body.suggestChID) {
+        logger.debug(`Detected 'suggestChID' settings data!`);
+        logChannels.suggestChID = req.body.suggestChID;
       }
 			if (req.body.enableNotifier) {
 				logger.debug(`Detected 'notifier' settings data!`);

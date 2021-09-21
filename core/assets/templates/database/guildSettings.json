@@ -3,10 +3,11 @@
   "roles": {
     "staff": [],
     "mute": ""
-  },
+  },  
   "logChannels": {
+    "botLogChID": "",
     "modLogChID": "",
-    "botLogChID": ""
+    "suggestChID": ""
   },
   "autoMod": {
     "enableAutoMod": false,
