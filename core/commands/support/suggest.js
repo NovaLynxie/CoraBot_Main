@@ -53,7 +53,7 @@ module.exports = {
         },
         {
           name: 'Why should this be considered?',
-          value: details
+          value: (details) ? details : 'No details provided!'
         }
       )
     
