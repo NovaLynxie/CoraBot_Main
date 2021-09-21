@@ -43,6 +43,7 @@ module.exports = {
 
     const suggestEmbed = new MessageEmbed()
       .setTitle(title)
+      .setColor('#a8ffc2')
       .setDescription(`Category ${category}`)
       .addFields(
         {
