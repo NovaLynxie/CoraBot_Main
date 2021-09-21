@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
+const { format } = require('date-fns');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -31,21 +32,33 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction, client) {
-    let data = await client.data.guild.get(guild);
-    let suggestions = data.trackers.suggestions;
+    const member = interaction.member;
     const title = interaction.options.getString('title');
     const category = interaction.options.getString('category');
     const description = interaction.options.getString('description');
 
+    let data = await client.data.guild.get(guild);
+    let suggestions = data.trackers.suggestions;
+    const settings await client.settings.guild.get(guild);
+    const suggestChID = settings.logChannels.suggestChID;
+
     const suggestEmbed = new MessageEmbed()
       .setTitle(title)
       .setDescription(`Category ${category}`)
+      .addFields(
+        {
+          name: 'Suggestion Details',
+          value: stripIndents`
+            Suggested by ${member.user.tag} (${member.displayName})
+            Created on ${format(new Date, 'PPPPpppp')}`
+        }
+      )
     
-    let channel = client.channels.cache.get();
+    const channel = client.channels.cache.get(suggestChID);
     channel.send({ embeds: [suggestEmbed] }).then(message => {
       message.react('👍'); message.react('👎');
     });
-    let message = await interaction.reply(
+    const message = await interaction.reply(
       { content: 'Suggestion created!', ephemeral: true }
     );
     suggestions.push(message.id);
