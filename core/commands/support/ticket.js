@@ -5,24 +5,21 @@ const { format } = require('date-fns');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('suggest')
-    .setDescription('Create a suggestion for a request in this server.')
+    .setName('ticket')
+    .setDescription('Create a ticket for staff support in this server.')
     .addStringOption(option =>
       option
       .setName('category')
-      .setDescription('Type of suggestion?')
+      .setDescription('Type of ticket?')
       .setRequired(true)
-      .addChoice('Server', 'server')
-      .addChoice('Community', 'community')
-      .addChoice('Games', 'games')
-      .addChoice('Events', 'events')
-      .addChoice('Changes', 'changes')
+      .addChoice('Report', 'report')
+      .addChoice('Question', 'question')
       .addChoice('Other', 'other')
     )
     .addStringOption(option => 
       option
         .setName('title')
-        .setDescription('What is your suggestion?')
+        .setDescription('What is the support ticket for?')
         .setRequired(true)
     )
     .addStringOption(option => 
@@ -37,12 +34,12 @@ module.exports = {
     const category = interaction.options.getString('category');
     const details = interaction.options.getString('details');    
     const settings = await client.settings.guild.get(guild);
-    const suggestChID = settings.logChannels.suggestChID;
+    const ticketsChID = settings.logChannels.ticketsChID;
     let data = await client.data.get(guild);
 
     const suggestEmbed = new MessageEmbed()
-      .setTitle(`Suggestion - ${title}`)
-      .setColor('#a8ffc2')
+      .setTitle(`Ticket - ${title}`)
+      .setColor('#d4eb60')
       .setDescription(`Category ${category}`)
       .addFields(
         {
@@ -57,18 +54,18 @@ module.exports = {
         }
       )
     
-    const channel = client.channels.cache.get(suggestChID); let thread;
+    const channel = client.channels.cache.get(ticketsChID); let thread;
     channel.send({ embeds: [suggestEmbed] }).then(async message => {
       thread = await message.startThread({
         name: `Discussion - ${title}`,
         autoArchiveDuration: 60,
-        reason: 'Automatically generated for suggestion discussion.'
+        type: 'private_thread',
+        reason: 'Automatically generated for private ticket discussion.'
       });
-      message.react('👍'); message.react('👎');
-      data.trackers.suggestions.push(message.id);
+      data.trackers.tickets.push({ messageID: message.id, authorID: interaction.user.id });
       await client.data.set(data, guild);
       interaction.reply(
-        { content: `Suggestion created in #${channel.name} and opened new thread for discussions!`, ephemeral: true }
+        { content: `New ticket created in #${channel.name} and opened new thread for discussions!`, ephemeral: true }
       );
     }).catch(console.error);
   }
