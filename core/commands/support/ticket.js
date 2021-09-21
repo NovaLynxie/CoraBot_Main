@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 const { format } = require('date-fns');
+const logger = require('../../plugins/winstonLogger');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -62,11 +63,12 @@ module.exports = {
         type: 'private_thread',
         reason: 'Automatically generated for private ticket discussion.'
       });
+      await thread.members.add(interaction.user.id);
       data.trackers.tickets.push({ messageID: message.id, authorID: interaction.user.id });
       await client.data.set(data, guild);
       interaction.reply(
         { content: `New ticket created in #${channel.name} and opened new thread for discussions!`, ephemeral: true }
       );
-    }).catch(console.error);
+    }).catch(logger.error);
   }
 };

@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 const { format } = require('date-fns');
+const logger = require('../../plugins/winstonLogger');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -70,6 +71,6 @@ module.exports = {
       interaction.reply(
         { content: `Suggestion created in #${channel.name} and opened new thread for discussions!`, ephemeral: true }
       );
-    }).catch(console.error);
+    }).catch(logger.error);
   }
 };
