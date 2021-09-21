@@ -108,7 +108,7 @@ block content
             .settings-text-wrapper
               | Enabled? #{(enableAutoMod)?'Yes':'No'}
               br
-              | Channel List Mode: #{(chListMode) ?(chListMode === 'whitelist') ? 'Whitelist' : 'Blacklist' : 'Not Set!'}
+              | Channel List Mode: #{(chListMode) ? (chListMode === 'whitelist') ? 'Whitelist' : 'Blacklist' : 'Not Set!'}
               br
               | Media Removal
               br
@@ -137,13 +137,13 @@ block content
               br
               | Event Trackers
               br
-              | Join: #{(trackEvents.joinEvent) ? 'Yes' : 'No'}
+              | Join: #{(trackEvents.join) ? 'Yes' : 'No'}
               br
-              | Leave: #{trackEvents.leaveEvent ? 'Yes' : 'No'}
+              | Leave: #{trackEvents.leave ? 'Yes' : 'No'}
               br
-              | Kick: #{trackEvents.kickEvent ? 'Yes' : 'No'}
+              | Kick: #{trackEvents.kick ? 'Yes' : 'No'}
               br
-              | Ban: #{trackEvents.banEvent ? 'Yes' : 'No'}
+              | Ban: #{trackEvents.ban ? 'Yes' : 'No'}
               br
               | Notifs Channel: #{(notifsChannel && notifsChannel.length > 0) ? `#${bot.channels.cache.get(notifsChannel).name}` : 'Not Set!'}
             table.settings-table-main(border="1")
