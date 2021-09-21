@@ -27,41 +27,48 @@ module.exports = {
     )
     .addStringOption(option => 
       option
-        .setName('description')
-        .setDescription('Add a brief explanation.')
+        .setName('details')
+        .setDescription('Additional details? (Keep it brief)')
         .setRequired(false)
     ),
   async execute(interaction, client) {
     const member = interaction.member; const guild = interaction.guild;
     const title = interaction.options.getString('title');
     const category = interaction.options.getString('category');
-    const description = interaction.options.getString('description');    
+    const details = interaction.options.getString('details');    
     const settings = await client.settings.guild.get(guild);
     const suggestChID = settings.logChannels.suggestChID;
     let data = await client.data.get(guild);
-    let suggestions = data.trackers.suggestions;
 
     const suggestEmbed = new MessageEmbed()
-      .setTitle(title)
-      .setColor('#a8ffc2')
+      .setTitle(`Suggestion - ${title}`)
+      .setColor('#a8ffc2') // #d4eb60
       .setDescription(`Category ${category}`)
       .addFields(
         {
-          name: 'Suggestion Details',
+          name: 'Suggestion Info',
           value: stripIndents`
             Suggested by ${member.user.tag} (${member.displayName})
-            Created on ${format(new Date, 'PPPPpppp')}`
+            Created ${format(new Date, 'PPPPpppp')}`
+        },
+        {
+          name: 'Why should this be considered?'
         }
       )
     
-    const channel = client.channels.cache.get(suggestChID);
+    const channel = client.channels.cache.get(suggestChID); let thread;
     channel.send({ embeds: [suggestEmbed] }).then(async message => {
+      thread = await message.startThread({
+        name: `Discussion - ${title}`,
+        autoArchiveDuration: 60,
+        reason: 'Automatically generated for suggestion discussion.'
+      });
       message.react('👍'); message.react('👎');
-      suggestions.push(message.id);
+      data.trackers.suggestions.push(message.id);
       await client.data.set(guild, data);
-    });
-    interaction.reply(
-      { content: `Suggestion created in ${channel.name}!`, ephemeral: true }
-    );    
+      interaction.reply(
+        { content: `Suggestion created in #${channel.name} and opened new thread for discussions!`, ephemeral: true }
+      );
+    }).catch(console.error);
   }
 };
