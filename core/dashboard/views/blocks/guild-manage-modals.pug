@@ -85,6 +85,20 @@
                   option(value=channel.id selected='') #{channel.name}
                 else
                   option(value=channel.id) #{channel.name}
+            label.form-label.mt-4(for='ticketsChID') 
+              | Support Tickets (WIP)
+              br
+              | Select the channel for tickets to be sent in.
+            select#chatChannels.form-select(name='ticketsChID')
+              if (!logChannels.ticketsChID) 
+                option(value='' selected='') (not set)
+              else
+                option(value='') (not set)
+              for channel in textChannels
+                if (logChannels.ticketsChID === channel.id)
+                  option(value=channel.id selected='') #{channel.name}
+                else
+                  option(value=channel.id) #{channel.name}
         .modal-footer
           button.btn.btn-outline-dark(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 

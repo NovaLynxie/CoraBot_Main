@@ -431,6 +431,10 @@ module.exports = (client, config) => {
         logger.debug(`Detected 'suggestChID' settings data!`);
         logChannels.suggestChID = emptyStringCheck(req.body.suggestChID);
       }
+      if (req.body.ticketsChID) {
+        logger.debug(`Detected 'ticketsChID' settings data!`);
+        logChannels.ticketsChID = emptyStringCheck(req.body.ticketsChID);
+      }
 			if (req.body.enableNotifier) {
 				logger.debug(`Detected 'notifier' settings data!`);
 				notifier.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;

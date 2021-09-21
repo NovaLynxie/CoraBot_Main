@@ -68,8 +68,6 @@ block content
             h5 Server Settings
             .settings-text-wrapper
               h6 Server Roles (WIP)
-              p
-              | NOT YET IMPLEMENTED!
               table.settings-table-main(border="1")
                 tr
                   th Role Type
@@ -82,8 +80,6 @@ block content
                   td #{(roles.mute) ? 'Role set!' : 'Not set'}
             .settings-text-wrapper
               h6 Log Channels (WIP)
-              p
-              | NOT YET IMPLEMENTED!
               table.settings-table-main(border="1")
                 tr
                   th Log Type
@@ -97,6 +93,9 @@ block content
                 tr
                   td Suggestion Logs
                   td #{(logChannels.suggestChID) ? 'Yes' : 'No'}
+                tr
+                  td Support Tickets
+                  td #{(logChannels.ticketsChID) ? 'Yes' : 'No'}
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingGuildStaffRolesModal') Edit 
               i.fas.fa-edit
         .settings-card-modules.settings-card-wrapper
