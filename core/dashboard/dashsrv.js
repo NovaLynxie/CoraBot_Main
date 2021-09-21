@@ -411,28 +411,28 @@ module.exports = (client, config) => {
       };
       logger.debug('Scanning request body for settings data...');
       switch (true) {
-        case req.body.staffRoles:
+        case (req.body.staffRoles):
           logger.debug(`Detected 'staffRoles' settings data!`);
 				  const staffRoles = (typeof req.body.staffRoles === 'string') ? '[' + req.body.staffRoles + ']' : req.body.staffRoles;
 				  roles.staff = staffRoles;
           break;
-        case req.body.muteRole:
+        case (req.body.muteRole):
           logger.debug(`Detected 'muteRole' settings data!`);
           roles.mute = emptyStringCheck(req.body.muteRole);
           break;
-        case req.body.botLogChID:
+        case (req.body.botLogChID):
           logger.debug(`Detected 'botLogChID' settings data!`);
           logChannels.botLogChID = emptyStringCheck(req.body.botLogChID);
           break;
-        case req.body.modLogChID:
+        case (req.body.modLogChID):
           logger.debug(`Detected 'modLogChID' settings data!`);
           logChannels.modLogChID = emptyStringCheck(req.body.modLogChID);
           break;
-        case req.body.suggestChID:
+        case (req.body.suggestChID):
           logger.debug(`Detected 'suggestChID' settings data!`);
           logChannels.suggestChID = emptyStringCheck(req.body.suggestChID);
           break;
-        case req.body.enableAutoMod:
+        case (req.body.enableAutoMod):
           logger.debug(`Detected 'autoMod' settings data!`);
           autoMod.enableAutoMod = (req.body.enableAutoMod === 'on') ? true : false;
           const channelsList = req.body.channelsList;
@@ -448,7 +448,7 @@ module.exports = (client, config) => {
           };
           logger.debug(`Prepared 'autoMod' settings data for writing.`);
           break;
-        case req.body.enableChatBot:
+        case (req.body.enableChatBot):
           logger.debug(`Detected 'chatBot' settings data!`);
           chatBot.enableChatBot = (req.body.enableChatBot === 'on') ? true : false;
           const chatBotOpts = {
@@ -462,7 +462,7 @@ module.exports = (client, config) => {
           chatBot.chatChannels = (chatChannels) ? chatChannels : [];
           logger.debug(`Prepared 'chatBot' settings data for writing.`);
           break;
-        case req.body.enableNotifier:
+        case (req.body.enableNotifier):
           logger.debug(`Detected 'notifier' settings data!`);
 				  notifier.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
 				  notifier.notifsChannel = (req.body.notifsChannel) ? req.body.notifsChannel : '';
