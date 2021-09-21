@@ -52,7 +52,8 @@ module.exports = {
             Created ${format(new Date, 'PPPPpppp')}`
         },
         {
-          name: 'Why should this be considered?'
+          name: 'Why should this be considered?',
+          value: details
         }
       )
     
