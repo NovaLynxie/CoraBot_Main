@@ -411,22 +411,25 @@ module.exports = (client, config) => {
 				const staffRoles = (typeof req.body.staffRoles === 'string') ? '[' + req.body.staffRoles + ']' : req.body.staffRoles;
 				roles.staff = staffRoles;
 			}
+      function emptyStringCheck(item) {
+        let res = (item === '') ? null : item;
+        return res;
+      }
       if (req.body.muteRole) {
         logger.debug(`Detected 'muteRole' settings data!`);
-        const muteRole = req.body.muteRole;
-        roles.mute = muteRole;
+        roles.mute = emptyStringCheck(req.body.muteRole);
       }
       if (req.body.botLogChID) {
         logger.debug(`Detected 'botLogChID' settings data!`);
-        logChannels.botLogChID = req.body.botLogChID;
+        logChannels.botLogChID = emptyStringCheck(req.body.botLogChID);
       }
       if (req.body.modLogChID) {
         logger.debug(`Detected 'modLogChID' settings data!`);
-        logChannels.modLogChID = req.body.modLogChID;
+        logChannels.modLogChID = emptyStringCheck(req.body.modLogChID);
       }
       if (req.body.suggestChID) {
         logger.debug(`Detected 'suggestChID' settings data!`);
-        logChannels.suggestChID = req.body.suggestChID;
+        logChannels.suggestChID = emptyStringCheck(req.body.suggestChID);
       }
 			if (req.body.enableNotifier) {
 				logger.debug(`Detected 'notifier' settings data!`);
