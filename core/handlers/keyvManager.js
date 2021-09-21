@@ -38,8 +38,7 @@ async function generateGuildSettings(guildIDs) {
       });
 			await guildPrefStore.set(guildID, settings);
 			return;
-		}
-		else {
+		} else {
 			logger.debug(`Adding new settings for ${guildID} now...`);
 			await guildPrefStore.set(guildID, guildSettingsTemplate);
 		}
@@ -109,13 +108,22 @@ async function generateGuildData(guildIDs) {
 		const data = await guildDataStore.get(guildID);
 		if (data) {
 			logger.debug(`Guild ${guildID} data entries already added!`);
-			// don't do anything if <guildId> already has settings.
+			logger.debug(`Checking datastore for ${guildID} for any updates.`);
+      const guildData = Object.keys(guildDataTemplate);
+      guildData.forEach(key => {
+        if (data[key] === undefined) {
+          logger.debug(`Data property '${key}' not found! Adding new data property.`)
+          data[key] = guildDataTemplate[key];
+        } else {
+          logger.debug(`Data key '${key}' already exists!`);
+        };
+      });
+			await guildDataStore.set(guildID, data);
 			return;
-		}
-		else {
+		} else {
 			logger.debug(`Adding new data entries for ${guildID} now...`);
 			await guildDataStore.set(guildID, guildDataTemplate);
-		}
+		};
 	});
 	logger.debug('Finished checking guild settings.');
 	logger.info('Guild data is now available.');
