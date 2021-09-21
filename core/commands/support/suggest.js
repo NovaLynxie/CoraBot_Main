@@ -30,7 +30,9 @@ module.exports = {
         .setDescription('Add a brief explanation.')
         .setRequired(false)
     ),
-  execute(interaction, client) {
+  async execute(interaction, client) {
+    let data = await client.data.guild.get(guild);
+    let suggestions = data.trackers.suggestions;
     const title = interaction.options.getString('title');
     const category = interaction.options.getString('category');
     const description = interaction.options.getString('description');
@@ -42,7 +44,11 @@ module.exports = {
     let channel = client.channels.cache.get();
     channel.send({ embeds: [suggestEmbed] }).then(message => {
       message.react('👍'); message.react('👎');
-    });    
-    interaction.reply({ content: 'Suggestion created!', ephemeral: true })
+    });
+    let message = await interaction.reply(
+      { content: 'Suggestion created!', ephemeral: true }
+    );
+    suggestions.push(message.id);
+    client.data.guild.set(guild, data);
   }
 };
