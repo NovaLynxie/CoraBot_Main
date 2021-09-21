@@ -65,7 +65,7 @@ module.exports = {
       });
       message.react('👍'); message.react('👎');
       data.trackers.suggestions.push(message.id);
-      await client.data.set(guild, data);
+      await client.data.set(data, guild);
       interaction.reply(
         { content: `Suggestion created in #${channel.name} and opened new thread for discussions!`, ephemeral: true }
       );
