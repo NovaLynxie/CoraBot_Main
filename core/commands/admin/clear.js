@@ -4,7 +4,7 @@ const { guildLogger } = require('../../plugins/guildLogging');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('warn')
+    .setName('clear')
     .setDescription('Issues a warning mentioned user with optional reason.')
     .addIntegerOption(option => 
       option
