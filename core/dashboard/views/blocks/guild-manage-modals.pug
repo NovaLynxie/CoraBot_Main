@@ -8,6 +8,9 @@
 // Guild specific information
 - channelData = guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT');
 - textChannels = Object.fromEntries(channelData);
+- textLogsChs1 = Object.fromEntries(channelData);
+- textLogsChs2 = Object.fromEntries(channelData);
+- textLogsChs3 = Object.fromEntries(channelData);
 // Manage Page Modals (Edit Settings)
 #settingGuildStaffRolesModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingGuildStaffRolesModalLabel' aria-hidden='true')
   form(action=`/dashboard/${guild.id}/manage`, method='POST')
@@ -44,8 +47,8 @@
               br
               | Select the channel for bot logs to be output into.
             select#chatChannels.form-select(name='botLogChID')
-              for channel in textChannels
-                if (channelsList.indexOf(channel.id) > -1)
+              for channel in textChannels                
+                if (logChannels.botLogChID === channel.id)
                   option(value=channel.id selected='') #{channel.name}
                 else
                   option(value=channel.id) #{channel.name}
@@ -54,8 +57,18 @@
               br
               | Select the channel for mod logs to be output into.
             select#chatChannels.form-select(name='modLogChID')
+              for channel in textChannels                
+                if (logChannels.modLogChID === channel.id)
+                  option(value=channel.id selected='') #{channel.name}
+                else
+                  option(value=channel.id) #{channel.name}
+            label.form-label.mt-4(for='suggestChID') 
+              | Suggestion Logs (WIP)
+              br
+              | Select the channel for suggestions to be output into.
+            select#chatChannels.form-select(name='suggestChID')
               for channel in textChannels
-                if (channelsList.indexOf(channel.id) > -1)
+                if (logChannels.suggestChID === channel.id)
                   option(value=channel.id selected='') #{channel.name}
                 else
                   option(value=channel.id) #{channel.name}

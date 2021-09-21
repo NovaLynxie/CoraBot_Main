@@ -94,6 +94,9 @@ block content
                 tr
                   td Mod Logs
                   td #{(logChannels.modLogChID) ? 'Yes' : 'No'}
+                tr
+                  td Suggests
+                  td #{(logChannels.suggestChID) ? 'Yes' : 'No'}
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingGuildStaffRolesModal') Edit 
               i.fas.fa-edit
         .settings-card-modules.settings-card-wrapper
