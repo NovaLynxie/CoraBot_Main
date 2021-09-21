@@ -62,7 +62,7 @@ module.exports = {
     channel.send({ embeds: [suggestEmbed] }).then(async message => {
       thread = await message.startThread({
         name: `Discussion - ${title}`,
-        autoArchiveDuration: 60,
+        autoArchiveDuration: 1440,
         reason: 'Automatically generated for suggestion discussion.'
       });
       message.react('👍'); message.react('👎');

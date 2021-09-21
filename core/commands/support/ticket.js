@@ -59,7 +59,7 @@ module.exports = {
     channel.send({ embeds: [suggestEmbed] }).then(async message => {
       thread = await message.startThread({
         name: `Discussion - ${title}`,
-        autoArchiveDuration: 60,
+        autoArchiveDuration: 1440,
         type: 'private_thread',
         reason: 'Automatically generated for private ticket discussion.'
       });
