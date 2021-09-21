@@ -405,16 +405,16 @@ module.exports = (client, config) => {
 		const { botLogger, modLogger } = guildSettings;
 		// Use try/catch to capture errors from the bot or dashboard.
 		try {
+      function emptyStringCheck(item) {
+        let res = (item === '') ? null : item;
+        return res;
+      };
       logger.debug('Scanning request body for settings data...');
 			if (req.body.staffRoles) {
 				logger.debug(`Detected 'staffRoles' settings data!`);
 				const staffRoles = (typeof req.body.staffRoles === 'string') ? '[' + req.body.staffRoles + ']' : req.body.staffRoles;
 				roles.staff = staffRoles;
-			}
-      function emptyStringCheck(item) {
-        let res = (item === '') ? null : item;
-        return res;
-      }
+			}      
       if (req.body.muteRole) {
         logger.debug(`Detected 'muteRole' settings data!`);
         roles.mute = emptyStringCheck(req.body.muteRole);
