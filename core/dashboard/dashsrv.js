@@ -410,73 +410,69 @@ module.exports = (client, config) => {
         return res;
       };
       logger.debug('Scanning request body for settings data...');
-      switch (true) {
-        case (req.body.staffRoles):
-          logger.debug(`Detected 'staffRoles' settings data!`);
-				  const staffRoles = (typeof req.body.staffRoles === 'string') ? '[' + req.body.staffRoles + ']' : req.body.staffRoles;
-				  roles.staff = staffRoles;
-          break;
-        case (req.body.muteRole):
-          logger.debug(`Detected 'muteRole' settings data!`);
-          roles.mute = emptyStringCheck(req.body.muteRole);
-          break;
-        case (req.body.botLogChID):
-          logger.debug(`Detected 'botLogChID' settings data!`);
-          logChannels.botLogChID = emptyStringCheck(req.body.botLogChID);
-          break;
-        case (req.body.modLogChID):
-          logger.debug(`Detected 'modLogChID' settings data!`);
-          logChannels.modLogChID = emptyStringCheck(req.body.modLogChID);
-          break;
-        case (req.body.suggestChID):
-          logger.debug(`Detected 'suggestChID' settings data!`);
-          logChannels.suggestChID = emptyStringCheck(req.body.suggestChID);
-          break;
-        case (req.body.enableAutoMod):
-          logger.debug(`Detected 'autoMod' settings data!`);
-          autoMod.enableAutoMod = (req.body.enableAutoMod === 'on') ? true : false;
-          const channelsList = req.body.channelsList;
-          const urlBlacklist = (req.body.urlBlacklist) ? req.body.urlBlacklist.split(' ') : [];
-          autoMod.chListMode = (req.body.chListMode) ? req.body.chListMode : autoMod.chListMode;
-          autoMod.channelsList = (req.body.channelsList) ? channelsList : autoMod.channelsList;
-          autoMod.urlBlacklist = (urlBlacklist) ? urlBlacklist : autoMod.urlBlacklist;
-          autoMod.mediaTrackers = {
-            removeUrls: (req.body.removeUrls) ? true : false,
-            removeGifs: (req.body.removeGifs) ? true : false,
-            removeImgs: (req.body.removeImgs) ? true : false,
-            removeVids: (req.body.removeVids) ? true : false,
-          };
-          logger.debug(`Prepared 'autoMod' settings data for writing.`);
-          break;
-        case (req.body.enableChatBot):
-          logger.debug(`Detected 'chatBot' settings data!`);
-          chatBot.enableChatBot = (req.body.enableChatBot === 'on') ? true : false;
-          const chatBotOpts = {
-            botName: (req.body.botName) ? req.body.botName : '',
-            botGender: (req.body.botGender) ? req.body.botGender : '',
-          };
-          const chatChannels = (typeof req.body.chatChannels === 'string') ? '[' + req.body.chatChannels + ']' : req.body.chatChannels;
-          logger.debug(`chatBotOpts=${JSON.stringify(chatBotOpts)}`);
-          logger.debug(`chatChannels=${JSON.stringify(chatChannels)}`);
-          chatBot.chatBotOpts = chatBotOpts;
-          chatBot.chatChannels = (chatChannels) ? chatChannels : [];
-          logger.debug(`Prepared 'chatBot' settings data for writing.`);
-          break;
-        case (req.body.enableNotifier):
-          logger.debug(`Detected 'notifier' settings data!`);
-				  notifier.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
-				  notifier.notifsChannel = (req.body.notifsChannel) ? req.body.notifsChannel : '';
-				  notifier.trackEvents = {
-					  join: (req.body.userJoin) ? true : false,
-					  leave: (req.body.userLeave) ? true : false,
-					  kick: (req.body.userKick) ? true : false,
-					  ban: (req.body.userBan) ? true : false,
-				  };
-				  logger.debug(`Prepared 'notifier' settings data for writing.`);
-          break;
-        default:
-          logger.warn('No settings data found!');
-      };
+			if (req.body.staffRoles) {
+				logger.debug(`Detected 'staffRoles' settings data!`);
+				const staffRoles = (typeof req.body.staffRoles === 'string') ? '[' + req.body.staffRoles + ']' : req.body.staffRoles;
+				roles.staff = staffRoles;
+			}      
+      if (req.body.muteRole) {
+        logger.debug(`Detected 'muteRole' settings data!`);
+        roles.mute = emptyStringCheck(req.body.muteRole);
+      }
+      if (req.body.botLogChID) {
+        logger.debug(`Detected 'botLogChID' settings data!`);
+        logChannels.botLogChID = emptyStringCheck(req.body.botLogChID);
+      }
+      if (req.body.modLogChID) {
+        logger.debug(`Detected 'modLogChID' settings data!`);
+        logChannels.modLogChID = emptyStringCheck(req.body.modLogChID);
+      }
+      if (req.body.suggestChID) {
+        logger.debug(`Detected 'suggestChID' settings data!`);
+        logChannels.suggestChID = emptyStringCheck(req.body.suggestChID);
+      }
+			if (req.body.enableNotifier) {
+				logger.debug(`Detected 'notifier' settings data!`);
+				notifier.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
+				notifier.notifsChannel = (req.body.notifsChannel) ? req.body.notifsChannel : '';
+				notifier.trackEvents = {
+					join: (req.body.userJoin) ? true : false,
+					leave: (req.body.userLeave) ? true : false,
+					kick: (req.body.userKick) ? true : false,
+					ban: (req.body.userBan) ? true : false,
+				};
+				logger.debug(`Prepared 'notifier' settings data for writing.`);
+			}
+			if (req.body.enableAutoMod) {
+				logger.debug(`Detected 'autoMod' settings data!`);
+				autoMod.enableAutoMod = (req.body.enableAutoMod === 'on') ? true : false;
+				const channelsList = req.body.channelsList;
+				const urlBlacklist = (req.body.urlBlacklist) ? req.body.urlBlacklist.split(' ') : [];
+				autoMod.chListMode = (req.body.chListMode) ? req.body.chListMode : autoMod.chListMode;
+				autoMod.channelsList = (req.body.channelsList) ? channelsList : autoMod.channelsList;
+				autoMod.urlBlacklist = (urlBlacklist) ? urlBlacklist : autoMod.urlBlacklist;
+				autoMod.mediaTrackers = {
+					removeUrls: (req.body.removeUrls) ? true : false,
+					removeGifs: (req.body.removeGifs) ? true : false,
+					removeImgs: (req.body.removeImgs) ? true : false,
+					removeVids: (req.body.removeVids) ? true : false,
+				};
+				logger.debug(`Prepared 'autoMod' settings data for writing.`);
+			}
+			if (req.body.enableChatBot) {
+				logger.debug(`Detected 'chatBot' settings data!`);
+				chatBot.enableChatBot = (req.body.enableChatBot === 'on') ? true : false;
+				const chatBotOpts = {
+					botName: (req.body.botName) ? req.body.botName : '',
+					botGender: (req.body.botGender) ? req.body.botGender : '',
+				};
+				const chatChannels = (typeof req.body.chatChannels === 'string') ? '[' + req.body.chatChannels + ']' : req.body.chatChannels;
+				logger.debug(`chatBotOpts=${JSON.stringify(chatBotOpts)}`);
+				logger.debug(`chatChannels=${JSON.stringify(chatChannels)}`);
+				chatBot.chatBotOpts = chatBotOpts;
+				chatBot.chatChannels = (chatChannels) ? chatChannels : [];
+				logger.debug(`Prepared 'chatBot' settings data for writing.`);
+			}
 			// Verbose outputs here for debugging.
 			logger.verbose('-------------------------------------------------');
 			logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);
