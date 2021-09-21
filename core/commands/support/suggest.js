@@ -60,7 +60,7 @@ module.exports = {
       await client.data.set(guild, data);
     });
     interaction.reply(
-      { content: 'Suggestion created!', ephemeral: true }
+      { content: `Suggestion created in ${channel.name}!`, ephemeral: true }
     );    
   }
 };
