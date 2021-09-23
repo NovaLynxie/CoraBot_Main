@@ -30,7 +30,7 @@ module.exports = {
         .addStringOption(option => 
           option
             .setName('details')
-            .setDescription('Any additional details? (Keep it brief)')
+            .setDescription('Additional details? (Keep it short and brief)')
             .setRequired(false)
         )
     )
@@ -65,14 +65,14 @@ module.exports = {
       .setDescription(`Category ${category}`)
       .addFields(
         {
-          name: 'Suggestion Info',
+          name: 'Ticket Data',
           value: stripIndents`
             Suggested by ${member.user.tag} (${member.displayName})
             Created ${format(new Date, 'PPPPpppp')}`
         },
         {
-          name: 'Additional Details?',
-          value: (details) ? details : 'No details provided!'
+          name: 'Reason for opening ticket?',
+          value: (details) ? details : 'No reason was provided!'
         }
       )
     let ticketListEmbed = new MessageEmbed()
