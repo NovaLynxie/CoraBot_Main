@@ -97,26 +97,37 @@ module.exports = {
       }).catch(logger.error);
     };
     async function listTickets() {
-      for (const ticket of data.trackers.tickets) {
-        logger.debug(`Fetching message with ID ${ticket.messageID}`);
-        let author = await client.users.fetch(ticket.authorID);
-        await channel.messages.fetch(ticket.messageID).then(message => {
-          let embed = message.embeds[0];
-          logger.debug(`Found a message with ID ${ticket.messageID}!`);
-          logger.verbose(JSON.stringify(message, null, 2));
-          ticketListEmbed.addFields(
-            {
-              name: embed.title,
-              value: stripIndents`
-                Author: ${author.tag}
-                Created: ${format(message.createdAt, 'PPPPpppp')}
-                [Go to ticket](${message.url})`
-            }
-          );
-        }).catch( error => {
-          logger.debug(`No message exists with ID ${ticket.messageID}!`);
-          return logger.debug(error.stack);
-        });
+      if (data.trackers.tickets.length < 0) {
+        for (const ticket of data.trackers.tickets) {
+          logger.debug(`Fetching message with ID ${ticket.messageID}`);
+          let author = await client.users.fetch(ticket.authorID);
+          await channel.messages.fetch(ticket.messageID).then(message => {
+            let embed = message.embeds[0];
+            logger.debug(`Found a message with ID ${ticket.messageID}!`);
+            logger.verbose(JSON.stringify(message, null, 2));
+            ticketListEmbed.addFields(
+              {
+                name: embed.title,
+                value: stripIndents`
+                  Author: ${author.tag}
+                  Created: ${format(message.createdAt, 'PPPPpppp')}
+                  [Go to ticket](${message.url})`
+              }
+            );
+          }).catch( error => {
+            logger.debug(`No message exists with ID ${ticket.messageID}!`);
+            return logger.debug(error.stack);
+          });
+        };
+      } else {
+        ticketListEmbed.addFields(
+          {
+            name: 'No tickets found!',
+            value: stripIndents`
+              You currently have no tickets open in this server.
+              If you need to open a ticket, please use \`\`\`/ticket new\`\`\` in any text channel.`
+          }
+        );        
       };
       logger.verbose(JSON.stringify(ticketListEmbed, null, 2));
       logger.debug('Sending ticket list embed now!');
