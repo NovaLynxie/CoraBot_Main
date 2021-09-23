@@ -95,25 +95,24 @@ module.exports = {
         );
       }).catch(logger.error);
     };
-    function listTickets() {
-      let ticketList = [], ticketObj = {}, message;
-      data.trackers.tickets.forEach(async ticket => {
-        try {
-          logger.debug(`Fetching message with ID ${ticket.messageID}`);
-          message = await channel.messages.fetch(ticket.messageID);
+    async function listTickets() {
+      for (const ticket of data.trackers.tickets) {
+        logger.debug(`Fetching message with ID ${ticket.messageID}`);
+        await channel.messages.fetch(ticket.messageID).then(message => {
           logger.debug(`Found a message with ID ${ticket.messageID}!`);
-        } catch (error) {
-          logger.debug(`No message exists with ID ${ticket.messageID}!`);          
+          ticketListEmbed.addFields(
+            {
+              name: `<#${message.id}>`,
+              value: format(message.createdAt, 'PPPPpppp')
+            }
+          );
+        }).catch( error => {
+          logger.debug(`No message exists with ID ${ticket.messageID}!`);
           return logger.debug(error.stack);
-        };
-        ticketObj = {
-          ticketID: ticket.messageID,
-          ticketDate: format(message.createdAt, 'PPPPpppp')
-        };
-        ticketList.push(ticketObj);
-      });
-      ticketListEmbed.addFields(ticketList);
-      logger.debug(JSON.stringify(ticketListEmbed, null, 2));
+        });
+      };
+      logger.verbose(JSON.stringify(ticketListEmbed, null, 2));
+      logger.debug('Sending ticket list embed now!');
       interaction.reply(
         {
           embeds: [ticketListEmbed],
