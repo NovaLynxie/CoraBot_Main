@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
+const { v4: uuidv4 } = require('uuid');
 const { stripIndents } = require('common-tags');
 const { format } = require('date-fns');
 const logger = require('../../plugins/winstonLogger');
@@ -59,6 +60,7 @@ module.exports = {
     details = interaction.options.getString('details');
 
     let ticketNo = data.trackers.tickets.length + 1;
+    let ticketID = uuidv4();
     let ticketBaseEmbed = new MessageEmbed()
       .setTitle(`Ticket #${ticketNo} - ${title}`)
       .setColor('#d4eb60')
@@ -67,8 +69,9 @@ module.exports = {
         {
           name: 'Ticket Data',
           value: stripIndents`
-            Suggested by ${member.user.tag} (${member.displayName})
-            Created ${format(new Date, 'PPPPpppp')}`
+            Ticket ID: ${ticketID.slice(8)}
+            Author: ${member.user.tag} (${member.displayName})
+            Opened: ${format(new Date, 'PPPPpppp')}`
         },
         {
           name: 'Reason for opening ticket?',
@@ -88,7 +91,7 @@ module.exports = {
           reason: 'Automatically generated for private ticket discussion.'
         });
         await thread.members.add(interaction.user.id);
-        data.trackers.tickets.push({ ticketNo, messageID: message.id, authorID: interaction.user.id });
+        data.trackers.tickets.push({ ticketID, messageID: message.id, authorID: interaction.user.id });
         await client.data.set(data, guild);
         interaction.reply(
           { content: `New ticket created in #${channel.name} and opened new thread for discussions!`, ephemeral: true }
@@ -108,8 +111,9 @@ module.exports = {
               {
                 name: embed.title,
                 value: stripIndents`
+                  Ticket ID: ${ticketID.slice(8)}
                   Author: ${author.tag}
-                  Created: ${format(message.createdAt, 'PPPPpppp')}
+                  Opened: ${format(message.createdAt, 'PPPPpppp')}
                   [Go to ticket](${message.url})`
               }
             );
