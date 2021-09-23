@@ -58,8 +58,9 @@ module.exports = {
     category = interaction.options.getString('category');
     details = interaction.options.getString('details');
 
+    let ticketNo = data.trackers.tickets.length + 1;
     let ticketBaseEmbed = new MessageEmbed()
-      .setTitle(`Ticket - ${title}`)
+      .setTitle(`Ticket #${ticketNo} - ${title}`)
       .setColor('#d4eb60')
       .setDescription(`Category ${category}`)
       .addFields(
@@ -88,7 +89,7 @@ module.exports = {
           reason: 'Automatically generated for private ticket discussion.'
         });
         await thread.members.add(interaction.user.id);
-        data.trackers.tickets.push({ messageID: message.id, authorID: interaction.user.id });
+        data.trackers.tickets.push({ ticketNo, messageID: message.id, authorID: interaction.user.id });
         await client.data.set(data, guild);
         interaction.reply(
           { content: `New ticket created in #${channel.name} and opened new thread for discussions!`, ephemeral: true }
@@ -99,11 +100,15 @@ module.exports = {
       for (const ticket of data.trackers.tickets) {
         logger.debug(`Fetching message with ID ${ticket.messageID}`);
         await channel.messages.fetch(ticket.messageID).then(message => {
+          let embed = message.embeds[0];
           logger.debug(`Found a message with ID ${ticket.messageID}!`);
+          logger.verbose(JSON.stringify(message, null, 2));
           ticketListEmbed.addFields(
             {
-              name: `<#${message.id}>`,
-              value: format(message.createdAt, 'PPPPpppp')
+              name: embed.title,
+              value: stripIndents`
+                Created: ${format(message.createdAt, 'PPPPpppp')}
+                [Go to ticket](${message.url})`
             }
           );
         }).catch( error => {
