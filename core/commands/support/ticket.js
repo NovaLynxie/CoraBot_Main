@@ -99,6 +99,7 @@ module.exports = {
     async function listTickets() {
       for (const ticket of data.trackers.tickets) {
         logger.debug(`Fetching message with ID ${ticket.messageID}`);
+        let author = await client.users.fetch(ticket.authorID);
         await channel.messages.fetch(ticket.messageID).then(message => {
           let embed = message.embeds[0];
           logger.debug(`Found a message with ID ${ticket.messageID}!`);
@@ -107,6 +108,7 @@ module.exports = {
             {
               name: embed.title,
               value: stripIndents`
+                Author: ${author.tag}
                 Created: ${format(message.createdAt, 'PPPPpppp')}
                 [Go to ticket](${message.url})`
             }
