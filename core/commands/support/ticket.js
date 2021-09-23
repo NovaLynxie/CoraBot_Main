@@ -76,7 +76,7 @@ module.exports = {
         }
       )
     let ticketListEmbed = new MessageEmbed()
-      .setTitle(`Tickets of ${member.user.tag}`)
+      .setTitle('Tickets List System')
       .setColor('#d4eb60')
     
     function createTicket() {
