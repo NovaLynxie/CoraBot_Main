@@ -78,7 +78,6 @@ module.exports = {
     let ticketListEmbed = new MessageEmbed()
       .setTitle(`Tickets of ${member.user.tag}`)
       .setColor('#d4eb60')
-      .setDescription(`Latest Tickets as of ${format(new Date, 'PPPPpppp')}`)
     
     function createTicket() {
       channel.send({ embeds: [ticketBaseEmbed] }).then(async message => {
@@ -97,7 +96,7 @@ module.exports = {
       }).catch(logger.error);
     };
     async function listTickets() {
-      if (data.trackers.tickets.length < 0) {
+      if (data.trackers.tickets.length < -1) {
         for (const ticket of data.trackers.tickets) {
           logger.debug(`Fetching message with ID ${ticket.messageID}`);
           let author = await client.users.fetch(ticket.authorID);
