@@ -58,7 +58,7 @@ module.exports = {
     category = interaction.options.getString('category');
     details = interaction.options.getString('details');
 
-    const ticketEmbed = new MessageEmbed()
+    let ticketBaseEmbed = new MessageEmbed()
       .setTitle(`Ticket - ${title}`)
       .setColor('#d4eb60')
       .setDescription(`Category ${category}`)
@@ -74,9 +74,13 @@ module.exports = {
           value: (details) ? details : 'No details provided!'
         }
       )
+    let ticketListEmbed = new MessageEmbed()
+      .setTitle(`Tickets of ${member.user.tag}`)
+      .setColor('#d4eb60')
+      .setDescription(`Latest Tickets as of ${format(new Date, 'PPPPpppp')}`)
     
     function createTicket() {
-      channel.send({ embeds: [ticketEmbed] }).then(async message => {
+      channel.send({ embeds: [ticketBaseEmbed] }).then(async message => {
         thread = await message.startThread({
           name: `Discussion - ${title}`,
           autoArchiveDuration: 1440,
@@ -92,9 +96,30 @@ module.exports = {
       }).catch(logger.error);
     };
     function listTickets() {
-      data.trackers.tickets.forEach(ticket => {
-        //
+      let ticketList = [], ticketObj = {}, message;
+      data.trackers.tickets.forEach(async ticket => {
+        try {
+          logger.debug(`Fetching message with ID ${ticket.messageID}`);
+          message = await channel.messages.fetch(ticket.messageID);
+          logger.debug(`Found a message with ID ${ticket.messageID}!`);
+        } catch (error) {
+          logger.debug(`No message exists with ID ${ticket.messageID}!`);          
+          return logger.debug(error.stack);
+        };
+        ticketObj = {
+          ticketID: ticket.messageID,
+          ticketDate: format(message.createdAt, 'PPPPpppp')
+        };
+        ticketList.push(ticketObj);
       });
+      ticketListEmbed.addFields(ticketList);
+      logger.debug(JSON.stringify(ticketListEmbed, null, 2));
+      interaction.reply(
+        {
+          embeds: [ticketListEmbed],
+          ephemeral: true
+        }
+      );
     };
     if (subcmd === 'new') {
       createTicket();
