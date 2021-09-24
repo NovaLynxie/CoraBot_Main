@@ -131,7 +131,7 @@ module.exports = {
                   Ticket ID: ${ticketID.substr(0,8)}
                   Author: ${author.tag}
                   Opened: ${format(parseISO(messageDate), 'PPPPpppp')}
-                  Ticket no longer exists`
+                  Not available`
               }
             );
             return logger.debug(error.stack);
