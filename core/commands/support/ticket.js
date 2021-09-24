@@ -8,7 +8,7 @@ const logger = require('../../plugins/winstonLogger');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('ticket')
-    .setDescription('Create a ticket for staff support in this server.')
+    .setDescription('Create a ticket for support in this server.')
     .addSubcommand(subcommand =>
       subcommand
         .setName('new')
@@ -99,7 +99,7 @@ module.exports = {
       }).catch(logger.error);
     };
     async function listTickets() {
-      if (data.trackers.tickets.length < -1) {
+      if (data.trackers.tickets.length > 0) {
         for (const ticket of data.trackers.tickets) {
           logger.debug(`Fetching message with ID ${ticket.messageID}`);
           let author = await client.users.fetch(ticket.authorID);
