@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { v4: uuidv4 } = require('uuid');
 const { stripIndents } = require('common-tags');
-const { format } = require('date-fns');
+const { format, parseISO } = require('date-fns');
 const logger = require('../../plugins/winstonLogger');
 
 module.exports = {
@@ -69,7 +69,7 @@ module.exports = {
         {
           name: 'Ticket Data',
           value: stripIndents`
-            Ticket ID: ${ticketID.slice(8)}
+            Ticket ID: ${ticketID.substr(0,8)}
             Author: ${member.user.tag} (${member.displayName})
             Opened: ${format(new Date, 'PPPPpppp')}`
         },
@@ -91,7 +91,11 @@ module.exports = {
           reason: 'Automatically generated for private ticket discussion.'
         });
         await thread.members.add(interaction.user.id);
-        data.trackers.tickets.push({ ticketID, messageID: message.id, authorID: interaction.user.id });
+        data.trackers.tickets.push(
+          { 
+            ticketID, ticketTitle: ticketBaseEmbed.title, messageID: message.id, messageDate: message.createdAt, authorID: interaction.user.id
+          }
+        );
         await client.data.set(data, guild);
         interaction.reply(
           { content: `New ticket created in #${channel.name} and opened new thread for discussions!`, ephemeral: true }
@@ -104,21 +108,32 @@ module.exports = {
           logger.debug(`Fetching message with ID ${ticket.messageID}`);
           let author = await client.users.fetch(ticket.authorID);
           await channel.messages.fetch(ticket.messageID).then(message => {
+            let { ticketID, ticketTitle, messageDate } = ticket;
             let embed = message.embeds[0];
             logger.debug(`Found a message with ID ${ticket.messageID}!`);
             logger.verbose(JSON.stringify(message, null, 2));
             ticketListEmbed.addFields(
               {
-                name: embed.title,
+                name: ticketTitle,
                 value: stripIndents`
-                  Ticket ID: ${ticketID.slice(8)}
-                  Author: ${author.tag}
-                  Opened: ${format(message.createdAt, 'PPPPpppp')}
+                  Ticket ID: ${ticketID.substr(0,8)}
+                  Author: ${(author) ? author.tag : 'Unknown#0000'}
+                  Opened: ${format(parseISO(messageDate), 'PPPPpppp')}
                   [Go to ticket](${message.url})`
               }
             );
-          }).catch( error => {
+          }).catch(error => {
             logger.debug(`No message exists with ID ${ticket.messageID}!`);
+            ticketListEmbed.addFields(
+              {
+                name: `${ticketTitle} [Deleted]`,
+                value: stripIndents`
+                  Ticket ID: ${ticketID.substr(0,8)}
+                  Author: ${author.tag}
+                  Opened: ${format(parseISO(messageDate), 'PPPPpppp')}
+                  Ticket no longer exists`
+              }
+            );
             return logger.debug(error.stack);
           });
         };
@@ -130,7 +145,7 @@ module.exports = {
               You currently have no tickets open in this server.
               If you need to open a ticket, please use \`\`\`/ticket new\`\`\` in any text channel.`
           }
-        );        
+        );
       };
       logger.verbose(JSON.stringify(ticketListEmbed, null, 2));
       logger.debug('Sending ticket list embed now!');
@@ -141,14 +156,29 @@ module.exports = {
         }
       );
     };
+    function lockTicket() {
+      if (data.trackers.tickets.length > 0) {
+        for (const ticket of data.trackers.tickets) {
+          thread = channel.threads.fetch(ticket.messageID);
+          if (thread) {
+            break;
+          };
+        };
+        // ..
+      };
+      let message = channel.messages.fetch(messageID);
+    };
     if (subcmd === 'new') {
       createTicket();
     } else
     if (subcmd === 'list') {
       listTickets();
     } else
+    if (subcmd === 'lock') {
+      lockTicket();
+    } else
     if (subcmd === 'close') {
-      //
+      // closeTicket();
     }
   }
 };

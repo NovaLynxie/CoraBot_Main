@@ -67,6 +67,6 @@ module.exports = {
 			logger.warn('Dashboard cannot be loaded. Report this to the developers!');
 			logger.debug(err.stack);
 			require('../dashboard/basicsrv.js');
-		}
+		};
 	},
 };
