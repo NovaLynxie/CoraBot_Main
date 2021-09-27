@@ -76,7 +76,7 @@ process.on('unhandledRejection', error => {
 process.on('uncaughtException', error => {
 	crashReporter(error);
 	logger.error('Bot crashed! Generating a crash report.');
-	logger.error(error.message); logger.debug(error.stack);
+	logger.error(error.message); logger.debug(error);
 	setTimeout(() => {process.exit(1);}, 5000);
 });
 // Client timers references

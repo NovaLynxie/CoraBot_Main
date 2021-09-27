@@ -377,7 +377,7 @@ module.exports = (client, config) => {
 	});
 	// Settings page to change the guild configuration.
 	app.get('/dashboard/:guildID/manage', checkAuth, async (req, res) => {
-		const guild = client.guilds.cache.get(req.params.guildID);
+		const guild = await client.guilds.fetch(req.params.guildID);
 		const guildRoles = []; // prepare new array, then push one at a time.
 		guild.roles.cache.forEach(role => guildRoles.push(role));
 		if (!guild) return res.status(404);
