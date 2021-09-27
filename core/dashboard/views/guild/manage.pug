@@ -31,7 +31,7 @@ block content
               p
               | Name: #{guild.name}
               br
-              #guildID (ID: #{guild.id})
+              #hidden (ID: #{guild.id})
               | Verified: #{(guild.verified)?'Yes':'No'}
               br
               | Guild Prefix: '#{(guildPrefix) ? guildPrefix : bot.options.globalPrefix}'

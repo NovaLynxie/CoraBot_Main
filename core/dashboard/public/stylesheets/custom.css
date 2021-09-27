@@ -36,11 +36,11 @@
   padding-bottom: 0.5rem;
 }
 
-#guildID {
+#hidden {
   width: fit-content;
   filter: blur(5px)
 }
-#guildID:hover {
+#hidden:hover {
   filter: blur(0px);
 }
 
