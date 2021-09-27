@@ -36,6 +36,14 @@
   padding-bottom: 0.5rem;
 }
 
+#guildID {
+  width: fit-content;
+  filter: blur(5px)
+}
+#guildID:hover {
+  filter: blur(0px);
+}
+
 input[type="text"],
 input[type="email"],
 input[type="number"],
