@@ -49,8 +49,8 @@ async function loadBotCmds (client) {
 		}
 		else
 		if (error.message.indexOf('Cannot find module') > -1) {
-			logger.fatal('Unable to find or load specified command file!');
-			logger.warn('It is either missing or a permission error has occured.');
+			logger.fatal('Unable to find or load specified command file or its modules!');
+			logger.warn('Either missing or incorrect dependency declarations or wrong command filepath.');
 			logger.debug(error.stack);
 		}
 		else

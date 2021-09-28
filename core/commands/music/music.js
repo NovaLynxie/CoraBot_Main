@@ -4,8 +4,7 @@ const {
 } = require('discord.js');
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const SoundCloudAudio = require('soundcloud-audio');
-const scPlayer = new SoundCloudAudio('95f22ed54a5c297b1c41f72d713623ef');
+const SoundCloud = require('soundcloud-scraper');
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newPlayer } = require('../../handlers/voiceManager');
 
@@ -39,8 +38,8 @@ module.exports = {
 		const musicMenuEmbed = new MessageEmbed()
 			.setTitle('Music Main Menu')
 			.setDescription('Music Service')
-			.setFooter(radioEmbedFooter)
-			.setThumbnail(radioEmbedThumb);
+			.setThumbnail(musicEmbedThumb)
+      .setFooter(musicEmbedFooter);		
 		// Music Player Embed
 		const musicPlayerEmbed = new MessageEmbed()
 			.setTitle('Music Player v1.0')
@@ -99,6 +98,7 @@ module.exports = {
 					.setLabel('Back to Menu')
 					.setStyle('PRIMARY'),
 			);
+    
     async function joinChannel(channel) {
 			connection = checkVC(interaction.guild);
 			try {
