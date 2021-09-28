@@ -32,7 +32,7 @@ catch (err) {
 }
 
 var general = {}, discord = {}, runtime = {};
-var discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey;
+var discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID;
 
 if (mainLoaded) {
 	var { general, advanced, dashboard, runtime } = mainConfig;
@@ -50,8 +50,8 @@ if (useDotEnv) {
 		cheweyApiToken,
 		yiffyApiKey,
 		youtubeApiKey,
+    soundcloudClientID
 	} = process.env;
-	discordToken = process.env.discordToken;
 }
 else {
 	try {
@@ -69,7 +69,7 @@ else {
 if (authLoaded) {
 	var { discord, external } = authConfig;
 	var { discordToken, clientSecret, sessionSecret } = discord;
-	var { cheweyApiToken, yiffyApiKey, youtubeApiKey } = external;
+	var { cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID } = external;
 	// check main credentials and fallback to process.env if missing.
 	discordToken = (!discordToken || discordToken === 'NOT_SET') ? process.env.discordToken : discordToken;
 	clientSecret = (!clientSecret || clientSecret === 'NOT_SET') ? process.env.clientSecret : clientSecret;
@@ -78,6 +78,7 @@ if (authLoaded) {
 	cheweyApiToken = (!cheweyApiToken || cheweyApiToken === 'NOT_SET') ? process.env.cheweyApiToken : cheweyApiToken;
 	yiffyApiKey = (!yiffyApiKey || yiffyApiKey === 'NOT_SET') ? process.env.yiffyApiKey : yiffyApiKey;
 	youtubeApiKey = (!youtubeApiKey || youtubeApiKey === 'NOT_SET') ? process.env.youtubeApiKey : youtubeApiKey;
+  soundcloudClientID = (!soundcloudClientID || soundcloudClientID === 'NOT_SET') ? process.env.soundcloudClientID : soundcloudClientID;
 }
 else {
 	var {
