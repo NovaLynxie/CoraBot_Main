@@ -47,7 +47,7 @@
     "passport-discord": "^0.1.4",
     "passport-discord-faxes": "^0.1.4",
     "pug": "^3.0.2",
-    "soundcloud-audio": "^1.4.0",
+    "soundcloud-scraper": "^5.0.2",
     "toml": "^3.0.0",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5",

@@ -5,6 +5,7 @@ const {
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
+const sndCldClient = SoundCloud.Client();
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newPlayer } = require('../../handlers/voiceManager');
 
@@ -124,6 +125,9 @@ module.exports = {
 				});
 			}
 		};
+    async getSoundcloudSong() {
+      //
+    };
     function sourceVerifier(song) {
       //
     };
