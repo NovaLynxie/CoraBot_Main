@@ -5,7 +5,7 @@ const {
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
-const sndCldClient = SoundCloud.Client();
+const scClient = new SoundCloud.Client();
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newPlayer } = require('../../handlers/voiceManager');
 
@@ -47,7 +47,7 @@ module.exports = {
       .setThumbnail(musicEmbedThumb)
 			.setFooter(musicEmbedFooter);
 		// Music Selecton Embed
-		const musicSelectorEmbed = new MessageEmbed()
+		const musicQueueEmbed = new MessageEmbed()
 			.setTitle('Music Queue System')
       .setDescription(`Music Queue for ${interaction.guild.name}`)
       .setThumbnail(musicEmbedThumb)
@@ -125,14 +125,46 @@ module.exports = {
 				});
 			}
 		};
-    async getSoundcloudSong() {
-      //
+    async function getSCSong(url) {
+      let res = await scClient(url);
+      return res;
     };
-    function sourceVerifier(song) {
-      //
+    async function sourceVerifier(input) {
+      let song, stream, data, object;
+      data = await client.data.get(interaction.guild);
+      if (input.match(/(soundcloud.com)/gi)) {
+        song = await getSCSong(input);
+        object = { type: 'soundcloud', song };
+      } else
+      if (input.match(/(youtube.com)/gi)) {
+        object = { type: 'youtube', song: { url: input } };
+      };
+      data.music.queue.push(object);
+      await client.data.set(data, interaction.guild);
+    };
+    async function loadSong() {
+      let data = await client.data.get(interaction.guild);
+      let { type, song } = data.music.queue[0], stream;
+      if (type === 'soundcloud') {
+        stream = song.downloadProgressive();
+      } else
+      if (type === 'youtube') {
+        stream = ytdl(song.url);
+      };
+      source = createSource(stream);
+      return source;
+    };
+    // Dynamic Music Queue Embed
+    function dynamicQueueEmbed() {
+      musicQueueEmbed.fields = [
+        {
+          name: 'placeholder',
+          value: 'placeholder'
+        }
+      ]
     };
 		// Dynamic Music Player Embed
-		function dynamicPlayerEmbed(station) {
+		function dynamicPlayerEmbed(song) {
 			let playerState;
 			switch (player?._state.status) {
 			case 'idle':
@@ -160,13 +192,8 @@ module.exports = {
 				},
 				{
 					name: 'Song Information',
-					value: (song) ? `Name: ${song?.name}
-          Desc:  ${song?.desc}` : 'No station loaded.',
-				},
-				{
-					name: 'Now Playing (WIP)',
-					value: 'Nothing is playing...',
-				},
+					value: (song) ? `${song?.title}` : 'No song loaded.',
+				}
 			];
 			return musicPlayerEmbed;
 		};
@@ -175,7 +202,7 @@ module.exports = {
 			try {
 				await interact.editReply(
 					{
-						embeds: [dynamicPlayerEmbed(station)],
+						embeds: [dynamicPlayerEmbed(song)],
 						components: [musicPlayerBtns],
 					},
 				);
@@ -232,7 +259,7 @@ module.exports = {
 				menuOpen = false;
 				await interact.editReply(
 					{
-						content: 'Radio menu closed.',
+						content: 'Music menu closed.',
 						embeds: [], components: [],
 					},
 				);
@@ -265,15 +292,16 @@ module.exports = {
 				else
 				if (!connection) {
 					interact.followUp({
-						content: 'The bot',
+						content: 'The bot is not connected to any channel!',
 						ephemeral: true,
 					});
 				}
 				connection.destroy();
 				break;
-				// Radio Player Actions
+				// Music Player Actions
 			case 'play':
 				if (!player) return;
+        if (!source) source = loadSong();
 				player.play(source);
 				connection.subscribe(player);
 				break;
@@ -285,7 +313,6 @@ module.exports = {
 				if (!player) return;
 				player.stop();
 				break;
-				// Radio Selection Actions
 			case 'queue':
 				if (!player) return;
 				// player.play(source);
