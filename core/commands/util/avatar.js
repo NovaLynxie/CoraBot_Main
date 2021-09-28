@@ -9,7 +9,7 @@ module.exports = {
 			option
 				.setName('target')
 				.setDescription('Enter any member mentionable or username.')
-				.setRequired(false),
+				.setRequired(true),
 		),
 	execute(interaction, client) {
     const member = interaction.options.getMember('target');
@@ -18,8 +18,8 @@ module.exports = {
       .setDescription(`Very well.. here is ${member.user.tag}'s current avatar.`)
       .setImage(member.user.displayAvatarURL({ dynamic: true }))
       .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
-		return interaction.editReply(
-			{				
+		return interaction.reply(
+			{
         embeds: [avatarEmbed],
 				ephemeral: true,
 			}
