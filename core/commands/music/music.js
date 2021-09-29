@@ -165,7 +165,7 @@ module.exports = {
               Title: ${info.videoDetails.title}
               Keywords: ${info.videoDetails.keywords.join(', ')}
               Sourced from YouTube`
-            }
+            };
             break;
           case "soundcloud":
             info = await scClient.getSongInfo(item.url)
@@ -175,7 +175,7 @@ module.exports = {
               Title: ${info.title}
               Genre: ${info.genre}
               Sourced from SoundCloud`
-            }
+            };
             break;
           default:          
             field = {
@@ -184,16 +184,9 @@ module.exports = {
               No metadata available.
               URL: ${item.url}
               `
-            }
-        }
-        field = {
-          name: `Track #${no}`,
-          value: `
-          Sourced from ${item.type}.
-          Type: ${item.type}`
-        };
-        musicQueueEmbed.addFields(field);
-        track++;
+            };
+        }; track++;
+        musicQueueEmbed.addFields(field);        
       };
       return musicQueueEmbed;
     };
