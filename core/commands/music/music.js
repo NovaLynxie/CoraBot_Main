@@ -153,13 +153,49 @@ module.exports = {
       return source;
     };
     // Dynamic Music Queue Embed
-    function dynamicQueueEmbed() {
-      musicQueueEmbed.fields = [
-        {
-          name: 'placeholder',
-          value: 'placeholder'
+    function dynamicQueueEmbed(queue) {
+      let field = {}, no = 1, info;
+      for (const item of queue) {
+        switch (type) {
+          case "youtube":
+            info = await ytdl.getInfo(item.url);
+            field = {
+              name: `Track #${no}`,
+              value: `
+              Title: ${info.videoDetails.title}
+              Keywords: ${info.videoDetails.keywords.join(', ')}
+              Sourced from YouTube`
+            }
+            break;
+          case "soundcloud":
+            info = await scClient.getSongInfo(item.url)
+            field = {
+              name: `Track #${no}`,
+              value: `
+              Title: ${info.title}
+              Genre: ${info.genre}
+              Sourced from SoundCloud`
+            }
+            break;
+          default:          
+            field = {
+              name: `Track #${no}`,
+              value: `
+              No metadata available.
+              URL: ${item.url}
+              `
+            }
         }
-      ]
+        field = {
+          name: `Track #${no}`,
+          value: `
+          Sourced from ${item.type}.
+          Type: ${item.type}`
+        };
+        musicQueueEmbed.addFields(field);
+        track++;
+      };
+      return musicQueueEmbed;
     };
 		// Dynamic Music Player Embed
 		function dynamicPlayerEmbed(song) {
@@ -237,6 +273,7 @@ module.exports = {
 
 		// Menu/Button collecter and handler.
 		collector.on('collect', async interact => {
+      data = await client.data.get(interact.guild);
 			await interact.deferUpdate();
 			await wait(1000);
 			// Button Switch/Case Handler
