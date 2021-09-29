@@ -31,9 +31,9 @@ module.exports = {
     ),
 	async execute(interaction, client) {
 		let connection = checkVC(interaction.guild);
-		let player, source;
+		let player, source, track;
     await interaction.deferReply({ ephemeral: false });
-    const subcmd = interaction.options.getSubcommand();		
+    const subcmd = interaction.options.getSubcommand();	
 		const musicEmbedThumb = client.user.displayAvatarURL({ dynamic: true });
 		const musicEmbedFooter = 'Powered by DiscordJS Voice (OPUS)';
 		const musicMenuEmbed = new MessageEmbed()
@@ -125,32 +125,30 @@ module.exports = {
 				});
 			}
 		};
-    async function getSCSong(url) {
-      let res = await scClient(url);
-      return res;
-    };
     async function sourceVerifier(input) {
       let song, stream, data, object;
       data = await client.data.get(interaction.guild);
-      if (input.match(/(soundcloud.com)/gi)) {
-        song = await getSCSong(input);
-        object = { type: 'soundcloud', song };
+      if (input.match(/(soundcloud.com)/gi)) {        
+        object = { type: 'soundcloud', url: input };
       } else
       if (input.match(/(youtube.com)/gi)) {
-        object = { type: 'youtube', song: { url: input } };
+        object = { type: 'youtube', url: input };
       };
       data.music.queue.push(object);
       await client.data.set(data, interaction.guild);
     };
     async function loadSong() {
       let data = await client.data.get(interaction.guild);
-      let { type, song } = data.music.queue[0], stream;
+      let { type, url } = data.music.queue[0], stream;
       if (type === 'soundcloud') {
-        stream = song.downloadProgressive();
+        song = await scClient.getSongInfo(url);
+        stream = await song.downloadProgressive();
       } else
       if (type === 'youtube') {
-        stream = ytdl(song.url);
+        song = ytdl.getBasicInfo(url);
+        stream = await ytdl(url);
       };
+      track = song;
       source = createSource(stream);
       return source;
     };
@@ -202,16 +200,15 @@ module.exports = {
 			try {
 				await interact.editReply(
 					{
-						embeds: [dynamicPlayerEmbed(song)],
+						embeds: [dynamicPlayerEmbed(track)],
 						components: [musicPlayerBtns],
 					},
 				);
-			}
-			catch (err) {
-				logger.debug('Error updating player interface!');
+			} catch (err) {
+				logger.debug('Error opening/updating player interface!');
 				logger.debug(err.stack);
-			}
-		}
+			};
+		};
 		// Create interaction collecter to fetch button interactions.
 		const collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
 		let menuOpen, playerOpen;
@@ -250,8 +247,8 @@ module.exports = {
 				menuOpen = true;
 				await interact.editReply(
 					{
-						embeds: [radioMenuEmbed],
-						components: [radioMenuBtns],
+						embeds: [musicMenuEmbed],
+						components: [musicMenuBtns],
 					},
 				);
 				break;
@@ -301,7 +298,7 @@ module.exports = {
 				// Music Player Actions
 			case 'play':
 				if (!player) return;
-        if (!source) source = loadSong();
+        if (!source) source = await loadSong();
 				player.play(source);
 				connection.subscribe(player);
 				break;
@@ -343,11 +340,20 @@ module.exports = {
 			await wait(5000);
 			await interaction.deleteReply();
 		});
-		menuOpen = true;
-		interaction.editReply({
-			embeds: [musicMenuEmbed],
-			components: [musicMenuBtns],
-			ephemeral: false,
-		});
+    if (subcmd === 'add') {
+      await sourceVerifier(interaction.options.getString('url'));
+      interaction.editReply({
+        content: 'Song added successfully to the queue!',
+        ephemeral: true
+      });
+    };
+    if (subcmd === 'player') {
+      menuOpen = true;
+      interaction.editReply({
+        embeds: [musicMenuEmbed],
+        components: [musicMenuBtns],
+        ephemeral: false,
+      });
+    };
 	},
 };
