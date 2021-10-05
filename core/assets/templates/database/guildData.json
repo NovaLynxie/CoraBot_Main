@@ -1,8 +1,6 @@
 {
   "music": {
-    "state": null,
-    "connected": false,
-    "channel": "",
+    "track": {},
     "queue": []
   },
   "radio": {

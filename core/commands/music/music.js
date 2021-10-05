@@ -7,7 +7,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
 const scClient = new SoundCloud.Client();
 const wait = require('util').promisify(setTimeout);
-const { checkVC, joinVC, createSource, newPlayer } = require('../../handlers/voiceManager');
+const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
+let audioPlayer = newAudioPlayer();
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -30,9 +31,9 @@ module.exports = {
         .setDescription('Start up the player.')
     ),
 	async execute(interaction, client) {
-		let connection = checkVC(interaction.guild);
-		let player, source, track;
     await interaction.deferReply({ ephemeral: false });
+		let connection = checkVC(interaction.guild);
+		let data = await client.data.get(interaction.guild), source, track;
     const subcmd = interaction.options.getSubcommand();	
 		const musicEmbedThumb = client.user.displayAvatarURL({ dynamic: true });
 		const musicEmbedFooter = 'Powered by DiscordJS Voice (OPUS)';
@@ -83,15 +84,15 @@ module.exports = {
 					.setEmoji('🎤')
 					.setStyle('SECONDARY'),
         new MessageButton()
-					.setCustomId('prevTrack')
-          .setEmoji('⏮️')
+					.setCustomId('clear')
+          .setEmoji('🆑')
 					.setStyle('SECONDARY'),
 				new MessageButton()
 					.setCustomId('queue')
           .setEmoji('📜')
 					.setStyle('SECONDARY'),
         new MessageButton()
-          .setCustomId('nextTrack')
+          .setCustomId('skip')
           .setEmoji('⏭️')
           .setStyle('SECONDARY'),
 				new MessageButton()
@@ -101,8 +102,7 @@ module.exports = {
 			);
     // Music command local functions.
     async function sourceVerifier(input) {
-      let song, stream, data, object;
-      data = await client.data.get(interaction.guild);
+      let song, stream, object;
       if (input.match(/(soundcloud.com)/gi)) {        
         object = { type: 'soundcloud', url: input };
       } else
@@ -113,17 +113,20 @@ module.exports = {
       await client.data.set(data, interaction.guild);
     };
     async function loadSong() {
-      let data = await client.data.get(interaction.guild);
-      let { type, url } = data.music.queue[0], stream;
+      if (!data.music.queue[0]) return undefined;
+      let { type, url } = data.music.queue[0], stream, title;
       if (type === 'soundcloud') {
         song = await scClient.getSongInfo(url);
+        title = song.title;
         stream = await song.downloadProgressive();
       } else
       if (type === 'youtube') {
         song = ytdl.getBasicInfo(url);
+        title = song.videoDetails.title;
         stream = await ytdl(url);
       };
-      track = song;
+      data.music.track = { title, type };
+      await client.data.set(data, interaction.guild);
       source = createSource(stream);
       return source;
     };
@@ -161,14 +164,14 @@ module.exports = {
               URL: ${item.url}
               `
             };
-        }; track++;
+        }; no++;
         musicQueueEmbed.addFields(field);        
       };
       return musicQueueEmbed;
     };
 		function dynamicPlayerEmbed(song) {
 			let playerState;
-			switch (player?._state.status) {
+			switch (audioPlayer?._state.status) {
 			case 'idle':
 				playerState = 'Idle';
 				break;
@@ -194,7 +197,7 @@ module.exports = {
 				},
 				{
 					name: 'Song Information',
-					value: (song) ? `${song?.title}` : 'No song loaded.',
+					value: (song.title) ? `${song.title}` : 'No song loaded.',
 				}
 			];
 			return musicPlayerEmbed;
@@ -204,7 +207,7 @@ module.exports = {
 			try {
 				await interact.editReply(
 					{
-						embeds: [dynamicPlayerEmbed(track)],
+						embeds: [dynamicPlayerEmbed(data.music.track)],
 						components: [musicPlayerCtrlBtns, musicPlayerExtBtns],
 					},
 				);
@@ -215,28 +218,28 @@ module.exports = {
 		};
 		// Create interaction collecter to fetch button interactions.
 		const collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
-		let menuOpen, playerOpen;
-		player = (!player) ? newPlayer() : player;
+		let queueOpen, playerOpen;
+		audioPlayer = (!audioPlayer) ? newAudioPlayer() : audioPlayer;
 		// Player Event Handler.
-		player.on('stateChange', (oldState, newState) => {
+		audioPlayer.on('stateChange', (oldState, newState) => {
 			logger.debug(`oldState.status => ${oldState?.status}`);
 			logger.debug(`newState.status => ${newState?.status}`);
 			if (playerOpen) refreshPlayer(interaction);
 		});
-		player.on(AudioPlayerStatus.Playing, () => {
+		audioPlayer.on(AudioPlayerStatus.Playing, () => {
 			logger.debug('Player has started playing!');
 		});
-		player.on(AudioPlayerStatus.Idle, () => {
+		audioPlayer.on(AudioPlayerStatus.Idle, () => {
 			logger.debug('Player currently idle/paused. Awaiting new requests.');
 		});
-		player.on(AudioPlayerStatus.AutoPaused, () => {
-			player.pause();
+		audioPlayer.on(AudioPlayerStatus.AutoPaused, () => {
+			audioPlayer.pause();
 			logger.debug('Player auto paused since not connected. Waiting for connections.');
 		});
-		player.on('error', err => {
+		audioPlayer.on('error', err => {
 			logger.error('Error occured while playing stream!');
 			logger.error(err.message); logger.debug(err.stack);
-			player.stop();
+			audioPlayer.stop();
 		});
 
 		// Menu/Button collecter and handler.
@@ -247,7 +250,7 @@ module.exports = {
 			// Button Switch/Case Handler
 			switch (interact.customId) {
 			case 'closePlayer':
-				menuOpen = false;
+				playerOpen = false;
 				await interact.editReply(
 					{
 						content: 'Music Player hidden! Run /music player to reopen it.',
@@ -271,29 +274,50 @@ module.exports = {
 				} else
         if (connection) {
           connection.destroy();
+          connection = null;
         };
 				break;
 				// Music Player Actions
 			case 'play':
-				if (!player) return;
-        if (!source) source = await loadSong();
-				player.play(source);
-				connection.subscribe(player);
+				if (!audioPlayer) return;
+        source = await loadSong();
+        if (!source) return interact.editReply({ content: 'No song queued to play!'});
+				audioPlayer.play(source);
+				connection.subscribe(audioPlayer);
 				break;
 			case 'pause':
-				if (!player) return;
-				player.pause();
+				if (!audioPlayer) return;
+				audioPlayer.pause();
 				break;
 			case 'stop':
-				if (!player) return;
-				player.stop();
+				if (!audioPlayer) return;
+				audioPlayer.stop();
+        data.music.track = {};
 				break;
+      case 'skip':
+        if (!audioPlayer) return;
+        data.music.queue.shift();
+        source = await loadSong();
+        if (!source) {
+          return interact.editReply({ content: 'End of queue!'});
+        } else {
+          audioPlayer.play(source);
+        };
+        break;
+      case 'clear':
+        data.music.queue = [];
+        break;
 			case 'queue':
-        await interact.editReply(
-          {
-            embeds: [await dynamicQueueEmbed(data.music.queue)]
-          }
-        )
+        queueOpen = !queueOpen;
+        if (queueOpen) {
+          await interact.editReply(
+            {
+              embeds: [await dynamicQueueEmbed(data.music.queue)]
+            }
+          );
+        } else {
+          refreshPlayer(interact);
+        };        
 				break;
 				// fallback action for all music menus
 			default:
@@ -304,13 +328,14 @@ module.exports = {
 						content: 'That action is invalid or not available!',
 					},
 				);
-			}
+			};
+      await client.data.set(data, interact.guild);
 		});
 		// Log on collector end (temporary)
 		collector.on('end', async collected => {
 			logger.debug('Collector in music commmand timed out or was stopped.');
 			logger.debug(`Collected ${collected.size} items.`);
-			if (!menuOpen) return; // don't edit replies after this is called!
+			if (!playerOpen) return; // don't edit replies after this is called!
 			await interaction.editReply(
 				{
 					content: 'Music Player timed out. Please run /music again.',
@@ -326,9 +351,10 @@ module.exports = {
         content: 'Song added successfully to the queue!',
         ephemeral: true
       });
+      await wait(3000);
+			await interaction.deleteReply();
     };
     if (subcmd === 'player') {
-      //menuOpen = true;
       playerOpen = true;
       await refreshPlayer(interaction);
     };

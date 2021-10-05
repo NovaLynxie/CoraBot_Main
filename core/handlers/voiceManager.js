@@ -2,14 +2,13 @@ const logger = require('../plugins/winstonLogger.js');
 const {
 	NoSubscriberBehavior, VoiceConnectionStatus, createAudioPlayer, createAudioResource, entersState, joinVoiceChannel, getVoiceConnection,
 } = require('@discordjs/voice');
-
 // Audio Player creation.
-function newPlayer() {
-	const player = createAudioPlayer({
+function newAudioPlayer() {
+	let audioPlayer = createAudioPlayer({
 		noSubscriber: NoSubscriberBehavior.Pause,
 		maxMissedFrames: Math.round(5000 / 20),
 	});
-	return player;
+  return audioPlayer;
 };
 
 // Audio Source creation.
@@ -44,4 +43,4 @@ async function joinVC(channel) {
 	};
 };
 
-module.exports = { checkVC, joinVC, createSource, newPlayer };
+module.exports = { checkVC, createSource, joinVC, newAudioPlayer };
