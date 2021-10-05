@@ -32,9 +32,9 @@ module.exports = {
     ),
 	async execute(interaction, client) {
     await interaction.deferReply({ ephemeral: false });
-    let guild = interaction.guild;
+    let guild = interaction.guild, collector, source, track;
 		let connection = checkVC(guild);
-		let data = await client.data.get(guild), source, track;
+		let data = await client.data.get(guild);
     const subcmd = interaction.options.getSubcommand();	
 		const musicEmbedThumb = client.user.displayAvatarURL({ dynamic: true });
 		const musicEmbedFooter = 'Powered by DiscordJS Voice (OPUS)';
@@ -217,8 +217,21 @@ module.exports = {
 				logger.debug(err.stack);
 			};
 		};
-		// Create interaction collecter to fetch button interactions.
-		const collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
+		
+    if (subcmd === 'add') {
+      await sourceVerifier(interaction.options.getString('url'));
+      interaction.editReply({
+        content: 'Song added successfully to the queue!',
+        ephemeral: true
+      });
+      await wait(3000);
+			await interaction.deleteReply();
+    };
+    if (subcmd === 'player') {
+      collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
+      playerOpen = true;
+      await refreshPlayer(interaction);
+    };
 		let queueOpen, playerOpen;
 		audioPlayer = (!audioPlayer) ? newAudioPlayer() : audioPlayer;
 		// Player Event Handler.
@@ -360,19 +373,6 @@ module.exports = {
 			await wait(5000);
 			await interaction.deleteReply();
       playerOpen = false;
-		});
-    if (subcmd === 'add') {
-      await sourceVerifier(interaction.options.getString('url'));
-      interaction.editReply({
-        content: 'Song added successfully to the queue!',
-        ephemeral: true
-      });
-      await wait(3000);
-			await interaction.deleteReply();
-    };
-    if (subcmd === 'player') {
-      playerOpen = true;
-      await refreshPlayer(interaction);
-    };
+		});    
 	},
 };
