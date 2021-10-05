@@ -53,78 +53,53 @@ module.exports = {
       .setThumbnail(musicEmbedThumb)
 			.setFooter(musicEmbedFooter);
 		// Music Buttons to control the playback.
-		const musicMenuBtns = new MessageActionRow()
+    const musicPlayerCtrlBtns = new MessageActionRow()
 			.addComponents(
 				new MessageButton()
-					.setCustomId('joinVC')
-					.setLabel('Join Voice')
-					.setStyle('SECONDARY'),
-				new MessageButton()
-					.setCustomId('leaveVC')
-					.setLabel('Leave Voice')
-					.setStyle('SECONDARY'),
-				new MessageButton()
-					.setCustomId('musicPlayer')
-					.setLabel('Music Player')
-					.setStyle('SECONDARY'),
-        new MessageButton()
-					.setCustomId('queue')
-					.setLabel('Open Queue')
-					.setStyle('PRIMARY'),
-				new MessageButton()
-					.setCustomId('closeMenu')
-					.setLabel('Close Menu')
-					.setStyle('DANGER'),
-			);
-		const musicPlayerBtns = new MessageActionRow()
-			.addComponents(
-				new MessageButton()
-					.setCustomId('play')
-					.setLabel('Play')
+					.setCustomId('play')					
+          .setEmoji('▶️')
 					.setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('pause')
-          .setLabel('Pause')
+          .setEmoji('⏸️')
           .setStyle('SECONDARY'),
 				new MessageButton()
-					.setCustomId('stop')
-					.setLabel('Stop')
-					.setStyle('DANGER'),
+					.setCustomId('stop')					
+          .setEmoji('⏹️')
+					.setStyle('SECONDARY'),
         new MessageButton()
-					.setCustomId('musicQueue')
-					.setLabel('Open Queue')
-					.setStyle('PRIMARY'),
+					.setCustomId('rewind')					
+          .setEmoji('⏪')
+					.setStyle('SECONDARY'),
 				new MessageButton()
-					.setCustomId('musicIndex')
-					.setLabel('Back to Menu')
-					.setStyle('PRIMARY'),
+					.setCustomId('fastfoward')					
+          .setEmoji('⏩')
+					.setStyle('SECONDARY'),
 			);
-    
-    async function joinChannel(channel) {
-			connection = checkVC(interaction.guild);
-			try {
-				if (!connection) {
-					logger.debug(`No connections found in ${interaction.guild.name}, creating one.`);
-					connection = await joinVC(interaction.member.voice.channel);
-				}
-				else {
-					logger.debug(`Connection already active in ${interaction.guild.name}.`);
-				}
-			}
-			catch (err) {
-				logger.error('An error occured while opening a connection!');
-				logger.error(err.message); logger.debug(err.stack);
-				const errEmbed = new MessageEmbed()
-					.setTitle('Radio has stopped working!')
-					.setDescription('Failed to open a connection, stopped music interaction. Please run /music again.')
-					.addFields(
-						{ name: 'Error Data', value: `\`\`\`${err}\`\`\`` },
-					);
-				return interaction.editReply({
-					embeds: [errEmbed],
-				});
-			}
-		};
+    const musicPlayerExtBtns = new MessageActionRow()
+			.addComponents(				
+        new MessageButton()
+					.setCustomId('joinLeaveVC')
+					.setEmoji('🎤')
+					.setStyle('SECONDARY'),
+        new MessageButton()
+					.setCustomId('prevTrack')
+          .setEmoji('⏮️')
+					.setStyle('SECONDARY'),
+				new MessageButton()
+					.setCustomId('queue')
+          .setEmoji('📜')
+					.setStyle('SECONDARY'),
+        new MessageButton()
+          .setCustomId('nextTrack')
+          .setEmoji('⏭️')
+          .setStyle('SECONDARY'),
+				new MessageButton()
+					.setCustomId('closePlayer')
+          .setEmoji('❌')
+					.setStyle('SECONDARY'),
+			);
+    // Music command local functions.
     async function sourceVerifier(input) {
       let song, stream, data, object;
       data = await client.data.get(interaction.guild);
@@ -152,13 +127,14 @@ module.exports = {
       source = createSource(stream);
       return source;
     };
-    // Dynamic Music Queue Embed
-    function dynamicQueueEmbed(queue) {
+    // Dynamic Music Embeds
+    async function dynamicQueueEmbed(queue) {
       let field = {}, no = 1, info;
       for (const item of queue) {
+        let { type, url } = item;
         switch (type) {
           case "youtube":
-            info = await ytdl.getInfo(item.url);
+            info = await ytdl.getInfo(url);
             field = {
               name: `Track #${no}`,
               value: `
@@ -168,7 +144,7 @@ module.exports = {
             };
             break;
           case "soundcloud":
-            info = await scClient.getSongInfo(item.url)
+            info = await scClient.getSongInfo(url)
             field = {
               name: `Track #${no}`,
               value: `
@@ -190,7 +166,6 @@ module.exports = {
       };
       return musicQueueEmbed;
     };
-		// Dynamic Music Player Embed
 		function dynamicPlayerEmbed(song) {
 			let playerState;
 			switch (player?._state.status) {
@@ -215,7 +190,7 @@ module.exports = {
 			musicPlayerEmbed.fields = [
 				{
 					name: 'Player Status',
-					value: playerState,
+					value: (playerState) ? playerState : '...',
 				},
 				{
 					name: 'Song Information',
@@ -230,7 +205,7 @@ module.exports = {
 				await interact.editReply(
 					{
 						embeds: [dynamicPlayerEmbed(track)],
-						components: [musicPlayerBtns],
+						components: [musicPlayerCtrlBtns, musicPlayerExtBtns],
 					},
 				);
 			} catch (err) {
@@ -271,59 +246,32 @@ module.exports = {
 			await wait(1000);
 			// Button Switch/Case Handler
 			switch (interact.customId) {
-			// button actions - music menu
-			case 'musicIndex':
-				playerOpen = false;
-				menuOpen = true;
-				await interact.editReply(
-					{
-						embeds: [musicMenuEmbed],
-						components: [musicMenuBtns],
-					},
-				);
-				break;
-			case 'closeMenu':
+			case 'closePlayer':
 				menuOpen = false;
 				await interact.editReply(
 					{
-						content: 'Music menu closed.',
+						content: 'Music Player hidden! Run /music player to reopen it.',
 						embeds: [], components: [],
 					},
 				);
 				await wait(5000);
 				await interact.deleteReply();
 				collector.stop();
-				break;
-				// button actions - music player
-			case 'musicPlayer':
-				playerOpen = true;
-				refreshPlayer(interact);
-				break;
+				break;				
 				// Join/Leave Voice Actions
-			case 'joinVC':
-				if (!interaction.member.voice.channel) {
+			case 'joinLeaveVC':
+        if (!interaction.member.voice.channel) {
 					interact.followUp({
 						content: 'You are not in a voice channel! Please join one first!',
 						ephemeral: true,
 					});
-				}
-				connection = await joinVC(interaction.member.voice.channel);
-				break;
-			case 'leaveVC':
-				if (!interaction.member.voice.channel) {
-					interact.followUp({
-						content: 'You are not in a voice channel! Join the bot\'s voice channel first.',
-						ephemeral: true,
-					});
-				}
-				else
-				if (!connection) {
-					interact.followUp({
-						content: 'The bot is not connected to any channel!',
-						ephemeral: true,
-					});
-				}
-				connection.destroy();
+				};
+        if (!connection) {
+					connection = await joinVC(interaction.member.voice.channel);
+				} else
+        if (connection) {
+          connection.destroy();
+        };
 				break;
 				// Music Player Actions
 			case 'play':
@@ -341,9 +289,11 @@ module.exports = {
 				player.stop();
 				break;
 			case 'queue':
-				if (!player) return;
-				// player.play(source);
-				// refreshPlayer(interact);
+        await interact.editReply(
+          {
+            embeds: [await dynamicQueueEmbed(data.music.queue)]
+          }
+        )
 				break;
 				// fallback action for all music menus
 			default:
@@ -363,7 +313,7 @@ module.exports = {
 			if (!menuOpen) return; // don't edit replies after this is called!
 			await interaction.editReply(
 				{
-					content: 'Music Menu timed out. To continue using the menu, run /music again.',
+					content: 'Music Player timed out. Please run /music again.',
 					embeds: [], components: [],
 				},
 			);
@@ -378,12 +328,9 @@ module.exports = {
       });
     };
     if (subcmd === 'player') {
-      menuOpen = true;
-      interaction.editReply({
-        embeds: [musicMenuEmbed],
-        components: [musicMenuBtns],
-        ephemeral: false,
-      });
+      //menuOpen = true;
+      playerOpen = true;
+      await refreshPlayer(interaction);
     };
 	},
 };
