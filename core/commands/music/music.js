@@ -229,8 +229,15 @@ module.exports = {
 		audioPlayer.on(AudioPlayerStatus.Playing, () => {
 			logger.debug('Player has started playing!');
 		});
-		audioPlayer.on(AudioPlayerStatus.Idle, () => {
-			logger.debug('Player currently idle/paused. Awaiting new requests.');
+		audioPlayer.on(AudioPlayerStatus.Idle, async () => {
+      logger.debug('Current song finished or stopped, queuing up next song.');
+      source = await loadSong();
+      if (!source) {
+        logger.debug('No songs available. Awaiting new requests.');
+      } else {
+        logger.debug(`Song queued! Playing ${data.music.track.title} next.`);
+        audioPlayer.play(source);
+      };
 		});
 		audioPlayer.on(AudioPlayerStatus.AutoPaused, () => {
 			audioPlayer.pause();
