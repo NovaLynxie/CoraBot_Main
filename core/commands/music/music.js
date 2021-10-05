@@ -32,8 +32,9 @@ module.exports = {
     ),
 	async execute(interaction, client) {
     await interaction.deferReply({ ephemeral: false });
-		let connection = checkVC(interaction.guild);
-		let data = await client.data.get(interaction.guild), source, track;
+    let guild = interaction.guild;
+		let connection = checkVC(guild);
+		let data = await client.data.get(guild), source, track;
     const subcmd = interaction.options.getSubcommand();	
 		const musicEmbedThumb = client.user.displayAvatarURL({ dynamic: true });
 		const musicEmbedFooter = 'Powered by DiscordJS Voice (OPUS)';
@@ -50,7 +51,7 @@ module.exports = {
 		// Music Selecton Embed
 		const musicQueueEmbed = new MessageEmbed()
 			.setTitle('Music Queue System')
-      .setDescription(`Music Queue for ${interaction.guild.name}`)
+      .setDescription(`Music Queue for ${guild.name}`)
       .setThumbnail(musicEmbedThumb)
 			.setFooter(musicEmbedFooter);
 		// Music Buttons to control the playback.
@@ -110,7 +111,7 @@ module.exports = {
         object = { type: 'youtube', url: input };
       };
       data.music.queue.push(object);
-      await client.data.set(data, interaction.guild);
+      await client.data.set(data, guild);
     };
     async function loadSong() {
       if (!data.music.queue[0]) return undefined;
@@ -126,7 +127,7 @@ module.exports = {
         stream = await ytdl(url);
       };
       data.music.track = { title, type };
-      await client.data.set(data, interaction.guild);
+      await client.data.set(data, guild);
       source = createSource(stream);
       return source;
     };
@@ -234,8 +235,9 @@ module.exports = {
         return logger.debug('Player stopped by user! AutoPlay halted.');
       } else {
         logger.debug('Current song has finished, queuing up next song.');
-      };      
+      };
       data.music.queue.shift();
+      await client.data.set(data, guild)
       source = await loadSong();
       if (!source) {
         logger.debug('No songs available. Awaiting new requests.');
@@ -344,11 +346,11 @@ module.exports = {
 			};
       await client.data.set(data, interact.guild);
 		});
-		// Log on collector end (temporary)
 		collector.on('end', async collected => {
 			logger.debug('Collector in music commmand timed out or was stopped.');
 			logger.debug(`Collected ${collected.size} items.`);
-			if (!playerOpen) return; // don't edit replies after this is called!
+      // don't edit replies if player is no longer open!
+			if (!playerOpen) return;
 			await interaction.editReply(
 				{
 					content: 'Music Player timed out. Please run /music again.',
@@ -357,6 +359,7 @@ module.exports = {
 			);
 			await wait(5000);
 			await interaction.deleteReply();
+      playerOpen = false;
 		});
     if (subcmd === 'add') {
       await sourceVerifier(interaction.options.getString('url'));
