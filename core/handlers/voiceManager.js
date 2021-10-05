@@ -25,7 +25,7 @@ function checkVC(guild) {
 };
 
 async function joinVC(channel) {
-	if (!channel) throw new Error('Missing channel data! Got null or undefined! Expected a channel object!');
+	if (!channel) return logger.error('Missing channel data! Got null or undefined! Expected a channel object!');
 	logger.data(JSON.stringify(channel, null, 2));
 	const voiceConnection = joinVoiceChannel({
 		channelId: channel.id,
