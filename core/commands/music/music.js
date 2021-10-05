@@ -217,7 +217,8 @@ module.exports = {
 				logger.debug(err.stack);
 			};
 		};
-		
+		let queueOpen, playerOpen;
+		audioPlayer = (!audioPlayer) ? newAudioPlayer() : audioPlayer;
     if (subcmd === 'add') {
       await sourceVerifier(interaction.options.getString('url'));
       interaction.editReply({
@@ -232,8 +233,6 @@ module.exports = {
       playerOpen = true;
       await refreshPlayer(interaction);
     };
-		let queueOpen, playerOpen;
-		audioPlayer = (!audioPlayer) ? newAudioPlayer() : audioPlayer;
 		// Player Event Handler.
 		audioPlayer.on('stateChange', (oldState, newState) => {
 			logger.debug(`oldState.status => ${oldState?.status}`);
