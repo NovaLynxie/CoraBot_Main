@@ -8,7 +8,7 @@ const SoundCloud = require('soundcloud-scraper');
 const scClient = new SoundCloud.Client();
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
-let audioPlayer = newAudioPlayer();
+let audioPlayer = newAudioPlayer(), stopped = false;
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -230,13 +230,18 @@ module.exports = {
 			logger.debug('Player has started playing!');
 		});
 		audioPlayer.on(AudioPlayerStatus.Idle, async () => {
-      logger.debug('Current song finished or stopped, queuing up next song.');
+      if (stopped) {
+        return logger.debug('Player stopped by user! AutoPlay halted.');
+      } else {
+        logger.debug('Current song has finished, queuing up next song.');
+      };      
+      data.music.queue.shift();
       source = await loadSong();
       if (!source) {
         logger.debug('No songs available. Awaiting new requests.');
       } else {
         logger.debug(`Song queued! Playing ${data.music.track.title} next.`);
-        audioPlayer.play(source);
+        audioPlayer.play(source);        
       };
 		});
 		audioPlayer.on(AudioPlayerStatus.AutoPaused, () => {
@@ -298,6 +303,7 @@ module.exports = {
 				break;
 			case 'stop':
 				if (!audioPlayer) return;
+        stopped = true;
 				audioPlayer.stop();
         data.music.track = {};
 				break;
