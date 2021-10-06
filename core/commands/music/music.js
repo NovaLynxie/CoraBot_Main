@@ -27,6 +27,23 @@ module.exports = {
     )
     .addSubcommand(subcommand =>
       subcommand
+        .setName('search')
+        .setDescription('Search for a song using key words.')
+        .addStringOption(option =>
+          option
+            .setName('youtube')
+            .setDescription('Search through YouTube.')
+            .setRequired(true)
+        )
+        .addStringOption(option =>
+          option
+            .setName('soundcloud')
+            .setDescription('Search through Soundcloud.')
+            .setRequired(true)
+        )
+    )
+    .addSubcommand(subcommand =>
+      subcommand
         .setName('player')
         .setDescription('Start up the player.')
     ),
