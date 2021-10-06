@@ -38,17 +38,12 @@ module.exports = {
     const subcmd = interaction.options.getSubcommand();
     const musicEmbedThumb = client.user.displayAvatarURL({ dynamic: true });
     const musicEmbedFooter = 'Powered by DiscordJS Voice (OPUS)';
-    const musicMenuEmbed = new MessageEmbed()
-      .setTitle('Music Main Menu')
-      .setDescription('Music Service')
-      .setThumbnail(musicEmbedThumb)
-      .setFooter(musicEmbedFooter);
     // Music Player Embed
     const musicPlayerEmbed = new MessageEmbed()
       .setTitle('Music Player v1.0')
       .setThumbnail(musicEmbedThumb)
       .setFooter(musicEmbedFooter);
-    // Music Selecton Embed
+    // Music Queue Embed
     const musicQueueEmbed = new MessageEmbed()
       .setTitle('Music Queue System')
       .setDescription(`Music Queue for ${guild.name}`)
