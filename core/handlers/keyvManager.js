@@ -20,83 +20,83 @@ const guildDataTemplate = require('../assets/templates/database/guildData.json')
 
 // Generate settings if none is found.
 async function generateGuildSettings(guildIDs) {
-	logger.debug('Preparing to check guild settings now...');
+	logger.verbose('Preparing to check guild settings now...');
 	guildIDs.forEach(async (guildID) => {
-		logger.debug(`Checking ${guildID} of guildIDs`);
+		logger.verbose(`Checking ${guildID} of guildIDs`);
 		const settings = await guildPrefStore.get(guildID);
 		if (settings) {
-			logger.debug(`Guild ${guildID} already has settings defined!`);
-      logger.debug(`Checking settings for ${guildID} for any updates.`);
+			logger.verbose(`Guild ${guildID} already has settings defined!`);
+      logger.verbose(`Checking settings for ${guildID} for any updates.`);
       const guildSettings = Object.keys(guildSettingsTemplate);
       guildSettings.forEach(key => {
         if (settings[key] === undefined) {
-          logger.debug(`Setting property '${key}' not found! Adding setting property.`)
+          logger.verbose(`Setting property '${key}' not found! Adding setting property.`)
           settings[key] = guildSettingsTemplate[key];
         } else {
-          logger.debug(`Setting name '${key}' already exists!`);
+          logger.verbose(`Setting name '${key}' already exists!`);
         };
       });
 			await guildPrefStore.set(guildID, settings);
 			return;
 		} else {
-			logger.debug(`Adding new settings for ${guildID} now...`);
+			logger.verbose(`Adding new settings for ${guildID} now...`);
 			await guildPrefStore.set(guildID, guildSettingsTemplate);
 		}
 	});
-	logger.debug('Finished checking guild settings.');
+	logger.verbose('Finished checking guild settings.');
 	logger.info('Guild settings are now available.');
 }
 async function generateClientSettings() {
-	logger.debug('Preparing to generate bot settings now...');
+	logger.verbose('Preparing to generate bot settings now...');
 	const settings = await clientPrefStore.get('botSettings');
 	if (settings) {
-		logger.debug('Bot settings are already set! Skipping.');
+		logger.verbose('Bot settings are already set! Skipping.');
 	}
 	else {
-		logger.debug('Bot settings not yet set! Adding new settings now.');
+		logger.verbose('Bot settings not yet set! Adding new settings now.');
 	}
 	await clientPrefStore.set('clientSettings', clientSettingsTemplate);
-	logger.debug('Finished checking bot settings.');
+	logger.verbose('Finished checking bot settings.');
 	logger.info('Bot settings are now available.');
 }
 
 // Read/Write functions for KeyV database - Client Settings.
 async function saveClientSettings(settings, client) {
   logger.verbose(JSON.stringify(settings));
-	logger.debug(`Writing new settings for ${client.user.tag} to database.`);
+	logger.verbose(`Writing new settings for ${client.user.tag} to database.`);
 	await guildPrefStore.set('clientSettings', settings);
-	logger.debug(`Finished updating bot settings for ${client.user.tag}.`);
+	logger.verbose(`Finished updating bot settings for ${client.user.tag}.`);
 }
 async function readClientSettings(client) {
-	logger.debug(`Fetching settings for ${client.user.tag} (ID:${client.user.id}).`);
+	logger.verbose(`Fetching settings for ${client.user.tag} (ID:${client.user.id}).`);
 	const res = await clientPrefStore.get('clientSettings');
   logger.verbose(JSON.stringify(res));
 	return res;
 }
 async function clearClientSettings(client) {
-	logger.debug(`Removing all settings for ${client.user.tag} (ID:${client.user.id}).`);
+	logger.verbose(`Removing all settings for ${client.user.tag} (ID:${client.user.id}).`);
 	await clientPrefStore.clear();
 }
 
 // Read/Write functions for KeyV database - Guild Settings.
 async function saveGuildSettings(settings, guild) {
   logger.verbose(JSON.stringify(settings));
-	logger.debug('Writing new guild settings to database.');
+	logger.verbose('Writing new guild settings to database.');
 	await guildPrefStore.set(guild.id, settings);
-	logger.debug('Finished updating guild settings.');
+	logger.verbose('Finished updating guild settings.');
 }
 async function readGuildSettings(guild) {
-	logger.debug(`Fetching settings for ${guild.name} (ID:${guild.id}).`);
+	logger.verbose(`Fetching settings for ${guild.name} (ID:${guild.id}).`);
 	const res = await guildPrefStore.get(guild.id);
   logger.verbose(JSON.stringify(res));
 	return res;
 }
 async function deleteGuildSettings(guild) {
-	logger.debug(`Removing all settings for ${guild.name} (ID:${guild.id}).`);
+	logger.verbose(`Removing all settings for ${guild.name} (ID:${guild.id}).`);
 	await guildPrefStore.delete(guild.id);
 }
 async function clearGuildSettings() {
-	logger.debug('Removing all guild settings.');
+	logger.verbose('Removing all guild settings.');
 	await guildPrefStore.clear();
 }
 
@@ -104,24 +104,24 @@ async function clearGuildSettings() {
 async function generateGuildData(guildIDs) {
 	logger.debug('Preparing to check guild data now...');
 	guildIDs.forEach(async (guildID) => {
-		logger.debug(`Checking ${guildID} of guildIDs`);
+		logger.verbose(`Checking ${guildID} of guildIDs`);
 		const data = await guildDataStore.get(guildID);
 		if (data) {
-			logger.debug(`Guild ${guildID} data entries already added!`);
-			logger.debug(`Checking datastore for ${guildID} for any updates.`);
+			logger.verbose(`Guild ${guildID} data entries already added!`);
+			logger.verbose(`Checking datastore for ${guildID} for any updates.`);
       const guildData = Object.keys(guildDataTemplate);
       guildData.forEach(key => {
         if (data[key] === undefined) {
-          logger.debug(`Data property '${key}' not found! Adding new data property.`)
+          logger.verbose(`Data property '${key}' not found! Adding new data property.`)
           data[key] = guildDataTemplate[key];
         } else {
-          logger.debug(`Data key '${key}' already exists!`);
+          logger.verbose(`Data key '${key}' already exists!`);
         };
       });
 			await guildDataStore.set(guildID, data);
 			return;
 		} else {
-			logger.debug(`Adding new data entries for ${guildID} now...`);
+			logger.verbose(`Adding new data entries for ${guildID} now...`);
 			await guildDataStore.set(guildID, guildDataTemplate);
 		};
 	});
@@ -129,21 +129,21 @@ async function generateGuildData(guildIDs) {
 	logger.info('Guild data is now available.');
 }
 async function readGuildData(guild) {
-	logger.debug(`Fetching guild data for ${guild.name} (ID:${guild.id}).`);
+	logger.verbose(`Fetching guild data for ${guild.name} (ID:${guild.id}).`);
 	const res = await guildDataStore.get(guild.id);
 	return res;
 }
 async function saveGuildData(data, guild) {
-	logger.debug(`Updating guild data for ${guild.name} (ID:${guild.id}).`);
+	logger.verbose(`Updating guild data for ${guild.name} (ID:${guild.id}).`);
 	await guildDataStore.set(guild.id, data);
-	logger.debug(`Updated guild data for ${guild.name} (ID:${guild.id}).`);
+	logger.verbose(`Updated guild data for ${guild.name} (ID:${guild.id}).`);
 }
 async function deleteGuildData(guild) {
-	logger.debug(`Removing guild data for ${guild.name} (ID:${guild.id}).`);
+	logger.verbose(`Removing guild data for ${guild.name} (ID:${guild.id}).`);
 	await guildDataStore.delete(guild.id);
 }
 async function resetGuildData() {
-	logger.debug('Removing all guild data.');
+	logger.verbose('Removing all guild data.');
 	await guildDataStore.clear();
 }
 
