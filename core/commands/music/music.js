@@ -240,15 +240,19 @@ module.exports = {
     };
     let queueOpen, playerOpen;
     audioPlayer = (!audioPlayer) ? newAudioPlayer() : audioPlayer;
-    if (subcmd === 'add') {
-      await sourceVerifier(interaction.options.getString('url'));      
-      await wait(3000);
-      await interaction.deleteReply();
-    };
-    if (subcmd === 'player') {
-      collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
-      playerOpen = true;
-      await refreshPlayer(interaction);
+    switch (subcmd) {
+      case 'add':
+        await sourceVerifier(interaction.options.getString('url'));      
+        await wait(3000);
+        await interaction.deleteReply();
+        break;
+      case 'search':
+        break;
+      case 'player':
+        collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
+        playerOpen = true;
+        await refreshPlayer(interaction);
+        break;
     };
     // Player Event Handler.
     audioPlayer.on('stateChange', (oldState, newState) => {
