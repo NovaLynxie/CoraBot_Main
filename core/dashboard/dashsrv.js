@@ -25,7 +25,7 @@ const DiscordStrategy = require('passport-discord-faxes').Strategy;
 
 logger.dash('Starting Dashboard Service...');
 
-module.exports = (client, config) => {
+module.exports = async (client, config) => {
 	(function() {
 		logger.debug('Checking dashboard configuration...');
 		if (!config) throw new Error('Dashboard configuration missing!');
@@ -336,12 +336,6 @@ module.exports = (client, config) => {
 		// Clear client settings and reset to default. (has no settings yet)
 		await client.settings.clear();
 		await client.settings.init();
-		/*
-    clientSettings.forEach(setting => {
-      logger.data(`Generating setting ${setting.name} in client settings.`)
-      client.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} in client settings`));
-    });
-    */
 		// Fetch all guilds before running through them one by one.
 		const Guilds = client.guilds.cache.map(guild => guild);
 		Guilds.forEach(async guild => {
