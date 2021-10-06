@@ -335,8 +335,12 @@ module.exports = {
               await interact.editReply(
                 { content: 'Composing the music queue...' }
               );
+              logger.debug(`Fetching queue for ${guild.name} (${guild.id})`);
               await interact.editReply(
-                { embeds: [await dynamicQueueEmbed(data.music.queue)]}
+                {
+                  content: '',
+                  embeds: [await dynamicQueueEmbed(data.music.queue)]
+                }
               );
             } else {
               refreshPlayer(interact);
