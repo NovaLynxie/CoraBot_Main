@@ -62,8 +62,7 @@ module.exports = {
       .setFooter(musicEmbedFooter);
     // Music Queue Embed
     const musicQueueEmbed = new MessageEmbed()
-      .setTitle('Music Queue System')
-      .setDescription(`Music Queue for ${guild.name}`)
+      .setTitle(`Queued Songs for ${guild.name}`)
       .setThumbnail(musicEmbedThumb)
       .setFooter(musicEmbedFooter);
     // Music Buttons to control the playback.
