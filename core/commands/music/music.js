@@ -269,6 +269,7 @@ module.exports = {
         logger.debug('Current song has finished, queuing up next song.');
       };
       data.music.queue.shift();
+      data.music.track = { title: '...', type: '...'};
       await client.data.set(data, guild)
       source = await loadSong();
       if (!source) {
