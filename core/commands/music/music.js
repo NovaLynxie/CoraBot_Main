@@ -358,6 +358,13 @@ module.exports = {
             queueOpen = !queueOpen;
             if (queueOpen) {
               logger.debug(`Fetching queue for ${guild.name} (${guild.id})`);
+              musicQueueEmbed.setDescription('Composing song list, this may take a while.');
+              await interact.editReply(
+                {
+                  embeds: [musicQueueEmbed]
+                }
+              );
+              musicQueueEmbed.setDescription('');
               await interact.editReply(
                 {
                   embeds: [await dynamicQueueEmbed(data.music.queue)]
