@@ -293,10 +293,11 @@ module.exports = async (client, config) => {
     ${appcmds.map(cmd => `
     Name: ${cmd.name[0].toUpperCase() + cmd.name.substring(1)}
     Desciption: ${cmd.description} 
-    Options: ${cmd.options.map(option => `
+    Options: ${(cmd.options.size !== -1) ? `${cmd.options.map(option => `
       • ${option.name[0].toUpperCase() + option.name.substring(1)}
         Desciption: ${option.description}
-        Required? ${(option.required) ? 'Yes' : 'No'}`).join('')}
+        Required? ${(option.required) ? 'Yes' : 'No'}`).join('')}`
+        : 'None'}
     `).join('\r')}`
     renderView(res, req, "cmds.pug", {
       all_commands: allcmds
