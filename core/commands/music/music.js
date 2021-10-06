@@ -333,9 +333,10 @@ module.exports = {
             queueOpen = !queueOpen;
             if (queueOpen) {
               await interact.editReply(
-                {
-                  embeds: [await dynamicQueueEmbed(data.music.queue)]
-                }
+                { content: 'Composing the music queue...' }
+              );
+              await interact.editReply(
+                { embeds: [await dynamicQueueEmbed(data.music.queue)]}
               );
             } else {
               refreshPlayer(interact);
