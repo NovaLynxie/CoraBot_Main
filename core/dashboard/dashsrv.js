@@ -1,6 +1,10 @@
 // Native Node Imports
 const url = require('url'), path = require('path'), fs = require('fs');
 
+// Extra Formatting
+const { stripIndents } = require('common-tags');
+
+
 // Fetch Bot version
 const { version } = require('../../package.json');
 
@@ -282,20 +286,22 @@ module.exports = async (client, config) => {
 	app.get('/', (req, res) => {
 		renderView(res, req, 'index.pug');
 	});
-	/*
-  app.get("/commands", (req, res) => {
-    var groups = client.registry.groups;
-    var allcmds = `${groups.filter(grp => grp.commands.some(cmd => !cmd.hidden)).map(grp => `
-      ${grp.name} ${grp.commands.filter(cmd => !cmd.hidden).map(cmd => `
-        ${cmd.name}: ${cmd.description}${cmd.nsfw ? ' (NSFW)' : ''}`).join('')
-      }`).join('\r\n')
-      }`
-    logger.data(`allcmds:${typeof (allcmds)}`);
+  app.get("/commands", async (req, res) => {
+    const appcmds = await client.application.commands.fetch();
+    logger.verbose(JSON.stringify(appcmds));
+    const allcmds = `
+    ${appcmds.map(cmd => `
+    Name: ${cmd.name[0].toUpperCase() + cmd.name.substring(1)}
+    Desciption: ${cmd.description} 
+    Options: ${cmd.options.map(option => `
+      • ${option.name[0].toUpperCase() + option.name.substring(1)}
+        Desciption: ${option.description}
+        Required? ${(option.required) ? 'Yes' : 'No'}`).join('')}
+    `).join('\r')}`
     renderView(res, req, "cmds.pug", {
       all_commands: allcmds
     });
   });
-  */
 	app.get('/stats', (req, res) => {
 		const duration = moment.duration(client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
 		const members = client.guilds.cache.reduce((p, c) => p + c.memberCount, 0);
