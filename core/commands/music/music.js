@@ -102,10 +102,19 @@ module.exports = {
       if (input.match(/(soundcloud.com)/gi)) {
         object = { type: 'soundcloud', url: input };
       } else
-        if (input.match(/(youtube.com)/gi)) {
-          object = { type: 'youtube', url: input };
-        };
-      data.music.queue.push(object);
+      if (input.match(/(youtube.com)/gi)) {
+        object = { type: 'youtube', url: input };
+      } else {
+        interaction.editReply({
+          content: 'This is not a valid song url or is not a supported site!',
+          ephemeral: true
+        }); return;
+      };
+      interaction.editReply({
+        content: 'Song added successfully to the queue!',
+        ephemeral: true
+      });
+      if (object) data.music.queue.push(object);
       await client.data.set(data, guild);
     };
     async function loadSong() {
@@ -215,11 +224,7 @@ module.exports = {
     let queueOpen, playerOpen;
     audioPlayer = (!audioPlayer) ? newAudioPlayer() : audioPlayer;
     if (subcmd === 'add') {
-      await sourceVerifier(interaction.options.getString('url'));
-      interaction.editReply({
-        content: 'Song added successfully to the queue!',
-        ephemeral: true
-      });
+      await sourceVerifier(interaction.options.getString('url'));      
       await wait(3000);
       await interaction.deleteReply();
     };
