@@ -115,17 +115,24 @@ module.exports = {
     // Music command local functions.
     async function sourceVerifier(input) {
       let song, stream, object;
-      if (input.match(/(soundcloud.com)/gi)) {
-        object = { type: 'soundcloud', url: input };
-      } else
-      if (input.match(/(youtube.com)/gi)) {
-        object = { type: 'youtube', url: input };
+      let urlRegex = [(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*);
+      if (input.match(urlRegex)) {
+          if (input.match(/(soundcloud.com)/gi)) {
+          object = { type: 'soundcloud', url: input };
+        } else
+        if (input.match(/(youtube.com)/gi)) {
+          object = { type: 'youtube', url: input };
+        } else {
+          interaction.editReply({
+            content: 'That song URL is not supported!',
+            ephemeral: true
+          }); return;
+        };
       } else {
         interaction.editReply({
-          content: 'This is not a valid song url or is not a supported site!',
-          ephemeral: true
+            content: 'The input must be a valid URL link!'
         }); return;
-      };
+      };      
       interaction.editReply({
         content: 'Song added successfully to the queue!',
         ephemeral: true
