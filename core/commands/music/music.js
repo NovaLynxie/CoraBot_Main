@@ -116,6 +116,10 @@ module.exports = {
     async function soundcloudSongsParser(source) {
       let playlist = scClient.getPlaylist(source);
       let queue = [], object = {};
+      interaction.editReply({
+        content: 'SoundCloud playlist detected! Parsing songs...',
+        ephemeral: true
+      });
       playlist.tracks.forEach(track => {
         object = {type: 'soundcloud', url: track.permalink_url};
         queue.push(object);
@@ -124,6 +128,10 @@ module.exports = {
     };
     async function youtubeSongsParser(source) {
       // to be implemented...
+      interaction.editReply({
+        content: 'YouTube playlist detected! Parsing songs...',
+        ephemeral: true
+      });
     };
     async function sourceVerifier(input) {
       let song, stream, object, list;
@@ -154,7 +162,7 @@ module.exports = {
         }); return;
       };      
       interaction.editReply({
-        content: 'Song added successfully to the queue!',
+        content: 'Songs added successfully to the queue!',
         ephemeral: true
       });
       if (object) data.music.queue.push(object);
