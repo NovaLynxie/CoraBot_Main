@@ -10,8 +10,7 @@ let { logLevel } = process.env;
 if (!logLevel || logLevel == undefined) {
 	// if not defined then set as 'error' by default.
 	logLevel = 'fatal';
-}
-
+};
 // Logging Levels
 const customLevels = {
 	levels: {
@@ -37,17 +36,6 @@ const customLevels = {
 		verbose: 'magenta',
 	},
 };
-
-addColors(customLevels.colors);
-
-function logFilter(level) {
-  return format(function (info) {
-    if (info[LEVEL] === level) {
-      return info;
-    }
-  })();
-}
-
 const logger = createLogger({
 	levels: customLevels.levels,
 	format: combine(
@@ -90,21 +78,7 @@ const logger = createLogger({
 			zippedArchive: true,
 			maxSize: '50m',
 			maxFiles: '7d'
-		}),
-    new transports.DailyRotateFile({
-      level: 'dash',
-			format: combine(
-        logFilter('dash'),
-				errors({ stack: true }),
-				timestamp({ format: 'HH:mm:ss' })
-			),
-			filename: './logs/dashsrv-%DATE%.log',
-			datePattern: 'DD-MM-YY',
-			zippedArchive: true,
-			maxSize: '50m',
-			maxFiles: '7d'
-    })
+		})
 	],
 });
-
 module.exports = logger;

@@ -35,13 +35,11 @@ module.exports = async (client, config) => {
 		logger.debug('Dashboard configuration OK. Continuing with startup.');
 	})();
 	// Initialise morgan logger for server side logging. (debug only)
-	if (config.debug) {
-		app.use(morgan('tiny', {
-			stream: {
-				write: message => logger.debug(`dash => ${message}`),
-			},
-		}));
-	};
+  if (config.debug){
+    app.use(morgan('tiny', {
+      stream: { write: message => logger.dash(`dash => ${message}`) },
+    }));
+  };
 	const dashDir = path.resolve(`${process.cwd()}/core/dashboard`);
 	const viewsDir = path.resolve(`${dashDir}/views/`);
 	const publicDir = path.resolve(`${dashDir}/public/`);
