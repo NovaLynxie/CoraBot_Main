@@ -39,6 +39,14 @@ const customLevels = {
 
 addColors(customLevels.colors);
 
+function logFilter(level) {
+  return format(function (info) {
+    if (info[LEVEL] === level) {
+      return info;
+    }
+  })();
+}
+
 const logger = createLogger({
 	levels: customLevels.levels,
 	format: combine(
@@ -68,7 +76,7 @@ const logger = createLogger({
 			datePattern: 'DD-MM-YY',
 			zippedArchive: true,
 			maxSize: '50m',
-			maxFiles: '7d',
+			maxFiles: '7d'
 		}),
 		new transports.DailyRotateFile({
 			level: 'debug',
@@ -80,8 +88,21 @@ const logger = createLogger({
 			datePattern: 'DD-MM-YY',
 			zippedArchive: true,
 			maxSize: '50m',
-			maxFiles: '7d',
+			maxFiles: '7d'
 		}),
+    new transports.DailyRotateFile({
+      level: 'dash',
+			format: combine(
+        logFilter('dash'),
+				errors({ stack: true }),
+				timestamp({ format: 'HH:mm:ss' })
+			),
+			filename: './logs/dashsrv-%DATE%.log',
+			datePattern: 'DD-MM-YY',
+			zippedArchive: true,
+			maxSize: '50m',
+			maxFiles: '7d'
+    });
 	],
 });
 
