@@ -113,14 +113,15 @@ module.exports = {
           .setStyle('SECONDARY'),
       );
     // Music command local functions.
-    async function soundcloudSongsParser(source) {
-      let playlist = await scClient.getPlaylist(source);
+    async function soundcloudSongsParser(url) {
+      let playlist = await scClient.getPlaylist(url);
       let queue = [], object = {};
       interaction.editReply({
         content: 'SoundCloud playlist detected! Parsing songs...',
         ephemeral: true
       });
       playlist.tracks.forEach(track => {
+        if (!track.permalink_url) return logger.debug(`Track missing data! Skipping track with ID ${track.id}`);
         object = {type: 'soundcloud', url: track.permalink_url};
         queue.push(object);
       });
