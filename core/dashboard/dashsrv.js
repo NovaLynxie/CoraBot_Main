@@ -463,7 +463,6 @@ module.exports = async (client, config) => {
   });
   */
 	// DISABLED TEMPORARILY! REQUIRES STORAGE REWORK!
-
 	// Kicks specified member by their unique user ID.
 	app.get('/dashboard/:guildID/kick/:userID', checkAuth, async (req, res) => {
 		const guild = client.guilds.cache.get(req.params.guildID);
@@ -520,7 +519,7 @@ module.exports = async (client, config) => {
 	// Error Handling
 	app.use(function(err, req, res, next) {
 		logger.debug('Error occured in dashboard service!');
-		logger.verbose(err); // only show this if logLevel is set to verbose.
+		logger.verbose(err);
 		function missingError(err) {
 			if (err.stack) logger.debug(err.stack);
 			return res.status(404), renderView(res, req, 'errors/404.pug');
