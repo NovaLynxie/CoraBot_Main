@@ -4,6 +4,7 @@ require('winston-daily-rotate-file');
 const { name } = require('../../package.json');
 const { addColors, createLogger, format, transports } = winston;
 const { combine, colorize, errors, timestamp, printf } = format;
+const LEVEL = Symbol.for('level');
 // get logLevel from os process.env vars
 let { logLevel } = process.env;
 if (!logLevel || logLevel == undefined) {
@@ -102,7 +103,7 @@ const logger = createLogger({
 			zippedArchive: true,
 			maxSize: '50m',
 			maxFiles: '7d'
-    });
+    })
 	],
 });
 
