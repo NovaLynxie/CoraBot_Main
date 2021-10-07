@@ -292,8 +292,8 @@ module.exports = {
     };
     // Player Event Handler.
     audioPlayer.on('stateChange', (oldState, newState) => {
-      logger.debug(`oldState.status => ${oldState ?.status}`);
-      logger.debug(`newState.status => ${newState ?.status}`);
+      logger.debug(`oldState.status => ${oldState?.status}`);
+      logger.debug(`newState.status => ${newState?.status}`);
       if (playerOpen) refreshPlayer(interaction);
     });
     audioPlayer.on(AudioPlayerStatus.Playing, () => {
