@@ -229,7 +229,7 @@ module.exports = {
     };
     function dynamicPlayerEmbed(song) {
       let playerState;
-      switch (audioPlayer ?._state.status) {
+      switch (audioPlayer?._state.status) {
         case 'idle':
           playerState = 'Idle';
           break;
