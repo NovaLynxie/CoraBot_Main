@@ -175,12 +175,12 @@ module.exports = {
       let { type, url } = data.music.queue[0], stream, title;
       if (type === 'soundcloud') {
         song = await scClient.getSongInfo(url);
-        title = song.title;
+        title = song.title.replace(/\'/g,"''");
         stream = await song.downloadProgressive();
       } else
         if (type === 'youtube') {
           song = ytdl.getBasicInfo(url);
-          title = song.videoDetails.title;
+          title = song.videoDetails.title.replace(/\'/g,"''");
           stream = await ytdl(url);
         };
       data.music.track = { title, type };
