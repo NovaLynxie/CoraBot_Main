@@ -14,10 +14,10 @@ const app = express();
 const moment = require('moment');
 require('moment-duration-format');
 // Express Plugins
-const morgan = require('morgan'); // server-side logger
-const passport = require('passport'); // oauth2 helper plugin
-const helmet = require('helmet'); // security plugin
-const session = require('express-session'); // express session manager
+const morgan = require('morgan');
+const passport = require('passport');
+const helmet = require('helmet');
+const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 const DiscordStrategy = require('passport-discord-faxes').Strategy;
 
@@ -69,7 +69,6 @@ module.exports = async (client, config) => {
 			dir: './data/',
 		}),
 		secret: process.env.SESSION_SECRET || config.sessionSecret,
-		// session cookie - remove after one week elapses
 		// cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }, //disabled temporarily
 		resave: false,
 		saveUninitialized: false,
@@ -134,9 +133,7 @@ module.exports = async (client, config) => {
 		return res;
 	};
 	function get_breadcrumbs(url) {
-		let rtn = [{ name: 'HOME', url: '/' }],
-			acc = '', // accumulative url
-			arr = url.substring(1).split('/');
+		let rtn = [{ name: 'HOME', url: '/' }], acc = '', arr = url.substring(1).split('/');
 		for (i = 0; i < arr.length; i++) {
 			acc = i != arr.length - 1 ? acc + '/' + arr[i] : null;
 			rtn[i + 1] = { name: arr[i].toUpperCase(), url: acc };
@@ -171,17 +168,15 @@ module.exports = async (client, config) => {
 	app.get('/login', (req, res, next) => {
 		if (req.session.backURL) {
 			next();
-		}
-		else if (req.headers.referer) {
+		}	else 
+    if (req.headers.referer) {
 			const parsed = url.parse(req.headers.referer);
 			if (parsed.hostname === app.locals.domain) {
 				req.session.backURL = parsed.path;
 			}
-		}
-		else {
+		}	else {
 			req.session.backURL = '/';
-		}
-		next();
+		}; next();
 	},
 	passport.authenticate('discord'));
 	// OAuth2 Callback Endpoint
@@ -327,7 +322,6 @@ module.exports = async (client, config) => {
 		const { autoMod, chatBot, notifier, roles, logChannels } = guildSettings;
 		// Fetch Channel Logs Module Settings
 		const { botLogger, modLogger } = guildSettings;
-		// Use try/catch to capture errors from the bot or dashboard.
 		try {
       function emptyStringCheck(item) {
         let res = (item === '') ? null : item;
@@ -400,15 +394,13 @@ module.exports = async (client, config) => {
 				chatBot.chatBotOpts = chatBotOpts;
 				chatBot.chatChannels = (chatChannels) ? chatChannels : [];
 				logger.debug(`Prepared 'chatBot' settings data for writing.`);
-			}
-			// Verbose outputs here for debugging.
+			};
 			logger.verbose('-------------------------------------------------');
 			logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);
 			logger.verbose(`autoMod: ${JSON.stringify(autoMod, null, 4)}`);
 			logger.verbose(`chatBot: ${JSON.stringify(chatBot, null, 4)}`);
 			logger.verbose(`notifier: ${JSON.stringify(notifier, null, 4)}`);
 			logger.verbose('-------------------------------------------------');
-			// Update settings after checking for changes.
 			await client.settings.guild.set(guildSettings, guild);
 			logger.debug('Saved guild settings successfully!');
 			req.flash('success', 'Saved settings successfully!');
