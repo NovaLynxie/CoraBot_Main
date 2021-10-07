@@ -36,6 +36,7 @@ const customLevels = {
 		verbose: 'magenta',
 	},
 };
+addColors(customLevels.colors);
 const logger = createLogger({
 	levels: customLevels.levels,
 	format: combine(
