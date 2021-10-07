@@ -6,6 +6,8 @@ const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
 const scClient = new SoundCloud.Client();
+const ytdl = require('ytdl-core');
+const ytpl = require('ytpl');
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
 let audioPlayer = newAudioPlayer(), stopped = false;
@@ -121,20 +123,34 @@ module.exports = {
         ephemeral: true
       });
       playlist.tracks.forEach(track => {
-        if (!track.permalink_url) return logger.debug(`Track missing data! Skipping track with ID ${track.id}`);
+        if (!track.permalink_url) return logger.debug('Skipped track  due to incomplete/malformed response.');
         object = {type: 'soundcloud', url: track.permalink_url};
         queue.push(object);
+      });
+      interaction.editReply({
+        content: 'Finished parsing songs. Adding to queue now.',
+        ephemeral: true
       });
       return queue;
     };
     async function youtubeSongsParser(source) {
-      // to be implemented...
+      playlist = await ytpl(source);
       interaction.editReply({
         content: 'YouTube playlist detected! Parsing songs...',
         ephemeral: true
       });
+      playlist.items.forEach(item => {
+        if (!item.shortURL || !item.url) return logger.debug('Skipped video due to incomplete/malformed response.');
+        object = {type: 'soundcloud', url: item.shortURL || item.url};
+        queue.push(object);
+      });
+      interaction.editReply({
+        content: 'Finished parsing songs. Adding to queue now.',
+        ephemeral: true
+      });
+      return queue;
     };
-    async function sourceVerifier(input) {
+    async function verifySource(input) {
       let song, stream, object, list;
       let urlRegex = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
       if (input.match(urlRegex)) {
@@ -278,7 +294,7 @@ module.exports = {
     audioPlayer = (!audioPlayer) ? newAudioPlayer() : audioPlayer;
     switch (subcmd) {
       case 'add':
-        await sourceVerifier(interaction.options.getString('url'));      
+        await verifySource(interaction.options.getString('url'));      
         await wait(3000);
         await interaction.deleteReply();
         break;
