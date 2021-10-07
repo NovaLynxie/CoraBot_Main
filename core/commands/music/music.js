@@ -113,15 +113,35 @@ module.exports = {
           .setStyle('SECONDARY'),
       );
     // Music command local functions.
+    async function soundcloudSongsParser(source) {
+      let playlist = scClient.getPlaylist(source);
+      let queue = [], object = {};
+      playlist.tracks.forEach(track => {
+        object = {type: 'soundcloud', url: track.permalink_url};
+        queue.push(object);
+      });
+      return queue;
+    };
+    async function youtubeSongsParser(source) {
+      // to be implemented...
+    };
     async function sourceVerifier(input) {
-      let song, stream, object;
-      let urlRegex = [(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*);
+      let song, stream, object, list;
+      let urlRegex = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
       if (input.match(urlRegex)) {
-          if (input.match(/(soundcloud.com)/gi)) {
-          object = { type: 'soundcloud', url: input };
+        if (input.match(/(soundcloud.com)/gi)) {
+          if (input.match(/(\/sets\)/gi)) {
+            list = await soundcloudSongsParser(input);
+          } else {
+            object = { type: 'soundcloud', url: input };
+          };          
         } else
         if (input.match(/(youtube.com)/gi)) {
-          object = { type: 'youtube', url: input };
+          if (input.match(/(\/playlist?)/gi)) {
+            list = await youtubeSongsParser(input);
+          } else {
+            object = { type: 'youtube', url: input };
+          };          
         } else {
           interaction.editReply({
             content: 'That song URL is not supported!',
@@ -138,6 +158,7 @@ module.exports = {
         ephemeral: true
       });
       if (object) data.music.queue.push(object);
+      if (list) data.music.queue = data.music.queue.concat(list);
       await client.data.set(data, guild);
     };
     async function loadSong() {
