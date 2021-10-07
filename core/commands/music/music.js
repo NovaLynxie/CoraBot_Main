@@ -114,7 +114,7 @@ module.exports = {
       );
     // Music command local functions.
     async function soundcloudSongsParser(source) {
-      let playlist = scClient.getPlaylist(source);
+      let playlist = await scClient.getPlaylist(source);
       let queue = [], object = {};
       interaction.editReply({
         content: 'SoundCloud playlist detected! Parsing songs...',
