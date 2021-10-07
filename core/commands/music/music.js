@@ -130,7 +130,7 @@ module.exports = {
       let urlRegex = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
       if (input.match(urlRegex)) {
         if (input.match(/(soundcloud.com)/gi)) {
-          if (input.match(/(\/sets\)/gi)) {
+          if (input.match(/(\/sets\/)/gi)) {
             list = await soundcloudSongsParser(input);
           } else {
             object = { type: 'soundcloud', url: input };
