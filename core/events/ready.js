@@ -1,4 +1,5 @@
 const logger = require('../plugins/winstonLogger');
+const statusUpdater = require('../plugins/statusUpdater');
 const { loadBotCmds } = require('../handlers/cmdLoader');
 const { config, credentials } = require('../handlers/bootLoader');
 const { debug, dashboard } = config;
@@ -9,10 +10,12 @@ module.exports = {
 	name: 'ready',
 	once: true,
 	async execute(client) {
+    await client.user.setStatus('dnd');
 		logger.info(`Logged in as ${client.user.tag}. Bot Online!`);
 		logger.warn('Running final checks! Bot may be slow for a bit.');
 		clearTimeout(client.timers.apiConnectWarn);
 		logger.debug('Cleared ratelimit warning timer.');
+    client.user.setActivity('Loading settings...');
 		// Fetch application information.
 		client.application = await client.application.fetch();
 		// Check settings database.
@@ -30,6 +33,7 @@ module.exports = {
 			logger.warn('Please check logs before restarting the bot.');
 		};
 		// Load commands here using the client's unique ID.
+    client.user.setActivity('Loading commands...');
 		loadBotCmds(client);
 		// Prepare configuration for the dashboard service.
 		const dashConfig = {
@@ -68,5 +72,8 @@ module.exports = {
 			logger.debug(err.stack);
 			require('../dashboard/basicsrv.js');
 		};
+    client.user.setActivity('Ready!');
+    await client.user.setStatus('online');
+    statusUpdater(client);
 	},
 };

@@ -19,6 +19,6 @@ module.exports = (client) => {
 		}
 		client.user.setActivity(activities[index], { type: statusType });
 		logger.verbose(`Updated status to activity ${index} of ${activities.length - 1}`);
-	}, 300000);
+  }, 30 * 1000);
 	client.timers.statusUpdate = statusTimer;
 };

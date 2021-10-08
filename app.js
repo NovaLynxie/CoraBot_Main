@@ -27,6 +27,7 @@ const client = new Client({
 		Intents.FLAGS.GUILD_PRESENCES,
 		Intents.FLAGS.GUILD_VOICE_STATES,
 	],
+  presence: { status: 'dnd', activity: 'Initializing...' }
 });
 if (useLegacyURL) {
 	logger.warn('Using Legacy API domain. This is not recommended!');
@@ -89,7 +90,7 @@ logger.info('Connecting to Discord.');
 client.login(discordToken).then(() => {
 	logger.debug('Awaiting API Response...');
 }).catch((error) => {
-	clearTimeout(client.timers.rateLimitWarn); 
+	clearTimeout(client.timers.apiConnectWarn);
 	logger.warn('Unable to connect to Discord!');
 	logger.error(error.message); logger.debug(error.stack);
 });
