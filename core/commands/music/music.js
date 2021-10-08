@@ -188,6 +188,9 @@ module.exports = {
       if (list) data.music.queue = data.music.queue.concat(list);
       await client.data.set(data, guild);
     };
+    async function searchQuery(query) {
+      if (query.sc)
+    };
     async function loadSong() {
       if (!data.music.queue[0]) return undefined;
       let { type, url } = data.music.queue[0], stream, title;
@@ -301,6 +304,11 @@ module.exports = {
         await interaction.deleteReply();
         break;
       case 'search':
+        let ytQuery = interaction.options.getString('youtube');
+        let scQuery = interaction.options.getString('soundcloud');
+        await searchQuery(ytQuery || scQuery);
+        await wait(3000);
+        await interaction.deleteReply();
         break;
       case 'player':
         collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
