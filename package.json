@@ -52,7 +52,9 @@
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5",
     "yiff": "^2.0.3",
-    "yiffy": "^2.0.14"
+    "yiffy": "^2.0.14",
+    "ytdl-core": "^4.9.1",
+    "ytpl": "^2.2.3"
   },
   "devDependencies": {
     "node": "^16.6.1",
