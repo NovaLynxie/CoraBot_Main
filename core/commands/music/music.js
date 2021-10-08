@@ -1,11 +1,13 @@
 const logger = require('../../plugins/winstonLogger');
-const {
-  MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu,
-} = require('discord.js');
+const { credentials } = require('../../handlers/bootLoader');
+const { youtubeApiKey } = credentials;
+const { MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu } = require('discord.js');
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
-const scClient = new SoundCloud.Client();
+const YouTube = require('simple-youtube-api');
+const ytas = new YouTube(youtubeApiKey);
+const scbi = new SoundCloud.Client();
 const ytdl = require('ytdl-core');
 const ytpl = require('ytpl');
 const wait = require('util').promisify(setTimeout);
@@ -116,7 +118,7 @@ module.exports = {
       );
     // Music command local functions.
     async function soundcloudSongsParser(url) {
-      let playlist = await scClient.getPlaylist(url);
+      let playlist = await scbi.getPlaylist(url);
       let queue = [], object = {};
       interaction.editReply({
         content: 'SoundCloud playlist detected! Parsing songs...',
@@ -190,7 +192,7 @@ module.exports = {
       if (!data.music.queue[0]) return undefined;
       let { type, url } = data.music.queue[0], stream, title;
       if (type === 'soundcloud') {
-        song = await scClient.getSongInfo(url);
+        song = await scbi.getSongInfo(url);
         title = song.title.replace(/\'/g,"''");
         stream = await song.downloadProgressive();
       } else
@@ -221,7 +223,7 @@ module.exports = {
             };
             break;
           case "soundcloud":
-            info = await scClient.getSongInfo(url)
+            info = await scbi.getSongInfo(url)
             field = {
               name: `Track #${no}`,
               value: `
