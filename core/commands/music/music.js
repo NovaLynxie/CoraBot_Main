@@ -5,8 +5,8 @@ const { MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu } = req
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
-const YouTube = require('simple-youtube-api');
-const ytas = new YouTube(youtubeApiKey);
+//const YouTube = require('simple-youtube-api');
+//const ytas = new YouTube(youtubeApiKey);
 const scbi = new SoundCloud.Client();
 const ytdl = require('ytdl-core');
 const ytpl = require('ytpl');
@@ -189,7 +189,7 @@ module.exports = {
       await client.data.set(data, guild);
     };
     async function searchQuery(query) {
-      if (query.sc)
+      //
     };
     async function loadSong() {
       if (!data.music.queue[0]) return undefined;
