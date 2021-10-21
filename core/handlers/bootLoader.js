@@ -8,8 +8,8 @@ let authLoaded = false, mainLoaded = false;
 // Display version information here for easier diagnostics.
 logger.debug('==========================================================');
 logger.debug('System Version Diagnostics.');
-logger.debug(`NodeJS: v${process.versions.node}`);
-logger.debug(`App Version: v${version}`);
+logger.debug(`NodeJS v${process.versions.node}`);
+logger.debug(`CoraBot v${version}`);
 logger.debug('==========================================================');
 // Check if NodeJS version is the right one BEFORE even starting.
 const NODE_MAJOR_VERSION = process.versions.node.split('.')[0];

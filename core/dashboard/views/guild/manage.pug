@@ -62,6 +62,9 @@ block content
                 | (Used #{(guild.vanityURLUses)?guild.vanityURLUses:'NaN'} times)
               else
                 | (Not available)
+        .settings-card-modules.settings-card-wrapper
+          h4 Guild Settings
+          p.lead Change settings for each module from here.
           .settings-card-modules.guild-details-card
             h5 Server Settings
             .settings-text-wrapper
@@ -96,9 +99,6 @@ block content
                   td #{(logChannels.ticketsChID) ? 'Yes' : 'No'}
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingGuildStaffRolesModal') Edit 
               i.fas.fa-edit
-        .settings-card-modules.settings-card-wrapper
-          h4 Module Settings (WIP)
-          p.lead Change settings for each module from here. 
           .settings-card-modules.settings-card-block            
             h5 Auto Moderation
             .settings-text-wrapper

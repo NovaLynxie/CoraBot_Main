@@ -217,16 +217,36 @@ module.exports = async (client, config) => {
   app.get("/commands", async (req, res) => {
     const appcmds = await client.application.commands.fetch();
     logger.verbose(JSON.stringify(appcmds));
+    let allcmds = [];
+    appcmds.forEach(cmd => {
+      logger.verbose(`options: ${JSON.stringify(cmd.options)}`);
+      logger.verbose('Generating command object for displaying data...');
+      let obj = {
+        name: cmd.name[0].toUpperCase() + cmd.name.substring(1),
+        description: cmd.description,
+        options: cmd.options.map(option => {
+          return {
+            name: option.name[0].toUpperCase() + option.name.substring(1),
+            type: option.type,
+            description: option.description,
+            required: (option.required) ? 'Yes' : 'No'
+          };
+        })
+      };
+      logger.verbose(`command: ${JSON.stringify(obj)}`);
+      allcmds.push(obj);
+    });
+    /*
     const allcmds = `
     ${appcmds.map(cmd => `
     Name: ${cmd.name[0].toUpperCase() + cmd.name.substring(1)}
     Desciption: ${cmd.description} 
-    Options: ${(cmd.options.size !== -1) ? `${cmd.options.map(option => `
+    Options: ${(cmd.options.length > 0) ? `${cmd.options.map(option => `
       • ${option.name[0].toUpperCase() + option.name.substring(1)}
         Desciption: ${option.description}
         Required? ${(option.required) ? 'Yes' : 'No'}`).join('')}`
         : 'None'}
-    `).join('\r')}`
+    `).join('\r')}`;*/
     renderView(res, req, "cmds.pug", {
       all_commands: allcmds
     });

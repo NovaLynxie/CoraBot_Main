@@ -11,8 +11,22 @@ block content
         | To get detailed help for command usage, go to any server this bot is in and type forward slash '/' followed by the command name.
         br
         | Example Usage: /&lt;command_name&gt; 
-      br
+      br      
       div
         h3 Available Commands
-        div(style='white-space: pre-wrap') #{all_commands}
+        #commandsAccordion
+          each command in all_commands          
+            .accordion-item
+              h2.accordion-header(id=`cmd${command.name}Header`)
+                button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target=`#collapseCommand${command.name}` aria-expanded='false' aria-controls=`collapseCommand${command.name}`)
+                  | #{command.name}
+              .accordion-collapse.collapse(id=`collapseCommand${command.name}` aria-labelledby=`cmd${command.name}Header` data-bs-parent='#commandsAccordion')
+                .accordion-body
+                  | #{command.description}
+                  br
+                  | Options
+                  br
+                  each option in command.options
+                    | • #{option.name} #{`<${option.type.toLowerCase()}>`} - #{option.description} - Required? #{option.required}
+                    br
       br
