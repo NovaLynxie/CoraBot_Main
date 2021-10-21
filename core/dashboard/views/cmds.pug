@@ -24,9 +24,10 @@ block content
                 .accordion-body
                   | #{command.description}
                   br
-                  | Options
-                  br
-                  each option in command.options
-                    | • #{option.name} #{`<${option.type.toLowerCase()}>`} - #{option.description} - Required? #{option.required}
+                  if (command.options.length)
+                    | Options
                     br
+                    each option in command.options
+                      | • #{option.name} #{`<${option.type.toLowerCase()}>`} - #{option.description} - Required? #{option.required}
+                      br
       br
