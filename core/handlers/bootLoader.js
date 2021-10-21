@@ -17,19 +17,18 @@ const NODE_MINOR_VERSION = process.versions.node.split('.')[1];
 if (NODE_MAJOR_VERSION < 16 && NODE_MINOR_VERSION < 6) {
 	logger.fatal('This app requires NodeJS v16.6.0 or higher to run!');
 	throw new Error('Incompatible NodeJS version!');
-}
+};
 
 logger.init('Loading configuration files...');
 try {
 	fileData = fs.readFileSync('./settings/main.toml', 'utf-8');
 	mainConfig = toml.parse(fileData);
 	mainLoaded = true;
-}
-catch (err) {
+} catch (err) {
 	logger.error('Failed to load main.toml configuration!');
 	logger.error(err.message); logger.debug(err.stack);
 	logger.warn('Cannot proceed with bot boot up.');
-}
+};
 
 var general = {}, discord = {}, runtime = {};
 var discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID;
@@ -39,7 +38,7 @@ if (mainLoaded) {
 	var { globalPrefix, ownerIDs, useLegacyURL } = general;
 	var { clientId, guildId, debug } = advanced;
 	var { useDotEnv, forceUpdateCmds } = runtime;
-}
+};
 
 logger.init('Loading bot credentials...');
 if (useDotEnv) {
@@ -52,19 +51,17 @@ if (useDotEnv) {
 		youtubeApiKey,
     soundcloudClientID
 	} = process.env;
-}
-else {
+} else {
 	try {
 		fileData = fs.readFileSync('./settings/auth.toml', 'utf-8');
 		authConfig = toml.parse(fileData);
 		authLoaded = true;
-	}
-	catch (err) {
+	} catch (err) {
 		logger.error('Failed to load auth.toml configuration!');
 		logger.error(err.message); logger.debug(err.stack);
 		logger.warn('Falling back to environment variables.');
-	}
-}
+	};
+};
 
 if (authLoaded) {
 	var { discord, external } = authConfig;
@@ -79,12 +76,11 @@ if (authLoaded) {
 	yiffyApiKey = (!yiffyApiKey || yiffyApiKey === 'NOT_SET') ? process.env.yiffyApiKey : yiffyApiKey;
 	youtubeApiKey = (!youtubeApiKey || youtubeApiKey === 'NOT_SET') ? process.env.youtubeApiKey : youtubeApiKey;
   soundcloudClientID = (!soundcloudClientID || soundcloudClientID === 'NOT_SET') ? process.env.soundcloudClientID : soundcloudClientID;
-}
-else {
+} else {
 	var {
 		discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey,
 	} = process.env;
-}
+};
 module.exports.credentials = { discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey };
 module.exports.config = { globalPrefix, ownerIDs, useLegacyURL, forceUpdateCmds, debug, dashboard };
 module.exports.deploy = { clientId, guildId };
