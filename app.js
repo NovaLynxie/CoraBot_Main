@@ -16,7 +16,6 @@ const { config, credentials } = require('./core/handlers/bootLoader');
 const { globalPrefix, ownerIDs, useLegacyURL, debug } = config;
 const { discordToken } = credentials;
 logger.init('Spinning up bot instance...');
-// Initialise client instance
 const client = new Client({
 	globalPrefix: globalPrefix,
 	owners: ownerIDs,
@@ -35,7 +34,6 @@ if (useLegacyURL) {
   logger.debug('Switching http API to legacy domain.');
 	client.options.http.api = 'https://discordapp.com/api';
 } else { logger.debug('Using default API domain.'); };
-// Client handlers bind to bot instance
 client.settings = {
 	clear: clearClientSettings,
 	get: readClientSettings,
@@ -55,7 +53,6 @@ client.data = {
 	init: generateGuildData,
 	delete: deleteGuildData
 };
-// Initialize commands collection objects.
 const commandCollections = ['prefixcmds', 'slashcmds'];
 commandCollections.forEach(collection => client[collection] = new Collection());
 const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
