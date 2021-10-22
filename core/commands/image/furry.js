@@ -18,7 +18,7 @@ module.exports = {
         .setName('option')
         .setDescription('Which type of furry would you like to see?')
         .setRequired(true)
-        // safe-for-work options (will work in any channel)
+        // safe-for-work options
         .addChoice('boop', 'boop')
         .addChoice('cuddle', 'cuddle')
         .addChoice('flop', 'flop')
@@ -26,7 +26,7 @@ module.exports = {
         .addChoice('howl', 'howl')
         .addChoice('hug', 'hug')
         .addChoice('hold', 'hold')
-        // not-safe-for-work options (only works in nsfw channels)
+        // not-safe-for-work options
         .addChoice('lick', 'lick')
         .addChoice('buldge', 'buldge')
         .addChoice('kiss', 'kiss')

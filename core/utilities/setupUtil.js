@@ -9,7 +9,6 @@ console.log('Please follow the prompts to set up your bot.');
 console.log('---------------------------------------------');
 const schema = {
 	properties: {
-		// Setup credentials with env vars or toml config.
 		credStore: {
 			description: 'Credential Storage',
 			message: 'Store credentials in DotEnv or TOML?',
@@ -17,7 +16,6 @@ const schema = {
 			warning: 'Please choose env or toml to store credentials.',
 			default: 'toml',
 		},
-		// Discord bot configuration.
 		botToken: {
 			description: 'Discord Bot Token',
 			warning: 'Discord bot token is required for code to function.',
@@ -31,7 +29,6 @@ const schema = {
 			message: 'No prefix was provided. Falling back to default prefix \'z!\'.',
 			default: 'z!',
 		},
-		// Dashboard credentials/configuration.
 		clientSecret: {
 			description: 'Discord Client Secret',
 			warning: 'This is required for OAuth code grants! Dashboard won\'t function correctly!',
@@ -45,7 +42,6 @@ const schema = {
 			type: 'string',
 			default: 'CoraBot',
 		},
-		// Additional credentials.
 		cheweyApiKey : {
 			description: 'Enter valid cheweybot api token (press enter to skip)',
 			message: 'No valid token provided! Some modules will not function correctly.',
@@ -73,14 +69,11 @@ const schema = {
 	},
 };
 
-// initiate prompt module to begin getting input from command line.
 prompt.start();
 
-// define paths here.
 const dataDir = './data', settingsDir = './settings';
 const authCfgPath = `${settingsDir}/auth.toml`, dirEnvPath = './.env', mainCfgPath = `${settingsDir}/main.toml`;
 
-// setup utilities functions
 function generateDirectory(targetDir) {
 	mkdir(targetDir, { recursive: true }, (err) => {
 		if (err) {
@@ -116,31 +109,23 @@ function promptError(err) {
 	}
 }
 
-// run this to check if directory exists. if not, generate it.
 generateDirectory(dataDir); generateDirectory(settingsDir);
 
-// prepare the configuration templates from local files.
-// load the authentication configuration template.
 const authCfgTemplate = fs.readFileSync('./core/assets/text/authConfigTemplate.txt', 'utf-8');
-// load the main bot configuration template.
 const mainCfgTemplate = fs.readFileSync('./core/assets/text/mainConfigTemplate.txt', 'utf-8');
 
-// start fetching console inputs.
 prompt.get(schema, function(err, result) {
 	console.log('\n---------------------------------------------');
 	if (err) return promptError(err);
-	// prepare configuration data from templates.
 	let authCfgData = authCfgTemplate, mainCfgData = mainCfgTemplate;
 	console.log('Generating auth config from template...');
 	console.log('Generating main config from template...');
-	// prepare configuration regex to replace.
 	const authCfgRegex = [
 		'<DISCORDTOKEN>', '<CLIENTSECRET>', '<SESSIONSECRET>', '<YIFFYAPIKEY>', '<CHEWEYAPITOKEN>', '<YOUTUBEAPIKEY>',
 	];
 	const mainCfgRegex = [
 		'<PREFIX>', '<DOTENV>',
 	];
-	// start running regex.
 	console.log('Preparing auth configuration.');
 	authCfgRegex.forEach(regex => {
 		let value;
@@ -185,9 +170,7 @@ prompt.get(schema, function(err, result) {
 		mainCfgData = mainCfgData.replace(regex, value);
 	});
 	console.log('Main configuration ready!');
-	// check if credStore is env or toml.
 	if (result.credStore.match(/e[nv]/gi)) {
-		// generate env data file then write to file.
 		const botEnvData = stripIndents`# lynxbot process environment variables
     discordToken=${result.botToken}
     clientSecret=${result.clientSecret}
@@ -199,8 +182,7 @@ prompt.get(schema, function(err, result) {
 	}
 	else
 	if (result.credStore.match(/t[oml]/gi)) {
-		// use settings writer to parse to file.
 		settingsWriter(authCfgPath, authCfgData);
-	}
+	};
 	settingsWriter(mainCfgPath, mainCfgData);
 });

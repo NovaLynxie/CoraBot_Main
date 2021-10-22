@@ -2,7 +2,7 @@ const logger = require('../plugins/winstonLogger.js');
 const {
 	NoSubscriberBehavior, VoiceConnectionStatus, createAudioPlayer, createAudioResource, entersState, joinVoiceChannel, getVoiceConnection,
 } = require('@discordjs/voice');
-// Audio Player creation.
+
 function newAudioPlayer() {
 	let audioPlayer = createAudioPlayer({
 		noSubscriber: NoSubscriberBehavior.Pause,
@@ -11,13 +11,11 @@ function newAudioPlayer() {
   return audioPlayer;
 };
 
-// Audio Source creation.
 function createSource(input) {
 	const audioSource = createAudioResource(input);
 	return audioSource;
 };
 
-// Voice Connection functions.
 function checkVC(guild) {
 	const voiceConnection = getVoiceConnection(guild.id);
 	return voiceConnection;

@@ -2,23 +2,18 @@ const logger = require('../plugins/winstonLogger.js');
 const Keyv = require('@keyvhq/core');
 const KeyvSQLite = require('@keyvhq/sqlite');
 
-// Configure settings storage paths.
 const clientPrefStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'clientSettings' });
 const guildPrefStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'guildSettings' });
-// Configure data storage paths.
 const guildDataStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }) });
 
-// Debug outputs for database managers. (VERBOSE ONLY)
 logger.verbose(`clientPrefStore: ${JSON.stringify(clientPrefStore, null, 2)}`);
 logger.verbose(`guildPrefStore: ${JSON.stringify(guildPrefStore, null, 2)}`);
 logger.verbose(`guildDataStore: ${JSON.stringify(guildDataStore, null, 2)}`);
 
-// Require settings templates for use.
 const clientSettingsTemplate = require('../assets/templates/database/clientSettings.json');
 const guildSettingsTemplate = require('../assets/templates/database/guildSettings.json');
 const guildDataTemplate = require('../assets/templates/database/guildData.json');
 
-// Generate settings if none is found.
 async function generateGuildSettings(guildIDs) {
 	logger.verbose('Preparing to check guild settings now...');
 	guildIDs.forEach(async (guildID) => {
@@ -45,7 +40,7 @@ async function generateGuildSettings(guildIDs) {
 	});
 	logger.verbose('Finished checking guild settings.');
 	logger.info('Guild settings are now available.');
-}
+};
 async function generateClientSettings() {
 	logger.verbose('Preparing to generate bot settings now...');
 	const settings = await clientPrefStore.get('botSettings');
@@ -58,49 +53,46 @@ async function generateClientSettings() {
 	await clientPrefStore.set('clientSettings', clientSettingsTemplate);
 	logger.verbose('Finished checking bot settings.');
 	logger.info('Bot settings are now available.');
-}
+};
 
-// Read/Write functions for KeyV database - Client Settings.
 async function saveClientSettings(settings, client) {
   logger.verbose(JSON.stringify(settings));
 	logger.verbose(`Writing new settings for ${client.user.tag} to database.`);
 	await guildPrefStore.set('clientSettings', settings);
 	logger.verbose(`Finished updating bot settings for ${client.user.tag}.`);
-}
+};
 async function readClientSettings(client) {
 	logger.verbose(`Fetching settings for ${client.user.tag} (ID:${client.user.id}).`);
 	const res = await clientPrefStore.get('clientSettings');
   logger.verbose(JSON.stringify(res));
 	return res;
-}
+};
 async function clearClientSettings(client) {
 	logger.verbose(`Removing all settings for ${client.user.tag} (ID:${client.user.id}).`);
 	await clientPrefStore.clear();
-}
+};
 
-// Read/Write functions for KeyV database - Guild Settings.
 async function saveGuildSettings(settings, guild) {
   logger.verbose(JSON.stringify(settings));
 	logger.verbose('Writing new guild settings to database.');
 	await guildPrefStore.set(guild.id, settings);
 	logger.verbose('Finished updating guild settings.');
-}
+};
 async function readGuildSettings(guild) {
 	logger.verbose(`Fetching settings for ${guild.name} (ID:${guild.id}).`);
 	const res = await guildPrefStore.get(guild.id);
   logger.verbose(JSON.stringify(res));
 	return res;
-}
+};
 async function deleteGuildSettings(guild) {
 	logger.verbose(`Removing all settings for ${guild.name} (ID:${guild.id}).`);
 	await guildPrefStore.delete(guild.id);
-}
+};
 async function clearGuildSettings() {
 	logger.verbose('Removing all guild settings.');
 	await guildPrefStore.clear();
-}
+};
 
-// Guild Data Handlers
 async function generateGuildData(guildIDs) {
 	logger.debug('Preparing to check guild data now...');
 	guildIDs.forEach(async (guildID) => {
@@ -127,27 +119,26 @@ async function generateGuildData(guildIDs) {
 	});
 	logger.debug('Finished checking guild settings.');
 	logger.info('Guild data is now available.');
-}
+};
 async function readGuildData(guild) {
 	logger.verbose(`Fetching guild data for ${guild.name} (ID:${guild.id}).`);
 	const res = await guildDataStore.get(guild.id);
 	return res;
-}
+};
 async function saveGuildData(data, guild) {
 	logger.verbose(`Updating guild data for ${guild.name} (ID:${guild.id}).`);
 	await guildDataStore.set(guild.id, data);
 	logger.verbose(`Updated guild data for ${guild.name} (ID:${guild.id}).`);
-}
+};
 async function deleteGuildData(guild) {
 	logger.verbose(`Removing guild data for ${guild.name} (ID:${guild.id}).`);
 	await guildDataStore.delete(guild.id);
-}
+};
 async function resetGuildData() {
 	logger.verbose('Removing all guild data.');
 	await guildDataStore.clear();
-}
+};
 
-// Finally export handler functions for use in other modules.
 module.exports.settingsHandlers = {
 	clearClientSettings, clearGuildSettings,
 	generateClientSettings, generateGuildSettings,

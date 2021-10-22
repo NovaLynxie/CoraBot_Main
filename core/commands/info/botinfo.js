@@ -6,6 +6,7 @@ module.exports = {
 		.setName('info')
 		.setDescription('Displays basic information about the bot or server.'),
 	async execute(interaction, client) {
+    // to be updated for dynamic usage or read text file instead.
 		const embed = {
 			title: 'About Me',
 			color: 0xE7A3F0,

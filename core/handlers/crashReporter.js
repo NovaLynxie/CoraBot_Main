@@ -1,10 +1,8 @@
 const fs = require('fs');
 const { version } = require('../../package.json');
 const logger = require('../plugins/winstonLogger');
-// Sets time and date of the crash report file as logstamp.
 function timeStamp(date) {
 	let hrs, mins, secs, logtime, day, month, year, logdate;
-	// Get current time as hours.mins.secs and put into logtime
 	hrs = date.getUTCHours();
 	if (hrs <= 9) hrs = `0${hrs}`;
 	mins = date.getUTCMinutes();
@@ -12,12 +10,10 @@ function timeStamp(date) {
 	secs = date.getUTCSeconds();
 	if (secs <= 9) secs = `0${secs}`;
 	logtime = `${hrs}.${mins}.${secs}`;
-	// Get current date as day-month-year and put into logdate
 	day = date.getUTCDate();
-	month = date.getUTCMonth() + 1; // Adds one to get actual month.
+	month = date.getUTCMonth() + 1;
 	year = date.getUTCFullYear();
 	logdate = `${day}-${month}-${year}`;
-	// Now combine both logtime and logdate to get full logstamp.
 	return logstamp = `${logdate}_${logtime}`;
 }
 function crashReporter(error) {

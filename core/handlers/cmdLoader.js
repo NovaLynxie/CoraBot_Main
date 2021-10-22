@@ -6,11 +6,9 @@ const { config, credentials } = require('./bootLoader');
 const { forceUpdateCmds } = config;
 const { discordToken } = credentials;
 
-// Define command directory paths here.
 const botCmdsDir = './core/commands';
 
 async function loadBotCmds (client) {
-  // Load slash commands from command files.
 	const commands = [];
 	try {
 		readdirSync(botCmdsDir).forEach(subDir => {
@@ -21,15 +19,10 @@ async function loadBotCmds (client) {
 				logger.debug(`Parsing ${file} of ${subDir} in slashcmds`);
 				logger.debug(`cmdfile -> ${file}`);
         try {
-          // Require command file here.
           const cmd = require(`../commands/${subDir}/${file}`);
           const cmdDataJSON = cmd.data.toJSON();
-          // Error checking if command has no syntax errors thrown when requiring the file.
-          // If no name or empty field, don't load the commmand.
           if (!cmdDataJSON.name || cmdDataJSON.name.trim() === '') return logger.error(`Command ${file} missing name property or no name provided!`);
-          // If no execute function, do not load command as this will do nothing without it.
           if (!cmd.execute) return logger.error(`Command ${file} missing execute() function!`);
-          // If all goes well, push cmdDataJSON into the commands array for updating application commands later.
           commands.push(cmdDataJSON);
           if (cmdDataJSON) {
             if (typeof cmdDataJSON.name === 'string') {
@@ -72,7 +65,6 @@ async function loadBotCmds (client) {
 	if (forceUpdateCmds) {
 		logger.debug('Forcing application command updates!');
 		const rest = new REST({ version: '9' }).setToken(discordToken);
-    // Load commands into client as global commands.
     try {
       logger.debug(`Started loading client application (/) commands for ${client.user.tag}.`);
       await rest.put(
@@ -86,8 +78,6 @@ async function loadBotCmds (client) {
       logger.error('Unable to refresh application (/) commands!')
       logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
     };		
-	}	else {
-		// do nothing...
 	};
 };
 

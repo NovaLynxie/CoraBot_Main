@@ -45,7 +45,6 @@ module.exports = {
 			.setTitle('Radio Selection Menu')
 			.setFooter(radioEmbedFooter)
 			.setThumbnail(radioEmbedThumb);
-
 		// Radio Buttons to control the playback.
 		const radioMenuBtns = new MessageActionRow()
 			.addComponents(
@@ -72,12 +71,6 @@ module.exports = {
 					.setCustomId('play')
 					.setLabel('Play')
 					.setStyle('SECONDARY'),
-				/* (Not really useful?)
-        new MessageButton()
-          .setCustomId('pause')
-          .setLabel('Pause')
-          .setStyle('SECONDARY'),
-        */
 				new MessageButton()
 					.setCustomId('stop')
 					.setLabel('Stop')
@@ -93,7 +86,7 @@ module.exports = {
 				new MessageSelectMenu()
 					.setCustomId('stationSelect')
 					.setPlaceholder('Select a station to tune into!')
-					.addOptions(stationsList), // use this as options.
+					.addOptions(stationsList),
 			);
 		// Radio functions which control all of the radio functionality.
 		function loadStation(interact) {
@@ -182,8 +175,7 @@ module.exports = {
 				logger.debug('Error updating player interface!');
 				logger.debug(err.stack);
 			}
-		}
-		// Create interaction collecter to fetch button interactions.
+		};
 		const collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
 		let menuOpen, playerOpen;
 		player = (!player) ? newPlayer() : player;
@@ -303,11 +295,10 @@ module.exports = {
 				);
 			}
 		});
-		// Log on collector end (temporary)
 		collector.on('end', async collected => {
 			logger.debug('Collector in radio commmand timed out or was stopped.');
 			logger.debug(`Collected ${collected.size} items.`);
-			if (!menuOpen) return; // don't edit replies after this is called!
+			if (!menuOpen) return;
 			await interaction.editReply(
 				{
 					content: 'Radio Menu timed out. To continue using the menu, run /radio again.',

@@ -59,17 +59,14 @@ module.exports = {
     const subcmd = interaction.options.getSubcommand();
     const musicEmbedThumb = client.user.displayAvatarURL({ dynamic: true });
     const musicEmbedFooter = 'Powered by DiscordJS Voice (OPUS)';
-    // Music Player Embed
     const musicPlayerEmbed = new MessageEmbed()
       .setTitle('Music Player v1.0')
       .setThumbnail(musicEmbedThumb)
       .setFooter(musicEmbedFooter);
-    // Music Queue Embed
     const musicQueueEmbed = new MessageEmbed()
       .setTitle(`Queued Songs for ${guild.name}`)
       .setThumbnail(musicEmbedThumb)
       .setFooter(musicEmbedFooter);
-    // Music Buttons to control the playback.
     const musicPlayerCtrlBtns = new MessageActionRow()
       .addComponents(
         new MessageButton()
@@ -116,7 +113,6 @@ module.exports = {
           .setEmoji('❌')
           .setStyle('SECONDARY'),
       );
-    // Music command local functions.
     async function soundcloudSongsParser(url) {
       let playlist = await scbi.getPlaylist(url);
       let queue = [], object = {};
@@ -438,7 +434,6 @@ module.exports = {
               refreshPlayer(interact);
             };
             break;
-          // fallback action for all music menus
           default:
             logger.warn('Invalid or unknown action called!');
             logger.verbose('music.button.default.trigger');
@@ -453,7 +448,6 @@ module.exports = {
       collector.on('end', async collected => {
         logger.debug('Collector in music commmand timed out or was stopped.');
         logger.debug(`Collected ${collected.size} items.`);
-        // don't edit replies if player is no longer open!
         if (!playerOpen) return;
         await interaction.editReply(
           {

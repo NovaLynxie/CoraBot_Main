@@ -5,13 +5,11 @@ const { version } = require('../../package.json');
 let authConfig, mainConfig; let fileData;
 let authLoaded = false, mainLoaded = false;
 
-// Display version information here for easier diagnostics.
 logger.debug('==========================================================');
 logger.debug('System Version Diagnostics.');
 logger.debug(`NodeJS v${process.versions.node}`);
 logger.debug(`CoraBot v${version}`);
 logger.debug('==========================================================');
-// Check if NodeJS version is the right one BEFORE even starting.
 const NODE_MAJOR_VERSION = process.versions.node.split('.')[0];
 const NODE_MINOR_VERSION = process.versions.node.split('.')[1];
 if (NODE_MAJOR_VERSION < 16 && NODE_MINOR_VERSION < 6) {
@@ -72,11 +70,9 @@ if (authLoaded) {
 	var { discord, external } = authConfig;
 	var { discordToken, clientSecret, sessionSecret } = discord;
 	var { cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID } = external;
-	// check main credentials and fallback to process.env if missing.
 	discordToken = (!discordToken || discordToken === 'NOT_SET') ? process.env.discordToken : discordToken;
 	clientSecret = (!clientSecret || clientSecret === 'NOT_SET') ? process.env.clientSecret : clientSecret;
 	sessionSecret = (!sessionSecret || sessionSecret === 'NOT_SET') ? process.env.sessionSecret : sessionSecret;
-	// check other credentials and fallback to process.env if missing.
 	cheweyApiToken = (!cheweyApiToken || cheweyApiToken === 'NOT_SET') ? process.env.cheweyApiToken : cheweyApiToken;
 	yiffyApiKey = (!yiffyApiKey || yiffyApiKey === 'NOT_SET') ? process.env.yiffyApiKey : yiffyApiKey;
 	youtubeApiKey = (!youtubeApiKey || youtubeApiKey === 'NOT_SET') ? process.env.youtubeApiKey : youtubeApiKey;
