@@ -25,7 +25,7 @@ block content
                   | #{command.description}
                   br
                   if (command.options.length)
-                    | Options
+                    | Parameters:
                     br
                     each option in command.options
                       | • #{option.name} #{`<${option.type.toLowerCase()}>`} - #{option.description} - Required? #{option.required}
