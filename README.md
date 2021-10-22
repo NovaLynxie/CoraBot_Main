@@ -1,4 +1,4 @@
-***WARNING! CoraBot v4.x.x is still in alpha stages! It may be broken or not work at all due to continuous developmental changes! Please remain on CoraBot v3 at this time.***
+***WARNING! CoraBot v4.x.x is still in alpha stages! It may be broken or not work at all due to continuous developmental changes! Please make sure to backup before updating!***
 # CoraBot - A customizable discord bot built on DiscordJS with NodeJS
 CoraBot Discord.JS bot for managing your discord guild or community server!
 
