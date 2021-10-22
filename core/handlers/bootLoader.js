@@ -18,6 +18,11 @@ if (NODE_MAJOR_VERSION < 16 && NODE_MINOR_VERSION < 6) {
 	logger.fatal('This app requires NodeJS v16.6.0 or higher to run!');
 	throw new Error('Incompatible NodeJS version!');
 };
+const NODE_ENV = process.env.NODE_ENV;
+if (!NODE_ENV || NODE_ENV !== 'production') {
+  logger.warn('This app is running in development mode!');
+  logger.warn('Performance may be heavily impacted in this mode.');
+};
 
 logger.init('Loading configuration files...');
 try {
