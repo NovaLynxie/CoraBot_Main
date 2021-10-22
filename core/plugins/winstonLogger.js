@@ -5,13 +5,10 @@ const { name } = require('../../package.json');
 const { addColors, createLogger, format, transports } = winston;
 const { combine, colorize, errors, timestamp, printf } = format;
 const LEVEL = Symbol.for('level');
-// get logLevel from os process.env vars
 let { logLevel } = process.env;
 if (!logLevel || logLevel == undefined) {
-	// if not defined then set as 'error' by default.
 	logLevel = 'fatal';
 };
-// Logging Levels
 const customLevels = {
 	levels: {
 		init: 0,
@@ -45,7 +42,6 @@ const logger = createLogger({
 		errors({ stack: true }),
 	),
 	transports: [
-		// Console transport created here.
 		new transports.Console({
 			level: logLevel,
 			format: combine(

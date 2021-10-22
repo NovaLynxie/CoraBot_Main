@@ -16,9 +16,7 @@ module.exports = {
 		clearTimeout(client.timers.apiConnectWarn);
 		logger.debug('Cleared ratelimit warning timer.');
     client.user.setActivity('Loading settings...');
-		// Fetch application information.
 		client.application = await client.application.fetch();
-		// Check settings database.
 		await client.settings.init();
 		const guilds = client.guilds.cache.map(g => g.id);
 		try {
@@ -32,12 +30,10 @@ module.exports = {
 			logger.error('Encountered some errors during bot post start.');
 			logger.warn('Please check logs before restarting the bot.');
 		};
-		// Load commands here using the client's unique ID.
     client.user.setActivity('Loading commands...');
 		loadBotCmds(client);
-		// Prepare configuration for the dashboard service.
 		const dashConfig = {
-			'debug': debug, // used to enable debug console log data.
+			'debug': debug,
 			'dashPort': dashSrvPort,
 			'reportOnly': reportOnly,
 			'clientID' : client.application.id,
@@ -49,24 +45,19 @@ module.exports = {
 		logger.debug('Loading dashboard configuration.');
 		if (debug) {
 			logger.debug(`Dashboard Configuration:\n${JSON.stringify(dashConfig, null, 2)}`);
-		}
-		else {
+		} else {
 			logger.debug('Dashboard Config is hidden. Enable debug mode to reveal this.');
-		}
+		};
 		logger.debug('Preparing to initialize dashboard...');
-		// Start dashsrv to handle heartbeat ping requests. (eg. UptimeRobot)
 		try {
 			if (enableDash) {
 				logger.init('Initialising dashboard service.');
 				require('../dashboard/dashsrv.js')(client, dashConfig);
-			}
-			else {
+			} else {
 				logger.debug('Dashboard is disabled. Falling back to basic service pinger.');
 				require('../dashboard/basicsrv.js');
-			}
-		}
-		catch (err) {
-			// fallback to basicsrv silently if fails.
+			};
+		} catch (err) {
 			logger.error('Dashboard service failed to start!');
 			logger.warn('Dashboard cannot be loaded. Report this to the developers!');
 			logger.debug(err.stack);

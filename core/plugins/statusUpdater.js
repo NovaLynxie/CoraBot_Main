@@ -1,9 +1,7 @@
 const logger = require('./winstonLogger');
 const { activities } = require('../assets/resources/activitiesList.json');
 module.exports = (client) => {
-	// Setup interval timers to update status and database.
 	const statusTimer = setInterval(async () => {
-		// status updater
 		logger.verbose('ran task update_status'); let statusType;
 		const index = Math.floor(Math.random() * (activities.length - 1) + 1);
 		if (index >= 0 && index <= 1) {
