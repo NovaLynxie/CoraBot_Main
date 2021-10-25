@@ -15,7 +15,8 @@ block content
       div
         h3 Available Commands (#{all_commands.length} commands available)
         #commandsAccordion
-          each command in all_commands          
+          each command in all_commands
+            - console.log(command)
             .accordion-item
               h2.accordion-header(id=`cmd${command.name}Header`)
                 button.accordion-button.collapsed(type='button' data-bs-toggle='collapse' data-bs-target=`#collapseCommand${command.name}` aria-expanded='false' aria-controls=`collapseCommand${command.name}`)

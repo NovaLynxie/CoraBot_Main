@@ -7,7 +7,6 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newPlayer } = require('../../handlers/voiceManager');
 const { stations } = require('../../assets/resources/radioStations.json');
-
 const stationsList = [];
 logger.debug('Loading radio stations information...');
 stations.forEach(station => {
@@ -18,7 +17,6 @@ stations.forEach(station => {
 	};
 	stationsList.push(stationData);
 });
-logger.verbose(`stationsList: ${JSON.stringify(stationsList)}`);
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -103,12 +101,10 @@ module.exports = {
 				if (!connection) {
 					logger.debug(`No connections found in ${interaction.guild.name}, creating one.`);
 					connection = await joinVC(interaction.member.voice.channel);
-				}
-				else {
+				} else {
 					logger.debug(`Connection already active in ${interaction.guild.name}.`);
-				}
-			}
-			catch (err) {
+				};
+			} catch (err) {
 				logger.error('An error occured while opening a connection!');
 				logger.error(err.message); logger.debug(err.stack);
 				const errEmbed = new MessageEmbed()
@@ -120,8 +116,8 @@ module.exports = {
 				return interaction.editReply({
 					embeds: [errEmbed],
 				});
-			}
-		}
+			};
+		};
 		// Dynamic Radio Player Embed
 		function dynamicPlayerEmbed(station) {
 			let playerState;
@@ -170,11 +166,10 @@ module.exports = {
 						components: [radioPlayerBtns, radioStationsMenu],
 					},
 				);
-			}
-			catch (err) {
+			} catch (err) {
 				logger.debug('Error updating player interface!');
 				logger.debug(err.stack);
-			}
+			};
 		};
 		const collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
 		let menuOpen, playerOpen;
@@ -200,7 +195,6 @@ module.exports = {
 			logger.error(err.message); logger.debug(err.stack);
 			player.stop();
 		});
-
 		// Menu/Button collecter and handler.
 		collector.on('collect', async interact => {
 			await interact.deferUpdate();
@@ -251,14 +245,13 @@ module.exports = {
 						content: 'You are not in a voice channel! Join the bot\'s voice channel first.',
 						ephemeral: true,
 					});
-				}
-				else
+				} else
 				if (!connection) {
 					interact.followUp({
 						content: 'The bot',
 						ephemeral: true,
 					});
-				}
+				};
 				connection.destroy();
 				break;
 				// Radio Player Actions
@@ -270,12 +263,10 @@ module.exports = {
 			case 'pause':
 				if (!player) return;
 				player.pause();
-
 				break;
 			case 'stop':
 				if (!player) return;
 				player.stop();
-
 				break;
 				// Radio Selection Actions
 			case 'stationSelect':

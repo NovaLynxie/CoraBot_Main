@@ -7,6 +7,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
 //const YouTube = require('simple-youtube-api');
 //const ytas = new YouTube(youtubeApiKey);
+//const ytsa = require('youtube-search-api');
 const scbi = new SoundCloud.Client();
 const ytdl = require('ytdl-core');
 const ytpl = require('ytpl');
@@ -59,6 +60,9 @@ module.exports = {
     const subcmd = interaction.options.getSubcommand();
     const musicEmbedThumb = client.user.displayAvatarURL({ dynamic: true });
     const musicEmbedFooter = 'Powered by DiscordJS Voice (OPUS)';
+    const musicBaseEmbed = new MessageEmbed()
+      .setThumbnail(musicEmbedThumb)
+      .setFooter(musicEmbedFooter)
     const musicPlayerEmbed = new MessageEmbed()
       .setTitle('Music Player v1.0')
       .setThumbnail(musicEmbedThumb)
@@ -183,10 +187,7 @@ module.exports = {
       if (object) data.music.queue.push(object);
       if (list) data.music.queue = data.music.queue.concat(list);
       await client.data.set(data, guild);
-    };
-    async function searchQuery(query) {
-      //
-    };
+    };    
     async function loadSong() {
       if (!data.music.queue[0]) return undefined;
       let { type, url } = data.music.queue[0], stream, title;
@@ -207,7 +208,8 @@ module.exports = {
     };
     // Dynamic Music Embeds
     async function dynamicQueueEmbed(queue) {
-      let field = {}, no = 1, info;
+      let queueEmbed = new MessageEmbed(musicBaseEmbed);
+      let field = {}, no = 1, info;      
       for (const item of queue) {
         let { type, url } = item;
         switch (type) {
@@ -240,12 +242,37 @@ module.exports = {
               `
             };
         }; no++;
-        musicQueueEmbed.addFields(field);
+        queueEmbed.addFields(field);
       };
-      return musicQueueEmbed;
+      return queueEmbed;
     };
+    function dynamicSearchEmbed(list) {
+      let searchEmbed = new MessageEmbed(musicBaseEmbed)
+        .setTitle('Search Results')
+        .setDescription('Here are some results from your keywords.')
+      let count = 1;
+      list.forEach(video => {
+        searchEmbed.addField(`Song ${count}`, video.title);
+        count++;
+      });        
+      return searchEmbed;
+    };
+    function dynamicSearchSelector(list) {
+      let selection = [];
+      list.forEach(video => {
+        let item = {
+          label: video.title,
+          description: (video.description > 100) ? `${video.description.substr(0,97)}...` : video.description,
+          value: video.url
+        }
+        selection.push(item);
+      })
+      let searchSelector = new MessageActionRow()
+        .addComponents(selection)
+      return searchSelector;
+    }
     function dynamicPlayerEmbed(song) {
-      let playerState;
+      let playerState, playerEmbed = new MessageEmbed(musicBaseEmbed);
       switch (audioPlayer?._state.status) {
         case 'idle':
           playerState = 'Idle';
@@ -265,7 +292,7 @@ module.exports = {
         default:
           playerState = 'Stopped';
       }
-      musicPlayerEmbed.fields = [
+      playerEmbed.fields = [
         {
           name: 'Player Status',
           value: (playerState) ? playerState : '...',
@@ -275,7 +302,16 @@ module.exports = {
           value: (song.title) ? `${song.title.replace("''","'")}` : 'No song loaded.',
         }
       ];
-      return musicPlayerEmbed;
+      return playerEmbed;
+    };
+    async function searchQuery(keywords) {
+      /*
+      const list = await ytsa.GetListByKeyword(keywords, false, 5);
+      await interaction.editReply({
+        components: [await dynamicSearchSelector(list)],
+        embeds: [await dynamicSearchEmbed(list)]        
+      });
+      */
     };
     // Update player interface from dynamic embed.
     async function refreshPlayer(interact) {
@@ -302,9 +338,8 @@ module.exports = {
       case 'search':
         let ytQuery = interaction.options.getString('youtube');
         let scQuery = interaction.options.getString('soundcloud');
+        collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
         await searchQuery(ytQuery || scQuery);
-        await wait(3000);
-        await interaction.deleteReply();
         break;
       case 'player':
         collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
@@ -329,7 +364,7 @@ module.exports = {
       };
       data.music.queue.shift();
       data.music.track = {};
-      await client.data.set(data, guild)
+      await client.data.set(data, guild);
       source = await loadSong();
       if (!source) {
         logger.debug('No songs available. Awaiting new requests.');
@@ -339,8 +374,10 @@ module.exports = {
       };
     });
     audioPlayer.on(AudioPlayerStatus.AutoPaused, () => {
-      audioPlayer.pause();
       logger.debug('Player auto paused since not connected. Waiting for connections.');
+    });
+    audioPlayer.on(AudioPlayerStatus.Paused, () => {
+      logger.debug('Player paused by user! Awaiting unpause call.');
     });
     audioPlayer.on('error', err => {
       logger.error('Error occured while playing stream!');
@@ -417,14 +454,16 @@ module.exports = {
           case 'queue':
             queueOpen = !queueOpen;
             if (queueOpen) {
+              let loadingEmbed = new MessageEmbed(musicBaseEmbed)
               logger.debug(`Fetching queue for ${guild.name} (${guild.id})`);
-              musicQueueEmbed.setDescription('Composing song list, this may take a while.');
+              loadingEmbed.setTitle(`Queued Songs for ${guild.name}`);
+              loadingEmbed.setDescription('Composing song list, this may take a while.');
               await interact.editReply(
                 {
-                  embeds: [musicQueueEmbed]
+                  embeds: [loadingEmbed]
                 }
               );
-              musicQueueEmbed.setDescription('');
+              loadingEmbed.setDescription('');
               await interact.editReply(
                 {
                   embeds: [await dynamicQueueEmbed(data.music.queue)]

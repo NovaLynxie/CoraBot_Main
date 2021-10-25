@@ -6,7 +6,7 @@ const { stripIndents } = require('common-tags');
 async function guildLogger (action, params = {}, client) {
   let executor = params?.executor, member = params?.member;
   let reason = (params?.reason) ? params.reason : 'No reason provided.';
-  let messages = (params?.messages) ? params.messages : 'No message data.';  
+  let messages = (params?.messages) ? params.messages : 'No message data.';
   let guild = member.guild, logdate = new Date();
   let settings = await client.settings.guild.get(guild);
   let { logChannels } = settings;
