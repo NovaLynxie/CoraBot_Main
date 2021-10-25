@@ -4,7 +4,6 @@ require('winston-daily-rotate-file');
 const { name } = require('../../package.json');
 const { addColors, createLogger, format, transports } = winston;
 const { combine, colorize, errors, timestamp, printf } = format;
-const LEVEL = Symbol.for('level');
 let { logLevel } = process.env;
 if (!logLevel || logLevel == undefined) {
 	logLevel = 'fatal';
