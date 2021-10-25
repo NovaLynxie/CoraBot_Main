@@ -4,12 +4,12 @@ const { MessageEmbed } = require('discord.js');
 const { time } = require('@discordjs/builders');
 const { stripIndents } = require('common-tags');
 async function guildLogger (action, params = {}, client) {
-  let settings = await client.settings.guild.get(guild);
-  let { logChannels } = settings;
-  let messages = (params?.messages) ? params.messages : 'No message data.';
   let executor = params?.executor, member = params?.member;
   let reason = (params?.reason) ? params.reason : 'No reason provided.';
+  let messages = (params?.messages) ? params.messages : 'No message data.';  
   let guild = member.guild, logdate = new Date();
+  let settings = await client.settings.guild.get(guild);
+  let { logChannels } = settings;
   const guildLogEmbed = new MessageEmbed()
     .setTitle('Moderation Action Logged!')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));  
