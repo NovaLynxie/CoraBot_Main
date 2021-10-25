@@ -38,13 +38,13 @@ module.exports = {
           option
             .setName('youtube')
             .setDescription('Search through YouTube.')
-            .setRequired(true)
+            .setRequired(false)
         )
         .addStringOption(option =>
           option
             .setName('soundcloud')
             .setDescription('Search through Soundcloud.')
-            .setRequired(true)
+            .setRequired(false)
         )
     )
     .addSubcommand(subcommand =>
@@ -304,12 +304,21 @@ module.exports = {
       ];
       return playerEmbed;
     };
-    async function searchQuery(keywords) {
+    async function searchQuery(query) {
       /*
-      const list = await ytsa.GetListByKeyword(keywords, false, 5);
+      let list;
+      switch (query.source) {
+        case 'youtube':
+          list = await ytsa.GetListByKeyword(query.keywords, false, 5);
+          break;
+        case 'soundcloud':
+          break;
+        default:
+          // ..
+      };
       await interaction.editReply({
         components: [await dynamicSearchSelector(list)],
-        embeds: [await dynamicSearchEmbed(list)]        
+        embeds: [await dynamicSearchEmbed(list)]
       });
       */
     };
@@ -339,6 +348,9 @@ module.exports = {
         let ytQuery = interaction.options.getString('youtube');
         let scQuery = interaction.options.getString('soundcloud');
         collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
+        if (!ytQuery || !scQuery) return interaction.editReply({
+          content: 'You cannot search with no keywords!';
+        })
         await searchQuery(ytQuery || scQuery);
         break;
       case 'player':
