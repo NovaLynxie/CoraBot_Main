@@ -141,9 +141,9 @@ module.exports = {
         content: 'YouTube playlist detected! Parsing songs...',
         ephemeral: true
       });
-      playlist.items.forEach(item => {
-        if (!item.shortURL || !item.url) return logger.debug('Skipped video due to incomplete/malformed response.');
-        object = {type: 'soundcloud', url: item.shortURL || item.url};
+      playlist.items.forEach(video => {
+        if (!video.shortURL || !video.url) return logger.debug('Skipped video due to incomplete/malformed response.');
+        object = {type: 'soundcloud', url: video.shortURL || video.url};
         queue.push(object);
       });
       interaction.editReply({
