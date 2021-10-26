@@ -154,17 +154,16 @@ module.exports = {
     };
     async function verifySource(input) {
       let song, stream, object, list;
-      let urlRegex = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
-      if (input.match(urlRegex)) {
-        if (input.match(/(soundcloud.com)/gi)) {
-          if (input.match(/(\/sets\/)/gi)) {
+      if (input.match(/^(http(s)?:\/\/)/)) {
+        if (input.match(/soundcloud?(\.com)/)) {
+          if (input.match(/(\/sets\/).+/)) {
             list = await soundcloudSongsParser(input);
           } else {
             object = { type: 'soundcloud', url: input };
           };          
         } else
-        if (input.match(/(youtube.com)/gi)) {
-          if (input.match(/(\/playlist?)/gi)) {
+        if (input.match(/youtu(be|.be)?(\.com)/)) {
+          if (input.match(/\blist=.*$/)) {
             list = await youtubeSongsParser(input);
           } else {
             object = { type: 'youtube', url: input };
