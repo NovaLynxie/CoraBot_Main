@@ -11,8 +11,9 @@ const Discord = require('discord.js');
 // Express Session
 const express = require('express');
 const app = express();
-const moment = require('moment');
-require('moment-duration-format');
+const { formatDistance } = require('date-fns');
+//const moment = require('moment');
+//require('moment-duration-format');
 // Express Plugins
 const morgan = require('morgan');
 const passport = require('passport');
@@ -242,7 +243,7 @@ module.exports = async (client, config) => {
     });
   });
 	app.get('/stats', (req, res) => {
-		const duration = moment.duration(client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
+    const duration = formatDistance(new Date(0), new Date(client.uptime)) || '...';
 		const members = client.guilds.cache.reduce((p, c) => p + c.memberCount, 0);
 		const textChannels = client.channels.cache.filter(c => c.type === 'GUILD_TEXT').size;
 		const voiceChannels = client.channels.cache.filter(c => c.type === 'GUILD_VOICE').size;

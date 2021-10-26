@@ -1,6 +1,5 @@
 const logger = require('../../plugins/winstonLogger');
-const moment = require('moment');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, time } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 
@@ -32,7 +31,7 @@ module.exports = {
           value: stripIndents`
             Username: ${user.username}#${user.discriminator}
             Nickname: ${member.nickname ? member.nickname : "N/A"}
-            Joined: ${moment.utc(member.joinedTimestamp).format('dddd, MMMM Do YYYY, HH:mm:ss Z')}
+            Joined: ${time(member.joinedTimestamp)}
             Roles: ${roles.length}
             (${roles.length ? roles.join(', ') : "None"})
           `

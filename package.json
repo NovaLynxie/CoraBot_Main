@@ -39,8 +39,6 @@
     "helmet": "^4.6.0",
     "html": "^1.0.0",
     "minecraft-server-util": "^3.6.0",
-    "moment": "^2.29.1",
-    "moment-duration-format": "^2.3.2",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.2",
     "passport": "^0.4.1",

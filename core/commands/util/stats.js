@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-const moment = require('moment');
-require('moment-duration-format');
+const { formatDistance } = require('date-fns');
 const { stripIndents } = require('common-tags');
 const { version } = require('../../../package.json');
 
@@ -18,9 +17,8 @@ module.exports = {
       .setColor(0xE7A3F0)
       .addFields(
         {
-          name: '> Total Uptime',
-          value: moment.duration(client.uptime)
-            .format('d[ days], h[ hours], m[ minutes ]s[ seconds]'),
+          name: '> Total Uptime',          
+          value: formatDistance(new Date(0), new Date(client.uptime)),
           inline: true
         },
         {
