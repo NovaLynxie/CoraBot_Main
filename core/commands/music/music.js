@@ -347,10 +347,10 @@ module.exports = {
       case 'search':
         let ytQuery = interaction.options.getString('youtube');
         let scQuery = interaction.options.getString('soundcloud');
+        if (!ytQuery && !scQuery) return interaction.editReply({
+          content: 'Cannot search with an empty input!'
+        });
         collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
-        if (!ytQuery || !scQuery) return interaction.editReply({
-          content: 'You cannot search with no keywords!';
-        })
         await searchQuery(ytQuery || scQuery);
         break;
       case 'player':
