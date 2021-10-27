@@ -15,7 +15,7 @@ function timeStamp(date) {
 	year = date.getUTCFullYear();
 	logdate = `${day}-${month}-${year}`;
 	return logstamp = `${logdate}_${logtime}`;
-}
+};
 function crashReporter(error) {
 	const stack = error.stack;
 	const messages = ['Did I do that?', 'Erm... whoops.', 'Hehe, my bad...', 'Well, feck if I how that happened. ¯\\_(ツ)_/¯', 'CoraBot.exe stopped unexpectedly (X_X)'];
@@ -44,8 +44,8 @@ function crashReporter(error) {
 			logger.error('Something went wrong while writing crash report!');
 			logger.error(`Caused by: ${error.message}`); logger.debug(stack);
 			logger.warn('Error details may have been lost, check console.');
-		}
+		};
 		logger.warn(`Log saved to ${filepath}`);
 	});
-}
+};
 module.exports = { crashReporter };
