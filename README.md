@@ -1,3 +1,5 @@
+# THIS BRANCH HAS BEEN ABANDONED AND WILL NOT BE USED! NO SUPPORT WILL BE GIVEN IF YOU FORK OR CLONE THIS BRANCH DUE TO IT BEING BROKEN OR UNFINISHED!
+
 ***WARNING! CoraBot v4.x.x is still in alpha stages! It may be broken or not work at all due to continuous developmental changes! Please remain on CoraBot v3 at this time.***
 # CoraBot - A customizable discord bot built on DiscordJS with NodeJS
 CoraBot Discord.JS bot for managing your discord guild or community server!
