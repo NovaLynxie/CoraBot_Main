@@ -5,7 +5,7 @@ const logger = require('../../plugins/winstonLogger');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('eval')
-		.setDescription('Evaluate javascript to test code! (WARNING! CAN CAUSE DAMAGE! USE WITH CAUTION!)')
+		.setDescription('Evaluate javascript to test code! (OWNER ONLY)')
 		.addStringOption(option => option.setName('code').setDescription('Enter code to execute')),
 	async execute(interaction, client) {
     await interaction.deferReply({ ephemeral: true });

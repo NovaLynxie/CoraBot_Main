@@ -8,13 +8,13 @@ module.exports = {
     .setDescription('Issues a warning mentioned user with optional reason.')
     .addIntegerOption(option => 
       option
-        .setName('count')
+        .setName('limit')
         .setDescription('Number of messages to delete?')
         .setRequired(true)
     ),
   async execute(interaction, client) {
 		await interaction.deferReply({ ephemeral: true });
-    const count = interaction.options.getInteger('count');
+    const limit = interaction.options.getInteger('limit');
     const executor = interaction.member; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
     if (executor.id === member.user.id) return interaction.editReply({
