@@ -92,7 +92,7 @@ module.exports = {
         });
         await thread.members.add(interaction.user.id);
         data.trackers.tickets.push(
-          { 
+          {
             ticketID, ticketTitle: ticketBaseEmbed.title, messageID: message.id, messageDate: message.createdAt, authorID: interaction.user.id
           }
         );
@@ -168,17 +168,19 @@ module.exports = {
       };
       let message = channel.messages.fetch(messageID);
     };
-    if (subcmd === 'new') {
-      createTicket();
-    } else
-    if (subcmd === 'list') {
-      listTickets();
-    } else
-    if (subcmd === 'lock') {
-      lockTicket();
-    } else
-    if (subcmd === 'close') {
-      // closeTicket();
+    switch (subcmd) {
+      case 'new':
+        createTicket();
+        break;
+      case 'list':
+        listTickets();
+        break;
+      case 'lock':
+        lockTicket();
+        break;
+      case 'close':
+        // closeTicket();
+        break;
     }
   }
 };
