@@ -1,6 +1,6 @@
 const logger = require('../../plugins/winstonLogger');
 const { credentials } = require('../../handlers/bootLoader');
-const { youtubeApiKey } = credentials;
+//const { youtubeApiKey } = credentials;
 const { MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu } = require('discord.js');
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
