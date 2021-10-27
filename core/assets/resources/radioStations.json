@@ -42,45 +42,5 @@
       "site": "radio-site-here",
       "url": "radio-url-here"
     }
-  ],
-  "ch1": {
-    "name": "Celestia Radio",
-    "desc": "'All pony, all the time!', an online streaming radio station that specializes in pony based music and live programming. So stop clopping and turn it up!",
-    "site": "https://celestiaradio.com",
-    "url": "http://celestia.aiverse.org:8000/stream"
-  },
-  "ch2": {
-    "name": "Alicorn Radio",
-    "desc": "A Brony Podcast talking about Brony stuff and the show we all enjoy... read fanfics, play games, talk about news, Rage about stuff and have every pony as best pony.",
-    "site": "https://www.facebook.com/AlicornRadio",
-    "url": "http://104.254.246.277/radio/8000/radio.mp3"
-  },
-  "ch3": {
-    "name": "Fillydelphia Radio",
-    "desc": "The Best of Variety Brony Music from across the fandom! Tune in at our website!",
-    "site": "https://fillydelphiaradio.net/",
-    "url": "http://fillyradio.com/stream-128k"
-  },
-  "ch4": {
-    "name": "BronyTunes Radio",
-    "desc": "The brony music app, made just for bronies. (twitter.com/BronyTunes)",
-    "site": "https://bronytunes.com/",
-    "url": "https://manehattan.bronytunes.com/stream-128.mp3"
-  },
-  "ch5": {
-    "name": "Radio Brony",
-    "desc": "The only French internet radio station that broadcasts music and shows inspired by the My Little Pony: Friendship is Magic TV series 24/7.",
-    "site": "https://radiobrony.fr/",
-    "url": "https://radiobrony.live/mp3"
-  },
-  "unnamed": [
-    {
-      "ch0": {
-      "name": "radio-name-here",
-      "desc": "radio-desc-here",
-      "site": "radio-site-here",
-      "url": "radio-url-here"
-      }
-    }
-  ]  
+  ]
 }
