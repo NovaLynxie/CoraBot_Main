@@ -6,10 +6,9 @@ module.exports = {
 		.setName('reload')
 		.setDescription('Force an update of the app (/) commands.'),
 	async execute(interaction, client) {
-		logger.warn('Reloading commands! This may take a while');
-		logger.debug('Reloading slash commands.');
+		logger.debug('Reloading slash commands now.');
 		await loadBotCmds(client);
-		logger.info('Finished reloading commands!');
+		logger.debug('Finished reloading commands!');
 		interaction.reply(
 			{
 				content: 'Reloaded commands!',
