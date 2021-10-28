@@ -385,7 +385,7 @@ module.exports = {
       };
     });
     audioPlayer.on(AudioPlayerStatus.AutoPaused, () => {
-      logger.debug('Player auto paused since not connected. Waiting for connections.');
+      logger.debug('Player auto paused since not connected. Awaiting channel connections.');
     });
     audioPlayer.on(AudioPlayerStatus.Paused, () => {
       logger.debug('Player paused by user! Awaiting unpause call.');

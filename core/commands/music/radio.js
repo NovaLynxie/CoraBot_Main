@@ -187,8 +187,7 @@ module.exports = {
 			logger.debug('Player currently idle/paused. Awaiting new requests.');
 		});
 		player.on(AudioPlayerStatus.AutoPaused, () => {
-			player.pause();
-			logger.debug('Player auto paused since not connected. Waiting for connections.');
+			logger.debug('Player auto paused since not linked to channel. Awaiting channel connections.');
 		});
 		player.on('error', err => {
 			logger.error('Error occured while playing stream!');
