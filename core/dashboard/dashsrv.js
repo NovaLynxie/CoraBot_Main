@@ -2,6 +2,7 @@
 const url = require('url'), path = require('path'), fs = require('fs');
 // Extra Formatting
 const { stripIndents } = require('common-tags');
+const { formatDistance } = require('date-fns');
 // Fetch Bot version
 const { version } = require('../../package.json');
 // Winston Logger Plugin
@@ -11,9 +12,6 @@ const Discord = require('discord.js');
 // Express Session
 const express = require('express');
 const app = express();
-const { formatDistance } = require('date-fns');
-//const moment = require('moment');
-//require('moment-duration-format');
 // Express Plugins
 const morgan = require('morgan');
 const passport = require('passport');
