@@ -1,8 +1,7 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, time } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { v4: uuidv4 } = require('uuid');
 const { stripIndents } = require('common-tags');
-const { format, parseISO } = require('date-fns');
 const logger = require('../../plugins/winstonLogger');
 
 module.exports = {
@@ -71,7 +70,7 @@ module.exports = {
           value: stripIndents`
             Ticket ID: ${ticketID.substr(0,8)}
             Author: ${member.user.tag} (${member.displayName})
-            Opened: ${format(new Date, 'PPPPpppp')}`
+            Opened: ${time(new Date)}`
         },
         {
           name: 'Reason for opening ticket?',
@@ -118,7 +117,7 @@ module.exports = {
                 value: stripIndents`
                   Ticket ID: ${ticketID.substr(0,8)}
                   Author: ${(author) ? author.tag : 'Unknown#0000'}
-                  Opened: ${format(parseISO(messageDate), 'PPPPpppp')}
+                  Opened: ${time(messageDate)}
                   [Go to ticket](${message.url})`
               }
             );
@@ -130,7 +129,7 @@ module.exports = {
                 value: stripIndents`
                   Ticket ID: ${ticketID.substr(0,8)}
                   Author: ${author.tag}
-                  Opened: ${format(parseISO(messageDate), 'PPPPpppp')}
+                  Opened: ${time(messageDate)}
                   Not available`
               }
             );
