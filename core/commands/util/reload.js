@@ -6,6 +6,14 @@ module.exports = {
 		.setName('reload')
 		.setDescription('Force an update of the app (/) commands.'),
 	async execute(interaction, client) {
+    if (client.options.owners.indexOf(interaction.user.id) <= -1) {
+			interaction.reply({
+				content: `THAT IS A RESTRICTED COMMAND! YOU ARE NOT AUTHORIZED ${interaction.user.username}!`,
+				ephemeral: true,
+			});
+			logger.warn(`User ${interaction.user.tag} tried to use eval but is not an owner!`);
+      return;
+		};
 		logger.debug('Reloading bot/app commands now.');
 		await loadBotCmds(client);
 		logger.debug('Finished reloading all commands!');
