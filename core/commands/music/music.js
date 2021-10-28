@@ -7,7 +7,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
 //const YouTube = require('simple-youtube-api');
 //const ytas = new YouTube(youtubeApiKey);
-//const ytsa = require('youtube-search-api');
+const ytsa = require('youtube-search-api');
 const scbi = new SoundCloud.Client();
 const ytdl = require('ytdl-core');
 const ytpl = require('ytpl');
@@ -304,7 +304,6 @@ module.exports = {
       return playerEmbed;
     };
     async function searchQuery(query) {
-      /*
       let list;
       switch (query.source) {
         case 'youtube':
@@ -312,7 +311,7 @@ module.exports = {
           break;
         case 'soundcloud':
           await interaction.editReply({
-            content: 'Soundcloud searches not supported at this time. Sorry... TwT'
+            content: 'Soundcloud searches not supported at this time. Sorry... T-T'
           })
           break;
         default:
@@ -323,7 +322,6 @@ module.exports = {
         components: [await dynamicSearchSelector(list)],
         embeds: [await dynamicSearchEmbed(list)]
       });
-      */
     };
     // Update player interface from dynamic embed.
     async function refreshPlayer(interact) {
