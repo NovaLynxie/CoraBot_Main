@@ -1,7 +1,6 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, time } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
-const { format } = require('date-fns');
 const logger = require('../../plugins/winstonLogger');
 
 module.exports = {
@@ -50,7 +49,7 @@ module.exports = {
           name: 'Suggestion Info',
           value: stripIndents`
             Suggested by ${member.user.tag} (${member.displayName})
-            Created ${format(new Date, 'PPPPpppp')}`
+            Created ${time(new Date)}`
         },
         {
           name: 'Additional Details?',
