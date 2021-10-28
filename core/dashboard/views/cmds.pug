@@ -4,7 +4,7 @@ block content
     .jumbotron
       br
       div
-        h2 Command Help
+        h2 Commands Help
         p
         | Here is a list of all the commands #{bot.user.username} has available.
         br
@@ -13,7 +13,7 @@ block content
         | Example Usage: /&lt;command_name&gt; 
       br      
       div
-        h3 Available Commands (#{all_commands.length} commands available)
+        h3 List of commands.
         #commandsAccordion
           each command in all_commands
             .accordion-item
