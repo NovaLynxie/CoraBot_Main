@@ -324,12 +324,10 @@ module.exports = {
     // Update player interface from dynamic embed.
     async function refreshPlayer(interact) {
       try {
-        await interact.editReply(
-          {
-            embeds: [dynamicPlayerEmbed(data.music.track)],
-            components: [musicPlayerCtrlBtns, musicPlayerExtBtns],
-          },
-        );
+        await interact.editReply({
+          embeds: [dynamicPlayerEmbed(data.music.track)],
+          components: [musicPlayerCtrlBtns, musicPlayerExtBtns],
+        });
       } catch (err) {
         logger.debug('Error opening/updating player interface!');
         logger.debug(err.stack);
@@ -483,11 +481,9 @@ module.exports = {
           default:
             logger.warn('Invalid or unknown action called!');
             logger.verbose('music.button.default.trigger');
-            await interact.editReply(
-              {
-                content: 'That action is invalid or not available!',
-              },
-            );
+            await interact.editReply({
+              content: 'That action is invalid or not available!',
+            });
         };
         await client.data.set(data, interact.guild);
       });
@@ -495,12 +491,10 @@ module.exports = {
         logger.debug('Collector in music commmand timed out or was stopped.');
         logger.debug(`Collected ${collected.size} items.`);
         if (!playerOpen) return;
-        await interaction.editReply(
-          {
-            content: 'Music Player timed out. Please run /music again.',
-            embeds: [], components: [],
-          },
-        );
+        await interaction.editReply({
+          content: 'Music Player timed out. Please run /music again.',
+          embeds: [], components: [],
+        });
         await wait(5000);
         await interaction.deleteReply();
         playerOpen = false;
