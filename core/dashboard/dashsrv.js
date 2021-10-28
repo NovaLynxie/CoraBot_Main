@@ -175,8 +175,7 @@ module.exports = async (client, config) => {
 		}	else {
 			req.session.backURL = '/';
 		}; next();
-	},
-	passport.authenticate('discord'));
+	}, passport.authenticate('discord'));
 	// OAuth2 Callback Endpoint
 	app.get('/api/discord/callback', passport.authenticate('discord', { failureRedirect: '/autherror' }), (req, res) => {
 		logger.debug(`Checking req.user.id ${req.user.id} against owner IDs`);
@@ -411,8 +410,7 @@ module.exports = async (client, config) => {
 			await client.settings.guild.set(guildSettings, guild);
 			logger.debug('Saved guild settings successfully!');
 			req.flash('success', 'Saved settings successfully!');
-		}
-		catch (err) {
+		} catch (err) {
 			logger.warn('A setting failed to save correctly! Aborting settings change.');
 			logger.error(err.message); logger.debug(err.stack);
 			req.flash('danger', 'One or more settings failed to save! Please try again. If this error persists, ask an admin to check the logs.');
@@ -548,8 +546,7 @@ module.exports = async (client, config) => {
 				logger.debug('Too many headers sent or called by dashboard service!');
 				logger.debug(err.stack);
 			}
-		}
-		else
+		} else
 		if (err.message) {
 			if (err.message.indexOf('is not a') > -1) {
 				serverError(err);
