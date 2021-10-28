@@ -470,15 +470,11 @@ module.exports = {
               loadingEmbed.setTitle(`Queued Songs for ${guild.name}`);
               loadingEmbed.setDescription('Composing song list, this may take a while.');
               await interact.editReply(
-                {
-                  embeds: [loadingEmbed]
-                }
+                { embeds: [loadingEmbed] }
               );
               loadingEmbed.setDescription('');
               await interact.editReply(
-                {
-                  embeds: [await dynamicQueueEmbed(data.music.queue)]
-                }
+                { embeds: [await dynamicQueueEmbed(data.music.queue)] }
               );
             } else {
               refreshPlayer(interact);
