@@ -8,18 +8,23 @@ const { discordToken } = credentials;
 
 const botCmdsDir = './core/commands';
 
-async function loadBotCmds (client) {
-	const commands = [];
-	try {
-		readdirSync(botCmdsDir).forEach(subDir => {
-			const dirPath = `${botCmdsDir}/${subDir}/`;
-			const cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
-			logger.data(JSON.stringify(cmdfiles));
-			for (const file of cmdfiles) {     
-				logger.debug(`Parsing ${file} of ${subDir} in slashcmds`);
-				logger.debug(`cmdfile -> ${file}`);
+function requireHandler(module) {
+  delete require.cache[require.resolve(module)];
+  return require(module);
+}
+
+async function loadBotCmds(client) {
+  const commands = [];
+  try {
+    readdirSync(botCmdsDir).forEach(subDir => {
+      const dirPath = `${botCmdsDir}/${subDir}/`;
+      const cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
+      logger.data(JSON.stringify(cmdfiles));
+      for (const file of cmdfiles) {
+        logger.debug(`Parsing ${file} of ${subDir} in slashcmds`);
+        logger.debug(`cmdfile -> ${file}`);
         try {
-          const cmd = require(`../commands/${subDir}/${file}`);
+          const cmd = requireHandler(`../commands/${subDir}/${file}`);
           const cmdDataJSON = cmd.data.toJSON();
           if (!cmdDataJSON.name || cmdDataJSON.name.trim() === '') return logger.error(`Command ${file} missing name property or no name provided!`);
           if (!cmd.execute) return logger.error(`Command ${file} missing execute() function!`);
@@ -39,32 +44,32 @@ async function loadBotCmds (client) {
           logger.error(`Error occured while loading command ${file}!`);
           logger.error(err.message); logger.debug(err.stack);
         };
-			};
-		});
-	}	catch (error) {
-		if (error.code === 'ENOENT') {
-			logger.fatal('Unable to find commands directory!');
-		}
-		else
-		if (error.message.indexOf('Cannot find module') > -1) {
-			logger.fatal('Unable to find or load specified command file or its modules!');
-			logger.warn('Either missing or incorrect dependency declarations or wrong command filepath.');
-			logger.debug(error.stack);
-		}
-		else
-		if (error.message.indexOf('Unexpected token') > -1) {
-			logger.error('Errored while loading a command file');
-			logger.error(error.message); logger.debug(error.stack);
-		}
-		else {
-			logger.error('Unknown error occured while loading the commands!');
-			logger.error(error.message); logger.debug(error.stack);
-		}
-		logger.warn('Aborted command loading due to error! Some interactions may fail.');
-	};
-	if (forceUpdateCmds) {
-		logger.debug('Forcing application command updates!');
-		const rest = new REST({ version: '9' }).setToken(discordToken);
+      };
+    });
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      logger.fatal('Unable to find commands directory!');
+    }
+    else
+      if (error.message.indexOf('Cannot find module') > -1) {
+        logger.fatal('Unable to find or load specified command file or its modules!');
+        logger.warn('Either missing or incorrect dependency declarations or wrong command filepath.');
+        logger.debug(error.stack);
+      }
+      else
+        if (error.message.indexOf('Unexpected token') > -1) {
+          logger.error('Errored while loading a command file');
+          logger.error(error.message); logger.debug(error.stack);
+        }
+        else {
+          logger.error('Unknown error occured while loading the commands!');
+          logger.error(error.message); logger.debug(error.stack);
+        }
+    logger.warn('Aborted command loading due to error! Some interactions may fail.');
+  };
+  if (forceUpdateCmds) {
+    logger.debug('Forcing application command updates!');
+    const rest = new REST({ version: '9' }).setToken(discordToken);
     try {
       logger.debug(`Started loading client application (/) commands for ${client.user.tag}.`);
       await rest.put(
@@ -77,8 +82,8 @@ async function loadBotCmds (client) {
     } catch (error) {
       logger.error('Unable to refresh application (/) commands!')
       logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
-    };		
-	};
+    };
+  };
 };
 
 module.exports = { loadBotCmds };
