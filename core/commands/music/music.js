@@ -311,10 +311,14 @@ module.exports = {
           list = await ytsa.GetListByKeyword(query.keywords, false, 5);
           break;
         case 'soundcloud':
+          await interaction.editReply({
+            content: 'Soundcloud searches not supported at this time. Sorry... TwT'
+          })
           break;
         default:
           // ..
       };
+      if (!list) return;
       await interaction.editReply({
         components: [await dynamicSearchSelector(list)],
         embeds: [await dynamicSearchEmbed(list)]
