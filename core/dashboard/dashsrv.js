@@ -60,7 +60,6 @@ module.exports = async (client, config) => {
 		process.nextTick(() => done(null, profile));
 	}));
   app.use(session({
-		// session storage location
 		store: new SQLiteStore({
 			db: 'sessions.db',
 			dir: './data/',
