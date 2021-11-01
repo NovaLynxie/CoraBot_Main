@@ -61,11 +61,10 @@ for (const file of eventFiles) {
 	const event = require(`./core/events/${file}`);
 	if (event.once) {
 		client.once(event.name, (...args) => event.execute(...args, client));
-	}
-	else {
+	} else {
 		client.on(event.name, (...args) => event.execute(...args, client));
-	}
-}
+	};
+};
 // Unhandled error handling in process
 process.on('unhandledRejection', error => {
 	logger.warn('Uncaught Promise Rejection Exception thrown!');
