@@ -79,9 +79,9 @@ if (authLoaded) {
   soundcloudClientID = (!soundcloudClientID || soundcloudClientID === 'NOT_SET') ? process.env.soundcloudClientID : soundcloudClientID;
 } else {
 	var {
-		discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey,
+		discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID
 	} = process.env;
 };
-module.exports.credentials = { discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey };
+module.exports.credentials = { discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID };
 module.exports.config = { globalPrefix, ownerIDs, useLegacyURL, forceUpdateCmds, debug, dashboard };
 module.exports.deploy = { clientId, guildId };

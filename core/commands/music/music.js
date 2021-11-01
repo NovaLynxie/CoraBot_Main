@@ -5,11 +5,12 @@ const { MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu } = req
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
+const SCSearcher = require('sc-searcher');
 //const YouTube = require('simple-youtube-api');
 //const ytas = new YouTube(youtubeApiKey);
 const ytsa = require('youtube-search-api');
 const scbi = new SoundCloud.Client();
-//const scsr = require('');
+const scsr = new SCSearcher();
 const ytdl = require('ytdl-core');
 const ytpl = require('ytpl');
 const wait = require('util').promisify(setTimeout);
@@ -54,6 +55,7 @@ module.exports = {
         .setDescription('Start up the player.')
     ),
   async execute(interaction, client) {
+    scsr.init(await SoundCloud.keygen());
     await interaction.deferReply({ ephemeral: false });
     let guild = interaction.guild, collector, source, track;
     let connection = checkVC(guild);
@@ -251,24 +253,38 @@ module.exports = {
         .setTitle('Search Results')
         .setDescription('Here are some results from your keywords.')
       let count = 1;
-      list.forEach(video => {
-        searchEmbed.addField(`Song ${count}`, video.title);
+      list.forEach(song => {
+        searchEmbed.addField(`Song ${count}`, song.title);
         count++;
       });        
       return searchEmbed;
     };
-    function dynamicSearchSelector(list) {
-      let selection = [];
-      list.forEach(video => {
+    function dynamicSearchSelector(list, type) {
+      let selection = [], url;
+      switch (type) {
+        case 'soundcloud':
+          url = song.permalink_url;
+          break;
+        case 'youtube':
+          `https://www.youtube.com/watch?v=${song.id}`
+          break;
+        default:
+          url = undefined;
+      };
+      list.forEach(song => {
         let item = {
-          label: video.title,
-          description: (video.description > 100) ? `${video.description.substr(0,97)}...` : video.description,
-          value: video.url
+          label: song.title,
+          value: url
         }
         selection.push(item);
       })
       let searchSelector = new MessageActionRow()
-        .addComponents(selection)
+        .addComponents(
+          new MessageSelectMenu()
+            .setCustomId('musicSearchSelect')
+            .setPlaceholder('Select your song.')
+            .addOptions(selection)
+          )
       return searchSelector;
     }
     function dynamicPlayerEmbed(song) {
@@ -305,23 +321,30 @@ module.exports = {
       return playerEmbed;
     };
     async function searchQuery(query) {
-      let list;
+      let results;
+      await interaction.editReply({
+        content: 'Search functionality is very experimental!'
+      });
       switch (query.source) {
         case 'youtube':
-          list = await ytsa.GetListByKeyword(query.keywords, false, 5);
+          results = await ytsa.GetListByKeyword(query.keywords, false, 5);
           break;
         case 'soundcloud':
-          await interaction.editReply({
-            content: 'Soundcloud searches not supported at this time. Sorry... T-T'
-          })
+          results = await scsr.getTracks(query.keywords, 5);
           break;
         default:
           // ..
       };
-      if (!list) return;
+      if (!results) {
+        await interaction.editReply({
+          content: 'Whoops! No response was received or failed to get search results! Try searching again.'
+        })
+        return;
+      };
+      console.log(results);
       await interaction.editReply({
-        components: [await dynamicSearchSelector(list)],
-        embeds: [await dynamicSearchEmbed(list)]
+        components: [await dynamicSearchSelector(results.items || results, query.source)],
+        embeds: [await dynamicSearchEmbed(results.items || results)]
       });
     };
     // Update player interface from dynamic embed.
@@ -351,7 +374,8 @@ module.exports = {
           content: 'Cannot search with an empty input!'
         });
         collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
-        await searchQuery(ytQuery || scQuery);
+        if (scQuery) await searchQuery({ keywords: scQuery, source: 'soundcloud' });
+        if (ytQuery) await searchQuery({ keywords: ytQuery, source: 'youtube' });
         break;
       case 'player':
         collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
@@ -402,7 +426,7 @@ module.exports = {
         data = await client.data.get(interact.guild);
         await interact.deferUpdate();
         await wait(1000);
-        // Button Switch/Case Handler
+        // Interaction Collector Switch/Case Handler
         switch (interact.customId) {
           case 'closePlayer':
             playerOpen = false;
@@ -415,6 +439,13 @@ module.exports = {
             await wait(5000);
             await interact.deleteReply();
             collector.stop();
+            break;
+          // Search Result Handler
+          case 'musicSearchSelect':
+            console.log(interact.values[0]);
+            await verifySource(interact.values[0]);
+            await wait(3000);
+            await interaction.deleteReply();
             break;
           // Join/Leave Voice Actions
           case 'joinLeaveVC':
