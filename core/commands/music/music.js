@@ -181,9 +181,10 @@ module.exports = {
         interaction.editReply({
             content: 'The input must be a valid URL link!'
         }); return;
-      };      
+      };
       interaction.editReply({
         content: 'Songs added successfully to the queue!',
+        embeds: [],
         ephemeral: true
       });
       if (object) data.music.queue.push(object);
@@ -261,17 +262,18 @@ module.exports = {
     };
     function dynamicSearchSelector(list, type) {
       let selection = [], url;
-      switch (type) {
-        case 'soundcloud':
-          url = song.permalink_url;
-          break;
-        case 'youtube':
-          `https://www.youtube.com/watch?v=${song.id}`
-          break;
-        default:
-          url = undefined;
-      };
+      console.log(type);
       list.forEach(song => {
+        switch (type) {
+          case 'soundcloud':
+            url = song.permalink_url;
+            break;
+          case 'youtube':
+            url = `https://www.youtube.com/watch?v=${song.id}`
+            break;
+          default:
+            url = undefined;
+        };
         let item = {
           label: song.title,
           value: url
@@ -446,6 +448,7 @@ module.exports = {
             await verifySource(interact.values[0]);
             await wait(3000);
             await interaction.deleteReply();
+            collector.stop();
             break;
           // Join/Leave Voice Actions
           case 'joinLeaveVC':

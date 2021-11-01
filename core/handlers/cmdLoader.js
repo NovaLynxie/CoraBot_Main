@@ -49,22 +49,20 @@ async function loadBotCmds(client) {
   } catch (error) {
     if (error.code === 'ENOENT') {
       logger.fatal('Unable to find commands directory!');
+      throw error;
+    } else
+    if (error.message.indexOf('Cannot find module') > -1) {
+      logger.fatal('Unable to find or load specified command file or its modules!');
+      logger.warn('Either missing or incorrect dependency declarations or wrong command filepath.');
+      logger.debug(error.stack);
+    } else
+    if (error.message.indexOf('Unexpected token') > -1) {
+      logger.error('Errored while loading a command file');
+      logger.error(error.message); logger.debug(error.stack);
+    } else {
+      logger.error('Unknown error occured while loading the commands!');
+      logger.error(error.message); logger.debug(error.stack);
     }
-    else
-      if (error.message.indexOf('Cannot find module') > -1) {
-        logger.fatal('Unable to find or load specified command file or its modules!');
-        logger.warn('Either missing or incorrect dependency declarations or wrong command filepath.');
-        logger.debug(error.stack);
-      }
-      else
-        if (error.message.indexOf('Unexpected token') > -1) {
-          logger.error('Errored while loading a command file');
-          logger.error(error.message); logger.debug(error.stack);
-        }
-        else {
-          logger.error('Unknown error occured while loading the commands!');
-          logger.error(error.message); logger.debug(error.stack);
-        }
     logger.warn('Aborted command loading due to error! Some interactions may fail.');
   };
   if (forceUpdateCmds) {

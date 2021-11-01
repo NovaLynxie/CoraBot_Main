@@ -15,13 +15,22 @@ module.exports = {
       return;
 		};
 		logger.debug('Reloading bot/app commands now.');
-		await loadBotCmds(client);
-		logger.debug('Finished reloading all commands!');
-		interaction.reply(
-			{
-				content: 'Reloaded commands!',
-				ephemeral: true,
-			},
-		);
+    try {
+      await loadBotCmds(client);
+      logger.debug('Finished reloading all commands!');
+      interaction.reply(
+        {
+          content: 'Reloaded all commands successfully!',
+          ephemeral: true,
+        },
+      );
+    } catch (err) {
+      interaction.reply(
+        {
+          content: `Error occured while loading some commands. \n\`\`\` ${err}\`\`\``,
+          ephemeral: true,
+        },
+      );
+    };  
 	},
 };
