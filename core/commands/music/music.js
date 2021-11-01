@@ -9,6 +9,7 @@ const SoundCloud = require('soundcloud-scraper');
 //const ytas = new YouTube(youtubeApiKey);
 const ytsa = require('youtube-search-api');
 const scbi = new SoundCloud.Client();
+//const scsr = require('');
 const ytdl = require('ytdl-core');
 const ytpl = require('ytpl');
 const wait = require('util').promisify(setTimeout);
