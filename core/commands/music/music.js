@@ -376,7 +376,7 @@ module.exports = {
         let scQuery = interaction.options.getString('soundcloud');
         if (!ytQuery && !scQuery) return interaction.editReply({
           content: 'Cannot search with an empty input!'
-        });        
+        });
         if (scQuery) await searchQuery({ keywords: scQuery, source: 'soundcloud' });
         if (ytQuery) await searchQuery({ keywords: ytQuery, source: 'youtube' });
         collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
