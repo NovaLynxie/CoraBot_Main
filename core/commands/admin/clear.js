@@ -5,7 +5,7 @@ const { guildLogger } = require('../../plugins/guildLogging');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('clear')
-    .setDescription('Issues a warning mentioned user with optional reason.')
+    .setDescription('Clear a select number of messages.')
     .addIntegerOption(option => 
       option
         .setName('limit')

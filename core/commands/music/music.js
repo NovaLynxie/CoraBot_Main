@@ -156,7 +156,11 @@ module.exports = {
       return queue;
     };
     async function verifySource(input) {
-      let song, stream, object, list;
+      let song, stream, object, list, response = {
+        content: 'Songs added successfully to the queue!',
+        embeds: [], components: [],
+        ephemeral: true
+      };
       if (input.match(/^(http(s)?:\/\/)/)) {
         if (input.match(/soundcloud?(\.com)/)) {
           if (input.match(/(\/sets\/).+/)) {
@@ -172,21 +176,20 @@ module.exports = {
             object = { type: 'youtube', url: input };
           };          
         } else {
-          interaction.editReply({
+          response = {
             content: 'That song URL is not supported!',
+            embeds: [], components: [],
             ephemeral: true
-          }); return;
+          };
         };
       } else {
-        interaction.editReply({
-            content: 'The input must be a valid URL link!'
-        }); return;
-      };
-      interaction.editReply({
-        content: 'Songs added successfully to the queue!',
-        embeds: [],
-        ephemeral: true
-      });
+        response = {
+          content: 'That song URL is not supported!',
+          embeds: [], components: [],
+          ephemeral: true
+        };
+      };      
+      interaction.editReply(response);
       if (object) data.music.queue.push(object);
       if (list) data.music.queue = data.music.queue.concat(list);
       await client.data.set(data, guild);
@@ -262,7 +265,6 @@ module.exports = {
     };
     function dynamicSearchSelector(list, type) {
       let selection = [], url;
-      console.log(type);
       list.forEach(song => {
         switch (type) {
           case 'soundcloud':
@@ -273,11 +275,12 @@ module.exports = {
             break;
           default:
             url = undefined;
-        };
+        };        
         let item = {
           label: song.title,
           value: url
-        }
+        };
+        logger.data(`parsing results item ${item}`);
         selection.push(item);
       })
       let searchSelector = new MessageActionRow()
@@ -343,7 +346,6 @@ module.exports = {
         })
         return;
       };
-      console.log(results);
       await interaction.editReply({
         components: [await dynamicSearchSelector(results.items || results, query.source)],
         embeds: [await dynamicSearchEmbed(results.items || results)]
@@ -444,7 +446,6 @@ module.exports = {
             break;
           // Search Result Handler
           case 'musicSearchSelect':
-            console.log(interact.values[0]);
             await verifySource(interact.values[0]);
             await wait(3000);
             await interaction.deleteReply();
