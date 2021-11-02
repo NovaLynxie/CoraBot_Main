@@ -280,7 +280,7 @@ module.exports = {
           label: song.title,
           value: url
         };
-        logger.data(`parsing results item ${item}`);
+        logger.data(`parsing results item ${JSON.stringify(item)}`);
         selection.push(item);
       })
       let searchSelector = new MessageActionRow()
