@@ -163,6 +163,12 @@ module.exports = {
         ephemeral: true
       };
       if (input.match(/^(http(s)?:\/\/)/)) {
+        try {
+          input = await longURL(input);
+        } catch (err) {
+          logger.debug('URL provided may already be the full link.');
+          logger.data(`input = ${input}`);
+        };
         if (input.match(/soundcloud?(\.com)/)) {
           if (input.match(/(\/sets\/).+/)) {
             list = await soundcloudSongsParser(input);
@@ -269,7 +275,7 @@ module.exports = {
       list.forEach(song => {
         switch (type) {
           case 'soundcloud':
-            url = song.permalink_url;
+            url = (song.permalink_url.length > 100) ? await shortURL(song.permalink_url) : song.permalink_url;
             break;
           case 'youtube':
             url = `https://www.youtube.com/watch?v=${song.id}`
