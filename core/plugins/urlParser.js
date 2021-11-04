@@ -8,8 +8,9 @@ function validateURL (req) {
 
 async function shortURL (url) {
   if (!validateURL(url)) return;
+  let res;
   try {
-    let res = await minify(url, { provider: 'isgd' });
+    res = await minify(url, { provider: 'isgd' });
   } catch (err) {
     logger.error('Failed to resolve short URL!');
     logger.error(err.message); logger.debug(err.stack);

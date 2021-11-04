@@ -203,7 +203,7 @@ module.exports = {
       let { type, url } = data.music.queue[0], stream, title;
       if (type === 'soundcloud') {
         song = await scbi.getSongInfo(url);
-        title = song.name.replace(/\'/g,"''");
+        title = song.title.replace(/\'/g,"''");
         stream = await song.downloadProgressive();
       } else
         if (type === 'youtube') {
