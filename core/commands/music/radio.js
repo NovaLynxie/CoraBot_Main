@@ -35,7 +35,7 @@ module.exports = {
       .setThumbnail(radioEmbedThumb);
     // Radio Player Embed
     const radioPlayerEmbed = new MessageEmbed()
-      .setTitle('Radio Player v1.0')
+      .setTitle('Radio Player 📻')
       .setFooter(radioEmbedFooter)
       .setThumbnail(radioEmbedThumb);
     // Radio Selecton Embed

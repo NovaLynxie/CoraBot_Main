@@ -54,7 +54,6 @@ module.exports = {
         .setDescription('Start up the player.')
     ),
   async execute(interaction, client) {
-    scsr.init(await SoundCloud.keygen());
     await interaction.deferReply({ ephemeral: false });
     let guild = interaction.guild, collector, source, track;
     let connection = checkVC(guild);
@@ -220,6 +219,9 @@ module.exports = {
     // Dynamic Music Embeds
     async function dynamicQueueEmbed(queue) {
       let queueEmbed = new MessageEmbed(musicBaseEmbed);
+      queueEmbed
+        .setTitle('Music Player Queue 🎼')
+        .setDescription(`${guild.name}'s queued songs`);
       let field = {}, no = 1, info;      
       for (const item of queue) {
         let { type, url } = item;
@@ -255,11 +257,15 @@ module.exports = {
         }; no++;
         queueEmbed.addFields(field);
       };
+      if (queueEmbed.fields.length <= 0) {
+        queueEmbed.fields = [];
+        queueEmbed.addField('This queue is empty!', "No songs in this guild's queue yet. Add a song by searching by keywords or with its URL!");
+      };
       return queueEmbed;
     };
     function dynamicSearchEmbed(list) {
       let searchEmbed = new MessageEmbed(musicBaseEmbed)
-        .setTitle('Search Results')
+        .setTitle('Music Search Results 🔍')
         .setDescription('Here are some results from your keywords.')
       let count = 1;
       list.forEach(song => {
@@ -299,6 +305,7 @@ module.exports = {
     };
     function dynamicPlayerEmbed(song) {
       let playerState, playerEmbed = new MessageEmbed(musicBaseEmbed);
+      playerEmbed.setTitle('Music Player 🎶')
       switch (audioPlayer?._state.status) {
         case 'idle':
           playerState = 'Idle';
@@ -333,7 +340,7 @@ module.exports = {
     async function searchQuery(query) {
       let results;
       await interaction.editReply({
-        content: 'Search functionality is very experimental!'
+        content: 'Searching...'
       });
       switch (query.source) {
         case 'youtube':
