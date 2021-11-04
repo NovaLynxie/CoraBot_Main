@@ -147,7 +147,7 @@ module.exports = {
       });
       playlist.items.forEach(video => {
         if (!video.shortURL || !video.url) return logger.debug('Skipped video due to incomplete/malformed response.');
-        object = {type: 'soundcloud', url: video.shortURL || video.url};
+        object = {type: 'youtube', url: video.shortURL || video.url};
         queue.push(object);
       });
       interaction.editReply({
