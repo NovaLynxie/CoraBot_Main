@@ -6,12 +6,10 @@ const { MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu } = req
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
-const SCSearcher = require('sc-searcher');
 //const YouTube = require('simple-youtube-api');
 //const ytas = new YouTube(youtubeApiKey);
 const ytsa = require('youtube-search-api');
 const scbi = new SoundCloud.Client();
-const scsr = new SCSearcher();
 const ytdl = require('ytdl-core');
 const ytpl = require('ytpl');
 const wait = require('util').promisify(setTimeout);
@@ -265,31 +263,31 @@ module.exports = {
         .setDescription('Here are some results from your keywords.')
       let count = 1;
       list.forEach(song => {
-        searchEmbed.addField(`Song ${count}`, song.title);
+        searchEmbed.addField(`Song ${count}`, song.title || song.name);
         count++;
       });
       return searchEmbed;
     };
     async function dynamicSearchSelector(list, type) {
       let selection = [], url;
-      await list.forEach(async (song) => {
+      for (const song of list) {
         switch (type) {
           case 'soundcloud':
-            url = (song.permalink_url.length < 100) ? song.permalink_url : await shortURL(song.permalink_url);
+            url = (song.url.length < 100) ? song.url : await shortURL(song.url);
             break;
           case 'youtube':
             url = `https://www.youtube.com/watch?v=${song.id}`
             break;
           default:
             url = undefined;
-        };   
+        };
         let item = {
-          label: song.title,
+          label: song.title || song.name,
           value: url
         };
         logger.data(`parsing results item ${JSON.stringify(item)}`);
         selection.push(item);
-      });
+      };
       let searchSelector = new MessageActionRow()
         .addComponents(
           new MessageSelectMenu()
@@ -342,7 +340,7 @@ module.exports = {
           results = await ytsa.GetListByKeyword(query.keywords, false, 5);
           break;
         case 'soundcloud':
-          results = await scsr.getTracks(query.keywords, 5);
+          results = await scbi.search(query.keywords, "track");
           break;
         default:
           // ..
