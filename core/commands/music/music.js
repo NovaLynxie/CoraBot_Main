@@ -15,7 +15,12 @@ const ytpl = require('ytpl');
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
 let audioPlayer = newAudioPlayer(), stopped = false;
-
+const listenerChecker = setInterval(() => {
+  audioPlayer.removeAllListeners(AudioPlayerStatus.Playing);
+  audioPlayer.removeAllListeners(AudioPlayerStatus.Idle);
+  audioPlayer.removeAllListeners(AudioPlayerStatus.AutoPaused);
+  audioPlayer.removeAllListeners(AudioPlayerStatus.Paused);
+}, 20000);
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('music')
@@ -427,6 +432,9 @@ module.exports = {
     audioPlayer.on(AudioPlayerStatus.AutoPaused, () => {
       logger.debug('Player auto paused since not connected. Awaiting channel connections.');
     });
+    let pausedCallback = () => {
+      logger.debug('Player paused by user! Awaiting unpause call.');
+    };
     audioPlayer.on(AudioPlayerStatus.Paused, () => {
       logger.debug('Player paused by user! Awaiting unpause call.');
     });
