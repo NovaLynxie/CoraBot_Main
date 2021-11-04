@@ -1,6 +1,6 @@
 const logger = require('./winstonLogger');
 const fetch = require('node-fetch');
-const minify = require('url-minify');
+const minify = require('url-minify').default;
 
 function validateURL (req) {
   return req.match(/(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/);
