@@ -1,3 +1,4 @@
+const logger = require('./winstonLogger');
 const fetch = require('node-fetch');
 const minify = require('url-minify');
 
@@ -7,14 +8,24 @@ function validateURL (req) {
 
 async function shortURL (url) {
   if (!validateURL(url)) return;
-  let res = await minify(url, { provider: 'isgd' });
+  try {
+    let res = await minify(url, { provider: 'isgd' });
+  } catch (err) {
+    logger.error('Failed to resolve short URL!');
+    logger.error(err.message); logger.debug(err.stack);
+  };
   return res.shortUrl;
 };
 async function longURL (url) {
   if (!validateURL(url)) return;
-  let res = await fetch(url);
+  try {
+    let res = await fetch(url);
+  } catch (err) {
+    logger.error('Failed to resolve long URL!');
+    logger.error(err.message); logger.debug(err.stack);
+  }
   logger.data(JSON.stringify(res));
-  return res;
+  return res.url;
 };
 
 module.exports = { shortURL, longURL };
