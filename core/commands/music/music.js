@@ -261,7 +261,7 @@ module.exports = {
       list.forEach(song => {
         searchEmbed.addField(`Song ${count}`, song.title);
         count++;
-      });        
+      });
       return searchEmbed;
     };
     function dynamicSearchSelector(list, type) {
@@ -276,14 +276,14 @@ module.exports = {
             break;
           default:
             url = undefined;
-        };        
+        };   
         let item = {
           label: song.title,
           value: url
         };
         logger.data(`parsing results item ${JSON.stringify(item)}`);
         selection.push(item);
-      })
+      });
       let searchSelector = new MessageActionRow()
         .addComponents(
           new MessageSelectMenu()
@@ -292,7 +292,7 @@ module.exports = {
             .addOptions(selection)
           )
       return searchSelector;
-    }
+    };
     function dynamicPlayerEmbed(song) {
       let playerState, playerEmbed = new MessageEmbed(musicBaseEmbed);
       switch (audioPlayer?._state.status) {
@@ -313,7 +313,7 @@ module.exports = {
           break;
         default:
           playerState = 'Stopped';
-      }
+      };
       playerEmbed.fields = [
         {
           name: 'Player Status',
@@ -344,8 +344,7 @@ module.exports = {
       if (!results) {
         await interaction.editReply({
           content: 'Whoops! No response was received or failed to get search results! Try searching again.'
-        })
-        return;
+        }); return;
       };
       await interaction.editReply({
         components: [await dynamicSearchSelector(results.items || results, query.source)],
@@ -463,10 +462,10 @@ module.exports = {
             if (!connection) {
               connection = await joinVC(interaction.member.voice.channel);
             } else
-              if (connection) {
-                connection.destroy();
-                connection = null;
-              };
+            if (connection) {
+              connection.destroy();
+              connection = null;
+            };
             break;
           // Music Player Actions
           case 'play':
@@ -523,8 +522,7 @@ module.exports = {
             await interact.editReply({
               content: 'That action is invalid or not available!',
             });
-        };
-        await client.data.set(data, interact.guild);
+        }; await client.data.set(data, interact.guild);
       });
       collector.on('end', async collected => {
         logger.debug('Collector in music commmand timed out or was stopped.');
