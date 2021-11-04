@@ -15,7 +15,7 @@ const ytpl = require('ytpl');
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
 let audioPlayer = newAudioPlayer(), stopped = false;
-const listenerChecker = setInterval(() => {
+const listenerChecker = setInterval( () => {
   audioPlayer.removeAllListeners(AudioPlayerStatus.Playing);
   audioPlayer.removeAllListeners(AudioPlayerStatus.Idle);
   audioPlayer.removeAllListeners(AudioPlayerStatus.AutoPaused);
@@ -523,7 +523,7 @@ module.exports = {
               let loadingEmbed = new MessageEmbed(musicBaseEmbed)
               logger.debug(`Fetching queue for ${guild.name} (${guild.id})`);
               loadingEmbed
-                .setTitle(`Queued Songs for ${guild.name}`);
+                .setTitle(`Queued Songs for ${guild.name}`)
                 .setDescription('Composing song queue, please wait.');
               await interact.editReply(
                 { embeds: [loadingEmbed] }
