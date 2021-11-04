@@ -20,7 +20,7 @@ module.exports = {
       logger.debug('Finished reloading all commands!');
       interaction.reply(
         {
-          content: 'Reloaded all commands successfully!',
+          content: 'Reloaded all commands!',
           ephemeral: true,
         },
       );
