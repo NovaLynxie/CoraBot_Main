@@ -14,7 +14,7 @@ module.exports = {
 				await client.slashcmds.get(interaction.commandName).execute(interaction, interaction.client);
 			} catch (error) {
 				logger.error(error.message); logger.debug(error.stack);
-				await interaction.editReply({ content: 'There was an error while executing this command!', ephemeral: true });
+				await interaction.editReply({ content: `There was an error while executing command \`${interaction.commandName}\`!`, ephemeral: true });
 			};
 		}	else
 		if (interaction.isButton()) {
