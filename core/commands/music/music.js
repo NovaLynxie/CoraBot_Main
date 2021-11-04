@@ -16,8 +16,6 @@ const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
 let audioPlayer = newAudioPlayer(), stopped = false;
 
-const loadingIcon = new MessageAttachment('../../assets/music_spinner.gif', 'loading.gif');
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('music')
@@ -519,10 +517,8 @@ module.exports = {
               loadingEmbed
                 .setTitle(`Queued Songs for ${guild.name}`);
                 .setDescription('Composing song queue, please wait.');
-                .setImage('attachment://loading.gif');
-              //loadingEmbed.setImage('https://i.giphy.com/media/iFn08sdhaurUfw8UJp/giphy.webp');
               await interact.editReply(
-                { embeds: [loadingEmbed], files: [loadingIcon] }
+                { embeds: [loadingEmbed] }
               );
               loadingEmbed.setDescription('');
               await interact.editReply(
