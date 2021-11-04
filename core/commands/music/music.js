@@ -270,12 +270,12 @@ module.exports = {
       });
       return searchEmbed;
     };
-    function dynamicSearchSelector(list, type) {
+    async function dynamicSearchSelector(list, type) {
       let selection = [], url;
-      list.forEach(song => {
+      await list.forEach(async (song) => {
         switch (type) {
           case 'soundcloud':
-            url = (song.permalink_url.length > 100) ? await shortURL(song.permalink_url) : song.permalink_url;
+            url = (song.permalink_url.length < 100) ? song.permalink_url : await shortURL(song.permalink_url);
             break;
           case 'youtube':
             url = `https://www.youtube.com/watch?v=${song.id}`
