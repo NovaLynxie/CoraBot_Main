@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const logger = require('../../plugins/winstonLogger');
+const { renderView } = require('../dashutil');
 
 // Dashboard Actions - All Interaction & Authentication actions.
 router.get('/login', (req, res, next) => {
@@ -47,3 +49,5 @@ router.get('/logout', function(req, res) {
     res.redirect('/');
   });
 });
+
+module.exports = router;

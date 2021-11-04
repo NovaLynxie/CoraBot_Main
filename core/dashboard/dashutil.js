@@ -1,3 +1,22 @@
+const logger = require('../plugins/winstonLogger');
+
+function checkAuth(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    logger.debug(`req.url='${req.url}'`);
+    req.session.backURL = req.url; res.status(401);
+    req.flash('info', 'Login expired. You have been signed out.');
+    logger.debug(`req.session.backURL='${req.session.backURL}'`);
+    res.redirect('/login');
+  };
+};
+function isManaged(guild, dashuser) {
+  const member = guild.members.cache.get(dashuser.id);
+  const res = member.permissions.has('MANAGE_GUILD');
+  return res;
+};
+
 const renderView = (res, req, template, data = {}) => {
   logger.debug(`Preparing template ${template}`);
   const baseData = {
@@ -17,4 +36,4 @@ const renderView = (res, req, template, data = {}) => {
   res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
 };
 
-module.exports = { renderView };
+module.exports = { checkAuth, isManaged, renderView };

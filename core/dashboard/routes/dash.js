@@ -1,10 +1,16 @@
+const fs = require('fs');
+const { stripIndents } = require('common-tags');
+const { formatDistance } = require('date-fns');
+const logger = require('../../plugins/winstonLogger');
+const { Permissions } = require('discord.js');
+const { checkAuth, isManaged, renderView } = require('../dashutil');
+
 const express = require('express');
 const router = express.Router();
 
 // Authentication Locked Pages (Discord Oauth2)
 // Normal Dashboard - Only shows user the guilds they are bound to.
 router.get('/dashboard', checkAuth, (req, res) => {
-  const Permissions = Discord.Permissions;
   renderView(res, req, 'dash.pug', { Permissions });
 });
 // Admin Dashboard - Shows all guilds the bot is connected to, including ones not joined by the user.
@@ -249,3 +255,5 @@ router.get('/dashboard/:guildID/ban/:userID', checkAuth, async (req, res) => {
   }
   res.redirect('/dashboard');
 });
+
+module.exports = router;
