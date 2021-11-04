@@ -2,7 +2,7 @@ const logger = require('../../plugins/winstonLogger');
 const { longURL, shortURL } = require('../../plugins/urlParser');
 const { credentials } = require('../../handlers/bootLoader');
 //const { youtubeApiKey } = credentials;
-const { MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu } = require('discord.js');
+const { MessageActionRow, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu } = require('discord.js');
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
@@ -15,6 +15,8 @@ const ytpl = require('ytpl');
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
 let audioPlayer = newAudioPlayer(), stopped = false;
+
+const loadingIcon = new MessageAttachment('../../assets/music_spinner.gif', 'loading.gif');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -192,7 +194,7 @@ module.exports = {
           embeds: [], components: [],
           ephemeral: true
         };
-      };      
+      };
       interaction.editReply(response);
       if (object) data.music.queue.push(object);
       if (list) data.music.queue = data.music.queue.concat(list);
@@ -514,10 +516,13 @@ module.exports = {
             if (queueOpen) {
               let loadingEmbed = new MessageEmbed(musicBaseEmbed)
               logger.debug(`Fetching queue for ${guild.name} (${guild.id})`);
-              loadingEmbed.setTitle(`Queued Songs for ${guild.name}`);
-              loadingEmbed.setDescription('Composing song list, this may take a while.');
+              loadingEmbed
+                .setTitle(`Queued Songs for ${guild.name}`);
+                .setDescription('Composing song queue, please wait.');
+                .setImage('attachment://loading.gif');
+              //loadingEmbed.setImage('https://i.giphy.com/media/iFn08sdhaurUfw8UJp/giphy.webp');
               await interact.editReply(
-                { embeds: [loadingEmbed] }
+                { embeds: [loadingEmbed], files: [loadingIcon] }
               );
               loadingEmbed.setDescription('');
               await interact.editReply(
