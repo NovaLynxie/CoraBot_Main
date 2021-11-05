@@ -48,10 +48,10 @@ router.post('/admin/save_clsettings', checkAuth, async (req, res) => {
   };
   client.settings.set(clsettings, client);
   req.flash('success', 'Saved preferences successfully!');
-  res.redirect('/admin');
+  res.redirect('/dashboard/admin');
 });
 router.get('/:guildID', checkAuth, (req, res) => {
-  res.redirect(`/${req.params.guildID}/manage`);
+  res.redirect(`/dashboard/${req.params.guildID}/manage`);
 });
 router.get('/:guildID/manage', checkAuth, async (req, res) => {
   const client = res.locals.client;
@@ -168,7 +168,7 @@ router.post('/:guildID/manage', checkAuth, async (req, res) => {
     req.flash('danger', 'One or more settings failed to save! Please try again. If this error persists, ask an admin to check the logs.');
   }
   logger.debug('Redirecting to dashboard manage page.');
-  res.redirect('/' + req.params.guildID + '/manage');
+  res.redirect(`/dashboard/${req.params.guildID}/manage`);
 });
 // Displays all members in the Discord guild being viewed.
 router.get('/:guildID/members', checkAuth, (req, res) => {
@@ -189,7 +189,7 @@ router.get('/:guildID/leave', checkAuth, async (req, res) => {
   if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect('/');
   await guild.leave();
   req.flash('success', `Removed from ${guild.name} successfully!`);
-  res.redirect('');
+  res.redirect('/dashboard');
 });
 /*
 // Resets the guild's settings to the defaults, by simply deleting them.
@@ -211,7 +211,7 @@ router.get("/:guildID/reset", checkAuth, async (req, res) => {
   });
   // Once this completes, call redirect to dashboard page.
   req.flash("success", "Settings Reset Complete!");
-  res.redirect("/"+req.params.guildID);
+  res.redirect(`/dashboard/${req.params.guildID}`);
 });
 */
 // DISABLED TEMPORARILY! REQUIRES STORAGE REWORK!
@@ -236,7 +236,7 @@ router.get('/:guildID/kick/:userID', checkAuth, async (req, res) => {
         logger.error(err); logger.debug(err.stack);
       });
   }
-  res.redirect('');
+  res.redirect(`/dashboard/${req.params.guildID}/members`);
 });
 // Bans specified member by their unique user ID.
 router.get('/:guildID/ban/:userID', checkAuth, async (req, res) => {
@@ -262,7 +262,7 @@ router.get('/:guildID/ban/:userID', checkAuth, async (req, res) => {
       });
     req.flash('success', `Removed from ${guild.name} successfully!`);
   }
-  res.redirect('/');
+  res.redirect(`/dashboard/${req.params.guildID}/members`);
 });
 
 module.exports = router;
