@@ -15,7 +15,7 @@ block content
       for guild in user.guilds
         - let guildPerms = new Permissions(`0x${guild.permissions.toString(16)}`);
         if (guildPerms.has('MANAGE_GUILD'))
-          .media(style='padding: 10px;')
+          .guild-card
             if (guild.icon)
               - iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}?size=128`
               img.d-flex.mr-3.rounded-circle.guild_thumb(src=iconUrl style='width: 80px' alt='')

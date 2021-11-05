@@ -14,7 +14,7 @@ block content
     - var guilds = Object.fromEntries(bot.guilds.cache)
 
     for guild in guilds
-      li.media(style='padding: 10px;')
+      li.guild-card
         if (guild.icon)
           - iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128`
           img.d-flex.mr-3.rounded-circle(src=iconUrl style='width: 80px;' alt='')

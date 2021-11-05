@@ -36,7 +36,7 @@ router.get("/commands", async (req, res) => {
     logger.verbose(`command: ${JSON.stringify(obj)}`);
     allcmds.push(obj);
   });
-  renderPageView(res, req, "cmds.pug", {
+  renderView(res, req, "cmds.pug", {
     all_commands: allcmds
   });
 });

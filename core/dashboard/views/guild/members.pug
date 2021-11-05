@@ -17,7 +17,7 @@ block content
     block navtab
       - var activeTab = 'members'    
     .jumbotron.text-center
-      h3.display-4 #{guild.name} Members (WIP)
+      h3.display-4 #{guild.name} Members
       p.lead
       | This is a list of all members currently in the guild, from here you can kick or ban users without needing to do so manually from the Discord app.
       br
@@ -62,7 +62,7 @@ block content
           p
           | Name: #{member.displayName}
           br
-          | Tag: @#{member.user.tag}
+          | User: #{member.user.tag}
           br        
           | Created #{formatDate(member.user.createdAt)}
           br
