@@ -2,16 +2,19 @@ extends ../blocks/layout
 block content
   -function formatDate(dateString){
     -var date = new Date(dateString);
-    -var d = date.getDate(dateString);
-    -var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-    -var m = monthNames[date.getMonth()];
+    -var days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    -var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    -var d = days[date.getDay()];
+    -var D = date.getDate();
+    -var m = months[date.getMonth()];
     -var y = date.getFullYear();
     -var H = date.getHours();
-    -var M = date.getMinutes(); M = (M < 9) ? `0${M}` : M
-    -var S = date.getSeconds(); S = (S < 9) ? `0${S}` : S
-    -return d+' '+m+' '+y+' at '+H+':'+M+':'+S;
+    -var M = date.getMinutes(); M = (M < 9) ? `0${M}` : M;
+    -var S = date.getSeconds(); S = (S < 9) ? `0${S}` : S;
+    -var a = D % 10, b = D % 100;
+    -var nth = `${(a == 1 && b != 11) ? 'st' : (a == 2 && b != 12) ? 'nd' : (a == 3 && b != 13) ? 'rd' : 'th'}`;    
+    -return `${d} ${D}${nth} ${m} ${y} at ${H}:${M}:${S}`;
   -}
-
   .container
     include ../blocks/guild-nav
     block navtab
@@ -48,7 +51,6 @@ block content
       br
       | *'Cloud' refers to BOT users only.
       br
-
       include ../blocks/guild-member-modals
       - var memberPos = 0;
       each member in members
