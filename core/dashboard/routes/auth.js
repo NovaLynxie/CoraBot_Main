@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const router = express.Router();
 const logger = require('../../plugins/winstonLogger');
 const { renderView } = require('../dashUtils');
@@ -19,6 +20,7 @@ router.get('/login', (req, res, next) => {
 }, passport.authenticate('discord'));
 // OAuth2 Callback Endpoint
 router.get('/api/discord/callback', passport.authenticate('discord', { failureRedirect: '/autherror' }), (req, res) => {
+  const client = res.locals.client;
   logger.debug(`Checking req.user.id ${req.user.id} against owner IDs`);
   logger.data(`client.options.owners => ${client.options.owners}`);
   logger.data(`data type: ${typeof client.options.owners}`);

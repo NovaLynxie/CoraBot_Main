@@ -1,4 +1,8 @@
 const logger = require('../plugins/winstonLogger');
+const path = require('path');
+
+const dashDir = path.resolve(`${process.cwd()}/core/dashboard`);
+const viewsDir = path.resolve(`${dashDir}/views/`);
 
 function checkAuth(req, res, next) {
   if (req.isAuthenticated()) {
@@ -17,8 +21,17 @@ function isManaged(guild, dashuser) {
   return res;
 };
 
-const renderView = (res, req, template, data = {}) => {
+function fetchBreadcrumbs(url) {
+  let rtn = [{ name: 'HOME', url: '/' }], acc = '', arr = url.substring(1).split('/');
+  for (i = 0; i < arr.length; i++) {
+    acc = i != arr.length - 1 ? acc + '/' + arr[i] : null;
+    rtn[i + 1] = { name: arr[i].toUpperCase(), url: acc };
+  }; return rtn;
+};
+
+function renderView(res, req, template, data = {}) {
   logger.debug(`Preparing template ${template}`);
+  const client = res.locals.client, config = res.locals.config;
   const baseData = {
     bot: client,
     config: config,
@@ -36,4 +49,6 @@ const renderView = (res, req, template, data = {}) => {
   res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
 };
 
-module.exports = { checkAuth, isManaged, renderView };
+
+
+module.exports = { checkAuth, isManaged, fetchBreadcrumbs, renderView };

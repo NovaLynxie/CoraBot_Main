@@ -10,16 +10,18 @@ const router = express.Router();
 
 // Authentication Locked Pages (Discord Oauth2)
 // Normal Dashboard - Only shows user the guilds they are bound to.
-router.get('/dashboard', checkAuth, (req, res) => {
+router.get('/', checkAuth, (req, res) => {
   renderView(res, req, 'dash.pug', { Permissions });
 });
 // Admin Dashboard - Shows all guilds the bot is connected to, including ones not joined by the user.
 router.get('/admin', checkAuth, async (req, res) => {
+  const client = res.locals.client;
   const botSettings = await client.settings.get(client);
   if (!req.session.isAdmin) return res.redirect('/');
   renderView(res, req, 'admin.pug', { botSettings });
 });
 router.get('/admin/reset_settings', checkAuth, async (req, res) => {
+  const client = res.locals.client;
   await client.settings.clear();
   await client.settings.init();
   const Guilds = client.guilds.cache.map(guild => guild);
@@ -48,10 +50,11 @@ router.post('/admin/save_clsettings', checkAuth, async (req, res) => {
   req.flash('success', 'Saved preferences successfully!');
   res.redirect('/admin');
 });
-router.get('/dashboard/:guildID', checkAuth, (req, res) => {
-  res.redirect(`/dashboard/${req.params.guildID}/manage`);
+router.get('/:guildID', checkAuth, (req, res) => {
+  res.redirect(`/${req.params.guildID}/manage`);
 });
-router.get('/dashboard/:guildID/manage', checkAuth, async (req, res) => {
+router.get('/:guildID/manage', checkAuth, async (req, res) => {
+  const client = res.locals.client;
   const guild = await client.guilds.fetch(req.params.guildID);
   const guildRoles = [];
   guild.roles.cache.forEach(role => guildRoles.push(role));
@@ -62,9 +65,10 @@ router.get('/dashboard/:guildID/manage', checkAuth, async (req, res) => {
   logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);
   renderView(res, req, 'guild/manage.pug', { guild, guildRoles, guildSettings });
 });
-router.post('/dashboard/:guildID/manage', checkAuth, async (req, res) => {
+router.post('/:guildID/manage', checkAuth, async (req, res) => {
   logger.debug(`WebDash called POST action 'save_settings'!`);
   logger.data(`req.body => ${JSON.stringify(req.body)}`);
+  const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
   if (!guild) return res.status(404);
   if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect('/');
@@ -164,10 +168,11 @@ router.post('/dashboard/:guildID/manage', checkAuth, async (req, res) => {
     req.flash('danger', 'One or more settings failed to save! Please try again. If this error persists, ask an admin to check the logs.');
   }
   logger.debug('Redirecting to dashboard manage page.');
-  res.redirect('/dashboard/' + req.params.guildID + '/manage');
+  res.redirect('/' + req.params.guildID + '/manage');
 });
 // Displays all members in the Discord guild being viewed.
-router.get('/dashboard/:guildID/members', checkAuth, (req, res) => {
+router.get('/:guildID/members', checkAuth, (req, res) => {
+  const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
   if (!guild) return res.status(404);
   if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect('/');
@@ -176,18 +181,20 @@ router.get('/dashboard/:guildID/members', checkAuth, (req, res) => {
 });
 // Leaves the guild (this is triggered from the manage page, and only
 // from the modal dialog)
-router.get('/dashboard/:guildID/leave', checkAuth, async (req, res) => {
+router.get('/:guildID/leave', checkAuth, async (req, res) => {
+  const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
   if (!guild) return res.status(404);
   logger.dash(`WebDash called GUILD_LEAVE action for guild ${guild.name}.`);
   if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect('/');
   await guild.leave();
   req.flash('success', `Removed from ${guild.name} successfully!`);
-  res.redirect('/dashboard');
+  res.redirect('');
 });
 /*
 // Resets the guild's settings to the defaults, by simply deleting them.
-router.get("/dashboard/:guildID/reset", checkAuth, async (req, res) => {
+router.get("/:guildID/reset", checkAuth, async (req, res) => {
+  const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
   if (!guild) return res.status(404);
   logger.dash(`WebDash called RESET_SETTINGS action on guild ${guild.name}.`);
@@ -204,12 +211,13 @@ router.get("/dashboard/:guildID/reset", checkAuth, async (req, res) => {
   });
   // Once this completes, call redirect to dashboard page.
   req.flash("success", "Settings Reset Complete!");
-  res.redirect("/dashboard/"+req.params.guildID);
+  res.redirect("/"+req.params.guildID);
 });
 */
 // DISABLED TEMPORARILY! REQUIRES STORAGE REWORK!
 // Kicks specified member by their unique user ID.
-router.get('/dashboard/:guildID/kick/:userID', checkAuth, async (req, res) => {
+router.get('/:guildID/kick/:userID', checkAuth, async (req, res) => {
+  const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
   const member = guild.members.cache.get(req.params.userID);
   if (!guild) return res.status(404);
@@ -228,10 +236,11 @@ router.get('/dashboard/:guildID/kick/:userID', checkAuth, async (req, res) => {
         logger.error(err); logger.debug(err.stack);
       });
   }
-  res.redirect('/dashboard');
+  res.redirect('');
 });
 // Bans specified member by their unique user ID.
-router.get('/dashboard/:guildID/ban/:userID', checkAuth, async (req, res) => {
+router.get('/:guildID/ban/:userID', checkAuth, async (req, res) => {
+  const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
   const member = guild.members.cache.get(req.params.userID);
   if (!guild) return res.status(404);
@@ -253,7 +262,7 @@ router.get('/dashboard/:guildID/ban/:userID', checkAuth, async (req, res) => {
       });
     req.flash('success', `Removed from ${guild.name} successfully!`);
   }
-  res.redirect('/dashboard');
+  res.redirect('/');
 });
 
 module.exports = router;

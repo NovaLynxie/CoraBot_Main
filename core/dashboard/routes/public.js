@@ -1,6 +1,7 @@
+const { version: discordVersion } = require('discord.js');
 const { stripIndents } = require('common-tags');
 const { formatDistance } = require('date-fns');
-const { version } = require('../../../package.json');
+const { version: appVersion } = require('../../../package.json');
 const logger = require('../../plugins/winstonLogger');
 const { renderView } = require('../dashUtils');
 
@@ -9,10 +10,11 @@ const router = express.Router();
 
 // Dashboard Routes - Public and Authenticated site endpoints.
 // Regular Information Pages (public pages)
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   renderView(res, req, 'index.pug');
 });
-app.get("/commands", async (req, res) => {
+router.get("/commands", async (req, res) => {
+  const client = res.locals.client;
   const appcmds = await client.application.commands.fetch();
   logger.verbose(JSON.stringify(appcmds));
   let allcmds = [];
@@ -34,11 +36,12 @@ app.get("/commands", async (req, res) => {
     logger.verbose(`command: ${JSON.stringify(obj)}`);
     allcmds.push(obj);
   });
-  renderView(res, req, "cmds.pug", {
+  renderPageView(res, req, "cmds.pug", {
     all_commands: allcmds
   });
 });
-app.get('/stats', (req, res) => {
+router.get('/stats', (req, res) => {
+  const client = res.locals.client;
   const duration = formatDistance(new Date(0), new Date(client.uptime)) || '...';
   const members = client.guilds.cache.reduce((p, c) => p + c.memberCount, 0);
   const textChannels = client.channels.cache.filter(c => c.type === 'GUILD_TEXT').size;
@@ -52,8 +55,8 @@ app.get('/stats', (req, res) => {
       voice: voiceChannels,
       uptime: duration,
       memoryUsage: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB / ${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)} MB`,
-      botVer: version,
-      discordVer: Discord.version,
+      botVer: appVersion,
+      discordVer: discordVersion,
       nodeVer: process.version,
     },
   });

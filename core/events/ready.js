@@ -52,10 +52,10 @@ module.exports = {
 		try {
 			if (enableDash) {
 				logger.init('Initialising dashboard service.');
-				require('../dashboard/dashsrv.js')(client, dashConfig);
+				require('../dashboard/dashServer.js')(client, dashConfig);
 			} else {
 				logger.debug('Dashboard is disabled. Falling back to basic service pinger.');
-				require('../dashboard/basicsrv.js');
+				require('../dashboard/basicServer.js');
 			};
 		} catch (err) {
 			logger.error('Dashboard service failed to start!');
