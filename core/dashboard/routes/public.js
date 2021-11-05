@@ -2,7 +2,7 @@ const { stripIndents } = require('common-tags');
 const { formatDistance } = require('date-fns');
 const { version } = require('../../../package.json');
 const logger = require('../../plugins/winstonLogger');
-const { renderView } = require('../dashutil');
+const { renderView } = require('../dashUtils');
 
 const express = require('express');
 const router = express.Router();

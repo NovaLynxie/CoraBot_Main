@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const logger = require('../../plugins/winstonLogger');
-const { renderView } = require('../dashutil');
+const { renderView } = require('../dashUtils');
 
 // Dashboard Actions - All Interaction & Authentication actions.
 router.get('/login', (req, res, next) => {

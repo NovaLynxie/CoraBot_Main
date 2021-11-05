@@ -3,7 +3,7 @@ const { stripIndents } = require('common-tags');
 const { formatDistance } = require('date-fns');
 const logger = require('../../plugins/winstonLogger');
 const { Permissions } = require('discord.js');
-const { checkAuth, isManaged, renderView } = require('../dashutil');
+const { checkAuth, isManaged, renderView } = require('../dashUtils');
 
 const express = require('express');
 const router = express.Router();
