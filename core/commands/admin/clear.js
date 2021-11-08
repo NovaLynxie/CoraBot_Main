@@ -26,8 +26,7 @@ module.exports = {
         ephemeral: true
       });
       return;
-    }
-    
+    };    
     if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
       guildLogger('clear', { executor }, client);
       interaction.editReply({
