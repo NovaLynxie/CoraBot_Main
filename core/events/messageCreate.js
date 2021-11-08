@@ -1,34 +1,26 @@
 const logger = require('../plugins/winstonLogger');
 const { globalPrefix, ownerIDs } = require('../handlers/bootLoader');
+const autoModerator = require('../plugins/autoModerator');
+const discordChatBot = require('../plugins/chattyModule');
 
 module.exports = {
 	name: 'messageCreate',
 	async execute(message, client) {
+    let settings = await client.settings.guild.get();
+    let { enableAutoMod } = settings.autoMod, { enableChatBot } = settings.chatBot;
 		if (message.author.bot) return;
-
-		let args;
 		// handle messages in a guild
 		if (message.guild) {
-			let prefix;
-			const data = {
-				mode: 'r', guild: message.guild,
-			};
-			const guildSettings = await client.settings.guild.get(message.guild);
-			const guildPrefix = guildSettings?.guildPrefix;
-
-			prefix = (guildPrefix) ? guildPrefix : globalPrefix;
-
-			// if we found a prefix, setup args; otherwise, this isn't a command
-			if (!prefix) return;
-			args = message.content.slice(prefix.length).trim().split(/\s+/);
-		}
-		else {
-			// handle DMs
-			const slice = message.content.startsWith(globalPrefix) ? globalPrefix.length : 0;
-			args = message.content.slice(slice).split(/\s+/);
-		}
-
-		// get the first space-delimited argument after the prefix as the command
-		const command = args.shift().toLowerCase();
+      try {
+        await autoModerator(message, client);
+        await discordChatBot(message, client);
+      } catch (err) {
+        logger.debug('A module has errored while processing data!');
+        logger.debug(err.stack);
+      };			
+		} else {
+			// handle DMs in private channel
+			// NOT YET IMPLEMENTED!
+		};
 	},
 };
