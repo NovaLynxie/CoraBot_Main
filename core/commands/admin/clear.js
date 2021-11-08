@@ -25,7 +25,7 @@ module.exports = {
         content: 'Unable to delete messages! Possibly missing manage messages permissions?',
       });
       return;
-    };    
+    };
     if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
       guildLogger('clear', { executor }, client);
       interaction.editReply({
