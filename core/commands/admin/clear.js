@@ -6,7 +6,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('clear')
     .setDescription('Clear a select number of messages.')
-    .addIntegerOption(option =>
+    .addNumberOption(option =>
       option
         .setName('limit')
         .setDescription('Number of messages to delete?')
@@ -14,7 +14,7 @@ module.exports = {
     ),
   async execute(interaction, client) {
     await interaction.deferReply({ ephemeral: true });
-    const limit = interaction.options.getInteger('limit');
+    const limit = interaction.options.getNumber('limit');
     const executor = interaction.member; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
     try {
