@@ -7,7 +7,7 @@ async function guildLogger (action, params = {}, client) {
   let executor = params?.executor, member = params?.member;
   let reason = (params?.reason) ? params.reason : 'No reason provided.';
   let messages = (params?.messages) ? params.messages : 'No message data.';
-  let guild = member.guild, logdate = new Date();
+  let guild = executor.guild, logdate = new Date();
   let settings = await client.settings.guild.get(guild);
   let { logChannels } = settings;
   const guildLogEmbed = new MessageEmbed()
@@ -80,4 +80,4 @@ async function guildLogger (action, params = {}, client) {
     logger.error(err.message); logger.debug(err.stack);
   };
 };
-module.exports = { guildLogger };
+module.exports = guildLogger

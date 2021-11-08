@@ -1,9 +1,9 @@
 const logger = require('./winstonLogger');
 let status = 0;
-function autoModerator(message, client) {
+
+module.exports = async (message, client) => {
 	const guild = message.guild;
-	const settings = client.settings.guild.get(guild);
-	const { autoMod } = settings;
+	const { autoMod } = await client.settings.guild.get(guild);
 	if (!autoMod || Object.keys(autoMod).length <= 1) {
 		if (status !== -1) {
 			logger.error('Missing or undefined settings object returned!');
@@ -123,4 +123,3 @@ function autoModerator(message, client) {
 		return res;
 	};
 };
-module.exports = { autoModerator };
