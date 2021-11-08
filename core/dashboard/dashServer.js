@@ -23,7 +23,7 @@ const DiscordStrategy = require('passport-discord-faxes').Strategy;
 const authRouter = require('./routes/auth');
 const dashRouter = require('./routes/dash');
 const publicRouter = require('./routes/public');
-// Express File Paths
+// Directory Paths
 const dashDir = path.resolve(`${process.cwd()}/core/dashboard`);
 const viewsDir = path.resolve(`${dashDir}/views/`);
 const publicDir = path.resolve(`${dashDir}/public/`);
