@@ -15,8 +15,8 @@ function checkAuth(req, res, next) {
     res.redirect('/login');
   };
 };
-function isManaged(guild, dashuser) {
-  const member = guild.members.cache.get(dashuser.id);
+function isManaged(guild, user) {
+  const member = guild.members.cache.get(user.id);
   const res = member.permissions.has('MANAGE_GUILD');
   return res;
 };
