@@ -1,5 +1,4 @@
 const logger = require('./winstonLogger');
-const { format } = require('date-fns');
 const { MessageEmbed } = require('discord.js');
 const { time } = require('@discordjs/builders');
 const { stripIndents } = require('common-tags');
@@ -19,8 +18,8 @@ async function guildLogger(action, params = {}, client) {
       name: 'Member Details',
       value: stripIndents`
         Username: ${member ?.user.tag} (${member ?.displayName})
-        Created: ${format(member ?.user.createdAt, 'PPPPpppp')}
-        Joined: ${format(member ?.joinedAt, 'PPPPpppp')}`
+        Created: ${time(member.user.createdAt)}
+        Joined: ${time(member.joinedAt)}`
     };
   };
   if (executor) {
@@ -33,7 +32,7 @@ async function guildLogger(action, params = {}, client) {
   actionDetails = {
     name: 'Action Details',
     value: stripIndents`
-      Log Date: ${format(logdate, 'PPPPpppp')}
+      Log Date: ${time(logdate)}
       __**Reason**__
       ${reason}`
   };
