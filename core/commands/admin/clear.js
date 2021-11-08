@@ -6,31 +6,30 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('clear')
     .setDescription('Clear a select number of messages.')
-    .addNumberOption(option =>
+    .addIntegerOption(option =>
       option
-        .setName('limit')
+        .setName('amount')
         .setDescription('Number of messages to delete?')
         .setRequired(true)
     ),
   async execute(interaction, client) {
     await interaction.deferReply({ ephemeral: true });
-    const limit = interaction.options.getNumber('limit');
+    const amount = interaction.options.getInteger('amount');
     const executor = interaction.member; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
     try {
-      await interaction.channel.bulkDelete(limit);
+      await interaction.channel.bulkDelete(amount);
     } catch (err) {
       logger.debug(`Failed to delete messages in ${interaction.channel.name}!`);
       await interaction.editReply({
-        content: 'Unable to delete messages! Possibly missing manage messages permissions?'
-        ephemeral: true
+        content: 'Unable to delete messages! Possibly missing manage messages permissions?',
       });
       return;
     };    
     if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
       guildLogger('clear', { executor }, client);
       interaction.editReply({
-        content: `Cleared ${limit} messages successfully!`, ephemeral: true
+        content: `Cleared ${amount} messages successfully!`, ephemeral: true
       });
     } else {
       interaction.editReply({
