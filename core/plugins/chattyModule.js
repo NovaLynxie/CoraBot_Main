@@ -2,6 +2,8 @@ const logger =  require('./winstonLogger');
 const ChatBot = require('discord-chatbot');
 
 module.exports = async (message, client) => {
+  console.log(message);
+  console.log(message.guild);
   let settings = await client.settings.guild.get(message.guild);
   let { enableChatBot, chatBotOpts, chatChannels } = settings.chatBot;
   let { botName, botGender } = chatBotOpts;
