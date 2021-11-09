@@ -113,7 +113,7 @@
 .guild-details-card {
   vertical-align: top;
   min-height: 450px;
-  min-width: 280;
+  min-width: 300px;
   display: inline-block;
   text-align: left;
   padding: 0.5rem;
@@ -124,7 +124,7 @@
 }
 .guild-details-wrapper {
   min-height: 180px;
-  min-width: 300px;
+  min-width: 240px;
   background-color: rgba(118, 118, 145, 0.295);
   border-color: rgba(88, 95, 126, 0.288);
   border-style: solid;
