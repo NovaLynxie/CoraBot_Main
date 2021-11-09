@@ -5,11 +5,6 @@ block content
   - let {enableAutoMod, chListMode, channelsList, urlBlacklist, mediaTrackers} = autoMod;
   - let {enableChatBot, chatBotOpts, chatChannels} = chatBot;
   - let {enableNotifier, trackEvents, notifsChannel, eventMsgTxt} = notifier;
-  - function formatLocale(req) {
-    - let locales = {"en-US":"English (United States)","en-GB":"English (Great Britain)","bg":"Bulgarian","zh-CN":"Chinese (China)","zh-TW":"Chinese (Taiwan)","hr":"Croatian","cs":"Czech","da":"Danish","nl":"Dutch","fi":"Finnish","fr":"French","de":"German","el":"Greek","hi":"Hindi","hu":"Hungarian","it":"Italian","ja":"Japanese","ko":"Korean","lt":"Lithuanian","no":"Norwegian","pl":"Polish","pt-BR":"Portuguese (Brazil)","ro":"Romanian","ru":"Russian","es-ES":"Spanish (Spain)","sv-SE":"Swedish","th":"Thai","tr":"Turkish","uk":"Ukranian","vi":"Vietnamese"}
-    - let res = locales[req];
-    - return res;
-  - };
   .container
     include ../blocks/guild-nav
     block navtab
@@ -39,7 +34,7 @@ block content
               br
               | Members: #{guild.memberCount} (#{guild.members.cache.filter(member => !member.user.bot).size} users | #{guild.members.cache.filter(member => member.user.bot).size} bots)
               br
-              | Locale: #{formatLocale(guild.preferredLocale)}
+              | Locale: #{locales[guild.preferredLocale]}
               
           .guild-details-card
             h5 Server Details

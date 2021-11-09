@@ -1,4 +1,5 @@
 const logger = require('../plugins/winstonLogger');
+const locales = require('../assets/resources/localeCodes');
 const path = require('path');
 
 const dashDir = path.resolve(`${process.cwd()}/core/dashboard`);
@@ -36,6 +37,7 @@ function renderView(res, req, template, data = {}) {
     bot: client,
     config: config,
     path: req.path,
+    locales: locales,
     user: req.isAuthenticated() ? req.user : null,
     isAdmin: req.session.isAdmin,    
     breadcrumbs: req.breadcrumbs
