@@ -1,4 +1,5 @@
 const logger = require('../plugins/winstonLogger');
+const locales = require('./public/javascripts/formatLocales');
 const path = require('path');
 
 const dashDir = path.resolve(`${process.cwd()}/core/dashboard`);
@@ -37,8 +38,9 @@ function renderView(res, req, template, data = {}) {
     config: config,
     path: req.path,
     user: req.isAuthenticated() ? req.user : null,
-    isAdmin: req.session.isAdmin,
+    isAdmin: req.session.isAdmin,    
     breadcrumbs: req.breadcrumbs,
+    formatLocales: locales
   };
   if (config.debug) {
     logger.debug('Dumping data from render parameters');
@@ -48,7 +50,5 @@ function renderView(res, req, template, data = {}) {
   logger.debug(`Rendering template ${template} with 'baseData' and 'data' parameters.`);
   res.render(path.resolve(`${viewsDir}${path.sep}${template}`), Object.assign(baseData, data));
 };
-
-
 
 module.exports = { checkAuth, isManaged, fetchBreadcrumbs, renderView };
