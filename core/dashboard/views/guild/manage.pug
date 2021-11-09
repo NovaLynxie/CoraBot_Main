@@ -74,7 +74,7 @@ block content
                   td Mute Role                  
                   td #{(roles.mute) ? 'Role set!' : 'Not set'}
             .settings-text-wrapper
-              h6 Log Channels (WIP)
+              h6 Log Channels
               table.settings-table-main(border="1")
                 tr
                   th Log Type
@@ -96,68 +96,87 @@ block content
           .settings-card-modules.settings-card-block            
             h5 Auto Moderation
             .settings-text-wrapper
+              h6 Module Settings
               | Enabled? #{(enableAutoMod)?'Yes':'No'}
               br
               | Channel List Mode: #{(chListMode) ? (chListMode === 'whitelist') ? 'Whitelist' : 'Blacklist' : 'Not Set!'}
-              br
-              | Media Removal
-              br
-              | Animated Gifs: #{(mediaTrackers.removeGifs) ? 'Yes' : 'No'}
-              br
-              | Static Images: #{(mediaTrackers.removeImgs) ? 'Yes' : 'No'}
-              br
-              | Links/URLs: #{(mediaTrackers.removeUrls) ? 'Yes' : 'No'}
-            table.settings-table-main(border="1")
-              tr
-                th Setting
-                th Value
-              tr
-                td Channels List
-                td #{(channelsList) ? `${channelsList.length} channels set` : 'N/A'}
-              tr
-                td URL Blacklist
-                td #{(urlBlacklist) ? `${urlBlacklist.length} urls blocked` : 'N/A'}
+            .settings-text-wrapper
+              h6 Media Removal Settings
+              table.settings-table-main(border="1")
+                tr
+                  th Setting
+                  th Enabled?
+                tr
+                  td Gifs
+                  td #{(mediaTrackers.removeGifs) ? 'Yes' : 'No'}
+                tr
+                  td Images
+                  td #{(mediaTrackers.removeImgs) ? 'Yes' : 'No'}
+                tr
+                  td URLs
+                  td #{(mediaTrackers.removeUrls) ? 'Yes' : 'No'}
+              h6 Monitored Channels
+              table.settings-table-main(border="1")
+                tr
+                  th Setting
+                  th Value
+                tr
+                  td Channels List
+                  td #{(channelsList) ? `${channelsList.length} channels set` : 'N/A'}
+                tr
+                  td URL Blacklist
+                  td #{(urlBlacklist) ? `${urlBlacklist.length} urls blocked` : 'N/A'}
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingAutoModBotModal') Edit 
               i.fas.fa-edit
           .settings-card-modules.settings-card-block
             h5 Bot Notifications
             .settings-text-wrapper
+              h6 Module Settings
               | Enabled? #{(notifier.enableNotifier)?'Yes':'No'}
               br
-              | Event Trackers
-              br
-              | Join: #{(trackEvents.join) ? 'Yes' : 'No'}
-              br
-              | Leave: #{trackEvents.leave ? 'Yes' : 'No'}
-              br
-              | Kick: #{trackEvents.kick ? 'Yes' : 'No'}
-              br
-              | Ban: #{trackEvents.ban ? 'Yes' : 'No'}
-              br
-              | Notifs Channel: #{(notifsChannel && notifsChannel.length > 0) ? `#${bot.channels.cache.get(notifsChannel).name}` : 'Not Set!'}
-            table.settings-table-main(border="1")
-              tr
-                th Event
-                th Message
-              tr
-                td Join
-                td #{(eventMsgTxt && eventMsgTxt.joinMsg.length > 0) ? eventMsgTxt.joinMsg : 'Not set!'}
-              tr
-                td Leave
-                td #{(eventMsgTxt && eventMsgTxt.leaveMsg.length > 0) ? eventMsgTxt.leaveMsg : 'Not set!'}
-              tr
-                td Kick
-                td #{(eventMsgTxt && eventMsgTxt.kickMsg.length > 0) ? eventMsgTxt.kickMsg : 'Not set!'}
-              tr
-                td Ban
-                td #{(eventMsgTxt && eventMsgTxt.banMsg.length > 0) ? eventMsgTxt.banMsg : 'Not set!'}
+              | Notifs Channel: #{(notifsChannel && notifsChannel.length > 0) ? `#${bot.channels.cache.get(notifsChannel).name}` : 'Not Set!'}              
+            .settings-text-wrapper
+              h6 Event / Tracker Settings
+              table.settings-table-main(border="1")
+                tr
+                  th Tracker
+                  th Enabled?
+                tr
+                  td Join
+                  td #{(trackEvents.join) ? 'Yes' : 'No'}
+                tr
+                  td Leave
+                  td #{trackEvents.leave ? 'Yes' : 'No'}
+                tr
+                  td Kick
+                  td #{trackEvents.kick ? 'Yes' : 'No'}
+                tr
+                  td Ban
+                  td #{trackEvents.ban ? 'Yes' : 'No'}
+              table.settings-table-main(border="1")
+                tr
+                  th Event
+                  th Message
+                tr
+                  td Join
+                  td #{(eventMsgTxt && eventMsgTxt.joinMsg.length > 0) ? eventMsgTxt.joinMsg : 'Not set!'}
+                tr
+                  td Leave
+                  td #{(eventMsgTxt && eventMsgTxt.leaveMsg.length > 0) ? eventMsgTxt.leaveMsg : 'Not set!'}
+                tr
+                  td Kick
+                  td #{(eventMsgTxt && eventMsgTxt.kickMsg.length > 0) ? eventMsgTxt.kickMsg : 'Not set!'}
+                tr
+                  td Ban
+                  td #{(eventMsgTxt && eventMsgTxt.banMsg.length > 0) ? eventMsgTxt.banMsg : 'Not set!'}
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingBotNotifsModal') Edit 
               i.fas.fa-edit
           .settings-card-modules.settings-card-block
             h5 Smart Chat Bot
             .settings-text-wrapper
+              h6 Module Settings
               | Enabled? #{(chatBot.enableChatBot)?'Yes':'No'}
               br
               | ChatBot Settings
@@ -165,11 +184,13 @@ block content
               | Name: #{(chatBotOpts.botName) ? chatBotOpts.botName : 'Not set!'}
               br
               | Gender: #{(chatBotOpts.botGender) ? chatBotOpts.botGender[0].toUpperCase() + chatBotOpts.botGender.substring(1) : 'Not set!'}
-            table.settings-table-main(border="1")
-              tr
-                th Chat Channels
-              tr
-                td #{(chatChannels) ? (typeof chatChannels === 'string') ? `Monitoring 1 chat channel` : `Monitoring ${chatChannels.length} channels` : 'N/A'}
+            .settings-text-wrapper
+              h6 Chat Channels
+              table.settings-table-main(border="1")
+                tr
+                  th Chat Channels
+                tr
+                  td #{(chatChannels) ? (typeof chatChannels === 'string') ? `Monitoring 1 chat channel` : `Monitoring ${chatChannels.length} channels` : 'N/A'}
             br
             button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
               i.fas.fa-edit

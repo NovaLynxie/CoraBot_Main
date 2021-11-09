@@ -90,8 +90,8 @@
   position: absolute;
   top: 2; left: 3; z-index: 2;
   margin: 10px;
-  max-height: 96px; 
-  max-width: 96px;
+  max-height: 72px; 
+  max-width: 72px;
   background-color: #2c2f33;
   border-color: #7289da;
   border-radius: 10%;
@@ -190,7 +190,7 @@
 .settings-card-modules {
   position: relative;
   vertical-align: top;
-  min-height: 450px;
+  min-height: 550px;
   min-width: 300px;
   display: inline-block;
   text-align: left;
@@ -204,7 +204,7 @@
   max-width: 320px;
 }
 .settings-text-wrapper {
-  min-height: 180px;
+  min-height: 140px;
   min-width: 280px;
   background-color: rgba(118, 118, 145, 0.295);
   border-color: rgba(88, 95, 126, 0.288);
