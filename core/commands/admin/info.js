@@ -18,6 +18,7 @@ async function dynamicEmbed (data, type, client) {
     case 'guild':
       const guild = data;
       const members = guild.members.cache;
+      const presences = guild.presences.cache;
       const channels = guild.channels.cache;
       const emojis = guild.emojis.cache;
       embed
@@ -55,17 +56,17 @@ async function dynamicEmbed (data, type, client) {
               Members: ${guild.memberCount} (${members.filter(member => !member.user.bot).size} users, ${members.filter(member => member.user.bot).size} bots)
               MFA Level: ${(guild.mfaLevel === 'ELEVATED') ? 'Elevated' : 'None'}
               Verify Level: ${levels.verificationLevel[guild.verificationLevel]}
-              Explicit Filter: ${levels.explicitFilter[guild.explicitContentFilter]}
+              Explicit Filter: ${levels.explicitFilterLevel[guild.explicitContentFilter]}
               NSFW Level: ${levels.nsfwLevel[guild.nsfw_level]}
             `
           },
           {
             name: "> Presences",
             value: stripIndents`
-              Online: ${ members.filter(member => member.presence.status === 'online').size } members
-              Idle: ${ members.filter(member => member.presence.status === 'idle').size } members
-              Do Not Disturb: ${ members.filter(member => member.presence.status === 'dnd').size } members
-              Offline: ${ members.filter(member => member.presence.status === 'offline').size } members
+              Online: ${ presences.filter(presence => presence.status === 'online').size } 
+              Idle: ${ presences.filter(presence => presence.status === 'idle').size } 
+              Do Not Disturb: ${ presences.filter(presence => presence.status === 'dnd').size } 
+              Offline: ${ presences.filter(presence => presence.status === 'offline').size } 
             `
           },
           {
