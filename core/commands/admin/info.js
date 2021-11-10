@@ -63,10 +63,10 @@ async function dynamicEmbed (data, type, client) {
           {
             name: "> Presences",
             value: stripIndents`
-              Online: ${ presences.filter(presence => presence.status === 'online').size } 
-              Idle: ${ presences.filter(presence => presence.status === 'idle').size } 
-              Do Not Disturb: ${ presences.filter(presence => presence.status === 'dnd').size } 
-              Offline: ${ presences.filter(presence => presence.status === 'offline').size } 
+              Online: ${ presences.filter(presence => presence.status === 'online').size || members.filter(member => member.user.presence === 'online')} 
+              Idle: ${ presences.filter(presence => presence.status === 'idle').size || members.filter(member => member.user.presence === 'idle')} 
+              Do Not Disturb: ${ presences.filter(presence => presence.status === 'dnd').size || members.filter(member => member.user.presence === 'dnd')} 
+              Offline: ${ presences.filter(presence => presence.status === 'offline').size || members.filter(member => member.user.presence === 'offline')} 
             `
           },
           {
