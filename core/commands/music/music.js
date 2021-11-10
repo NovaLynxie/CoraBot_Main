@@ -64,19 +64,10 @@ module.exports = {
     let connection = checkVC(guild);
     let data = await client.data.get(guild);
     const subcmd = interaction.options.getSubcommand();
-    const musicEmbedThumb = client.user.displayAvatarURL({ dynamic: true });
-    const musicEmbedFooter = 'Powered by DiscordJS Voice (OPUS)';
     const musicBaseEmbed = new MessageEmbed()
-      .setThumbnail(musicEmbedThumb)
-      .setFooter(musicEmbedFooter)
-    const musicPlayerEmbed = new MessageEmbed()
-      .setTitle('Music Player v1.0')
-      .setThumbnail(musicEmbedThumb)
-      .setFooter(musicEmbedFooter);
-    const musicQueueEmbed = new MessageEmbed()
-      .setTitle(`Queued Songs for ${guild.name}`)
-      .setThumbnail(musicEmbedThumb)
-      .setFooter(musicEmbedFooter);
+      .setColor('#a857eb')
+      .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+      .setFooter('Powered by DiscordJS Voice (OPUS)');
     const musicPlayerCtrlBtns = new MessageActionRow()
       .addComponents(
         new MessageButton()
