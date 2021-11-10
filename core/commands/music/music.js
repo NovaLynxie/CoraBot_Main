@@ -65,7 +65,7 @@ module.exports = {
     let data = await client.data.get(guild);
     const subcmd = interaction.options.getSubcommand();
     const musicBaseEmbed = new MessageEmbed()
-      .setColor('#a857eb')
+      .setColor('#32527b')
       .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
       .setFooter('Powered by DiscordJS Voice (OPUS)');
     const musicPlayerCtrlBtns = new MessageActionRow()

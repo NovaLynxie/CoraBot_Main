@@ -5,7 +5,7 @@ const {
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const wait = require('util').promisify(setTimeout);
-const { checkVC, joinVC, createSource, newPlayer } = require('../../handlers/voiceManager');
+const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
 const { stations } = require('../../assets/resources/radioStations.json');
 const stationsList = [];
 logger.debug('Loading radio stations information...');
@@ -26,23 +26,13 @@ module.exports = {
     let connection = checkVC(interaction.guild);
     let player, source, station;
     await interaction.deferReply({ ephemeral: false });
-    const radioEmbedThumb = client.user.displayAvatarURL({ dynamic: true });
-    const radioEmbedFooter = 'Powered by DiscordJS Voice (OPUS)';
-    const radioMenuEmbed = new MessageEmbed()
+    const radioBaseEmbed = new MessageEmbed()
+      .setColor('#32527b')
+      .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+      .setFooter('Powered by DiscordJS Voice (OPUS)');
+    const radioMenuEmbed = new MessageEmbed(radioBaseEmbed)
       .setTitle('Radio Main Menu')
-      .setDescription('Personal Radio Service')
-      .setFooter(radioEmbedFooter)
-      .setThumbnail(radioEmbedThumb);
-    // Radio Player Embed
-    const radioPlayerEmbed = new MessageEmbed()
-      .setTitle('Radio Player 📻')
-      .setFooter(radioEmbedFooter)
-      .setThumbnail(radioEmbedThumb);
-    // Radio Selecton Embed
-    const radioSelectorEmbed = new MessageEmbed()
-      .setTitle('Radio Selection Menu')
-      .setFooter(radioEmbedFooter)
-      .setThumbnail(radioEmbedThumb);
+      .setDescription('Bot Radio Service');
     // Radio Buttons to control the playback.
     const radioMenuBtns = new MessageActionRow()
       .addComponents(
@@ -120,6 +110,7 @@ module.exports = {
     };
     // Dynamic Radio Player Embed
     function dynamicPlayerEmbed(station) {
+      let playerEmbed = new MessageEmbed(radioBaseEmbed);
       let playerState;
       switch (player ?._state.status) {
         case 'idle':
@@ -139,23 +130,25 @@ module.exports = {
           break;
         default:
           playerState = 'Stopped';
-      }
-      radioPlayerEmbed.fields = [
-        {
-          name: 'Player Status',
-          value: playerState,
-        },
-        {
-          name: 'Station Information',
-          value: (station) ? `Name: ${station ?.name}
-          Desc:  ${station ?.desc}` : 'No station loaded.',
-        },
-        {
-          name: 'Now Playing (WIP)',
-          value: 'Nothing is playing...',
-        },
-      ];
-      return radioPlayerEmbed;
+      };
+      playerEmbed
+        .setTitle('Radio Player 📻')
+        .addFields(
+          {
+            name: 'Player Status',
+            value: playerState,
+          },
+          {
+            name: 'Station Information',
+            value: (station) ? `Name: ${station ?.name}
+            Desc:  ${station ?.desc}` : 'No station loaded.',
+          },
+          {
+            name: 'Now Playing (WIP)',
+            value: 'Nothing is playing...',
+          },
+        )
+      return playerEmbed;
     };
     // Update player interface from dynamic embed.
     async function refreshPlayer(interact) {
@@ -173,7 +166,7 @@ module.exports = {
     };
     const collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
     let menuOpen, playerOpen;
-    player = (!player) ? newPlayer() : player;
+    player = (!player) ? newAudioPlayer() : player;
     // Player Event Handler.
     player.on('stateChange', (oldState, newState) => {
       logger.debug(`oldState.status => ${oldState ?.status}`);
