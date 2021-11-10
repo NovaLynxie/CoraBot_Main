@@ -6,7 +6,7 @@ const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 
 async function dynamicEmbed (data, type, client) {
-  const embed = new MessageEmbed();
+  const embed = new MessageEmbed(); embed.setColor('#73f5d2');
   const roles = data.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString());
   switch (type) {
     case 'bot':
