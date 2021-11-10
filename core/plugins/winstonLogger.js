@@ -22,14 +22,14 @@ const customLevels = {
 	},
 	colors: {
 		init: 'dim white',
-		info: 'green',
-		data: 'dim blue',
+		info: 'green',		
 		dash: 'cyan',
 		warn: 'bold yellow',
-		error: 'red',
 		fatal: 'bold red',
+    error: 'red',		
+    data: 'dim blue',
 		debug: 'blue',
-		verbose: 'magenta',
+		verbose: 'bold magenta',
 	},
 };
 addColors(customLevels.colors);
