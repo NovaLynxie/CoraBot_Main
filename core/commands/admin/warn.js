@@ -1,5 +1,6 @@
 const logger = require('../../plugins/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { Permissions } = require('discord.js');
 const { guildLogger } = require('../../plugins/guildLogging');
 
 module.exports = {
