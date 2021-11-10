@@ -47,8 +47,8 @@ module.exports = {
       };
 		} else {
 			interaction.editReply({
-				content: 'You are not a staff member or are missing the required roles to use this command here!', ephemeral: true
-			});
+        content: 'You do not have permissions to run this command!', ephemeral: true
+      });
 		};
   }
 };
