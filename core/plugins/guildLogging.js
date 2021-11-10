@@ -45,21 +45,25 @@ async function guildLogger(action, params = {}, client) {
         .setColor('#e8411c')
         .setDescription('🔨 The ban hammer has spoken.')
         .addFields(modLogFields)
+        break;
     case 'kick':
       guildLogEmbed
         .setColor('#e8411c')
         .setDescription('👢 A magical boot gives them a swift kick.')
         .addFields(modLogFields)
+        break;
     case 'mute':
       guildLogEmbed
         .setColor('#e8a11c')
         .setDescription('🤐 Silence you fool!')
         .addFields(modLogFields)
+        break;
     case 'warn':
       guildLogEmbed
         .setColor('#e8bc1c')
         .setDescription('⚠️ Issued a warning this time.')
         .addFields(modLogFields)
+        break;
     case 'clear':
       const messages = (params ?.messages) ? params.messages : undefined;
       const amount = (params ?.amount) ? params.amount : NaN;
@@ -75,6 +79,7 @@ async function guildLogger(action, params = {}, client) {
               `
           }
         )
+      break;
     default:
       // ..
   };
