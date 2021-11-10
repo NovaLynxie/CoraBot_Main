@@ -3,11 +3,10 @@ const { MessageEmbed } = require('discord.js');
 const { time } = require('@discordjs/builders');
 const { stripIndents } = require('common-tags');
 async function guildLogger(action, params = {}, client) {
-  const executor = params ?.executor, member = params ?.member;
-  const reason = (params ?.reason) ? params.reason : 'No reason provided.';
-  const messages = (params ?.messages) ? params.messages : undefined;
-  const amount = (params ?.amount) ? params.amount : NaN;
+  const executor = params ?.executor, member = params ?.member;  
+  const channel = params ?.channel ? params.channel : undefined;
   const guild = executor.guild, logdate = new Date();
+  const reason = (params ?.reason) ? params.reason : 'No reason provided.';
   const settings = await client.settings.guild.get(guild);
   const { logChannels } = settings;
   const guildLogEmbed = new MessageEmbed()
@@ -18,7 +17,7 @@ async function guildLogger(action, params = {}, client) {
     memberDetails = {
       name: 'Member Details',
       value: stripIndents`
-        Username: ${member ?.user.tag} (${member ?.displayName})
+        Username: ${member.user.tag} (${member.displayName})
         Created: ${time(member.user.createdAt)}
         Joined: ${time(member.joinedAt)}`
     };
@@ -28,8 +27,8 @@ async function guildLogger(action, params = {}, client) {
       name: 'Executor Details',
       value: stripIndents`
         Executor: ${executor.user.tag} (${executor.displayName})
-        Created: ${time(member.user.createdAt)}
-        Joined: ${time(member.joinedAt)}`
+        Created: ${time(executor.user.createdAt)}
+        Joined: ${time(executor.joinedAt)}`
     }
   };
   actionDetails = {
@@ -62,14 +61,18 @@ async function guildLogger(action, params = {}, client) {
         .setDescription('⚠️ Issued a warning this time.')
         .addFields(modLogFields)
     case 'clear':
+      const messages = (params ?.messages) ? params.messages : undefined;
+      const amount = (params ?.amount) ? params.amount : NaN;
       guildLogEmbed
         .setColor('#4bdb23')
         .setDescription('🧹 Sweeping away old messages.')
         .addFields(
           {
-            name: 'Message Cleaner Results',
+            name: 'Message Cleaner',
             value: stripIndents`
-      Removed ${messages.size || amount} messages`
+              Removed ${messages.size} messages from channel ${(channel) ? channel : '#unknown-channel'}
+              Cleaner run by ${executor} on ${time(new Date())}.
+              `
           }
         )
     default:

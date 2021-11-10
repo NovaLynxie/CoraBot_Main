@@ -14,6 +14,7 @@ module.exports = {
     ),
   async execute(interaction, client) {
     await interaction.deferReply({ ephemeral: true });
+    const channel = interaction.channel;
     const amount = interaction.options.getInteger('amount');
     const executor = interaction.member; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
@@ -33,7 +34,7 @@ module.exports = {
       return;
     };
     if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
-      guildLogger('clear', { executor, messages }, client);
+      guildLogger('clear', { executor, messages, channel }, client);
       interaction.editReply({
         content: `Cleared ${amount} messages successfully!`, ephemeral: true
       });
