@@ -19,11 +19,10 @@ const verificationLevels = {
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('server')
+    .setName('guild')
     .setDescription('All the information about your guild in a simple handy embed.'),
   execute(interaction, client) {
     const guild = interaction.guild;
-    const channels = guild.channels.cache.map(channel => channel.name);
     const defaultRole = interaction.guild.roles.cache.get(interaction.guild.id);
 
     const roles = guild.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString());
@@ -52,7 +51,7 @@ module.exports = {
           `
         },
         {
-          name: '> Boost Details'
+          name: '> Boost Details',
           value: stripIndents`
             Tier: ${guild.premiumTier ? `Tier ${guild.premiumTier}` : 'None'}
             Subs: ${guild.premiumSubscriptionCount || '0'}
@@ -66,13 +65,12 @@ module.exports = {
             Channels: ${channels.size} (${channels.filter(channel => channel.type === 'text').size} text, ${channels.filter(channel => channel.type === 'voice').size} voice)
             Members: ${message.guild.memberCount} (${members.filter(member => !member.user.bot).size} users, ${members.filter(member => member.user.bot).size} bots)
             MFA Level: ${(guild.mfaLevel === 'ELEVATED') ? 'Elevated' : 'None'}
-            Channels: ${channels.length}
             Verify Level: ${verificationLevels[guild.verificationLevel]}
             Explicit Filter: ${filterLevels[guild.explicitContentFilter]}
           `
         },
         {
-          name: "> Presences"
+          name: "> Presences",
           value: stripIndents`
              Online: ${ members.filter(member => member.presence.status === 'online').size } members
              Idle: ${ members.filter(member => member.presence.status === 'idle').size } members
@@ -81,7 +79,7 @@ module.exports = {
           `
         },
         {
-          name: "> Roles"
+          name: "> Roles",
           value: roles.join(', ')
         }
       )

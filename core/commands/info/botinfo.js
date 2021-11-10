@@ -3,7 +3,7 @@ const { stripIndents } = require('common-tags');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('info')
+		.setName('about')
 		.setDescription('Displays basic information about the bot or server.'),
 	async execute(interaction, client) {
     // to be updated for dynamic usage or read text file instead.
