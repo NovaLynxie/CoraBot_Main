@@ -43,6 +43,11 @@ if (mainLoaded) {
 	var { useDotEnv, forceUpdateCmds } = runtime;
 };
 
+if (forceUpdateCmds) {
+  logger.warn('forceUpdateCmds detected as ENABLED!')
+  logger.warn('Bot restart is recommended after commands update!');
+};
+
 logger.init('Loading bot credentials...');
 if (useDotEnv) {
 	var {

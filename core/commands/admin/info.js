@@ -1,11 +1,13 @@
 const logger = require('../../plugins/winstonLogger');
 const locales = require('../../assets/resources/localeCodes.json');
+const levels = require('../../assets/resources/guildLevels.json');
 const { SlashCommandBuilder, time } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 
 async function dynamicEmbed (data, type, client) {
   const embed = new MessageEmbed();
+  const roles = data.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString());
   switch (type) {
     case 'bot':
       client.application = await client.application.fetch();
@@ -15,10 +17,9 @@ async function dynamicEmbed (data, type, client) {
       break;
     case 'guild':
       const guild = data;
-      const roles = message.guild.roles.cache.sort((a, b) => b.position - a.position).map(role => role.toString());
-      const members = message.guild.members.cache;
-      const channels = message.guild.channels.cache;
-      const emojis = message.guild.emojis.cache;
+      const members = guild.members.cache;
+      const channels = guild.channels.cache;
+      const emojis = guild.emojis.cache;
       embed
         .setTitle('About Guild')
         .setDescription('Useful information about this server')
@@ -41,7 +42,7 @@ async function dynamicEmbed (data, type, client) {
           {
             name: '> Boost Details',
             value: stripIndents`
-              Tier: ${guild.premiumTier ? `Tier ${guild.premiumTier}` : 'None'}
+              Tier: ${levels.premiumTier[guild.premiumTier]}
               Subs: ${guild.premiumSubscriptionCount || '0'}
             `
           },
@@ -51,10 +52,11 @@ async function dynamicEmbed (data, type, client) {
               Roles: ${roles.length}
               Emojis: ${emojis.size}
               Channels: ${channels.size} (${channels.filter(channel => channel.type === 'text').size} text, ${channels.filter(channel => channel.type === 'voice').size} voice)
-              Members: ${message.guild.memberCount} (${members.filter(member => !member.user.bot).size} users, ${members.filter(member => member.user.bot).size} bots)
+              Members: ${guild.memberCount} (${members.filter(member => !member.user.bot).size} users, ${members.filter(member => member.user.bot).size} bots)
               MFA Level: ${(guild.mfaLevel === 'ELEVATED') ? 'Elevated' : 'None'}
-              Verify Level: ${verificationLevels[guild.verificationLevel]}
-              Explicit Filter: ${filterLevels[guild.explicitContentFilter]}
+              Verify Level: ${levels.verificationLevel[guild.verificationLevel]}
+              Explicit Filter: ${levels.explicitFilter[guild.explicitContentFilter]}
+              NSFW Level: ${levels.nsfwLevel[guild.nsfw_level]}
             `
           },
           {
@@ -83,7 +85,7 @@ async function dynamicEmbed (data, type, client) {
             name: '> Member Information',
             value: stripIndents`
               Username: ${user.username}#${user.discriminator}
-              Nickname: ${member.nickname ? member.nickname : "N/A"}
+              Nickname: ${member.nickname ? member.nickname : "Not set"}
               Joined: ${time(member.joinedTimestamp)}
               Roles: ${roles.length}
               (${roles.length ? roles.join(', ') : "None"})
@@ -92,8 +94,8 @@ async function dynamicEmbed (data, type, client) {
           {
             name: '> User Information',
             value: stripIndents`
-              Bot Acc: ${user.bot}
-              Created: ${moment.utc(user.createdAt).format('dddd, MMMM Do YYYY, HH:mm:ss Z')}
+              Bot Acc: ${user.bot}              
+              Created: ${time(user.createdAt)}
               Status: ${(member.presence) ? member.presence.status : 'unknown'}
               Activity: ${(member.presence) ? member.presence.activities.join('\n') : 'no data'}
             `
@@ -150,13 +152,13 @@ module.exports = {
         break;
       case 'user':
         data = member;
-        type = 'user';
+        type = 'member';
         break;
       default:
         break;
     };
     await interaction.editReply({
-      embeds: [dynamicEmbed(data, type, client)]
+      embeds: [await dynamicEmbed(data, type, client)]
     });
 	},
 };

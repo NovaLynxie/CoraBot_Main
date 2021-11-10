@@ -1,23 +1,23 @@
 {
-  "explicitFilterLevels": {
+  "explicitFilterLevel": {
     "DISABLED": "Off",
     "MEMBERS_WITHOUT_ROLES": "No Role",
     "ALL_MEMBERS": "Everyone"
   },
-  "verificationLevels": {
+  "verificationLevel": {
     "NONE": "None",
     "LOW": "Low",
     "MEDIUM": "Medium",
     "HIGH": "High",
     "VERY_HIGH": "Very High"
   },
-  "nsfwLevels": {
+  "nsfwLevel": {
     "DEFAULT": 0,
     "EXPLICIT": 1,
     "SAFE": 2,
     "AGE_RESTRICTED": 3
   },
-  "mfaLevels": {
+  "mfa2fa": {
     "NONE": "Disabled",
     "ELEVATED": "Enabled"
   },
