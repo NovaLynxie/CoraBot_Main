@@ -13,15 +13,15 @@ module.exports = async (message, client) => {
 		};
 	};
 	if (autoMod.enableAutoMod === false) return;
-	const { chListMode, channelsList, urlBlacklist, mediaOptions } = autoMod;
-	const { removeGifs, removeImgs, removeVids, removeURLs } = mediaOptions;
+	const { chListMode, channelsList, urlBlacklist, mediaTrackers } = autoMod;
+	const { removeGifs, removeImgs, removeVids, removeURLs } = mediaTrackers;
 	const channel = guild.channels.cache.get(message.channel.id);
 	const user = message.author;
 	logger.verbose(`user=${user.name}(#${user.discriminator})`);
 	logger.verbose(`channelID=${channel.id} (${typeof channel.id});`);
 	logger.verbose(`channels=${channelsList} (${typeof channelsList})`);
 	logger.verbose(`channelsListMode=${chListMode} (${typeof chListMode})`);
-	logger.verbose(`mediaOptions={removeGifs=${typeof removeGifs}, removeImgs=${typeof removeImgs}, removeVids=${typeof removeVids}, removeURLs=${typeof removeURLs}}`);
+	logger.verbose(`mediaTrackers={removeGifs=${typeof removeGifs}, removeImgs=${typeof removeImgs}, removeVids=${typeof removeVids}, removeURLs=${typeof removeURLs}}`);
 	let channelSearcher;
 	if (!chListMode || chListMode === undefined || chListMode === null) {
 		logger.error('Severe Error! channelsListMode was not defined!');
