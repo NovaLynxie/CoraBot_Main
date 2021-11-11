@@ -3,10 +3,10 @@ const { stripIndents } = require('common-tags');
 const { mkdir, writeFile } = fs;
 const prompt = require('prompt');
 
-console.log('Welcome to the Bot Setup Utility!');
+console.log('Welcome to the Quick Setup Utility!');
 console.log('This setup utility will help you configure your bot credentials and basic setup.');
-console.log('Please follow the prompts to set up your bot.');
-console.log('---------------------------------------------');
+console.log('Please follow the prompts to start setting up the bot.');
+console.log('------------------------------------------------------');
 const schema = {
 	properties: {
 		credStore: {
@@ -115,7 +115,7 @@ const authCfgTemplate = fs.readFileSync('./core/assets/text/authConfigTemplate.t
 const mainCfgTemplate = fs.readFileSync('./core/assets/text/mainConfigTemplate.txt', 'utf-8');
 
 prompt.get(schema, function(err, result) {
-	console.log('\n---------------------------------------------');
+	console.log('\n------------------------------------------------------');
 	if (err) return promptError(err);
 	let authCfgData = authCfgTemplate, mainCfgData = mainCfgTemplate;
 	console.log('Generating auth config from template...');
@@ -185,4 +185,5 @@ prompt.get(schema, function(err, result) {
 		settingsWriter(authCfgPath, authCfgData);
 	};
 	settingsWriter(mainCfgPath, mainCfgData);
+  console.log('\n------------------------------------------------------');
 });
