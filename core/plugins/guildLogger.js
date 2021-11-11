@@ -112,5 +112,4 @@ async function modLog(action, params = {}, client) {
     logger.error(err.message); logger.debug(err.stack);
   };
 };
-module.exports = guildLogger
-//module.exports = { modLog, eventLog };
+module.exports = { modLog, eventLog };
