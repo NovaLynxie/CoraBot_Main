@@ -50,7 +50,7 @@ async function dynamicEmbed (data, type, client) {
             name: "> Statistics",
             value: stripIndents`          
               Roles: ${roles.length - 1}
-              Emojis: ${emojis.size}
+              Emojis: ${emojis.size} (${(emojis.filter(emoji => emoji.animated === true).size)} animated, ${(emojis.filter(emoji => emoji.animated === false).size)} normal)
               Channels: ${channels.size} (${channels.filter(channel => channel.type === 'text').size} text, ${channels.filter(channel => channel.type === 'voice').size} voice)
               Members: ${guild.memberCount} (${members.filter(member => !member.user.bot).size} users, ${members.filter(member => member.user.bot).size} bots)
               MFA Level: ${(guild.mfaLevel === 'ELEVATED') ? 'Elevated' : 'None'}
