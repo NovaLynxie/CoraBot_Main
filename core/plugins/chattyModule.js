@@ -2,8 +2,6 @@ const logger =  require('./winstonLogger');
 const ChatBot = require('discord-chatbot');
 
 module.exports = async (message, client) => {
-  console.log(message);
-  console.log(message.guild);
   let settings = await client.settings.guild.get(message.guild);
   let { enableChatBot, chatBotOpts, chatChannels } = settings.chatBot;
   let { botName, botGender } = chatBotOpts;
@@ -14,8 +12,9 @@ module.exports = async (message, client) => {
   logger.verbose('chatbot.trigger.event');
   logger.verbose(`message=${message}`); logger.verbose(`enableChatBot=${enableChatBot}`);
   function chatBotResponder(channel) {
+    console.log(channel);
     if (channel === message.channel.id) {
-      chatBotModule.chat(message).then(res => {
+      chatBotModule.chat(message.content).then(res => {
         logger.debug(`sending message '${res}' to channel ${message.channel.name}`);
         message.channel.send(res);
       });
@@ -25,15 +24,11 @@ module.exports = async (message, client) => {
   };
   try {
     if (enableChatBot) {
-      logger.debug('chatbot responding...')
-      if (typeof chatChannels === 'string') {
-        chatBotResponder(chatChannels);
-      } else {
-        chatChannels.forEach(chatChannel => {
-          logger.debug(`searching for channel with ID ${chatChannel}`)
-          chatBotResponder(chatChannel);
-        });
-      };
+      logger.debug('Chatbot is thinking...');
+      chatChannels.forEach(chatChannel => {
+        logger.debug(`searching for channel with ID ${chatChannel}`)
+        chatBotResponder(chatChannel);
+      });
     };
   } catch (err) {
     logger.warn('ChatBot.handler encountered an error!');

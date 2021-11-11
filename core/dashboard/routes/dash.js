@@ -88,7 +88,7 @@ router.post('/:guildID/manage', checkAuth, async (req, res) => {
     logger.debug('Scanning request body for settings data...');
     if (req.body.staffRoles) {
       logger.debug(`Detected 'staffRoles' settings data!`);
-      const staffRoles = (typeof req.body.staffRoles === 'string') ? '[' + req.body.staffRoles + ']' : req.body.staffRoles;
+      const staffRoles = (typeof req.body.staffRoles === 'string') ? [`${req.body.staffRoles}`] : req.body.staffRoles;
       roles.staff = staffRoles;
     }      
     if (req.body.muteRole) {
@@ -146,7 +146,7 @@ router.post('/:guildID/manage', checkAuth, async (req, res) => {
         botName: (req.body.botName) ? req.body.botName : '',
         botGender: (req.body.botGender) ? req.body.botGender : '',
       };
-      const chatChannels = (typeof req.body.chatChannels === 'string') ? '[' + req.body.chatChannels + ']' : req.body.chatChannels;
+      const chatChannels = (typeof req.body.chatChannels === 'string') ? [`${req.body.chatChannels}`] : req.body.chatChannels;
       logger.debug(`chatBotOpts=${JSON.stringify(chatBotOpts)}`);
       logger.debug(`chatChannels=${JSON.stringify(chatChannels)}`);
       chatBot.chatBotOpts = chatBotOpts;
