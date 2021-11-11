@@ -2,7 +2,7 @@ const logger = require('../plugins/WinstonLogger');
 const { stripIndents } = require('common-tags');
 
 module.exports = async (member, event, client) => {
-  const guild = member.guild, msgdata;  
+  const guild = member.guild; let msgdata;
   const { notifier } = await client.settings.guild.get(guild);
   if (!notifier || notifier === undefined) return;
   if (!notifier.enableNotifier) return;  
