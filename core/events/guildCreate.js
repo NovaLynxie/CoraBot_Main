@@ -9,9 +9,7 @@ module.exports = {
 	execute() {
 		logger.info(`${client.user.tag} joined ${guild.name}!`);
     logger.debug(`Joined ${guild.name} (${guild.id}) Preparing to create settings.`);
-    // Require welcomeEmbed json object and load it.
     let welcomeEmbed = require('../assets/json/welcomeEmbed.json');
-    // Update welcomeEmbed object with new data dynamically here.
     welcomeEmbed.author = client.user;
     welcomeEmbed.thumbnail = client.user.avatarURL;
     welcomeEmbed.description = stripIndents`
