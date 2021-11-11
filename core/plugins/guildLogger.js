@@ -10,7 +10,22 @@ async function eventLog(event, guild, params = {}, client) {
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Moderation Action Logged!')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
-  // ..
+  switch (event) {
+    case 'guildCreate':
+      break;
+    case 'guildDelete':
+      break;
+    case 'guildMemberAdd':
+      break;
+    case 'guildMemberRemove':
+      break;
+    case 'guildMemberUpdate':
+      break;
+    case 'messageUpdate':
+      break;
+    default:
+      // ..
+  }
   try {
     logger.debug('Sending moderation log to channel now...');
     let modLogChannel = guild.channels.cache.get(logChannels.modLogChID);
