@@ -11,9 +11,8 @@ module.exports = async (message, client) => {
   });
   logger.verbose('chatbot.trigger.event');
   logger.verbose(`message=${message}`); logger.verbose(`enableChatBot=${enableChatBot}`);
-  function chatBotResponder(channel) {
-    console.log(channel);
-    if (channel === message.channel.id) {
+  function chatBotResponder(channelId) {
+    if (channelId === message.channel.id) {
       chatBotModule.chat(message.content).then(res => {
         logger.debug(`sending message '${res}' to channel ${message.channel.name}`);
         message.channel.send(res);
