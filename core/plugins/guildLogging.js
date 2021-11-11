@@ -2,6 +2,7 @@ const logger = require('./winstonLogger');
 const { MessageEmbed } = require('discord.js');
 const { time } = require('@discordjs/builders');
 const { stripIndents } = require('common-tags');
+
 async function guildLogger(action, params = {}, client) {
   const executor = params ?.executor, member = params ?.member;  
   const channel = params ?.channel ? params.channel : undefined;
@@ -94,3 +95,4 @@ async function guildLogger(action, params = {}, client) {
   };
 };
 module.exports = guildLogger
+//module.exports = { modLog, eventLog };

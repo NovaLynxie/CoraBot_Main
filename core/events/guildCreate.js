@@ -6,9 +6,10 @@ const { name, version } = require('../../package.json');
 
 module.exports = {
 	name: 'guildCreate',
-	execute() {
+	async execute(guild, client) {
 		logger.info(`${client.user.tag} joined ${guild.name}!`);
     logger.debug(`Joined ${guild.name} (${guild.id}) Preparing to create settings.`);
+    await client.settings.guild.init([guild.id]);
     let welcomeEmbed = require('../assets/json/welcomeEmbed.json');
     welcomeEmbed.author = client.user;
     welcomeEmbed.thumbnail = client.user.avatarURL;
@@ -47,6 +48,6 @@ module.exports = {
     } catch (err) {
       logger.warn(`Unable to send bot welcome message in server ${guild.name}!`);
       logger.error(err.message); logger.debug(err.stack);
-    }
+    };
 	},
 };
