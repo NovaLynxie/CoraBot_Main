@@ -1,6 +1,6 @@
 const logger = require('../../plugins/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const guildLogger = require('../../plugins/guildLogging');
+const { modLog } = require('../../plugins/guildLogger');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -34,7 +34,7 @@ module.exports = {
       return;
     };
     if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
-      guildLogger('clear', { executor, messages, channel }, client);
+      modLog('clear', { executor, messages, channel }, client);
       interaction.editReply({
         content: `Cleared ${amount} messages successfully!`, ephemeral: true
       });

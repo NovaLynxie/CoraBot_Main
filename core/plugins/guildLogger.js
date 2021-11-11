@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const { time } = require('@discordjs/builders');
 const { stripIndents } = require('common-tags');
 
-async function guildLogger(action, params = {}, client) {
+async function modLog(action, params = {}, client) {
   const executor = params ?.executor, member = params ?.member;  
   const channel = params ?.channel ? params.channel : undefined;
   const guild = executor.guild, logdate = new Date();

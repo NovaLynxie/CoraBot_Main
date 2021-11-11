@@ -1,7 +1,7 @@
 const logger = require('../../plugins/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Permissions } = require('discord.js');
-const { guildLogger } = require('../../plugins/guildLogging');
+const { modLog } = require('../../plugins/guildLogger');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -42,7 +42,7 @@ module.exports = {
       try {
         member.ban({ days: (days) ? days : 7, reason: (reason) ? reason : 'Banned by a  moderator.'});
         
-        guildLogger('ban', { executor, member, reason }, client);
+        modLog('ban', { executor, member, reason }, client);
         interaction.editReply({
           content: `Banned ${member.user.tag} successfully from the server!`, ephemeral: true
         });

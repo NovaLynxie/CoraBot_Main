@@ -1,6 +1,6 @@
 const logger = require('../../plugins/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { guildLogger } = require('../../plugins/guildLogging');
+const { modLog } = require('../../plugins/guildLogger');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -32,7 +32,7 @@ module.exports = {
 	    logger.debug(`Adding mute role to ${member.user.tag}`);
       try {
         member.roles.add(muteRole);
-        guildLogger('mute', { executor, member, reason }, client);
+        modLog('mute', { executor, member, reason }, client);
         interaction.editReply({
           content: `Issued mute for ${member.user.tag} successfully!`, ephemeral: true
         });

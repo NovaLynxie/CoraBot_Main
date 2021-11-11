@@ -1,7 +1,7 @@
 const logger = require('../../plugins/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Permissions } = require('discord.js');
-const { guildLogger } = require('../../plugins/guildLogging');
+const { modLog } = require('../../plugins/guildLogger');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -34,7 +34,7 @@ module.exports = {
 	    logger.debug(`Preparing to kick user ${member.user.tag}`);
       try {
         member.kick({ reason: (reason) ? reason : 'Kicked by a  moderator.'});
-        guildLogger('kick', { executor, member, reason }, client);
+        modLog('kick', { executor, member, reason }, client);
         interaction.editReply({
           content: `Kicked ${member.user.tag} successfully from the server!`, ephemeral: true
         });

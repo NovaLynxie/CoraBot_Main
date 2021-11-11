@@ -1,7 +1,7 @@
 const logger = require('../../plugins/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Permissions } = require('discord.js');
-const { guildLogger } = require('../../plugins/guildLogging');
+const { modLog } = require('../../plugins/guildLogger');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -29,7 +29,7 @@ module.exports = {
       content: 'You cannot warn yourself!', ephemeral: true
     });
 		if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
-	    guildLogger('warn', { executor, member, reason }, client);
+	    modLog('warn', { executor, member, reason }, client);
       interaction.editReply({
         content: `Issued warning for ${member.user.tag} successfully!`, ephemeral: true
       });
