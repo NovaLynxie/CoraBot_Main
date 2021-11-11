@@ -1,5 +1,5 @@
+const logger = require('../plugins/winstonLogger');
 const { eventLog } = require('../plugins/guildLogger');
-const logger = require('../plugins/winstonPlugin');
 
 module.exports = {
 	name: 'messageDelete',
