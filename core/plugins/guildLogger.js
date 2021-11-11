@@ -21,6 +21,8 @@ async function eventLog(event, guild, params = {}, client) {
       break;
     case 'guildMemberUpdate':
       break;
+    case 'messageDelete':
+      break;
     case 'messageUpdate':
       break;
     default:
