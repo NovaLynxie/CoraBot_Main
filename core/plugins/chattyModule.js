@@ -23,7 +23,6 @@ module.exports = async (message, client) => {
   };
   try {
     if (enableChatBot) {
-      logger.debug('Chatbot is thinking...');
       chatChannels.forEach(chatChannel => {
         logger.debug(`searching for channel with ID ${chatChannel}`)
         chatBotResponder(chatChannel);
