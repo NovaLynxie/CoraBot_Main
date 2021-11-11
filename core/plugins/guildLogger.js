@@ -6,15 +6,14 @@ const guildBaseEmbed = new MessageEmbed()
   .setColor('#75e6c4');
 
 async function eventLog(event, guild, params = {}, client) {
-  const { logChannels } = await client.settings.guild.get(guild);
+  const { logChannels } = await client.settings.guild.get(guild);  
+  const message = params ?.message; const channel = message ?.channel;
+  const member = params ?.member;
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Moderation Action Logged!')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
+  let 
   switch (event) {
-    case 'guildCreate':
-      break;
-    case 'guildDelete':
-      break;
     case 'guildMemberAdd':
       break;
     case 'guildMemberRemove':
@@ -81,25 +80,25 @@ async function modLog(action, params = {}, client) {
         .setColor('#e8411c')
         .setDescription('🔨 The ban hammer has spoken.')
         .addFields(modLogFields)
-        break;
+      break;
     case 'kick':
       guildLogEmbed
         .setColor('#e8411c')
         .setDescription('👢 A magical boot gives them a swift kick.')
         .addFields(modLogFields)
-        break;
+      break;
     case 'mute':
       guildLogEmbed
         .setColor('#e8a11c')
         .setDescription('🤐 Silence you fool!')
         .addFields(modLogFields)
-        break;
+      break;
     case 'warn':
       guildLogEmbed
         .setColor('#e8bc1c')
         .setDescription('⚠️ Issued a warning this time.')
         .addFields(modLogFields)
-        break;
+      break;
     case 'clear':
       const messages = (params ?.messages) ? params.messages : undefined;
       const amount = (params ?.amount) ? params.amount : NaN;
