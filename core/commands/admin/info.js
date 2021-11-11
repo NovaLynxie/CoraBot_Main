@@ -49,7 +49,7 @@ async function dynamicEmbed (data, type, client) {
           {
             name: "> Statistics",
             value: stripIndents`          
-              Roles: ${roles.length}
+              Roles: ${roles.length - 1}
               Emojis: ${emojis.size}
               Channels: ${channels.size} (${channels.filter(channel => channel.type === 'text').size} text, ${channels.filter(channel => channel.type === 'voice').size} voice)
               Members: ${guild.memberCount} (${members.filter(member => !member.user.bot).size} users, ${members.filter(member => member.user.bot).size} bots)
@@ -69,7 +69,7 @@ async function dynamicEmbed (data, type, client) {
             `
           },
           {
-            name: "> Roles",
+            name: `> Roles (${roles.length - 1} roles)`,
             value: roles.join(', ')
           }
         );
