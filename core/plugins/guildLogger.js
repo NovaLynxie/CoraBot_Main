@@ -10,13 +10,28 @@ async function eventLog(event, guild, params = {}, client) {
   const message = params ?.message; const channel = message ?.channel;
   const member = params ?.member;
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
-    .setTitle('Moderation Action Logged!')
+    .setTitle('Event Log')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
-  let 
+  const memberDetails = {
+    name: 'Member Details',
+    value: stripIndents`
+      Name: ${member.user.tag} (${member.user.id})
+      Account Age: (NYI)
+      Created: ${time(member.user.createdAt)}
+      Joined: ${time(member.user.joinedAt)}
+    `
+  };
+  const embedFields = [memberDetails];
   switch (event) {
     case 'guildMemberAdd':
+      guildLogEmbed
+        .setDescription('A user has joined your guild!')
+        .addFields(embedFields)
       break;
     case 'guildMemberRemove':
+      guildLogEmbed
+        .setDescription('A user has joined your guild!')
+        .addFields(embedFields)
       break;
     case 'guildMemberUpdate':
       break;
@@ -45,7 +60,7 @@ async function modLog(action, params = {}, client) {
   const reason = (params ?.reason) ? params.reason : 'No reason provided.';
   const { logChannels } = await client.settings.guild.get(guild);
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
-    .setTitle('Moderation Action Logged!')
+    .setTitle('Moderation Log')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
   let memberDetails, executorDetails, actionDetails;
   if (member) {
