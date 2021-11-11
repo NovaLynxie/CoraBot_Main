@@ -2,15 +2,33 @@ const logger = require('./winstonLogger');
 const { MessageEmbed } = require('discord.js');
 const { time } = require('@discordjs/builders');
 const { stripIndents } = require('common-tags');
+const guildBaseEmbed = new MessageEmbed()
+  .setColor('#75e6c4');
+
+async function eventLog(event, guild, params = {}, client) {
+  const { logChannels } = await client.settings.guild.get(guild);
+  const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
+    .setTitle('Moderation Action Logged!')
+    .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
+  // ..
+  try {
+    logger.debug('Sending moderation log to channel now...');
+    let modLogChannel = guild.channels.cache.get(logChannels.modLogChID);
+    modLogChannel.send({ embeds: [guildLogEmbed] });
+    logger.debug('Moderation log sent successfully!');
+  } catch (err) {
+    logger.error('Failed to save moderation log embed!');
+    logger.error(err.message); logger.debug(err.stack);
+  };
+}
 
 async function modLog(action, params = {}, client) {
   const executor = params ?.executor, member = params ?.member;  
   const channel = params ?.channel ? params.channel : undefined;
   const guild = executor.guild, logdate = new Date();
   const reason = (params ?.reason) ? params.reason : 'No reason provided.';
-  const settings = await client.settings.guild.get(guild);
-  const { logChannels } = settings;
-  const guildLogEmbed = new MessageEmbed()
+  const { logChannels } = await client.settings.guild.get(guild);
+  const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Moderation Action Logged!')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
   let memberDetails, executorDetails, actionDetails;
