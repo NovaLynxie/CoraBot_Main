@@ -30,7 +30,6 @@ async function dynamicEmbed (data, type, client) {
             value: stripIndents`
               Name: ${guild.name} (ID: ${guild.id})
               Created: ${time(guild.createdAt)}
-              (${roles.length ? roles.join(', ') : "No role data!"})
               Locale: ${locales[guild.preferredLocale]}           
             `
           },
