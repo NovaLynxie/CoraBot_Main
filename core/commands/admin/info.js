@@ -24,6 +24,8 @@ async function dynamicEmbed (data, type, client) {
       embed
         .setTitle('About Guild')
         .setDescription('Useful information about this server')
+        .setThumbnail(guild.iconURL())
+        .setImage(guild.bannerURL())
         .addFields(
           {
             name: '> General Info',
