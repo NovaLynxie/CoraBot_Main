@@ -1,6 +1,6 @@
 const notifier = require('../plugins/autoNotifier');
 //const { modLog, eventLog } = require('../plugins/guildLogger');
-const logger = require('../plugins/WinstonPlugin');
+const logger = require('../plugins/winstonLogger');
 
 module.exports = {
   name: 'guildMemberRemove',

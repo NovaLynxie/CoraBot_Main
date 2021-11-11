@@ -1,4 +1,4 @@
-const logger = require('../providers/WinstonPlugin');
+const logger = require('../plugins/winstonLogger');
 
 module.exports = {
   name: 'guildDelete',

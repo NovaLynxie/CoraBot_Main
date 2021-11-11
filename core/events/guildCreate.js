@@ -1,4 +1,4 @@
-const logger = require('../plugins/WinstonLogger');
+const logger = require('../plugins/winstonLogger');
 const Discord = require('discord.js');
 const { dashboard } = require('../handlers/bootLoader').config;
 const fs = require('fs'), {stripIndents} = require('common-tags');
