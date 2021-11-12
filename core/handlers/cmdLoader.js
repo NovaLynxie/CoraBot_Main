@@ -5,14 +5,11 @@ const { readdirSync } = require('fs');
 const { config, credentials } = require('./bootLoader');
 const { forceUpdateCmds } = config;
 const { discordToken } = credentials;
-
 const botCmdsDir = './core/commands';
-
 function requireHandler(module) {
   delete require.cache[require.resolve(module)];
   return require(module);
-}
-
+};
 async function loadBotCmds(client) {
   const commands = [];
   try {
@@ -83,5 +80,4 @@ async function loadBotCmds(client) {
     };
   };
 };
-
 module.exports = { loadBotCmds };

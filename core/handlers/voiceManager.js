@@ -2,7 +2,6 @@ const logger = require('../utils/winstonLogger');
 const {
 	NoSubscriberBehavior, VoiceConnectionStatus, createAudioPlayer, createAudioResource, entersState, joinVoiceChannel, getVoiceConnection,
 } = require('@discordjs/voice');
-
 function newAudioPlayer() {
 	let audioPlayer = createAudioPlayer({
 		noSubscriber: NoSubscriberBehavior.Pause,
@@ -10,17 +9,14 @@ function newAudioPlayer() {
 	});
   return audioPlayer;
 };
-
 function createSource(input) {
 	const audioSource = createAudioResource(input);
 	return audioSource;
 };
-
 function checkVC(guild) {
 	const voiceConnection = getVoiceConnection(guild.id);
 	return voiceConnection;
 };
-
 async function joinVC(channel) {
 	if (!channel) return logger.error('Missing channel data! Got null or undefined! Expected a channel object!');
 	logger.data(JSON.stringify(channel, null, 2));
@@ -40,5 +36,4 @@ async function joinVC(channel) {
 		throw new Error(error);
 	};
 };
-
 module.exports = { checkVC, createSource, joinVC, newAudioPlayer };
