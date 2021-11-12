@@ -6,9 +6,9 @@ const { stripIndents } = require('common-tags');
 const guildBaseEmbed = new MessageEmbed()
   .setColor('#75e6c4');
 
-async function eventLog(event, guild, params = {}, client) {
+async function eventLog(event, guild, channel, params = {}, client) {
   const { logChannels } = await client.settings.guild.get(guild);  
-  const message = params ?.message; const channel = message ?.channel;
+  const msgdata = params ?.msgdata; const channel = params ?.channel;
   const member = params ?.member;
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Event Log')

@@ -4,6 +4,7 @@ const { eventLog } = require('../plugins/guildLogger');
 module.exports = {
 	name: 'messageDelete',
 	execute(message, client) {
+    const guild = message.guild;
     logger.verbose("event.messageDelete.trigger()")
     let event = 'messageDelete';
     if (message.author.id === null) {
@@ -13,6 +14,6 @@ module.exports = {
         logger.debug("ignored message, message author is bot.")
         return;
     };
-    eventLog(event, message, client);
+    eventLog(event, guild, { message }, client);
 	},
 };
