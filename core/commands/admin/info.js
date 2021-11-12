@@ -1,9 +1,25 @@
 const logger = require('../../plugins/winstonLogger');
+const { calculateAccountAge } = require('../../utilities/botUtils');
 const locales = require('../../assets/resources/localeCodes.json');
 const levels = require('../../assets/resources/guildLevels.json');
 const { SlashCommandBuilder, time } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
+
+function calculateAccountAge(date) {
+  const sysDate = new Date();
+  const accDate = new Date(date);
+  const diff = sysDate - accDate;
+  const seconds = Math.floor(diff / 1000),
+    minutes = Math.floor(seconds / 60),
+    hours   = Math.floor(minutes / 60),
+    days    = Math.floor(hours / 24),
+    months  = Math.floor(days / 30),
+    years   = Math.floor(days / 365);
+  const lt1 = (num) => num > 1;  
+  const res = (lt1(years)) ? `${years} years` : '' || (lt1(months)) ? `${months} months` : '' || (lt1(days)) ? `${days} days` : '' || (lt1(hours)) ? `${hours} hrs` : '' || (lt1(minutes)) ? `${minutes} mins` : 'less than a minute';
+  return res;
+};
 
 async function dynamicEmbed (data, type, client) {
   const embed = new MessageEmbed(); embed.setColor('#73f5d2');
@@ -79,6 +95,7 @@ async function dynamicEmbed (data, type, client) {
     case 'member':
       const member = data;
       const user = member.user;
+      //calculateAccountAge(user.createdAt);
       embed
         .setTitle('About Member')
         .setDescription('Provides detailed information about any users in a guild.')
@@ -89,7 +106,7 @@ async function dynamicEmbed (data, type, client) {
               Username: ${user.username}#${user.discriminator}
               Nickname: ${member.nickname ? member.nickname : "Not set"}
               Joined: ${time(member.joinedTimestamp)}
-              Account Age: (NYI)
+              Acc. Age: ${calculateAccountAge(user.createdAt)}
               Roles: ${roles.length}
               (${roles.length ? roles.join(', ') : "None"})
             `
