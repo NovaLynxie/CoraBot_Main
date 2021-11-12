@@ -19,7 +19,6 @@ if (!NODE_ENV || NODE_ENV !== 'production') {
   logger.warn('This app is running in development mode!');
   logger.warn('Performance may be heavily impacted in this mode.');
 };
-
 logger.init('Loading configuration files...');
 try {
 	fileData = fs.readFileSync('./settings/main.toml', 'utf-8');
@@ -30,22 +29,18 @@ try {
 	logger.error(err.message); logger.debug(err.stack);
 	logger.warn('Cannot proceed with bot boot up.');
 };
-
 var general = {}, discord = {}, runtime = {};
 var discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID;
-
 if (mainLoaded) {
 	var { general, advanced, dashboard, runtime } = mainConfig;
 	var { globalPrefix, ownerIDs, useLegacyURL } = general;
 	var { clientId, guildId, debug } = advanced;
 	var { useDotEnv, forceUpdateCmds } = runtime;
 };
-
 if (forceUpdateCmds) {
   logger.warn('forceUpdateCmds detected as ENABLED!')
   logger.warn('Bot restart is recommended after commands update!');
 };
-
 logger.init('Loading bot credentials...');
 if (useDotEnv) {
 	var {
@@ -68,7 +63,6 @@ if (useDotEnv) {
 		logger.warn('Falling back to environment variables.');
 	};
 };
-
 if (authLoaded) {
 	var { discord, external } = authConfig;
 	var { discordToken, clientSecret, sessionSecret } = discord;
