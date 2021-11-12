@@ -8,7 +8,7 @@ const { stripIndents } = require('common-tags');
 
 async function dynamicEmbed (data, type, client) {
   const embed = new MessageEmbed(); embed.setColor('#73f5d2');
-  const roles = data.roles.cache.sort((a, b) => b.position - a.position).map(role => `- ${role.toString()}`);
+  const roles = data.roles.cache.sort((a, b) => b.position - a.position).map(role => (role.name !== '@everyone') ? role.toString() : '');
   switch (type) {
     case 'bot':
       client.application = await client.application.fetch();
@@ -73,7 +73,7 @@ async function dynamicEmbed (data, type, client) {
           },
           {
             name: `> Roles (${roles.length - 1} roles)`,
-            value: roles.join('\n')
+            value: roles.join(', ')
           }
         );
       break;
