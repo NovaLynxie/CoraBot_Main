@@ -12,7 +12,7 @@ async function eventLog(event, guild, channel, params = {}, client) {
     .setTitle('Event Log')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
   const hasChanged = (a, b) => a === b;
-  const shortenContents = (msg) => msg.length > 100 ? `${msg.content.substr(0, 97)}...` : msg.content;
+  const shortenContents = (msg) => msg.length > 1024 ? `${msg.content.substr(0, 1023)}...` : msg.content;
   let memberDetails, messageDetails, messageContents, oldMsgContents, newMsgContents;
   if (member) {
     memberDetails = {
