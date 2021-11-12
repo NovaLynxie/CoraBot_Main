@@ -12,13 +12,12 @@ async function eventLog(event, guild, channel, params = {}, client) {
   const member = params ?.member;
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Event Log')
-    .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));  
-  calculateAccountAge(member.user.createdAt);
+    .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
   const memberDetails = {
     name: 'Member Details',
     value: stripIndents`
       Name: ${member.user.tag} (${member.user.id})
-      Account Age: (NYI)
+      Acc. Age: ${calculateAccountAge(member.user.createdAt)}
       Created: ${time(member.user.createdAt)}
       Joined: ${time(member.user.joinedAt)}
     `
