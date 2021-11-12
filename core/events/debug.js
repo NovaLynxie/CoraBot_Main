@@ -1,6 +1,5 @@
 const logger = require('../utils/winstonLogger');
-const { config } = require('../handlers/bootLoader');
-const { debug } = config;
+const { debug } = require('../handlers/bootLoader').config;
 let retries = 3;
 
 module.exports = {
