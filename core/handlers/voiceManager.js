@@ -1,4 +1,4 @@
-const logger = require('../plugins/winstonLogger.js');
+const logger = require('../utils/winstonLogger');
 const {
 	NoSubscriberBehavior, VoiceConnectionStatus, createAudioPlayer, createAudioResource, entersState, joinVoiceChannel, getVoiceConnection,
 } = require('@discordjs/voice');

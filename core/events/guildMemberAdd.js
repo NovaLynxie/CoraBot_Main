@@ -1,6 +1,6 @@
+const logger = require('../utils/winstonLogger');
 const notifier = require('../plugins/autoNotifier');
-//const { modLogger, eventLogger } = require('../plugins/guildLogger');
-const logger = require('../plugins/winstonLogger');
+const { eventLog } = require('../plugins/guildLogger');
 
 module.exports = {
   name: 'guildMemberAdd',
@@ -10,6 +10,6 @@ module.exports = {
     logger.data(`${member.user.tag} (ID:${member.user.id}) joined guild ${guild.name}`);
     notifier(event, member, client);
     // wip event handler! not yet fully implemented.
-    //eventLogger(event, data, client);
+    eventLog(event, data, client);
   }
 }

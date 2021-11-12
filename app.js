@@ -1,4 +1,4 @@
-const logger = require('./core/plugins/winstonLogger');
+const logger = require('./core/utils/winstonLogger');
 const { readdirSync } = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { crashReporter } = require('./core/handlers/crashReporter');

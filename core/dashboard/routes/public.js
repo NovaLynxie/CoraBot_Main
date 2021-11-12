@@ -2,7 +2,7 @@ const { version: discordVersion } = require('discord.js');
 const { stripIndents } = require('common-tags');
 const { formatDistance } = require('date-fns');
 const { version: appVersion } = require('../../../package.json');
-const logger = require('../../plugins/winstonLogger');
+const logger = require('../../utils/winstonLogger');
 const { renderView } = require('../dashUtils');
 
 const express = require('express');

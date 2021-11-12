@@ -1,4 +1,4 @@
-const logger = require('../plugins/winstonLogger.js');
+const logger = require('../utils/winstonLogger');
 const Keyv = require('@keyvhq/core');
 const KeyvSQLite = require('@keyvhq/sqlite');
 

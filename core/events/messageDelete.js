@@ -1,4 +1,4 @@
-const logger = require('../plugins/winstonLogger');
+const logger = require('../utils/winstonLogger');
 const { eventLog } = require('../plugins/guildLogger');
 
 module.exports = {

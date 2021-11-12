@@ -1,4 +1,4 @@
-const logger = require('../plugins/winstonLogger');
+const logger = require('../utils/winstonLogger');
 const statusUpdater = require('../plugins/statusUpdater');
 const { loadBotCmds } = require('../handlers/cmdLoader');
 const { config, credentials } = require('../handlers/bootLoader');

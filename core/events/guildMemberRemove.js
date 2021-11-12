@@ -1,6 +1,6 @@
+const logger = require('../utils/winstonLogger');
 const notifier = require('../plugins/autoNotifier');
-//const { modLog, eventLog } = require('../plugins/guildLogger');
-const logger = require('../plugins/winstonLogger');
+const { eventLog } = require('../plugins/guildLogger');
 
 module.exports = {
   name: 'guildMemberRemove',
@@ -9,6 +9,6 @@ module.exports = {
     logger.debug('Detected user leaving a linked guilds.');
     logger.data(`${member.user.tag} (ID:${member.user.id}) left guild ${guild.name}`);
     // wip event handler! not yet fully implemented.
-    //eventLog(event, data, client);
+    eventLog(event, data, client);
   }
 };

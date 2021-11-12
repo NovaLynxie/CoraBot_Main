@@ -1,4 +1,4 @@
-const logger = require('../plugins/winstonLogger');
+const logger = require('../utils/winstonLogger');
 const { globalPrefix, ownerIDs } = require('../handlers/bootLoader');
 const autoModerator = require('../plugins/autoModerator');
 const discordChatBot = require('../plugins/chattyModule');

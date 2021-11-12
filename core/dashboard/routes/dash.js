@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { stripIndents } = require('common-tags');
 const { formatDistance } = require('date-fns');
-const logger = require('../../plugins/winstonLogger');
+const logger = require('../../utils/winstonLogger');
 const { Permissions } = require('discord.js');
 const { checkAuth, isManaged, renderView } = require('../dashUtils');
 

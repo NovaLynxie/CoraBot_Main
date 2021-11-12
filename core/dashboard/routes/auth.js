@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const logger = require('../../plugins/winstonLogger');
+const logger = require('../../utils/winstonLogger');
 const { renderView } = require('../dashUtils');
 
 // Dashboard Actions - All Interaction & Authentication actions.

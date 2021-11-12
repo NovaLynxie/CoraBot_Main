@@ -1,5 +1,5 @@
-//const { eventLog } = require('../plugins/guildLogger');
-const logger = require('../plugins/winstonLogger');
+const logger = require('../utils/winstonLogger');
+const { eventLog } = require('../plugins/guildLogger');
 
 module.exports = {
   name: 'guildMemberUpdate',
@@ -14,6 +14,6 @@ module.exports = {
     if (addedRoles.size > 0) {
       logger.info(`Role ${addedRoles.map(r=>r.name)} added to ${oldMember.displayName}.`)
     };
-    //eventLog(event, data, client);
+    eventLog(event, data, client);
   }
 }

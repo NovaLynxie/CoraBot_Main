@@ -1,6 +1,6 @@
-const fs = require('fs');
+const logger = require('../utils/winstonLogger');
 const { version } = require('../../package.json');
-const logger = require('../plugins/winstonLogger');
+const fs = require('fs');
 function timeStamp(date) {
 	let hrs, mins, secs, logtime, day, month, year, logdate;
 	hrs = date.getUTCHours();

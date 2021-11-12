@@ -1,4 +1,4 @@
-const logger = require('../plugins/winstonLogger.js');
+const logger = require('../utils/winstonLogger');
 const toml = require('toml'); const fs = require('fs');
 const { version } = require('../../package.json');
 

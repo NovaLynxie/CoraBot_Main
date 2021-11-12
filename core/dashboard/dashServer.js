@@ -6,7 +6,7 @@ const { formatDistance } = require('date-fns');
 // Fetch Bot version
 const { version } = require('../../package.json');
 // Winston Logger Plugin
-const logger = require('../plugins/winstonLogger');
+const logger = require('../utils/winstonLogger');
 // For Discord Permission Handling
 const Discord = require('discord.js');
 // Express Session
