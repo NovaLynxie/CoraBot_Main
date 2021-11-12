@@ -1,10 +1,8 @@
 const logger = require('../utils/winstonLogger');
 const toml = require('toml'); const fs = require('fs');
 const { version } = require('../../package.json');
-
-let authConfig, mainConfig; let fileData;
+let authConfig, mainConfig, fileData;
 let authLoaded = false, mainLoaded = false;
-
 logger.debug('==========================================================');
 logger.debug('System Version Diagnostics.');
 logger.debug(`NodeJS v${process.versions.node}`);
