@@ -13,26 +13,28 @@ async function eventLog(event, guild, channel, params = {}, client) {
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Event Log')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
-  const memberDetails = {
-    name: 'Member Details',
-    value: stripIndents`
-      Name: ${member.user.tag} (${member.user.id})
-      Acc. Age: ${calculateAccountAge(member.user.createdAt)}
-      Created: ${time(member.user.createdAt)}
-      Joined: ${time(member.user.joinedAt)}
-    `
+  let memberDetails, messageDetails;
+  if (member) {
+    memberDetails = {
+      name: 'Member Details',
+      value: stripIndents`
+        Name: ${member.user.tag} (${member.user.id})
+        Acc. Age: ${calculateAccountAge(member.user.createdAt)}
+        Created: ${time(member.user.createdAt)}
+        Joined: ${time(member.user.joinedAt)}
+      `
+    };
   };
-  const embedFields = [memberDetails];
   switch (event) {
     case 'guildMemberAdd':
       guildLogEmbed
-        .setDescription('A user has joined your guild!')
-        .addFields(embedFields)
+        .setDescription('User joined the server!')
+        .addFields(memberDetails)
       break;
     case 'guildMemberRemove':
       guildLogEmbed
-        .setDescription('A user has joined your guild!')
-        .addFields(embedFields)
+        .setDescription('User left the server!')
+        .addFields(memberDetails)
       break;
     case 'guildMemberUpdate':
       break;
