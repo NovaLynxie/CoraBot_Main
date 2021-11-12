@@ -9,7 +9,6 @@ module.exports = {
     logger.debug('Detected user joining a linked guild.');
     logger.data(`${member.user.tag} (ID:${member.user.id}) joined guild ${guild.name}`);
     notifier(event, member, client);
-    // wip event handler! not yet fully implemented.
     eventLog(event, data, client);
   }
 }
