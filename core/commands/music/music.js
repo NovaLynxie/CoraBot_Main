@@ -1,4 +1,4 @@
-const logger = require('../../plugins/winstonLogger');
+const logger = require('../../utils/winstonLogger');
 const { longURL, shortURL } = require('../../plugins/urlParser');
 const { credentials } = require('../../handlers/bootLoader');
 //const { youtubeApiKey } = credentials;
