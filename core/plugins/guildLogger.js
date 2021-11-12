@@ -5,7 +5,6 @@ const { time } = require('@discordjs/builders');
 const { stripIndents } = require('common-tags');
 const guildBaseEmbed = new MessageEmbed()
   .setColor('#75e6c4');
-
 async function eventLog(event, guild, channel, params = {}, client) {
   const { logChannels } = await client.settings.guild.get(guild);
   const { message, oldMessage, newMessage, member, oldMember, newMember } = params;
@@ -40,8 +39,8 @@ async function eventLog(event, guild, channel, params = {}, client) {
     messageDetails = {
       name: 'Message Deleted',
       value: stripIndents`
-        Created: ${time(message.createdAt)}
-        Edited: ${time(message.editedAt)}
+        Created: ${time(new Date(message.timestamp))}
+        Edited: ${time(new Date(message.editedTimestamp))}
         Author: ${message.author}
       `
     };
@@ -53,9 +52,9 @@ async function eventLog(event, guild, channel, params = {}, client) {
     messageDetails = {
       name: 'Message Updated',
       value: stripIndents`
-        Created: ${time(message.createdAt)}
-        Edited: ${time(message.editedAt)}
-        Author: ${message.author}
+        Created: ${time(new Date(newMessage.timestamp))}
+        Edited: ${time(new Date(newMessage.editedTimestamp))}
+        Author: ${newMessage.author}
       `
     };
     oldMsgContents = {

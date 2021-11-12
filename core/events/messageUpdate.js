@@ -6,7 +6,7 @@ module.exports = {
   execute(oldMessage, newMessage, client) {
     const guild = oldMessage.guild || newMessage.guild;
     const channel = oldMessage.channel || newMessage.channel;
-    const event = 'messageDelete', msgs = { oldMessage, newMessage };
-    eventLog(event, guild, channel, { msgs }, client);
+    const member = oldMessage.member || newMessage.member;
+    eventLog('messageDelete', guild, channel, { member, oldMessage, newMessage }, client);
   },
 };
