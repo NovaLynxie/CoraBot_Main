@@ -1,4 +1,4 @@
-const logger = require('./winstonLogger');
+const logger = require('../utils/winstonLogger.js');
 const fetch = require('node-fetch');
 const minify = require('url-minify').default;
 

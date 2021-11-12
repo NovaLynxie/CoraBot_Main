@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const logger = require('../../plugins/winstonLogger');
+const logger = require('../../utils/winstonLogger');
 const { credentials } = require('../../handlers/bootLoader');
 const { yiffyApiKey } = credentials;
 const { stripIndents } = require('common-tags');

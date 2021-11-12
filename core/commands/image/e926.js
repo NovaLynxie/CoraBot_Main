@@ -1,4 +1,4 @@
-const logger = require('../../plugins/winstonLogger');
+const logger = require('../../utils/winstonLogger');
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const fetch = require('node-fetch');

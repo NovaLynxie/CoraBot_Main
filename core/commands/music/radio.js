@@ -1,4 +1,4 @@
-const logger = require('../../plugins/winstonLogger');
+const logger = require('../../utils/winstonLogger');
 const {
   MessageActionRow, MessageButton, MessageEmbed, MessageSelectMenu,
 } = require('discord.js');

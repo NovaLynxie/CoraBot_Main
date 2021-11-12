@@ -1,4 +1,4 @@
-const logger = require('../plugins/winstonLogger');
+const logger = require('../utils/winstonLogger.js');
 const { stripIndents } = require('common-tags');
 
 module.exports = async (member, event, client) => {

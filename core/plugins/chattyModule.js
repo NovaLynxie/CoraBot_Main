@@ -1,4 +1,4 @@
-const logger =  require('./winstonLogger');
+const logger =  require('../utils/winstonLogger.js');
 const ChatBot = require('discord-chatbot');
 
 module.exports = async (message, client) => {

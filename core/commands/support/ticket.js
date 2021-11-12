@@ -1,8 +1,8 @@
+const logger = require('../../utils/winstonLogger');
 const { SlashCommandBuilder, time } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { v4: uuidv4 } = require('uuid');
 const { stripIndents } = require('common-tags');
-const logger = require('../../plugins/winstonLogger');
 
 module.exports = {
   data: new SlashCommandBuilder()

@@ -1,4 +1,4 @@
-const logger = require('./winstonLogger');
+const logger = require('../utils/winstonLogger.js');
 let status = 0;
 
 module.exports = async (message, client) => {

@@ -1,6 +1,7 @@
+const logger = require('../../utils/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Util } = require('discord.js');
-const logger = require('../../plugins/winstonLogger');
+
 // source: https://anidiots.guide/examples/making-an-eval-command
 module.exports = {
 	data: new SlashCommandBuilder()

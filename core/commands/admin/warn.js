@@ -1,4 +1,4 @@
-const logger = require('../../plugins/winstonLogger');
+const logger = require('../../utils/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Permissions } = require('discord.js');
 const { modLog } = require('../../plugins/guildLogger');

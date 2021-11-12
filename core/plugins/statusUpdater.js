@@ -1,4 +1,4 @@
-const logger = require('./winstonLogger');
+const logger = require('../utils/winstonLogger.js');
 const { activities } = require('../assets/resources/activitiesList.json');
 module.exports = (client) => {
 	const statusTimer = setInterval(async () => {
