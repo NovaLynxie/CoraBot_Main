@@ -9,9 +9,9 @@ module.exports = {
 		const client = interaction.client;
 		if (interaction.isCommand()) {
 			logger.debug(`${interaction.user.tag} in #${interaction.channel.name} from ${interaction.guild.name} triggered interaction '${interaction.commandName}'`);
-			if (!client.slashcmds.has(interaction.commandName)) return;
+			if (!client.commands.has(interaction.commandName)) return;
 			try {
-				await client.slashcmds.get(interaction.commandName).execute(interaction, client);
+				await client.commands.get(interaction.commandName).execute(interaction, client);
 			} catch (error) {
 				logger.error(error.message); logger.debug(error.stack);
 				await interaction.editReply({ content: `There was an error while executing command \`${interaction.commandName}\`!`, ephemeral: true });

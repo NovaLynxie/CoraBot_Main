@@ -31,7 +31,7 @@ async function loadBotCmds(client) {
           commands.push(cmdDataJSON);
           if (cmdDataJSON) {
             if (typeof cmdDataJSON.name === 'string') {
-              client.slashcmds.set(cmdDataJSON.name, cmd);
+              client.commands.set(cmdDataJSON.name, cmd);
             }
             else {
               logger.error('Command name tag invalid type!');

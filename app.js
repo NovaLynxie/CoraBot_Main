@@ -53,8 +53,9 @@ client.data = {
 	init: generateGuildData,
 	delete: deleteGuildData
 };
-const commandCollections = ['prefixcmds', 'slashcmds'];
-commandCollections.forEach(collection => client[collection] = new Collection());
+client.commands = new Collection();
+//const commandCollections = ['prefixcmds', 'slashcmds'];
+//commandCollections.forEach(collection => client[collection] = new Collection());
 const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
 // Event handler to process discord event triggers.
 for (const file of eventFiles) {
