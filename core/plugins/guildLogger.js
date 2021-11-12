@@ -11,7 +11,14 @@ async function eventLog(event, guild, params = {}, client) {
   const member = params ?.member;
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Event Log')
-    .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
+    .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));  
+  function calculateAccountAge(date) {
+    const sysDate = new Date();
+    const accDate = new Date(date);
+    const accAge = sysDate - accDate;
+    console.log(accAge);
+  };
+  calculateAccountAge(member.user.createdAt);
   const memberDetails = {
     name: 'Member Details',
     value: stripIndents`

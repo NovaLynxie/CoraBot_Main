@@ -89,6 +89,7 @@ async function dynamicEmbed (data, type, client) {
               Username: ${user.username}#${user.discriminator}
               Nickname: ${member.nickname ? member.nickname : "Not set"}
               Joined: ${time(member.joinedTimestamp)}
+              Account Age: (NYI)
               Roles: ${roles.length}
               (${roles.length ? roles.join(', ') : "None"})
             `
