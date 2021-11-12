@@ -6,9 +6,9 @@ const discordChatBot = require('../plugins/chattyModule');
 module.exports = {
 	name: 'messageCreate',
 	async execute(message, client) {
-		if (message.author.bot) return;
-		// handle messages in a guild
+		if (message.author.bot) return;		
 		if (message.guild) {
+      // handle messages in a guild
       try {
         await autoModerator(message, client);
         await discordChatBot(message, client);
