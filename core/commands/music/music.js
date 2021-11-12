@@ -1,5 +1,5 @@
 const logger = require('../../utils/winstonLogger');
-const { longURL, shortURL } = require('../../plugins/urlParser');
+const { longURL, shortURL } = require('../../utils/urlParser');
 const { credentials } = require('../../handlers/bootLoader');
 //const { youtubeApiKey } = credentials;
 const { MessageActionRow, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu } = require('discord.js');
