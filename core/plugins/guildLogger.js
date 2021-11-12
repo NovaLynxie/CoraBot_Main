@@ -46,9 +46,6 @@ async function eventLog(event, guild, channel, params = {}, client) {
         Author: ${message.author}
       `
     };
-    messageContents = {
-      name: 'Message Content', value: shortenContents(message.content)
-    };
   };
   if (oldMessage || newMessage) {
     messageDetails = {
