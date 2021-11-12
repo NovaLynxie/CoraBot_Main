@@ -12,7 +12,9 @@ async function eventLog(event, guild, channel, params = {}, client) {
     .setTitle('Event Log')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
   const hasChanged = (a, b) => a === b;
-  const shortenContents = (msg) => msg.length > 1024 ? `${msg.content.substr(0, 1023)}...` : msg.content;
+  function shortenContents(msg) {
+    return (msg.length > 1024) ? `${msg.content.substr(0, 1023)}...` : msg.content;
+  };
   let memberDetails, messageDetails, messageContents, oldMsgContents, newMsgContents;
   if (member) {
     memberDetails = {
@@ -96,7 +98,7 @@ async function eventLog(event, guild, channel, params = {}, client) {
       break;
     default:
     // ..
-  }
+  };
   try {
     logger.debug('Sending moderation log to channel now...');
     let modLogChannel = guild.channels.cache.get(logChannels.modLogChID);
@@ -106,7 +108,7 @@ async function eventLog(event, guild, channel, params = {}, client) {
     logger.error('Failed to save moderation log embed!');
     logger.error(err.message); logger.debug(err.stack);
   };
-}
+};
 
 async function modLog(action, params = {}, client) {
   const executor = params ?.executor, member = params ?.member;
