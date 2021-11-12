@@ -68,7 +68,7 @@ async function eventLog(event, guild, channel, params = {}, client) {
     case 'guildMemberAdd':
       guildLogEmbed
         .setDescription('User joined the server!')
-        .setThumbnail(member.displayAvatarURL())
+        .setThumbnail(member.avatarURL())
         .addFields(memberDetails)
       break;
     case 'guildMemberRemove':
@@ -79,19 +79,19 @@ async function eventLog(event, guild, channel, params = {}, client) {
     case 'guildMemberUpdate':
       guildLogEmbed
         .setDescription('User joined the server!')
-        .setThumbnail(newMember.displayAvatarURL())
+        .setThumbnail(newMember.avatarURL())
         .addFields(memberDetails)
       break;
     case 'messageDelete':
       guildLogEmbed
         .setDescription('A message was deleted!')
-        .setThumbnail(member.displayAvatarURL())
+        .setThumbnail(member.avatarURL())
         .addFields(messageDetails, messageContents)
       break;
     case 'messageUpdate':
       guildLogEmbed
         .setDescription('A message was updated!')
-        .setThumbnail(member.displayAvatarURL())
+        .setThumbnail(member.avatarURL())
         .addFields(messageDetails, oldMsgContents, newMsgContents)
       break;
     default:
