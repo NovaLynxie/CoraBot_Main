@@ -5,6 +5,13 @@ const { stripIndents } = require('common-tags');
 const guildBaseEmbed = new MessageEmbed()
   .setColor('#75e6c4');
 
+function calculateAccountAge(date) {
+  const sysDate = new Date();
+  const accDate = new Date(date);
+  const accAge = sysDate - accDate;
+  console.log(accAge);
+};
+
 async function eventLog(event, guild, params = {}, client) {
   const { logChannels } = await client.settings.guild.get(guild);  
   const message = params ?.message; const channel = message ?.channel;
@@ -12,12 +19,6 @@ async function eventLog(event, guild, params = {}, client) {
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Event Log')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));  
-  function calculateAccountAge(date) {
-    const sysDate = new Date();
-    const accDate = new Date(date);
-    const accAge = sysDate - accDate;
-    console.log(accAge);
-  };
   calculateAccountAge(member.user.createdAt);
   const memberDetails = {
     name: 'Member Details',
