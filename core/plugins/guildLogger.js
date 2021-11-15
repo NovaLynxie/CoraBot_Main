@@ -41,8 +41,8 @@ async function eventLog(event, guild, channel, params = {}, client) {
     messageDetails = {
       name: 'Message Deleted',
       value: stripIndents`
-        Created: ${time(new Date(message.timestamp))}
-        Edited: ${time(new Date(message.editedTimestamp))}
+        Created: ${time(message.createdAt || new Date(message.createdTimestamp))}
+        Edited: ${time(message.editedAt || new Date(message.editedTimestamp))}
         Author: ${message.author}
       `
     };
@@ -51,8 +51,8 @@ async function eventLog(event, guild, channel, params = {}, client) {
     messageDetails = {
       name: 'Message Updated',
       value: stripIndents`
-        Created: ${time(new Date(newMessage.timestamp))}
-        Edited: ${time(new Date(newMessage.editedTimestamp))}
+        Created: ${time(newMessage.createdAt || new Date(newMessage.createdTimestamp))}
+        Edited: ${time(newMessage.editedAt || new Date(newMessage.editedTimestamp))}
         Author: ${newMessage.author}
       `
     };
