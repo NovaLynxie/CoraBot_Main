@@ -48,7 +48,7 @@ async function eventLog(event, guild, channel, params = {}, client) {
     };
     messageContents = {
       name: 'Message Contents',
-      value: message.content ? shortenContents(message.content); : 'Message content not available!' 
+      value: message.content ? shortenContents(message.content) : 'Message content not available!' 
     };
   };
   if (oldMessage || newMessage) {
