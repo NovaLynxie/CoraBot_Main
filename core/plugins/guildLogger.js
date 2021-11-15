@@ -67,9 +67,9 @@ async function eventLog(event, guild, params = {}, client) {
     roleDetails = {
       name: 'Role Updated',
       value: stripIndents`
-        ${(oldRole.name === newRole.name) ? `${oldRole.name} >> (UNCHANGED)` : `${oldRole.name} >> ${newRole.name}`}
-        ${(oldRole.color !== newRole.color ? `${oldRole.hexColor} >> ${newRole.hexColor}` : ${oldRole.hexColor})}
-        Show users separately? ${(oldRole.hoist === newRole.hoist) ? `${(oldRole.hoist) ? 'Yes' 'No'} >> (UNCHANGED)` : `${(oldRole.hoist) ? 'Yes' 'No'} >> ${(newRole.hoist) ? 'Yes' 'No'}`}        
+        `${(oldRole.name === newRole.name) ? `${oldRole.name} >> (UNCHANGED)` : `${oldRole.name} >> ${newRole.name}`}`
+        `${(oldRole.color !== newRole.color ? `${oldRole.hexColor} >> ${newRole.hexColor}` : `${oldRole.hexColor} >> (UNCHANGED)`)}`
+        Show users separately? ${(oldRole.hoist === newRole.hoist) ? `${(oldRole.hoist) ? 'Yes' 'No'} >> (UNCHANGED)` : `${(oldRole.hoist) ? 'Yes' 'No'}` >> `${(newRole.hoist) ? 'Yes' 'No'}`}  
       `
     };
     rolePermsDiff = {
