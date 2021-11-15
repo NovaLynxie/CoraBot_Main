@@ -75,9 +75,9 @@ async function eventLog(event, guild, params = {}, client) {
       value: stripIndents`
         \`\`\`diff
         Removed Permissions
-        ${removedPerms.map(permFlag => `- ${permFlag}`).join('\n')}
+        ${removedPerms.length > 0 ? removedPerms.map(permFlag => `- ${permFlag}`).join('\n') : '~ None'}
         Added Permissions
-        ${addedPerms.map(permFlag => `+ ${permFlag}`).join('\n')}
+        ${addedPerms.length > 0 ? addedPerms.map(permFlag => `+ ${permFlag}`).join('\n'): '~ None'}
         \`\`\`
       `
     };
