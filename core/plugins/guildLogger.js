@@ -59,10 +59,10 @@ async function eventLog(event, guild, params = {}, client) {
     const newRolePerms = newRole.permissions.toArray();
     let addedPerms = [], removedPerms = [];
     oldRolePerms.forEach(permFlag => {
-      if (newRolePerms.indexOf(permFlag) === -1) removedPerms.push(permFlag);
+      if (newRolePerms.indexOf(permFlag) < -1) removedPerms.push(permFlag);
     });
     newRolePerms.forEach(permFlag => {
-      if (oldRolePerms.indexOf(permFlag) > -1) addedPerms.push(permFlag);
+      if (oldRolePerms.indexOf(permFlag) < -1) addedPerms.push(permFlag);
     });
     roleDetails = {
       name: 'Role Updated',
