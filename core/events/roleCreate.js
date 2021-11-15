@@ -2,7 +2,7 @@ const logger = require('../utils/winstonLogger');
 
 module.exports = {
 	name: 'roleCreate',
-	execute(role) {
+	execute(role, client) {
     // ..
 	},
 };
