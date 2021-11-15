@@ -48,7 +48,7 @@ async function eventLog(event, guild, channel, params = {}, client) {
     };
     messageContents = {
       name: 'Message Contents',
-      value: message.content ? `${message.content.substr(0, 1021)}...` : 'Message content not available!'
+      value: message.content ? shortenContents(message.content); : 'Message content not available!' 
     };
   };
   if (oldMessage || newMessage) {
@@ -61,10 +61,12 @@ async function eventLog(event, guild, channel, params = {}, client) {
       `
     };
     oldMsgContents = {
-      name: 'Old Message', value: shortenContents(oldMessage.content)
+      name: 'Old Message',
+      value: (oldMessage.content) ? shortenContents(oldMessage.content) : 'Message content not available!'
     };
     newMsgContents = {
-      name: 'New Message', value: shortenContents(newMessage.content)
+      name: 'New Message',
+      value: (newMessage.content) ? shortenContents(newMessage.content) : 'Message content not available!'
     };
   };
   switch (event) {
