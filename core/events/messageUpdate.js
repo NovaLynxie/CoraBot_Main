@@ -9,6 +9,6 @@ module.exports = {
     const guild = oldMessage.guild || newMessage.guild;
     const channel = oldMessage.channel || newMessage.channel;
     const member = oldMessage.member || newMessage.member;
-    eventLog('messageUpdate', guild, channel, { member, oldMessage, newMessage }, client);
+    eventLog('messageUpdate', guild, { channel, member, oldMessage, newMessage }, client);
   },
 };

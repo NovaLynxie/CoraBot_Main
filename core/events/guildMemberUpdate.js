@@ -4,7 +4,7 @@ const { eventLog } = require('../plugins/guildLogger');
 module.exports = {
   name: 'guildMemberUpdate',
   execute(oldMember, newMember, client) {
-    const event = 'guildMemberUpdate', data = {oldMember, newMember};
+    const event = 'guildMemberUpdate', guild = oldMember.guild || newMember.guild;
     logger.debug('Detected member data update in a linked guild.');
     const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
     if (removedRoles.size > 0) {
@@ -14,6 +14,6 @@ module.exports = {
     if (addedRoles.size > 0) {
       logger.info(`Role ${addedRoles.map(r=>r.name)} added to ${oldMember.displayName}.`)
     };
-    eventLog(event, data, client);
+    eventLog(event, guild, { oldMember, newMember }, client);
   }
 }

@@ -12,6 +12,6 @@ module.exports = {
     if (message.author.id === client.user.id) {
       return logger.debug("Ignored message, message author is bot.");
     };
-    eventLog('messageDelete', guild, channel, { message, member }, client);
+    eventLog('messageDelete', guild, { channel, message, member }, client);
 	},
 };
