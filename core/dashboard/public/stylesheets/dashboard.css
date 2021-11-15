@@ -13,17 +13,6 @@
   border-width: 5px;
 }
 
-.dev-warning {
-  text-align: center;
-  margin-top: 0.5rem; margin-bottom: 0.5rem;
-  padding: 0.5rem 1rem 0.5rem 2rem;
-  background-color: rgba(255, 101, 40, 0.521);
-  border-color: rgba(255, 72, 0, 0.479);
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 5px;
-}
-
 .edit-settings {
   position: absolute;
   bottom: 10px;
