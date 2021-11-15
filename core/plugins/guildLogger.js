@@ -46,6 +46,10 @@ async function eventLog(event, guild, channel, params = {}, client) {
         Author: ${message.author}
       `
     };
+    messageContents = {
+      name: 'Message Contents',
+      value: message.content ? `${message.content.substr(0, 1021)}...` : 'Message content not available!'
+    };
   };
   if (oldMessage || newMessage) {
     messageDetails = {
