@@ -83,7 +83,7 @@ async function eventLog(event, guild, channel, params = {}, client) {
       break;
     case 'guildMemberUpdate':
       guildLogEmbed
-        .setDescription('User joined the server!')
+        .setDescription(`${member.user.tag} updated their profile.`)
         .setThumbnail(newMember.displayAvatarURL())
         .addFields(memberDetails)
       break;
