@@ -5,6 +5,6 @@ module.exports = {
 	name: 'roleUpdate',
 	execute(oldRole, newRole, client) {
     const guild =  oldRole.guild || newRole.guild;
-    eventLog('roleCreate', guild, { oldRole, newRole }, client);
+    eventLog('roleUpdate', guild, { oldRole, newRole }, client);
 	},
 };

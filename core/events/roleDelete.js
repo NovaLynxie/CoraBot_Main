@@ -5,7 +5,6 @@ module.exports = {
 	name: 'roleDelete',
 	execute(role, client) {
     const guild = role.guild;
-    // ..
-    eventLog('roleCreate', guild, { role }, client);
+    eventLog('roleDelete', guild, { role }, client);
 	},
 };
