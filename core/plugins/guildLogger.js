@@ -15,7 +15,7 @@ async function eventLog(event, guild, params = {}, client) {
   function shortenContents(content) {
     return (content.length > 1024) ? `${content.substr(0, 1021)}...` : content;
   };
-  let memberDetails, messageDetails, messageContents, oldMsgContents, newMsgContents;
+  let memberDetails, messageDetails, messageContents, oldMsgContents, newMsgContents, roleDetails, rolePermsDiff;
   if (member) {
     memberDetails = {
       name: 'Member Details',
@@ -34,6 +34,51 @@ async function eventLog(event, guild, params = {}, client) {
         ${oldMember.user.tag} >> ${newMember.user.tag}
         ${oldMember.nick} >> ${newMember.nick}
         Avatar changed? ${(hasChanged(oldMember.avatar, newMember.avatar)) ? 'Yes' : 'No'}
+      `
+    };
+  };
+  if (role) {
+    roleDetails = {};
+    if (!role.deleted) {
+      roleDetails.name = 'Role Created';
+    };
+    if (role.deleted) {
+      roleDetails.name = 'Role Deleted';
+    };
+    roleDetails.value = stripIndents`
+      Name: ${role.name}
+      Color: ${role.hexColor}
+      ${role.permissions.toArray().length} permissions set.
+      Hoisted? ${(role.hoist) ? 'Yes' : 'No'}
+      Created at ${time(role.createdAt || new Date(role.createdTimestamp))}
+      Deleted? ${(role.deleted) ? 'Yes' : 'No'} 
+    `
+  };
+  if (oldRole || newRole) {
+    const oldRolePerms = oldRole.permissions.toArray();
+    const newRolePerms = newRole.permissions.toArray();
+    let addedPerms = [], removedPerms = [];
+    oldRolePerms.forEach(permFlag => {
+      if (newRolePerms.indexOf(permFlag) === -1) removedPerms.push(permFlag);
+    });
+    newRolePerms.forEach(permFlag => {
+      if (oldRolePerms.indexOf(permFlag) > -1) addedPerms.push(permFlag);
+    });
+    roleDetails = {
+      name: 'Role Updated',
+      value: stripIndents`
+        ${(oldRole.name !== newRole.name) ? `${oldRole.name} >> ${newRole.name}` : `${oldRole.name}`}        
+      `
+    };
+    rolePermsDiff = {
+      name: 'Permissions Changed',
+      value: stripIndents`
+        \`\`\`diff
+        Removed Permissions
+        ${removedPerms.map(permFlag => `- ${permFlag}`).join('\n')}
+        Added Permissions
+        ${addedPerms.map(permFlag => `+ ${permFlag}`).join('\n')}
+        \`\`\`
       `
     };
   };
@@ -68,7 +113,7 @@ async function eventLog(event, guild, params = {}, client) {
       name: 'New Message',
       value: (newMessage.content) ? shortenContents(newMessage.content) : 'Message content not available!'
     };
-  };
+  };  
   switch (event) {
     case 'guildMemberAdd':
       guildLogEmbed
@@ -98,6 +143,24 @@ async function eventLog(event, guild, params = {}, client) {
         .setDescription('A message was updated!')
         .setThumbnail(member.displayAvatarURL())
         .addFields(messageDetails, oldMsgContents, newMsgContents)
+      break;
+    case 'roleCreate':
+      guildLogEmbed
+        .setDescription('A guild role was created!')
+        .setThumbnail(guild.iconURL())
+        .addFields(roleDetails)
+      break;
+    case 'roleDelete':
+      guildLogEmbed
+        .setDescription('A guild role was removed!')
+        .setThumbnail(guild.iconURL())
+        .addFields(roleDetails)
+      break;
+    case 'roleUpdate':
+      guildLogEmbed
+        .setDescription('A guild role was updated!')
+        .setThumbnail(guild.iconURL())
+        .addFields(roleDetails, rolePermsDiff)
       break;
     default:
     // ..

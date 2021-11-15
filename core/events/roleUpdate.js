@@ -3,9 +3,8 @@ const { eventLog } = require('../plugins/guildLogger');
 
 module.exports = {
 	name: 'roleUpdate',
-	execute(role, client) {
-    const guild = role.guild;
-    // ..
-    eventLog('roleCreate', guild, { role }, client);
+	execute(oldRole, newRole, client) {
+    const guild =  oldRole.guild || newRole.guild;
+    eventLog('roleCreate', guild, { oldRole, newRole }, client);
 	},
 };
