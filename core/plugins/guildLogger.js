@@ -9,7 +9,7 @@ async function eventLog(event, guild, channel, params = {}, client) {
   const { logChannels } = await client.settings.guild.get(guild);
   const { message, oldMessage, newMessage, member, oldMember, newMember } = params;
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
-    .setTitle('Event Log')
+    .setTitle('Event Logged!')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
   const hasChanged = (a, b) => a === b;
   function shortenContents(content) {
@@ -37,12 +37,12 @@ async function eventLog(event, guild, channel, params = {}, client) {
       `
     };
   };
-  if (message) {
+  if (message) {    
     messageDetails = {
       name: 'Message Deleted',
       value: stripIndents`
         Created: ${time(message.createdAt || new Date(message.createdTimestamp))}
-        Edited: ${time(message.editedAt || new Date(message.editedTimestamp))}
+        Edited: ${(message.editedAt || message.editedTimestamp) ? `${time(message.editedAt || new Date(message.editedTimestamp))}` : 'Not Edited!'}
         Author: ${message.author}
       `
     };
