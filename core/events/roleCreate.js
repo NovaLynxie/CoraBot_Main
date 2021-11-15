@@ -5,7 +5,7 @@ module.exports = {
 	name: 'roleCreate',
 	execute(role, client) {
     const guild = role.guild;
-    // ..
+    logger.debug(`Role ${role.name} created in ${guild.name}.`);
     eventLog('roleCreate', guild, { role }, client);
 	},
 };
