@@ -51,7 +51,7 @@ async function eventLog(event, guild, params = {}, client) {
       ${role.permissions.toArray().length} permissions set.
       Hoisted? ${(role.hoist) ? 'Yes' : 'No'}
       Created at ${time(role.createdAt || new Date(role.createdTimestamp))}
-      Deleted? ${(role.deleted) ? 'Yes' : 'No'} 
+      Deleted? ${(role.deleted) ? 'Yes' : 'No'}
     `
   };
   if (oldRole || newRole) {
@@ -67,7 +67,9 @@ async function eventLog(event, guild, params = {}, client) {
     roleDetails = {
       name: 'Role Updated',
       value: stripIndents`
-        ${(oldRole.name !== newRole.name) ? `${oldRole.name} >> ${newRole.name}` : `${oldRole.name}`}        
+        ${(oldRole.name !== newRole.name) ? `${oldRole.name} >> ${newRole.name}` : `${oldRole.name}`}
+        ${(oldRole.color !== newRole.color ? `${oldRole.hexColor} >> ${newRole.hexColor}` : ${oldRole.hexColor})}
+        Role is ${(newRole.hoist) ? 'hoisted' : 'not hoisted'}.
       `
     };
     rolePermsDiff = {
