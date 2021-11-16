@@ -6,16 +6,22 @@ function dynamicSystemEmbeds(state, params, client) {
   let details;
   switch (state) {
     case 'success':
+      embed.setColor('#42f595');
       break;
     case 'info':
+      embed.setColor('#1bdeb0');
       break;
     case 'warn':
+      embed.setColor('#de7c1b');
       break;
     case 'error':
+      embed.setColor('#de481b');
       break;
     case 'fatal':
+      embed.setColor('#de2e1b');
       break;
-    default;
+    default:
+      // ..
   };
   return embed;
 };
