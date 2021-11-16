@@ -37,21 +37,17 @@ async function eventLog(event, guild, params = {}, client) {
     };
   };
   if (role) {
-    roleDetails = {};
-    if (!role.deleted) {
-      roleDetails.name = 'Role Created';
+    roleDetails = {
+      name: !role.deleted ? 'Role Created' : 'Role Deleted',
+      value: stripIndents`
+        Name: ${role.name}
+        Color: ${role.hexColor}
+        ${role.permissions.toArray().length} permissions set.
+        Hoisted? ${(role.hoist) ? 'Yes' : 'No'}
+        Created at ${time(role.createdAt || new Date(role.createdTimestamp))}
+        Deleted? ${(role.deleted) ? 'Yes' : 'No'}
+      `
     };
-    if (role.deleted) {
-      roleDetails.name = 'Role Deleted';
-    };
-    roleDetails.value = stripIndents`
-      Name: ${role.name}
-      Color: ${role.hexColor}
-      ${role.permissions.toArray().length} permissions set.
-      Hoisted? ${(role.hoist) ? 'Yes' : 'No'}
-      Created at ${time(role.createdAt || new Date(role.createdTimestamp))}
-      Deleted? ${(role.deleted) ? 'Yes' : 'No'}
-    `
   };
   if (oldRole || newRole) {
     const oldRolePerms = oldRole.permissions.toArray();
