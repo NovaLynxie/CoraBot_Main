@@ -62,7 +62,7 @@ async function eventLog(event, guild, params = {}, client) {
     roleDetails = {
       name: 'Role Updated',
       value: stripIndents`
-        Name: ${(oldRole.name !== newRole.name) ? `**${newRole.name}** >> ~~*${oldRole.name}*~~` : oldRole.name}
+        Name: ${(oldRole.name !== newRole.name) ? `~~*${oldRole.name}*~~ >> **${newRole.name}**` : oldRole.name}
         Color: ${(oldRole.hexColor !== newRole.hexColor) ? `**${newRole.hexColor}** (${oldRole.hexColor})` : oldRole.hexColor}
         Show users separately? ${(oldRole.hoist === newRole.hoist) ? `${(oldRole.hoist) ? 'Yes' : 'No'}` : `~~*${(oldRole.hoist) ? 'Yes' : 'No'}*~~ >> **${(newRole.hoist) ? 'Yes' : 'No'}**`}
       `
