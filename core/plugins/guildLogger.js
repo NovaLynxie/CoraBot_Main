@@ -3,8 +3,7 @@ const { calculateAccountAge } = require('../utils/botUtils');
 const { MessageEmbed } = require('discord.js');
 const { time } = require('@discordjs/builders');
 const { stripIndents } = require('common-tags');
-const guildBaseEmbed = new MessageEmbed()
-  .setColor('#75e6c4');
+const guildBaseEmbed = new MessageEmbed().setColor('#75e6c4');
 async function eventLog(event, guild, params = {}, client) {
   const { logChannels } = await client.settings.guild.get(guild);
   const { channel, message, oldMessage, newMessage, member, oldMember, newMember, role, oldRole, newRole } = params;
@@ -165,19 +164,17 @@ async function eventLog(event, guild, params = {}, client) {
         .addFields(roleDetails, rolePermsDiff)
       break;
     default:
-    // ..
-  };
+    return logger.debug('Unknown or unrecognised event type!');
+  };  
   try {
     logger.debug('Sending moderation log to channel now...');
-    let modLogChannel = guild.channels.cache.get(logChannels.modLogChID);
-    modLogChannel.send({ embeds: [guildLogEmbed] });
+    guild.channels.cache.get(logChannels.modLogChID).send({ embeds: [guildLogEmbed] });
     logger.debug('Moderation log sent successfully!');
   } catch (err) {
     logger.error('Failed to save moderation log embed!');
     logger.error(err.message); logger.debug(err.stack);
   };
 };
-
 async function modLog(action, params = {}, client) {
   const executor = params ?.executor, member = params ?.member;
   const channel = params ?.channel ? params.channel : undefined;
@@ -256,12 +253,11 @@ async function modLog(action, params = {}, client) {
         )
       break;
     default:
-    // ..
-  };
+    return logger.debug('Unknown or unrecognised action called!');
+  };  
   try {
     logger.debug('Sending moderation log to channel now...');
-    let modLogChannel = guild.channels.cache.get(logChannels.modLogChID);
-    modLogChannel.send({ embeds: [guildLogEmbed] });
+    guild.channels.cache.get(logChannels.modLogChID).send({ embeds: [guildLogEmbed] });
     logger.debug('Moderation log sent successfully!');
   } catch (err) {
     logger.error('Failed to save moderation log embed!');
