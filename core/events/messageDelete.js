@@ -4,8 +4,9 @@ const { eventLog } = require('../plugins/guildLogger');
 module.exports = {
 	name: 'messageDelete',
 	execute(message, client) {
-    const guild = message.guild, channel = message.channel;    
-    const member = guild.members.cache.get(message.author.id);
+    const guild = message.guild, channel = message.channel;
+    if (channel.type !== 'GUILD_TEXT' || !guild) return;
+    const member = message.member || guild.members.cache.get(message.author.id);     
     if (message.author.id === null) {
       message.author.id = undefined;
     }
