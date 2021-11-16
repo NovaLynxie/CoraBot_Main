@@ -4,7 +4,7 @@ const baseEmbed = new MessageEmbed().setColor('#75e6c4');
 function dynamicSystemEmbeds(state, params, client) {
   const embed = new MessageEmbed(baseEmbed);
   let details;
-  switch (state) {    
+  switch (state) {
     case 'success':
       break;
     case 'info':
@@ -19,3 +19,5 @@ function dynamicSystemEmbeds(state, params, client) {
   };
   return embed;
 };
+
+module.exports = { system: dynamicSystemEmbeds };
