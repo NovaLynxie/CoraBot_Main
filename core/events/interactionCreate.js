@@ -3,9 +3,8 @@ const { debug } = require('../handlers/bootLoader').config;
 
 module.exports = {
 	name: 'interactionCreate',
-	async execute(interaction) {
+	async execute(interaction, client) {
 		if (debug) logger.data(JSON.stringify(interaction, null, 2));
-		const client = interaction.client;
 		if (interaction.isCommand()) {
 			logger.debug(`${interaction.user.tag} in #${interaction.channel.name} from ${interaction.guild.name} triggered interaction '${interaction.commandName}'`);
 			if (!client.commands.has(interaction.commandName)) return;
