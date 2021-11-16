@@ -9,9 +9,9 @@ function dynamicSystemEmbeds(state, params, client) {
   if (data) {
     // unsure what will be displayed here yet...
     generalDetails = {
-      name: 'placeholderText',
+      name: 'System Response',
       value: stripIndents`
-        placeholderText
+        ${data.message}
       `
     };
   };
@@ -21,29 +21,40 @@ function dynamicSystemEmbeds(state, params, client) {
       name: 'Error Data',
       value: stripIndents`
         \`\`\`
-        ${JSON.stringify(error, null, 2)}
+        ${error.message}
+        ${error.stack}
         \`\`\`
       `
     }
   };
   switch (state) {
     case 'success':
-      embed.setColor('#42f595');
+      embed
+        .setTitle('Success!')
+        .setColor('#42f595')
+        .addFields(generalDetails);
       break;
     case 'info':
-      embed.setColor('#1bdeb0');
+      embed
+        .setTitle('Information')
+        .setColor('#1bdeb0')
+        .addFields(generalDetails);
       break;
     case 'warn':
-      embed.setColor('#de7c1b');
+      embed
+        .setTitle('Warning!')
+        .setColor('#de7c1b')
+        .addFields(generalDetails);
       break;
     case 'error':
-      embed.setColor('#de481b');
-      break;
-    case 'fatal':
-      embed.setColor('#de2e1b');
+      embed
+        .setTitle('Error Occured!')
+        .setColor('#de481b')
+        .addFields(generalDetails, errorDetails);
       break;
     default:
-      // ..
+      embed
+        .setTitle('Unknown State!')
   };
   return embed;
 };
