@@ -5,10 +5,10 @@ const baseEmbed = new MessageEmbed().setColor('#75e6c4');
 function dynamicSystemEmbeds(state, params, client) {
   const embed = new MessageEmbed(baseEmbed);
   const { data, error } = params;
-  let detailsField = {};
+  let generalDetails = {}, errorDetails = {};
   if (data) {
     // unsure what will be displayed here yet...
-    detailsField = {
+    generalDetails = {
       name: 'placeholderText',
       value: stripIndents`
         placeholderText
@@ -17,8 +17,8 @@ function dynamicSystemEmbeds(state, params, client) {
   };
   if (error) {
     // display error data here (helps for debugging)
-    detailsField = {
-      name: 'Error Occured!',
+    errorDetails = {
+      name: 'Error Data',
       value: stripIndents`
         \`\`\`
         ${JSON.stringify(error, null, 2)}
