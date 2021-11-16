@@ -5,6 +5,9 @@ module.exports = {
 	name: 'interactionCreate',
 	async execute(interaction, client) {
 		if (debug) logger.data(JSON.stringify(interaction, null, 2));
+    if (!interaction.guild) return await interaction.reply({
+      content: 'Commands only work in server text channels!'
+    });
 		if (interaction.isCommand()) {
 			logger.debug(`${interaction.user.tag} in #${interaction.channel.name} from ${interaction.guild.name} triggered interaction '${interaction.commandName}'`);
 			if (!client.commands.has(interaction.commandName)) return;
