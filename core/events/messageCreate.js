@@ -7,7 +7,7 @@ module.exports = {
 	async execute(message, client) {
 		if (message.author.bot) return;		
 		if (message.guild) {
-      // handle messages in a guild
+      // handle messages in any viewable guild text channel
       try {
         await autoModerator(message, client);
         await discordChatBot(message, client);
@@ -16,7 +16,7 @@ module.exports = {
         logger.debug(err.stack);
       };			
 		} else {
-			// handle DMs in private channel
+			// handle messages in private or group dm channels
 			// NOT YET IMPLEMENTED!
 		};
 	},
