@@ -47,7 +47,6 @@ client.settings = {
 		init: generateGuildSettings,
 	}
 };
-client.system = require('./core/utils/botEmbeds').system;
 client.data = {
 	get: readGuildData,
 	set: saveGuildData,

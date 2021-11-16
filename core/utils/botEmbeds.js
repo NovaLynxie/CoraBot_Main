@@ -2,7 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 const baseEmbed = new MessageEmbed().setColor('#75e6c4');
 
-function dynamicSystemEmbeds(state, params, client) {
+function systemEmbed(state, params) {
   const embed = new MessageEmbed(baseEmbed);
   const { data, error } = params;
   let generalDetails = {}, errorDetails = {};
@@ -59,4 +59,4 @@ function dynamicSystemEmbeds(state, params, client) {
   return embed;
 };
 
-module.exports = { system: dynamicSystemEmbeds };
+module.exports = systemEmbed;
