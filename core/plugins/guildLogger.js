@@ -38,7 +38,7 @@ async function eventLog(event, guild, params = {}, client) {
   };
   if (role) {
     roleDetails = {
-      name: !role.deleted ? 'Role Created' : 'Role Deleted',
+      name: role.deleted ? 'Role Deleted' : 'Role Created',
       value: stripIndents`
         Name: ${role.name}
         Color: ${role.hexColor}
