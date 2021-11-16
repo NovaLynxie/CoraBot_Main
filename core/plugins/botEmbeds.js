@@ -1,9 +1,31 @@
 const { MessageEmbed } = require('discord.js');
+const { stripIndents } = require('common-tags');
 const baseEmbed = new MessageEmbed().setColor('#75e6c4');
 
 function dynamicSystemEmbeds(state, params, client) {
   const embed = new MessageEmbed(baseEmbed);
-  let details;
+  const { data, error } = params;
+  let detailsField = {};
+  if (data) {
+    // unsure what will be displayed here yet...
+    detailsField = {
+      name: 'placeholderText',
+      value: stripIndents`
+        placeholderText
+      `
+    };
+  };
+  if (error) {
+    // display error data here (helps for debugging)
+    detailsField = {
+      name: 'Error Occured!',
+      value: stripIndents`
+        \`\`\`
+        ${JSON.stringify(error, null, 2)}
+        \`\`\`
+      `
+    }
+  };
   switch (state) {
     case 'success':
       embed.setColor('#42f595');
