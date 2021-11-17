@@ -105,16 +105,16 @@
   display: inline-block;
   text-align: left;
   padding: 0.5rem;
-  background-color: rgba(118, 118, 145, 0.295);
-  border-color: rgba(88, 95, 126, 0.288);
+  background-color: #7676914b;
+  border-color: #585f7e49;
   border-style: solid;
   border-width: 2px;
 }
 .guild-details-wrapper {
   min-height: 180px;
   min-width: 200px;
-  background-color: rgba(118, 118, 145, 0.295);
-  border-color: rgba(88, 95, 126, 0.288);
+  background-color: #7676914b;
+  border-color: #585f7e49;
   border-style: solid;
   border-width: 1px;
 }
@@ -127,8 +127,8 @@
   display: inline-block;
   text-align: left;
   padding: 0.5rem;
-  background-color: rgba(40, 140, 255, 0.26);
-  border-color: rgba(0, 132, 255, 0.288);
+  background-color: #288cff42;
+  border-color: #0084ff49;
   border-style: solid;
   border-width: 2px;
 }
@@ -158,8 +158,8 @@
 .settings-card-base {
   text-align: left;  
   padding: 0.5rem;
-  background-color: rgba(118, 118, 145, 0.295);
-  border-color: rgba(88, 95, 126, 0.288);
+  background-color: #7676914b;
+  border-color: #585f7e49;
   border-style: solid;
   border-width: 2px;
 }
@@ -170,8 +170,8 @@
   display: inline-block;
   text-align: left;
   padding: 0.5rem;
-  background-color: rgba(118, 118, 145, 0.295);
-  border-color: rgba(88, 95, 126, 0.288);
+  background-color: #7676914b;
+  border-color: #585f7e49;
   border-style: solid;
   border-width: 2px;
 }
@@ -179,11 +179,12 @@
   position: relative;
   vertical-align: top;
   min-height: 550px;
+  width: 100%;
   display: inline-block;
   text-align: left;
   padding: 0.5rem;
-  background-color: rgba(116, 143, 192, 0.548);
-  border-color: rgba(95, 115, 151, 0.548);
+  background-color: #748fc08c;
+  border-color: #5f73978c;
   border-style: solid;
   border-width: 2px;
 }
@@ -191,10 +192,10 @@
   max-width: 320px;
 }
 .settings-text-wrapper {
-  min-height: 140px;
-  min-width: 280px;
-  background-color: rgba(118, 118, 145, 0.295);
-  border-color: rgba(88, 95, 126, 0.288);
+  min-height: 120px;
+  min-width: 240px;
+  background-color: #7676914b;
+  border-color: #585f7e49;
   border-style: solid;
   border-width: 1px;
 }
@@ -205,14 +206,14 @@
 }
 .settings-table-main {
   text-align: center;
-  width: 100%;
+  width: 80%;
   border: 1px solid powderblue;
   border-collapse: collapse;
 }
 
 .danger-block {
-  background-color: rgba(150, 75, 46, 0.144);
-  border-color: rgba(255, 31, 31, 0.288);
+  background-color: #964b2e25;
+  border-color: #ff1f1f49;
   border-style: solid;
   border-width: 2px;
 }
