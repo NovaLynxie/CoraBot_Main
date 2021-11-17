@@ -1,17 +1,15 @@
-// All settings variables for handling settings data.
 - enableAutoMod = (autoMod.enableAutoMod) ? 'on' : 'off';
 - enableChatBot = (chatBot.enableChatBot) ? 'on' : 'off';
 - enableNotifier = (notifier.enableNotifier) ? 'on' : 'off';
 //- enableBotLogs = (botLogSettings.enableBotLogs) ? 'on' : 'off';
 //- enableModLogs = (modLogSettings.enableModLogs) ? 'on' : 'off';
 
-// Guild specific information
 - channelData = guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT');
 - textChannels = Object.fromEntries(channelData);
 - textLogsChs1 = Object.fromEntries(channelData);
 - textLogsChs2 = Object.fromEntries(channelData);
 - textLogsChs3 = Object.fromEntries(channelData);
-// Manage Page Modals (Edit Settings)
+
 #settingGuildStaffRolesModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingGuildStaffRolesModalLabel' aria-hidden='true')
   form(action=`/dashboard/${guild.id}/manage`, method='POST')
     .modal-dialog(role='document')
@@ -348,7 +346,7 @@
           button.btn.btn-outline-dark(type='button' data-bs-dismiss='modal') CANCEL
           button.btn.btn-outline-primary(type='submit' value="Submit") SAVE CHANGES 
             i.fas.fa-save(aria-hidden='true')
-// Manage Page Modals (Danger Zone)
+
 #serverLeaveModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='serverLeaveModalLabel' aria-hidden='true')
   .modal-dialog(role='document')
     .modal-content
