@@ -13,11 +13,10 @@ const {
 	readGuildData, saveGuildData, deleteGuildData, generateGuildData,
 } = dataHandlers;
 const { config, credentials } = require('./core/handlers/bootLoader');
-const { globalPrefix, ownerIDs, useLegacyURL, debug } = config;
+const { ownerIDs, useLegacyURL, debug } = config;
 const { discordToken } = credentials;
 logger.init('Spinning up bot instance...');
 const client = new Client({
-	globalPrefix: globalPrefix,
 	owners: ownerIDs,
 	intents: [
     Intents.FLAGS.DIRECT_MESSAGES,

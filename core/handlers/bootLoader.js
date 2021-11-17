@@ -33,7 +33,7 @@ var general = {}, discord = {}, runtime = {};
 var discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID;
 if (mainLoaded) {
 	var { general, advanced, dashboard, runtime } = mainConfig;
-	var { globalPrefix, ownerIDs, useLegacyURL } = general;
+	var { ownerIDs, useLegacyURL } = general;
 	var { clientId, guildId, debug } = advanced;
 	var { useDotEnv, forceUpdateCmds } = runtime;
 };
@@ -80,5 +80,5 @@ if (authLoaded) {
 	} = process.env;
 };
 module.exports.credentials = { discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID };
-module.exports.config = { globalPrefix, ownerIDs, useLegacyURL, forceUpdateCmds, debug, dashboard };
+module.exports.config = { ownerIDs, useLegacyURL, forceUpdateCmds, debug, dashboard };
 module.exports.deploy = { clientId, guildId };
