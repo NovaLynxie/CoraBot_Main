@@ -13,7 +13,7 @@ block content
     -var S = date.getSeconds(); S = (S < 9) ? `0${S}` : S;
     -var a = D % 10, b = D % 100;
     -var nth = `${(a == 1 && b != 11) ? 'st' : (a == 2 && b != 12) ? 'nd' : (a == 3 && b != 13) ? 'rd' : 'th'}`;    
-    -return `${d} ${D}${nth} ${m} ${y} at ${H}:${M}:${S}`;
+    -return `${d} ${D}${nth} ${m} ${y} at ${H}:${M}`;
   -}
   .container
     include ../blocks/guild-nav
