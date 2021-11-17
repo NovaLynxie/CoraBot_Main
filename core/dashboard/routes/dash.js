@@ -75,7 +75,6 @@ router.post('/:guildID/manage', checkAuth, async (req, res) => {
   logger.debug('Preparing to update guildSettings.');
   const guildSettings = await client.settings.guild.get(guild);
   logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);
-  const { guildPrefix } = guildSettings;
   // Fetch Main Module Settings
   const { autoMod, chatBot, notifier, roles, logChannels } = guildSettings;
   // Fetch Channel Logs Module Settings
