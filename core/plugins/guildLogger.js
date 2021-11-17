@@ -173,10 +173,8 @@ async function eventLog(event, guild, params = {}, client) {
   };
 };
 async function modLog(action, params = {}, client) {
-  const executor = params ?.executor, member = params ?.member;
-  const channel = params ?.channel ? params.channel : undefined;
+  const { channel = undefined, executor, member, reason = 'No reason provided.' } = params;
   const guild = executor.guild, logdate = new Date();
-  const reason = (params ?.reason) ? params.reason : 'No reason provided.';
   const { logChannels } = await client.settings.guild.get(guild);
   if (!logChannels.modLogChID) return;
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
