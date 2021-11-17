@@ -22,13 +22,10 @@ block content
     .jumbotron.text-center
       h3.display-4 Guild Members
       p.lead
-      | This is a list of all members currently in the guild, from here you can kick or ban users without needing to do so manually from the Discord app.
-      br
-      | NB: You cannot kick/ban yourself or the bot, this has been disabled to prevent errors, there is no way to override this.
-      br
-      p
       | There are currently #{guild.members.cache.filter(member => !member.user.bot).size} users and #{guild.members.cache.filter(member => member.user.bot).size} bots in this guild!
       br
+      | NB: You cannot kick/ban yourself or the bot, this has been disabled to prevent errors, there is no way to override this.
+      p
       | Status Icons: 
       i.fas.fa-check-circle(style="color:#0fa840")
       | !{' '}- Online 
