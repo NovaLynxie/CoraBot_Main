@@ -90,7 +90,8 @@
 .guild-banner {
   position: relative;
   z-index: 1;
-  max-width: 100%;
+  width: 100%;
+  max-width: 360px;
   margin-bottom: 12px;
   background-color: #2c2f33;
   border-color: #7289da;

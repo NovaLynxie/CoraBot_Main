@@ -17,7 +17,7 @@ block content
           .guild-details-card
             h5 Basic Information
             - iconUrl = (guild.icon) ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` : 'https://via.placeholder.com/128.png?text=No Guild Icon'
-            - bannerUrl = (guild.banner) ? `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.png` : 'https://via.placeholder.com/288x162.png?text=No Guild Banner'
+            - bannerUrl = (guild.banner) ? `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.png` : 'https://via.placeholder.com/960x540.png?text=No Guild Banner'
             img.d-flex.mr-3.rounded-circle.guild-icon(src=iconUrl alt='Guild Icon')
             img.guild-banner(src=bannerUrl)
             .guild-details-wrapper
