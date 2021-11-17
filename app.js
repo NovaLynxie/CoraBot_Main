@@ -29,7 +29,7 @@ const client = new Client({
   presence: { status: 'dnd', activity: 'Initializing...' }
 });
 if (useLegacyURL) {
-	logger.warn('Legacy API domain is now depreciated. Only continue if debugging app connections.');
+	logger.warn('Legacy API domain is now depreciated. Only use this to debug app connections.');
   logger.debug('Switching http API to legacy domain.');
 	client.options.http.api = 'https://discordapp.com/api';
 } else { logger.debug('Using default API domain.'); };
