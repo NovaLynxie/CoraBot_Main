@@ -6,6 +6,7 @@ const { stripIndents } = require('common-tags');
 const guildBaseEmbed = new MessageEmbed().setColor('#75e6c4');
 async function eventLog(event, guild, params = {}, client) {
   const { logChannels } = await client.settings.guild.get(guild);
+  if (!logChannels.modLogChID) return;
   const { channel, message, oldMessage, newMessage, member, oldMember, newMember, role, oldRole, newRole } = params;
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Event Logged!')
@@ -177,6 +178,7 @@ async function modLog(action, params = {}, client) {
   const guild = executor.guild, logdate = new Date();
   const reason = (params ?.reason) ? params.reason : 'No reason provided.';
   const { logChannels } = await client.settings.guild.get(guild);
+  if (!logChannels.modLogChID) return;
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Moderation Log')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
