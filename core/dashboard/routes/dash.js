@@ -8,12 +8,9 @@ const { checkAuth, isManaged, renderView } = require('../dashUtils');
 const express = require('express');
 const router = express.Router();
 
-// Authentication Locked Pages (Discord Oauth2)
-// Normal Dashboard - Only shows user the guilds they are bound to.
 router.get('/', checkAuth, (req, res) => {
   renderView(res, req, 'dash.pug', { Permissions });
 });
-// Admin Dashboard - Shows all guilds the bot is connected to, including ones not joined by the user.
 router.get('/admin', checkAuth, async (req, res) => {
   const client = res.locals.client;
   const botSettings = await client.settings.get(client);
@@ -75,9 +72,7 @@ router.post('/:guildID/manage', checkAuth, async (req, res) => {
   logger.debug('Preparing to update guildSettings.');
   const guildSettings = await client.settings.guild.get(guild);
   logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);
-  // Fetch Main Module Settings
   const { autoMod, chatBot, notifier, roles, logChannels } = guildSettings;
-  // Fetch Channel Logs Module Settings
   const { botLogger, modLogger } = guildSettings;
   try {
     function emptyStringCheck(item) {
@@ -169,7 +164,6 @@ router.post('/:guildID/manage', checkAuth, async (req, res) => {
   logger.debug('Redirecting to dashboard manage page.');
   res.redirect(`/dashboard/${req.params.guildID}/manage`);
 });
-// Displays all members in the Discord guild being viewed.
 router.get('/:guildID/members', checkAuth, (req, res) => {
   const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -178,8 +172,6 @@ router.get('/:guildID/members', checkAuth, (req, res) => {
   const members = Array.from(guild.members.cache.values());
   renderView(res, req, 'guild/members.pug', { guild, members });
 });
-// Leaves the guild (this is triggered from the manage page, and only
-// from the modal dialog)
 router.get('/:guildID/leave', checkAuth, async (req, res) => {
   const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -214,7 +206,6 @@ router.get("/:guildID/reset", checkAuth, async (req, res) => {
 });
 */
 // DISABLED TEMPORARILY! REQUIRES STORAGE REWORK!
-// Kicks specified member by their unique user ID.
 router.get('/:guildID/kick/:userID', checkAuth, async (req, res) => {
   const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -237,7 +228,6 @@ router.get('/:guildID/kick/:userID', checkAuth, async (req, res) => {
   }
   res.redirect(`/dashboard/${req.params.guildID}/members`);
 });
-// Bans specified member by their unique user ID.
 router.get('/:guildID/ban/:userID', checkAuth, async (req, res) => {
   const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -250,8 +240,7 @@ router.get('/:guildID/ban/:userID', checkAuth, async (req, res) => {
     req.flash('warning', `Unable to kick ${member.user.tag}. Insufficient permissions or action was rejected by bot server.`);
     logger.warn(`WebDash Operator BAN ${member.user.tag} aborted by DashService!`);
     logger.warn(`Reason: The requested MemberID of ${member.user.tag}was the User's or Bot's unique ID.`);
-  }
-  else {
+  } else {
     member.ban({ days: 7, reason: `Banned by Dashboard Operator (ID: ${req.user.id})` })
       .then(req.flash('success', `Banned ${member.user.tag} Successfully!`))
       .catch(err => {
