@@ -178,8 +178,12 @@ router.get('/:guildID/leave', checkAuth, async (req, res) => {
   if (!guild) return res.status(404);
   logger.debug(`WebDash called GUILD_LEAVE action for guild ${guild.name}.`);
   if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect('/');
-  await guild.leave();
-  req.flash('success', `Removed from ${guild.name} successfully!`);
+  try {
+    await guild.leave();
+    req.flash('success', `Removed from ${guild.name} successfully!`);
+  } catch (error) {
+    req.flash('danger', `Discord API Error! Failed to leave ${guild.name}!`);
+  };
   res.redirect('/dashboard');
 });
 router.get("/:guildID/reset", checkAuth, async (req, res) => {
@@ -219,8 +223,7 @@ router.get('/:guildID/kick/:userID', checkAuth, async (req, res) => {
         logger.warn(`WebDash Operator KICK ${member.user.tag} failed.`);
         logger.error(err); logger.debug(err.stack);
       });
-  }
-  res.redirect(`/dashboard/${req.params.guildID}/members`);
+  }; res.redirect(`/dashboard/${req.params.guildID}/members`);
 });
 router.get('/:guildID/ban/:userID', checkAuth, async (req, res) => {
   const client = res.locals.client;
@@ -243,8 +246,7 @@ router.get('/:guildID/ban/:userID', checkAuth, async (req, res) => {
         logger.error(err); logger.debug(err.stack);
       });
     req.flash('success', `Removed from ${guild.name} successfully!`);
-  }
-  res.redirect(`/dashboard/${req.params.guildID}/members`);
+  }; res.redirect(`/dashboard/${req.params.guildID}/members`);
 });
 
 module.exports = router;
