@@ -182,7 +182,7 @@ router.get('/:guildID/leave', checkAuth, async (req, res) => {
     await guild.leave();
     req.flash('success', `Removed from ${guild.name} successfully!`);
   } catch (error) {
-    req.flash('danger', `Discord API Error! Failed to leave ${guild.name}!`);
+    req.flash('danger', `Discord API Error! Something went wrong while processing your request!`);
   };
   res.redirect('/dashboard');
 });
