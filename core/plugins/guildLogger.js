@@ -101,6 +101,8 @@ async function eventLog(event, guild, params = {}, client) {
         Created: ${time(newMessage.createdAt || new Date(newMessage.createdTimestamp))}
         Edited: ${time(newMessage.editedAt || new Date(newMessage.editedTimestamp))}
         Author: ${newMessage.author}
+        Channel: ${newMessage.channel}
+        [Go to message](${newMessage.url})
       `
     };
     oldMsgContents = {
