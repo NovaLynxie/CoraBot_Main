@@ -30,7 +30,8 @@ block content
               br
               | Guild Prefix: '#{(guildPrefix) ? guildPrefix : bot.options.globalPrefix}'
               br
-              | Owner: #{guild.members.cache.get(guild.ownerId).user.tag} (#{guild.members.cache.get(guild.ownerId).displayName})
+              - owner = guild.members.cache.get(guild.ownerId);
+              | Owner: #{owner.user.tag} (#{owner.displayName})
               br
               | Members: #{guild.memberCount} (#{guild.members.cache.filter(member => !member.user.bot).size} users | #{guild.members.cache.filter(member => member.user.bot).size} bots)
               br
