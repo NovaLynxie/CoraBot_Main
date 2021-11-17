@@ -1,4 +1,3 @@
-// Members Page Modals (Action Kick/Ban)
 #memberBanModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='memberBanModalLabel' aria-hidden='true')
   .modal-dialog(role='document')
     .modal-content
@@ -39,7 +38,7 @@ script(nonce="memberModals").
     confirmBtn.href = `/dashboard/${guildID}/kick/${memberID}`
   });
   memberKickModal.addEventListener('show.bs.modal', function (event) {
-    var button = event.relatedTarget; var guildID = '#{guild.id}'
+    var button = event.relatedTarget; var guildID = '#{guild.id}';
     var memberID = button.getAttribute('data-bs-memberid');
     var confirmBtn = memberKickModal.querySelector('a.btn.btn-outline-danger')
     confirmBtn.href = `/dashboard/${guildID}/kick/${memberID}`
