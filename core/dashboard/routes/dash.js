@@ -159,7 +159,7 @@ router.post('/:guildID/manage', checkAuth, async (req, res) => {
   } catch (err) {
     logger.warn('A setting failed to save correctly! Aborting settings change.');
     logger.error(err.message); logger.debug(err.stack);
-    req.flash('danger', 'One or more settings failed to save! Please try again. If this error persists, ask an admin to check the logs.');
+    req.flash('danger', 'One or more settings failed to save! Please try again. If this error persists, contact an admin or report this to the GitHub issue tracker.');
   }
   logger.debug('Redirecting to dashboard manage page.');
   res.redirect(`/dashboard/${req.params.guildID}/manage`);
