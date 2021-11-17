@@ -101,7 +101,7 @@
 .guild-details-card {
   vertical-align: top;
   min-height: 450px;
-  min-width: 300px;
+  width: 100%
   display: inline-block;
   text-align: left;
   padding: 0.5rem;
