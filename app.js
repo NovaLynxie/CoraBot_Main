@@ -33,6 +33,13 @@ if (useLegacyURL) {
   logger.debug('Switching http API to legacy domain.');
 	client.options.http.api = 'https://discordapp.com/api';
 } else { logger.debug('Using default API domain.') };
+client.commands = new Collection();
+client.data = {
+	get: readGuildData,
+	set: saveGuildData,
+	init: generateGuildData,
+	delete: deleteGuildData
+};
 client.settings = {
 	clear: clearClientSettings,
 	get: readClientSettings,
@@ -46,13 +53,6 @@ client.settings = {
 		init: generateGuildSettings,
 	}
 };
-client.data = {
-	get: readGuildData,
-	set: saveGuildData,
-	init: generateGuildData,
-	delete: deleteGuildData
-};
-client.commands = new Collection();
 const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
 	const event = require(`./core/events/${file}`);
