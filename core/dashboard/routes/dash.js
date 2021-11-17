@@ -176,7 +176,7 @@ router.get('/:guildID/leave', checkAuth, async (req, res) => {
   const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
   if (!guild) return res.status(404);
-  logger.dash(`WebDash called GUILD_LEAVE action for guild ${guild.name}.`);
+  logger.debug(`WebDash called GUILD_LEAVE action for guild ${guild.name}.`);
   if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect('/');
   await guild.leave();
   req.flash('success', `Removed from ${guild.name} successfully!`);
@@ -186,7 +186,7 @@ router.get("/:guildID/reset", checkAuth, async (req, res) => {
   const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
   if (!guild) return res.status(404);
-  logger.dash(`WebDash called RESET_SETTINGS action on guild ${guild.name}.`);
+  logger.debug(`WebDash called RESET_SETTINGS action on guild ${guild.name}.`);
   if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
   logger.debug(`WebDash executed RESET for ${guild.name} settings!`);
   try {
@@ -205,7 +205,7 @@ router.get('/:guildID/kick/:userID', checkAuth, async (req, res) => {
   const guild = client.guilds.cache.get(req.params.guildID);
   const member = guild.members.cache.get(req.params.userID);
   if (!guild) return res.status(404);
-  logger.dash(`WebDash called USER_KICK action on user ${member.user.id} in guild ${guild.name}.`);
+  logger.debug(`WebDash called USER_KICK action on user ${member.user.id} in guild ${guild.name}.`);
   if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect('/');
   if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
     req.flash('warning', `Unable to kick ${member.user.tag}. Insufficient permissions or action was rejected by bot server.`);
