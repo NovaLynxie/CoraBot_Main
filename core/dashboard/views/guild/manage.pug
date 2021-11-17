@@ -1,7 +1,6 @@
 extends ../blocks/layout
 block content
   - let {autoMod, chatBot, notifier, roles, logChannels} = guildSettings;
-  - let guildPrefix = guildSettings.prefix;
   - let {enableAutoMod, chListMode, channelsList, urlBlacklist, mediaTrackers} = autoMod;
   - let {enableChatBot, chatBotOpts, chatChannels} = chatBot;
   - let {enableNotifier, trackEvents, notifsChannel, eventMsgTxt} = notifier;
@@ -27,8 +26,6 @@ block content
               br
               #hidden (ID: #{guild.id})
               | Verified: #{(guild.verified)?'Yes':'No'}
-              br
-              | Guild Prefix: '#{(guildPrefix) ? guildPrefix : bot.options.globalPrefix}'
               br
               - owner = guild.members.cache.get(guild.ownerId);
               | Owner: #{owner.user.tag} (#{owner.displayName})
