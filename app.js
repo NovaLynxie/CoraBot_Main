@@ -32,7 +32,7 @@ if (useLegacyURL) {
 	logger.warn('Legacy API domain is now depreciated. Only use this to debug app connections.');
   logger.debug('Switching http API to legacy domain.');
 	client.options.http.api = 'https://discordapp.com/api';
-} else { logger.debug('Using default API domain.'); };
+} else { logger.debug('Using default API domain.') };
 client.settings = {
 	clear: clearClientSettings,
 	get: readClientSettings,
@@ -54,7 +54,6 @@ client.data = {
 };
 client.commands = new Collection();
 const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
-// Event handler to process discord event triggers.
 for (const file of eventFiles) {
 	const event = require(`./core/events/${file}`);
 	if (event.once) {
@@ -63,7 +62,6 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args, client));
 	};
 };
-// Unhandled error handling in process
 process.on('unhandledRejection', error => {
 	logger.warn('Uncaught Promise Rejection Exception thrown!');
 	logger.error(`Caused by: ${error.message}`);
@@ -75,7 +73,6 @@ process.on('uncaughtException', error => {
 	logger.error(error.message); logger.debug(error);
 	setTimeout(() => {process.exit(1);}, 5000);
 });
-// Client timers references
 const apiConnectWarn = setTimeout(() => {
 	logger.warn('Bot taking longer than normal to connect.');
   logger.warn('Possibly slow connection or rate limited?');
