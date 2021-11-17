@@ -34,7 +34,7 @@ module.exports = {
       return;
     };
     if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
-      modLog('clear', { executor, messages, channel }, client);
+      modLog('clear', guild, { executor, messages, channel }, client);
       interaction.editReply({
         content: `Cleared ${amount} messages successfully!`, ephemeral: true
       });

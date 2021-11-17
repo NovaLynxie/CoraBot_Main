@@ -42,7 +42,7 @@ module.exports = {
       try {
         member.ban({ days: (days) ? days : 7, reason: (reason) ? reason : 'Banned by a  moderator.'});
         
-        modLog('ban', { executor, member, reason }, client);
+        modLog('ban', guild, { executor, member, reason }, client);
         interaction.editReply({
           content: `Banned ${member.user.tag} successfully from the server!`, ephemeral: true
         });

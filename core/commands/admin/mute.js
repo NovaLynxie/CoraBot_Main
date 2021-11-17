@@ -32,7 +32,7 @@ module.exports = {
 	    logger.debug(`Adding mute role to ${member.user.tag}`);
       try {
         member.roles.add(muteRole);
-        modLog('mute', { executor, member, reason }, client);
+        modLog('mute', guild, { executor, member, reason }, client);
         interaction.editReply({
           content: `Issued mute for ${member.user.tag} successfully!`, ephemeral: true
         });
