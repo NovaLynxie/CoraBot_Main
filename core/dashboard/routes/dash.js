@@ -182,30 +182,24 @@ router.get('/:guildID/leave', checkAuth, async (req, res) => {
   req.flash('success', `Removed from ${guild.name} successfully!`);
   res.redirect('/dashboard');
 });
-/*
-// Resets the guild's settings to the defaults, by simply deleting them.
 router.get("/:guildID/reset", checkAuth, async (req, res) => {
   const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
   if (!guild) return res.status(404);
   logger.dash(`WebDash called RESET_SETTINGS action on guild ${guild.name}.`);
   if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect("/");
-  logger.debug(`WebDash executed RESET for ${guild.name} settings!`)
-  // Clean up existing settings in the bot's database for guild.
-  guild.settings.clear(guild.id);
-  // Get settings template here from bot assets/text/ directory.
-  let settingsTemplate = fs.readFileSync('./core/assets/text/defaultSettings.txt', 'utf-8');
-  let defaultSettings = JSON.parse("[" + settingsTemplate + "]");
-  defaultSettings.forEach(setting => {
-    logger.data(`Re-generating setting ${setting.name} for ${guild.name}`)
-    guild.settings.set(setting.name, setting.value).then(logger.debug(`Saved ${setting.name} under ${guild.name}`));
-  });
-  // Once this completes, call redirect to dashboard page.
-  req.flash("success", "Settings Reset Complete!");
-  res.redirect(`/dashboard/${req.params.guildID}`);
+  logger.debug(`WebDash executed RESET for ${guild.name} settings!`);
+  try {
+    await client.settings.guild.delete(guild);  
+    await client.settings.guild.init([guild.id]);
+    req.flash("success", "Settings Reset Complete!");
+    res.redirect(`/dashboard/${req.params.guildID}`);
+  } catch (error) {
+    logger.error(error.message); logger.debug(error.stack);
+    req.flash("danger", "Error occured while resetting server settings! Redirected automatically to main dashboard page.");
+    res.redirect('/dashboard');
+  };
 });
-*/
-// DISABLED TEMPORARILY! REQUIRES STORAGE REWORK!
 router.get('/:guildID/kick/:userID', checkAuth, async (req, res) => {
   const client = res.locals.client;
   const guild = client.guilds.cache.get(req.params.guildID);
