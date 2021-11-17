@@ -208,7 +208,7 @@ router.get('/:guildID/kick/:userID', checkAuth, async (req, res) => {
   logger.debug(`WebDash called USER_KICK action on user ${member.user.id} in guild ${guild.name}.`);
   if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect('/');
   if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
-    req.flash('warning', `Unable to kick ${member.user.tag}. Either insufficient permissions, an error occured or action was rejected by system.`);
+    req.flash('warning', `Unable to kick ${member.user.tag}. You cannot kick yourself or the bot from this server.`);
     logger.warn(`WebDash Operator BAN ${member.user.tag} aborted by DashService!`);
     logger.warn(`Reason: The requested MemberID of ${member.user.tag}was the User's or Bot's unique ID.`);
   } else {
@@ -231,7 +231,7 @@ router.get('/:guildID/ban/:userID', checkAuth, async (req, res) => {
   const isManaged = member.permissions.has('MANAGE_GUILD');
   if (!isManaged && !req.session.isAdmin) res.redirect('/');
   if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
-    req.flash('warning', `Unable to kick ${member.user.tag}. Either insufficient permissions, an error occured or action was rejected by system.`);
+    req.flash('warning', `Unable to kick ${member.user.tag}. You cannot ban yourself or the bot from this server.`);
     logger.warn(`WebDash Operator BAN ${member.user.tag} aborted by DashService!`);
     logger.warn(`Reason: The requested MemberID of ${member.user.tag}was the User's or Bot's unique ID.`);
   } else {
