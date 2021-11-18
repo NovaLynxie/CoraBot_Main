@@ -9,8 +9,8 @@ function checkAuth(req, res, next) {
   if (req.isAuthenticated()) {
     next();
   } else {
-    logger.debug(`req.url: '${req.url}'`);
-    req.session.backURL = req.url; res.status(401);
+    logger.debug(`req.originalUrl: '${req.originalUrl}'`);
+    req.session.backURL = req.originalUrl; res.status(401);
     req.flash('info', 'Login expired. You have been signed out.');
     logger.debug(`req.session.backURL: '${req.session.backURL}'`);
     res.redirect('/login');
