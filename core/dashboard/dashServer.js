@@ -50,10 +50,9 @@ module.exports = async (client, config) => {
     callbackURL: config.callbackURL,
     scope: ['identify', 'guilds'],
     prompt: 'consent',
-  },
-    (accessToken, refreshToken, profile, done) => {
-      process.nextTick(() => done(null, profile));
-    }));
+  }, (accessToken, refreshToken, profile, done) => {
+    process.nextTick(() => done(null, profile));
+  }));
   app.use(session({
     store: new SQLiteStore({
       db: 'sessions.db',
