@@ -1,9 +1,6 @@
 - enableAutoMod = (autoMod.enableAutoMod) ? 'on' : 'off';
 - enableChatBot = (chatBot.enableChatBot) ? 'on' : 'off';
 - enableNotifier = (notifier.enableNotifier) ? 'on' : 'off';
-//- enableBotLogs = (botLogSettings.enableBotLogs) ? 'on' : 'off';
-//- enableModLogs = (modLogSettings.enableModLogs) ? 'on' : 'off';
-
 - channelData = guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT');
 - textChannels = Object.fromEntries(channelData);
 - textLogsChs1 = Object.fromEntries(channelData);
@@ -21,7 +18,7 @@
           legend.modal-legend Role Management
           .form-group
             label.form-label.mt-4(for='staffRoles') 
-              | Staff Roles (WIP)
+              | Staff Roles
               br
               | Select the roles to use below by using ctrl + left click
             select#chatChannels.form-select(multiple='' name='staffRoles')
@@ -31,7 +28,7 @@
                 else
                   option(value=role.id) #{role.name}
             label.form-label.mt-4(for='staffRoles') 
-              | Mute Role (WIP)
+              | Mute Role
               br
               | Select the role to use for the muting the user with.
             select#chatChannels.form-select(name='muteRole')
@@ -56,7 +53,7 @@
                   option(value=channel.id) #{channel.name}
               
             label.form-label.mt-4(for='modLogChID') 
-              | Moderation Logs (WIP)
+              | Moderation Logs
               br
               | Select the channel for mod logs to be output into.
             select#chatChannels.form-select(name='modLogChID')
@@ -70,7 +67,7 @@
                 else
                   option(value=channel.id) #{channel.name}
             label.form-label.mt-4(for='suggestChID') 
-              | Suggestion Logs (WIP)
+              | Suggestion Logs
               br
               | Select the channel for suggestions to be output into.
             select#chatChannels.form-select(name='suggestChID')
@@ -84,7 +81,7 @@
                 else
                   option(value=channel.id) #{channel.name}
             label.form-label.mt-4(for='ticketsChID') 
-              | Support Tickets (WIP)
+              | Support Tickets
               br
               | Select the channel for tickets to be sent in.
             select#chatChannels.form-select(name='ticketsChID')
