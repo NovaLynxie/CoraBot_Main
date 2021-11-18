@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express'), url = require('url');
 const passport = require('passport');
 const router = express.Router();
 const logger = require('../../utils/winstonLogger');
@@ -10,6 +10,7 @@ router.get('/login', (req, res, next) => {
   }	else 
   if (req.headers.referer) {
     const parsed = url.parse(req.headers.referer);
+    logger.data(JSON.stringify(parsed));
     if (parsed.hostname === req.app.locals.domain) {
       req.session.backURL = parsed.path;
     }
@@ -30,6 +31,7 @@ router.get('/api/discord/callback', passport.authenticate('discord', { failureRe
   };
   req.flash('success', 'Authenticated/Action Successful!');
   if (req.session.backURL) {
+    logger.debug(`backURL: ${req.session.backURL}`);
     const url = req.session.backURL;
     req.session.backURL = null;
     res.redirect(url);

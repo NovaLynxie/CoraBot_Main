@@ -1,4 +1,4 @@
-const url = require('url'), path = require('path'), fs = require('fs');
+const path = require('path'), fs = require('fs');
 const { stripIndents } = require('common-tags');
 const { formatDistance } = require('date-fns');
 const { version } = require('../../package.json');
@@ -106,17 +106,6 @@ module.exports = async (client, config) => {
     extended: true,
   }));
   app.use(require('flash')());
-  function checkAuth(req, res, next) {
-    if (req.isAuthenticated()) {
-      next();
-    } else {
-      logger.debug(`req.url='${req.url}'`);
-      req.session.backURL = req.url; res.status(401);
-      req.flash('info', 'Login expired. You have been signed out.');
-      logger.debug(`req.session.backURL='${req.session.backURL}'`);
-      res.redirect('/login');
-    };
-  };
   app.use(function (req, res, next) {
     req.breadcrumbs = fetchBreadcrumbs(req.originalUrl);    
     res.locals.client = client;
