@@ -6,12 +6,25 @@
 	.navbar .dropdown-menu.fade-up{ top:180%;  }
 	.navbar .nav-item:hover .dropdown-menu{ transition: .3s; opacity:1; visibility:visible; top:100%; transform: rotateX(0deg); }
 }
+@keyframes navBarAnimate {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 
 .alert {
   padding: 1rem 2rem;
   margin: auto;
 }
-
 .auth-fail {
   width: 25%;
   height: 25%;
@@ -20,7 +33,6 @@
 .bg-base {
   background-color: rgba(79, 93, 112, 0.486)
 }
-
 .alert-dismissible .btn-close {
   padding: 1.25rem 1rem;
 }
@@ -32,8 +44,13 @@
 }
 
 .container {
+  animation: 0.2s fadeIn;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+}
+
+.navbar {
+  animation: 0.5s navBarAnimate;
 }
 
 #hidden {
