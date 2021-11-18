@@ -1,33 +1,24 @@
-// Native Node Imports
 const url = require('url'), path = require('path'), fs = require('fs');
-// Extra Formatting
 const { stripIndents } = require('common-tags');
 const { formatDistance } = require('date-fns');
-// Fetch Bot version
 const { version } = require('../../package.json');
-// Winston Logger Plugin
 const logger = require('../utils/winstonLogger');
-// For Discord Permission Handling
-const Discord = require('discord.js');
-// Express Session
+
 const express = require('express');
 const app = express();
-// Express Plugins
 const morgan = require('morgan');
 const passport = require('passport');
 const helmet = require('helmet');
 const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 const DiscordStrategy = require('passport-discord-faxes').Strategy;
-// Express Routers
+
 const authRouter = require('./routes/auth');
 const dashRouter = require('./routes/dash');
 const publicRouter = require('./routes/public');
-// Directory Paths
 const dashDir = path.resolve(`${process.cwd()}/core/dashboard`);
 const viewsDir = path.resolve(`${dashDir}/views/`);
 const publicDir = path.resolve(`${dashDir}/public/`);
-// Dashboard Utilities
 const { fetchBreadcrumbs, renderView } = require('./dashUtils');
 
 module.exports = async (client, config) => {
@@ -41,7 +32,6 @@ module.exports = async (client, config) => {
     if (!config.sessionSecret) logger.warn('Session Secret not set! May cause problems.');
     logger.debug('Dashboard configuration OK. Continuing with startup.');
   })();
-  // Initialise morgan logger for server side logging. (debug only)
   if (config.debug) {
     app.use(morgan('tiny', {
       stream: { write: message => logger.dash(`dash => ${message}`) },
@@ -81,7 +71,6 @@ module.exports = async (client, config) => {
     contentSecurityPolicy: {
       useDefaults: true,
       directives: {
-        // supported by most web browsers
         defaultSrc: [`'self'`, 'https:'],
         scriptSrc: [
           `'self'`, 'https:', `'unsafe-inline'`, '*.jquery.com', '*.cloudflare.com', '*.bootstrapcdn.com', '*.datatables.net', '*.jsdelivr.net', '*.googleapis.com', `'nonce-themeLoader'`, `'nonce-memberModals'`,
@@ -97,7 +86,6 @@ module.exports = async (client, config) => {
           `'self'`, 'https:', 'http:', 'data:', 'w3.org', 'via.placeholder.com', 'cdn.discordapp.com', 'i.giphy.com', 'media.tenor.com',
         ],
         objectSrc: [`'none'`],
-        // supported by some web browsers
         scriptSrcElem: [
           `'self'`, 'https:', `'unsafe-inline'`, `'nonce-themeLoader'`, `'nonce-memberModals'`, '*.jquery.com', '*.cloudflare.com', '*.bootstrapcdn.com', '*.datatables.net', '*.jsdelivr.net',
         ],
@@ -129,7 +117,6 @@ module.exports = async (client, config) => {
       res.redirect('/login');
     };
   };
-  // Declare required local variables here.
   app.use(function (req, res, next) {
     req.breadcrumbs = fetchBreadcrumbs(req.originalUrl);    
     res.locals.client = client;
@@ -139,17 +126,15 @@ module.exports = async (client, config) => {
   app.get('/ping', (req, res, next) => {
     res.send('DiscordBot/Dashboard Heartbeat Endpoint. Nothing to see here. :)');
   });
-  // Router Middleware - All Dashboard Actions and Routes.
   app.use('/', publicRouter);
   app.use('/', authRouter);
   app.use('/dashboard', dashRouter);
-  // Fallback Middleware.
-  // 404 Not Found Handler (Only occurs if no error was thrown)
+
   app.use(function (req, res, next) {
     res.status(404);
     renderView(res, req, 'errors/404.pug');
   });
-  // Error Handling
+  
   app.use(function (err, req, res, next) {
     logger.debug('Error occured in dashboard service!');
     logger.verbose(err);
@@ -199,6 +184,7 @@ module.exports = async (client, config) => {
         }
       } return defaultError();
   });
+  
   app.listen(config.dashPort, () => {
     logger.dash(`Dashboard service running on port ${config.dashPort}`);
   });

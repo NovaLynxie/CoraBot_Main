@@ -21,8 +21,8 @@ router.get('/admin/reset_settings', checkAuth, async (req, res) => {
   const client = res.locals.client;
   await client.settings.clear();
   await client.settings.init();
-  const Guilds = client.guilds.cache.map(guild => guild);
-  Guilds.forEach(async guild => {
+  const guilds = client.guilds.cache.map(guild => guild);
+  guilds.forEach(async guild => {
     await client.settings.guild.delete(guild);
     await client.settings.guild.init(guild);
     logger.debug(`${guild.name} settings reset!`);

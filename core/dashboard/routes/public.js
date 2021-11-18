@@ -8,8 +8,6 @@ const { renderView } = require('../dashUtils');
 const express = require('express');
 const router = express.Router();
 
-// Dashboard Routes - Public and Authenticated site endpoints.
-// Regular Information Pages (public pages)
 router.get('/', (req, res) => {
   renderView(res, req, 'index.pug');
 });

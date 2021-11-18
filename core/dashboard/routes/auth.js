@@ -4,7 +4,6 @@ const router = express.Router();
 const logger = require('../../utils/winstonLogger');
 const { renderView } = require('../dashUtils');
 
-// Dashboard Actions - All Interaction & Authentication actions.
 router.get('/login', (req, res, next) => {
   if (req.session.backURL) {
     next();
@@ -18,7 +17,6 @@ router.get('/login', (req, res, next) => {
     req.session.backURL = '/';
   }; next();
 }, passport.authenticate('discord'));
-// OAuth2 Callback Endpoint
 router.get('/api/discord/callback', passport.authenticate('discord', { failureRedirect: '/autherror' }), (req, res) => {
   const client = res.locals.client;
   logger.debug(`Checking req.user.id ${req.user.id} against owner IDs`);
@@ -39,11 +37,9 @@ router.get('/api/discord/callback', passport.authenticate('discord', { failureRe
     res.redirect('/');
   };
 });
-// Error Message - Show this if auth fails or action is interrupted.
 router.get('/autherror', (req, res) => {
   renderView(res, req, 'autherr.pug');
 });
-// Logout Endpoint - Destroys the session to log out the user.
 router.get('/logout', function(req, res) {
   req.session.destroy(() => {
     req.logout();
