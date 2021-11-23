@@ -10,7 +10,7 @@ My main purpose is to help you bring some life to your discord guild or communit
 I can play some music for you, give you information about me or help you moderate your own guild using my own custom built admin commands!
 Don't worry, I also come with a help command so you can find out what commands I have, just ask whenever you're having trouble remembering one of my commands.
 
-## Setting up the bot instance (WIP)
+## Setting up the bot instance
 ***WARNING! CoraBot v4 is not backwards compatible with v3.x.x and older versions since there are multiple breaking changes to how it runs! No support will be offered if you do not install it correctly!***  
 *If you have v3 or older installed, please backup before upgrading or install in a different directory!*
 ### Requirements
@@ -27,14 +27,15 @@ To setup a local host instance, clone this repository, navigate to the bot's dir
 This will install all required modules for the bot to run correctly. *Option 2 will take longer as it has to check for existing modules.*
 
 Once installation is completed, run this command: `npm run setup`.  
-This will start the setup utility, follow the on-screen prompts to complete the bot setup process. (Not yet implemented!)  
+This will start the setup utility, follow the on-screen prompts to complete the bot setup process.
+If it crashes or errors out, try running `npm install --save-dev prompt` and try running it again.
 **IMPORTANT!!**
-**Privileged intents are required for the bot to start. Check you have it enabled for your bot user before starting or the bot WILL crash!**
+**Privileged intents are required for the bot to start. Check you have it enabled for your bot user before starting or the bot WILL fail to connect!**
 
 ## Privileged Intents
 Privileged intents at this time are presence and server members intents, both are required for the dashboard utilities to work.  
 _A new intent, message content, is planned to be established in April 2022, this change will be applied as soon as the intent becomes available._
 
 ## YouTube music support (IMPORTANT)
-This bot will not support music playback from YouTube links going forward.
+This bot will not fully support music playback from YouTube links going forward.
 Please see issue #11 for more details.
