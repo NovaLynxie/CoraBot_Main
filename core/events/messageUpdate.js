@@ -4,6 +4,7 @@ const { eventLog } = require('../plugins/guildLogger');
 module.exports = {
   name: 'messageUpdate',
   execute(oldMessage, newMessage, client) {
+    if (oldMessage.author.bot || newMessage.author.bot) return;
     if (oldMessage.editedTimestamp === newMessage.editedTimestamp) return;
     if (oldMessage.content === newMessage.content) return;
     const guild = oldMessage.guild || newMessage.guild;
