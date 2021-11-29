@@ -114,7 +114,7 @@ async function eventLog(event, guild, params = {}, client) {
       name: 'New Message',
       value: (newMessage.content) ? shortenContents(newMessage.content) : 'Message content not available!'
     };
-  };  
+  };
   switch (event) {
     case 'guildMemberAdd':
       guildLogEmbed
@@ -248,7 +248,7 @@ async function modLog(action, guild, params = {}, client) {
               Cleaner run by ${executor} on ${time(new Date())}.
               `
           }
-        )
+        );
       break;
     default:
     return logger.debug('Unknown or unrecognised action called!');
