@@ -34,6 +34,7 @@ async function eventLog(event, guild, params = {}, client) {
         ${oldMember.user.tag} >> ${newMember.user.tag}
         ${oldMember.nick} >> ${newMember.nick}
         Avatar changed? ${(hasChanged(oldMember.avatar, newMember.avatar)) ? 'Yes' : 'No'}
+        [Old Avatar](${oldMember.avatarURL()}) >> [New Avatar](${newMember.avatarURL()})
       `
     };
   };
