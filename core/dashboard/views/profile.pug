@@ -7,16 +7,19 @@ block content
       - avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`
       - bannerURL = (user.banner) ? `https://cdn.discordapp.com/banners/${user.id}/${user.banner}` : `https://via.placeholder.com/960x540/${user.banner_color.replace('#','')}/ffffff.png?text=‎`
       .profile-card
-        
-        .div(style='position: relative;')
-          img.profile-banner(src=bannerURL)
-          img.d-flex.mr-3.rounded-circle.profile-avatar(src=avatarURL style=`border-color:${`#${user.accent_color.toString(16)}`}`)
-        p
-        | Username: #{user.username}!{'#'}#{user.discriminator}
-        br
-        | MFA/2FA Enabled? #{(user.mfa_enabled) ? 'Yes' : 'No'}
-        br
-        | Locale: #{locales[user.locale]}
-        br
-        #hidden User ID: #{user.id}
-        | Account type: #{(isAdmin) ? 'Admin' : 'User'}
+        .profile-details
+          h2.display-4 User Details
+          .div(style='position: relative;')
+            img.profile-banner(src=bannerURL)
+            img.d-flex.mr-3.rounded-circle.profile-avatar(src=avatarURL style=`border-color:${`#${user.accent_color.toString(16)}`}`)
+          p.lead
+            | Username: #{user.username}!{'#'}#{user.discriminator}
+            br
+            | Account type: #{(isAdmin) ? 'Admin' : 'User'}
+            br
+            | MFA/2FA Enabled? #{(user.mfa_enabled) ? 'Yes' : 'No'}
+            br
+            | Locale: #{locales[user.locale]}
+        .profile-settings
+          h2.display-4 User Settings
+          p.lead Not yet implemented!

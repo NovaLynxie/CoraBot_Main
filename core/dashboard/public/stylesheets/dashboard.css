@@ -165,10 +165,14 @@
   border-width: 2px;
 }
 .profile-details {
-
+  background-color: #288cff42;
+  border-color: #0084ff49;
+  border-style: solid;
 }
 .profile-settings {
-  
+  background-color: #288cff42;
+  border-color: #0084ff49;
+  border-style: solid;
 }
 .member-actions {
   float: right;
