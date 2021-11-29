@@ -34,7 +34,7 @@ async function eventLog(event, guild, params = {}, client) {
         ${oldMember.user.tag} >> ${newMember.user.tag}
         ${oldMember.nick} >> ${newMember.nick}
         Avatar changed? ${(hasChanged(oldMember.avatar, newMember.avatar)) ? 'Yes' : 'No'}
-        ${(hasChanged(oldMember.avatar, newMember.avatar)) ? `[Old Avatar](${oldMember.avatarURL()}) >> [New Avatar](${newMember.avatarURL()})` : ''}      
+        ${(hasChanged(oldMember.avatar, newMember.avatar)) ? `[Old Avatar](${oldMember.displayAvatarURL()}) >> [New Avatar](${newMember.displayAvatarURL()})` : ''}
       `
     };
   };
@@ -116,12 +116,12 @@ async function eventLog(event, guild, params = {}, client) {
     };
   };
   guildLogEmbed
-    .setAuthor(member.user.tag || newMember.user.tag || 'Anon#0000', member.avatarURL() || newMember.avatarURL() || 'https://via.placeholder.com/150')
+    .setAuthor(member.user.tag || newMember.user.tag || 'Anon#0000', member.displayAvatarURL() || newMember.displayAvatarURL() || 'https://via.placeholder.com/150')
+    .setThumbnail(member.displayAvatarURL() || newMember.displayAvatarURL() || guild.iconURL())
   switch (event) {
     case 'guildMemberAdd':
       guildLogEmbed
         .setDescription(`📥 ${member.user.tag} has joined the server.`)
-        .setThumbnail(member.avatarURL())
         .addFields(memberDetails)
       break;
     case 'guildMemberRemove':
@@ -132,37 +132,31 @@ async function eventLog(event, guild, params = {}, client) {
     case 'guildMemberUpdate':
       guildLogEmbed
         .setDescription(`${newMember.user.tag} updated their profile.`)
-        .setThumbnail(newMember.displayAvatarURL())
         .addFields(memberDetails)
       break;
     case 'messageDelete':
       guildLogEmbed
         .setDescription('A message was deleted!')
-        .setThumbnail(member.displayAvatarURL())
         .addFields(messageDetails, messageContents)
       break;
     case 'messageUpdate':
       guildLogEmbed
         .setDescription('A message was updated!')
-        .setThumbnail(member.displayAvatarURL())
         .addFields(messageDetails, oldMsgContents, newMsgContents)
       break;
     case 'roleCreate':
       guildLogEmbed
         .setDescription('A guild role was created!')
-        .setThumbnail(guild.iconURL())
         .addFields(roleDetails)
       break;
     case 'roleDelete':
       guildLogEmbed
         .setDescription('A guild role was removed!')
-        .setThumbnail(guild.iconURL())
         .addFields(roleDetails)
       break;
     case 'roleUpdate':
       guildLogEmbed
         .setDescription('A guild role was updated!')
-        .setThumbnail(guild.iconURL())
         .addFields(roleDetails, rolePermsDiff)
       break;
     default:
