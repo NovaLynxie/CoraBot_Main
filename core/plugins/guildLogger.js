@@ -117,7 +117,7 @@ async function eventLog(event, guild, params = {}, client) {
   };
   guildLogEmbed
     .setAuthor(newMember.user.tag || member.user.tag || client.user.tag, newMember.displayAvatarURL() || member.displayAvatarURL() || 'https://via.placeholder.com/128x128?text=avatar')
-    .setThumbnail(member.displayAvatarURL() || newMember.displayAvatarURL() || guild.iconURL())
+    .setThumbnail(newMember.displayAvatarURL() || member.displayAvatarURL() || guild.iconURL())
   switch (event) {
     case 'guildMemberAdd':
       guildLogEmbed
