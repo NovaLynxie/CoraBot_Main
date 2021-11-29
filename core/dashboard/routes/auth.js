@@ -42,6 +42,9 @@ router.get('/api/discord/callback', passport.authenticate('discord', { failureRe
 router.get('/autherror', (req, res) => {
   renderView(res, req, 'autherr.pug');
 });
+router.get('/profile', (req, res) => {
+  renderView(res, req, 'profile.pug');
+});
 router.get('/logout', function(req, res) {
   req.session.destroy(() => {
     req.logout();

@@ -126,19 +126,49 @@
   border-style: solid;
   border-width: 1px;
 }
-
-.member-card {
+.profile-avatar {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  z-index: 2;
+  float: left;
+  margin: 10px;
+  max-height: 128px;
+  max-width: 128px;
+  background-color: #2c2f33;
+  border-color: #7289da;
+  border-radius: 10%;
+  border-style: solid;
+  border-width: 4px;
+}
+.profile-banner {
   position: relative;
-  vertical-align: top;
-  height: 300px;
-  min-width: 320px;
-  display: inline-block;
+  z-index: 1;
+  width: 100%;
+  max-width: 360px;
+  margin-bottom: 12px;
+  background-color: #2c2f33;
+  border-color: #7289da;
+  border-radius: 5%;
+  border-style: solid;
+  border-width: 4px;
+}
+.profile-card {  
+  margin: auto;
+  height: auto;
+  width: auto;
   text-align: left;
   padding: 0.5rem;
   background-color: #288cff42;
   border-color: #0084ff49;
   border-style: solid;
   border-width: 2px;
+}
+.profile-details {
+
+}
+.profile-settings {
+  
 }
 .member-actions {
   float: right;
@@ -161,6 +191,19 @@
   border-radius: 10%;
   border-style: solid;
   border-width: 4px;
+}
+.member-card {
+  position: relative;
+  vertical-align: top;
+  height: 300px;
+  min-width: 320px;
+  display: inline-block;
+  text-align: left;
+  padding: 0.5rem;
+  background-color: #288cff42;
+  border-color: #0084ff49;
+  border-style: solid;
+  border-width: 2px;
 }
 
 .settings-card-base {

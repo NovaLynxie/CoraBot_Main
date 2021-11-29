@@ -31,6 +31,9 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
               h5.dropdown-header
                 i.fa.fa-user(aria-hidden='true')  Hello #{user.username}!
                 .dropdown-divider
+                a.dropdown-item(href='/profile')
+                  i.fa.fa-user(aria-hidden='true')
+                  |  Profile
                 a.dropdown-item(href='/dashboard')
                   i.fa.fa-cogs(aria-hidden='true')
                   |  Dashboard

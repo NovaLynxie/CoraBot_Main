@@ -8,10 +8,8 @@ block content
       p
       | To adjust the settings for your server, click the 'Manage' button next to it's name. If you would like to add this bot to your server, click the 'Invite' button next to its name. 
       br
-      | Should you not see the server's name here, make sure you are the owner of the guild you want the bot to join OR have manage server permissions. 
+      | Should you not see the server's name here, make sure you are the owner of the guild you want the bot to join OR have manage server permissions.
       br
-      //i(style="color:darkred;") #[strong Due to limitations with permission handling at this time, only #[u server owners] can add this bot. Sorry about that. - Nova P. Lynxie]
-      //br
       for guild in user.guilds
         - let guildPerms = new Permissions(`0x${guild.permissions.toString(16)}`);
         if (guildPerms.has('MANAGE_GUILD'))

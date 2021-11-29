@@ -24,7 +24,7 @@ block content
               p
               | Name: #{guild.name}
               br
-              #hidden (ID: #{guild.id})
+              #hidden (Guild ID: #{guild.id})
               | Verified: #{(guild.verified)?'Yes':'No'}
               br
               - owner = guild.members.cache.get(guild.ownerId);
