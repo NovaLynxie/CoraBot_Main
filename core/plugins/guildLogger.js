@@ -116,7 +116,7 @@ async function eventLog(event, guild, params = {}, client) {
     };
   };
   guildLogEmbed
-    .setAuthor(member.user.tag || newMember.user.tag || 'Anon#0000', member.displayAvatarURL() || newMember.displayAvatarURL() || 'https://via.placeholder.com/150')
+    .setAuthor(member.user.tag || newMember.user.tag || client.user.tag, member.displayAvatarURL() || newMember.displayAvatarURL() || 'https://via.placeholder.com/150')
     .setThumbnail(member.displayAvatarURL() || newMember.displayAvatarURL() || guild.iconURL())
   switch (event) {
     case 'guildMemberAdd':
