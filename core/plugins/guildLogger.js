@@ -115,6 +115,8 @@ async function eventLog(event, guild, params = {}, client) {
       value: (newMessage.content) ? shortenContents(newMessage.content) : 'Message content not available!'
     };
   };
+  guildLogEmbed
+    .setAuthor(member.user.tag || newMember.user.tag || 'Anon#0000', member.avatarURL() || newMember.avatarURL() || 'https://via.placeholder.com/150')
   switch (event) {
     case 'guildMemberAdd':
       guildLogEmbed
