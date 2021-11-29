@@ -28,14 +28,8 @@ async function eventLog(event, guild, params = {}, client) {
     };
   };
   if (oldMember || newMember) {
-    const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
-    if (removedRoles.size > 0) {
-      logger.info(`Role ${removedRoles.map(r=>r.name)} removed from ${oldMember.displayName}.`)
-    };
-    const addedRoles = newMember.roles.cache.filter(role=>!oldMember.roles.cache.has(role.id));
-    if (addedRoles.size > 0) {
-      logger.info(`Role ${addedRoles.map(r=>r.name)} added to ${oldMember.displayName}.`)
-    };
+    const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
+    const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));    
     memberDetails = {
       name: 'Member Updated',
       value: stripIndents`
@@ -49,10 +43,8 @@ async function eventLog(event, guild, params = {}, client) {
       name: 'Roles Changed',
       value: stripIndents`
         \`\`\`diff
-        [Added]
-        ${addedRoles.size > 0 ? addedRoles.map(role => `+ ${role.name}`) : '~ None'}
-        [Removed]
-        ${removedRoles.size > 0 ? removedRoles.map(role => `- ${role.name}`) : '~ None'}        
+        ${addedRoles.size > 0 ? addedRoles.map(role => `+ ${role.name}`) : ''}
+        ${removedRoles.size > 0 ? removedRoles.map(role => `- ${role.name}`) : ''}        
         \`\`\`
       `
     };
@@ -92,10 +84,8 @@ async function eventLog(event, guild, params = {}, client) {
       name: 'Permissions Changed',
       value: stripIndents`
         \`\`\`diff
-        [Added]
-        ${addedPerms.length > 0 ? addedPerms.map(permFlag => `+ ${permFlag}`).join('\n'): '~ None'}
-        [Removed]
-        ${removedPerms.length > 0 ? removedPerms.map(permFlag => `- ${permFlag}`).join('\n') : '~ None'}        
+        ${addedPerms.length > 0 ? addedPerms.map(permFlag => `+ ${permFlag}`).join('\n'): ''}
+        ${removedPerms.length > 0 ? removedPerms.map(permFlag => `- ${permFlag}`).join('\n') : ''}        
         \`\`\`
       `
     };
