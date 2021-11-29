@@ -2,7 +2,7 @@ extends blocks/layout
 block content
   .container
     .jumbotron
-      h1.display-3 User Profile (WIP)
+      h1.display-3 User Profile
       p.lead Your user profile page.
       - avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`
       - bannerURL = (user.banner) ? `https://cdn.discordapp.com/banners/${user.id}/${user.banner}` : `https://via.placeholder.com/960x540/${user.banner_color.replace('#','')}/ffffff.png?text=‎`
@@ -20,6 +20,3 @@ block content
             | MFA/2FA Enabled? #{(user.mfa_enabled) ? 'Yes' : 'No'}
             br
             | Locale: #{locales[user.locale]}
-        .profile-settings
-          h2.display-4 User Settings
-          p.lead Not yet implemented!
