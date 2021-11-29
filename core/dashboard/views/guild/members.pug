@@ -51,7 +51,7 @@ block content
       include ../blocks/guild-member-modals
       - var memberPos = 0;
       each member in members
-        .member-card#member-card
+        .member-card
           img.member-avatar(src=member.user.displayAvatarURL({ dynamic: true, size: 64 }) alt="Discord Avatar" onerror="this.onerror=null;this.src=member.user.defaultAvatarURL")
           .member-actions
             .btn-group-vertical(role='group' aria-label='Basic example')
