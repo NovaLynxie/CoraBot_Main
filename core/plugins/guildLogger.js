@@ -15,7 +15,7 @@ async function eventLog(event, guild, params = {}, client) {
   function shortenContents(content) {
     return (content.length > 1024) ? `${content.substr(0, 1021)}...` : content;
   };
-  let memberDetails, messageDetails, messageContents, oldMsgContents, newMsgContents, roleDetails, rolePermsDiff;
+  let memberDetails, memberRoles, messageDetails, messageContents, oldMsgContents, newMsgContents, roleDetails, rolePermsDiff;
   if (member) {
     memberDetails = {
       name: 'Member Details',
@@ -28,6 +28,14 @@ async function eventLog(event, guild, params = {}, client) {
     };
   };
   if (oldMember || newMember) {
+    const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
+    if (removedRoles.size > 0) {
+      logger.info(`Role ${removedRoles.map(r=>r.name)} removed from ${oldMember.displayName}.`)
+    };
+    const addedRoles = newMember.roles.cache.filter(role=>!oldMember.roles.cache.has(role.id));
+    if (addedRoles.size > 0) {
+      logger.info(`Role ${addedRoles.map(r=>r.name)} added to ${oldMember.displayName}.`)
+    };
     memberDetails = {
       name: 'Member Updated',
       value: stripIndents`
@@ -35,6 +43,17 @@ async function eventLog(event, guild, params = {}, client) {
         ${oldMember.nick} >> ${newMember.nick}
         Avatar changed? ${(hasChanged(oldMember.avatar, newMember.avatar)) ? 'Yes' : 'No'}
         ${(hasChanged(oldMember.avatar, newMember.avatar)) ? `[Old Avatar](${oldMember.displayAvatarURL()}) >> [New Avatar](${newMember.displayAvatarURL()})` : ''}
+      `
+    };
+    memberRoles = {
+      name: 'Roles Changed',
+      value: stripIndents`
+        \`\`\`diff
+        [Added]
+        ${addedRoles.size > 0 ? addedRoles.map(role => `+ ${role.name}`) : '~ None'}
+        [Removed]
+        ${removedRoles.size > 0 ? removedRoles.map(role => `- ${role.name}`) : '~ None'}        
+        \`\`\`
       `
     };
   };
@@ -73,10 +92,10 @@ async function eventLog(event, guild, params = {}, client) {
       name: 'Permissions Changed',
       value: stripIndents`
         \`\`\`diff
-        Removed Permissions
-        ${removedPerms.length > 0 ? removedPerms.map(permFlag => `- ${permFlag}`).join('\n') : '~ None'}
-        Added Permissions
+        [Added]
         ${addedPerms.length > 0 ? addedPerms.map(permFlag => `+ ${permFlag}`).join('\n'): '~ None'}
+        [Removed]
+        ${removedPerms.length > 0 ? removedPerms.map(permFlag => `- ${permFlag}`).join('\n') : '~ None'}        
         \`\`\`
       `
     };
@@ -132,7 +151,7 @@ async function eventLog(event, guild, params = {}, client) {
     case 'guildMemberUpdate':
       guildLogEmbed
         .setDescription(`${newMember.user.tag} updated their profile.`)
-        .addFields(memberDetails)
+        .addFields(memberDetails, memberRoles)
       break;
     case 'messageDelete':
       guildLogEmbed
