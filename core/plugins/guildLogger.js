@@ -204,7 +204,7 @@ async function modLog(action, guild, params = {}, client) {
         Executor: ${executor.user.tag} (${executor.displayName})
         Created: ${time(executor.user.createdAt)}
         Joined: ${time(executor.joinedAt)}`
-    }
+    };
   };
   actionDetails = {
     name: 'Action Details',
