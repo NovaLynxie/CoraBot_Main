@@ -11,7 +11,7 @@ async function eventLog(event, guild, params = {}, client) {
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Event Logged!')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
-  const hasChanged = (a, b) => a === b;
+  const hasChanged = (a, b) => a !== b;
   function shortenContents(content) {
     return (content.length > 1024) ? `${content.substr(0, 1021)}...` : content;
   };
