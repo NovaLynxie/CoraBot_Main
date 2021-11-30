@@ -123,7 +123,7 @@ module.exports = {
           };
           break;
         case 'bedrock':
-          mcOptions = { enableSRV: true };
+          mcOptions = { timeout: 10000, enableSRV: true };
           mcServerData = await mcu.statusBedrock(host, mcOptions, port);
           mcServerResponse = {
             name: 'Statistics',
