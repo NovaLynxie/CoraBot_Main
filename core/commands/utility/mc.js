@@ -47,14 +47,6 @@ module.exports = {
         )
         .addStringOption(option =>
           option
-            .setName('type')
-            .setDescription('Java or Bedrock')
-            .setRequired(true)
-            .addChoice('Java','java')
-            .addChoice('Bedrock','bedrock')
-        )
-        .addStringOption(option =>
-          option
             .setName('host')
             .setDescription('Host IP')
             .setRequired(true)
@@ -72,7 +64,7 @@ module.exports = {
     const options = interaction.options;
     const subcmd = options.getSubcommand();
     const request = options.getString('request');
-    const type = options.getString('type');
+    const type = (subcmd === 'query') ? 'java' : options.getString('type');
     const host = options.getString('host');
     const port = options.getInteger('port');
     const cfg = { timeout: 5000, enableSRV: true };
