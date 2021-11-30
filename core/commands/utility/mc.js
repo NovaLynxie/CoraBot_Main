@@ -43,7 +43,7 @@ module.exports = {
     const port = options.getInteger('port');
     const cfg = { timeout: 5000, enableSRV: true };
     let mcEmbed = new MessageEmbed(), mcServerData, mcOptions = {};
-    if (host.toLowerCase() === 'localhost') return interaction.editReply({ content: "Please don't ping my mainframe. Any `localhost` request is disallowed and connections **will** simply be refused."});
+    if (host.toLowerCase() === 'localhost') return interaction.editReply({ content: "Please don't ping my mainframe. Any `localhost` request is disallowed and will simply be refused."});
     try {
       switch (type) {
         case 'java':
