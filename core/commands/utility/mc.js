@@ -42,7 +42,7 @@ module.exports = {
     const host = options.getString('host');
     const port = options.getInteger('port');
     const cfg = { timeout: 5000, enableSRV: true };
-    let mcServerData, mcOptions = {};
+    let mcEmbed = new MessageEmbed(), mcServerData, mcOptions = {};
     try {
       switch (type) {
         case 'java':
@@ -56,34 +56,40 @@ module.exports = {
         default:
           // ..
       };
+      const { description, onlinePlayers, maxPlayers, version, protocolVersion, favicon, roundTripLatency } = mcServerData;
+      const imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
+      const imgData = new MessageAttachment(imgBuff, 'icon.png');
+      mcEmbed 
+        .setTitle('Minecraft Server')
+        .setThumbnail('attachment://icon.png')
+        .setColor('#836539')
+        .setDescription(description.descriptionText)
+        .addFields(
+          {
+            name: 'Statistics',
+            value: stripIndents`
+              Players: ${onlinePlayers}/${maxPlayers}
+              Version: ${version}
+              Protocol: ${protocolVersion}
+              Latency: ${roundTripLatency}ms
+            `
+          }
+        )
+      await interaction.editReply({
+        embeds: [mcEmbed], files: [imgData]
+      });
     } catch (err) {
       logger.error(err); logger.debug(err.stack);
-      return interaction.editReply({
-        content: 'Error occured while getting information!',
-        ephemeral: true
+      mcEmbed
+        .setTitle('Minecraft Server')
+        .setColor('#855038')
+        .setDescription(stripIndents`
+          An error occured while getting server information.
+          > ${err.message}
+        `)
+      await interaction.editReply({
+        embeds: [mcEmbed]
       });
-    };    
-    const { description, onlinePlayers, maxPlayers, version, protocolVersion, favicon, roundTripLatency } = mcServerData;
-    const imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
-    const imgData = new MessageAttachment(imgBuff, 'icon.png');
-    const mcEmbed = new MessageEmbed()
-      .setTitle('Minecraft Server')
-      .setThumbnail('attachment://icon.png')
-      .setColor('#836539')
-      .setDescription(description.descriptionText)
-      .addFields(
-        {
-          name: 'Statistics',
-          value: stripIndents`
-            Players: ${onlinePlayers}/${maxPlayers}
-            Version: ${version}
-            Protocol: ${protocolVersion}
-            Latency: ${roundTripLatency}ms
-          `
-        }
-      )
-    await interaction.editReply({
-      embeds: [mcEmbed], files: [imgData]
-    });
+    };
 	},
 };
