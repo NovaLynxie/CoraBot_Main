@@ -4,14 +4,14 @@ const { Client, Collection, Intents } = require('discord.js');
 const { crashReporter } = require('./core/handlers/crashReporter');
 const { settingsHandlers, dataHandlers } = require('./core/handlers/keyvManager');
 const {
+	readGuildData, saveGuildData, deleteGuildData, generateGuildData,
+} = dataHandlers;
+const {
 	clearClientSettings, clearGuildSettings,
 	generateClientSettings, generateGuildSettings,
 	saveClientSettings, saveGuildSettings,
 	readClientSettings, readGuildSettings, deleteGuildSettings,
 } = settingsHandlers;
-const {
-	readGuildData, saveGuildData, deleteGuildData, generateGuildData,
-} = dataHandlers;
 const { config, credentials } = require('./core/handlers/bootLoader');
 const { ownerIDs, useLegacyURL, debug } = config;
 const { discordToken } = credentials;
