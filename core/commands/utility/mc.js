@@ -74,7 +74,7 @@ module.exports = {
         embeds: [mcEmbed], files: [imgData]
       });
     } catch (err) {
-      logger.error(err); logger.debug(err.stack);
+      logger.debug(err.stack);
       mcEmbed
         .setTitle('Minecraft Server')
         .setColor('#855038')
