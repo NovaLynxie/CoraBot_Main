@@ -8,5 +8,5 @@ module.exports = {
     const guild = invite.guild;
     logger.debug(`Invite removed for ${guild.name}.`);
     eventLog('inviteDelete', guild, { invite }, client);
-  };
+  }
 };

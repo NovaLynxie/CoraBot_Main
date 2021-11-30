@@ -8,6 +8,7 @@ async function eventLog(event, guild, params = {}, client) {
   const { logChannels } = await client.settings.guild.get(guild);
   if (!logChannels.modLogChID) return;
   const { channel, invite, message, oldMessage, newMessage, member, oldMember, newMember, role, oldRole, newRole } = params;
+  logger.verbose(`params: ${JSON.stringify(params, null, 2)}`);
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Event Logged!')
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
@@ -15,7 +16,22 @@ async function eventLog(event, guild, params = {}, client) {
   function shortenContents(content) {
     return (content.length > 1024) ? `${content.substr(0, 1021)}...` : content;
   };
-  let memberDetails, memberRoles, messageDetails, messageContents, oldMsgContents, newMsgContents, roleDetails, rolePermsDiff;
+  let inviteDetails, memberDetails, memberRoles, messageDetails, messageContents, oldMsgContents, newMsgContents, roleDetails, rolePermsDiff;
+  if (invite) {
+    inviteDetails = {
+      name: 'Invite Details',
+      value: stripIndents`        
+        Code: ${invite.code}
+        User: ${invite.inviter}
+        ${(invite.uses) ? `Uses: ${invite.uses}` : ''}
+        Max Age: ${(invite.maxAge) ? (invite.maxAge > 0) ? invite.maxAge : 'Infinite' : 'N/A'}
+        Max Uses: ${(invite.maxUses) ? (invite.maxUses > 0) ? invite.maxUses : 'Infinite' : 'N/A'}
+        Created At ${time(invite.createdAt)}
+        Temporary? ${(invite.temporary) ? 'Yes' : 'No'}
+        [Invite Link](${invite.url})
+      `
+    };
+  };
   if (member) {
     memberDetails = {
       name: 'Member Details',
@@ -101,7 +117,7 @@ async function eventLog(event, guild, params = {}, client) {
     };
     messageContents = {
       name: 'Message Contents',
-      value: message.content ? shortenContents(message.content) : 'Message content not available!' 
+      value: message.content ? shortenContents(message.content) : 'Message content not available!'
     };
   };
   if (oldMessage || newMessage) {
@@ -125,8 +141,8 @@ async function eventLog(event, guild, params = {}, client) {
     };
   };
   guildLogEmbed
-    .setAuthor(newMember.user.tag || member.user.tag || client.user.tag, newMember.displayAvatarURL() || member.displayAvatarURL() || 'https://via.placeholder.com/128x128?text=avatar')
-    .setThumbnail(newMember.displayAvatarURL() || member.displayAvatarURL() || guild.iconURL())
+    .setAuthor(newMember?.user.tag || member?.user.tag || client.user.tag, newMember?.displayAvatarURL() || member?.displayAvatarURL() || client.user.displayAvatarURL() || 'https://via.placeholder.com/128x128?text=avatar')
+    .setThumbnail(newMember?.displayAvatarURL() || member?.displayAvatarURL() || guild.iconURL() || 'https://via.placeholder.com/128x128?text=guild')
   switch (event) {
     case 'guildMemberAdd':
       guildLogEmbed
@@ -167,6 +183,16 @@ async function eventLog(event, guild, params = {}, client) {
       guildLogEmbed
         .setDescription('A guild role was updated!')
         .addFields(roleDetails, rolePermsDiff)
+      break;
+    case 'inviteCreate':
+      guildLogEmbed
+        .setDescription('A new invite was generated!')
+        .addFields(inviteDetails)
+      break;
+    case 'inviteDelete':
+      guildLogEmbed
+        .setDescription('An existing invite was deleted.')
+        .addFields(inviteDetails)
       break;
     default:
     return logger.debug('Unknown or unrecognised event type!');
