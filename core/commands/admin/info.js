@@ -83,6 +83,7 @@ async function dynamicEmbed (data, type, client) {
       const mRoles = member.roles.cache.sort((a, b) => b.position - a.position).filter(role => role.name !== '@everyone').map(role => role.toString());
       embed
         .setTitle('About Member')
+        .setThumbnail(user.displayAvatarURL())
         .setDescription('Provides detailed information about any users in a guild.')
         .addFields(
           {
