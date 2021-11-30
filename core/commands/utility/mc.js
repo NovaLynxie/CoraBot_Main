@@ -82,7 +82,7 @@ module.exports = {
     try {
       switch (type) {
         case 'java':
-          mcOptions = { timeout: 5000, enableSRV: true };
+          mcOptions = { timeout: 10000, enableSRV: true };
           if (subcmd === 'ping') {
             mcServerData = await mcu.status(host, mcOptions, port);
             mcServerResponse = {
