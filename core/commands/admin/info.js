@@ -21,7 +21,7 @@ async function dynamicEmbed (data, type, client) {
       const presences = guild.presences.cache;
       const channels = guild.channels.cache;
       const emojis = guild.emojis.cache;      
-      const roles = guild.roles.cache.sort((a, b) => b.position - a.position).filter(role => role.name !== '@everyone').map(role => role.toString());
+      const gRoles = guild.roles.cache.sort((a, b) => b.position - a.position).filter(role => role.name !== '@everyone').map(role => role.toString());
       embed
         .setTitle('About Guild')
         .setDescription('Useful information about this server')
@@ -72,15 +72,15 @@ async function dynamicEmbed (data, type, client) {
             `
           },
           {
-            name: `> Roles (${roles.length - 1} roles)`,
-            value: roles.join(', ')
+            name: `> Roles (${gRoles.length - 1} roles)`,
+            value: gRoles.join(', ')
           }
         );
       break;
     case 'member':
       const member = data;
       const user = member.user;
-      const roles = member.roles.cache.sort((a, b) => b.position - a.position).filter(role => role.name !== '@everyone').map(role => role.toString());
+      const mRoles = member.roles.cache.sort((a, b) => b.position - a.position).filter(role => role.name !== '@everyone').map(role => role.toString());
       embed
         .setTitle('About Member')
         .setDescription('Provides detailed information about any users in a guild.')
@@ -92,8 +92,8 @@ async function dynamicEmbed (data, type, client) {
               Nickname: ${member.nickname ? member.nickname : "Not set"}
               Joined: ${time(member.joinedTimestamp)}
               Acc. Age: ${calculateAccountAge(user.createdAt)}
-              Roles: ${roles.length}
-              (${roles.length ? roles.join(', ') : "None"})
+              Roles: ${mRoles.length}
+              (${mRoles.length ? mRoles.join(', ') : "None"})
             `
           },
           {
