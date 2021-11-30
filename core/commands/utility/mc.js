@@ -1,7 +1,7 @@
 const logger = require('../../utils/winstonLogger');
 const mcu = require('minecraft-server-util');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageAttachment, MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 
 module.exports = {
@@ -63,9 +63,13 @@ module.exports = {
         ephemeral: true
       });
     };    
-    const { description, onlinePlayers, maxPlayers, version, protocolVersion } = mcServerData;
+    const { description, onlinePlayers, maxPlayers, version, protocolVersion, favicon, roundTripLatency } = mcServerData;
+    const imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
+    const imgData = new MessageAttachment(imgBuff, 'icon.png');
     const mcEmbed = new MessageEmbed()
       .setTitle('Minecraft Server')
+      .setThumbnail('attachment://icon.png')
+      .setColor('#836539')
       .setDescription(description.descriptionText)
       .addFields(
         {
@@ -74,19 +78,12 @@ module.exports = {
             Players: ${onlinePlayers}/${maxPlayers}
             Version: ${version}
             Protocol: ${protocolVersion}
+            Latency: ${roundTripLatency}ms
           `
         }
       )
-      
-    logger.debug(JSON.stringify(mcServerData, null, 2));
-    mcServerData.favicon = null;
-    const response = stripIndents`
-      \`\`\`json
-      ${JSON.stringify(mcServerData, null, 2).substr(0,2000)}
-      \`\`\`
-    `
     await interaction.editReply({
-      embeds: [mcEmbed]
+      embeds: [mcEmbed], files: [imgData]
     });
 	},
 };
