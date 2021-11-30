@@ -19,13 +19,7 @@ logger.init('Spinning up bot instance...');
 const client = new Client({
 	owners: ownerIDs,
 	intents: [
-    Intents.FLAGS.DIRECT_MESSAGES,
-		Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_INVITES,
-		Intents.FLAGS.GUILD_MESSAGES,
-		Intents.FLAGS.GUILD_MEMBERS,
-		Intents.FLAGS.GUILD_PRESENCES,
-		Intents.FLAGS.GUILD_VOICE_STATES,
+    Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_INVITES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_VOICE_STATES,
 	],
   presence: { status: 'dnd', activity: 'Initializing...' }
 });
@@ -35,24 +29,12 @@ if (useLegacyURL) {
 	client.options.http.api = 'https://discordapp.com/api';
 } else { logger.debug('Using default API domain.') };
 client.commands = new Collection();
-client.data = {
-	get: readGuildData,
-	set: saveGuildData,
-	init: generateGuildData,
-	delete: deleteGuildData
-};
+client.data = { get: readGuildData, set: saveGuildData, init: generateGuildData, delete: deleteGuildData };
 client.settings = {
-	clear: clearClientSettings,
-	get: readClientSettings,
-	set: saveClientSettings,
-	init: generateClientSettings,
+	clear: clearClientSettings,	get: readClientSettings, set: saveClientSettings, init: generateClientSettings,
 	guild: {
-		clear: clearGuildSettings,
-		delete: deleteGuildSettings,
-		get: readGuildSettings,
-		set: saveGuildSettings,
-		init: generateGuildSettings,
-	}
+    clear: clearGuildSettings, delete: deleteGuildSettings, get: readGuildSettings, set: saveGuildSettings, init: generateGuildSettings 
+  }
 };
 const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
