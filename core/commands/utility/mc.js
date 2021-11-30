@@ -86,6 +86,8 @@ module.exports = {
         .setDescription(stripIndents`
           An error occured while getting server information.
           > ${err.message}
+          Please check the IP you entered and try again.
+          If this error persists and you are sure the server IP is correct, it may simply be down or is not responding.
         `)
       await interaction.editReply({
         embeds: [mcEmbed]
