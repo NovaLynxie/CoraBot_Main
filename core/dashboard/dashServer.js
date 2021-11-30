@@ -22,7 +22,7 @@ const publicDir = path.resolve(`${dashDir}/public/`);
 const { fetchBreadcrumbs, renderView } = require('./dashUtils');
 
 module.exports = async (client, config) => {
-  (function () {
+  (() => {
     logger.debug('Checking dashboard configuration...');
     if (!config) throw new Error('Dashboard configuration missing!');
     if (typeof config !== 'object') throw new Error(`Invalid configuration! Expected object, got '${typeof config}'.`);
@@ -129,7 +129,7 @@ module.exports = async (client, config) => {
     function missingError(err) {
       if (err.stack) logger.debug(err.stack);
       return res.status(404), renderView(res, req, 'errors/404.pug');
-    }
+    };
     function serverError(err) {
       if (err.stack) logger.debug(err.stack);
       const errData = {
@@ -138,39 +138,39 @@ module.exports = async (client, config) => {
         stack: (err.stack) ? err.stack.split('at') : 'No stacktrace provided.',
       };
       return res.status(500), renderView(res, req, 'errors/500.pug', errData);
-    }
+    };
     function defaultError() {
       logger.debug('An unknown error occured!');
       logger.debug(err.stack);
       return res.status(500), renderView(res, req, 'errors/500.pug');
-    }
+    };
     if (err.code) {
       if (err.code === 'invalid_client') {
         serverError(err);
         logger.error('Invalid Client! Aborting user login.');
         logger.warn('Mismatched client information. Please check settings.');
-      }
+      };
       if (err.code === 'ERR_HTTP_HEADERS_SENT') {
         logger.warn('Server tried to send more than one header to client!');
         logger.debug('Too many headers sent or called by dashboard service!');
         logger.debug(err.stack);
-      }
+      };
     } else
       if (err.message) {
         if (err.message.indexOf('is not a') > -1) {
           serverError(err);
           logger.debug('Errored while rendering template!');
-        }
+        };
         if (err.message.indexOf('Cannot read property') > -1) {
           serverError(err);
           logger.debug('Errored while rendering template!');
-        }
+        };
         if (err.message.indexOf('Failed to lookup view') > -1) {
           missingError(err);
           logger.debug('Error! Missing asset file!');
           logger.debug(err.stack);
-        }
-      } return defaultError();
+        };
+      }; return defaultError();
   });
   
   app.listen(config.dashPort, () => {
