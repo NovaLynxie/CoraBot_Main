@@ -68,80 +68,77 @@ module.exports = {
     const host = options.getString('host');
     const port = options.getInteger('port');
     const cfg = { timeout: 5000, enableSRV: true };
-    let mcServerResponse = {};
-    let mcEmbed = new MessageEmbed(), mcServerData, mcOptions = {};
+    let mcServerPingData, mcServerQueryData, mcOptions = {};
+    let mcEmbed = new MessageEmbed(), imgBuff, imgData;
     if (host.toLowerCase() === 'localhost') return interaction.editReply({ content: "Please don't ping my mainframe. Any `localhost` request is disallowed and will simply be refused."});
-    try {
+    try {      
       switch (type) {
         case 'java':
           mcOptions = { timeout: 10000, enableSRV: true };
           if (subcmd === 'ping') {
-            mcServerData = await mcu.status(host, mcOptions, port);
-            mcServerResponse = {
-              name: 'Statistics',
-              value: stripIndents`
-                Players: ${onlinePlayers}/${maxPlayers}
-                Version: ${version}
-                Protocol: ${protocolVersion}
-                Latency: ${roundTripLatency}ms
-              `
-            };
+            mcServerPingData = await mcu.status(host, mcOptions, port);
           };
           if (subcmd === 'query') {
             if (request === 'full') {
-              mcServerData = await mcu.queryFull(host, mcOptions, port);
-              mcServerResponse = {
-                name: 'Query [Full]',
-                value: stripIndents`
-                  Players: ${onlinePlayers}/${maxPlayers}
-                  Version: ${version}
-                  Protocol: ${protocolVersion}
-                  Latency: ${roundTripLatency}ms
-                `
-              };
+              mcServerQueryData = await mcu.queryFull(host, mcOptions, port);
             } else {
-              mcServerData = await mcu.queryBasic(host, mcOptions, port);
-              mcServerResponse = {
-                name: 'Query [Basic]',
-                value: stripIndents`
-                  Players: ${onlinePlayers}/${maxPlayers}
-                  Version: ${version}
-                  Protocol: ${protocolVersion}
-                  Latency: ${roundTripLatency}ms
-                `
-              };
+              mcServerQueryData = await mcu.queryBasic(host, mcOptions, port);
             };
-              
           };
           break;
         case 'bedrock':
           mcOptions = { timeout: 10000, enableSRV: true };
-          mcServerData = await mcu.statusBedrock(host, mcOptions, port);
-          mcServerResponse = {
-            name: 'Statistics',
-            value: stripIndents`
-              Players: ${onlinePlayers}/${maxPlayers}
-              Version: ${version}
-              Protocol: ${protocolVersion}
-              Latency: ${roundTripLatency}ms
-            `
-          }
+          mcServerPingData = await mcu.statusBedrock(host, mcOptions, port);
           break;
       };
-      const { description, onlinePlayers, maxPlayers, version, protocolVersion, favicon, roundTripLatency } = mcServerData;
-      const imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
-      const imgData = new MessageAttachment(imgBuff, 'icon.png');
       mcEmbed 
         .setTitle('Minecraft Server')
         .setThumbnail('attachment://icon.png')
         .setColor('#836539')
-        .setDescription(description.descriptionText)
-        .addFields(mcServerResponse)
+      if (mcServerPingData) {
+        const { description, onlinePlayers, maxPlayers, version, protocolVersion, favicon, roundTripLatency } = mcServerPingData;
+        imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
+        imgData = new MessageAttachment(imgBuff, 'icon.png');        
+        mcServerResponse = {
+          name: 'Statistics',
+          value: stripIndents`
+            Players: ${onlinePlayers}/${maxPlayers}
+            Version: ${version}
+            Protocol: ${protocolVersion}
+            Latency: ${roundTripLatency}ms
+          `
+        };
+        mcEmbed
+          .setDescription(description.descriptionText)
+          .addFields(mcServerResponse)
+      };
+      if (mcServerQueryData) {  
+        const { favicon } = mcServerQueryData;
+        imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
+        imgData = new MessageAttachment(imgBuff, 'icon.png');
+        if (request === 'full') {
+          mcServerResponse = {
+            name: 'Query Data [FULL]',
+            value: stripIndents`
+              
+            `
+          };
+        } else {
+          mcServerResponse = {
+            name: 'Query Data [BASIC]',
+            value: stripIndents`
+              
+            `
+          };
+        };
+        mcEmbed.addFields(mcServerResponse);
+      };
+      logger.debug(JSON.stringify(mcServerQueryData,null,2));
       await interaction.editReply({
         embeds: [mcEmbed], files: [imgData]
       });
     } catch (err) {
-      logger.error(err); logger.debug(err.stack);
+      logger.debug(err.stack);
       mcEmbed
         .setTitle('Minecraft Server')
         .setColor('#855038')
