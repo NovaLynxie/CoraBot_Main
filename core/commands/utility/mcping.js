@@ -41,6 +41,7 @@ module.exports = {
       interaction.editReply({
         content: 'It looks like the server is taking a very long to respond. If the requested server is running slower than normal, it could be experiencing lag issues due to low TPS.'
     })}, 15000);
+    mcEmbed.setTitle('Minecraft Server Utility');
     try {
       if (type === 'java') {
         logger.debug(`Pinging MC_JAVA_SERVER at ${host}:${port||25565}.`);
@@ -56,7 +57,6 @@ module.exports = {
       const imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
       const imgData = new MessageAttachment(imgBuff, 'icon.png');
       mcEmbed
-        .setTitle('Minecraft Server Utility')
         .setThumbnail('attachment://icon.png')
         .setColor('#836539')
         .setDescription(motd.clean)
@@ -77,7 +77,6 @@ module.exports = {
     } catch (err) {
       logger.debug(err.stack);
       mcEmbed
-        .setTitle('Minecraft Server Utility')
         .setColor('#855038')
         .setDescription(stripIndents`
           An error occured while getting server information.
