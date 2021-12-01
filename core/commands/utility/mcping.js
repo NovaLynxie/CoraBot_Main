@@ -50,9 +50,8 @@ module.exports = {
       const { description, players, version, favicon, roundTripLatency } = mcServerData;
       const imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
       const imgData = new MessageAttachment(imgBuff, 'icon.png');
-      console.log(mcServerData);
       mcEmbed
-        .setTitle('Minecraft Server')
+        .setTitle('Minecraft Server Utility')
         .setThumbnail('attachment://icon.png')
         .setColor('#836539')
         .setDescription(motd.clean)
@@ -72,7 +71,7 @@ module.exports = {
     } catch (err) {
       logger.debug(err.stack);
       mcEmbed
-        .setTitle('Minecraft Server')
+        .setTitle('Minecraft Server Utility')
         .setColor('#855038')
         .setDescription(stripIndents`
           An error occured while getting server information.
