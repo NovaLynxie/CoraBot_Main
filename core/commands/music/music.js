@@ -115,8 +115,7 @@ module.exports = {
           .setStyle('SECONDARY'),
       );
     async function soundcloudSongsParser(url) {
-      let playlist = await scbi.getPlaylist(url);
-      let queue = [], object = {};
+      let playlist = await scbi.getPlaylist(url); let queue = [], object = {};
       interaction.editReply({
         content: 'SoundCloud playlist detected! Parsing songs...',
         ephemeral: true
@@ -133,7 +132,7 @@ module.exports = {
       return queue;
     };
     async function youtubeSongsParser(source) {
-      playlist = await ytpl(source);
+      let playlist = await ytpl(source); let queue = [], object = {};
       interaction.editReply({
         content: 'YouTube playlist detected! Parsing songs...',
         ephemeral: true
