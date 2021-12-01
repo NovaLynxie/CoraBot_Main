@@ -30,7 +30,6 @@ module.exports = {
     ),
 	async execute(interaction, client) {
     await interaction.deferReply();
-    const defaultPorts = { 'java': 25565, 'bedrock': 19132 };
     const options = interaction.options;
     const type = options.getString('type');
     const host = options.getString('host');
