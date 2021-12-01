@@ -47,22 +47,22 @@ module.exports = {
         mcOptions = { enableSRV: true };
         mcServerData = await mcu.statusBedrock(host, port || 19132, mcOptions);
       };
-      const { description, onlinePlayers, maxPlayers, version, protocolVersion, favicon, roundTripLatency } = mcServerData;
+      const { description, players, version, favicon, roundTripLatency } = mcServerData;
       const imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
       const imgData = new MessageAttachment(imgBuff, 'icon.png');
+      console.log(mcServerData);
       mcEmbed
         .setTitle('Minecraft Server')
         .setThumbnail('attachment://icon.png')
         .setColor('#836539')
-        .setDescription(description.descriptionText)
+        .setDescription(motd.clean)
         .addFields(
           {
             name: 'Statistics',
             value: stripIndents`
-              Players: ${onlinePlayers}/${maxPlayers}
-              Version: ${version}
-              Protocol: ${protocolVersion}
-              Latency: ${roundTripLatency}ms
+              Players: ${players.online}/${players.max}
+              Version: ${version.name}
+              Protocol: ${version.protocol}
             `
           }
         )
