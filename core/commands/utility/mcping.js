@@ -38,6 +38,10 @@ module.exports = {
     const cfg = { timeout: 5000, enableSRV: true };
     let mcEmbed = new MessageEmbed(), mcServerData, mcOptions = {};
     if (host.toLowerCase() === 'localhost') return interaction.editReply({ content: "Please don't ping my mainframe. Any `localhost` request is disallowed and will simply be refused."});
+    const slowServerResponse = setTimeout(() => {
+      interaction.editReply({
+        content:'It looks like the server is taking a lot longer to respond, please check if the server is running normally.'
+    })}, 30000);
     try {
       if (type === 'java') {
         mcOptions = { timeout: 5000, enableSRV: true };
@@ -68,6 +72,7 @@ module.exports = {
       await interaction.editReply({
         embeds: [mcEmbed], files: [imgData]
       });
+      clearTimeout(slowServerResponse);
     } catch (err) {
       logger.debug(err.stack);
       mcEmbed
