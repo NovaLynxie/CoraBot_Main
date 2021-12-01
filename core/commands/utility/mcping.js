@@ -39,7 +39,7 @@ module.exports = {
     if (host.toLowerCase() === 'localhost') return interaction.editReply({ content: "Please don't ping my mainframe. Any `localhost` request is disallowed and will simply be refused."});
     const slowServerResponse = setTimeout(() => {
       interaction.editReply({
-        content: 'It looks like the server is taking a very long to respond, please check if the server is running normally.'
+        content: 'It looks like the server is taking a very long to respond. If the requested server is running slower than normal, it could be experiencing lag issues due to low TPS.'
     })}, 30000);
     try {
       if (type === 'java') {
