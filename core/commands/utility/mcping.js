@@ -35,20 +35,17 @@ module.exports = {
     const type = options.getString('type');
     const host = options.getString('host');
     const port = options.getInteger('port');
-    const cfg = { timeout: 5000, enableSRV: true };
-    let mcEmbed = new MessageEmbed(), mcServerData, mcOptions = {};
+    let mcEmbed = new MessageEmbed(), mcOptions = { timeout: 60000, enableSRV: true },  mcServerData;
     if (host.toLowerCase() === 'localhost') return interaction.editReply({ content: "Please don't ping my mainframe. Any `localhost` request is disallowed and will simply be refused."});
     const slowServerResponse = setTimeout(() => {
       interaction.editReply({
-        content:'It looks like the server is taking a very long to respond, please check if the server is running normally.'
+        content: 'It looks like the server is taking a very long to respond, please check if the server is running normally.'
     })}, 30000);
     try {
       if (type === 'java') {
-        mcOptions = { timeout: 5000, enableSRV: true };
         mcServerData = await mcu.status(host, port || 25565, mcOptions);
       };
       if (type === 'bedrock') {
-        mcOptions = { enableSRV: true };
         mcServerData = await mcu.statusBedrock(host, port || 19132, mcOptions);
       };
       const { description, motd, players, version, favicon, roundTripLatency } = mcServerData;
