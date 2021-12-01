@@ -39,17 +39,13 @@ module.exports = {
     let mcEmbed = new MessageEmbed(), mcServerData, mcOptions = {};
     if (host.toLowerCase() === 'localhost') return interaction.editReply({ content: "Please don't ping my mainframe. Any `localhost` request is disallowed and will simply be refused."});
     try {
-      switch (type) {
-        case 'java':
-          mcOptions = { timeout: 5000, enableSRV: true };
-          mcServerData = await mcu.status(host, mcOptions, port);
-          break;
-        case 'bedrock':
-          mcOptions = { enableSRV: true };
-          mcServerData = await mcu.statusBedrock(host, mcOptions, port);
-          break;
-        default:
-          // ..
+      if (type === 'java') {
+        mcOptions = { timeout: 5000, enableSRV: true };
+        mcServerData = await mcu.status(host, mcOptions, port);
+      };
+      if (type === 'bedrock') {
+        mcOptions = { enableSRV: true };
+        mcServerData = await mcu.statusBedrock(host, mcOptions, port);
       };
       const { description, onlinePlayers, maxPlayers, version, protocolVersion, favicon, roundTripLatency } = mcServerData;
       const imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
@@ -80,9 +76,9 @@ module.exports = {
         .setColor('#855038')
         .setDescription(stripIndents`
           An error occured while getting server information.
-          > ${err.message}
+          \`${err.message}\`
           Please check the IP you entered and try again.
-          If this error persists and you are sure the server IP is correct, it may simply be down or is not responding.
+          If this error persists and you are sure the server IP is correct, it may be offline or is not responding.
         `)
       await interaction.editReply({
         embeds: [mcEmbed]
