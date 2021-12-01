@@ -48,7 +48,7 @@ module.exports = {
         logger.debug(`Got a response from ${host}:${port||25565}!`);
       };
       if (type === 'bedrock') {
-        logger.debug(`Pinging MC_BEDROCK_SERVER at ${host}:${port||19132} .`);
+        logger.debug(`Pinging MC_BEDROCK_SERVER at ${host}:${port||19132}.`);
         mcServerData = await mcu.statusBedrock(host, port || 19132, mcOptions);
         logger.debug(`Got a response from ${host}:${port||19132}!`);
       };
