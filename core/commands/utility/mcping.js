@@ -43,10 +43,14 @@ module.exports = {
     })}, 30000);
     try {
       if (type === 'java') {
+        logger.debug(`Pinging MC_JAVA_SERVER at ${host}:${port||25565}.`);
         mcServerData = await mcu.status(host, port || 25565, mcOptions);
+        logger.debug(`Got a response from ${host}:${port||25565}!`);
       };
       if (type === 'bedrock') {
+        logger.debug(`Pinging MC_BEDROCK_SERVER at ${host}:${port||19132} .`);
         mcServerData = await mcu.statusBedrock(host, port || 19132, mcOptions);
+        logger.debug(`Got a response from ${host}:${port||19132}!`);
       };
       const { description, motd, players, version, favicon, roundTripLatency } = mcServerData;
       const imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
