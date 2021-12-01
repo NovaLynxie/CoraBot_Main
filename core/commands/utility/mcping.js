@@ -35,12 +35,13 @@ module.exports = {
     const type = options.getString('type');
     const host = options.getString('host');
     const port = options.getInteger('port');
-    let mcEmbed = new MessageEmbed(), mcOptions = { timeout: 60000, enableSRV: true },  mcServerData;
+    let mcEmbed = new MessageEmbed(), mcOptions = { timeout: 30000, enableSRV: true },  mcServerData;
     if (host.toLowerCase() === 'localhost') return interaction.editReply({ content: "Please don't ping my mainframe. Any `localhost` request is disallowed and will simply be refused."});
     const slowServerResponse = setTimeout(() => {
+      logger.debug('Response taking longer than 15s. Is the server lagging or slow connection?')
       interaction.editReply({
         content: 'It looks like the server is taking a very long to respond. If the requested server is running slower than normal, it could be experiencing lag issues due to low TPS.'
-    })}, 30000);
+    })}, 15000);
     try {
       if (type === 'java') {
         logger.debug(`Pinging MC_JAVA_SERVER at ${host}:${port||25565}.`);
