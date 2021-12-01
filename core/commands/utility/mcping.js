@@ -1,5 +1,5 @@
 const logger = require('../../utils/winstonLogger');
-const mcu = require('minecraft-server-util');
+const mcsu = require('minecraft-server-util');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageAttachment, MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
@@ -44,12 +44,12 @@ module.exports = {
     try {
       if (type === 'java') {
         logger.debug(`Pinging MC_JAVA_SERVER at ${host}:${port||25565}.`);
-        mcServerData = await mcu.status(host, port || 25565, mcOptions);
+        mcServerData = await mcsu.status(host, port || 25565, mcOptions);
         logger.debug(`Got a response from ${host}:${port||25565}!`);
       };
       if (type === 'bedrock') {
         logger.debug(`Pinging MC_BEDROCK_SERVER at ${host}:${port||19132}.`);
-        mcServerData = await mcu.statusBedrock(host, port || 19132, mcOptions);
+        mcServerData = await mcsu.statusBedrock(host, port || 19132, mcOptions);
         logger.debug(`Got a response from ${host}:${port||19132}!`);
       };
       const { description, motd, players, version, favicon, roundTripLatency } = mcServerData;
