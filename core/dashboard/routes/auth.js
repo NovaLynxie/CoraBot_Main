@@ -2,7 +2,7 @@ const express = require('express'), url = require('url');
 const passport = require('passport');
 const router = express.Router();
 const logger = require('../../utils/winstonLogger');
-const { renderView } = require('../dashUtils');
+const { checkAuth, renderView } = require('../dashUtils');
 
 router.get('/login', (req, res, next) => {
   if (req.session.backURL) {
@@ -41,6 +41,9 @@ router.get('/api/discord/callback', passport.authenticate('discord', { failureRe
 });
 router.get('/autherror', (req, res) => {
   renderView(res, req, 'autherr.pug');
+});
+router.get('/profile', checkAuth, (req, res) => {
+  renderView(res, req, 'profile.pug');
 });
 router.get('/logout', function(req, res) {
   req.session.destroy(() => {
