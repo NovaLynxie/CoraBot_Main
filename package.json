@@ -37,7 +37,7 @@
     "flash": "^1.1.0",
     "helmet": "^4.6.0",
     "html": "^1.0.0",
-    "minecraft-server-util": "^3.6.0",
+    "minecraft-server-util": "^5.1.1",
     "morgan": "^1.10.0",
     "node-fetch": "2.6.6",
     "passport": "^0.4.1",

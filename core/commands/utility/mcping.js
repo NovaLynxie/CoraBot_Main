@@ -41,16 +41,16 @@ module.exports = {
     try {
       if (type === 'java') {
         mcOptions = { timeout: 5000, enableSRV: true };
-        mcServerData = await mcu.status(host, mcOptions, port);
+        mcServerData = await mcu.status(host, port || 25565, mcOptions);
       };
       if (type === 'bedrock') {
         mcOptions = { enableSRV: true };
-        mcServerData = await mcu.statusBedrock(host, mcOptions, port);
+        mcServerData = await mcu.statusBedrock(host, port || 19132, mcOptions);
       };
       const { description, onlinePlayers, maxPlayers, version, protocolVersion, favicon, roundTripLatency } = mcServerData;
       const imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
       const imgData = new MessageAttachment(imgBuff, 'icon.png');
-      mcEmbed 
+      mcEmbed
         .setTitle('Minecraft Server')
         .setThumbnail('attachment://icon.png')
         .setColor('#836539')
