@@ -47,6 +47,9 @@ router.post('/admin/save_clsettings', checkAuth, async (req, res) => {
   req.flash('success', 'Saved preferences successfully!');
   res.redirect('/dashboard/admin');
 });
+router.get('/profile', checkAuth, (req, res) => {
+  renderView(res, req, 'profile.pug');
+});
 router.get('/:guildID', checkAuth, (req, res) => {
   res.redirect(`/dashboard/${req.params.guildID}/manage`);
 });
