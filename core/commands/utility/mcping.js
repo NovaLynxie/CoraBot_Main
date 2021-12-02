@@ -88,7 +88,7 @@ module.exports = {
         )
       clearTimeout(slowServerResponse);
       await interaction.editReply({
-        embeds: [mcEmbed], files: [imgData]
+        embeds: [mcEmbed], files: (icon) ? [imgData] : null
       });
     } catch (err) {
       logger.debug(err.stack);
