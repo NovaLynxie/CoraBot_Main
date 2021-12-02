@@ -95,7 +95,7 @@ module.exports = {
             name: 'Players List',
             value: stripIndents`
               \`\`\`
-              ${players.list ? players.list.join(', ') : 'N/A'}
+              ${players.list ? players.list.join(', ') : '...'}
               \`\`\`
             `
           }
