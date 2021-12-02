@@ -77,11 +77,15 @@ module.exports = {
       mcEmbed
         .setThumbnail(icon ? 'attachment://icon.png' : defaultURL)
         .setColor('#836539')
-        .setDescription(motd.clean[0])
+        .setDescription(stripIndents`          
+          __MOTD__
+          ${motd.clean[0]}
+        `)
         .addFields(
           {
             name: 'Statistics',
             value: stripIndents`
+              Server IP: ${host}:${port}
               Players: ${players.online}/${players.max}
               Version: ${version}
               Protocol: ${protocol}
