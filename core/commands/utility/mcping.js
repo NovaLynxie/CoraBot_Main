@@ -86,6 +86,14 @@ module.exports = {
               Version: ${version}
               Protocol: ${protocol}
             `
+          },
+          {
+            name: 'Players List',
+            value: stripIndents`
+              \`\`\`
+              ${players.list.join('- \n')}
+              \`\`\`
+            `
           }
         )
       clearTimeout(slowServerResponse);
