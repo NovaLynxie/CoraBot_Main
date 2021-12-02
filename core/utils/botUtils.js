@@ -12,5 +12,17 @@ function calculateAccountAge(date) {
   const res = (lt1(years)) ? `${years} years` : '' || (lt1(months)) ? `${months} months` : '' || (lt1(days)) ? `${days} days` : '' || (lt1(hours)) ? `${hours} hrs` : '' || (lt1(minutes)) ? `${minutes} mins` : 'less than a minute';
   return res;
 };
+function calculateDuration(msecs) {
+  let seconds, minutes, hours, days, weeks, months, years, duration;
+  seconds = msecs / 1000;
+  minutes = seconds / 60;
+  hours = minutes / 60;
+  days = (hours > 1) ? hours / 24 : 1;
+  weeks = days  / 7;
+  months = days / 30.417;
+  years = months / 12;
+  duration = { seconds, minutes, hours, days, weeks, months };
+  return duration;
+};
 
 module.exports = { calculateAccountAge };

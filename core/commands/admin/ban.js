@@ -58,6 +58,5 @@ module.exports = {
         content: 'You do not have permissions to run this command!', ephemeral: true
       });
 		};
-    
 	}
 };
