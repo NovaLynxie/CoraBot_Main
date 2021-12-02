@@ -77,11 +77,13 @@ module.exports = {
       mcEmbed
         .setThumbnail(icon ? 'attachment://icon.png' : defaultURL)
         .setColor('#836539')
-        .setDescription(stripIndents`          
-          __MOTD__
-          ${motd.clean[0]}
-        `)
         .addFields(
+          {
+            name: 'MOTD',
+            value: stripIndents`
+              ${motd.clean[0]}
+            `
+          },
           {
             name: 'Statistics',
             value: stripIndents`
