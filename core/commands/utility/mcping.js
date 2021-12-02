@@ -1,5 +1,5 @@
 const logger = require('../../utils/winstonLogger');
-const mcsu = require('minecraft-server-util'); // not fully working in replit.
+//const mcsu = require('minecraft-server-util'); 
 const fetch = require('node-fetch');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageAttachment, MessageEmbed } = require('discord.js');
