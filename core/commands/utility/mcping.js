@@ -65,14 +65,13 @@ module.exports = {
       const {
         online, motd, players, version, protocol, icon, software, map, gamemode, plugins, mods
       } = mcSrvData;
-      console.log(mcSrvData);
       //const { description, motd, players, version, favicon, roundTripLatency } = mcSrvData;
       let imgBuff, imgData, defaultURL;
       if (icon) {
         imgBuff = new Buffer.from(icon.split(',')[1],'base64');
         imgData = new MessageAttachment(imgBuff, 'icon.png');
       } else {
-        defaultURL = 'https://via.placeholder.com/64.png/?text=Minecraft Server';
+        defaultURL = 'https://via.placeholder.com/64.png/?text=Server';
       };
       mcEmbed
         .setThumbnail(icon ? 'attachment://icon.png' : defaultURL)
