@@ -67,19 +67,15 @@ module.exports = {
       } = mcSrvData;
       console.log(mcSrvData);
       //const { description, motd, players, version, favicon, roundTripLatency } = mcSrvData;
-      let imgBuff, imgData, iconURL;
+      let imgBuff, imgData, defaultURL;
       if (icon) {
         imgBuff = new Buffer.from(icon.split(',')[1],'base64');
         imgData = new MessageAttachment(imgBuff, 'icon.png');
       } else {
-        if (type === 'java') {
-          iconURL = await fetch(`https://api.mcsrvstat.us/icon/${host}:${port}`);
-        } else {
-          iconURL = 'https://via.placeholder.com/64.png/?text=Server';
-        };
+        defaultURL = 'https://via.placeholder.com/64.png/?text=Minecraft Server';
       };
       mcEmbed
-        .setThumbnail(icon ? 'attachment://icon.png' : iconURL)
+        .setThumbnail(icon ? 'attachment://icon.png' : defaultURL)
         .setColor('#836539')
         .setDescription(motd.clean[0])
         .addFields(
