@@ -91,7 +91,7 @@ module.exports = {
             name: 'Players List',
             value: stripIndents`
               \`\`\`
-              ${players.list ? players.list.join(', ') : 'No players online!'}
+              ${players.list ? players.list.join(', ') : 'N/A'}
               \`\`\`
             `
           }
