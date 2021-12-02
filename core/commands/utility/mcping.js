@@ -35,9 +35,10 @@ module.exports = {
 	async execute(interaction, client) {
     await interaction.deferReply();
     const options = interaction.options;
+    const srvPortDefaults = { 'bedrock': 19132 'java': 25565 };
     const type = options.getString('type');
     const host = options.getString('host');
-    const port = options.getInteger('port');
+    const port = options.getInteger('port') || srvPortDefaults[type];
     let mcEmbed = new MessageEmbed(), mcOptions = { timeout: 30000, enableSRV: true },  mcSrvData;
     if (host.toLowerCase() === 'localhost') return interaction.editReply({ content: "Please don't ping my mainframe. Any `localhost` request is disallowed and will simply be refused."});
     const slowServerResponse = setTimeout(() => {
@@ -48,18 +49,18 @@ module.exports = {
     mcEmbed.setTitle('Minecraft Server Utility');
     try {
       if (type === 'java') {
-        logger.debug(`Pinging MC_JAVA_SERVER at ${host}:${port||25565}.`);
-        mcSrvData = await fetch(`${mcstats.java}/${host}:${port||25565}`)
+        logger.debug(`Pinging MC_JAVA_SERVER at ${host}:${port}.`);
+        mcSrvData = await fetch(`${mcstats.java}/${host}:${port}`)
         mcSrvData = await mcSrvData.json();
         //mcSrvData = await mcsu.status(host, port || 25565, mcOptions);
-        logger.debug(`Got a response from ${host}:${port||25565}!`);
+        logger.debug(`Got a response from ${host}:${port}!`);
       };
       if (type === 'bedrock') {
-        logger.debug(`Pinging MC_BEDROCK_SERVER at ${host}:${port||19132}.`);
-        mcSrvData = await fetch(`${mcstats.bedrock}/${host}:${port||19132}`);
+        logger.debug(`Pinging MC_BEDROCK_SERVER at ${host}:${port}.`);
+        mcSrvData = await fetch(`${mcstats.bedrock}/${host}:${port}`);
         mcSrvData = await mcSrvData.json();
         //mcSrvData = await mcsu.statusBedrock(host, port || 19132, mcOptions);
-        logger.debug(`Got a response from ${host}:${port||19132}!`);
+        logger.debug(`Got a response from ${host}:${port}!`);
       };
       const {
         online, motd, players, version, protocol, icon, software, map, gamemode, plugins, mods
