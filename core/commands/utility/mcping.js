@@ -101,6 +101,7 @@ module.exports = {
             `
           }
         )
+        .setFooter('Service powered by mcsrvstat.us.')
       clearTimeout(slowServerResponse);
       await interaction.editReply({
         embeds: [mcEmbed], files: (icon) ? [imgData] : null
