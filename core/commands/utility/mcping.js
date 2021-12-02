@@ -1,9 +1,13 @@
 const logger = require('../../utils/winstonLogger');
-const mcsu = require('minecraft-server-util');
+const mcsu = require('minecraft-server-util'); // not fully working in replit.
+const fetch = require('node-fetch');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageAttachment, MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
-
+const mcstats = {
+  java: "https://api.mcsrvstat.us/2",
+  bedrock: "https://api.mcsrvstat.us/bedrock/2"
+};
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('mc')
@@ -34,7 +38,7 @@ module.exports = {
     const type = options.getString('type');
     const host = options.getString('host');
     const port = options.getInteger('port');
-    let mcEmbed = new MessageEmbed(), mcOptions = { timeout: 30000, enableSRV: true },  mcServerData;
+    let mcEmbed = new MessageEmbed(), mcOptions = { timeout: 30000, enableSRV: true },  mcSrvData;
     if (host.toLowerCase() === 'localhost') return interaction.editReply({ content: "Please don't ping my mainframe. Any `localhost` request is disallowed and will simply be refused."});
     const slowServerResponse = setTimeout(() => {
       logger.debug('Response taking longer than 15s. Is the server lagging or slow connection?')
@@ -45,35 +49,47 @@ module.exports = {
     try {
       if (type === 'java') {
         logger.debug(`Pinging MC_JAVA_SERVER at ${host}:${port||25565}.`);
-        mcServerData = await mcsu.status(host, port || 25565, mcOptions);
+        mcSrvData = await fetch(`${mcstats.java}/${host}:${port||25565}`)
+        mcSrvData = await mcSrvData.json();
+        //mcSrvData = await mcsu.status(host, port || 25565, mcOptions);
         logger.debug(`Got a response from ${host}:${port||25565}!`);
       };
       if (type === 'bedrock') {
         logger.debug(`Pinging MC_BEDROCK_SERVER at ${host}:${port||19132}.`);
-        mcServerData = await mcsu.statusBedrock(host, port || 19132, mcOptions);
+        mcSrvData = await fetch(`${mcstats.bedrock}/${host}:${port||19132}`);
+        mcSrvData = await mcSrvData.json();
+        //mcSrvData = await mcsu.statusBedrock(host, port || 19132, mcOptions);
         logger.debug(`Got a response from ${host}:${port||19132}!`);
       };
-      const { description, motd, players, version, favicon, roundTripLatency } = mcServerData;
-      const imgBuff = new Buffer.from(favicon.split(',')[1],'base64');
-      const imgData = new MessageAttachment(imgBuff, 'icon.png');
+      const {
+        online, motd, players, version, protocol, icon, software, map, gamemode, plugins, mods
+      } = mcSrvData;
+      //const { description, motd, players, version, favicon, roundTripLatency } = mcSrvData;
+      let imgBuff, imgData, iconURL;
+      if (icon) {
+        imgBuff = new Buffer.from(icon.split(',')[1],'base64');
+        imgData = new MessageAttachment(imgBuff, 'icon.png');
+      } else {
+        iconURL = 'https://via.placeholder.com/64.png/?text=Server';
+      };
       mcEmbed
-        .setThumbnail('attachment://icon.png')
+        .setThumbnail(icon ? 'attachment://icon.png' : iconURL)
         .setColor('#836539')
-        .setDescription(motd.clean)
+        .setDescription(motd.clean[0])
         .addFields(
           {
             name: 'Statistics',
             value: stripIndents`
               Players: ${players.online}/${players.max}
-              Version: ${version.name}
-              Protocol: ${version.protocol}
+              Version: ${version}
+              Protocol: ${protocol}
             `
           }
         )
+      clearTimeout(slowServerResponse);
       await interaction.editReply({
         embeds: [mcEmbed], files: [imgData]
       });
-      await clearTimeout(slowServerResponse);
     } catch (err) {
       logger.debug(err.stack);
       mcEmbed
@@ -84,6 +100,7 @@ module.exports = {
           Please check the IP you entered and try again.
           If this error persists and you are sure the server IP is correct, it may be offline or is not responding.
         `)
+      clearTimeout(slowServerResponse);
       await interaction.editReply({
         embeds: [mcEmbed]
       });
