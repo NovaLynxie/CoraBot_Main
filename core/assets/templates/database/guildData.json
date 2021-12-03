@@ -1,4 +1,8 @@
 {
+  "moderation": {
+    "mutes": [],
+    "warns": []
+  },
   "music": {
     "track": {},
     "queue": []

@@ -4,6 +4,10 @@ const KeyvSQLite = require('@keyvhq/sqlite');
 const clientPrefStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'clientSettings' });
 const guildPrefStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'guildSettings' });
 const guildDataStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }) });
+const guildDataStore = {
+  general: 
+  moderation: 
+}
 logger.verbose(`clientPrefStore: ${JSON.stringify(clientPrefStore, null, 2)}`);
 logger.verbose(`guildPrefStore: ${JSON.stringify(guildPrefStore, null, 2)}`);
 logger.verbose(`guildDataStore: ${JSON.stringify(guildDataStore, null, 2)}`);
