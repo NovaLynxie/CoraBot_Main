@@ -213,7 +213,7 @@ async function modLog(action, guild, params = {}, client) {
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Moderation Log')
     .setAuthor(executor.user.tag, executor.displayAvatarURL())
-    .setThumbnail(guild.iconURL())
+    .setThumbnail(executor.displayAvatarURL() || guild.iconURL())
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
   let memberDetails, executorDetails, actionDetails;
   if (member) {
