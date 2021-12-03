@@ -178,15 +178,30 @@ async function readGuildData(guild) {
   const res = await guildDataStore.get(guild.id);
   return res;
 };
+/*
+async function readGuildData(type, guild) {
+  //
+};
+*/
 async function saveGuildData(data, guild) {
   logger.verbose(`Updating guild data for ${guild.name} (ID:${guild.id}).`);
   await guildDataStore.set(guild.id, data);
   logger.verbose(`Updated guild data for ${guild.name} (ID:${guild.id}).`);
 };
+/*
+async function saveGuildData(type, guild) {
+  //
+};
+*/
 async function deleteGuildData(guild) {
   logger.verbose(`Removing guild data for ${guild.name} (ID:${guild.id}).`);
   await guildDataStore.delete(guild.id);
 };
+/*
+async function deleteGuildData(type, guild) {
+  //
+};
+*/
 async function resetGuildData() {
   logger.verbose('Removing all guild data.');
   await guildDataStore.clear();
