@@ -146,6 +146,7 @@ module.exports = {
           break;
         case 'mute':
           try {
+            member.roles.add(muteRole);
             successResponse = {
               content: `Issued mute for ${member.user.tag} successfully!`, ephemeral: true
             };
