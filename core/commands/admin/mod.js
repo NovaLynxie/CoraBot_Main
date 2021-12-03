@@ -1,5 +1,6 @@
 const logger = require('../../utils/winstonLogger');
 const { modLog } = require('../../plugins/guildLogger');
+const { calcDuration } = require('../../utils/botUtils');
 const { Permissions } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
@@ -109,7 +110,7 @@ module.exports = {
     const executor = interaction.member;
     const target = options.getMember('target');
     const reason = options.getString('reason');
-    const duration = options.getInteger('duration') || 60000;
+    const duration = calcDuration(options.getInteger('duration') || 60000);
     const limit = options.getInteger('limit');
     const { roles } = await client.settings.guild.get(guild);
     if (!executor.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({ content: 'You do not have the required permissions to use this command!' });

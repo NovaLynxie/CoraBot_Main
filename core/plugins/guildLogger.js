@@ -1,5 +1,5 @@
 const logger = require('../utils/winstonLogger.js');
-const { calculateAccountAge } = require('../utils/botUtils');
+const { calcAccAge } = require('../utils/botUtils');
 const { MessageEmbed } = require('discord.js');
 const { time } = require('@discordjs/builders');
 const { stripIndents } = require('common-tags');
@@ -37,7 +37,7 @@ async function eventLog(event, guild, params = {}, client) {
       name: 'Member Details',
       value: stripIndents`
         Name: ${member.user.tag} (${member.user.id})
-        Acc. Age: ${calculateAccountAge(member.user.createdAt)}
+        Acc. Age: ${calcAccAge(member.user.createdAt)}
         Created: ${time(member.user.createdAt)}
         Joined: ${time(member.user.joinedAt)}
       `
@@ -45,7 +45,7 @@ async function eventLog(event, guild, params = {}, client) {
   };
   if (oldMember || newMember) {
     const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
-    const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));    
+    const removedRoles = oldMember.roles.cache.filter(role => !newMember.roles.cache.has(role.id));
     memberDetails = {
       name: 'Member Updated',
       value: stripIndents`
@@ -100,13 +100,13 @@ async function eventLog(event, guild, params = {}, client) {
       name: 'Permissions Changed',
       value: stripIndents`
         \`\`\`diff
-        ${addedPerms.length > 0 ? addedPerms.map(permFlag => `+ ${permFlag}`).join('\n'): ''}
+        ${addedPerms.length > 0 ? addedPerms.map(permFlag => `+ ${permFlag}`).join('\n') : ''}
         ${removedPerms.length > 0 ? removedPerms.map(permFlag => `- ${permFlag}`).join('\n') : ''}        
         \`\`\`
       `
     };
   };
-  if (message) {    
+  if (message) {
     messageDetails = {
       name: 'Message Deleted',
       value: stripIndents`
@@ -141,8 +141,8 @@ async function eventLog(event, guild, params = {}, client) {
     };
   };
   guildLogEmbed
-    .setAuthor(newMember?.user.tag || member?.user.tag || client.user.tag, newMember?.displayAvatarURL() || member?.displayAvatarURL() || client.user.displayAvatarURL() || 'https://via.placeholder.com/128x128?text=avatar')
-    .setThumbnail(newMember?.displayAvatarURL() || member?.displayAvatarURL() || guild.iconURL() || 'https://via.placeholder.com/128x128?text=guild')
+    .setAuthor(newMember ?.user.tag || member ?.user.tag || client.user.tag, newMember ?.displayAvatarURL() || member ?.displayAvatarURL() || client.user.displayAvatarURL() || 'https://via.placeholder.com/128x128?text=avatar')
+    .setThumbnail(newMember ?.displayAvatarURL() || member ?.displayAvatarURL() || guild.iconURL() || 'https://via.placeholder.com/128x128?text=guild')
   switch (event) {
     case 'guildMemberAdd':
       guildLogEmbed
@@ -195,8 +195,8 @@ async function eventLog(event, guild, params = {}, client) {
         .addFields(inviteDetails)
       break;
     default:
-    return logger.debug('Unknown or unrecognised event type!');
-  };  
+      return logger.debug('Unknown or unrecognised event type!');
+  };
   try {
     logger.debug('Sending moderation log to channel now...');
     guild.channels.cache.get(logChannels.modLogChID).send({ embeds: [guildLogEmbed] });
@@ -284,8 +284,8 @@ async function modLog(action, guild, params = {}, client) {
         );
       break;
     default:
-    return logger.debug('Unknown or unrecognised action called!');
-  };  
+      return logger.debug('Unknown or unrecognised action called!');
+  };
   try {
     logger.debug('Sending moderation log to channel now...');
     guild.channels.cache.get(logChannels.modLogChID).send({ embeds: [guildLogEmbed] });

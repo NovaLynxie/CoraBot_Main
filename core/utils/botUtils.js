@@ -1,4 +1,4 @@
-function calculateAccountAge(date) {
+function calcAccAge(date) {
   const sysDate = new Date();
   const accDate = new Date(date);
   const diff = sysDate - accDate;
@@ -12,7 +12,7 @@ function calculateAccountAge(date) {
   const res = (lt1(years)) ? `${years} years` : '' || (lt1(months)) ? `${months} months` : '' || (lt1(days)) ? `${days} days` : '' || (lt1(hours)) ? `${hours} hrs` : '' || (lt1(minutes)) ? `${minutes} mins` : 'less than a minute';
   return res;
 };
-function calculateDuration(msecs) {
+function calcDuration(msecs) {
   let seconds, minutes, hours, days, weeks, months, years, duration;
   seconds = msecs / 1000;
   minutes = seconds / 60;
@@ -25,4 +25,4 @@ function calculateDuration(msecs) {
   return duration;
 };
 
-module.exports = { calculateAccountAge };
+module.exports = { calcAccAge, calcDuration };
