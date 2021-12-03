@@ -125,14 +125,14 @@ module.exports = {
           try {
             await target.ban({ days: limit || 7, reason: reason || 'Banned by staff member.' });
             successResponse = {
-              content: `Banned ${member.user.tag} successfully!`, ephemeral: true
+              content: `Banned ${target.user.tag} successfully!`, ephemeral: true
             };
-            modLog('ban', guild, { executor, member, reason }, client);
+            modLog('ban', guild, { executor, target, reason }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to ban ${target.user.tag}!`);
             errorResponse = {
-              content: `Unable to ban ${member.user.tag}!`, ephemeral: true
+              content: `Unable to ban ${target.user.tag}!`, ephemeral: true
             };
           };
           break;
@@ -140,43 +140,43 @@ module.exports = {
           try {
             await target.kick(reason || 'Kicked by staff member.');
             successResponse = {
-              content: `Kicked ${member.user.tag} successfully!`, ephemeral: true
+              content: `Kicked ${target.user.tag} successfully!`, ephemeral: true
             };
-            modLog('kick', guild, { executor, member, reason }, client);
+            modLog('kick', guild, { executor, target, reason }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to kick ${target.user.tag}!`);
             errorResponse = {
-              content: `Unable to ban ${member.user.tag}!`, ephemeral: true
+              content: `Unable to ban ${target.user.tag}!`, ephemeral: true
             };
           };
           break;
         case 'mute':
           try {
-            member.roles.add(muteRole);
+            target.roles.add(muteRole);
             successResponse = {
-              content: `Issued mute for ${member.user.tag} successfully!`, ephemeral: true
+              content: `Issued mute for ${target.user.tag} successfully!`, ephemeral: true
             };
-            modLog('mute', guild, { executor, member, reason }, client);
+            modLog('mute', guild, { executor, target, reason }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to issue mute for ${target.user.tag}!`);
             errorResponse = {
-              content: `Failed to mute ${member.user.tag}!`, ephemeral: true
+              content: `Failed to mute ${target.user.tag}!`, ephemeral: true
             };
           };
           break;
         case 'warn':
           try {
             successResponse = {
-              content: `Issued warning for ${member.user.tag} successfully!`, ephemeral: true
+              content: `Issued warning for ${target.user.tag} successfully!`, ephemeral: true
             };
-            modLog('warn', guild, { executor, member, reason }, client);
+            modLog('warn', guild, { executor, target, reason }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to issue warning for ${target.user.tag}!`);
             errorResponse = {
-              content: `Failed to issue warning for ${member.user.tag}!`, ephemeral: true
+              content: `Failed to issue warning for ${target.user.tag}!`, ephemeral: true
             };
           };
           break;
