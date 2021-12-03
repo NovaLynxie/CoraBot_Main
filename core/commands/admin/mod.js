@@ -144,11 +144,9 @@ module.exports = {
             target.roles.add(muteRole);
             const endDate = addDuration(new Date, duration);
             const modData = await client.data.mod.get(guild);
-            //await client.data.mod.get()
             successResponse = {
               content: `Issued mute for ${target} successfully!`, ephemeral: true
             };
-            //await client.data.mod.set(guild, )
             modLog('mute', guild, { executor, member: target, reason }, client);
           } catch (err) {
             logger.debug(err);
