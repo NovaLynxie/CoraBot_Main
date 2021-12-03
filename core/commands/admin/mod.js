@@ -108,9 +108,9 @@ module.exports = {
     if (!executor.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({ content: 'You do not have the required permissions to use this command!'});
     if (!client.guild.me.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({ content: 'Unable to ban member! Missing permission `BAN_MEMBERS`!'});
     if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
-      if (!target) return interaction.editReply(
-        { content: 'This user could not be found!', ephemeral: true };
-      );
+      if (!target) return interaction.editReply({
+        content: 'This user could not be found!', ephemeral: true
+      });
       let successResponse, errorResponse;
       const response = `Moderation action '${subcmd}' failed!`
       switch (subcmd) {
@@ -124,7 +124,7 @@ module.exports = {
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to ban ${target.user.tag}!`);
-            errorResponse {
+            errorResponse = {
               content: `Unable to ban ${member.user.tag}!`, ephemeral: true
             };
           };
@@ -139,7 +139,7 @@ module.exports = {
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to kick ${target.user.tag}!`);
-            errorResponse {
+            errorResponse = {
               content: `Unable to ban ${member.user.tag}!`, ephemeral: true
             };
           };
@@ -154,7 +154,7 @@ module.exports = {
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to issue mute for ${target.user.tag}!`);
-            errorResponse {
+            errorResponse = {
               content: `Failed to mute ${member.user.tag}!`, ephemeral: true
             };
           };
@@ -168,7 +168,7 @@ module.exports = {
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to issue warning for ${target.user.tag}!`);
-            errorResponse {
+            errorResponse = {
               content: `Failed to issue warning for ${member.user.tag}!`, ephemeral: true
             };
           };
