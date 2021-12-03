@@ -25,13 +25,15 @@ function calcDuration(msecs) {
   return duration;
 };
 function getDuration(input) {
+  /*
   let minutes, hrs, days, duration, array = input.split(' ');
-  days = array[0] ? array[0].replace('d',''); days = parseInt(days);
-  hours = array[0] ? array[0].replace('d',''); hours = parseInt(hours);
-  minutes = array[0] ? array[0].replace('d',''); minutes = parseInt(minutes);  
+  days = array[0] ? array[0].replace('d','') : 0; days = parseInt(days);
+  hours = array[0] ? array[0].replace('d','') : 0; hours = parseInt(hours);
+  minutes = array[0] ? array[0].replace('d','') : 0; minutes = parseInt(minutes);
   seconds = input.substr(input.indexOf('d', -1))
   duration = { minutes, hours, days };
   return duration;
+  */
 };
 
-module.exports = { calcAccAge, getDuration };
+module.exports = { calcAccAge, calcDuration, getDuration };

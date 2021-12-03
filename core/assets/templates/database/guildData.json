@@ -1,5 +1,5 @@
 {
-  "moderation": {
+  "offenses": {
     "mutes": [],
     "warns": []
   },
@@ -16,5 +16,17 @@
   "trackers": {
     "suggestions": [],
     "tickets": []
+  },
+  "voice": {
+    "music": {
+      "track": {},
+      "queue": []
+    },
+    "radio": {
+      "state": null,
+      "connected": false,
+      "channel": "",
+      "station": {}
+    }
   }
 }
