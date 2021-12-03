@@ -103,6 +103,7 @@ module.exports = {
     ),
   async execute(interaction, client) {
     await interaction.deferReply();
+    const guild = interaction.guild;
     const options = interaction.options;
     const subcmd = options.getSubcommand();
     const executor = interaction.member;
@@ -112,7 +113,7 @@ module.exports = {
     const limit = options.getInteger('limit');
     const { roles } = await client.settings.guild.get(guild);
     if (!executor.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({ content: 'You do not have the required permissions to use this command!'});
-    if (!client.guild.me.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({ content: 'Unable to ban member! Missing permission `BAN_MEMBERS`!'});
+    if (!guild.me.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({ content: 'Unable to ban member! Missing permission `BAN_MEMBERS`!'});
     if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
       if (!target) return interaction.editReply({
         content: 'This user could not be found!', ephemeral: true
