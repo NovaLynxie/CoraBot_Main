@@ -240,6 +240,7 @@ async function modLog(action, guild, params = {}, client) {
       ${reason}`
   };
   let modLogFields = [memberDetails, executorDetails, actionDetails];
+  console.log(modLogFields);
   switch (action) {
     case 'ban':
       guildLogEmbed

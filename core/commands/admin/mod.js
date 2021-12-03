@@ -127,7 +127,7 @@ module.exports = {
             successResponse = {
               content: `Banned ${target} successfully!`, ephemeral: true
             };
-            modLog('ban', guild, { executor, target, reason }, client);
+            modLog('ban', guild, { executor, member: target, reason }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to ban ${target.user.tag}!`);
@@ -142,7 +142,7 @@ module.exports = {
             successResponse = {
               content: `Kicked ${target.user.tag} successfully!`, ephemeral: true
             };
-            modLog('kick', guild, { executor, target, reason }, client);
+            modLog('kick', guild, { executor, member: target, reason }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to kick ${target.user.tag}!`);
@@ -157,7 +157,7 @@ module.exports = {
             successResponse = {
               content: `Issued mute for ${target} successfully!`, ephemeral: true
             };
-            modLog('mute', guild, { executor, target, reason }, client);
+            modLog('mute', guild, { executor, member: target, reason }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to issue mute for ${target.user.tag}!`);
@@ -171,7 +171,7 @@ module.exports = {
             successResponse = {
               content: `Issued warning for ${target} successfully!`, ephemeral: true
             };
-            modLog('warn', guild, { executor, target, reason }, client);
+            modLog('warn', guild, { executor, member: target, reason }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to issue warning for ${target.user.tag}!`);
