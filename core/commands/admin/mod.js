@@ -125,14 +125,14 @@ module.exports = {
           try {
             await target.ban({ days: limit || 7, reason: reason || 'Banned by staff member.' });
             successResponse = {
-              content: `Banned ${target.user.tag} successfully!`, ephemeral: true
+              content: `Banned ${target} successfully!`, ephemeral: true
             };
             modLog('ban', guild, { executor, target, reason }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to ban ${target.user.tag}!`);
             errorResponse = {
-              content: `Unable to ban ${target.user.tag}!`, ephemeral: true
+              content: `Unable to ban ${target}!`, ephemeral: true
             };
           };
           break;
@@ -147,7 +147,7 @@ module.exports = {
             logger.debug(err);
             logger.debug(`Unable to kick ${target.user.tag}!`);
             errorResponse = {
-              content: `Unable to ban ${target.user.tag}!`, ephemeral: true
+              content: `Unable to ban ${target}!`, ephemeral: true
             };
           };
           break;
@@ -155,7 +155,7 @@ module.exports = {
           try {
             target.roles.add(muteRole);
             successResponse = {
-              content: `Issued mute for ${target.user.tag} successfully!`, ephemeral: true
+              content: `Issued mute for ${target} successfully!`, ephemeral: true
             };
             modLog('mute', guild, { executor, target, reason }, client);
           } catch (err) {
@@ -169,14 +169,14 @@ module.exports = {
         case 'warn':
           try {
             successResponse = {
-              content: `Issued warning for ${target.user.tag} successfully!`, ephemeral: true
+              content: `Issued warning for ${target} successfully!`, ephemeral: true
             };
             modLog('warn', guild, { executor, target, reason }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to issue warning for ${target.user.tag}!`);
             errorResponse = {
-              content: `Failed to issue warning for ${target.user.tag}!`, ephemeral: true
+              content: `Failed to issue warning for ${target}!`, ephemeral: true
             };
           };
           break;
