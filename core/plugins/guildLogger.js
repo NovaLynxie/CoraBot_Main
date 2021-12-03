@@ -241,7 +241,6 @@ async function modLog(action, guild, params = {}, client) {
       ${(reason) ? reason : 'None provided...'}`
   };
   let modLogFields = [memberDetails, executorDetails, actionDetails];
-  console.log(modLogFields);
   switch (action) {
     case 'ban':
       guildLogEmbed
