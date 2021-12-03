@@ -102,7 +102,7 @@ module.exports = {
         )
     ),
   async execute(interaction, client) {
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
     const guild = interaction.guild;
     const options = interaction.options;
     const subcmd = options.getSubcommand();
