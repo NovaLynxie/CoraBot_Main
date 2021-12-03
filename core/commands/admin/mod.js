@@ -1,5 +1,6 @@
 const logger = require('../../utils/winstonLogger');
 const { modLog } = require('../../plugins/guildLogger');
+const { Permissions } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -104,6 +105,8 @@ module.exports = {
     const duration = options.getInteger('duration');
     const limit = options.getInteger('limit');
     const { roles } = await client.settings.guild.get(guild);
+    if (!executor.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({ content: 'You do not have the required permissions to use this command!'});
+    if (!client.guild.me.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({ content: 'Unable to ban member! Missing permission `BAN_MEMBERS`!'});
     if (executor.roles.cache.some(role => roles.staff.indexOf(role.id))) {
       if (!target) return interaction.editReply(
         { content: 'This user could not be found!', ephemeral: true };
