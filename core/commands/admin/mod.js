@@ -1,4 +1,5 @@
-const logger = require('../../utils/winstonLogger');
+const logger = require('../../utils/winstonLogger'); 
+const addDuration = require('date-fns/add')
 const { modLog } = require('../../plugins/guildLogger');
 const { getDuration } = require('../../utils/botUtils');
 const { Permissions } = require('discord.js');
@@ -141,6 +142,8 @@ module.exports = {
         case 'mute':
           try {
             target.roles.add(muteRole);
+            const endDate = addDuration(new Date, duration);
+            //await client.data.mod.get()
             successResponse = {
               content: `Issued mute for ${target} successfully!`, ephemeral: true
             };
