@@ -57,17 +57,17 @@ module.exports = {
             .setDescription('User Mentionable or ID')
             .setRequired(true)
         )
-        .addStringOption(option =>
-          option
-            .setName('reason')
-            .setDescription('Reason? (optional)')
-            .setRequired(false)
-        )
         .addIntegerOption(option =>
           option
             .setName('duration')
-            .setDescription('Duration of mute')
-            .setRequired(true)
+            .setDescription('Duration of mute (Default: 1 Minute)')
+            .setRequired(false)
+            .addChoice('1 Minute', 60000)
+            .addChoice('5 Minutes', 300000)
+            .addChoice('10 Minutes', 600000)
+            .addChoice('15 Minutes', 900000)
+            .addChoice('30 Minutes', 1800000)
+            .addChoice('45 Minutes', 2700000)
             .addChoice('1 Hour', 3600000)
             .addChoice('2 Hours', 7200000)
             .addChoice('4 Hours', 14400000)
@@ -76,6 +76,12 @@ module.exports = {
             .addChoice('1 Day', 86400000)
             .addChoice('1 Week', 604800000)
             .addChoice('1 Month', 2592000000)
+        )
+        .addStringOption(option =>
+          option
+            .setName('reason')
+            .setDescription('Reason? (optional)')
+            .setRequired(false)
         )
     )
     .addSubcommand(subcommand =>
@@ -102,7 +108,7 @@ module.exports = {
     const executor = interaction.member;
     const target = options.getMember('target');
     const reason = options.getString('reason');
-    const duration = options.getInteger('duration');
+    const duration = options.getInteger('duration') || 60000;
     const limit = options.getInteger('limit');
     const { roles } = await client.settings.guild.get(guild);
     if (!executor.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({ content: 'You do not have the required permissions to use this command!'});
