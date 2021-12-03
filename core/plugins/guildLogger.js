@@ -218,7 +218,7 @@ async function modLog(action, guild, params = {}, client) {
     memberDetails = {
       name: 'Member Details',
       value: stripIndents`
-        Username: ${member.user.tag} (${member.displayName})
+        Username: ${member.user.tag} (${member})
         Created: ${time(member.user.createdAt)}
         Joined: ${time(member.joinedAt)}`
     };
@@ -227,7 +227,7 @@ async function modLog(action, guild, params = {}, client) {
     executorDetails = {
       name: 'Executor Details',
       value: stripIndents`
-        Executor: ${executor.user.tag} (${executor.displayName})
+        Executor: ${executor.user.tag} (${executor})
         Created: ${time(executor.user.createdAt)}
         Joined: ${time(executor.joinedAt)}`
     };
