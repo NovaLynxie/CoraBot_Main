@@ -238,7 +238,7 @@ async function modLog(action, guild, params = {}, client) {
     value: stripIndents`
       Log Date: ${time(logdate)}
       __**Reason**__
-      ${reason}`
+      ${(reason) ? reason : 'None provided...'}`
   };
   let modLogFields = [memberDetails, executorDetails, actionDetails];
   console.log(modLogFields);
