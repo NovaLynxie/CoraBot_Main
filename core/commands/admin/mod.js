@@ -163,7 +163,7 @@ module.exports = {
             logger.debug(err);
             logger.debug(`Unable to issue mute for ${target.user.tag}!`);
             errorResponse = {
-              content: `Failed to mute ${target.user.tag}!`, ephemeral: true
+              content: `Failed to mute ${target}!`, ephemeral: true
             };
           };
           break;
