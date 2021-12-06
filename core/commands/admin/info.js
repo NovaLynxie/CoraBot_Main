@@ -6,7 +6,7 @@ const { SlashCommandBuilder, time } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 
-async function dynamicEmbed (data, type, client) {
+async function dynamicEmbed(data, type, client) {
   const embed = new MessageEmbed(); embed.setColor('#73f5d2');
   switch (type) {
     case 'bot':
@@ -20,7 +20,7 @@ async function dynamicEmbed (data, type, client) {
       const members = guild.members.cache;
       const presences = guild.presences.cache;
       const channels = guild.channels.cache;
-      const emojis = guild.emojis.cache;      
+      const emojis = guild.emojis.cache;
       const gRoles = guild.roles.cache.sort((a, b) => b.position - a.position).filter(role => role.name !== '@everyone').map(role => role.toString());
       embed
         .setTitle('About Guild')
@@ -108,23 +108,21 @@ async function dynamicEmbed (data, type, client) {
           }
         );
       break;
-    default:
-      // ..
   };
   embed.setTimestamp();
   return embed;
 };
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('info')
-		.setDescription('Fetch information about the bot, server or any user.')
-    .addSubcommand(subcommand => 
+  data: new SlashCommandBuilder()
+    .setName('info')
+    .setDescription('Fetch information about the bot, server or any user.')
+    .addSubcommand(subcommand =>
       subcommand
         .setName('bot')
         .setDescription('Show information about the bot.')
     )
-    .addSubcommand(subcommand => 
+    .addSubcommand(subcommand =>
       subcommand
         .setName('guild')
         .setDescription('Show information about your guild.')
@@ -140,7 +138,7 @@ module.exports = {
             .setRequired(true)
         )
     ),
-	async execute(interaction, client) {
+  async execute(interaction, client) {
     await interaction.deferReply();
     const options = interaction.options;
     const member = options.getMember('target') || interaction.member;
@@ -166,5 +164,5 @@ module.exports = {
     await interaction.editReply({
       embeds: [await dynamicEmbed(data, type, client)]
     });
-	},
+  },
 };
