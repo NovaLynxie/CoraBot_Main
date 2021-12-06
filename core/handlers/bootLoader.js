@@ -11,8 +11,8 @@ logger.debug('==========================================================');
 const NODE_MAJOR_VERSION = process.versions.node.split('.')[0];
 const NODE_MINOR_VERSION = process.versions.node.split('.')[1];
 if (NODE_MAJOR_VERSION < 16 && NODE_MINOR_VERSION < 6) {
-	logger.fatal('This app requires NodeJS v16.6.0 or higher to run!');
-	throw new Error('Incompatible NodeJS version!');
+  logger.fatal('This app requires NodeJS v16.6.0 or higher to run!');
+  throw new Error('Incompatible NodeJS version!');
 };
 const NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV || NODE_ENV !== 'production') {
@@ -21,21 +21,21 @@ if (!NODE_ENV || NODE_ENV !== 'production') {
 };
 logger.init('Loading configuration files...');
 try {
-	fileData = fs.readFileSync('./settings/main.toml', 'utf-8');
-	mainConfig = toml.parse(fileData);
-	mainLoaded = true;
+  fileData = fs.readFileSync('./settings/main.toml', 'utf-8');
+  mainConfig = toml.parse(fileData);
+  mainLoaded = true;
 } catch (err) {
-	logger.error('Failed to load main.toml configuration!');
-	logger.error(err.message); logger.debug(err.stack);
-	logger.warn('Cannot proceed with bot boot up.');
+  logger.error('Failed to load main.toml configuration!');
+  logger.error(err.message); logger.debug(err.stack);
+  logger.warn('Cannot proceed with bot boot up.');
 };
 var general = {}, discord = {}, runtime = {};
 var discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID;
 if (mainLoaded) {
-	var { general, advanced, dashboard, runtime } = mainConfig;
-	var { ownerIDs, useLegacyURL } = general;
-	var { clientId, guildId, debug } = advanced;
-	var { useDotEnv, forceUpdateCmds } = runtime;
+  var { general, advanced, dashboard, runtime } = mainConfig;
+  var { ownerIDs, useLegacyURL } = general;
+  var { clientId, guildId, debug } = advanced;
+  var { useDotEnv, forceUpdateCmds } = runtime;
 };
 if (forceUpdateCmds) {
   logger.warn('forceUpdateCmds detected as ENABLED!')
@@ -43,41 +43,41 @@ if (forceUpdateCmds) {
 };
 logger.init('Loading bot credentials...');
 if (useDotEnv) {
-	var {
-		discordToken,
-		clientSecret,
-		sessionSecret,
-		cheweyApiToken,
-		yiffyApiKey,
-		youtubeApiKey,
+  var {
+    discordToken,
+    clientSecret,
+    sessionSecret,
+    cheweyApiToken,
+    yiffyApiKey,
+    youtubeApiKey,
     soundcloudClientID
-	} = process.env;
+  } = process.env;
 } else {
-	try {
-		fileData = fs.readFileSync('./settings/auth.toml', 'utf-8');
-		authConfig = toml.parse(fileData);
-		authLoaded = true;
-	} catch (err) {
-		logger.error('Failed to load auth.toml configuration!');
-		logger.error(err.message); logger.debug(err.stack);
-		logger.warn('Falling back to environment variables.');
-	};
+  try {
+    fileData = fs.readFileSync('./settings/auth.toml', 'utf-8');
+    authConfig = toml.parse(fileData);
+    authLoaded = true;
+  } catch (err) {
+    logger.error('Failed to load auth.toml configuration!');
+    logger.error(err.message); logger.debug(err.stack);
+    logger.warn('Falling back to environment variables.');
+  };
 };
 if (authLoaded) {
-	var { discord, external } = authConfig;
-	var { discordToken, clientSecret, sessionSecret } = discord;
-	var { cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID } = external;
-	discordToken = (!discordToken || discordToken === 'NOT_SET') ? process.env.discordToken : discordToken;
-	clientSecret = (!clientSecret || clientSecret === 'NOT_SET') ? process.env.clientSecret : clientSecret;
-	sessionSecret = (!sessionSecret || sessionSecret === 'NOT_SET') ? process.env.sessionSecret : sessionSecret;
-	cheweyApiToken = (!cheweyApiToken || cheweyApiToken === 'NOT_SET') ? process.env.cheweyApiToken : cheweyApiToken;
-	yiffyApiKey = (!yiffyApiKey || yiffyApiKey === 'NOT_SET') ? process.env.yiffyApiKey : yiffyApiKey;
-	youtubeApiKey = (!youtubeApiKey || youtubeApiKey === 'NOT_SET') ? process.env.youtubeApiKey : youtubeApiKey;
+  var { discord, external } = authConfig;
+  var { discordToken, clientSecret, sessionSecret } = discord;
+  var { cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID } = external;
+  discordToken = (!discordToken || discordToken === 'NOT_SET') ? process.env.discordToken : discordToken;
+  clientSecret = (!clientSecret || clientSecret === 'NOT_SET') ? process.env.clientSecret : clientSecret;
+  sessionSecret = (!sessionSecret || sessionSecret === 'NOT_SET') ? process.env.sessionSecret : sessionSecret;
+  cheweyApiToken = (!cheweyApiToken || cheweyApiToken === 'NOT_SET') ? process.env.cheweyApiToken : cheweyApiToken;
+  yiffyApiKey = (!yiffyApiKey || yiffyApiKey === 'NOT_SET') ? process.env.yiffyApiKey : yiffyApiKey;
+  youtubeApiKey = (!youtubeApiKey || youtubeApiKey === 'NOT_SET') ? process.env.youtubeApiKey : youtubeApiKey;
   soundcloudClientID = (!soundcloudClientID || soundcloudClientID === 'NOT_SET') ? process.env.soundcloudClientID : soundcloudClientID;
 } else {
-	var {
-		discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID
-	} = process.env;
+  var {
+    discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID
+  } = process.env;
 };
 module.exports.credentials = { discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID };
 module.exports.config = { ownerIDs, useLegacyURL, forceUpdateCmds, debug, dashboard };
