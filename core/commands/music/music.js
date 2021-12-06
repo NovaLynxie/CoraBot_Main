@@ -20,7 +20,7 @@ const listenerChecker = setInterval( () => {
   audioPlayer.removeAllListeners(AudioPlayerStatus.Idle);
   audioPlayer.removeAllListeners(AudioPlayerStatus.AutoPaused);
   audioPlayer.removeAllListeners(AudioPlayerStatus.Paused);
-}, 20000);
+}, 30000);
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('music')
