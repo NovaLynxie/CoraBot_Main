@@ -11,9 +11,6 @@ const guildDataStore = {
   voice: new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }), namespace: 'voice' })
 };
 */
-logger.verbose(`clientPrefStore: ${JSON.stringify(clientPrefStore, null, 2)}`);
-logger.verbose(`guildPrefStore: ${JSON.stringify(guildPrefStore, null, 2)}`);
-logger.verbose(`guildDataStore: ${JSON.stringify(guildDataStore, null, 2)}`);
 const clientSettingsTemplate = require('../assets/templates/database/clientSettings.json');
 const guildSettingsTemplate = require('../assets/templates/database/guildSettings.json');
 const guildDataTemplate = require('../assets/templates/database/guildData.json');
