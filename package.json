@@ -35,6 +35,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "flash": "^1.1.0",
+    "giphy-api": "^2.0.2",
     "helmet": "^4.6.0",
     "html": "^1.0.0",
     "minecraft-server-util": "^5.1.1",
