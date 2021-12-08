@@ -1,0 +1,343 @@
+extends blocks/layout
+block content
+  - let {autoMod, chatBot, notifier, roles, logChannels} = guildSettings;
+  - let {enableAutoMod, chListMode, channelsList, urlBlacklist, mediaTrackers} = autoMod;
+  - let {enableChatBot, chatBotOpts, chatChannels} = chatBot;
+  - let {enableNotifier, trackEvents, notifsChannel, eventMsgTxt} = notifier;
+  - function formatDate(dateString){
+    - var date = new Date(dateString);
+    - var days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    - var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    - var d = days[date.getDay()];
+    - var D = date.getDate();
+    - var m = months[date.getMonth()];
+    - var y = date.getFullYear();
+    - var H = date.getHours();
+    - var M = date.getMinutes(); M = (M < 9) ? `0${M}` : M;
+    - var S = date.getSeconds(); S = (S < 9) ? `0${S}` : S;
+    - var a = D % 10, b = D % 100;
+    - var nth = `${(a == 1 && b != 11) ? 'st' : (a == 2 && b != 12) ? 'nd' : (a == 3 && b != 13) ? 'rd' : 'th'}`;    
+    - return `${d} ${D}${nth} ${m} ${y} at ${H}:${M}`;
+  - }
+  .container
+    include blocks/guild-nav
+    block navtab
+      - var activeTab = 'manage'  
+    .jumbotron.text-center
+      #guildPanels.tab-content
+        #guildManagePanel.tab-pane.fade.active
+          h3.display-4 Guild Settings
+          .settings-card-base
+            h3 Bot Control Panel
+            .settings-card-modules.settings-card-wrapper
+              h4 Guild Details
+              .guild-details-card
+                h5 Basic Information
+                - iconUrl = (guild.icon) ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` : 'https://via.placeholder.com/128.png?text=No Guild Icon'
+                - bannerUrl = (guild.banner) ? `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.png` : 'https://via.placeholder.com/960x540.png?text=No Guild Banner'
+                img.d-flex.mr-3.rounded-circle.guild-icon(src=iconUrl alt='Guild Icon')
+                img.guild-banner(src=bannerUrl)
+                .guild-details-wrapper
+                  p
+                  | Name: #{guild.name}
+                  br
+                  #hidden (Guild ID: #{guild.id})
+                  | Verified: #{(guild.verified)?'Yes':'No'}
+                  br
+                  - owner = guild.members.cache.get(guild.ownerId);
+                  | Owner: #{owner.user.tag} (#{owner.displayName})
+                  br
+                  | Members: #{guild.memberCount} (#{guild.members.cache.filter(member => !member.user.bot).size} users | #{guild.members.cache.filter(member => member.user.bot).size} bots)
+                  br
+                  | Locale: #{locales[guild.preferredLocale]}
+                  
+              .guild-details-card
+                h5 Server Details
+                .guild-details-wrapper
+                  h6 Description
+                  p
+                  | #{(guild.description)?guild.description:'None Set'}
+                .guild-details-wrapper
+                  h6 Subscriptions
+                  p
+                  | Boost Tier: #{guild.premiumTier}
+                  | (Total Subs: #{guild.premiumSubscriptionCount})
+                  br
+                  | Vanity URL
+                  br 
+                  | Code: 
+                  if (guild.vanityURLCode)
+                    #hidden #{guild.vanityURLCode}
+                    | (Used #{(guild.vanityURLUses)?guild.vanityURLUses:'NaN'} times)
+                  else
+                    | (Not available)
+            .settings-card-modules.settings-card-wrapper
+              h4 Guild Settings
+              p.lead Change settings for each module from here.
+              .settings-card-modules.guild-details-card
+                h5 Server Settings
+                .settings-text-wrapper
+                  h6 Server Roles
+                  table.settings-table-main(border="1")
+                    tr
+                      th Role Type
+                      th No. of Roles
+                    tr
+                      td Staff Roles
+                      td #{(roles.staff) ? `${roles.staff.length} roles set` : 'Not set'}
+                    tr
+                      td Mute Role                  
+                      td #{(roles.mute) ? 'Role set!' : 'Not set'}
+                .settings-text-wrapper
+                  h6 Log Channels
+                  table.settings-table-main(border="1")
+                    tr
+                      th Log Type
+                      th Enabled?
+                    tr
+                      td Bot System Logs
+                      td #{(logChannels.botLogChID) ? 'Yes' : 'No'}
+                    tr
+                      td Moderation Logs
+                      td #{(logChannels.modLogChID) ? 'Yes' : 'No'}
+                    tr
+                      td Suggestion Logs
+                      td #{(logChannels.suggestChID) ? 'Yes' : 'No'}
+                    tr
+                      td Support Tickets
+                      td #{(logChannels.ticketsChID) ? 'Yes' : 'No'}
+                button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingGuildStaffRolesModal') Edit 
+                  i.fas.fa-edit
+              .settings-card-modules.settings-card-block            
+                h5 Auto Moderation
+                .settings-text-wrapper
+                  h6 Module Settings
+                  | Enabled? #{(enableAutoMod)?'Yes':'No'}
+                  br
+                  | Channel List Mode: #{(chListMode) ? (chListMode === 'whitelist') ? 'Whitelist' : 'Blacklist' : 'Not Set!'}
+                .settings-text-wrapper
+                  h6 Media Removal Settings
+                  table.settings-table-main(border="1")
+                    tr
+                      th Setting
+                      th Enabled?
+                    tr
+                      td Gifs
+                      td #{(mediaTrackers.removeGifs) ? 'Yes' : 'No'}
+                    tr
+                      td Images
+                      td #{(mediaTrackers.removeImgs) ? 'Yes' : 'No'}
+                    tr
+                      td URLs
+                      td #{(mediaTrackers.removeUrls) ? 'Yes' : 'No'}
+                  h6 Monitored Channels
+                  table.settings-table-main(border="1")
+                    tr
+                      th Setting
+                      th Value
+                    tr
+                      td Channels List
+                      td #{(channelsList) ? `${channelsList.length} channels set` : 'N/A'}
+                    tr
+                      td URL Blacklist
+                      td #{(urlBlacklist) ? `${urlBlacklist.length} urls blocked` : 'N/A'}
+                br
+                button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingAutoModBotModal') Edit 
+                  i.fas.fa-edit
+              .settings-card-modules.settings-card-block
+                h5 Bot Notifications
+                .settings-text-wrapper
+                  h6 Module Settings
+                  | Enabled? #{(notifier.enableNotifier)?'Yes':'No'}
+                  br
+                  | Notifs Channel: #{(notifsChannel && notifsChannel.length > 0) ? `#${bot.channels.cache.get(notifsChannel).name}` : 'Not Set!'}              
+                .settings-text-wrapper
+                  h6 Event / Tracker Settings
+                  table.settings-table-main(border="1")
+                    tr
+                      th Tracker
+                      th Enabled?
+                    tr
+                      td Join
+                      td #{(trackEvents.join) ? 'Yes' : 'No'}
+                    tr
+                      td Leave
+                      td #{trackEvents.leave ? 'Yes' : 'No'}
+                    tr
+                      td Kick
+                      td #{trackEvents.kick ? 'Yes' : 'No'}
+                    tr
+                      td Ban
+                      td #{trackEvents.ban ? 'Yes' : 'No'}
+                  table.settings-table-main(border="1")
+                    tr
+                      th Event
+                      th Message
+                    tr
+                      td Join
+                      td #{(eventMsgTxt && eventMsgTxt.joinMsg.length > 0) ? eventMsgTxt.joinMsg : 'Not set!'}
+                    tr
+                      td Leave
+                      td #{(eventMsgTxt && eventMsgTxt.leaveMsg.length > 0) ? eventMsgTxt.leaveMsg : 'Not set!'}
+                    tr
+                      td Kick
+                      td #{(eventMsgTxt && eventMsgTxt.kickMsg.length > 0) ? eventMsgTxt.kickMsg : 'Not set!'}
+                    tr
+                      td Ban
+                      td #{(eventMsgTxt && eventMsgTxt.banMsg.length > 0) ? eventMsgTxt.banMsg : 'Not set!'}
+                br
+                button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingBotNotifsModal') Edit 
+                  i.fas.fa-edit
+              .settings-card-modules.settings-card-block
+                h5 Smart Chat Bot
+                .settings-text-wrapper
+                  h6 Module Settings
+                  | Enabled? #{(chatBot.enableChatBot)?'Yes':'No'}
+                  br
+                  | ChatBot Settings
+                  br
+                  | Name: #{(chatBotOpts.botName) ? chatBotOpts.botName : 'Not set!'}
+                  br
+                  | Gender: #{(chatBotOpts.botGender) ? chatBotOpts.botGender[0].toUpperCase() + chatBotOpts.botGender.substring(1) : 'Not set!'}
+                .settings-text-wrapper
+                  h6 Chat Channels
+                  table.settings-table-main(border="1")
+                    tr
+                      th Chat Channels
+                    tr
+                      td #{(chatChannels) ? (chatChannels.length >= 1) ? `Monitoring 1 chat channel` : `Monitoring ${chatChannels.length} channels` : 'No chat channels configured!'}
+                br
+                button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
+                  i.fas.fa-edit
+
+            .settings-card-modules.danger-block
+              h4 Danger Zone
+              - disableAction
+              p.lead Beware, these are destructive actions!
+                .settings-card-wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
+                  h5 Reset Settings
+                  a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#settingsResetModal' role='button') RESET
+                .settings-card-wrapper(style="width: auto; margin-left: 2px;margin-right: 2px;")
+                  h5 Leave Guild
+                  a.btn.btn-outline-danger(data-bs-toggle='modal' data-bs-target='#serverLeaveModal' role='button') LEAVE
+            include blocks/guild-manage-modals
+        #guildMembersPanel.tab-pane.fade
+          h3.display-4 Guild Members
+          p.lead
+          | There are currently #{guild.members.cache.filter(member => !member.user.bot).size} users and #{guild.members.cache.filter(member => member.user.bot).size} bots in this guild!
+          br
+          | NB: You cannot kick/ban yourself or the bot, this has been disabled to prevent errors, there is no way to override this.
+          p
+          | Status Icons: 
+          i.fas.fa-check-circle(style="color:#0fa840")
+          | !{' '}- Online 
+          i.fas.fa-moon(style="color:#faa61a")
+          | !{' '}- Idle/Away 
+          i.fas.fa-minus-circle(style="color:#f04747")
+          | !{' '}- Do Not Disturb 
+          i.fas.fa-question-circle(style="color:#665f53")
+          | !{' '}- Invisble 
+          i.fas.fa-circle(style="color:#747f8d")
+          | !{' '}- Offline 
+          br
+          | Device Icons: 
+          i.fas.fa-mobile-alt 
+          | !{' '}- Mobile (Android/IOS) 
+          i.fas.fa-desktop 
+          | !{' '}- Desktop (Win/Mac/Linux) 
+          i.fas.fa-globe 
+          | !{' '}- Web (Browser/Cloud*) 
+          br
+          | *'Cloud' refers to BOT users only.
+          br
+          include blocks/guild-member-modals
+          - var memberPos = 0;
+          each member in members
+            .member-card
+              img.member-avatar(src=member.user.displayAvatarURL({ dynamic: true, size: 64 }) alt="Discord Avatar" onerror="this.onerror=null;this.src=member.user.defaultAvatarURL")
+              .member-actions
+                .btn-group-vertical(role='group' aria-label='Basic example')
+                  - var userCheck = (member.user.id===bot.user.id || member.user.id===user.id) ? "disabled" : "" 
+                  button.btn.btn-outline-warning(class=userCheck data-bs-toggle='modal' data-bs-target='#memberKickModal' data-bs-memberid=member.user.id  type='button') KICK
+                  button.btn.btn-outline-danger(class=userCheck data-bs-toggle='modal' data-bs-target='#memberBanModal' data-bs-memberid=member.user.id type='button') BAN
+              p
+              | #{member.displayName}
+              br
+              | (#{member.user.tag})
+              br        
+              | Created #{formatDate(member.user.createdAt)}
+              br
+              | Joined #{formatDate(member.joinedAt)}
+              br
+              | Bot User: #{(member.user.bot) ? 'Yes' : 'No'}
+              br
+              | Status: 
+              if (member.presence)
+                if (member.presence.status === 'online')
+                  i.fas.fa-check-circle(style="color:#0fa840")
+                if (member.presence.status === 'idle')
+                  i.fas.fa-moon(style="color:#faa61a")
+                if (member.presence.status === 'dnd')
+                  i.fas.fa-minus-circle(style="color:#f04747")
+                if (member.presence.status === 'offline')
+                  i.fas.fa-question-circle(style="color:#665f53")
+                if (!member.presence.status || member.presence.status === undefined)
+                  i.fas.fa-question-circle(style="color:#9c5d16")
+                if (member.presence.clientStatus)
+                  | !{' | '}
+                  if (member.presence.clientStatus.mobile)
+                    i.fas.fa-mobile-alt
+                  if (member.presence.clientStatus.desktop)
+                    i.fas.fa-desktop
+                  if (member.presence.clientStatus.web)
+                    i.fas.fa-globe
+                if (!member.presence.clientStatus)
+                  | !{' | '}
+                  i.far.fa-question-circle
+              else
+                i.fas.fa-circle(style="color:#747f8d")
+              br
+              | Activity Info
+              br
+              - var pos = 0;
+              if (member.presence)
+                each activity in (member.presence.activities.length) ? member.presence.activities : ['No Activity']
+                  - pos = pos + 1;
+                  if (activity === 'No Activity')
+                    | No Activity Data
+                    br
+                    |
+                    if (pos <= member.presence.activities.length) 
+                      br
+                  if (activity.type === 'PLAYING')
+                    | Playing #{activity.name}
+                    br
+                    | #{(activity.details) ? `- ${activity.details}` : ''}
+                    if (pos <= member.presence.activities.length) 
+                      br
+                  if (activity.type === 'WATCHING')
+                    | Watching #{activity.name}
+                    br
+                    | #{(activity.details) ? `- ${activity.details}` : ''}
+                    if (pos <= member.presence.activities.length) 
+                      br
+                  if (activity.type === 'LISTENING')
+                    | Listening to #{activity.name}
+                    br
+                    | #{(activity.details) ? `- ${activity.details}` : ''}
+                    if (pos <= member.presence.activities.length) 
+                      br
+                  if (activity.type === 'STREAMING')
+                    | Streaming at #{activity.url}
+                    br
+                    | #{(activity.details) ? `- ${activity.details}` : ''}
+                    if (pos <= member.presence.activities.length) 
+                      br
+                  if (activity.type === 'CUSTOM_STATUS')
+                    | "#{activity.state}"
+                    br
+                    |
+                    if (pos <= member.presence.activities.length) 
+                      br
+              else
+                | No Presence Data

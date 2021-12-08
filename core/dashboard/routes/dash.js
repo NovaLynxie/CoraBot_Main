@@ -9,6 +9,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', checkAuth, (req, res) => {
+  
   renderView(res, req, 'dash.pug', { Permissions });
 });
 router.get('/admin', checkAuth, async (req, res) => {
@@ -47,6 +48,20 @@ router.post('/admin/save_clsettings', checkAuth, async (req, res) => {
   req.flash('success', 'Saved preferences successfully!');
   res.redirect('/dashboard/admin');
 });
+router.get('/:guildID', checkAuth, async (req, res) => {
+  const client = res.locals.client;
+  const guild = await client.guilds.fetch(req.params.guildID);
+  const members = Array.from(guild.members.cache.values());
+  const guildRoles = [];
+  guild.roles.cache.forEach(role => guildRoles.push(role));
+  if (!guild) return res.status(404);
+  if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect('/');
+  logger.debug(`Fetching guild settings for ${guild.name}.`);
+  const guildSettings = await client.settings.guild.get(guild);
+  logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);  
+  renderView(res, req, 'guild.pug', { guild, guildRoles, guildSettings, members });
+});
+/*
 router.get('/:guildID', checkAuth, (req, res) => {
   res.redirect(`/dashboard/${req.params.guildID}/manage`);
 });
@@ -62,6 +77,13 @@ router.get('/:guildID/manage', checkAuth, async (req, res) => {
   logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);
   renderView(res, req, 'guild/manage.pug', { guild, guildRoles, guildSettings });
 });
+router.get('/:guildID/manage', checkAuth, async (req, res) => {
+  const client = res.locals.client;
+  const guild = await client.guilds.fetch(req.params.guildID);
+  const members = Array.from(guild.members.cache.values());
+  renderView(res, req, 'guild/members.pug', { guild, members });
+});
+*/
 router.post('/:guildID/manage', checkAuth, async (req, res) => {
   logger.debug(`WebDash called POST action 'save_settings'!`);
   logger.data(`req.body => ${JSON.stringify(req.body)}`);
@@ -161,16 +183,9 @@ router.post('/:guildID/manage', checkAuth, async (req, res) => {
     logger.error(err.message); logger.debug(err.stack);
     req.flash('danger', 'One or more settings failed to save! Please try again. If this error persists, contact an admin or report this to the GitHub issue tracker.');
   }
-  logger.debug('Redirecting to dashboard manage page.');
-  res.redirect(`/dashboard/${req.params.guildID}/manage`);
-});
-router.get('/:guildID/members', checkAuth, (req, res) => {
-  const client = res.locals.client;
-  const guild = client.guilds.cache.get(req.params.guildID);
-  if (!guild) return res.status(404);
-  if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect('/');
-  const members = Array.from(guild.members.cache.values());
-  renderView(res, req, 'guild/members.pug', { guild, members });
+  logger.debug('Redirecting to dashboard guild page.');
+  //res.redirect(`/dashboard/${req.params.guildID}/manage`);
+  res.redirect(`/dashboard/${req.params.guildID}`);
 });
 router.get('/:guildID/leave', checkAuth, async (req, res) => {
   const client = res.locals.client;
