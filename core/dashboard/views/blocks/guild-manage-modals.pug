@@ -3,9 +3,6 @@
 - enableNotifier = (notifier.enableNotifier) ? 'on' : 'off';
 - channelData = guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT');
 - textChannels = Object.fromEntries(channelData);
-- textLogsChs1 = Object.fromEntries(channelData);
-- textLogsChs2 = Object.fromEntries(channelData);
-- textLogsChs3 = Object.fromEntries(channelData);
 
 #settingGuildStaffRolesModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='#settingGuildStaffRolesModalLabel' aria-hidden='true')
   form(action=`/dashboard/${guild.id}/manage`, method='POST')
