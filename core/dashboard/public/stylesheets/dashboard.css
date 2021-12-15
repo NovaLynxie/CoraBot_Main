@@ -1,23 +1,17 @@
 .commands-help {
   padding: 2rem;
-  background-color: rgba(100, 148, 237, 0.233);
-  border-color: rgba(100, 205, 237, 0.425);
-  border-style: solid;
-  border-width: 5px;
+  background-color: #6494ed3b;
+  border: solid #64cded6c 5px;
 }
 .commands-list {
   padding: 2rem;
-  background-color: rgba(100, 148, 237, 0.274);
-  border-color: rgba(100, 205, 237, 0.425);
-  border-style: solid;
-  border-width: 5px;
+  background-color: #6494ed46;
+  border: solid #64cded6c 5px;
 }
 
 .danger-block {
   background-color: #964b2e25;
-  border-color: #ff1f1f49;
-  border-style: solid;
-  border-width: 2px;
+  border: solid #ff1f1f49 2px;
 }
 
 .edit-settings {
@@ -69,18 +63,14 @@
   min-width: 240px;
   color: #ffffff;
   background-color: #82868b;
-  border-color: #4c5155;
-  border-radius: 10%;
-  border-style: solid;
-  border-width: 4px;
+  border: solid #4c5155 4px;
+  border-radius: 10%;  
 }
 .guild-thumb {
   margin: 10px;
   background-color: #2c2f33;
-  border-color: #7289da;
+  border-style: solid #7289da 4px;
   border-radius: 10%;
-  border-style: solid;
-  border-width: 4px;
 }
 .guild-icon {
   position: absolute;
@@ -89,10 +79,8 @@
   max-height: 72px;
   max-width: 72px;
   background-color: #2c2f33;
-  border-color: #7289da;
-  border-radius: 10%;
-  border-style: solid;
-  border-width: 4px;
+  border: solid #7289da 4px;
+  border-radius: 10%;  
   transition: all .2s ease-in-out;
 }
 @media screen and (min-width:1280px) {
@@ -108,30 +96,24 @@
   max-width: 360px;
   margin-bottom: 12px;
   background-color: #2c2f33;
-  border-color: #7289da;
+  border: solid #7289da 5px;
   border-radius: 5%;
-  border-style: solid;
-  border-width: 4px;
 }
-.guild-details-card {
+.details-card {
   vertical-align: top;
   min-height: 450px;
-  min-width: 33%;
+  width: 100%;
   display: inline-block;
   text-align: left;
   padding: 0.5rem;
   background-color: #7676914b;
-  border-color: #585f7e49;
-  border-style: solid;
-  border-width: 2px;
+  border: solid #585f7e49 2px;
 }
-.guild-details-wrapper {
+.details-wrapper {
   min-height: 180px;
   min-width: 200px;
   background-color: #7676914b;
-  border-color: #585f7e49;
-  border-style: solid;
-  border-width: 1px;
+  border: solid #585f7e49 1px;
 }
 .profile-avatar {
   position: absolute;
@@ -143,10 +125,8 @@
   max-height: 128px;
   max-width: 128px;
   background-color: #2c2f33;
-  border-color: #7289da;
+  border: solid #7289da 4px;
   border-radius: 10%;
-  border-style: solid;
-  border-width: 4px;
 }
 .profile-banner {
   position: relative;
@@ -155,10 +135,8 @@
   max-width: 360px;
   margin-bottom: 12px;
   background-color: #2c2f33;
-  border-color: #7289da;
+  border: solid #7289da 4px;
   border-radius: 5%;
-  border-style: solid;
-  border-width: 4px;
 }
 .profile-card {  
   margin: auto;
@@ -167,16 +145,13 @@
   text-align: left;
   padding: 0.5rem;
   background-color: #288cff42;
-  border-color: #0084ff49;
-  border-style: solid;
-  border-width: 2px;
+  border: solid #0084ff49 2px;
 }
 .profile-settings {
   margin: auto;
   padding: 0.5rem;
   background-color: #288cff42;
-  border-color: #0084ff49;
-  border-style: solid;
+  border: solid #0084ff49;
 }
 .member-actions {
   float: right;
@@ -195,10 +170,8 @@
   top: 0%;
   right: 0%;
   background-color: #2c2f33;
-  border-color: #7289da;
+  border: solid #7289da 4px;
   border-radius: 10%;
-  border-style: solid;
-  border-width: 4px;
 }
 .member-card {
   position: relative;
@@ -209,8 +182,7 @@
   text-align: left;
   padding: 0.5rem;
   background-color: #288cff42;
-  border-color: #0084ff49;
-  border-style: solid;
+  border: solid #0084ff49;  
   border-width: 2px;
 }
 
@@ -218,9 +190,7 @@
   text-align: left;  
   padding: 0.5rem;
   background-color: #7676914b;
-  border-color: #585f7e49;
-  border-style: solid;
-  border-width: 2px;
+  border: solid #585f7e49 2px;
 }
 .settings-card-status {
   vertical-align: top;
@@ -230,9 +200,7 @@
   text-align: left;
   padding: 0.5rem;
   background-color: #7676914b;
-  border-color: #585f7e49;
-  border-style: solid;
-  border-width: 2px;
+  border: solid #585f7e49 2px;
 }
 .settings-card-modules {
   position: relative;
@@ -243,9 +211,7 @@
   text-align: left;
   padding: 0.5rem;
   background-color: #748fc08c;
-  border-color: #5f73978c;
-  border-style: solid;
-  border-width: 2px;
+  border: solid #5f73978c 2px;
 }
 .settings-card-block {
   max-width: 320px;
@@ -254,9 +220,7 @@
   min-height: 120px;
   min-width: 240px;
   background-color: #7676914b;
-  border-color: #585f7e49;
-  border-style: solid;
-  border-width: 1px;
+  border: solid #585f7e49 1px;
 }
 .settings-card-wrapper {
   display: inline-block;
