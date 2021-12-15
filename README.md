@@ -24,7 +24,7 @@ To setup a local host instance, clone this repository, navigate to the bot's dir
 1. Use `npm install` if setting up for the first time.  
 2. Use `npm clean-install` if upgrading from an older version of CoraBot. (BACKUP FIRST!)
 
-This will install all required modules for the bot to run correctly. *Option 2 will take longer as it has to check for existing modules.*
+This will install all required dependencies for the bot to run correctly. *Option 2 will take longer as it has to check for existing dependency installs.*
 
 Once installation is completed, run this command: `npm run setup`.  
 This will start the setup utility, follow the on-screen prompts to complete the bot setup process.
