@@ -4,7 +4,8 @@ const { Client, Collection, Intents } = require('discord.js');
 const { crashReporter } = require('./core/handlers/crashReporter');
 const { settingsHandlers, dataHandlers } = require('./core/handlers/keyvManager');
 const {
-  readGuildData, saveGuildData, deleteGuildData, generateGuildData
+  readGuildData, saveGuildData, deleteGuildData, 
+  generateGuildData, resetGuildData, readGuildModData, saveGuildModData, deleteGuildModData, readGuildVoiceData, saveGuildVoiceData, deleteGuildVoiceData, readGuildTrackerData, saveGuildTrackerData, deleteGuildTrackerData
 } = dataHandlers;
 const {
   clearClientSettings, clearGuildSettings, generateClientSettings, generateGuildSettings, saveClientSettings, saveGuildSettings, readClientSettings, readGuildSettings, deleteGuildSettings
@@ -26,7 +27,13 @@ if (useLegacyURL) {
   client.options.http.api = 'https://discordapp.com/api';
 } else { logger.debug('Using default API domain.') };
 client.commands = new Collection();
-client.data = { get: readGuildData, set: saveGuildData, init: generateGuildData, delete: deleteGuildData };
+client.data = {
+  moderation: { get: readGuildModData, set: saveGuildModData, delete: deleteGuildModData, },
+  tracker: { get: readGuildTrackerData, set: saveGuildTrackerData, delete: deleteGuildTrackerData },
+  voice: { get: readGuildVoiceData, set: saveGuildVoiceData, delete: deleteGuildVoiceData },
+  get: readGuildData, set: saveGuildData, init: generateGuildData, delete: deleteGuildData
+};
+
 client.settings = {
   clear: clearClientSettings, get: readClientSettings, set: saveClientSettings, init: generateClientSettings,
   guild: {

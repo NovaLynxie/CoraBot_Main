@@ -3,14 +3,15 @@ const Keyv = require('@keyvhq/core');
 const KeyvSQLite = require('@keyvhq/sqlite');
 const clientPrefStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'clientSettings' });
 const guildPrefStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'guildSettings' });
-const guildDataStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }) });
 /*
-const guildDataStore = {  
+const guildDataStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }) });
+*/
+const guildDataStore = {
   offenses: new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }), namespace: 'offenses' }),
   trackers: new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }), namespace: 'trackers' }),
   voice: new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }), namespace: 'voice' })
 };
-*/
+
 const clientSettingsTemplate = require('../assets/templates/database/clientSettings.json');
 const guildSettingsTemplate = require('../assets/templates/database/guildSettings.json');
 const guildDataTemplate = require('../assets/templates/database/guildData.json');
@@ -94,7 +95,7 @@ async function generateGuildData(guildIDs) {
   logger.debug('Preparing to check guild data now...');
   guildIDs.forEach(async (guildID) => {
     logger.verbose(`Checking ${guildID} of guildIDs`);
-    const data = await guildDataStore.get(guildID);
+    const data = await guildDataStore.get(guildID);    
     if (data) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
       logger.verbose(`Checking datastore for ${guildID} for any updates.`);
@@ -114,7 +115,7 @@ async function generateGuildData(guildIDs) {
       await guildDataStore.set(guildID, guildDataTemplate);
     };
     /*
-    const data = {      
+    const data = {
       offenses: await guildDataStore.offenses.get(guildID),
       trackers: await guildDataStore.trackers.get(guildID),
       voice: await guildDataStore.voice.get(guildID)
@@ -133,7 +134,6 @@ async function generateGuildData(guildIDs) {
         };
       });
       await guildDataStore.set(guildID, data);
-      return;
     };
     if (data.trackers) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
@@ -148,7 +148,6 @@ async function generateGuildData(guildIDs) {
         };
       });
       await guildDataStore.set(guildID, data);
-      return;
     };
     if (data.voice) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
@@ -163,42 +162,74 @@ async function generateGuildData(guildIDs) {
         };
       });
       await guildDataStore.set(guildID, data);
-      return;
     };
     */
   });
   logger.debug('Finished checking guild settings.');
   logger.info('Guild data is now available.');
 };
+// default 'legacy' functions. to be depreciated.
 async function readGuildData(guild) {
   logger.verbose(`Fetching guild data for ${guild.name} (ID:${guild.id}).`);
   const res = await guildDataStore.get(guild.id);
   return res;
 };
-/*
-async function readGuildData(type, guild) {
-  //
-};
-*/
 async function saveGuildData(data, guild) {
   logger.verbose(`Updating guild data for ${guild.name} (ID:${guild.id}).`);
   await guildDataStore.set(guild.id, data);
   logger.verbose(`Updated guild data for ${guild.name} (ID:${guild.id}).`);
 };
-/*
-async function saveGuildData(type, guild) {
-  //
-};
-*/
 async function deleteGuildData(guild) {
   logger.verbose(`Removing guild data for ${guild.name} (ID:${guild.id}).`);
   await guildDataStore.delete(guild.id);
 };
-/*
-async function deleteGuildData(type, guild) {
-  //
+
+// to be implemented - moderation data handlers.
+async function readGuildModData(guild) {
+  logger.verbose(`Fetching guild moderation data for ${guild.name} (ID:${guild.id}).`);
+  const res = await guildDataStore.offenses.get(guild.id);
+  return res;
 };
-*/
+async function saveGuildModData(data, guild) {
+  logger.verbose(`Updating guild moderation data for ${guild.name} (ID:${guild.id}).`);
+  await guildDataStore.offenses.set(guild.id, data);
+  logger.verbose(`Updated guild moderation data for ${guild.name} (ID:${guild.id}).`);
+};
+async function deleteGuildModData(guild) {
+  logger.verbose(`Removing guild moderation data for ${guild.name} (ID:${guild.id}).`);
+  await guildDataStore.offenses.delete(guild.id);
+};
+// to be implemented - voice data handlers.
+async function readGuildVoiceData(guild) {
+  logger.verbose(`Fetching guild voice data for ${guild.name} (ID:${guild.id}).`);
+  const res = await guildDataStore.voice.get(guild.id);
+  return res;
+};
+async function saveGuildVoiceData(data, guild) {
+  logger.verbose(`Updating guild voice data for ${guild.name} (ID:${guild.id}).`);
+  await guildDataStore.voice.set(guild.id, data);
+  logger.verbose(`Updated guild voice data for ${guild.name} (ID:${guild.id}).`);
+};
+async function deleteGuildVoiceData(guild) {
+  logger.verbose(`Removing guild voice data for ${guild.name} (ID:${guild.id}).`);
+  await guildDataStore.voice.delete(guild.id);
+};
+// to be implemented - tracker data handlers.
+async function readGuildTrackerData(guild) {
+  logger.verbose(`Fetching guild trackers data for ${guild.name} (ID:${guild.id}).`);
+  const res = await guildDataStore.trackers.get(guild.id);
+  return res;
+};
+async function saveGuildTrackerData(data, guild) {
+  logger.verbose(`Updating guild trackers data for ${guild.name} (ID:${guild.id}).`);
+  await guildDataStore.trackers.set(guild.id, data);
+  logger.verbose(`Updated guild trackers data for ${guild.name} (ID:${guild.id}).`);
+};
+async function deleteGuildTrackerData(guild) {
+  logger.verbose(`Removing guild trackers data for ${guild.name} (ID:${guild.id}).`);
+  await guildDataStore.trackers.delete(guild.id);
+};
+
 async function resetGuildData() {
   logger.verbose('Removing all guild data.');
   await guildDataStore.clear();
@@ -210,5 +241,9 @@ module.exports.settingsHandlers = {
   readClientSettings, readGuildSettings, deleteGuildSettings,
 };
 module.exports.dataHandlers = {
-  readGuildData, saveGuildData, deleteGuildData, generateGuildData, resetGuildData,
+  readGuildData, saveGuildData, deleteGuildData,
+  generateGuildData, resetGuildData,
+  readGuildModData, saveGuildModData, deleteGuildModData,
+  readGuildVoiceData, saveGuildVoiceData, deleteGuildVoiceData,
+  readGuildTrackerData, saveGuildTrackerData, deleteGuildTrackerData
 };
