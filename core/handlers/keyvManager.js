@@ -134,7 +134,12 @@ async function generateGuildData(guildIDs) {
           logger.verbose(`Data key '${key}' already exists!`);
         };
       });
-      await guildDataStore.offenses.set(guildID, data);
+      await guildDataStore.offenses.set(guildID, data.offenses);
+    } else {
+      logger.verbose(`Guild 'offenses' data does not exist for ${guildID}!`);
+      logger.verbose(`Generating 'offenses' data for ${guildID}...`);
+      data.offenses = guildDataTemplate.offenses;
+      await guildDataStore.offenses.set(guildID, data.offenses);
     };
     if (data.trackers) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
@@ -148,7 +153,12 @@ async function generateGuildData(guildIDs) {
           logger.verbose(`Data key '${key}' already exists!`);
         };
       });
-      await guildDataStore.trackers.set(guildID, data);
+      await guildDataStore.trackers.set(guildID, data.trackers);
+    } else {
+      logger.verbose(`Guild 'trackers' data does not exist for ${guildID}!`);
+      logger.verbose(`Generating 'trackers' data for ${guildID}...`);
+      data.trackers = guildDataTemplate.trackers;
+      await guildDataStore.trackers.set(guildID, data.trackers);
     };
     if (data.voice) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
@@ -162,7 +172,12 @@ async function generateGuildData(guildIDs) {
           logger.verbose(`Data key '${key}' already exists!`);
         };
       });
-      await guildDataStore.voice.set(guildID, data);
+      await guildDataStore.voice.set(guildID, data.voice);
+    } else {
+      logger.verbose(`Guild 'voice' data does not exist for ${guildID}!`);
+      logger.verbose(`Generating 'voice' data for ${guildID}...`);
+      data.voice = guildDataTemplate.voice;
+      await guildDataStore.voice.set(guildID, data.voice);
     };
   });
   logger.debug('Finished checking guild settings.');
