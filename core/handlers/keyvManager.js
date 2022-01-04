@@ -204,7 +204,6 @@ async function deleteGuildTrackerData(guild) {
   logger.verbose(`Removing guild trackers data for ${guild.name} (ID:${guild.id}).`);
   await guildDataStore.trackers.delete(guild.id);
 };
-
 async function resetGuildData() {
   logger.verbose('Removing all guild data.');
   await guildDataStore.clear();
