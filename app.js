@@ -36,11 +36,10 @@ process.on('unhandledRejection', error => {
   logger.error(`Caused by: ${error.message}`);
   logger.debug(error.stack);
 });
-process.on('uncaughtException', error => {
-  crashReporter(error);
+process.on('uncaughtException', error => {  
   logger.error('Bot crashed! Generating a crash report.');
-  logger.error(error.message); logger.debug(error);
-  setTimeout(() => process.exit(1), 5000);
+  logger.error(error.message); logger.debug(error.stack);
+  crashReporter(error); setTimeout(() => process.exit(1), 5000);
 });
 const apiConnectWarn = setTimeout(() => {
   logger.warn('Bot taking longer than normal to connect.');
