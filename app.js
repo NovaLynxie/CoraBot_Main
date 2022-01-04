@@ -20,10 +20,8 @@ if (useLegacyURL) {
   client.options.http.api = 'https://discordapp.com/api';
 } else { logger.debug('Using default API domain.') };
 client.commands = new Collection();
-// the storage handlers now defined in keyvManager.js
 client.data = handlers.data;
 client.settings = handlers.settings;
-
 const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
   const event = require(`./core/events/${file}`);
