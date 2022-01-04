@@ -63,6 +63,7 @@ module.exports = {
     let guild = interaction.guild, collector, source, track;
     let connection = checkVC(guild);
     let data = await client.data.get(guild);
+    let musicData = await client.data.voice.get(guild);
     const subcmd = interaction.options.getSubcommand();
     const musicBaseEmbed = new MessageEmbed()
       .setColor('#32527b')
@@ -189,13 +190,13 @@ module.exports = {
         };
       };
       interaction.editReply(response);
-      if (object) data.music.queue.push(object);
-      if (list) data.music.queue = data.music.queue.concat(list);
-      await client.data.set(data, guild);
+      if (object) musicData.queue.push(object);
+      if (list) musicData.queue = musicData.queue.concat(list);
+      await client.data.voice.set(musicData, guild);
     };    
     async function loadSong() {
-      if (!data.music.queue[0]) return undefined;
-      let { type, url } = data.music.queue[0], stream, title;
+      if (!musicData.queue[0]) return undefined;
+      let { type, url } = musicData.queue[0], stream, title;
       if (type === 'soundcloud') {
         song = await scbi.getSongInfo(url);
         title = song.title.replace(/\'/g,"''");
@@ -206,7 +207,7 @@ module.exports = {
           title = song.videoDetails.title.replace(/\'/g,"''");
           stream = await ytdl(url);
         };
-      data.music.track = { title, type };
+      musicData.track = { title, type };
       await client.data.set(data, guild);
       source = createSource(stream);
       return source;
@@ -361,7 +362,7 @@ module.exports = {
     async function refreshPlayer(interact) {
       try {
         await interact.editReply({
-          embeds: [dynamicPlayerEmbed(data.music.track)],
+          embeds: [dynamicPlayerEmbed(musicData.track)],
           components: [musicPlayerCtrlBtns, musicPlayerExtBtns],
         });
       } catch (err) {
@@ -408,14 +409,14 @@ module.exports = {
       } else {
         logger.debug('Current song has finished, queuing up next song.');
       };
-      data.music.queue.shift();
-      data.music.track = {};
+      musicData.queue.shift();
+      musicData.track = {};
       await client.data.set(data, guild);
       source = await loadSong();
       if (!source) {
         logger.debug('No songs available. Awaiting new requests.');
       } else {
-        logger.debug(`Song queued! Playing ${data.music.track.title} next.`);
+        logger.debug(`Song queued! Playing ${musicData.track.title} next.`);
         audioPlayer.play(source);
       };
     });
@@ -492,11 +493,11 @@ module.exports = {
             if (!audioPlayer) return;
             stopped = true;
             audioPlayer.stop();
-            data.music.track = {};
+            musicData.track = {};
             break;
           case 'skip':
             if (!audioPlayer) return;
-            data.music.queue.shift();
+            musicData.queue.shift();
             source = await loadSong();
             if (!source) {
               return interact.editReply({ content: 'End of queue!' });
@@ -505,7 +506,7 @@ module.exports = {
             };
             break;
           case 'clear':
-            data.music.queue = [];
+            musicData.queue = [];
             break;
           case 'queue':
             queueOpen = !queueOpen;
@@ -520,7 +521,7 @@ module.exports = {
               );
               loadingEmbed.setDescription('');
               await interact.editReply(
-                { embeds: [await dynamicQueueEmbed(data.music.queue)] }
+                { embeds: [await dynamicQueueEmbed(musicData.queue)] }
               );
             } else {
               refreshPlayer(interact);
