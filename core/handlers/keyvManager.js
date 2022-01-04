@@ -134,7 +134,7 @@ async function generateGuildData(guildIDs) {
           logger.verbose(`Data key '${key}' already exists!`);
         };
       });
-      await guildDataStore.set(guildID, data);
+      await guildDataStore.offenses.set(guildID, data);
     };
     if (data.trackers) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
@@ -148,7 +148,7 @@ async function generateGuildData(guildIDs) {
           logger.verbose(`Data key '${key}' already exists!`);
         };
       });
-      await guildDataStore.set(guildID, data);
+      await guildDataStore.trackers.set(guildID, data);
     };
     if (data.voice) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
@@ -162,7 +162,7 @@ async function generateGuildData(guildIDs) {
           logger.verbose(`Data key '${key}' already exists!`);
         };
       });
-      await guildDataStore.set(guildID, data);
+      await guildDataStore.voice.set(guildID, data);
     };
   });
   logger.debug('Finished checking guild settings.');
