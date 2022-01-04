@@ -3,9 +3,6 @@ const Keyv = require('@keyvhq/core');
 const KeyvSQLite = require('@keyvhq/sqlite');
 const clientPrefStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'clientSettings' });
 const guildPrefStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'guildSettings' });
-/*
-const guildDataStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }) });
-*/
 const guildDataStore = {
   offenses: new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }), namespace: 'offenses' }),
   trackers: new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }), namespace: 'trackers' }),
@@ -95,27 +92,6 @@ async function generateGuildData(guildIDs) {
   logger.debug('Preparing to check guild data now...');
   guildIDs.forEach(async (guildID) => {
     logger.verbose(`Checking ${guildID} of guildIDs`);
-    /*
-    const data = await guildDataStore.get(guildID);    
-    if (data) {
-      logger.verbose(`Guild ${guildID} data entries already added!`);
-      logger.verbose(`Checking datastore for ${guildID} for any updates.`);
-      const guildData = Object.keys(guildDataTemplate);
-      guildData.forEach(key => {
-        if (data[key] === undefined) {
-          logger.verbose(`Data property '${key}' not found! Adding new data property.`)
-          data[key] = guildDataTemplate[key];
-        } else {
-          logger.verbose(`Data key '${key}' already exists!`);
-        };
-      });
-      await guildDataStore.set(guildID, data);
-      return;
-    } else {
-      logger.verbose(`Adding new data entries for ${guildID} now...`);
-      await guildDataStore.set(guildID, guildDataTemplate);
-    };
-    */
     const data = {
       offenses: await guildDataStore.offenses.get(guildID),
       trackers: await guildDataStore.trackers.get(guildID),
@@ -183,22 +159,6 @@ async function generateGuildData(guildIDs) {
   logger.debug('Finished checking guild settings.');
   logger.info('Guild data is now available.');
 };
-// default 'legacy' functions. to be depreciated.
-async function readGuildData(guild) {
-  logger.verbose(`Fetching guild data for ${guild.name} (ID:${guild.id}).`);
-  const res = await guildDataStore.get(guild.id);
-  return res;
-};
-async function saveGuildData(data, guild) {
-  logger.verbose(`Updating guild data for ${guild.name} (ID:${guild.id}).`);
-  await guildDataStore.set(guild.id, data);
-  logger.verbose(`Updated guild data for ${guild.name} (ID:${guild.id}).`);
-};
-async function deleteGuildData(guild) {
-  logger.verbose(`Removing guild data for ${guild.name} (ID:${guild.id}).`);
-  await guildDataStore.delete(guild.id);
-};
-
 // to be implemented - moderation data handlers.
 async function readGuildModData(guild) {
   logger.verbose(`Fetching guild moderation data for ${guild.name} (ID:${guild.id}).`);
@@ -248,20 +208,6 @@ async function deleteGuildTrackerData(guild) {
 async function resetGuildData() {
   logger.verbose('Removing all guild data.');
   await guildDataStore.clear();
-};
-// legacy handlers - to be replaced with new setup.
-module.exports.settingsHandlers = {
-  clearClientSettings, clearGuildSettings,
-  generateClientSettings, generateGuildSettings,
-  saveClientSettings, saveGuildSettings,
-  readClientSettings, readGuildSettings, deleteGuildSettings,
-};
-module.exports.dataHandlers = {
-  readGuildData, saveGuildData, deleteGuildData,
-  generateGuildData, resetGuildData,
-  readGuildModData, saveGuildModData, deleteGuildModData,
-  readGuildVoiceData, saveGuildVoiceData, deleteGuildVoiceData,
-  readGuildTrackerData, saveGuildTrackerData, deleteGuildTrackerData
 };
 // new handlers - replaces legacy handler setup.
 module.exports.handlers = {
