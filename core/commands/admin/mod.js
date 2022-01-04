@@ -1,4 +1,4 @@
-const logger = require('../../utils/winstonLogger'); 
+const logger = require('../../utils/winstonLogger');
 const addDuration = require('date-fns/add')
 const { modLog } = require('../../plugins/guildLogger');
 const { getDuration } = require('../../utils/botUtils');
