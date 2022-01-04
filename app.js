@@ -2,14 +2,7 @@ const logger = require('./core/utils/winstonLogger');
 const { readdirSync } = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { crashReporter } = require('./core/handlers/crashReporter');
-const { settingsHandlers, dataHandlers } = require('./core/handlers/keyvManager');
-const {
-  readGuildData, saveGuildData, deleteGuildData, 
-  generateGuildData, resetGuildData, readGuildModData, saveGuildModData, deleteGuildModData, readGuildVoiceData, saveGuildVoiceData, deleteGuildVoiceData, readGuildTrackerData, saveGuildTrackerData, deleteGuildTrackerData
-} = dataHandlers;
-const {
-  clearClientSettings, clearGuildSettings, generateClientSettings, generateGuildSettings, saveClientSettings, saveGuildSettings, readClientSettings, readGuildSettings, deleteGuildSettings
-} = settingsHandlers;
+const { handlers } = require('./core/handlers/keyvManager');
 const { config, credentials } = require('./core/handlers/bootLoader');
 const { ownerIDs, useLegacyURL, debug } = config;
 const { discordToken } = credentials;
@@ -27,19 +20,10 @@ if (useLegacyURL) {
   client.options.http.api = 'https://discordapp.com/api';
 } else { logger.debug('Using default API domain.') };
 client.commands = new Collection();
-client.data = {
-  moderation: { get: readGuildModData, set: saveGuildModData, delete: deleteGuildModData, },
-  tracker: { get: readGuildTrackerData, set: saveGuildTrackerData, delete: deleteGuildTrackerData },
-  voice: { get: readGuildVoiceData, set: saveGuildVoiceData, delete: deleteGuildVoiceData },
-  get: readGuildData, set: saveGuildData, init: generateGuildData, delete: deleteGuildData
-};
+// the storage handlers now defined in keyvManager.js
+client.data = handlers.data;
+client.settings = handlers.settings;
 
-client.settings = {
-  clear: clearClientSettings, get: readClientSettings, set: saveClientSettings, init: generateClientSettings,
-  guild: {
-    clear: clearGuildSettings, delete: deleteGuildSettings, get: readGuildSettings, set: saveGuildSettings, init: generateGuildSettings
-  }
-};
 const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
   const event = require(`./core/events/${file}`);

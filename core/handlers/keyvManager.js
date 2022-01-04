@@ -95,6 +95,7 @@ async function generateGuildData(guildIDs) {
   logger.debug('Preparing to check guild data now...');
   guildIDs.forEach(async (guildID) => {
     logger.verbose(`Checking ${guildID} of guildIDs`);
+    /*
     const data = await guildDataStore.get(guildID);    
     if (data) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
@@ -114,7 +115,7 @@ async function generateGuildData(guildIDs) {
       logger.verbose(`Adding new data entries for ${guildID} now...`);
       await guildDataStore.set(guildID, guildDataTemplate);
     };
-    /*
+    */
     const data = {
       offenses: await guildDataStore.offenses.get(guildID),
       trackers: await guildDataStore.trackers.get(guildID),
@@ -163,7 +164,6 @@ async function generateGuildData(guildIDs) {
       });
       await guildDataStore.set(guildID, data);
     };
-    */
   });
   logger.debug('Finished checking guild settings.');
   logger.info('Guild data is now available.');
@@ -234,6 +234,7 @@ async function resetGuildData() {
   logger.verbose('Removing all guild data.');
   await guildDataStore.clear();
 };
+// legacy handlers - to be replaced with new setup.
 module.exports.settingsHandlers = {
   clearClientSettings, clearGuildSettings,
   generateClientSettings, generateGuildSettings,
@@ -246,4 +247,41 @@ module.exports.dataHandlers = {
   readGuildModData, saveGuildModData, deleteGuildModData,
   readGuildVoiceData, saveGuildVoiceData, deleteGuildVoiceData,
   readGuildTrackerData, saveGuildTrackerData, deleteGuildTrackerData
+};
+// new handlers - replaces legacy handler setup.
+module.exports.handlers = {
+  data: {
+    init: generateGuildData,
+    reset: resetGuildData,
+    guild: {
+      moderation: {
+        delete: deleteGuildModData,
+        get: readGuildModData,
+        set: saveGuildModData
+      },
+      voice: {
+        delete: deleteGuildVoiceData,
+        get: readGuildVoiceData,
+        set: saveGuildVoiceData
+      },
+      trackers: {
+        delete: deleteGuildTrackerData,
+        get: readGuildTrackerData,
+        set: saveGuildTrackerData
+      }
+    }
+  },
+  settings: {
+    clear: clearClientSettings,
+    init: generateClientSettings,
+    get: readClientSettings,
+    set: saveClientSettings,
+    guild: {
+      clear: clearGuildSettings,
+      init: generateGuildSettings,
+      delete: deleteGuildSettings,
+      set: saveGuildSettings,
+      get: readGuildSettings
+    }
+  }
 };
