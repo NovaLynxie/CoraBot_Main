@@ -197,6 +197,7 @@ module.exports = {
     async function loadSong() {
       if (!voiceData.music.queue[0]) return undefined;
       let { type, url } = voiceData.music.queue[0], stream, title;
+      const options = { filter: 'audioonly', dlChunkSize: 0 };
       if (type === 'soundcloud') {
         song = await scbi.getSongInfo(url);
         title = song.title.replace(/\'/g, "''");
@@ -205,7 +206,7 @@ module.exports = {
         if (type === 'youtube') {
           song = await ytdl.getBasicInfo(url);
           title = song.videoDetails.title.replace(/\'/g, "''");
-          stream = await ytdl(url, { filter: 'audioonly', dlChunkSize: 0 });
+          stream = await ytdl(url, options);
         };
       voiceData.music.track = { title, type, };
       await client.data.guild.voice.set(voiceData, guild);
