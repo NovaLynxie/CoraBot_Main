@@ -395,12 +395,7 @@ module.exports = {
         await refreshPlayer(interaction);
         break;
     };
-    // Player Event Handler.
-    audioPlayer.on('stateChange', (oldState, newState) => {
-      logger.debug(`oldState.status => ${oldState ?.status}`);
-      logger.debug(`newState.status => ${newState ?.status}`);
-      if (playerOpen) refreshPlayer(interaction);
-    });
+    // Player Event Handler.    
     audioPlayer.on(AudioPlayerStatus.Playing, () => {
       logger.debug('Player has started playing!');
     });
@@ -431,6 +426,11 @@ module.exports = {
     };
     audioPlayer.on(AudioPlayerStatus.Paused, () => {
       logger.debug('Player paused by user! Awaiting unpause call.');
+    });
+    audioPlayer.on('stateChange', (oldState, newState) => {
+      logger.debug(`oldState.status => ${oldState ?.status}`);
+      logger.debug(`newState.status => ${newState ?.status}`);
+      if (playerOpen) refreshPlayer(interaction);
     });
     audioPlayer.on('error', err => {
       logger.error('Error occured while playing stream!');
