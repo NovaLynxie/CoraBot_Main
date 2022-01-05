@@ -410,9 +410,10 @@ module.exports = {
       } else {
         logger.debug('Current song has finished, queuing up next song.');
       };
+      voiceData = await client.data.guild.voice.get(guild);
       voiceData.music.queue.shift();
       voiceData.music.track = {};
-      await client.data.set(data, guild);
+      await client.data.guild.voice.set(voiceData, guild);
       source = await loadSong();
       if (!source) {
         logger.debug('No songs available. Awaiting new requests.');
