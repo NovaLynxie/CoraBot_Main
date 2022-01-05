@@ -413,7 +413,6 @@ module.exports = {
       voiceData = await client.data.guild.voice.get(guild);
       voiceData.music.queue.shift();
       voiceData.music.track = {};
-      await client.data.guild.voice.set(voiceData, guild);
       source = await loadSong();
       if (!source) {
         logger.debug('No songs available. Awaiting new requests.');
@@ -421,6 +420,7 @@ module.exports = {
         logger.debug(`Song queued! Playing ${voiceData.music.track.title} next.`);
         audioPlayer.play(source);
       };
+      await client.data.guild.voice.set(voiceData, guild);
     });
     audioPlayer.on(AudioPlayerStatus.AutoPaused, () => {
       logger.debug('Player auto paused since not connected. Awaiting channel connections.');
