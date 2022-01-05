@@ -435,6 +435,7 @@ module.exports = {
     audioPlayer.on('error', err => {
       logger.error('Error occured while playing stream!');
       logger.error(err.message); logger.debug(err.stack);
+      logger.verbose(err);
       audioPlayer.stop();
     });
     // Menu/Button collecter and handler.
