@@ -188,7 +188,7 @@ module.exports = {
           ephemeral: true
         };
       };
-      interaction.editReply(response);      
+      interaction.editReply(response);
       if (object) voiceData.music.queue.push(object);
       if (list) voiceData.music.queue = voiceData.music.queue.concat(list);
       logger.verbose(`voiceData:${JSON.stringify(voiceData, null, 2)}`);
@@ -205,9 +205,9 @@ module.exports = {
         if (type === 'youtube') {
           song = await ytdl.getBasicInfo(url);
           title = song.videoDetails.title.replace(/\'/g, "''");
-          stream = await ytdl(url);
+          stream = await ytdl(url, { filter: 'audioonly', dlChunkSize: 0 });
         };
-      voiceData.music.track = { title, type };
+      voiceData.music.track = { title, type, };
       await client.data.guild.voice.set(voiceData, guild);
       source = createSource(stream);
       return source;
