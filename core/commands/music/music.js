@@ -192,7 +192,7 @@ module.exports = {
       if (object) voiceData.music.queue.push(object);
       if (list) voiceData.music.queue = voiceData.music.queue.concat(list);
       logger.verbose(`voiceData:${JSON.stringify(voiceData, null, 2)}`);
-      await client.data.guild.voice.set(voiceData.music, guild);
+      await client.data.guild.voice.set(voiceData, guild);
     };
     async function loadSong() {
       if (!voiceData.music.queue[0]) return undefined;
