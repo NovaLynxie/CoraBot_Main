@@ -15,7 +15,7 @@ const ytpl = require('ytpl');
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
 let audioPlayer = newAudioPlayer(), stopped = false;
-const listenerChecker = setInterval( () => {
+const listenerChecker = setInterval(() => {
   audioPlayer.removeAllListeners(AudioPlayerStatus.Playing);
   audioPlayer.removeAllListeners(AudioPlayerStatus.Idle);
   audioPlayer.removeAllListeners(AudioPlayerStatus.AutoPaused);
@@ -62,7 +62,7 @@ module.exports = {
     await interaction.deferReply({ ephemeral: false });
     let guild = interaction.guild, collector, source, track;
     let connection = checkVC(guild);
-    let voiceData = await client.data.voice.get(guild);
+    let voiceData = await client.data.guild.voice.get(guild);
     const subcmd = interaction.options.getSubcommand();
     const musicBaseEmbed = new MessageEmbed()
       .setColor('#32527b')
@@ -122,7 +122,7 @@ module.exports = {
       });
       playlist.tracks.forEach(track => {
         if (!track.permalink_url) return logger.debug('Skipped track  due to incomplete/malformed response.');
-        object = {type: 'soundcloud', url: track.permalink_url};
+        object = { type: 'soundcloud', url: track.permalink_url };
         queue.push(object);
       });
       interaction.editReply({
@@ -139,7 +139,7 @@ module.exports = {
       });
       playlist.items.forEach(video => {
         if (!video.shortURL && !video.url) return logger.debug('Skipped video due to incomplete/malformed response.');
-        object = {type: 'youtube', url: video.shortURL || video.url};
+        object = { type: 'youtube', url: video.shortURL || video.url };
         queue.push(object);
       });
       interaction.editReply({
@@ -166,21 +166,21 @@ module.exports = {
             list = await soundcloudSongsParser(input);
           } else {
             object = { type: 'soundcloud', url: input };
-          };          
-        } else
-        if (input.match(/youtu(be|.be)?(\.com)/)) {
-          if (input.match(/\blist=.*$/)) {
-            list = await youtubeSongsParser(input);
-          } else {
-            object = { type: 'youtube', url: input };
-          };          
-        } else {
-          response = {
-            content: 'That song URL is not supported!',
-            embeds: [], components: [],
-            ephemeral: true
           };
-        };
+        } else
+          if (input.match(/youtu(be|.be)?(\.com)/)) {
+            if (input.match(/\blist=.*$/)) {
+              list = await youtubeSongsParser(input);
+            } else {
+              object = { type: 'youtube', url: input };
+            };
+          } else {
+            response = {
+              content: 'That song URL is not supported!',
+              embeds: [], components: [],
+              ephemeral: true
+            };
+          };
       } else {
         response = {
           content: 'That song URL is not supported!',
@@ -188,26 +188,27 @@ module.exports = {
           ephemeral: true
         };
       };
-      interaction.editReply(response);
+      interaction.editReply(response);      
       if (object) voiceData.music.queue.push(object);
       if (list) voiceData.music.queue = voiceData.music.queue.concat(list);
-      await client.data.voice.set(voiceData.music, guild);
-    };    
+      logger.verbose(`voiceData:${JSON.stringify(voiceData, null, 2)}`);
+      await client.data.guild.voice.set(voiceData.music, guild);
+    };
     async function loadSong() {
       if (!voiceData.music.queue[0]) return undefined;
       let { type, url } = voiceData.music.queue[0], stream, title;
       if (type === 'soundcloud') {
         song = await scbi.getSongInfo(url);
-        title = song.title.replace(/\'/g,"''");
+        title = song.title.replace(/\'/g, "''");
         stream = await song.downloadProgressive();
       } else
         if (type === 'youtube') {
           song = await ytdl.getBasicInfo(url);
-          title = song.videoDetails.title.replace(/\'/g,"''");
+          title = song.videoDetails.title.replace(/\'/g, "''");
           stream = await ytdl(url);
         };
       voiceData.music.track = { title, type };
-      await client.data.set(data, guild);
+      await client.data.guild.voice.set(voiceData, guild);
       source = createSource(stream);
       return source;
     };
@@ -217,7 +218,7 @@ module.exports = {
       queueEmbed
         .setTitle('Music Player Queue 🎼')
         .setDescription(`${guild.name}'s queued songs`);
-      let field = {}, no = 1, info;      
+      let field = {}, no = 1, info;
       for (const item of queue) {
         let { type, url } = item;
         switch (type) {
@@ -295,13 +296,13 @@ module.exports = {
             .setCustomId('musicSearchSelect')
             .setPlaceholder('Select your song.')
             .addOptions(selection)
-          )
+        )
       return searchSelector;
     };
     function dynamicPlayerEmbed(song) {
       let playerState, playerEmbed = new MessageEmbed(musicBaseEmbed);
       playerEmbed.setTitle('Music Player 🎶')
-      switch (audioPlayer?._state.status) {
+      switch (audioPlayer ?._state.status) {
         case 'idle':
           playerState = 'Idle';
           break;
@@ -327,7 +328,7 @@ module.exports = {
         },
         {
           name: 'Song Information',
-          value: (song.title) ? `${song.title.replace("''","'")}` : 'No song loaded.',
+          value: (song.title) ? `${song.title.replace("''", "'")}` : 'No song loaded.',
         }
       ];
       return playerEmbed;
@@ -345,7 +346,7 @@ module.exports = {
           results = await scbi.search(query.keywords, "track");
           break;
         default:
-          // ..
+        // ..
       };
       if (!results) {
         await interaction.editReply({
@@ -359,6 +360,7 @@ module.exports = {
     };
     // Update player interface from dynamic embed.
     async function refreshPlayer(interact) {
+      logger.verbose(JSON.stringify(voiceData, null, 2));
       try {
         await interact.editReply({
           embeds: [dynamicPlayerEmbed(voiceData.music.track)],
@@ -373,7 +375,7 @@ module.exports = {
     audioPlayer = (!audioPlayer) ? newAudioPlayer() : audioPlayer;
     switch (subcmd) {
       case 'add':
-        await verifySource(interaction.options.getString('url'));      
+        await verifySource(interaction.options.getString('url'));
         await wait(3000);
         await interaction.deleteReply();
         break;
@@ -395,8 +397,8 @@ module.exports = {
     };
     // Player Event Handler.
     audioPlayer.on('stateChange', (oldState, newState) => {
-      logger.debug(`oldState.status => ${oldState?.status}`);
-      logger.debug(`newState.status => ${newState?.status}`);
+      logger.debug(`oldState.status => ${oldState ?.status}`);
+      logger.debug(`newState.status => ${newState ?.status}`);
       if (playerOpen) refreshPlayer(interaction);
     });
     audioPlayer.on(AudioPlayerStatus.Playing, () => {
@@ -436,7 +438,8 @@ module.exports = {
     // Menu/Button collecter and handler.
     if (collector) {
       collector.on('collect', async interact => {
-        data = await client.data.get(interact.guild);
+        voiceData = await client.data.guild.voice.get(interact.guild);
+        logger.verbose(JSON.stringify(voiceData, null, 2));
         await interact.deferUpdate();
         await wait(1000);
         // Interaction Collector Switch/Case Handler
@@ -471,10 +474,10 @@ module.exports = {
             if (!connection) {
               connection = await joinVC(interaction.member.voice.channel);
             } else
-            if (connection) {
-              connection.destroy();
-              connection = null;
-            };
+              if (connection) {
+                connection.destroy();
+                connection = null;
+              };
             break;
           // Music Player Actions
           case 'play':
@@ -532,7 +535,7 @@ module.exports = {
             await interact.editReply({
               content: 'That action is invalid or not available!',
             });
-        }; await client.data.set(data, interact.guild);
+        }; await client.data.guild.voice.set(voiceData, interact.guild);
       });
       collector.on('end', async collected => {
         logger.debug('Collector in music commmand timed out or was stopped.');
