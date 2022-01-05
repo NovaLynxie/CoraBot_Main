@@ -168,7 +168,7 @@ module.exports = {
             object = { type: 'soundcloud', url: input };
           };
         } else
-          if (input.match(/youtu(be|.be)?(\.com)/)) {
+          if (input.match(/(youtube\.com|youtu\.be)/)) {
             if (input.match(/\blist=.*$/)) {
               list = await youtubeSongsParser(input);
             } else {
