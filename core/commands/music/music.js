@@ -405,6 +405,7 @@ module.exports = {
       logger.debug('Player has started playing!');
     });
     audioPlayer.on(AudioPlayerStatus.Idle, async () => {
+      logger.debug('Player has stopped playing!');
       if (stopped) {
         return logger.debug('Player stopped by user! AutoPlay halted.');
       } else {
