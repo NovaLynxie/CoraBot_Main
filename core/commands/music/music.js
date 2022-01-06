@@ -515,6 +515,7 @@ module.exports = {
                   connection.destroy();
                   connection = null;
                 };
+              refreshPlayer(interact);
               break;
             // Music Player Actions
             case 'play':
