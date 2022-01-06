@@ -1,13 +1,10 @@
 const logger = require('../../utils/winstonLogger');
 const { longURL, shortURL } = require('../../utils/urlParser');
 const { credentials } = require('../../handlers/bootLoader');
-//const { youtubeApiKey } = credentials;
 const { MessageActionRow, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu } = require('discord.js');
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
-//const YouTube = require('simple-youtube-api');
-//const ytas = new YouTube(youtubeApiKey);
 const ytsa = require('youtube-search-api');
 const scbi = new SoundCloud.Client();
 const ytdl = require('ytdl-core');
@@ -15,14 +12,7 @@ const ytpl = require('ytpl');
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
 let audioPlayer = newAudioPlayer(), stopped = false;
-/*
-const listenerChecker = setInterval(() => {
-  audioPlayer.removeAllListeners(AudioPlayerStatus.Playing);
-  audioPlayer.removeAllListeners(AudioPlayerStatus.Idle);
-  audioPlayer.removeAllListeners(AudioPlayerStatus.AutoPaused);
-  audioPlayer.removeAllListeners(AudioPlayerStatus.Paused);
-}, 30000);
-*/
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('music')
