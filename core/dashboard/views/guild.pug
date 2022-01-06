@@ -20,10 +20,13 @@ block content
     - return `${d} ${D}${nth} ${m} ${y} at ${H}:${M}`;
   - }
   .container
-    include blocks/guild-nav
-    block navtab
-      - var activeTab = 'manage'  
     .jumbotron.text-center
+      .card-header(style='padding: 2px;')
+        ul.nav.nav-tabs
+          li.nav-item
+            a.nav-link.active(href='#guildManagePanel' data-bs-toggle='tab') Settings 
+          li.nav-item
+            a.nav-link(href='#guildMembersPanel' data-bs-toggle='tab') Members
       #guildPanels.tab-content
         #guildManagePanel.tab-pane.fade.active.show
           h3.display-4 Guild Settings
