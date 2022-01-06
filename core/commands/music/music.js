@@ -462,7 +462,7 @@ module.exports = {
         logger.debug(`newState.status => ${newState ?.status}`);
         if (playerOpen) refreshPlayer(interaction);
       });
-    }; console.log(audioPlayer.listenerCount('stateChange'));
+    };
     if (eventListenerCheck('error')) {
       audioPlayer.on('error', err => {
         logger.error('Error occured while playing stream!');
