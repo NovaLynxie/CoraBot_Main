@@ -122,7 +122,7 @@ module.exports = {
           .setEmoji('❌')
           .setStyle('SECONDARY'),
       );
-    const musicQueueExtBtns = new MessageActionRow()
+    const musicQueueMenuBtns = new MessageActionRow()
       .addComponents(
         new MessageButton()
           .setCustomId('clear')
@@ -339,8 +339,10 @@ module.exports = {
           playerState = 'Paused';
           break;
         default:
-          playerState = 'Error';
+          playerState = 'Invalid State!';
       };
+      if (!source) playerState = 'No Song Loaded!';
+      if (!connection) playerState = 'Playback Error!'
       playerEmbed.fields = [
         {
           name: 'Player Status',
@@ -477,103 +479,114 @@ module.exports = {
         await interact.deferUpdate();
         await wait(1000);
         // Interaction Collector Switch/Case Handler
-        switch (interact.customId) {
-          case 'closePlayer':
-            playerOpen = false;
-            await interact.editReply(
-              {
-                content: 'Music Player hidden! Run /music player to reopen it.',
-                embeds: [], components: [],
-              },
-            );
-            await wait(5000);
-            await interact.deleteReply();
-            collector.stop();
-            break;
-          // Search Result Handler
-          case 'musicSearchSelect':
-            await verifySource(interact.values[0]);
-            await wait(3000);
-            await interaction.deleteReply();
-            collector.stop();
-            break;
-          // Join/Leave Voice Actions
-          case 'joinLeaveVC':
-            if (!interaction.member.voice.channel) {
-              interact.followUp({
-                content: 'You are not in a voice channel! Please join one first!',
-                ephemeral: true,
-              });
-            };
-            if (!connection) {
-              connection = await joinVC(interaction.member.voice.channel);
-            } else
-              if (connection) {
-                connection.destroy();
-                connection = null;
+        try {
+          switch (interact.customId) {
+            case 'closePlayer':
+              playerOpen = false;
+              await interact.editReply(
+                {
+                  content: 'Music Player hidden! Run /music player to reopen it.',
+                  embeds: [], components: [],
+                },
+              );
+              await wait(5000);
+              await interact.deleteReply();
+              collector.stop();
+              break;
+            // Search Result Handler
+            case 'musicSearchSelect':
+              await verifySource(interact.values[0]);
+              await wait(3000);
+              await interaction.deleteReply();
+              collector.stop();
+              break;
+            // Join/Leave Voice Actions
+            case 'joinLeaveVC':
+              if (!interaction.member.voice.channel) {
+                interact.followUp({
+                  content: 'You are not in a voice channel! Please join one first!',
+                  ephemeral: true,
+                });
               };
-            break;
-          // Music Player Actions
-          case 'play':
-            if (!audioPlayer) return;
-            source = await loadSong();
-            if (!source) return interact.editReply({ content: 'No song queued to play!' });
-            audioPlayer.play(source);
-            connection.subscribe(audioPlayer);
-            break;
-          case 'pause':
-            if (!audioPlayer) return;
-            if (audioPlayer ?._state.status === Paused) {
-              audioPlayer.unpause();
-            } else if(audioPlayer ?._state.status === Playing) {
-              audioPlayer.pause();
-            };
-            break;
-          case 'stop':
-            if (!audioPlayer) return;
-            stopped = true;
-            audioPlayer.stop();
-            voiceData.music.track = {};
-            break;
-          case 'skip':
-            if (!audioPlayer) return;
-            voiceData.music.queue.shift();
-            source = await loadSong();
-            if (!source) {
-              return interact.editReply({ content: 'End of queue!' });
-            } else {
+              if (!connection) {
+                connection = await joinVC(interaction.member.voice.channel);
+              } else
+                if (connection) {
+                  connection.destroy();
+                  connection = null;
+                };
+              break;
+            // Music Player Actions
+            case 'play':
+              if (!audioPlayer) return;
+              source = await loadSong();
+              if (!source) return interact.editReply({ content: 'No song queued to play!' });
+              if (!interaction.member.voice.channel) {
+                interact.followUp({
+                  content: 'You are not in a voice channel! Please join one first!',
+                  ephemeral: true,
+                });
+              };
               audioPlayer.play(source);
-            };
-            break;
-          case 'clear':
-            voiceData.music.queue = [];
-            break;
-          case 'queue':
-            queueOpen = !queueOpen;
-            if (queueOpen) {
-              let loadingEmbed = new MessageEmbed(musicBaseEmbed)
-              logger.debug(`Fetching queue for ${guild.name} (${guild.id})`);
-              loadingEmbed
-                .setTitle(`Queued Songs for ${guild.name}`)
-                .setDescription('Composing song queue, please wait.');
-              await interact.editReply(
-                { embeds: [loadingEmbed] }
-              );
-              loadingEmbed.setDescription('');
-              await interact.editReply(
-                { embeds: [await dynamicQueueEmbed(voiceData.music.queue)] }
-              );
-            } else {
-              refreshPlayer(interact);
-            };
-            break;
-          default:
-            logger.warn('Invalid or unknown action called!');
-            logger.verbose('music.button.default.trigger');
-            await interact.editReply({
-              content: 'That action is invalid or not available!',
-            });
-        }; await client.data.guild.voice.set(voiceData, interact.guild);
+              if (!connection) break;
+              connection.subscribe(audioPlayer);
+              break;
+            case 'pause':
+              if (!audioPlayer) return;
+              if (audioPlayer ?._state.status === Paused) {
+                audioPlayer.unpause();
+              } else if (audioPlayer ?._state.status === Playing) {
+                audioPlayer.pause();
+              };
+              break;
+            case 'stop':
+              if (!audioPlayer) return;
+              stopped = true;
+              audioPlayer.stop();
+              voiceData.music.track = {};
+              break;
+            case 'skip':
+              if (!audioPlayer) return;
+              voiceData.music.queue.shift();
+              source = await loadSong();
+              if (!source) {
+                return interact.editReply({ content: 'End of queue!' });
+              } else {
+                audioPlayer.play(source);
+              };
+              break;
+            case 'clear':
+              voiceData.music.queue = [];
+              break;
+            case 'queue':
+              queueOpen = !queueOpen;
+              if (queueOpen) {
+                let loadingEmbed = new MessageEmbed(musicBaseEmbed)
+                logger.debug(`Fetching queue for ${guild.name} (${guild.id})`);
+                loadingEmbed
+                  .setTitle(`Queued Songs for ${guild.name}`)
+                  .setDescription('Composing song queue, please wait.');
+                await interact.editReply(
+                  { embeds: [loadingEmbed] }
+                );
+                loadingEmbed.setDescription('');
+                await interact.editReply(
+                  { embeds: [await dynamicQueueEmbed(voiceData.music.queue)] }
+                );
+              } else {
+                refreshPlayer(interact);
+              };
+              break;
+            default:
+              logger.warn('Invalid or unknown action called!');
+              logger.verbose('music.button.default.trigger');
+              await interact.editReply({
+                content: 'That action is invalid or not available!',
+              });
+          }; await client.data.guild.voice.set(voiceData, interact.guild);
+        } catch (err) {
+          logger.error(err.message); logger.debug(err.stack);
+        };
       });
       collector.on('end', async collected => {
         logger.debug('Collector in music commmand timed out or was stopped.');
