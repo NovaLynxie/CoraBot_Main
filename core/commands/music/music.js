@@ -321,7 +321,7 @@ module.exports = {
     };
     function dynamicPlayerEmbed(song) {
       let playerState, playerEmbed = new MessageEmbed(musicBaseEmbed);
-      playerEmbed.setTitle('Music Player 🎶')
+      playerEmbed.setTitle('Music Player 🎶');
       switch (audioPlayer ?._state.status) {
         case 'idle':
           playerState = 'Idle';
@@ -339,10 +339,10 @@ module.exports = {
           playerState = 'Paused';
           break;
         default:          
-          if (!source) playerState = 'No Song Loaded!';
-          if (!connection) playerState = 'Voice D/C 🔇';
           playerState = 'Invalid State!';
       };
+      if (!source) playerState = 'No Song Loaded!';
+      if (!connection) playerState = 'Voice D/C 🔇';
       playerEmbed.fields = [
         {
           name: 'Player Status',
