@@ -338,11 +338,11 @@ module.exports = {
         case 'paused':
           playerState = 'Paused';
           break;
-        default:
+        default:          
+          if (!source) playerState = 'No Song Loaded!';
+          if (!connection) playerState = 'Voice D/C 🔇';
           playerState = 'Invalid State!';
       };
-      if (!source) playerState = 'No Song Loaded!';
-      if (!connection) playerState = 'Playback Error!'
       playerEmbed.fields = [
         {
           name: 'Player Status',
