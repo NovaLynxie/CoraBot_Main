@@ -139,9 +139,14 @@ module.exports = {
         content: 'SoundCloud playlist detected! Parsing songs...',
         ephemeral: true
       });
+      logger.verbose(`SoundCloudPlaylist:${JSON.stringify(playlist, null, 2)}`);
       playlist.tracks.forEach(track => {
-        if (!track.permalink_url) return logger.debug('Skipped track  due to incomplete/malformed response.');
-        object = { type: 'soundcloud', url: track.permalink_url };
+        const scTracksApiUrl = 'https://api.soundcloud.com/tracks/';
+        if (!track.permalink_url) {
+          logger.debug(`No permalink_url detected for track with ID ${track.id}!`);
+          logger.debug('Falling back to track API URL for this track.');
+        };
+        object = { type: 'soundcloud', url: track.permalink_url || `${scTracksApiUrl}${track.id}`};
         queue.push(object);
       });
       interaction.editReply({
@@ -338,7 +343,7 @@ module.exports = {
         case 'paused':
           playerState = 'Paused';
           break;
-        default:          
+        default:
           playerState = 'Invalid State!';
       };
       if (!source) playerState = 'No Song Loaded!';
