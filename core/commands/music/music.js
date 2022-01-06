@@ -3,6 +3,7 @@ const { longURL, shortURL } = require('../../utils/urlParser');
 const { credentials } = require('../../handlers/bootLoader');
 const { MessageActionRow, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu } = require('discord.js');
 const { AudioPlayerStatus } = require('@discordjs/voice');
+const { Playing, Idle, Paused, AutoPaused } = AudioPlayerStatus;
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const SoundCloud = require('soundcloud-scraper');
 const ytsa = require('youtube-search-api');
@@ -84,7 +85,7 @@ module.exports = {
           .setStyle('SECONDARY'),
       );
     const musicPlayerCtrlBtns2 = new MessageActionRow()
-      .addComponents(       
+      .addComponents(
         new MessageButton()
           .setCustomId('rewind')
           .setEmoji('⏪')
@@ -96,7 +97,7 @@ module.exports = {
         new MessageButton()
           .setCustomId('skip')
           .setEmoji('⏭️')
-          .setStyle('SECONDARY'),        
+          .setStyle('SECONDARY'),
       );
     const musicPlayerExtBtns = new MessageActionRow()
       .addComponents(
@@ -121,9 +122,9 @@ module.exports = {
           .setEmoji('❌')
           .setStyle('SECONDARY'),
       );
-      const musicQueueExtBtns = new MessageActionRow(
-        .addComponents(
-          new MessageButton()
+    const musicQueueExtBtns = new MessageActionRow()
+      .addComponents(
+        new MessageButton()
           .setCustomId('clear')
           .setEmoji('🆑')
           .setStyle('SECONDARY'),
@@ -131,7 +132,6 @@ module.exports = {
           .setCustomId('queue')
           .setEmoji('📜')
           .setStyle('SECONDARY'),
-        )
       );
     async function soundcloudSongsParser(url) {
       let playlist = await scbi.getPlaylist(url); let queue = [], object = {};
@@ -335,7 +335,7 @@ module.exports = {
         case 'autopaused':
           playerState = 'AutoPaused';
           break;
-        case 'pause':
+        case 'paused':
           playerState = 'Paused';
           break;
         default:
@@ -415,50 +415,60 @@ module.exports = {
         await refreshPlayer(interaction);
         break;
     };
-    // Player Event Handler.    
-    audioPlayer.on(AudioPlayerStatus.Playing, () => {
-      logger.debug('Player has started playing!');
-    });
-    audioPlayer.on(AudioPlayerStatus.Idle, async () => {
-      logger.debug('Player has stopped playing!');      
-      voiceData = await client.data.guild.voice.get(guild);
-      if (stopped) {
-        stopped = false;
-        return logger.debug('Player stopped by user! AutoPlay aborted.');
-      } else {
-        logger.debug('Current song has finished, queuing up next song.');
-      };
-      voiceData.music.queue.shift();
-      voiceData.music.track = {};   
-      source = await loadSong();
-      if (!source) {
-        logger.debug('No songs available! AudioPlayer stopped.');
-      } else {
-        logger.debug(`Song queued! Playing ${voiceData.music.track.title} next.`);
-        audioPlayer.play(source);
-      };
-      await client.data.guild.voice.set(voiceData, guild);
-    });
-    audioPlayer.on(AudioPlayerStatus.AutoPaused, () => {
-      logger.debug('Player auto paused since not connected. Awaiting channel connections.');
-    });
-    let pausedCallback = () => {
-      logger.debug('Player paused by user! Awaiting unpause call.');
+    // Player Event Handler.
+    const eventListenerCheck = (event) => audioPlayer.listenerCount(event) < 1;
+    if (eventListenerCheck(Playing)) {
+      audioPlayer.on(Playing, () => {
+        logger.debug('Player has started playing!');
+      });
     };
-    audioPlayer.on(AudioPlayerStatus.Paused, () => {
-      logger.debug('Player paused by user! Awaiting unpause call.');
-    });
-    audioPlayer.on('stateChange', (oldState, newState) => {
-      logger.debug(`oldState.status => ${oldState ?.status}`);
-      logger.debug(`newState.status => ${newState ?.status}`);
-      if (playerOpen) refreshPlayer(interaction);
-    });
-    audioPlayer.on('error', err => {
-      logger.error('Error occured while playing stream!');
-      logger.error(err.message); logger.debug(err.stack);
-      logger.verbose(err);
-      audioPlayer.stop();
-    });
+    if (eventListenerCheck(Idle)) {
+      audioPlayer.on(Idle, async () => {
+        logger.debug('Player has stopped playing!');
+        voiceData = await client.data.guild.voice.get(guild);
+        if (stopped) {
+          stopped = false;
+          return logger.debug('Player stopped by user! AutoPlay aborted.');
+        } else {
+          logger.debug('Current song has finished, queuing up next song.');
+        };
+        voiceData.music.queue.shift();
+        voiceData.music.track = {};
+        source = await loadSong();
+        if (!source) {
+          logger.debug('No songs available! AudioPlayer stopped.');
+        } else {
+          logger.debug(`Song queued! Playing ${voiceData.music.track.title} next.`);
+          audioPlayer.play(source);
+        };
+        await client.data.guild.voice.set(voiceData, guild);
+      });
+    };
+    if (eventListenerCheck(AutoPaused)) {
+      audioPlayer.on(AutoPaused, () => {
+        logger.debug('Player autopaused since not connected to an active channel.');
+      });
+    };
+    if (eventListenerCheck(Paused)) {
+      audioPlayer.on(Paused, () => {
+        logger.debug('Player was paused by user request!');
+      });
+    };
+    if (eventListenerCheck('stateChange')) {
+      audioPlayer.on('stateChange', (oldState, newState) => {
+        logger.debug(`oldState.status => ${oldState ?.status}`);
+        logger.debug(`newState.status => ${newState ?.status}`);
+        if (playerOpen) refreshPlayer(interaction);
+      });
+    }; console.log(audioPlayer.listenerCount('stateChange'));
+    if (eventListenerCheck('error')) {
+      audioPlayer.on('error', err => {
+        logger.error('Error occured while playing stream!');
+        logger.error(err.message); logger.debug(err.stack);
+        logger.verbose(err);
+        audioPlayer.stop();
+      });
+    };
     // Menu/Button collecter and handler.
     if (collector) {
       collector.on('collect', async interact => {
@@ -513,7 +523,11 @@ module.exports = {
             break;
           case 'pause':
             if (!audioPlayer) return;
-            audioPlayer.pause();
+            if (audioPlayer ?._state.status === Paused) {
+              audioPlayer.unpause();
+            } else if(audioPlayer ?._state.status === Playing) {
+              audioPlayer.pause();
+            };
             break;
           case 'stop':
             if (!audioPlayer) return;
