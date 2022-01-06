@@ -393,18 +393,19 @@ module.exports = {
       logger.debug('Player has started playing!');
     });
     audioPlayer.on(AudioPlayerStatus.Idle, async () => {
-      logger.debug('Player has stopped playing!');
+      logger.debug('Player has stopped playing!');      
+      voiceData = await client.data.guild.voice.get(guild);
       if (stopped) {
-        return logger.debug('Player stopped by user! AutoPlay halted.');
+        stopped = false;
+        return logger.debug('Player stopped by user! AutoPlay aborted.');
       } else {
         logger.debug('Current song has finished, queuing up next song.');
       };
-      voiceData = await client.data.guild.voice.get(guild);
       voiceData.music.queue.shift();
-      voiceData.music.track = {};
+      voiceData.music.track = {};      
       source = await loadSong();
       if (!source) {
-        logger.debug('No songs available. Awaiting new requests.');
+        logger.debug('No songs available! AudioPlayer stopped.');
       } else {
         logger.debug(`Song queued! Playing ${voiceData.music.track.title} next.`);
         audioPlayer.play(source);
@@ -492,7 +493,6 @@ module.exports = {
             stopped = true;
             audioPlayer.stop();
             voiceData.music.track = {};
-            stopped = false;
             break;
           case 'skip':
             if (!audioPlayer) return;
