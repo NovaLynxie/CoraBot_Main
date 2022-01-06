@@ -350,7 +350,7 @@ module.exports = {
         },
         {
           name: 'Song Information',
-          value: (song.title) ? `${song.title.replace("''", "'")}` : 'No song loaded.',
+          value: (song.title) ? `${song.title.replace("''", "'")}` : '...',
         }
       ];
       return playerEmbed;
