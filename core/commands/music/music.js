@@ -75,6 +75,17 @@ module.exports = {
           .setEmoji('⏹️')
           .setStyle('SECONDARY'),
         new MessageButton()
+          .setCustomId('vol+')
+          .setEmoji('🔉')
+          .setStyle('SECONDARY'),
+        new MessageButton()
+          .setCustomId('vol-')
+          .setEmoji('🔊')
+          .setStyle('SECONDARY'),
+      );
+    const musicPlayerCtrlBtns2 = new MessageActionRow()
+      .addComponents(       
+        new MessageButton()
           .setCustomId('rewind')
           .setEmoji('⏪')
           .setStyle('SECONDARY'),
@@ -82,6 +93,10 @@ module.exports = {
           .setCustomId('fastfoward')
           .setEmoji('⏩')
           .setStyle('SECONDARY'),
+        new MessageButton()
+          .setCustomId('skip')
+          .setEmoji('⏭️')
+          .setStyle('SECONDARY'),        
       );
     const musicPlayerExtBtns = new MessageActionRow()
       .addComponents(
@@ -105,6 +120,18 @@ module.exports = {
           .setCustomId('closePlayer')
           .setEmoji('❌')
           .setStyle('SECONDARY'),
+      );
+      const musicQueueExtBtns = new MessageActionRow(
+        .addComponents(
+          new MessageButton()
+          .setCustomId('clear')
+          .setEmoji('🆑')
+          .setStyle('SECONDARY'),
+        new MessageButton()
+          .setCustomId('queue')
+          .setEmoji('📜')
+          .setStyle('SECONDARY'),
+        )
       );
     async function soundcloudSongsParser(url) {
       let playlist = await scbi.getPlaylist(url); let queue = [], object = {};

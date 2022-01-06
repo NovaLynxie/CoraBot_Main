@@ -5,7 +5,8 @@
   },
   "music": {
     "track": {},
-    "queue": []
+    "queue": [],
+    "volume": 50
   },
   "radio": {
     "state": null,
