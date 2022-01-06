@@ -15,12 +15,14 @@ const ytpl = require('ytpl');
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
 let audioPlayer = newAudioPlayer(), stopped = false;
+/*
 const listenerChecker = setInterval(() => {
   audioPlayer.removeAllListeners(AudioPlayerStatus.Playing);
   audioPlayer.removeAllListeners(AudioPlayerStatus.Idle);
   audioPlayer.removeAllListeners(AudioPlayerStatus.AutoPaused);
   audioPlayer.removeAllListeners(AudioPlayerStatus.Paused);
 }, 30000);
+*/
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('music')
@@ -320,7 +322,7 @@ module.exports = {
           playerState = 'Paused';
           break;
         default:
-          playerState = 'Stopped';
+          playerState = 'Error';
       };
       playerEmbed.fields = [
         {
