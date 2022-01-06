@@ -8,15 +8,14 @@ const { checkAuth, isManaged, renderView } = require('../dashUtils');
 const express = require('express');
 const router = express.Router();
 
-router.get('/', checkAuth, (req, res) => {
-  
-  renderView(res, req, 'dash.pug', { Permissions });
+router.get('/', checkAuth, (req, res) => {  
+  renderView(res, req, 'dash-user.pug', { Permissions });
 });
 router.get('/admin', checkAuth, async (req, res) => {
   const client = res.locals.client;
   const botSettings = await client.settings.get(client);
   if (!req.session.isAdmin) return res.redirect('/');
-  renderView(res, req, 'admin.pug', { botSettings });
+  renderView(res, req, 'dash-admin.pug', { botSettings });
 });
 router.get('/admin/reset_settings', checkAuth, async (req, res) => {
   const client = res.locals.client;
