@@ -402,7 +402,7 @@ module.exports = {
         logger.debug('Current song has finished, queuing up next song.');
       };
       voiceData.music.queue.shift();
-      voiceData.music.track = {};      
+      voiceData.music.track = {};   
       source = await loadSong();
       if (!source) {
         logger.debug('No songs available! AudioPlayer stopped.');
