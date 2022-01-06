@@ -492,6 +492,7 @@ module.exports = {
             stopped = true;
             audioPlayer.stop();
             voiceData.music.track = {};
+            stopped = false;
             break;
           case 'skip':
             if (!audioPlayer) return;
