@@ -176,8 +176,7 @@ module.exports = {
           break;
         case 'yt_video':
           data = await playdl.video_info(url);
-          logger.data(JSON.stringify(data, null, 2));
-          song = { title: data.video_details.title, url: data.video_details.url, thumbnail: data.video_details.thumbnail.url, type: 'youtube' };
+          song = { title: data.video_details.title, url: data.video_details.url, thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
           response.content = `Added ${song.title} to the queue!`;
           break;
         case 'so_track':
