@@ -468,7 +468,7 @@ module.exports = {
               break;
             // Search Result Handler
             case 'musicSearchSelect':
-              await verifySource(interact.values[0]);
+              await sourceParser(interact.values[0]);
               await wait(3000);
               await interaction.deleteReply();
               collector.stop();

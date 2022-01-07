@@ -46,16 +46,12 @@
     "passport-discord-faxes": "^0.1.4",
     "play-dl": "^1.7.7",
     "pug": "^3.0.2",
-    "soundcloud-scraper": "4.0.1",
     "toml": "^3.0.0",
     "url-minify": "^2.2.12",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5",
     "yiff": "^2.0.3",
-    "yiffy": "^2.0.14",
-    "youtube-search-api": "^1.0.11",
-    "ytdl-core": "^4.9.2",
-    "ytpl": "^2.2.3"
+    "yiffy": "^2.0.14"
   },
   "devDependencies": {
     "assert": "^2.0.0",
