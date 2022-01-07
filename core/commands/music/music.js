@@ -139,17 +139,20 @@ module.exports = {
       if (type === 'so') playlist = await playdl.soundcloud(url);
       logger.verbose(`playlist:${JSON.stringify(playlist, null, 2)}`);
       if (playlist.tracks) {
-        playlist.tracks.forEach(async (item) => {
+        playlist.tracks.forEach(async (item, index, array) => {
+          logger.debug(`Parsed song ${index} of ${playlist.tracks.length}`);
           let song = item;
           if (!song.fetched) song.url = `https://api.soundcloud.com/tracks/${item.id}`;
           logger.verbose(JSON.stringify(song, null, 2));
           queue.push({ url: song.url, type: 'soundcloud' });
+          logger.debug(`Parsed song ${index} of ${array.length}`);
         });
       };
       if (playlist.videos) {
-        playlist.videos.forEach(async (item) => {
+        playlist.videos.forEach(async (item, index, array) => {
           logger.verbose(JSON.stringify(item, null, 2));
           queue.push({ url: item.url, type: 'youtube' });
+          logger.debug(`Parsed song ${index} of ${array.length}`);
         });
       };
       return queue;
@@ -244,18 +247,18 @@ module.exports = {
                 URL: ${url}
                 `
               };
-          } catch (err) {
-            logger.error(`Failed to load music queue for ${guild.name}!`);
-            logger.debug(`Guild ${guild.name} (id:${guild.id}) has corrupted or invalid music queue data!`);
-            logger.debug(`Song entry at position ${no} is invalid and will be skipped during playback.`);
-            logger.debug(err.stack);
-            field = {
-              name `Track #${no}`,
-              value: `
-              Unable to load song information!`
-            }
+          }; no++;
+        } catch (err) {
+          logger.error(`Failed to load music queue for ${guild.name}!`);
+          logger.debug(`Guild ${guild.name} (id:${guild.id}) has corrupted or invalid music queue data!`);
+          logger.debug(`Song entry at position ${no} is invalid and will be skipped during playback.`);
+          logger.debug(err.stack);
+          field = {
+            name: `Track #${no}`,
+            value: `
+            Unable to load queued song information!`
           }
-        }; no++;
+        }
         queueEmbed.addFields(field);
       };
       if (queueEmbed.fields.length <= 0) {
