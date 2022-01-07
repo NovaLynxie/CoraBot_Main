@@ -139,18 +139,30 @@ module.exports = {
       if (type === 'so') playlist = await playdl.soundcloud(url);
       logger.verbose(`playlist:${JSON.stringify(playlist, null, 2)}`);
       if (playlist.tracks) {
+        let song;
+        for (let item of playlist.tracks) {
+          if (item.fetched) {
+            song = item;
+          } else {
+            song = await playdl.soundcloud(`https://api.soundcloud.com/tracks/${item.id}`);
+          };
+          logger.verbose(JSON.stringify(song, null, 2));
+          queue.push({title: song.name, url: song.url, thumbnail: song.thumbnail, type: 'soundcloud' });
+        };
+        /*
         playlist.tracks.forEach((item, index, array) => {
-          let song = item;         if (!song.fetched) song.url = `https://api.soundcloud.com/tracks/${item.id}`;
+          let song = item;
+          if (!song.fetched) song.url = `https://api.soundcloud.com/tracks/${item.id}`;
           logger.verbose(JSON.stringify(song, null, 2));
           queue.push({title: song.name, url: song.url, thumbnail: song.thumbnail, type: 'soundcloud' });
           logger.debug(`Parsed song ${index + 1} of ${array.length}`);
         });
+        */
       };
       if (playlist.videos) {
         playlist.videos.forEach((item, index, array) => {
           logger.verbose(JSON.stringify(item, null, 2));
           queue.push({title: item.title, url: item.url, thumbnail: item.thumbnails[0].url, type: 'youtube' });
-          logger.debug(`Parsed song ${index + 1} of ${array.length}`);
         });
       };
       return queue;
