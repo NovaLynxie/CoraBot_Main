@@ -140,19 +140,18 @@ module.exports = {
       logger.verbose(`playlist:${JSON.stringify(playlist, null, 2)}`);
       if (playlist.tracks) {
         playlist.tracks.forEach(async (item, index, array) => {
-          logger.debug(`Parsed song ${index} of ${playlist.tracks.length}`);
           let song = item;
           if (!song.fetched) song.url = `https://api.soundcloud.com/tracks/${item.id}`;
           logger.verbose(JSON.stringify(song, null, 2));
-          queue.push({ url: song.url, type: 'soundcloud' });
-          logger.debug(`Parsed song ${index} of ${array.length}`);
+          queue.push({title: song.name, url: song.url, type: 'soundcloud' });
+          logger.debug(`Parsed song ${index + 1} of ${array.length}`);
         });
       };
       if (playlist.videos) {
         playlist.videos.forEach(async (item, index, array) => {
           logger.verbose(JSON.stringify(item, null, 2));
-          queue.push({ url: item.url, type: 'youtube' });
-          logger.debug(`Parsed song ${index} of ${array.length}`);
+          queue.push({title: item.title, url: item.url, type: 'youtube' });
+          logger.debug(`Parsed song ${index + 1} of ${array.length}`);
         });
       };
       return queue;
@@ -213,7 +212,7 @@ module.exports = {
         .setDescription(`${guild.name}'s queued songs`);
       let field = {}, no = 1, info;
       for (const item of queue) {
-        let { type, url } = item;
+        let { title, type, url } = item;
         try {
           switch (type) {
             case "youtube":
@@ -221,7 +220,7 @@ module.exports = {
               field = {
                 name: `Track #${no}`,
                 value: `
-                Title: ${info.title}
+                Title: ${title}
                 Duration: ${info.durationRaw}
                 Sourced from YouTube`
               };
@@ -233,7 +232,7 @@ module.exports = {
               field = {
                 name: `Track #${no}`,
                 value: `
-                Title: ${info.name}
+                Title: ${title}
                 Duration: ${mins}:${secs}
                 Sourced from SoundCloud`
               };
@@ -311,19 +310,19 @@ module.exports = {
     function dynamicPlayerEmbed(song) {
       let playerState, playerEmbed = new MessageEmbed(musicBaseEmbed);
       playerEmbed.setTitle('Music Player 🎶');
-      if (song.thumbnail) playerEmbed.setThumbnail(song.thumbnail);      
+      if (song.thumbnail) playerEmbed.setThumbnail(song.thumbnail);
       switch (audioPlayer ?._state.status) {
         case 'idle':
           playerState = 'Idle';
           break;
         case 'buffering':
-          playerState = 'Buffering';
+          playerState = 'Loading...';
           break;
         case 'playing':
           playerState = 'Playing';
           break;
         case 'autopaused':
-          playerState = 'AutoPaused';
+          playerState = 'Paused (AUTO)';
           break;
         case 'paused':
           playerState = 'Paused';
@@ -331,7 +330,7 @@ module.exports = {
         default:
           playerState = 'Invalid State!';
       };
-      if (!source) playerState = 'No Song Loaded!';
+      if (!source) playerState = 'No Track';
       if (!connection) playerState = 'Voice D/C 🔇';
       playerEmbed.fields = [
         {
@@ -574,8 +573,8 @@ module.exports = {
                   { embeds: [await dynamicQueueEmbed(voiceData.music.queue)] }
                 );
               } else {
-                refreshPlayer(interact);
                 playerOpen = true;
+                refreshPlayer(interact);                
               };
               break;
             default:
