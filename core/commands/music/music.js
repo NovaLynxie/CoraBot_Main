@@ -132,7 +132,7 @@ module.exports = {
           .setCustomId('queue')
           .setEmoji('📜')
           .setStyle('SECONDARY'),
-      );    
+      );
     async function playlistParser(url, type) {
       let playlist, queue = [];
       if (type === 'yt') playlist = await playdl.playlist_info(url);
@@ -140,12 +140,12 @@ module.exports = {
       logger.verbose(`playlist:${JSON.stringify(playlist, null, 2)}`);
       if (playlist.tracks) {
         playlist.tracks.forEach(async (item) => {
-          let song = item;          
+          let song = item;
           if (!song.fetched) song.url = `https://api.soundcloud.com/tracks/${item.id}`;
           logger.verbose(JSON.stringify(song, null, 2));
           queue.push({ url: song.url, type: 'soundcloud' });
         });
-      };        
+      };
       if (playlist.videos) {
         playlist.videos.forEach(async (item) => {
           logger.verbose(JSON.stringify(item, null, 2));
@@ -162,7 +162,7 @@ module.exports = {
         ephemeral: true
       };
       logger.debug(`Verifying ${url}`);
-      switch (await playdl.validate(url)) {        
+      switch (await playdl.validate(url)) {
         case 'yt_playlist':
           list = await playlistParser(url, 'yt');
           response.content = `Queued ${list.length} songs from YouTube playlist!`;
@@ -176,7 +176,7 @@ module.exports = {
           logger.data(JSON.stringify(data, null, 2));
           song = { title: data.video_details.title, url: data.video_details.url, thumbnail: data.video_details.thumbnail.url, type: 'youtube' };
           response.content = `Added ${song.title} to the queue!`;
-          break;        
+          break;
         case 'so_track':
           data = await playdl.soundcloud(url);
           logger.data(JSON.stringify(data, null, 2));
@@ -187,7 +187,7 @@ module.exports = {
           logger.debug('That song URL is either unsupported or from an unrecognised source!');
           response.content = 'Unsupported or malformed song URL! Please check that the URL is valid and try again.';
           return;
-      };      
+      };
       if (song) voiceData.music.queue.push(song);
       if (list) voiceData.music.queue = voiceData.music.queue.concat(list);
       logger.verbose(`voiceData:${JSON.stringify(voiceData, null, 2)}`);
@@ -200,7 +200,7 @@ module.exports = {
       const source = await playdl.stream(url);
       const stream = createSource(source.stream);
       voiceData.music.track = { title, type };
-      await client.data.guild.voice.set(voiceData, guild);      
+      await client.data.guild.voice.set(voiceData, guild);
       return stream;
     };
     // Dynamic Music Embeds
@@ -212,37 +212,49 @@ module.exports = {
       let field = {}, no = 1, info;
       for (const item of queue) {
         let { type, url } = item;
-        switch (type) {
-          case "youtube":
-            info = await playdl.video_info(url);
+        try {
+          switch (type) {
+            case "youtube":
+              info = await playdl.video_info(url);
+              field = {
+                name: `Track #${no}`,
+                value: `
+                Title: ${info.title}
+                Duration: ${info.durationRaw}
+                Sourced from YouTube`
+              };
+              break;
+            case "soundcloud":
+              info = await playdl.soundcloud(url);
+              time = info.durationInSec;
+              mins = Math.floor(time / 60); secs = time - mins * 60;
+              field = {
+                name: `Track #${no}`,
+                value: `
+                Title: ${info.name}
+                Duration: ${mins}:${secs}
+                Sourced from SoundCloud`
+              };
+              break;
+            default:
+              field = {
+                name: `Track #${no}`,
+                value: `
+                No information available.
+                URL: ${url}
+                `
+              };
+          } catch (err) {
+            logger.error(`Failed to load music queue for ${guild.name}!`);
+            logger.debug(`Guild ${guild.name} (id:${guild.id}) has corrupted or invalid music queue data!`);
+            logger.debug(`Song entry at position ${no} is invalid and will be skipped during playback.`);
+            logger.debug(err.stack);
             field = {
-              name: `Track #${no}`,
+              name `Track #${no}`,
               value: `
-              Title: ${info.title}
-              Duration: ${info.durationRaw}
-              Sourced from YouTube`
-            };
-            break;
-          case "soundcloud":
-            info = await playdl.soundcloud(url);
-            time = info.durationInSec;
-            mins = Math.floor(time / 60); secs = time - mins * 60;
-            field = {
-              name: `Track #${no}`,
-              value: `
-              Title: ${info.name}
-              Duration: ${mins}:${secs}
-              Sourced from SoundCloud`
-            };
-            break;
-          default:
-            field = {
-              name: `Track #${no}`,
-              value: `
-              No information available.
-              URL: ${url}
-              `
-            };
+              Unable to load song information!`
+            }
+          }
         }; no++;
         queueEmbed.addFields(field);
       };
@@ -311,7 +323,7 @@ module.exports = {
         case 'paused':
           playerState = 'Paused';
           break;
-        default:          
+        default:
           playerState = 'Invalid State!';
       };
       if (!source) playerState = 'No Song Loaded!';
@@ -332,7 +344,7 @@ module.exports = {
       let results, searchOptions = { source: {} };
       await interaction.editReply({
         content: 'Searching...'
-      });      
+      });
       switch (query.source) {
         case 'youtube':
           searchOptions.source = { youtube: 'video' };
