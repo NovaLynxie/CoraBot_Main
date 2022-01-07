@@ -173,12 +173,14 @@ module.exports = {
           break;
         case 'yt_video':
           data = await playdl.video_info(url);
-          song = { title: data.title, url: data.url, source: 'youtube' };
+          logger.data(JSON.stringify(data, null, 2));
+          song = { title: data.video_details.title, url: data.video_details.url, thumbnail: data.video_details.thumbnail.url, type: 'youtube' };
           response.content = `Added ${song.title} to the queue!`;
           break;        
         case 'so_track':
           data = await playdl.soundcloud(url);
-          song = { title: data.name, url: data.url, source: 'soundcloud' };
+          logger.data(JSON.stringify(data, null, 2));
+          song = { title: data.name, url: data.url, thumbnail: data.thumbnail, type: 'soundcloud' };
           break;
           response.content = `Added ${song.title} to the queue!`;
         default:
