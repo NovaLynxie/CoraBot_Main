@@ -348,7 +348,7 @@ module.exports = {
     async function searchQuery(query) {
       let results, searchOptions = { source: {} };
       let sites = { youtube: 'YouTube', soundcloud: 'SoundCloud' };
-      let startEmbed = new MessageEmbed()
+      let startEmbed = new MessageEmbed(musicBaseEmbed)
         .setTitle('Music Searcher 🔍')
         .setDescription(`Searching for songs matching \`${query.keywords}\` on ${sites[query.source]}.`);
       await interaction.editReply({
@@ -563,7 +563,9 @@ module.exports = {
                 logger.debug(`Fetching queue for ${guild.name} (${guild.id})`);
                 loadingEmbed
                   .setTitle(`Queued Songs for ${guild.name}`)
-                  .setDescription('Composing song queue, please wait.');
+                  .setDescription(`
+                  Composing song queue, please be patient.
+                  *This may take a while if more than 25 songs are queued at a time.*`);
                 await interact.editReply(
                   { embeds: [loadingEmbed] }
                 );
