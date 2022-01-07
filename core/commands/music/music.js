@@ -221,7 +221,7 @@ module.exports = {
                 name: `Track #${no}`,
                 value: `
                 Title: ${title}
-                Duration: ${info.durationRaw}
+                Duration: ${info.video_details.durationRaw}
                 Sourced from YouTube`
               };
               break;
