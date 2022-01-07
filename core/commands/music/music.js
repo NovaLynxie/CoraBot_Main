@@ -311,7 +311,7 @@ module.exports = {
     function dynamicPlayerEmbed(song) {
       let playerState, playerEmbed = new MessageEmbed(musicBaseEmbed);
       playerEmbed.setTitle('Music Player 🎶');
-      playerEmbed.setThumbnail(song.thumbnail);
+      if (song.thumbnail) playerEmbed.setThumbnail(song.thumbnail);      
       switch (audioPlayer ?._state.status) {
         case 'idle':
           playerState = 'Idle';
