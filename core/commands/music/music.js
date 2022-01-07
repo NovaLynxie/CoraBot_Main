@@ -269,8 +269,10 @@ module.exports = {
     };
     function dynamicSearchEmbed(list) {
       let searchEmbed = new MessageEmbed(musicBaseEmbed)
-        .setTitle('Music Search Results 🔍')
-        .setDescription('Here are some results from your keywords.')
+        .setTitle('Music Searcher 🔍')
+        .setDescription(`
+        Here are some matching entries from your keywords.
+        Please select the entry to add using the selection box below.`);
       let count = 1;
       list.forEach(song => {
         searchEmbed.addField(`Song ${count}`, song.title || song.name);
@@ -345,8 +347,12 @@ module.exports = {
     };
     async function searchQuery(query) {
       let results, searchOptions = { source: {} };
+      let sites = { youtube: 'YouTube', soundcloud: 'SoundCloud' };
+      let startEmbed = new MessageEmbed()
+        .setTitle('Music Searcher 🔍')
+        .setDescription(`Searching for songs matching \`${query.keywords}\` on ${sites[query.source]}.`);
       await interaction.editReply({
-        content: 'Searching...'
+        embeds: [startEmbed]
       });
       switch (query.source) {
         case 'youtube':
@@ -374,9 +380,9 @@ module.exports = {
     async function refreshPlayer(interact) {
       logger.verbose(JSON.stringify(voiceData, null, 2));
       try {
-        await interact.editReply({
-          embeds: [dynamicPlayerEmbed(voiceData.music.track)],
+        await interact.editReply({          
           components: [musicPlayerCtrlBtns, musicPlayerExtBtns],
+          embeds: [dynamicPlayerEmbed(voiceData.music.track)],
         });
       } catch (err) {
         logger.debug('Error opening/updating player interface!');
