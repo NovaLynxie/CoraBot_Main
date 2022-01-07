@@ -149,21 +149,12 @@ module.exports = {
           logger.verbose(JSON.stringify(song, null, 2));
           queue.push({title: song.name, url: song.url, thumbnail: song.thumbnail, type: 'soundcloud' });
         };
-        /*
-        playlist.tracks.forEach((item, index, array) => {
-          let song = item;
-          if (!song.fetched) song.url = `https://api.soundcloud.com/tracks/${item.id}`;
-          logger.verbose(JSON.stringify(song, null, 2));
-          queue.push({title: song.name, url: song.url, thumbnail: song.thumbnail, type: 'soundcloud' });
-          logger.debug(`Parsed song ${index + 1} of ${array.length}`);
-        });
-        */
       };
       if (playlist.videos) {
-        playlist.videos.forEach((item, index, array) => {
+        for (let item of playlist.videos) {
           logger.verbose(JSON.stringify(item, null, 2));
           queue.push({title: item.title, url: item.url, thumbnail: item.thumbnails[0].url, type: 'youtube' });
-        });
+        };
       };
       return queue;
     };
