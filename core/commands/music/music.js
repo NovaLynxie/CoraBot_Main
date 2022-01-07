@@ -1,15 +1,15 @@
 const logger = require('../../utils/winstonLogger');
 const { longURL, shortURL } = require('../../utils/urlParser');
-const { credentials } = require('../../handlers/bootLoader');
 const { MessageActionRow, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu } = require('discord.js');
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { Playing, Idle, Paused, AutoPaused } = AudioPlayerStatus;
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const SoundCloud = require('soundcloud-scraper');
-const ytsa = require('youtube-search-api');
-const scbi = new SoundCloud.Client();
-const ytdl = require('ytdl-core');
-const ytpl = require('ytpl');
+const playdl = require('play-dl');
+playdl.getFreeClientID().then((clientID) => playdl.setToken({
+  soundcloud: {
+    client_id: clientID
+  }
+}));
 const wait = require('util').promisify(setTimeout);
 const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
 let audioPlayer = newAudioPlayer(), stopped = false;
@@ -132,110 +132,74 @@ module.exports = {
           .setCustomId('queue')
           .setEmoji('📜')
           .setStyle('SECONDARY'),
-      );
-    async function soundcloudSongsParser(url) {
-      let playlist = await scbi.getPlaylist(url); let queue = [], object = {};
-      interaction.editReply({
-        content: 'SoundCloud playlist detected! Parsing songs...',
-        ephemeral: true
-      });
-      logger.verbose(`SoundCloudPlaylist:${JSON.stringify(playlist, null, 2)}`);
-      playlist.tracks.forEach(track => {
-        const scTracksApiUrl = 'https://api.soundcloud.com/tracks/';
-        if (!track.permalink_url) {
-          logger.debug(`No permalink_url detected for track with ID ${track.id}!`);
-          logger.debug('Falling back to track API URL for this track.');
-        };
-        object = { type: 'soundcloud', url: track.permalink_url || `${scTracksApiUrl}${track.id}`};
-        queue.push(object);
-      });
-      interaction.editReply({
-        content: 'Finished parsing songs. Adding to queue now.',
-        ephemeral: true
-      });
+      );    
+    async function playlistParser(url, type) {
+      let playlist, queue = [];
+      if (type === 'yt') playlist = await playdl.playlist_info(url);
+      if (type === 'so') playlist = await playdl.soundcloud(url);
+      logger.verbose(`playlist:${JSON.stringify(playlist, null, 2)}`);
+      if (playlist.tracks) {
+        playlist.tracks.forEach(async (item) => {
+          let song = item;          
+          if (!song.fetched) song.url = `https://api.soundcloud.com/tracks/${item.id}`;
+          logger.verbose(JSON.stringify(song, null, 2));
+          queue.push({ url: song.url, type: 'soundcloud' });
+        });
+      };        
+      if (playlist.videos) {
+        playlist.videos.forEach(async (item) => {
+          logger.verbose(JSON.stringify(item, null, 2));
+          queue.push({ url: item.url, type: 'youtube' });
+        });
+      };
       return queue;
     };
-    async function youtubeSongsParser(source) {
-      let playlist = await ytpl(source); let queue = [], object = {};
-      interaction.editReply({
-        content: 'YouTube playlist detected! Parsing songs...',
-        ephemeral: true
-      });
-      playlist.items.forEach(video => {
-        if (!video.shortURL && !video.url) return logger.debug('Skipped video due to incomplete/malformed response.');
-        object = { type: 'youtube', url: video.shortURL || video.url };
-        queue.push(object);
-      });
-      interaction.editReply({
-        content: 'Finished parsing songs. Adding to queue now.',
-        ephemeral: true
-      });
-      return queue;
-    };
-    async function verifySource(input) {
-      let song, stream, object, list, response = {
-        content: 'Songs added successfully to the queue!',
+    async function sourceParser(url) {
+      voiceData = await client.data.guild.voice.get(guild);
+      let data, song, list, response = {
+        content: 'sourceParser.placeholder.message',
         embeds: [], components: [],
         ephemeral: true
       };
-      if (input.match(/^(http(s)?:\/\/)/)) {
-        try {
-          input = await longURL(input);
-        } catch (err) {
-          logger.debug('URL provided may already be the full link.');
-          logger.data(`input = ${input}`);
-        };
-        if (input.match(/soundcloud?(\.com)/)) {
-          if (input.match(/(\/sets\/).+/)) {
-            list = await soundcloudSongsParser(input);
-          } else {
-            object = { type: 'soundcloud', url: input };
-          };
-        } else
-          if (input.match(/(youtube\.com|youtu\.be)/)) {
-            if (input.match(/\blist=.*$/)) {
-              list = await youtubeSongsParser(input);
-            } else {
-              object = { type: 'youtube', url: input };
-            };
-          } else {
-            response = {
-              content: 'That song URL is not supported!',
-              embeds: [], components: [],
-              ephemeral: true
-            };
-          };
-      } else {
-        response = {
-          content: 'That song URL is not supported!',
-          embeds: [], components: [],
-          ephemeral: true
-        };
-      };
-      interaction.editReply(response);
-      if (object) voiceData.music.queue.push(object);
+      logger.debug(`Verifying ${url}`);
+      switch (await playdl.validate(url)) {        
+        case 'yt_playlist':
+          list = await playlistParser(url, 'yt');
+          response.content = `Queued ${list.length} songs from YouTube playlist!`;
+          break;
+        case 'so_playlist':
+          list = await playlistParser(url, 'so');
+          response.content = `Queued ${list.length} songs from SoundCloud playlist!`;
+          break;
+        case 'yt_video':
+          data = await playdl.video_info(url);
+          song = { title: data.title, url: data.url, source: 'youtube' };
+          response.content = `Added ${song.title} to the queue!`;
+          break;        
+        case 'so_track':
+          data = await playdl.soundcloud(url);
+          song = { title: data.name, url: data.url, source: 'soundcloud' };
+          break;
+          response.content = `Added ${song.title} to the queue!`;
+        default:
+          logger.debug('That song URL is either unsupported or from an unrecognised source!');
+          response.content = 'Unsupported or malformed song URL! Please check that the URL is valid and try again.';
+          return;
+      };      
+      if (song) voiceData.music.queue.push(song);
       if (list) voiceData.music.queue = voiceData.music.queue.concat(list);
       logger.verbose(`voiceData:${JSON.stringify(voiceData, null, 2)}`);
       await client.data.guild.voice.set(voiceData, guild);
+      interaction.editReply(response);
     };
     async function loadSong() {
       if (!voiceData.music.queue[0]) return undefined;
-      let { type, url } = voiceData.music.queue[0], stream, title;
-      const options = { filter: 'audioonly'/*, dlChunkSize: 0*/ };
-      if (type === 'soundcloud') {
-        song = await scbi.getSongInfo(url);
-        title = song.title.replace(/\'/g, "''");
-        stream = await song.downloadProgressive();
-      } else
-        if (type === 'youtube') {
-          song = await ytdl.getBasicInfo(url);
-          title = song.videoDetails.title.replace(/\'/g, "''");
-          stream = await ytdl(url, options);
-        };
-      voiceData.music.track = { title, type, };
-      await client.data.guild.voice.set(voiceData, guild);
-      source = createSource(stream);
-      return source;
+      let { title, type, url } = voiceData.music.queue[0];
+      const source = await playdl.stream(url);
+      const stream = createSource(source.stream);
+      voiceData.music.track = { title, type };
+      await client.data.guild.voice.set(voiceData, guild);      
+      return stream;
     };
     // Dynamic Music Embeds
     async function dynamicQueueEmbed(queue) {
@@ -248,22 +212,24 @@ module.exports = {
         let { type, url } = item;
         switch (type) {
           case "youtube":
-            info = await ytdl.getInfo(url);
-            field = {
-              name: `Track #${no}`,
-              value: `
-              Title: ${info.videoDetails.title}
-              Keywords: ${info.videoDetails.keywords.join(', ')}
-              Sourced from YouTube`
-            };
-            break;
-          case "soundcloud":
-            info = await scbi.getSongInfo(url)
+            info = await playdl.video_info(url);
             field = {
               name: `Track #${no}`,
               value: `
               Title: ${info.title}
-              Genre: ${info.genre}
+              Duration: ${info.durationRaw}
+              Sourced from YouTube`
+            };
+            break;
+          case "soundcloud":
+            info = await playdl.soundcloud(url);
+            time = info.durationInSec;
+            mins = Math.floor(time / 60); secs = time - mins * 60;
+            field = {
+              name: `Track #${no}`,
+              value: `
+              Title: ${info.name}
+              Duration: ${mins}:${secs}
               Sourced from SoundCloud`
             };
             break;
@@ -271,8 +237,8 @@ module.exports = {
             field = {
               name: `Track #${no}`,
               value: `
-              No metadata available.
-              URL: ${item.url}
+              No information available.
+              URL: ${url}
               `
             };
         }; no++;
@@ -343,7 +309,7 @@ module.exports = {
         case 'paused':
           playerState = 'Paused';
           break;
-        default:
+        default:          
           playerState = 'Invalid State!';
       };
       if (!source) playerState = 'No Song Loaded!';
@@ -355,22 +321,24 @@ module.exports = {
         },
         {
           name: 'Song Information',
-          value: (song.title) ? `${song.title.replace("''", "'")}` : '...',
+          value: `${(song.title) ? `${song.title.replace("''", "'")} (${song.type})` : '...'}`,
         }
       ];
       return playerEmbed;
     };
     async function searchQuery(query) {
-      let results;
+      let results, searchOptions = { source: {} };
       await interaction.editReply({
         content: 'Searching...'
-      });
+      });      
       switch (query.source) {
         case 'youtube':
-          results = await ytsa.GetListByKeyword(query.keywords, false, 5);
+          searchOptions.source = { youtube: 'video' };
+          results = await playdl.search(query.keywords, searchOptions);
           break;
         case 'soundcloud':
-          results = await scbi.search(query.keywords, "track");
+          searchOptions.source = { soundcloud: 'tracks' };
+          results = await playdl.search(query.keywords, searchOptions);
           break;
         default:
         // ..
@@ -402,7 +370,7 @@ module.exports = {
     audioPlayer = (!audioPlayer) ? newAudioPlayer() : audioPlayer;
     switch (subcmd) {
       case 'add':
-        await verifySource(interaction.options.getString('url'));
+        await sourceParser(interaction.options.getString('url'));
         await wait(3000);
         await interaction.deleteReply();
         break;
@@ -567,6 +535,7 @@ module.exports = {
             case 'queue':
               queueOpen = !queueOpen;
               if (queueOpen) {
+                playerOpen = false;
                 let loadingEmbed = new MessageEmbed(musicBaseEmbed)
                 logger.debug(`Fetching queue for ${guild.name} (${guild.id})`);
                 loadingEmbed
@@ -581,6 +550,7 @@ module.exports = {
                 );
               } else {
                 refreshPlayer(interact);
+                playerOpen = true;
               };
               break;
             default:
