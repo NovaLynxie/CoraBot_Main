@@ -24,9 +24,14 @@ block content
       .card-header(style='padding: 2px;')
         ul.nav.nav-tabs
           li.nav-item
-            a.nav-link.active(href='#guildManagePanel' data-bs-toggle='tab') Settings 
+            a.nav-link.active(href='#guildManagePanel' data-bs-toggle='tab')
+            i.fas.fa-sliders-h Settings           
           li.nav-item
-            a.nav-link(href='#guildMembersPanel' data-bs-toggle='tab') Members
+            a.nav-link(href='#guildMembersPanel' data-bs-toggle='tab')
+            i.fas.fa-users Members
+          li.nav-item
+            a.nav-link(href='#guildMusicPanel' data-bs-toggle='tab')
+            i.fas.fa-music Music
       #guildPanels.tab-content
         #guildManagePanel.tab-pane.fade.active.show
           h3.display-4 Guild Settings

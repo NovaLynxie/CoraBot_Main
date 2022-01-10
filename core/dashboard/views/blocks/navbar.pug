@@ -35,18 +35,18 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
                   i.far.fa-id-card(aria-hidden='true')
                   |  Profile
                 a.dropdown-item(href='/dashboard')
-                  i.fa.fa-cogs(aria-hidden='true')
+                  i.fas.fa-tachometer-alt(aria-hidden='true')
                   |  Dashboard
                 if (isAdmin)
                   a.dropdown-item(href='/dashboard/admin')
-                    i.fa.fa-user-secret(aria-hidden='true')
+                    i.fas.fa-user-secret(aria-hidden='true')
                     |  Admin
                 .dropdown-divider
                 a.dropdown-item(href='/logout')
-                  i.fa.fa-sign-out(aria-hidden='true')
+                  i.fas.fa-sign-out(aria-hidden='true')
                   |  Logout
         else
           li.nav-item
             a.nav-link(href='/login')
-              i.fa.fa-key(aria-hidden='true')
+              i.fas.fa-key(aria-hidden='true')
               |  Login
