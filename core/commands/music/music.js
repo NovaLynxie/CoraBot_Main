@@ -226,12 +226,16 @@ module.exports = {
     // Dynamic Music Embeds
     async function dynamicQueueEmbed(queue, index = 1) {      
       queuePage = (index <= 1) ? queuePage-- : 1;      
-      let field = {}, no = 1, info, pos = index * 25 - 24;
-      let section = queue.slice(pos - 1, pos + 24); no = pos;
-      if (!section.length) {
-        pos = (index - 1) * 25 - 24; no = pos;
-        queue.slice(pos - 1, pos + 24);
+      let field = {}, section = [], no = 1, info, pos = index * 25 - 24;
+      if (queue.length >= 25) {
+        section = queue;
+      } else {
+        section = queue.slice(pos - 1, pos + 24);
       };
+      if (!section.length) {
+        pos = (index - 1) * 25 - 24;
+        queue.slice(pos - 1, pos + 24);
+      }; no = pos;
       if (!queue.length) pos = 0;
       let queueEmbed = new MessageEmbed(musicBaseEmbed);
       queueEmbed
