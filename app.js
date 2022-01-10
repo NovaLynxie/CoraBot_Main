@@ -12,7 +12,7 @@ const client = new Client({
   owners: ownerIDs,
   intents: [
     Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_INVITES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_VOICE_STATES
-  ], presence: { status: 'dnd', activity: 'Initializing...' }
+  ], presence: { status: 'dnd', activities: [{ name: 'Initializing...' }] }
 });
 client.commands = new Collection();
 client.music = voice;

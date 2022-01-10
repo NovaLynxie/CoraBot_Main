@@ -20,18 +20,11 @@ function checkVC(guild) {
 async function joinVC(channel) {
   if (!channel) return logger.error('Missing channel data! Got null or undefined! Expected a channel object!');
   logger.verbose(`voiceChannel:${JSON.stringify(channel, null, 2)}`);
-  try {
-    const voiceConnection = joinVoiceChannel({
-      channelId: channel.id,
-      guildId: channel.guild.id,
-      adapterCreator: channel.guild.voiceAdapterCreator,
-    });
-    logger.verbose(JSON.stringify(voiceConnection, null, 2));
-  } catch (error) {
-    logger.fatal(`Failed to connect to voice channel in ${channel.guild.name}!`);
-    logger.fatal(error.message); logger.debug(error.stack);
-    throw new Error(error);
-  };
+  const voiceConnection = joinVoiceChannel({
+    channelId: channel.id,
+    guildId: channel.guild.id,
+    adapterCreator: channel.guild.voiceAdapterCreator,
+  });
   try {
     await entersState(voiceConnection, VoiceConnectionStatus.Ready, 30_000);
     logger.debug('Connection successful! Ready to play audio.');
@@ -47,5 +40,5 @@ async function joinVC(channel) {
 module.exports = { checkVC, createSource, joinVC, newAudioPlayer };
 module.exports.voice = {
   audio: { create: createSource, start: newAudioPlayer },
-  fetch: checkVC, join: joinVC  
+  fetch: checkVC, join: joinVC
 };
