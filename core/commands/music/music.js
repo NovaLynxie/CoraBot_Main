@@ -232,8 +232,7 @@ module.exports = {
         .setTitle('Music Player Queue 🎼')
         .setDescription(`
         ${guild.name}'s queued songs
-        ${position - 24} - ${(selection.length < position + 24) ? selection.length : position + 24} of ${queue.length}`);        
-            
+        ${(selection.length) ? position - 24 : 0} - ${(selection.length < position + 24) ? selection.length : position + 24} of ${queue.length}`);
       for (const item of selection) {
         let { title, type, url } = item;
         try {
