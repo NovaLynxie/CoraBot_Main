@@ -252,9 +252,6 @@ module.exports = {
         try {
           switch (type) {
             case "youtube":
-              /*
-              info = await playdl.video_info(url);
-              */
               field = {
                 name: `Track #${no}`,
                 value: `
@@ -264,12 +261,6 @@ module.exports = {
               };
               break;
             case "soundcloud":
-              /*
-              info = await playdl.soundcloud(url);
-              time = info.durationInSec;
-              mins = Math.floor(time / 60); secs = time - mins * 60;
-              duration = `${(mins > 9) ? mins : `0${mins}`}:${(secs > 9) ? secs : `0${secs}`}`;
-              */
               field = {
                 name: `Track #${no}`,
                 value: `
