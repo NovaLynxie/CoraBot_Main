@@ -594,15 +594,7 @@ module.exports = {
               queueOpen = !queueOpen;
               if (queueOpen) {
                 playerOpen = false;
-                let loadingEmbed = new MessageEmbed(musicBaseEmbed)
                 logger.debug(`Fetching queue for ${guild.name} (${guild.id})`);
-                loadingEmbed
-                  .setTitle(`Queued Songs for ${guild.name}`)
-                  .setDescription(`Composing player's song queue. Please wait...`);
-                await interact.editReply(
-                  { embeds: [loadingEmbed] }
-                );
-                loadingEmbed.setDescription('');
                 await interact.editReply(
                   { embeds: [await dynamicQueueEmbed(voiceData.music.queue, queuePage)], components: [musicQueueMenuBtns] }
                 );
