@@ -600,6 +600,7 @@ module.exports = {
         });
         await wait(5000);
         await interaction.deleteReply();
+        await client.data.guild.voice.set(voiceData, interact.guild);
         playerOpen = false;
       });
     } else {
