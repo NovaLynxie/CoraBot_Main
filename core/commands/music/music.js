@@ -231,7 +231,7 @@ module.exports = {
         .setDescription(`${guild.name}'s queued songs`);
       let field = {}, no = 1, info, position = index * 25;
       let selection = queue.slice(position - 1, position + 24);
-      for (const item of queue) {
+      for (const item of selection) {
         let { title, type, url } = item;
         try {
           switch (type) {
