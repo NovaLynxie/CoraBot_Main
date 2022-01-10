@@ -106,16 +106,16 @@ module.exports = {
           .setEmoji('🎤')
           .setStyle('SECONDARY'),
         new MessageButton()
+          .setCustomId('skip')
+          .setEmoji('⏭️')
+          .setStyle('SECONDARY'),
+        new MessageButton()
           .setCustomId('clear')
           .setEmoji('🆑')
           .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('queueMenu')
           .setEmoji('📜')
-          .setStyle('SECONDARY'),
-        new MessageButton()
-          .setCustomId('skip')
-          .setEmoji('⏭️')
           .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('closePlayer')
