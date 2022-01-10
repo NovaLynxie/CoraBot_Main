@@ -30,10 +30,15 @@ async function joinVC(channel) {
 		logger.debug('Connection successful! Ready to play audio.');
 		return voiceConnection;
 	}	catch (error) {
-		logger.error('Connection error! Clearing connection!'); voiceConnection.destroy();
-		logger.error(error.message); logger.debug(error.stack);
+		logger.error('Connection error! Aborting voicechannel connection!');
+    voiceConnection.destroy();
+    logger.error(error.message); logger.debug(error.stack);
 		logger.warn('Forced closed connection to save resources.');
 		throw new Error(error);
 	};
 };
 module.exports = { checkVC, createSource, joinVC, newAudioPlayer };
+module.exports.voice = {
+  audio: { create: createSource, start: newAudioPlayer },
+  fetch: checkVC, join: joinVC  
+};
