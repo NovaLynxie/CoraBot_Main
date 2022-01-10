@@ -82,7 +82,7 @@ module.exports = {
         new MessageButton()
           .setCustomId('vol-')
           .setEmoji('🔊')
-          .setStyle('SECONDARY'),
+          .setStyle('SECONDARY')
       );
     const musicPlayerCtrlBtns2 = new MessageActionRow()
       .addComponents(
@@ -97,7 +97,7 @@ module.exports = {
         new MessageButton()
           .setCustomId('skip')
           .setEmoji('⏭️')
-          .setStyle('SECONDARY'),
+          .setStyle('SECONDARY')
       );
     const musicPlayerExtBtns = new MessageActionRow()
       .addComponents(
@@ -120,30 +120,30 @@ module.exports = {
         new MessageButton()
           .setCustomId('closePlayer')
           .setEmoji('❌')
-          .setStyle('SECONDARY'),
+          .setStyle('SECONDARY')
       );
     const musicQueueMenuBtns = new MessageActionRow()
       .addComponents(
         new MessageButton()
           .setCustomId('pagePrev')
           .setEmoji('⬅️')
+          .setStyle('SECONDARY'),        
+        new MessageButton()
+          .setCustomId('pageNext')
+          .setEmoji('➡️')
           .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('clear')
           .setEmoji('🆑')
           .setStyle('SECONDARY'),
         new MessageButton()
-          .setCustomId('closePlayer')
-          .setEmoji('❌')
-          .setStyle('SECONDARY'),
-        new MessageButton()
           .setCustomId('queueMenu')
           .setEmoji('📜')
-          .setStyle('SECONDARY'),
+          .setStyle('SECONDARY'),        
         new MessageButton()
-          .setCustomId('pageNext')
-          .setEmoji('➡️')
-          .setStyle('SECONDARY'),
+          .setCustomId('closePlayer')
+          .setEmoji('❌')
+          .setStyle('SECONDARY')
       );
     async function playlistParser(url, type) {
       let playlist, queue = [];
