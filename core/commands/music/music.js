@@ -164,13 +164,13 @@ module.exports = {
             song = await playdl.soundcloud(`https://api.soundcloud.com/tracks/${item.id}`);
           };
           logger.verbose(JSON.stringify(song, null, 2));
-          queue.push({ title: song.name, url: song.url, thumbnail: song.thumbnail, type: 'soundcloud' });
+          queue.push({ title: song.name, duration: song.durationInSec, url: song.url, thumbnail: song.thumbnail, type: 'soundcloud' });
         };
       };
       if (playlist.videos) {
         for (let item of playlist.videos) {
           logger.verbose(JSON.stringify(item, null, 2));
-          queue.push({ title: item.title, url: item.url, thumbnail: item.thumbnails[0].url, type: 'youtube' });
+          queue.push({ title: item.title, duration: item.durationInSec, url: item.url, thumbnail: item.thumbnails[0].url, type: 'youtube' });
         };
       };
       return queue;
@@ -198,15 +198,14 @@ module.exports = {
             song = null;
             response.content = 'Sorry, I do not support playing back YouTube livestreams in music queue.';
           } else {
-            song = { title: data.video_details.title, url: data.video_details.url, duration: data.video_details.durationRaw || formatDuration(data.video_details.durationInSec), thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
+            song = { title: data.video_details.title, url: data.video_details.url, duration: data.video_details.durationRaw ||  data.video_details.durationInSec, thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
             response.content = `Added ${song.title} to the queue!`;
           };
           break;
         case 'so_track':
           data = await playdl.soundcloud(url);
           logger.data(JSON.stringify(data, null, 2));
-          formatDuration(data.durationInSec)
-          song = { title: data.name, duration: formatDuration(data.durationInSec), url: data.url, thumbnail: data.thumbnail, type: 'soundcloud' };
+          song = { title: data.name, duration: data.durationInSec, url: data.url, thumbnail: data.thumbnail, type: 'soundcloud' };
           break;
           response.content = `Added ${song.title} to the queue!`;
         default:
@@ -256,7 +255,7 @@ module.exports = {
                 name: `Track #${no}`,
                 value: `
                 Title: ${title}
-                Duration: ${duration}
+                Duration: ${formatDuration(duration)}
                 Sourced from YouTube`
               };
               break;
@@ -265,7 +264,7 @@ module.exports = {
                 name: `Track #${no}`,
                 value: `
                 Title: ${title}
-                Duration: ${duration}
+                Duration: ${formatDuration(duration)}
                 Sourced from SoundCloud`
               };
               break;
