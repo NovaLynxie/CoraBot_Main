@@ -9,8 +9,7 @@ const { ownerIDs, useLegacyURL, debug } = config;
 const { discordToken } = credentials;
 logger.init('Spinning up bot instance...');
 const client = new Client({
-  commands: new Collection(), owners: ownerIDs,
-  data: storage.data, settings: storage.settings, voice: voice,  
+  owners: ownerIDs,
   intents: [
     Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_INVITES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_VOICE_STATES
   ], presence: { status: 'dnd', activity: 'Initializing...' }
@@ -20,10 +19,10 @@ if (useLegacyURL) {
   logger.debug('Switching http API to legacy domain.');
   client.options.http.api = 'https://discordapp.com/api';
 } else { logger.debug('Using default API domain.') };
-//client.commands = new Collection();
-//client.voice = voice;
-//client.data = handlers.data;
-//client.settings = handlers.settings;
+client.commands = new Collection();
+client.voice = voice;
+client.data = storage.data;
+client.settings = storage.settings;
 const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
   const event = require(`./core/events/${file}`);

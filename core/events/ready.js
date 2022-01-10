@@ -9,27 +9,31 @@ const { enableDash, dashDomain, dashSrvPort, reportOnly } = dashboard;
 module.exports = {
 	name: 'ready',
 	once: true,
-	async execute(client) {
-    await client.user.setStatus('dnd');
+	async execute(client) {    
 		logger.info(`Logged in as ${client.user.tag}. Bot Online!`);
 		logger.warn('Running final checks! Bot may be slow for a bit.');
 		clearTimeout(client.timers.apiConnectWarn);
 		logger.debug('Cleared ratelimit warning timer.');
     client.user.setActivity('Loading settings...');
+    logger.init('Running settings and data initial checks...');
 		client.application = await client.application.fetch();
-		await client.settings.init();
+    try {
+      await client.settings.init();
+    } catch (err) {
+      logger.fatal('Failed to initialize bot settings!');
+      logger.fatal(err.message); logger.debug(err.stack);
+      return client.user.setActivity('Bot settings error!');
+    }
 		const guilds = client.guilds.cache.map(g => g.id);
-		try {
-			logger.init('Running settings and data initial checks...');
+		try {			
 			await client.settings.guild.init(guilds);
 			await client.data.init(guilds);
-			logger.info('Finished final checks. Preparing commands.');
 		} catch (err) {
 			logger.error('Failed to initialize guild settings/data!');
 			logger.error(err.message); logger.debug(err.stack);
-			logger.error('Encountered some errors during bot post start.');
-			logger.warn('Please check logs before restarting the bot.');
+      return client.user.setActivity('Guild settings error!');
 		};
+    logger.info('Finished final checks. Preparing commands.');
     client.user.setActivity('Loading commands...');
 		loadBotCmds(client);
 		const dashConfig = {
