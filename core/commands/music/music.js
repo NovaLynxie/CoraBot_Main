@@ -206,7 +206,7 @@ module.exports = {
           data = await playdl.soundcloud(url);
           logger.data(JSON.stringify(data, null, 2));
           formatDuration(data.durationInSec)
-          song = { title: data.name, duration: , url: data.url, thumbnail: data.thumbnail, type: 'soundcloud' };
+          song = { title: data.name, duration: formatDuration(data.durationInSec), url: data.url, thumbnail: data.thumbnail, type: 'soundcloud' };
           break;
           response.content = `Added ${song.title} to the queue!`;
         default:
