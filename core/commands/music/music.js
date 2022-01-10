@@ -110,7 +110,7 @@ module.exports = {
           .setEmoji('🆑')
           .setStyle('SECONDARY'),
         new MessageButton()
-          .setCustomId('queue')
+          .setCustomId('queueMenu')
           .setEmoji('📜')
           .setStyle('SECONDARY'),
         new MessageButton()
@@ -137,7 +137,7 @@ module.exports = {
           .setEmoji('❌')
           .setStyle('SECONDARY'),
         new MessageButton()
-          .setCustomId('queue')
+          .setCustomId('queueMenu')
           .setEmoji('📜')
           .setStyle('SECONDARY'),        
         new MessageButton()
@@ -574,7 +574,7 @@ module.exports = {
             case 'clear':
               voiceData.music.queue = [];
               break;
-            case 'queue':
+            case 'queueMenu':
               queueOpen = !queueOpen;
               if (queueOpen) {
                 playerOpen = false;
@@ -596,6 +596,10 @@ module.exports = {
                 playerOpen = true;
                 refreshPlayer(interact);                
               };
+              break;
+            case 'pageNext':
+              break;
+            case 'pagePrev':
               break;
             default:
               logger.warn('Invalid or unknown action called!');
