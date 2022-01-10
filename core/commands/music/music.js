@@ -6,6 +6,7 @@ const { Playing, Idle, Paused, AutoPaused } = AudioPlayerStatus;
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const playdl = require('play-dl');
 playdl.getFreeClientID().then((clientID) => playdl.setToken({
+  useragent: ['corabot/4.0 (https://github.com/NovaLynxie/CoraBot_Main)'],
   soundcloud: {
     client_id: clientID
   }
@@ -549,7 +550,22 @@ module.exports = {
             // Music Player Actions
             case 'play':
               if (!audioPlayer) return;
-              source = await loadSong();
+              try {
+                source = await loadSong();
+              } catch (error) {
+                logger.error('Failed to load song!');
+                logger.error(error.message); logger.debug(error.stack);
+                let errEmbed = new MessageEmbed(musicBaseEmbed)
+                  .setTitle('Player Error!')
+                  .setDescription(`                  
+                  \`\`\`
+                  Caused by: ${error.message}
+                  ${error.stack}
+                  \`\`\`
+                  `)
+                interact.followUp({
+                  contents: 'Failed to load requested song!'
+                })
               if (!source) return interact.editReply({ content: 'No song queued to play!' });
               if (!interaction.member.voice.channel) {
                 interact.followUp({
@@ -578,7 +594,23 @@ module.exports = {
             case 'skip':
               if (!audioPlayer) return;
               voiceData.music.queue.shift();
-              source = await loadSong();
+              try {
+                source = await loadSong();
+              } catch (error) {
+                logger.error('Failed to load song!');
+                logger.error(error.message); logger.debug(error.stack);
+                let errEmbed = new MessageEmbed(musicBaseEmbed)
+                  .setTitle('Player Error!')
+                  .setDescription(`                  
+                  \`\`\`
+                  Caused by: ${error.message}
+                  ${error.stack}
+                  \`\`\`
+                  `)
+                interact.followUp({
+                  contents: 'Failed to load requested song!'
+                })
+              }
               if (!source) {
                 return interact.editReply({ content: 'End of queue!' });
               } else {
