@@ -585,9 +585,11 @@ module.exports = {
               break;
             case 'clearQueue':
               voiceData.music.queue = [];
-              await interact.editReply(
-                { embeds: [await dynamicQueueEmbed(voiceData.music.queue, 0)], components: [musicQueueMenuBtns] }
-              );
+              if (queueOpen) {
+                await interact.editReply(
+                  { embeds: [await dynamicQueueEmbed(voiceData.music.queue, 0)], components: [musicQueueMenuBtns] }
+                );
+              };              
               break;
             case 'queueMenu':
               queueOpen = !queueOpen;
