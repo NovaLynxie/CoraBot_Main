@@ -6,7 +6,7 @@ const { Playing, Idle, Paused, AutoPaused } = AudioPlayerStatus;
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const playdl = require('play-dl');
 playdl.getFreeClientID().then((clientID) => playdl.setToken({
-  useragent: ['corabot/4.0 (https://github.com/NovaLynxie/CoraBot_Main)'],
+  useragent: ['cora/4.0 (https://github.com/NovaLynxie/CoraBot_Main)'],
   soundcloud: {
     client_id: clientID
   }
