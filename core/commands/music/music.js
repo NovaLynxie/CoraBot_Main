@@ -566,6 +566,7 @@ module.exports = {
                 interact.followUp({
                   contents: 'Failed to load requested song!'
                 })
+              };
               if (!source) return interact.editReply({ content: 'No song queued to play!' });
               if (!interaction.member.voice.channel) {
                 interact.followUp({
