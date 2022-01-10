@@ -231,6 +231,7 @@ module.exports = {
       if (!section.length) {
         pos = (index - 1) * 25 - 24; no = pos;
         queue.slice(pos - 1, pos + 24);
+        await interaction.followUp({ content: "Reached end of music queue!", ephemeral: true });
       };
       let queueEmbed = new MessageEmbed(musicBaseEmbed);
       queueEmbed
