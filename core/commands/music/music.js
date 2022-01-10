@@ -592,9 +592,7 @@ module.exports = {
                 logger.debug(`Fetching queue for ${guild.name} (${guild.id})`);
                 loadingEmbed
                   .setTitle(`Queued Songs for ${guild.name}`)
-                  .setDescription(`
-                  Composing song queue, please be patient.
-                  *This can take up to several minutes depending on how many songs are in the queue*`);
+                  .setDescription(`Composing player's song queue. Please wait...`);
                 await interact.editReply(
                   { embeds: [loadingEmbed] }
                 );
