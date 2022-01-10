@@ -635,7 +635,7 @@ module.exports = {
         });
         await wait(5000);
         await interaction.deleteReply();
-        await client.data.guild.voice.set(voiceData, interact.guild);
+        await client.data.guild.voice.set(voiceData, interaction.guild);
         playerOpen = false;
       });
     } else {
