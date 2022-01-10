@@ -5,7 +5,6 @@ const {
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const wait = require('util').promisify(setTimeout);
-const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
 const { stations } = require('../../assets/resources/radioStations.json');
 const stationsList = [];
 logger.debug('Loading radio stations information...');
@@ -23,7 +22,7 @@ module.exports = {
     .setName('radio')
     .setDescription('Starts up the radio!'),
   async execute(interaction, client) {
-    let connection = checkVC(interaction.guild);
+    let connection = client.voice.player.fetch(interaction.guild);
     let player, source, station;
     await interaction.deferReply({ ephemeral: false });
     const radioBaseEmbed = new MessageEmbed()
@@ -83,14 +82,14 @@ module.exports = {
         if (interact.values[0] === station.name) break;
       }
       logger.debug(`station:${JSON.stringify(station)}`);
-      source = createSource(station.url);
+      source = client.voice.player.create(station.url);
     }
     async function joinChannel(channel) {
-      connection = checkVC(interaction.guild);
+      connection = client.voice.player.fetch(interaction.guild);
       try {
         if (!connection) {
           logger.debug(`No connections found in ${interaction.guild.name}, creating one.`);
-          connection = await joinVC(interaction.member.voice.channel);
+          connection = await client.voice.player.join(interaction.member.voice.channel);
         } else {
           logger.debug(`Connection already active in ${interaction.guild.name}.`);
         };
@@ -166,7 +165,7 @@ module.exports = {
     };
     const collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
     let menuOpen, playerOpen;
-    player = (!player) ? newAudioPlayer() : player;
+    player = (!player) ? client.voice.player.init() : player;
     // Player Event Handler.
     player.on('stateChange', (oldState, newState) => {
       logger.debug(`oldState.status => ${oldState ?.status}`);
@@ -229,7 +228,7 @@ module.exports = {
               ephemeral: true,
             });
           }
-          connection = await joinVC(interaction.member.voice.channel);
+          connection = await client.voice.player.join(interaction.member.voice.channel);
           break;
         case 'leaveVC':
           if (!interaction.member.voice.channel) {

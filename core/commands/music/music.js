@@ -11,8 +11,7 @@ playdl.getFreeClientID().then((clientID) => playdl.setToken({
   }
 }));
 const wait = require('util').promisify(setTimeout);
-const { checkVC, joinVC, createSource, newAudioPlayer } = require('../../handlers/voiceManager');
-let audioPlayer = newAudioPlayer(), stopped = false;
+let audioPlayer, stopped = false;
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -53,8 +52,8 @@ module.exports = {
     ),
   async execute(interaction, client) {
     await interaction.deferReply({ ephemeral: false });
-    let guild = interaction.guild, collector, source, track;
-    let connection = checkVC(guild), queuePage = 1;
+    let guild = interaction.guild, collector, source, track;    
+    let connection = client.voice.player.fetch(guild), queuePage = 1;
     let voiceData = await client.data.guild.voice.get(guild);
     const subcmd = interaction.options.getSubcommand();
     const musicBaseEmbed = new MessageEmbed()
@@ -223,7 +222,7 @@ module.exports = {
       if (!voiceData.music.queue[0]) return undefined;
       let { title, duration, type, url } = voiceData.music.queue[0];
       const source = await playdl.stream(url);
-      const stream = createSource(source.stream);
+      const stream = client.voice.player.create(source.stream);
       voiceData.music.track = { title, duration, type };
       await client.data.guild.voice.set(voiceData, guild);
       return stream;
@@ -420,7 +419,7 @@ module.exports = {
       };
     };
     let queueOpen, playerOpen;
-    audioPlayer = (!audioPlayer) ? newAudioPlayer() : audioPlayer;
+    audioPlayer = (!audioPlayer) ? client.voice.player.init() : audioPlayer;
     switch (subcmd) {
       case 'add':
         await sourceParser(interaction.options.getString('url'));
@@ -535,7 +534,7 @@ module.exports = {
                 });
               };
               if (!connection) {
-                connection = await joinVC(interaction.member.voice.channel);
+                connection = await client.voice.player.join(interaction.member.voice.channel);
               } else
                 if (connection) {
                   connection.destroy();

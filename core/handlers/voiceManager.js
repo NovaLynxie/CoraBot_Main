@@ -9,7 +9,7 @@ function newAudioPlayer() {
   });
   return audioPlayer;
 };
-function createSource(input) {
+function newAudioSource(input) {
   const audioSource = createAudioResource(input);
   return audioSource;
 };
@@ -37,8 +37,6 @@ async function joinVC(channel) {
     throw new Error(error);
   };
 };
-module.exports = { checkVC, createSource, joinVC, newAudioPlayer };
 module.exports.voice = {
-  audio: { create: createSource, start: newAudioPlayer },
-  fetch: checkVC, join: joinVC
+  init: newAudioPlayer,  create: newAudioSource,  fetch: checkVC, join: joinVC
 };

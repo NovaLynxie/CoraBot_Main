@@ -15,7 +15,7 @@ const client = new Client({
   ], presence: { status: 'dnd', activities: [{ name: 'Initializing...' }] }
 });
 client.commands = new Collection();
-client.music = voice;
+client.voice.player = voice;
 client.data = storage.data;
 client.settings = storage.settings;
 if (useLegacyURL) {
