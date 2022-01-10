@@ -625,18 +625,17 @@ module.exports = {
           logger.error(err.message); logger.debug(err.stack);
         };
       });
-      collector.on('end', async collected => {
+      collector.on('end', async collected => {        
         logger.debug('Collector in music commmand timed out or was stopped.');
         logger.debug(`Collected ${collected.size} items.`);
         if (!playerOpen) return;
         await interaction.editReply({
-          content: 'Music Player timed out. Please run /music again.',
+          content: 'Music player menu closed. Please run /music again.',
           embeds: [], components: [],
         });
-        await wait(5000);
+        await wait(5000); playerOpen = false;
         await interaction.deleteReply();
         await client.data.guild.voice.set(voiceData, interaction.guild);
-        playerOpen = false;
       });
     } else {
       return;
