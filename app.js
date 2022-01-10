@@ -3,6 +3,7 @@ const { readdirSync } = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { crashReporter } = require('./core/handlers/crashReporter');
 const { handlers } = require('./core/handlers/keyvManager');
+const { voice } = require('./core/handlers/voiceManager');
 const { config, credentials } = require('./core/handlers/bootLoader');
 const { ownerIDs, useLegacyURL, debug } = config;
 const { discordToken } = credentials;
@@ -20,6 +21,7 @@ if (useLegacyURL) {
   client.options.http.api = 'https://discordapp.com/api';
 } else { logger.debug('Using default API domain.') };
 client.commands = new Collection();
+client.voice = voice;
 client.data = handlers.data;
 client.settings = handlers.settings;
 const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
