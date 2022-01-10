@@ -177,8 +177,13 @@ module.exports = {
           break;
         case 'yt_video':
           data = await playdl.video_info(url);
-          song = { title: data.video_details.title, url: data.video_details.url, thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
-          response.content = `Added ${song.title} to the queue!`;
+          if (data.video_details.durationInSec <= 0) {
+            song = null;
+            response.content = 'Sorry, I do not support playing back YouTube livestreams in music queue.';
+          } else {
+            song = { title: data.video_details.title, url: data.video_details.url, thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
+            response.content = `Added ${song.title} to the queue!`;
+          };          
           break;
         case 'so_track':
           data = await playdl.soundcloud(url);
