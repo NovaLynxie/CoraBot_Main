@@ -54,7 +54,7 @@ module.exports = {
   async execute(interaction, client) {
     await interaction.deferReply({ ephemeral: false });
     let guild = interaction.guild, collector, source, track;
-    let connection = checkVC(guild);
+    let connection = checkVC(guild), queuePage = 1;
     let voiceData = await client.data.guild.voice.get(guild);
     const subcmd = interaction.options.getSubcommand();
     const musicBaseEmbed = new MessageEmbed()
