@@ -52,8 +52,10 @@ module.exports = {
     ),
   async execute(interaction, client) {
     await interaction.deferReply({ ephemeral: false });
-    let guild = interaction.guild, collector, source, track;    
+    let guild = interaction.guild, collector, source, track;
     let connection = client.voice.player.fetch(guild), queuePage = 1;
+    console.log(connection._state.subscription.player);
+    audioPlayer = connection._state.subscription.player;
     let voiceData = await client.data.guild.voice.get(guild);
     const subcmd = interaction.options.getSubcommand();
     const musicBaseEmbed = new MessageEmbed()
@@ -197,7 +199,7 @@ module.exports = {
             song = null;
             response.content = 'Sorry, I do not support playing back YouTube livestreams in music queue.';
           } else {
-            song = { title: data.video_details.title, url: data.video_details.url, duration: data.video_details.durationRaw ||  data.video_details.durationInSec, thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
+            song = { title: data.video_details.title, url: data.video_details.url, duration: data.video_details.durationRaw || data.video_details.durationInSec, thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
             response.content = `Added ${song.title} to the queue!`;
           };
           break;
@@ -358,9 +360,12 @@ module.exports = {
           playerState = 'Paused';
           break;
         default:
-          playerState = 'Invalid State!';
+          if (!source) {
+            playerState = 'No Track'
+          } else {
+            playerState = 'Player Off';
+          };
       };
-      if (!source) playerState = 'No Track';
       if (!connection) playerState = 'Voice D/C 🔇';
       playerEmbed.fields = [
         {
@@ -587,7 +592,7 @@ module.exports = {
                 await interact.editReply(
                   { embeds: [await dynamicQueueEmbed(voiceData.music.queue, 0)], components: [musicQueueMenuBtns] }
                 );
-              };              
+              };
               break;
             case 'queueMenu':
               queueOpen = !queueOpen;
@@ -624,7 +629,7 @@ module.exports = {
           logger.error(err.message); logger.debug(err.stack);
         };
       });
-      collector.on('end', async collected => {        
+      collector.on('end', async collected => {
         logger.debug('Collector in music commmand timed out or was stopped.');
         logger.debug(`Collected ${collected.size} items.`);
         if (!playerOpen) return;
