@@ -110,7 +110,7 @@ module.exports = {
           .setEmoji('⏭️')
           .setStyle('SECONDARY'),
         new MessageButton()
-          .setCustomId('clear')
+          .setCustomId('clearQueue')
           .setEmoji('🆑')
           .setStyle('SECONDARY'),
         new MessageButton()
@@ -133,7 +133,7 @@ module.exports = {
           .setEmoji('➡️')
           .setStyle('SECONDARY'),
         new MessageButton()
-          .setCustomId('clear')
+          .setCustomId('clearQueue')
           .setEmoji('🆑')
           .setStyle('SECONDARY'),
         new MessageButton()
@@ -226,6 +226,7 @@ module.exports = {
     // Dynamic Music Embeds
     async function dynamicQueueEmbed(queue, index = 1) {      
       queuePage = (index <= 1) ? queuePage-- : 1;
+      if (!queue || !queue.length) index = 0;
       let field = {}, no = 1, info, pos = index * 25 - 24;
       let section = queue.slice(pos - 1, pos + 24); no = pos;
       if (!section.length) {
@@ -581,8 +582,11 @@ module.exports = {
                 audioPlayer.play(source);
               };
               break;
-            case 'clear':
+            case 'clearQueue':
               voiceData.music.queue = [];
+              await interact.editReply(
+                { embeds: [await dynamicQueueEmbed(voiceData.music.queue, 0)], components: [musicQueueMenuBtns] }
+              );
               break;
             case 'queueMenu':
               queueOpen = !queueOpen;
