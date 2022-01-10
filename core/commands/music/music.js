@@ -126,7 +126,7 @@ module.exports = {
       .addComponents(
         new MessageButton()
           .setCustomId('pagePrev')
-          .setEmoji('⏮️')
+          .setEmoji('⬅️')
           .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('clear')
@@ -142,7 +142,7 @@ module.exports = {
           .setStyle('SECONDARY'),        
         new MessageButton()
           .setCustomId('pageNext')
-          .setEmoji('⏭️')
+          .setEmoji('➡️')
           .setStyle('SECONDARY'),
       );
     async function playlistParser(url, type) {
