@@ -208,8 +208,7 @@ async function resetGuildData() {
   logger.verbose('Removing all guild data.');
   await guildDataStore.clear();
 };
-// new handlers - replaces legacy handler setup.
-module.exports.handlers = {
+module.exports.storage = {
   data: {
     init: generateGuildData,
     reset: resetGuildData,
