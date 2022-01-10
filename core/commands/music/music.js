@@ -54,7 +54,7 @@ module.exports = {
     await interaction.deferReply({ ephemeral: false });
     let guild = interaction.guild, collector, source, track;
     let connection = client.voice.player.fetch(guild), queuePage = 1;
-    audioPlayer = (connection) ? connection ?._state.subscription.player : undefined;
+    audioPlayer = (connection) ? connection._state.subscription?.player : undefined;
     let voiceData = await client.data.guild.voice.get(guild);
     const subcmd = interaction.options.getSubcommand();
     const musicBaseEmbed = new MessageEmbed()
