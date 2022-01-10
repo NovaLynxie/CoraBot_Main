@@ -131,7 +131,7 @@ module.exports = {
         new MessageButton()
           .setCustomId('clear')
           .setEmoji('🆑')
-          .setStyle('SECONDARY'),        
+          .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('closePlayer')
           .setEmoji('❌')
@@ -139,7 +139,7 @@ module.exports = {
         new MessageButton()
           .setCustomId('queueMenu')
           .setEmoji('📜')
-          .setStyle('SECONDARY'),        
+          .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('pageNext')
           .setEmoji('➡️')
@@ -159,13 +159,13 @@ module.exports = {
             song = await playdl.soundcloud(`https://api.soundcloud.com/tracks/${item.id}`);
           };
           logger.verbose(JSON.stringify(song, null, 2));
-          queue.push({title: song.name, url: song.url, thumbnail: song.thumbnail, type: 'soundcloud' });
+          queue.push({ title: song.name, url: song.url, thumbnail: song.thumbnail, type: 'soundcloud' });
         };
       };
       if (playlist.videos) {
         for (let item of playlist.videos) {
           logger.verbose(JSON.stringify(item, null, 2));
-          queue.push({title: item.title, url: item.url, thumbnail: item.thumbnails[0].url, type: 'youtube' });
+          queue.push({ title: item.title, url: item.url, thumbnail: item.thumbnails[0].url, type: 'youtube' });
         };
       };
       return queue;
@@ -195,7 +195,7 @@ module.exports = {
           } else {
             song = { title: data.video_details.title, url: data.video_details.url, thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
             response.content = `Added ${song.title} to the queue!`;
-          };          
+          };
           break;
         case 'so_track':
           data = await playdl.soundcloud(url);
@@ -224,12 +224,12 @@ module.exports = {
       return stream;
     };
     // Dynamic Music Embeds
-    async function dynamicQueueEmbed(queue) {
+    async function dynamicQueueEmbed(queue, index = 1) {
       let queueEmbed = new MessageEmbed(musicBaseEmbed);
       queueEmbed
         .setTitle('Music Player Queue 🎼')
         .setDescription(`${guild.name}'s queued songs`);
-      let field = {}, no = 1, info;
+      let field = {}, no = 1, info, position = index * 25;
       for (const item of queue) {
         let { title, type, url } = item;
         try {
@@ -399,7 +399,7 @@ module.exports = {
     async function refreshPlayer(interact) {
       logger.verbose(JSON.stringify(voiceData, null, 2));
       try {
-        await interact.editReply({          
+        await interact.editReply({
           components: [musicPlayerCtrlBtns, musicPlayerExtBtns],
           embeds: [dynamicPlayerEmbed(voiceData.music.track)],
         });
@@ -594,12 +594,18 @@ module.exports = {
                 );
               } else {
                 playerOpen = true;
-                refreshPlayer(interact);                
+                refreshPlayer(interact);
               };
               break;
             case 'pageNext':
+              await interact.editReply(
+                { embeds: [await dynamicQueueEmbed(voiceData.music.queue)], components: [musicQueueMenuBtns] }
+              );
               break;
             case 'pagePrev':
+              await interact.editReply(
+                { embeds: [await dynamicQueueEmbed(voiceData.music.queue)], components: [musicQueueMenuBtns] }
+              );
               break;
             default:
               logger.warn('Invalid or unknown action called!');
