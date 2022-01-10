@@ -224,15 +224,18 @@ module.exports = {
       return stream;
     };
     // Dynamic Music Embeds
-    async function dynamicQueueEmbed(queue, index = 1) {
+    async function dynamicQueueEmbed(queue, index = 1) {      
+      queuePage = (index <= 1) ? queuePage-- : 1;
       let field = {}, no = 1, info, pos = index * 25 - 24;
-      let section = queue.slice(pos - 1, pos + 24);      
+      let section = queue.slice(pos - 1, pos + 24); no = pos;      
       let queueEmbed = new MessageEmbed(musicBaseEmbed);
       queueEmbed
         .setTitle('Music Player Queue 🎼')
         .setDescription(`
         ${guild.name}'s queued songs
         ${(section.length) ? (section.length > 24) ? pos + (section.length - 25) : pos - 24 : 0} - ${(section.length < pos + 24) ? section.length : pos + 24} of ${queue.length}`);
+      logger.verbose(`queue.main:${JSON.stringify(queue, null, 2)}`);
+      logger.verbose(`queue.section:${JSON.stringify(section, null, 2)}`);
       for (const item of section) {
         let { title, type, url } = item;
         try {
@@ -593,7 +596,7 @@ module.exports = {
                 );
                 loadingEmbed.setDescription('');
                 await interact.editReply(
-                  { embeds: [await dynamicQueueEmbed(voiceData.music.queue)], components: [musicQueueMenuBtns] }
+                  { embeds: [await dynamicQueueEmbed(voiceData.music.queue, queuePage)], components: [musicQueueMenuBtns] }
                 );
               } else {
                 playerOpen = true;
@@ -601,11 +604,13 @@ module.exports = {
               };
               break;
             case 'pageNext':
+              queuePage = (queuePage <= 1) ? queuePage-- : 1;
               await interact.editReply(
-                { embeds: [await dynamicQueueEmbed(voiceData.music.queue)], components: [musicQueueMenuBtns] }
+                { embeds: [await dynamicQueueEmbed(voiceData.music.queue, 'pageNext')], components: [musicQueueMenuBtns] }
               );
               break;
             case 'pagePrev':
+              queuePage = (queuePage <= 1) ? queuePage-- : 1;
               await interact.editReply(
                 { embeds: [await dynamicQueueEmbed(voiceData.music.queue)], components: [musicQueueMenuBtns] }
               );
