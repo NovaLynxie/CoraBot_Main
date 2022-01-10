@@ -236,11 +236,12 @@ module.exports = {
               info = await playdl.soundcloud(url);
               time = info.durationInSec;
               mins = Math.floor(time / 60); secs = time - mins * 60;
+              duration = `${(mins > 9) ? mins : `0${mins}`}:${(secs > 9) ? secs : `0${secs}`}`;
               field = {
                 name: `Track #${no}`,
                 value: `
                 Title: ${title}
-                Duration: ${mins}:${secs}
+                Duration: ${duration}
                 Sourced from SoundCloud`
               };
               break;
