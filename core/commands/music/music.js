@@ -237,7 +237,7 @@ module.exports = {
         .setTitle('Music Player Queue 🎼')
         .setDescription(`
         ${guild.name}'s queued songs
-        ${(section.length) ? (section.length > 24) ? pos + (section.length - 25) : pos - 24 : 0} - ${(section.length < pos + 24) ? section.length : pos + 24} of ${queue.length}`);
+        ${(section.length) ? (section.length > 24) ? pos + (section.length - 25) : pos : 0} - ${(section.length < pos + 24) ? pos : pos + 24} of ${queue.length}`);
       logger.verbose(`queue.main.length=${queue.length}`);logger.verbose(`queue.section.length=${section.length}`);
       logger.verbose(`pageNo:${index}; posNo:${pos};`)
       for (const item of section) {
