@@ -125,12 +125,24 @@ module.exports = {
     const musicQueueMenuBtns = new MessageActionRow()
       .addComponents(
         new MessageButton()
+          .setCustomId('pagePrev')
+          .setEmoji('⏮️')
+          .setStyle('SECONDARY'),
+        new MessageButton()
           .setCustomId('clear')
           .setEmoji('🆑')
+          .setStyle('SECONDARY'),        
+        new MessageButton()
+          .setCustomId('closePlayer')
+          .setEmoji('❌')
           .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('queue')
           .setEmoji('📜')
+          .setStyle('SECONDARY'),        
+        new MessageButton()
+          .setCustomId('pageNext')
+          .setEmoji('⏭️')
           .setStyle('SECONDARY'),
       );
     async function playlistParser(url, type) {
@@ -572,13 +584,13 @@ module.exports = {
                   .setTitle(`Queued Songs for ${guild.name}`)
                   .setDescription(`
                   Composing song queue, please be patient.
-                  *This may take a while if more than 25 songs are queued at a time.*`);
+                  *This can take up to several minutes depending on how many songs are in the queue*`);
                 await interact.editReply(
                   { embeds: [loadingEmbed] }
                 );
                 loadingEmbed.setDescription('');
                 await interact.editReply(
-                  { embeds: [await dynamicQueueEmbed(voiceData.music.queue)] }
+                  { embeds: [await dynamicQueueEmbed(voiceData.music.queue)], components: [musicQueueMenuBtns] }
                 );
               } else {
                 playerOpen = true;
