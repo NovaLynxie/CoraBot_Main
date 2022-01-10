@@ -14,15 +14,15 @@ const client = new Client({
     Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_INVITES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_VOICE_STATES
   ], presence: { status: 'dnd', activity: 'Initializing...' }
 });
+client.commands = new Collection();
+client.voice = voice;
+client.data = storage.data;
+client.settings = storage.settings;
 if (useLegacyURL) {
   logger.warn('Legacy API domain is now depreciated. Only use this to debug app connections.');
   logger.debug('Switching http API to legacy domain.');
   client.options.http.api = 'https://discordapp.com/api';
 } else { logger.debug('Using default API domain.') };
-client.commands = new Collection();
-client.voice = voice;
-client.data = storage.data;
-client.settings = storage.settings;
 const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
   const event = require(`./core/events/${file}`);
@@ -37,7 +37,7 @@ process.on('unhandledRejection', error => {
   logger.error(`Caused by: ${error.message}`);
   logger.debug(error.stack);
 });
-process.on('uncaughtException', error => {  
+process.on('uncaughtException', error => {
   logger.error('Bot crashed! Generating a crash report.');
   logger.error(error.message); logger.debug(error.stack);
   crashReporter(error); setTimeout(() => process.exit(1), 5000);
