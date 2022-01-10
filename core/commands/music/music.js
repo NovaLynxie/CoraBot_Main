@@ -127,7 +127,7 @@ module.exports = {
         new MessageButton()
           .setCustomId('pagePrev')
           .setEmoji('⬅️')
-          .setStyle('SECONDARY'),        
+          .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('pageNext')
           .setEmoji('➡️')
@@ -139,12 +139,17 @@ module.exports = {
         new MessageButton()
           .setCustomId('queueMenu')
           .setEmoji('📜')
-          .setStyle('SECONDARY'),        
+          .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('closePlayer')
           .setEmoji('❌')
           .setStyle('SECONDARY')
       );
+    function formatDuration(time) {
+      let mins, secs;
+      mins = Math.floor(time / 60); secs = time - mins * 60;
+      return `${(mins > 9) ? mins : `0${mins}`}:${(secs > 9) ? secs : `0${secs}`}`;
+    }
     async function playlistParser(url, type) {
       let playlist, queue = [];
       if (type === 'yt') playlist = await playdl.playlist_info(url);
@@ -193,14 +198,15 @@ module.exports = {
             song = null;
             response.content = 'Sorry, I do not support playing back YouTube livestreams in music queue.';
           } else {
-            song = { title: data.video_details.title, url: data.video_details.url, thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
+            song = { title: data.video_details.title, url: data.video_details.url, duration: data.video_details.durationRaw || formatDuration(data.video_details.durationInSec), thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
             response.content = `Added ${song.title} to the queue!`;
           };
           break;
         case 'so_track':
           data = await playdl.soundcloud(url);
           logger.data(JSON.stringify(data, null, 2));
-          song = { title: data.name, url: data.url, thumbnail: data.thumbnail, type: 'soundcloud' };
+          formatDuration(data.durationInSec)
+          song = { title: data.name, duration: , url: data.url, thumbnail: data.thumbnail, type: 'soundcloud' };
           break;
           response.content = `Added ${song.title} to the queue!`;
         default:
@@ -224,46 +230,46 @@ module.exports = {
       return stream;
     };
     // Dynamic Music Embeds
-    async function dynamicQueueEmbed(queue, index = 1) {      
-      queuePage = (index <= 1) ? queuePage-- : 1;      
-      let field = {}, section = [], no = 1, info, pos = index * 25 - 24;
-      if (queue.length >= 25) {
-        section = queue;
-      } else {
-        section = queue.slice(pos - 1, pos + 24);
-      };
+    async function dynamicQueueEmbed(queue, index = 1) {
+      queuePage = (index <= 1) ? queuePage-- : 1;
+      let field = {}, no = 1, info, pos = index * 25 - 24;
+      let section = queue.slice(pos - 1, pos + 24); no = pos;
       if (!section.length) {
-        pos = (index - 1) * 25 - 24;
+        logger.verbose('No more songs! Returning to previous page.');
+        pos = (index - 1) * 25 - 24; no = pos;
         queue.slice(pos - 1, pos + 24);
-      }; no = pos;
-      if (!queue.length) pos = 0;
+      };
       let queueEmbed = new MessageEmbed(musicBaseEmbed);
       queueEmbed
         .setTitle('Music Player Queue 🎼')
         .setDescription(`
         ${guild.name}'s queued songs
         ${(section.length) ? (section.length > 24) ? pos + (section.length - 25) : pos : 0} - ${(section.length < pos + 24) ? pos : pos + 24} of ${queue.length}`);
-      logger.verbose(`queue.main.length=${queue.length}`);logger.verbose(`queue.section.length=${section.length}`);
+      logger.verbose(`queue.main.length=${queue.length}`); logger.verbose(`queue.section.length=${section.length}`);
       logger.verbose(`pageNo:${index}; posNo:${pos};`)
       for (const item of section) {
-        let { title, type, url } = item;
+        let { title, duration, type, url } = item;
         try {
           switch (type) {
             case "youtube":
+              /*
               info = await playdl.video_info(url);
+              */
               field = {
                 name: `Track #${no}`,
                 value: `
                 Title: ${title}
-                Duration: ${info.video_details.durationRaw}
+                Duration: ${duration}
                 Sourced from YouTube`
               };
               break;
             case "soundcloud":
+              /*
               info = await playdl.soundcloud(url);
               time = info.durationInSec;
               mins = Math.floor(time / 60); secs = time - mins * 60;
               duration = `${(mins > 9) ? mins : `0${mins}`}:${(secs > 9) ? secs : `0${secs}`}`;
+              */
               field = {
                 name: `Track #${no}`,
                 value: `
@@ -448,7 +454,7 @@ module.exports = {
         break;
     };
     // Player Event Handler.
-    const eventListenerCheck = (event) => audioPlayer.listenerCount(event) < 1;
+    const eventListenerCheck = (event) => audioPlayer.listenerCount(event) <= 1;
     if (eventListenerCheck(Playing)) {
       audioPlayer.on(Playing, () => {
         logger.debug('Player has started playing!');
