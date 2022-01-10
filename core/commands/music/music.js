@@ -221,10 +221,10 @@ module.exports = {
     };
     async function loadSong() {
       if (!voiceData.music.queue[0]) return undefined;
-      let { title, type, url } = voiceData.music.queue[0];
+      let { title, duration, type, url } = voiceData.music.queue[0];
       const source = await playdl.stream(url);
       const stream = createSource(source.stream);
-      voiceData.music.track = { title, type };
+      voiceData.music.track = { title, duration, type };
       await client.data.guild.voice.set(voiceData, guild);
       return stream;
     };
@@ -370,7 +370,7 @@ module.exports = {
         },
         {
           name: 'Song Information',
-          value: `${(song.title) ? `${song.title.replace("''", "'")} (${song.type})` : '...'}`,
+          value: `${(song.title) ? `${song.title.replace("''", "'")} (${song.type})` : '...'} (${(song.type) ? song.type : 'unknown'})`,
         }
       ];
       return playerEmbed;
