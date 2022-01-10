@@ -226,13 +226,13 @@ module.exports = {
     // Dynamic Music Embeds
     async function dynamicQueueEmbed(queue, index = 1) {
       let field = {}, no = 1, info, pos = index * 25 - 24;
-      let section = queue.slice(pos - 1, pos + 24);
+      let section = queue.slice(pos - 1, pos + 24);      
       let queueEmbed = new MessageEmbed(musicBaseEmbed);
       queueEmbed
         .setTitle('Music Player Queue 🎼')
         .setDescription(`
         ${guild.name}'s queued songs
-        ${(section.length) ? pos - 24 : 0} - ${(section.length < pos + 24) ? section.length : pos + 24} of ${queue.length}`);
+        ${(section.length) ? (section.length > 24) ? pos + (section.length - 25) : pos - 24 : 0} - ${(section.length < pos + 24) ? section.length : pos + 24} of ${queue.length}`);
       for (const item of section) {
         let { title, type, url } = item;
         try {
