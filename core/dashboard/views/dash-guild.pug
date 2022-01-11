@@ -19,19 +19,24 @@ block content
     - var nth = `${(a == 1 && b != 11) ? 'st' : (a == 2 && b != 12) ? 'nd' : (a == 3 && b != 13) ? 'rd' : 'th'}`;    
     - return `${d} ${D}${nth} ${m} ${y} at ${H}:${M}`;
   - }
+  - function formatDuration(time) {
+    - var mins = Math.floor(time / 60);
+    - var secs = time - mins * 60;
+    - return `${(mins > 9) ? mins : `0${mins}`}:${(secs > 9) ? secs : `0${secs}`}`;
+  - }
   .container
     .jumbotron.text-center
       .card-header(style='padding: 2px;')
         ul.nav.nav-tabs
           li.nav-item
             a.nav-link.active(href='#guildManagePanel' data-bs-toggle='tab')
-              i.fas.fa-sliders-h Settings           
+              i.fas.fa-sliders-h  Settings           
           li.nav-item
             a.nav-link(href='#guildMembersPanel' data-bs-toggle='tab')
-              i.fas.fa-users Members
+              i.fas.fa-users  Members
           li.nav-item
-            a.nav-link.disabled(href='#guildMusicPanel' data-bs-toggle='tab')
-              i.fas.fa-music Music
+            a.nav-link(href='#guildMusicPanel' data-bs-toggle='tab')
+              i.fas.fa-music  Music
       #guildPanels.tab-content
         #guildManagePanel.tab-pane.fade.active.show
           h3.display-4 Guild Settings
@@ -39,7 +44,7 @@ block content
             h3 Bot Control Panel
             .settings-card-modules.settings-card-wrapper
               h4 Guild Details
-              .guild-details-card
+              .details-card
                 h5 Basic Information
                 - iconUrl = (guild.icon) ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=128` : 'https://via.placeholder.com/128.png?text=No Guild Icon'
                 - bannerUrl = (guild.banner) ? `https://cdn.discordapp.com/banners/${guild.id}/${guild.banner}.png` : 'https://via.placeholder.com/960x540.png?text=No Guild Banner'
@@ -59,7 +64,7 @@ block content
                   br
                   | Locale: #{locales[guild.preferredLocale]}
                   
-              .guild-details-card
+              .details-card
                 h5 Server Details
                 .guild-details-wrapper
                   h6 Description
@@ -82,14 +87,15 @@ block content
             .settings-card-modules.settings-card-wrapper
               h4 Guild Settings
               p.lead Change settings for each module from here.
-              .settings-card-modules.guild-details-card
+              .settings-card-modules.details-card
                 h5 Server Settings
                 .settings-text-wrapper
                   h6 Server Roles
                   table.settings-table-main(border="1")
-                    tr
-                      th Role Type
-                      th No. of Roles
+                    thead
+                      tr
+                        th Role Type
+                        th No. of Roles
                     tr
                       td Staff Roles
                       td #{(roles.staff) ? `${roles.staff.length} roles set` : 'Not set'}
@@ -99,9 +105,10 @@ block content
                 .settings-text-wrapper
                   h6 Log Channels
                   table.settings-table-main(border="1")
-                    tr
-                      th Log Type
-                      th Enabled?
+                    thead
+                      tr
+                        th Log Type
+                        th Enabled?
                     tr
                       td Bot System Logs
                       td #{(logChannels.botLogChID) ? 'Yes' : 'No'}
@@ -126,9 +133,10 @@ block content
                 .settings-text-wrapper
                   h6 Media Removal Settings
                   table.settings-table-main(border="1")
-                    tr
-                      th Setting
-                      th Enabled?
+                    thead
+                      tr
+                        th Setting
+                        th Enabled?
                     tr
                       td Gifs
                       td #{(mediaTrackers.removeGifs) ? 'Yes' : 'No'}
@@ -140,9 +148,10 @@ block content
                       td #{(mediaTrackers.removeUrls) ? 'Yes' : 'No'}
                   h6 Monitored Channels
                   table.settings-table-main(border="1")
-                    tr
-                      th Setting
-                      th Value
+                    thead
+                      tr
+                        th Setting
+                        th Value
                     tr
                       td Channels List
                       td #{(channelsList) ? `${channelsList.length} channels set` : 'N/A'}
@@ -162,9 +171,10 @@ block content
                 .settings-text-wrapper
                   h6 Event / Tracker Settings
                   table.settings-table-main(border="1")
-                    tr
-                      th Tracker
-                      th Enabled?
+                    thead
+                      tr
+                        th Tracker
+                        th Enabled?
                     tr
                       td Join
                       td #{(trackEvents.join) ? 'Yes' : 'No'}
@@ -178,9 +188,10 @@ block content
                       td Ban
                       td #{trackEvents.ban ? 'Yes' : 'No'}
                   table.settings-table-main(border="1")
-                    tr
-                      th Event
-                      th Message
+                    thead
+                      tr
+                        th Event
+                        th Message
                     tr
                       td Join
                       td #{(eventMsgTxt && eventMsgTxt.joinMsg.length > 0) ? eventMsgTxt.joinMsg : 'Not set!'}
@@ -210,8 +221,9 @@ block content
                 .settings-text-wrapper
                   h6 Chat Channels
                   table.settings-table-main(border="1")
-                    tr
-                      th Chat Channels
+                    thead
+                      tr
+                        th Chat Channels
                     tr
                       td #{(chatChannels) ? (chatChannels.length >= 1) ? `Monitoring 1 chat channel` : `Monitoring ${chatChannels.length} channels` : 'No chat channels configured!'}
                 br
@@ -350,7 +362,32 @@ block content
               else
                 | No Presence Data
         #guildMusicPanel.tab-pane.fade
-          h3.display-4 Music Player Dashboard
-          p.lead Under Construction!
-          .guild-details-card
-            p Music Queue
+          h3.display-4 Music Player
+          - let { queue, track } = data.voice.music;
+          .details-card
+            #musicPlayer.music-card(style="display: inline-block;")
+              | Track Info
+              br
+              img(src=track.thumbnail)
+              br
+              = `${(track.title) ? track.title : 'No Track'} (${(track.type) ? track.type : 'unknown'})`
+              br
+              .btn-group(role='group' aria-label='player-controls')
+                button.btn.btn-secondary(type='button') Play
+                button.btn.btn-secondary(type='button') Pause
+                button.btn.btn-secondary(type='button') Stop
+                button.btn.btn-secondary(type='button') Skip
+            #musicQueue.music-card(style="display: inline-block;")
+              table.table.table-hover.table-sm
+                thead
+                  tr
+                    th(scope='col') Track No.
+                    th(scope='col') Track Title
+                    th(scope='col') Duration
+                    th(scope='col') Source
+                each item, index in data.voice.music.queue              
+                  tr
+                    th(scope='row')= index
+                    td= item.title
+                    td= formatDuration(item.duration)
+                    td= item.type

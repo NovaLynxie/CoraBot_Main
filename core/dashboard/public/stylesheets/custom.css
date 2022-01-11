@@ -49,13 +49,10 @@
   padding-bottom: 0.5rem;
 }
 
-.navbar {
-  animation: 0.5s navBarAnimate;
-}
+.navbar { animation: 0.5s navBarAnimate; }
 
 #hidden {
-  width: fit-content;
-  filter: blur(5px)
+  width: fit-content; filter: blur(5px)
 }
 #hidden:hover {
   filter: blur(0px);

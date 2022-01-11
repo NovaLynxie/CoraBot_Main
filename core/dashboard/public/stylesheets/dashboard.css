@@ -185,6 +185,16 @@
   border: solid #0084ff49;  
   border-width: 2px;
 }
+.music-card {
+  position: relative;
+  vertical-align: top;
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background-color: #28dfff42;
+  border: solid #00c3ff49;
+  border-width: 2px;
+}
 
 .settings-card-base {
   text-align: left;  
