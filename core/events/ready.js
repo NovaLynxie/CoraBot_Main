@@ -35,7 +35,8 @@ module.exports = {
 		};
     logger.info('Finished final checks. Preparing commands.');
     client.user.setActivity('Loading commands...');
-		loadBotCmds(client);
+		const res = await loadBotCmds(client);
+    logger.debug(`${res.success} loaded, ${res.failed} failed.`);
 		const dashConfig = {
 			'debug': debug,
 			'dashPort': dashSrvPort,

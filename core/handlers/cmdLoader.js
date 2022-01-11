@@ -11,7 +11,7 @@ function requireHandler(module) {
   return require(module);
 };
 async function loadBotCmds(client) {
-  const commands = [];
+  const commands = [], counters = { success: 0, failed: 0 };
   try {
     readdirSync(botCmdsDir).forEach(subDir => {
       const dirPath = `${botCmdsDir}/${subDir}/`;
@@ -29,6 +29,7 @@ async function loadBotCmds(client) {
           if (cmdDataJSON) {
             if (typeof cmdDataJSON.name === 'string') {
               client.commands.set(cmdDataJSON.name, cmd);
+              counters.success++;
             }
             else {
               logger.error('Command name tag invalid type!');
@@ -40,6 +41,7 @@ async function loadBotCmds(client) {
         } catch (err) {
           logger.error(`Error occured while loading command ${file}!`);
           logger.error(err.message); logger.debug(err.stack);
+          counters.failed++;
         };
       };
     });
@@ -79,5 +81,6 @@ async function loadBotCmds(client) {
       logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
     };
   };
+  return counters;
 };
 module.exports = { loadBotCmds };
