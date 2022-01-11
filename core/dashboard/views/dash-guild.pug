@@ -362,21 +362,15 @@ block content
               else
                 | No Presence Data
         #guildMusicPanel.tab-pane.fade
-          h3.display-4 Music Player
+          h3.display-4 Music Manager
           - let { queue, track } = data.voice.music;
           .details-card
             #musicPlayer.music-card(style="display: inline-block;")
-              | Track Info
+              h4 Music Player
               br
               img(src=track.thumbnail)
               br
-              = `${(track.title) ? track.title : 'No Track'} (${(track.type) ? track.type : 'unknown'})`
-              br
-              .btn-group(role='group' aria-label='player-controls')
-                button.btn.btn-secondary(type='button') Play
-                button.btn.btn-secondary(type='button') Pause
-                button.btn.btn-secondary(type='button') Stop
-                button.btn.btn-secondary(type='button') Skip
+              = `${(track) ? `${(track.title) ? track.title : 'Unknown'} (${(track.type) ? track.type : 'unknown'})` : 'Nothing is playing!'}`
             #musicQueue.music-card(style="display: inline-block;")
               table.table.table-hover.table-sm
                 thead
@@ -385,7 +379,7 @@ block content
                     th(scope='col') Track Title
                     th(scope='col') Duration
                     th(scope='col') Source
-                each item, index in data.voice.music.queue              
+                each item, index in data.voice.music.queue
                   tr
                     th(scope='row')= index
                     td= item.title

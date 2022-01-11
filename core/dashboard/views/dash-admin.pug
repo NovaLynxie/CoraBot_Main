@@ -20,7 +20,6 @@ block content
           img.d-flex.mr-3.rounded-circle(src=iconUrl style='width: 80px;' alt='')
         else
           canvas.d-flex.mr-3.rounded-circle(style='background-color: #7289da' id=guild.name.split(' ').join('').replace("'", "") width='80px' height='80px')
-          script(src="public/javascripts/drawCanvas.js")
         .media-body
           h5.mt-0.mb-1 #{guild.name}
           - var href, text;
