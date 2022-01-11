@@ -392,7 +392,7 @@ module.exports = {
         },
         {
           name: 'Song Information',
-          value: `${(song) ? `${(song.title) ? `${song.title.replace("''", "'")}` : 'unknown'} (${song.type})` : '...'}`,
+          value: `${(song) ? `${(song.title) ? `${song.title.replace("''", "'")}` : 'unknown'} (${(song.type) ? song.type : 'unknown'})` : '...'}`,
         }
       ];
       return playerEmbed;
