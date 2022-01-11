@@ -19,11 +19,9 @@ module.exports = {
       const res = await loadBotCmds(client);
       logger.debug('Finished reloading all commands!');
       interaction.reply({
-        content: 'Reloaded all commands!',
-        ephemeral: false,
-      });
-      interaction.followUp({
-        content: `\`commands => ${res.success} loaded. ${res.failed} errored.\``,
+        content: `
+        Reloaded all commands!
+        \`commands => ${res.success} loaded. ${res.failed} errored.\``,
         ephemeral: true,
       });
     } catch (err) {
