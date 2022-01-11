@@ -505,7 +505,7 @@ module.exports = {
         logger.verbose(error); audioPlayer.stop();
       }
     };
-    const eventListenerCheck = (event) => audioPlayer.listenerCount(event) <= 1;
+    const eventListenerCheck = (event) => audioPlayer.listenerCount(event) <= 0;
     const eventListenerReset = (event, callback) => {
       audioPlayer.removeAllListeners(event);
       audioPlayer.addListener(event, callback);
