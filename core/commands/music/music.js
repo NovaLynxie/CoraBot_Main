@@ -55,7 +55,7 @@ module.exports = {
     await interaction.deferReply({ ephemeral: false });
     let guild = interaction.guild, collector, source, track;
     let connection = client.voice.player.fetch(guild), queuePage = 1;
-    audioPlayer = (connection) ? connection._state.subscription?.player : undefined;
+    audioPlayer = (connection) ? connection._state.subscription ?.player : undefined;
     let voiceData = await client.data.guild.voice.get(guild);
     const subcmd = interaction.options.getSubcommand();
     const musicBaseEmbed = new MessageEmbed()
@@ -448,14 +448,9 @@ module.exports = {
         break;
     };
     // Player Event Handler.
-    const eventListenerCheck = (event) => audioPlayer.listenerCount(event) <= 1;
-    if (eventListenerCheck(Playing)) {
-      audioPlayer.on(Playing, () => {
-        logger.debug('Player has started playing!');
-      });
-    };
-    if (eventListenerCheck(Idle)) {
-      audioPlayer.on(Idle, async () => {
+    const playerEvents = {
+      playEvent: () => { logger.debug('Player has started playing!') },
+      idleEvent: async () => {
         logger.debug('Player has stopped playing!');
         voiceData = await client.data.guild.voice.get(guild);
         if (stopped) {
@@ -474,33 +469,65 @@ module.exports = {
           audioPlayer.play(source);
         };
         await client.data.guild.voice.set(voiceData, guild);
-      });
-    };
-    if (eventListenerCheck(AutoPaused)) {
-      audioPlayer.on(AutoPaused, () => {
+      },
+      stopEvent: async () => {
+        logger.debug('Player has stopped playing!');
+        voiceData = await client.data.guild.voice.get(guild);
+        if (stopped) {
+          stopped = false;
+          return logger.debug('Player stopped by user! AutoPlay aborted.');
+        } else {
+          logger.debug('Current song has finished, queuing up next song.');
+        };
+        voiceData.music.queue.shift();
+        voiceData.music.track = {};
+        source = await loadSong();
+        if (!source) {
+          logger.debug('No songs available! AudioPlayer stopped.');
+        } else {
+          logger.debug(`Song queued! Playing ${voiceData.music.track.title} next.`);
+          audioPlayer.play(source);
+        };
+        await client.data.guild.voice.set(voiceData, guild);
+      },
+      autoPauseEvent: () => {
         logger.debug('Player autopaused since not connected to an active channel.');
-      });
-    };
-    if (eventListenerCheck(Paused)) {
-      audioPlayer.on(Paused, () => {
-        logger.debug('Player was paused by user request!');
-      });
-    };
-    if (eventListenerCheck('stateChange')) {
-      audioPlayer.on('stateChange', (oldState, newState) => {
+      },
+      pauseEvent: () => { logger.debug('Player was paused.') },
+      stateChangeEvent: (oldState, newState) => {
         logger.debug(`oldState.status => ${oldState ?.status}`);
         logger.debug(`newState.status => ${newState ?.status}`);
         if (playerOpen) refreshPlayer(interaction);
-      });
-    };
-    if (eventListenerCheck('error')) {
-      audioPlayer.on('error', err => {
+      },
+      errorEvent: (error) => {
         logger.error('Error occured while playing stream!');
-        logger.error(err.message); logger.debug(err.stack);
-        logger.verbose(err);
-        audioPlayer.stop();
-      });
+        logger.error(error.message); logger.debug(error.stack);
+        logger.verbose(error); audioPlayer.stop();
+      }
     };
+    const eventListenerCheck = (event) => audioPlayer.listenerCount(event) <= 1;
+    const eventListenerReset = (event, callback) => {
+      audioPlayer.removeAllListeners(event);
+      audioPlayer.addListener(event, callback);
+    };    
+    if (eventListenerCheck(Idle)) {
+      audioPlayer.on(Idle, playerEvents.idleEvent);
+    } else { eventListenerReset(Idle, playerEvents.idleEvent) };
+    if (eventListenerCheck(AutoPaused)) {
+      audioPlayer.on(AutoPaused, playerEvents.autoPauseEvent);
+    } else { eventListenerReset(AutoPaused, playerEvents.autoPauseEvent) };
+    if (eventListenerCheck(Playing)) {
+      audioPlayer.on(Playing, playerEvents.playEvent);
+    } else { eventListenerReset(Playing, playerEvents.playEvent) };
+    if (eventListenerCheck(Paused)) {
+      audioPlayer.on(Paused, playerEvents.pauseEvent);
+    } else { eventListenerReset(Paused, playerEvents.pauseEvent) };
+    if (eventListenerCheck('stateChange')) {
+      audioPlayer.on('stateChange', playerEvents.stateChangeEvent);
+    } else { eventListenerReset('stateChange', playerEvents.stateChangeEvent) };
+    if (eventListenerCheck('error')) {
+      audioPlayer.on('error', playerEvents.errorEvent);
+    } else { eventListenerReset('error', playerEvents.errorEvent) };
     // Menu/Button collecter and handler.
     if (collector) {
       collector.on('collect', async interact => {
