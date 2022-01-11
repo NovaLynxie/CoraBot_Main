@@ -25,13 +25,13 @@ block content
         ul.nav.nav-tabs
           li.nav-item
             a.nav-link.active(href='#guildManagePanel' data-bs-toggle='tab')
-            i.fas.fa-sliders-h Settings           
+              i.fas.fa-sliders-h Settings           
           li.nav-item
             a.nav-link(href='#guildMembersPanel' data-bs-toggle='tab')
-            i.fas.fa-users Members
+              i.fas.fa-users Members
           li.nav-item
-            a.nav-link(href='#guildMusicPanel' data-bs-toggle='tab')
-            i.fas.fa-music Music
+            a.nav-link.disabled(href='#guildMusicPanel' data-bs-toggle='tab')
+              i.fas.fa-music Music
       #guildPanels.tab-content
         #guildManagePanel.tab-pane.fade.active.show
           h3.display-4 Guild Settings
@@ -349,3 +349,8 @@ block content
                       br
               else
                 | No Presence Data
+        #guildMusicPanel.tab-pane.fade
+          h3.display-4 Music Player Dashboard
+          p.lead Under Construction!
+          .guild-details-card
+            p Music Queue
