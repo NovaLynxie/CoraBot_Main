@@ -222,10 +222,10 @@ module.exports = {
     };
     async function loadSong() {
       if (!voiceData.music.queue[0]) return undefined;
-      let { title, duration, type, url } = voiceData.music.queue[0];
+      let { title, duration, type, url, thumbnail } = voiceData.music.queue[0];
       const source = await playdl.stream(url);
       const stream = client.voice.player.create(source.stream);
-      voiceData.music.track = { title, duration, type };
+      voiceData.music.track = { title, duration, type, thumbnail };
       await client.data.guild.voice.set(voiceData, guild);
       return stream;
     };
