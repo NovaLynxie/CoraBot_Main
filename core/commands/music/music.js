@@ -153,8 +153,13 @@ module.exports = {
     }
     async function playlistParser(url, type) {
       let playlist, queue = [];
-      if (type === 'yt') playlist = await playdl.playlist_info(url);
-      if (type === 'so') playlist = await playdl.soundcloud(url);
+      try {
+        if (type === 'yt') playlist = await playdl.playlist_info(url);
+        if (type === 'so') playlist = await playdl.soundcloud(url);
+      } catch (error) {
+        logger.error('Failed to fetch playlist information!');
+        logger.error(error.message); logger.debug(error.stack);
+      }
       logger.verbose(`playlist:${JSON.stringify(playlist, null, 2)}`);
       if (playlist.tracks) {
         let song;
@@ -162,7 +167,13 @@ module.exports = {
           if (item.fetched) {
             song = item;
           } else {
-            song = await playdl.soundcloud(`https://api.soundcloud.com/tracks/${item.id}`);
+            try {
+              song = await playdl.soundcloud(`https://api.soundcloud.com/tracks/${item.id}`);
+            } catch (error) {
+              logger.error('Unable to fetch SoundCloudTrack information from requested playlist!');
+              logger.error(error.message); logger.debug(error.stack);
+              continue;
+            };
           };
           logger.verbose(JSON.stringify(song, null, 2));
           queue.push({ title: song.name, duration: song.durationInSec, url: song.url, thumbnail: song.thumbnail, type: 'soundcloud' });
@@ -186,36 +197,41 @@ module.exports = {
         ephemeral: true
       };
       logger.debug(`Verifying ${url}`);
-      switch (await playdl.validate(url)) {
-        case 'yt_playlist':
-          list = await playlistParser(url, 'yt');
-          response.content = `Queued ${list.length} songs from YouTube playlist!`;
-          break;
-        case 'so_playlist':
-          list = await playlistParser(url, 'so');
-          response.content = `Queued ${list.length} songs from SoundCloud playlist!`;
-          break;
-        case 'yt_video':
-          data = await playdl.video_info(url);
-          if (data.video_details.durationInSec <= 0) {
-            song = null;
-            response.content = 'Sorry, I do not support playing back YouTube livestreams in music queue.';
-          } else {
-            song = { title: data.video_details.title, url: data.video_details.url, duration: data.video_details.durationRaw || data.video_details.durationInSec, thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
+      try {
+        switch (await playdl.validate(url)) {
+          case 'yt_playlist':
+            list = await playlistParser(url, 'yt');
+            response.content = `Queued ${list.length} songs from YouTube playlist!`;
+            break;
+          case 'so_playlist':
+            list = await playlistParser(url, 'so');
+            response.content = `Queued ${list.length} songs from SoundCloud playlist!`;
+            break;
+          case 'yt_video':
+            data = await playdl.video_info(url);
+            if (data.video_details.durationInSec <= 0) {
+              song = null;
+              response.content = 'Sorry, I do not support playing back YouTube livestreams in music queue.';
+            } else {
+              song = { title: data.video_details.title, url: data.video_details.url, duration: data.video_details.durationRaw || data.video_details.durationInSec, thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
+              response.content = `Added ${song.title} to the queue!`;
+            };
+            break;
+          case 'so_track':
+            data = await playdl.soundcloud(url);
+            logger.data(JSON.stringify(data, null, 2));
+            song = { title: data.name, duration: data.durationInSec, url: data.url, thumbnail: data.thumbnail, type: 'soundcloud' };
+            break;
             response.content = `Added ${song.title} to the queue!`;
-          };
-          break;
-        case 'so_track':
-          data = await playdl.soundcloud(url);
-          logger.data(JSON.stringify(data, null, 2));
-          song = { title: data.name, duration: data.durationInSec, url: data.url, thumbnail: data.thumbnail, type: 'soundcloud' };
-          break;
-          response.content = `Added ${song.title} to the queue!`;
-        default:
-          logger.debug('That song URL is either unsupported or from an unrecognised source!');
-          response.content = 'Unsupported or malformed song URL! Please check that the URL is valid and try again.';
-          return;
-      };
+          default:
+            logger.debug('That song URL is either unsupported or from an unrecognised source!');
+            response.content = 'Unsupported or malformed song URL! Please check that the URL is valid and try again.';
+            return;
+        };
+      } catch (error) {
+        logger.error('Something went wrong while parsing the song request!');
+        logger.error(error.message); logger.debug(error.stack);
+      }
       if (song) voiceData.music.queue.push(song);
       if (list) voiceData.music.queue = voiceData.music.queue.concat(list);
       logger.verbose(`voiceData:${JSON.stringify(voiceData, null, 2)}`);
@@ -511,7 +527,7 @@ module.exports = {
     const eventListenerReset = (event, callback) => {
       audioPlayer.removeAllListeners(event);
       audioPlayer.addListener(event, callback);
-    };    
+    };
     if (eventListenerCheck(Idle)) {
       audioPlayer.on(Idle, playerEvents.idleEvent);
     } else { eventListenerReset(Idle, playerEvents.idleEvent) };
