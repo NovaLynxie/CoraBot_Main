@@ -366,9 +366,9 @@ block content
           - let { queue, track } = data.voice.music;
           .details-card
             #musicPlayer.music-card(style="display: inline-block;")
-              h4 Music Player
-              br
-              img.music-thumb(src=track.thumbnail)
+              h4 Now Playing
+              br              
+              img.music-thumb(src=(track.thumbnail) ? track.thumbnail : 'https://via.placeholder.com/340x200?text=No%20Album%20Art')
               br
               = `${(track) ? `${(track.title) ? track.title : 'Unknown'} (${(track.type) ? track.type : 'unknown'})` : 'Nothing is playing!'}`
             #musicQueue.music-card(style="display: inline-block;")
