@@ -196,6 +196,11 @@
   border: solid #00c3ff49;
   border-width: 2px;
 }
+.music-thumb {
+  height: 200px; width: 340px;
+  background-color: #28dfff42;
+  border: solid #00c3ff49;
+}
 
 .settings-card-base {
   text-align: left;  

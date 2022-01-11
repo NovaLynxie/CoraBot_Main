@@ -368,7 +368,7 @@ block content
             #musicPlayer.music-card(style="display: inline-block;")
               h4 Music Player
               br
-              img(src=track.thumbnail)
+              img.music-thumb(src=track.thumbnail)
               br
               = `${(track) ? `${(track.title) ? track.title : 'Unknown'} (${(track.type) ? track.type : 'unknown'})` : 'Nothing is playing!'}`
             #musicQueue.music-card(style="display: inline-block;")
