@@ -171,9 +171,11 @@ module.exports = {
       if (playlist.videos) {
         for (let item of playlist.videos) {
           logger.verbose(JSON.stringify(item, null, 2));
-          queue.push({ title: item.title, duration: item.durationInSec, url: item.url, thumbnail: item.thumbnails[0].url, type: 'youtube' });
+          queue.push({ title: item.title, duration: item.durationInSec, url: item.url, thumbnail: item.thumbnails[item.thumbnails.length - 1].url, type: 'youtube' });
+          logger.debug(`Found ${item.title}`);
         };
       };
+      logger.debug(`Parsed ${queue.length} songs! Adding them to music list.`);
       return queue;
     };
     async function sourceParser(url) {
