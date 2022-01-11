@@ -9,7 +9,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', checkAuth, (req, res) => {  
-  renderView(res, req, 'dash-user.pug', { Permissions });
+  renderView(res, req, 'dash-main.pug', { Permissions });
 });
 router.get('/admin', checkAuth, async (req, res) => {
   const client = res.locals.client;
@@ -63,7 +63,7 @@ router.get('/:guildID', checkAuth, async (req, res) => {
   logger.debug(`Fetching guild settings for ${guild.name}.`);
   const guildSettings = await client.settings.guild.get(guild);
   logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);  
-  renderView(res, req, 'guild.pug', { data, guild, guildRoles, guildSettings, members });
+  renderView(res, req, 'dash-guild.pug', { data, guild, guildRoles, guildSettings, members });
 });
 router.post('/:guildID/manage', checkAuth, async (req, res) => {
   logger.debug(`WebDash called POST action 'save_settings'!`);
