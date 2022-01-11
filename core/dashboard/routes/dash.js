@@ -50,6 +50,11 @@ router.post('/admin/save_clsettings', checkAuth, async (req, res) => {
 router.get('/:guildID', checkAuth, async (req, res) => {
   const client = res.locals.client;
   const guild = await client.guilds.fetch(req.params.guildID);
+  const data = {
+    moderation: await client.data.guild.moderation.get(guild),
+    voice: await client.data.guild.voice.get(guild),
+    trackers: await client.data.guild.trackers.get(guild)
+  };
   const members = Array.from(guild.members.cache.values());
   const guildRoles = [];
   guild.roles.cache.forEach(role => guildRoles.push(role));
@@ -58,31 +63,8 @@ router.get('/:guildID', checkAuth, async (req, res) => {
   logger.debug(`Fetching guild settings for ${guild.name}.`);
   const guildSettings = await client.settings.guild.get(guild);
   logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);  
-  renderView(res, req, 'guild.pug', { guild, guildRoles, guildSettings, members });
+  renderView(res, req, 'guild.pug', { data, guild, guildRoles, guildSettings, members });
 });
-/*
-router.get('/:guildID', checkAuth, (req, res) => {
-  res.redirect(`/dashboard/${req.params.guildID}/manage`);
-});
-router.get('/:guildID/manage', checkAuth, async (req, res) => {
-  const client = res.locals.client;
-  const guild = await client.guilds.fetch(req.params.guildID);
-  const guildRoles = [];
-  guild.roles.cache.forEach(role => guildRoles.push(role));
-  if (!guild) return res.status(404);
-  if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect('/');
-  logger.debug(`Fetching guild settings for ${guild.name}.`);
-  const guildSettings = await client.settings.guild.get(guild);
-  logger.verbose(`guildSettings: ${JSON.stringify(guildSettings, null, 4)}`);
-  renderView(res, req, 'guild/manage.pug', { guild, guildRoles, guildSettings });
-});
-router.get('/:guildID/manage', checkAuth, async (req, res) => {
-  const client = res.locals.client;
-  const guild = await client.guilds.fetch(req.params.guildID);
-  const members = Array.from(guild.members.cache.values());
-  renderView(res, req, 'guild/members.pug', { guild, members });
-});
-*/
 router.post('/:guildID/manage', checkAuth, async (req, res) => {
   logger.debug(`WebDash called POST action 'save_settings'!`);
   logger.data(`req.body => ${JSON.stringify(req.body)}`);
