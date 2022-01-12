@@ -29,7 +29,7 @@ block content
             - text = "Manage";
             - enabled = true;
           else
-            - href = `https://discordapp.com/oauth2/authorize?client_id=${bot.application.id}&permissions=1634742037879&scope=bot&guild_id=${guild.id}&response_type=code&redirect_uri=${encodeURIComponent(config.callbackURL)}`;
+            - href = `https://discordapp.com/oauth2/authorize?client_id=${bot.application.id}&permissions=1634742037879&scope=bot%20applications.commands&guild_id=${guild.id}&response_type=code&redirect_uri=${encodeURIComponent(config.callbackURL)}`;
             - text = "Invite Bot";
             - enabled = bot.application.botPublic;
           a.btn.btn-primary(class=(!enabled)?'btn-lg-disabled':'btn-lg-enabled' role='button' href=href) #{text} 
