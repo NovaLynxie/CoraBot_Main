@@ -177,7 +177,7 @@ module.exports = {
           break;
         case 'warn':
           modRecord = {
-            type: 'Warning', executor, member: target, guildId: guild.id
+            type: 'Warning', executor, member: target, guildId: guild.id,
             reason: reason || 'No reason provided',
             issued: new Date().toUTCString()
           };
