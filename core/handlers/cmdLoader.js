@@ -10,7 +10,7 @@ function requireHandler(module) {
   delete require.cache[require.resolve(module)];
   return require(module);
 };
-async function loadBotCmds(client) {
+async function loadBotCmds(client, botInitStage = false) {
   const commands = [], counters = { success: 0, failed: 0 };
   try {
     readdirSync(botCmdsDir).forEach(subDir => {
@@ -64,7 +64,7 @@ async function loadBotCmds(client) {
     }
     logger.warn('Aborted command loading due to error! Some interactions may fail.');
   };
-  if (forceUpdateCmds) {
+  if (forceUpdateCmds && botInitStage) {
     logger.debug('Forcing application command updates!');
     const rest = new REST({ version: '9' }).setToken(discordToken);
     try {
