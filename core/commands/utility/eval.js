@@ -51,7 +51,7 @@ module.exports = {
       };
       for (const text of rest) {
         logger.debug(`length of rest ${rest.length}`);
-        await wait(1000);
+        await wait(500);
         await interaction.followUp({
           content: `
           \`\`\`js\n${text}\n\`\`\``,
