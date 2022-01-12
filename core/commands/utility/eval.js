@@ -35,22 +35,14 @@ module.exports = {
 			const cleaned = await clean(client, evaled);
       const [first, ...rest] = Util.splitMessage(cleaned, { maxLength: 1920 });
       logger.debug(first); logger.debug(`first.length => ${first.length}`);
-      if (!rest.length) {
-        await interaction.editReply({
-          content: `
-          \`\`\`js\n${first}\n\`\`\``,
-          ephemeral: true,
-        });
-        return;
-      } else {
-        await interaction.editReply({
-          content: `
-          \`\`\`js\n${first}\n\`\`\``,
-          ephemeral: true,
-        });
-      };
+      logger.debug(rest); logger.debug(`rest.length => ${rest.length}`);
+      await interaction.editReply({
+        content: `
+        \`\`\`js\n${first}\n\`\`\``,
+        ephemeral: true,
+      });
+      if (!rest.length) return;
       for (const text of rest) {
-        logger.debug(`length of rest ${rest.length}`);
         await wait(500);
         await interaction.followUp({
           content: `
