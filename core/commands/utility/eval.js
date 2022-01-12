@@ -1,6 +1,7 @@
 const logger = require('../../utils/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Util } = require('discord.js');
+const wait = require('util').promisify(setTimeout);
 
 // source: https://anidiots.guide/examples/making-an-eval-command
 module.exports = {
@@ -50,6 +51,7 @@ module.exports = {
       };
       for (const text of rest) {
         logger.debug(`length of rest ${rest.length}`);
+        await wait(1000);
         await interaction.followUp({
           content: `
           \`\`\`js\n${text}\n\`\`\``,
