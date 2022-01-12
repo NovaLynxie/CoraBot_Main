@@ -93,6 +93,40 @@ module.exports = {
             .setDescription('Reason? (optional)')
             .setRequired(false)
         )
+    )
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('unban')
+        .setDescription('Pardon ban for specified user (snowflakeID).')
+        .addUserOption(option =>
+          option
+            .setName('target')
+            .setDescription('User\'s Snowflake ID')
+            .setRequired(true)
+        )
+        .addStringOption(option =>
+          option
+            .setName('reason')
+            .setDescription('Reason? (optional)')
+            .setRequired(false)
+        )
+    )
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('unmute')
+        .setDescription('Pardon mute for specified user.')
+        .addUserOption(option =>
+          option
+            .setName('target')
+            .setDescription('User Mentionable or ID')
+            .setRequired(true)
+        )
+        .addStringOption(option =>
+          option
+            .setName('reason')
+            .setDescription('Reason? (optional)')
+            .setRequired(false)
+        )
     ),
   async execute(interaction, client) {
     await interaction.deferReply({ ephemeral: true });
@@ -135,6 +169,26 @@ module.exports = {
             };
           };
           break;
+        case 'unban':
+          modRecord = {
+            type: 'Pardon', executor, member: target, guildId: guild.id,
+            reason: reason || 'No reason provided',
+            issued: new Date().toUTCString()
+          };
+          try {
+            await guild.members.unban(target);
+            successResponse = {
+              content: `Removed ban for ${target} successfully!`, ephemeral: true
+            };
+            modLog('pardon', guild, { executor, member: target, reason }, client);
+          } catch (err) {
+            logger.debug(err);
+            logger.debug(`Unable to remove ban for ${target.user.tag}!`);
+            errorResponse = {
+              content: `Unable to remove ban for ${target}!`, ephemeral: true
+            };
+          };
+          break;
         case 'kick':
           modRecord = {
             type: 'Kick', executor, member: target, guildId: guild.id,
@@ -167,6 +221,26 @@ module.exports = {
               content: `Issued mute for ${target} successfully!`, ephemeral: true
             };
             modLog('mute', guild, { executor, member: target, reason }, client);
+          } catch (err) {
+            logger.debug(err);
+            logger.debug(`Unable to issue mute for ${target.user.tag}!`);
+            errorResponse = {
+              content: `Failed to mute ${target}!`, ephemeral: true
+            };
+          };
+          break;
+        case 'unmute':
+          modRecord = {
+            type: 'Unmute', executor, member: target, guildId: guild.id,
+            reason: reason || 'No reason provided',
+            issued: new Date().toUTCString()
+          };
+          try {                  
+            await target.timeout(null, reason || 'Unmuted by staff member.');
+            successResponse = {
+              content: `Removed mute from ${target} successfully!`, ephemeral: true
+            };
+            modLog('unmute', guild, { executor, member: target, reason }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to issue mute for ${target.user.tag}!`);
