@@ -162,7 +162,7 @@ module.exports = {
             issued: new Date().toUTCString()
           };
           try {                  
-            await target.timeout(duration * 1000, reason || 'Muted by staff member.');
+            await target.timeout(duration * 60 * 1000, reason || 'Muted by staff member.');
             successResponse = {
               content: `Issued mute for ${target} successfully!`, ephemeral: true
             };
