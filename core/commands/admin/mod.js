@@ -1,7 +1,6 @@
 const logger = require('../../utils/winstonLogger');
 const addMinutes = require('date-fns/addMinutes');
 const { modLog } = require('../../plugins/guildLogger');
-const { getDuration } = require('../../utils/botUtils');
 const { Permissions } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
@@ -59,11 +58,17 @@ module.exports = {
             .setDescription('User Mentionable or ID')
             .setRequired(true)
         )
-        .addStringOption(option =>
+        .addIntegerOption(option =>
           option
             .setName('duration')
-            .setDescription('Mute duration [format: 1d 1h 1m]')
-            .setRequired(false)
+            .setDescription('How long to mute for?')
+            .setRequired(true)
+            .addChoice('60 secs', 1)
+            .addChoice('5 mins', 5)
+            .addChoice('10 mins', 10)
+            .addChoice('1 hour', 60)
+            .addChoice('1 day', 1440)
+            .addChoice('1 week', 10080)
         )
         .addStringOption(option =>
           option
@@ -97,7 +102,7 @@ module.exports = {
     const executor = interaction.member;
     const target = options.getMember('target');
     const reason = options.getString('reason');
-    const duration = getDuration(options.getString('duration')) || { minutes: 1 };
+    const duration = options.getInteger('duration');
     const limit = options.getInteger('limit');
     const { roles } = await client.settings.guild.get(guild);
     if (!executor.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({ content: 'You do not have the required permissions to use this command!' });
@@ -106,11 +111,16 @@ module.exports = {
       if (!target) return interaction.editReply({
         content: 'This user could not be found!', ephemeral: true
       });
-      let successResponse, errorResponse;
+      let successResponse, errorResponse, modRecord;
       const modData = await client.data.guild.moderation.get(guild);
       const response = `Moderation action '${subcmd}' failed!`
       switch (subcmd) {
         case 'ban':
+          modRecord = {
+            type: 'Ban', executor, member: target,
+            reason: reason || 'No reason provided',
+            issued: new Date().toUTCString()
+          };
           try {
             await target.ban({ days: limit || 7, reason: reason || 'Banned by staff member.' });
             successResponse = {
@@ -126,6 +136,11 @@ module.exports = {
           };
           break;
         case 'kick':
+          modRecord = {
+            type: 'Kick', executor, member: target,
+            reason: reason || 'No reason provided',
+            issued: new Date().toUTCString()
+          };
           try {
             await target.kick(reason || 'Kicked by staff member.');
             successResponse = {
@@ -141,15 +156,16 @@ module.exports = {
           };
           break;
         case 'mute':
-          const multiplier = {
-            hour: 60, day: 1440, week: 10080, 
-          }
-          try {
-            const endDate = addMinutes(new Date, duration);
+          modRecord = {
+            type: 'Mute', executor, member: target,
+            reason: reason || 'No reason provided',
+            issued: new Date().toUTCString()
+          };
+          try {                  
+            await target.timeout(duration * 1000, reason || 'Muted by staff member.');
             successResponse = {
               content: `Issued mute for ${target} successfully!`, ephemeral: true
             };
-            //await target.timeout(5 * 60 * 1000, reason || 'Muted by staff member.');
             modLog('mute', guild, { executor, member: target, reason }, client);
           } catch (err) {
             logger.debug(err);
@@ -160,11 +176,16 @@ module.exports = {
           };
           break;
         case 'warn':
+          modRecord = {
+            type: 'Warning', executor, member: target, guildId: guild.id
+            reason: reason || 'No reason provided',
+            issued: new Date().toUTCString()
+          };
           try {
+            modLog('warn', guild, { executor, member: target, reason }, client);            
             successResponse = {
               content: `Issued warning for ${target} successfully!`, ephemeral: true
             };
-            modLog('warn', guild, { executor, member: target, reason }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to issue warning for ${target.user.tag}!`);
