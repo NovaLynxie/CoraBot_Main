@@ -146,7 +146,7 @@ module.exports = {
             successResponse = {
               content: `Issued mute for ${target} successfully!`, ephemeral: true
             };
-            await target.timeout( , reason || 'Muted by staff member.');
+            //await target.timeout(5 * 60 * 1000, reason || 'Muted by staff member.');
             modLog('mute', guild, { executor, member: target, reason }, client);
           } catch (err) {
             logger.debug(err);
