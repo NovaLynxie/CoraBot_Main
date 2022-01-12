@@ -117,7 +117,7 @@ module.exports = {
       switch (subcmd) {
         case 'ban':
           modRecord = {
-            type: 'Ban', executor, member: target,
+            type: 'Ban', executor, member: target, guildId: guild.id,
             reason: reason || 'No reason provided',
             issued: new Date().toUTCString()
           };
@@ -137,7 +137,7 @@ module.exports = {
           break;
         case 'kick':
           modRecord = {
-            type: 'Kick', executor, member: target,
+            type: 'Kick', executor, member: target, guildId: guild.id,
             reason: reason || 'No reason provided',
             issued: new Date().toUTCString()
           };
@@ -157,7 +157,7 @@ module.exports = {
           break;
         case 'mute':
           modRecord = {
-            type: 'Mute', executor, member: target,
+            type: 'Mute', executor, member: target, guildId: guild.id,
             reason: reason || 'No reason provided',
             issued: new Date().toUTCString()
           };
