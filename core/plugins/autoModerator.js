@@ -60,12 +60,12 @@ module.exports = async (message, client) => {
 				message.reply('you cannot post videos here! Please use another channel.');
 				return;
 			};
-			logger.debug(`videoChecker resolved as ${removeVids === 'yes' && message.attachments.every(attachedIsVideo)}`);
-			if (removeVids === 'yes' && message.attachments.every(attachedIsVideo)) {
+			logger.debug(`videoChecker resolved as ${removeVids && message.attachments.every(attachedIsVideo)}`);
+			if (removeVids && message.attachments.every(attachedIsVideo)) {
 				logger.info(`Caught ${user.username}#${user.discriminator} posting gifs in ${channel.name}! Removing offending message.`);
 				logger.debug('Detected file type \'video\' in attachments! Removing now.');
 				message.delete();
-				message.reply('you cannot post images here! Please use another channel.');
+				message.reply('you cannot post videos here! Please use another channel.');
 			};
 		} else {
 			logger.debug('Message contained no media. Ignoring.');

@@ -52,7 +52,7 @@ module.exports = {
     .addSubcommand(subcommand =>
       subcommand
         .setName('mute')
-        .setDescription('Mutes the user from chatting in channels.')
+        .setDescription('Mutes the user from interacting in channels.')
         .addUserOption(option =>
           option
             .setName('target')
@@ -107,6 +107,7 @@ module.exports = {
         content: 'This user could not be found!', ephemeral: true
       });
       let successResponse, errorResponse;
+      const modData = await client.data.guild.moderation.get(guild);
       const response = `Moderation action '${subcmd}' failed!`
       switch (subcmd) {
         case 'ban':
@@ -141,12 +142,11 @@ module.exports = {
           break;
         case 'mute':
           try {
-            target.roles.add(muteRole);
             const endDate = addDuration(new Date, duration);
-            const modData = await client.data.mod.get(guild);
             successResponse = {
               content: `Issued mute for ${target} successfully!`, ephemeral: true
             };
+            await target.timeout( , reason || 'Muted by staff member.');
             modLog('mute', guild, { executor, member: target, reason }, client);
           } catch (err) {
             logger.debug(err);
@@ -172,6 +172,7 @@ module.exports = {
           break;
       };
       await interaction.editReply(successResponse || errorResponse);
+      await client.data.guild.moderation.set(modData, guild);
     } else {
       interaction.editReply({
         content: 'You do not have permission to run this command!', ephemeral: true
