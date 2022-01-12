@@ -28,7 +28,7 @@ block content
                 - text = "Manage";
                 - enabled = true;
               else
-                - href = `https://discord.com/api/oauth2/authorize?client_id=644467072432340992&scope=bot%20applications.commands&permissions=535230414199&response_type=code&redirect_uri=${encodeURIComponent(config.callbackURL)}`;
+                - href = `https://discord.com/api/oauth2/authorize?client_id=${bot.application.id}&scope=bot%20applications.commands&permissions=1634742037879&response_type=code&redirect_uri=${encodeURIComponent(config.callbackURL)}`;
                 - text = "Invite";
                 - enabled = bot.application.botPublic;
               a.btn.btn-primary(class=(!enabled)?'btn-lg-disabled':'btn-lg-enabled' role='button' href=href) #{text} 
