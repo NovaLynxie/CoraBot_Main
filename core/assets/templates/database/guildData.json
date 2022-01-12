@@ -8,12 +8,6 @@
     "queue": [],
     "volume": 50
   },
-  "radio": {
-    "state": null,
-    "connected": false,
-    "channel": "",
-    "station": {}
-  },
   "trackers": {
     "suggestions": [],
     "tickets": []
