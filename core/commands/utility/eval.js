@@ -34,8 +34,6 @@ module.exports = {
 			const evaled = eval(input);
 			const cleaned = await clean(client, evaled);
       const [first, ...rest] = Util.splitMessage(cleaned, { maxLength: 1920 });
-      logger.debug(`rest.length => ${rest.length}`);
-      logger.debug(`rest.length => ${rest.length}`);
       logger.verbose(first); logger.verbose(rest);
       await interaction.editReply({
         content: `
