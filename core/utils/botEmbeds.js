@@ -7,7 +7,7 @@ function systemEmbed(state, params) {
   const { data, error } = params;
   let generalDetails = {}, errorDetails = {};
   if (data) {
-    // unsure what will be displayed here yet...
+    // generic system response message (unused?)
     generalDetails = {
       name: 'System Response',
       value: stripIndents`
@@ -16,7 +16,7 @@ function systemEmbed(state, params) {
     };
   };
   if (error) {
-    // display error data here (helps for debugging)
+    // display error data here (for debugging)
     errorDetails = {
       name: 'Error Data',
       value: stripIndents`
