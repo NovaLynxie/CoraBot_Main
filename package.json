@@ -48,6 +48,7 @@
     "pug": "^3.0.2",
     "toml": "^3.0.0",
     "url-minify": "^2.2.12",
+    "uuid": "^8.3.2",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5",
     "yiff": "^2.0.3",
