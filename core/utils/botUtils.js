@@ -1,5 +1,6 @@
-const fs = require('fs'), logger = require('../utils/winstonLogger');
-const dataDirPath = './data', dbFiles = ['guilds', 'sessions', 'settings'];
+const logger = require('../utils/winstonLogger');
+const fs = require('fs'), path = require('path');
+const dataDirPath = './data', dbFiles = ['guilds/main', 'guilds/settings', 'guilds/voice', 'sessions', 'settings'];
 
 function calcAccAge(date) {
   const sysDate = new Date();
@@ -7,11 +8,11 @@ function calcAccAge(date) {
   const diff = sysDate - accDate;
   const seconds = Math.floor(diff / 1000),
     minutes = Math.floor(seconds / 60),
-    hours   = Math.floor(minutes / 60),
-    days    = Math.floor(hours / 24),
-    months  = Math.floor(days / 30),
-    years   = Math.floor(days / 365);
-  const lt1 = (num) => num > 1;  
+    hours = Math.floor(minutes / 60),
+    days = Math.floor(hours / 24),
+    months = Math.floor(days / 30),
+    years = Math.floor(days / 365);
+  const lt1 = (num) => num > 1;
   const res = (lt1(years)) ? `${years} years` : '' || (lt1(months)) ? `${months} months` : '' || (lt1(days)) ? `${days} days` : '' || (lt1(hours)) ? `${hours} hrs` : '' || (lt1(minutes)) ? `${minutes} mins` : 'less than a minute';
   return res;
 };
@@ -33,11 +34,11 @@ async function startBackup() {
   for (const dbName of dbFiles) {
     let a = `${dataDirPath}/${dbName}.db`;
     let b = `${dataDirPath}/${dbName}_backup.db`;
-    await fs.copyFile(a, b, (err) => {
-      if (err) return logger.fatal(err);
+    await fs.copyFile(path.resolve(a), path.resolve(b), (error) => {
+      if (error) { logger.debug(error.stack); return logger.fatal(error) };
       logger.debug(`${dbName}_backup created successfully!`);
     });
-  };  
+  };
   logger.debug('Completed database backup.');
 };
 async function restoreBackup(dbName) {
@@ -45,13 +46,13 @@ async function restoreBackup(dbName) {
   logger.debug('Restoring database from backup.');
   let a = `${dataDirPath}/${dbName}.db`;
   let b = `${dataDirPath}/${dbName}_backup.db`;
-  await fs.copyFile(a, b, (err) => {
-    if (err) return logger.fatal(err);
-    logger.debug('Restored database backup successfully!.');  
+  await fs.copyFile(path.resolve(a), path.resolve(b), (error) => {
+    if (error) { logger.debug(error.stack); return logger.fatal(error) };
+    logger.debug('Restored database backup successfully!.');
   });
 };
 
-module.exports.utils = { 
-  accAge: calcAccAge, duration: calcDuration, 
+module.exports.utils = {
+  accAge: calcAccAge, duration: calcDuration,
   db: { backup: startBackup, restore: restoreBackup }
 };

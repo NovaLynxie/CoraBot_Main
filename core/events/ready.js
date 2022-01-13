@@ -71,5 +71,6 @@ module.exports = {
     client.user.setActivity('Ready!');
     await client.user.setStatus('online');
     statusUpdater(client);
+    await client.utils.db.backup();
 	},
 };
