@@ -6,7 +6,7 @@ const { stripIndents } = require('common-tags');
 const guildBaseEmbed = new MessageEmbed().setColor('#75e6c4');
 async function eventLog(event, guild, params = {}, client) {
   const { logChannels } = await client.settings.guild.get(guild);
-  if (!logChannels.modLogChID) return;
+  if (!logChannels.eventLogChID) return;
   const { channel, invite, message, oldMessage, newMessage, member, oldMember, newMember, role, oldRole, newRole } = params;
   logger.verbose(`params: ${JSON.stringify(params, null, 2)}`);
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
