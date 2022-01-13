@@ -23,7 +23,7 @@ module.exports = {
       logger.fatal('Failed to initialize bot settings!');
       logger.fatal(err.message); logger.debug(err.stack);
       return client.user.setActivity('Bot settings error!');
-    }
+    };
 		const guilds = client.guilds.cache.map(g => g.id);
 		try {			
 			await client.settings.guild.init(guilds);
@@ -32,7 +32,7 @@ module.exports = {
 			logger.error('Failed to initialize guild settings/data!');
 			logger.error(err.message); logger.debug(err.stack);
       return client.user.setActivity('Guild settings error!');
-		};    
+		};
     await client.utils.db.backup();
     logger.info('Finished final checks. Preparing commands.');
     client.user.setActivity('Loading commands...');
