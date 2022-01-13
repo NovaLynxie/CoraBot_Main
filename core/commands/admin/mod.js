@@ -1,4 +1,4 @@
-const logger = require('../../utils/winstonLogger');
+const logger = require('../../utils/winstonLogger'); 
 const addMinutes = require('date-fns/addMinutes');
 const { modLog } = require('../../plugins/guildLogger');
 const { Permissions } = require('discord.js');
@@ -145,7 +145,7 @@ module.exports = {
       if (!target) return interaction.editReply({
         content: 'This user could not be found!', ephemeral: true
       });
-      let successResponse, errorResponse, modRecordId = null;
+      let successResponse, errorResponse, recordId = uuid.v1().substr(0,8);
       const modData = await client.data.guild.moderation.get(guild);
       const response = `Moderation action '${subcmd}' failed!`
       if (!modData.users[target.id]) {
@@ -155,7 +155,7 @@ module.exports = {
       };
       switch (subcmd) {
         case 'ban':
-          modData.users[target.id].bans['0000'] = {
+          modData.users[target.id].bans[recordId] = {
             staffId: executor.id, guildId: guild.id, reason: reason || 'None provided', issuedAt: new Date()
           };
           try {
@@ -163,7 +163,7 @@ module.exports = {
             successResponse = {
               content: `Banned ${target} successfully!`, ephemeral: true
             };
-            modLog('ban', guild, { executor, member: target, reason }, client);
+            modLog('ban', guild, { executor, member: target, reason, recordId }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to ban ${target.user.tag}!`);
@@ -173,11 +173,6 @@ module.exports = {
           };
           break;
         case 'unban':
-          modRecord = {
-            type: 'Pardon', executor, member: target, guildId: guild.id,
-            reason: reason || 'No reason provided',
-            issued: new Date()
-          };
           try {
             await guild.members.unban(target);
             successResponse = {
@@ -193,7 +188,7 @@ module.exports = {
           };
           break;
         case 'kick':
-          modData.users[target.id].kicks['0000'] = {
+          modData.users[target.id].kicks[recordId] = {
             staffId: executor.id, guildId: guild.id, reason: reason || 'None provided', issuedAt: new Date()
           };
           try {
@@ -201,7 +196,7 @@ module.exports = {
             successResponse = {
               content: `Kicked ${target.user.tag} successfully!`, ephemeral: true
             };
-            modLog('kick', guild, { executor, member: target, reason }, client);
+            modLog('kick', guild, { executor, member: target, reasonrecordId }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to kick ${target.user.tag}!`);
@@ -211,7 +206,7 @@ module.exports = {
           };
           break;
         case 'mute':
-          modData.users[target.id].mutes['0000'] = {
+          modData.users[target.id].mutes[recordId] = {
             staffId: executor.id, guildId: guild.id, reason: reason || 'None provided', issuedAt: new Date()
           };
           try {
@@ -219,7 +214,7 @@ module.exports = {
             successResponse = {
               content: `Issued mute for ${target} successfully!`, ephemeral: true
             };
-            modLog('mute', guild, { executor, member: target, reason }, client);
+            modLog('mute', guild, { executor, member: target, reasonrecordId }, client);
           } catch (err) {
             logger.debug(err);
             logger.debug(`Unable to issue mute for ${target.user.tag}!`);
@@ -229,11 +224,6 @@ module.exports = {
           };
           break;
         case 'unmute':
-          modRecord = {
-            type: 'Unmute', executor, member: target, guildId: guild.id,
-            reason: reason || 'No reason provided',
-            issued: new Date()
-          };
           try {
             await target.timeout(null, reason || 'Unmuted by staff member.');
             successResponse = {
@@ -249,11 +239,11 @@ module.exports = {
           };
           break;
         case 'warn':
-          modData.users[target.id].warns['0000'] = {
+          modData.users[target.id].warns[recordId] = {
             staffId: executor.id, guildId: guild.id, reason: reason || 'None provided', issuedAt: new Date()
           };
           try {
-            modLog('warn', guild, { executor, member: target, reason }, client);
+            modLog('warn', guild, { executor, member: target, reasonrecordId }, client);
             successResponse = {
               content: `Issued warning for ${target} successfully!`, ephemeral: true
             };
