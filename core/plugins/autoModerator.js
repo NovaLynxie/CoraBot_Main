@@ -2,6 +2,7 @@ const logger = require('../utils/winstonLogger.js');
 let status = 0;
 
 module.exports = async (message, client) => {
+  if (!client.modules.enableAutoMod) return;
 	const guild = message.guild;
 	const { autoMod } = await client.settings.guild.get(guild);
 	if (!autoMod || Object.keys(autoMod).length <= 1) {
@@ -12,7 +13,7 @@ module.exports = async (message, client) => {
 			status = -1;
 		};
 	};
-	if (autoMod.enableAutoMod === false) return;
+	if (!autoMod.enableAutoMod) return;
 	const { chListMode, channelsList, urlBlacklist, mediaTrackers } = autoMod;
 	const { removeGifs, removeImgs, removeVids, removeURLs } = mediaTrackers;
 	const channel = guild.channels.cache.get(message.channel.id);

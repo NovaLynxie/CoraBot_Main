@@ -6,7 +6,7 @@ const { crashReporter } = require('./core/handlers/crashReporter');
 const { storage } = require('./core/handlers/keyvManager');
 const { voice } = require('./core/handlers/voiceManager');
 const { config, credentials } = require('./core/handlers/bootLoader');
-const { ownerIDs, useLegacyURL, debug } = config;
+const { ownerIDs, useLegacyURL, debug, modules } = config;
 const { discordToken } = credentials;
 logger.init('Spinning up bot instance...');
 const client = new Client({
@@ -19,6 +19,7 @@ client.commands = new Collection();
 client.voice.player = voice;
 client.data = storage.data;
 client.settings = storage.settings;
+client.modules = modules; 
 client.utils = utils;
 if (useLegacyURL) {
   logger.warn('Legacy API domain is now depreciated. Only use this to debug app connections.');
