@@ -57,7 +57,7 @@ const dbServiceWorker = setInterval(async () => {
   };
 }, 3600 * 1000);
 client.timers = { apiConnectWarn, dbServiceWorker };
-logger.info('Connecting to Discord.');
+logger.init('Connecting to Discord.');
 client.login(discordToken).then(() => {
   logger.debug('Awaiting API Response...');
 }).catch((error) => {
