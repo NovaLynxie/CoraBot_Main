@@ -5,6 +5,8 @@
   },
   "logChannels": {
     "botLogChID": "",
+    "eventLogChID": "",
+    "guildLogChID": "",
     "modLogChID": "",
     "suggestChID": "",
     "ticketsChID": ""
