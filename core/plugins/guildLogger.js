@@ -295,4 +295,30 @@ async function modLog(action, guild, params = {}, client) {
     logger.error(err.message); logger.debug(err.stack);
   };
 };
-module.exports = { modLog, eventLog };
+async function notifLog(type, guild, params = {}, client) {
+  const { /* add params here */ } = params, logdate = new Date();
+  const { logChannels } = await client.settings.guild.get(guild);
+  if (!logChannels.guildLogChID) return;
+  const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
+    .setTitle('New Notification! (WIP)')
+    .setDescription('Notification logs are still WIP! It may not display data as expected and/or break between updates.')
+    .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
+  // process field data here
+  let notifLogFields = [/* add fields here */];
+  switch (type) {
+    // add events here
+    case '':
+      break;
+    default:
+      return logger.debug('Unknown or unrecognised action called!');
+  };
+  try {
+    logger.debug('Sending notification log to channel now...');
+    guild.channels.cache.get(logChannels.guildLogChID).send({ embeds: [guildLogEmbed] });
+    logger.debug('Notification log sent successfully!');
+  } catch (err) {
+    logger.error('Failed to save notification log embed!');
+    logger.error(err.message); logger.debug(err.stack);
+  };
+};
+module.exports = { eventLog, modLog, notifLog };
