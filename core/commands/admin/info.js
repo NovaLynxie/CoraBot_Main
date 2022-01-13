@@ -1,5 +1,4 @@
 const logger = require('../../utils/winstonLogger');
-const { calculateAccountAge } = require('../../utils/botUtils');
 const locales = require('../../assets/resources/localeCodes.json');
 const levels = require('../../assets/resources/guildLevels.json');
 const { SlashCommandBuilder, time } = require('@discordjs/builders');
@@ -92,7 +91,7 @@ async function dynamicEmbed(data, type, client) {
               Username: ${user.username}#${user.discriminator}
               Nickname: ${member.nickname ? member.nickname : "Not set"}
               Joined: ${time(member.joinedTimestamp)}
-              Acc. Age: ${calculateAccountAge(user.createdAt)}
+              Acc. Age: ${client.utils.accAge(user.createdAt)}
               Roles: ${mRoles.length}
               (${mRoles.length ? mRoles.join(', ') : "None"})
             `

@@ -1,3 +1,6 @@
+const fs = require('fs'), logger = require('../utils/winstonLogger');
+const dataDirPath = './data', dbFiles = ['guilds', 'sessions', 'settings'];
+
 function calcAccAge(date) {
   const sysDate = new Date();
   const accDate = new Date(date);
@@ -25,4 +28,30 @@ function calcDuration(msecs) {
   return duration;
 };
 
-module.exports = { calcAccAge, calcDuration };
+async function startBackup() {
+  logger.debug('Started database backup.');
+  for (const dbName of dbFiles) {
+    let a = `${dataDirPath}/${dbName}.db`;
+    let b = `${dataDirPath}/${dbName}_backup.db`;
+    await fs.copyFile(a, b, (err) => {
+      if (err) return logger.fatal(err);
+      logger.debug(`${dbName}_backup created successfully!`);
+    });
+  };  
+  logger.debug('Completed database backup.');
+};
+async function restoreBackup(dbName) {
+  if (!dbFiles.includes(dbName)) return logger.verbose('Unknown DB filename!');
+  logger.debug('Restoring database from backup.');
+  let a = `${dataDirPath}/${dbName}.db`;
+  let b = `${dataDirPath}/${dbName}_backup.db`;
+  await fs.copyFile(a, b, (err) => {
+    if (err) return logger.fatal(err);
+    logger.debug('Restored database backup successfully!.');  
+  });
+};
+
+module.exports.utils = { 
+  accAge: calcAccAge, duration: calcDuration, 
+  db: { backup: startBackup, restore: restoreBackup }
+};

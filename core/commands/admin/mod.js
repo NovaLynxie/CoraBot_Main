@@ -145,15 +145,18 @@ module.exports = {
       if (!target) return interaction.editReply({
         content: 'This user could not be found!', ephemeral: true
       });
-      let successResponse, errorResponse, modRecord;
+      let successResponse, errorResponse, modRecordId = null;
       const modData = await client.data.guild.moderation.get(guild);
       const response = `Moderation action '${subcmd}' failed!`
+      if (!modData.users[target.id]) {
+        modData.users[target.id] = {
+          bans: {}, kicks: {}, mutes: {}, warns: {}
+        };
+      };
       switch (subcmd) {
         case 'ban':
-          modRecord = {
-            type: 'ban', executor, member: target, guildId: guild.id,
-            reason: reason || 'No reason provided',
-            issued: new Date().toUTCString()
+          modData.users[target.id].bans['0000'] = {
+            staffId: executor.id, guildId, guild.id, reason: reason || 'None provided', issuedAt: new Date().toUTCString()
           };
           try {
             await target.ban({ days: limit || 7, reason: reason || 'Banned by staff member.' });
@@ -190,10 +193,8 @@ module.exports = {
           };
           break;
         case 'kick':
-          modRecord = {
-            type: 'kick', executor, member: target, guildId: guild.id,
-            reason: reason || 'No reason provided',
-            issued: new Date().toUTCString()
+          modData.users[target.id].kicks['0000'] = {
+            staffId: executor.id, guildId, guild.id, reason: reason || 'None provided', issuedAt: new Date().toUTCString()
           };
           try {
             await target.kick(reason || 'Kicked by staff member.');
@@ -210,12 +211,10 @@ module.exports = {
           };
           break;
         case 'mute':
-          modRecord = {
-            type: 'mute', executor, member: target, guildId: guild.id,
-            reason: reason || 'No reason provided',
-            issued: new Date().toUTCString()
+          modData.users[target.id].mutes['0000'] = {
+            staffId: executor.id, guildId, guild.id, reason: reason || 'None provided', issuedAt: new Date().toUTCString()
           };
-          try {                  
+          try {
             await target.timeout(duration * 60 * 1000, reason || 'Muted by staff member.');
             successResponse = {
               content: `Issued mute for ${target} successfully!`, ephemeral: true
@@ -235,7 +234,7 @@ module.exports = {
             reason: reason || 'No reason provided',
             issued: new Date().toUTCString()
           };
-          try {                  
+          try {
             await target.timeout(null, reason || 'Unmuted by staff member.');
             successResponse = {
               content: `Removed mute from ${target} successfully!`, ephemeral: true
@@ -250,13 +249,11 @@ module.exports = {
           };
           break;
         case 'warn':
-          modRecord = {
-            type: 'Warning', executor, member: target, guildId: guild.id,
-            reason: reason || 'No reason provided',
-            issued: new Date().toUTCString()
+          modData.users[target.id].warns['0000'] = {
+            staffId: executor.id, guildId, guild.id, reason: reason || 'None provided', issuedAt: new Date().toUTCString()
           };
           try {
-            modLog('warn', guild, { executor, member: target, reason }, client);            
+            modLog('warn', guild, { executor, member: target, reason }, client);
             successResponse = {
               content: `Issued warning for ${target} successfully!`, ephemeral: true
             };
