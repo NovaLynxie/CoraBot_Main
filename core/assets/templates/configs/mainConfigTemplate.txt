@@ -11,10 +11,10 @@ useLegacyURL = false
 
 [modules]
 # Master module configuration.
-# These settings will override guild settings.
+# Set these to enable or disable specific modules across all instances.
 enableAutoMod = true
 enableChatBot = true
-enableMusicBot = true
+enableMusicBot = false
 enableNotifier = true
 
 [advanced]
