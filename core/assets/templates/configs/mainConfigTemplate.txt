@@ -15,8 +15,6 @@ useLegacyURL = false
 enableAutoMod = true
 enableChatBot = true
 enableNotifier = true
-enableBotLogs = true
-enableModLogs = true
 
 [advanced]
 # Advanced setup options.
