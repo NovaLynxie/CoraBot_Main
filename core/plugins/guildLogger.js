@@ -198,11 +198,11 @@ async function eventLog(event, guild, params = {}, client) {
       return logger.debug('Unknown or unrecognised event type!');
   };
   try {
-    logger.debug('Sending moderation log to channel now...');
-    guild.channels.cache.get(logChannels.modLogChID).send({ embeds: [guildLogEmbed] });
-    logger.debug('Moderation log sent successfully!');
+    logger.debug('Sending event log to channel now...');
+    guild.channels.cache.get(logChannels.botLogChID).send({ embeds: [guildLogEmbed] });
+    logger.debug('Event log sent successfully!');
   } catch (err) {
-    logger.error('Failed to save moderation log embed!');
+    logger.error('Failed to save event log embed!');
     logger.error(err.message); logger.debug(err.stack);
   };
 };
