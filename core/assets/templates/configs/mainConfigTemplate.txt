@@ -14,6 +14,7 @@ useLegacyURL = false
 # These settings will override guild settings.
 enableAutoMod = true
 enableChatBot = true
+enableMusicBot = true
 enableNotifier = true
 
 [advanced]
