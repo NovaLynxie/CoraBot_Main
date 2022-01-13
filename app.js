@@ -48,7 +48,14 @@ const apiConnectWarn = setTimeout(() => {
   logger.warn('Bot taking longer than normal to connect.');
   logger.warn('Possibly slow connection or rate limited?');
 }, 10 * 1000);
-client.timers = { apiConnectWarn };
+const dbServiceWorker = setInterval(async () => {
+  try {
+    await client.utils.db.backup();    
+  } catch (error) {
+    logger.debug(error.stack);
+  };
+}, 3600 * 1000);
+client.timers = { apiConnectWarn, dbServiceWorker };
 logger.info('Connecting to Discord.');
 client.login(discordToken).then(() => {
   logger.debug('Awaiting API Response...');
