@@ -1,14 +1,13 @@
 const logger = require('../utils/winstonLogger');
 const Keyv = require('@keyvhq/core');
 const KeyvSQLite = require('@keyvhq/sqlite');
-const clientPrefStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'clientSettings' });
-const guildPrefStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'guildSettings' });
+const clientPrefStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'client' });
+const guildPrefStore = new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/settings.db' }), namespace: 'guild' });
 const guildDataStore = {
-  offenses: new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }), namespace: 'offenses' }),
-  trackers: new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }), namespace: 'trackers' }),
-  voice: new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds.db' }), namespace: 'voice' })
+  offenses: new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db' }), namespace: 'offenses' }),
+  trackers: new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db' }), namespace: 'trackers' }),
+  voice: new Keyv({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/voice.db' }), namespace: 'voice' })
 };
-
 const clientSettingsTemplate = require('../assets/templates/database/clientSettings.json');
 const guildSettingsTemplate = require('../assets/templates/database/guildSettings.json');
 const guildDataTemplate = require('../assets/templates/database/guildData.json');
