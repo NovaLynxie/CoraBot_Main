@@ -156,7 +156,7 @@ module.exports = {
       switch (subcmd) {
         case 'ban':
           modData.users[target.id].bans['0000'] = {
-            staffId: executor.id, guildId, guild.id, reason: reason || 'None provided', issuedAt: new Date()
+            staffId: executor.id, guildId: guild.id, reason: reason || 'None provided', issuedAt: new Date()
           };
           try {
             await target.ban({ days: limit || 7, reason: reason || 'Banned by staff member.' });
@@ -194,7 +194,7 @@ module.exports = {
           break;
         case 'kick':
           modData.users[target.id].kicks['0000'] = {
-            staffId: executor.id, guildId, guild.id, reason: reason || 'None provided', issuedAt: new Date()
+            staffId: executor.id, guildId: guild.id, reason: reason || 'None provided', issuedAt: new Date()
           };
           try {
             await target.kick(reason || 'Kicked by staff member.');
@@ -212,7 +212,7 @@ module.exports = {
           break;
         case 'mute':
           modData.users[target.id].mutes['0000'] = {
-            staffId: executor.id, guildId, guild.id, reason: reason || 'None provided', issuedAt: new Date()
+            staffId: executor.id, guildId: guild.id, reason: reason || 'None provided', issuedAt: new Date()
           };
           try {
             await target.timeout(duration * 60 * 1000, reason || 'Muted by staff member.');
@@ -250,7 +250,7 @@ module.exports = {
           break;
         case 'warn':
           modData.users[target.id].warns['0000'] = {
-            staffId: executor.id, guildId, guild.id, reason: reason || 'None provided', issuedAt: new Date()
+            staffId: executor.id, guildId: guild.id, reason: reason || 'None provided', issuedAt: new Date()
           };
           try {
             modLog('warn', guild, { executor, member: target, reason }, client);
