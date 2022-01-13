@@ -48,7 +48,34 @@
                   option(value=channel.id selected='') #{channel.name}
                 else
                   option(value=channel.id) #{channel.name}
-              
+            label.form-label.mt-4(for='eventLogChID') 
+              | Bot System Logs
+              br
+              | Select the channel for bot logs to be output into.
+            select#chatChannels.form-select(name='eventLogChID')
+              if (!logChannels.eventLogChID) 
+                option(value='' selected='') (not set)
+              else
+                option(value='') (not set)
+              for channel in textChannels                
+                if (logChannels.eventLogChID === channel.id)
+                  option(value=channel.id selected='') #{channel.name}
+                else
+                  option(value=channel.id) #{channel.name}
+            label.form-label.mt-4(for='guildLogChID') 
+              | Bot System Logs
+              br
+              | Select the channel for bot logs to be output into.
+            select#chatChannels.form-select(name='guildLogChID')
+              if (!logChannels.guildLogChID) 
+                option(value='' selected='') (not set)
+              else
+                option(value='') (not set)
+              for channel in textChannels                
+                if (logChannels.guildLogChID === channel.id)
+                  option(value=channel.id selected='') #{channel.name}
+                else
+                  option(value=channel.id) #{channel.name}
             label.form-label.mt-4(for='modLogChID') 
               | Moderation Logs
               br
