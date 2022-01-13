@@ -52,6 +52,11 @@ module.exports = {
         .setDescription('Start up the player.')
     ),
   async execute(interaction, client) {
+    if (!client.modules.enableMusicBot) {
+      return interaction.reply({
+        content: "MusicBot functionality disabled. `music` command is unavailable.", ephemeral: true
+      });
+    };
     await interaction.deferReply({ ephemeral: false });
     let guild = interaction.guild, collector, source, track;
     let connection = client.voice.player.fetch(guild), queuePage = 1;

@@ -22,6 +22,11 @@ module.exports = {
     .setName('radio')
     .setDescription('Starts up the radio!'),
   async execute(interaction, client) {
+    if (!client.modules.enableMusicBot) {
+      return interaction.reply({
+        content: "MusicBot functionality disabled. `radio` command is unavailable.", ephemeral: true
+      });
+    };
     let connection = client.voice.player.fetch(interaction.guild);
     let player, source, station;
     await interaction.deferReply({ ephemeral: false });
