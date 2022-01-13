@@ -33,7 +33,7 @@ module.exports = {
       return client.user.setActivity('Guild settings error!');
 		};
     await client.utils.db.backup();
-    logger.info('Finished final checks. Preparing commands.');
+    logger.init('Finished final checks. Preparing commands.');
     client.user.setActivity('Loading commands...');
 		const res = await loadBotCmds(client, true);
     logger.debug(`${res.success} loaded, ${res.failed} failed.`);
@@ -71,5 +71,6 @@ module.exports = {
     client.user.setActivity('Ready!');
     await client.user.setStatus('online');
     statusUpdater(client);
+    logger.info('CoraBot is Ready!');
 	},
 };
