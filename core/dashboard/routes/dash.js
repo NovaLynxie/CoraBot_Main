@@ -87,27 +87,35 @@ router.post('/:guildID/manage', checkAuth, async (req, res) => {
       logger.debug(`Detected 'staffRoles' settings data!`);
       const staffRoles = (typeof req.body.staffRoles === 'string') ? [`${req.body.staffRoles}`] : req.body.staffRoles;
       roles.staff = staffRoles;
-    }      
+    };
     if (req.body.muteRole) {
       logger.debug(`Detected 'muteRole' settings data!`);
       roles.mute = emptyStringCheck(req.body.muteRole);
-    }
+    };
     if (req.body.botLogChID) {
       logger.debug(`Detected 'botLogChID' settings data!`);
       logChannels.botLogChID = emptyStringCheck(req.body.botLogChID);
-    }
+    };
+    if (req.body.eventLogChID) {
+      logger.debug(`Detected 'eventLogChID' settings data!`);
+      logChannels.eventLogChID = emptyStringCheck(req.body.eventLogChID);
+    };    
+    if (req.body.guildLogChID) {
+      logger.debug(`Detected 'guildLogChID' settings data!`);
+      logChannels.guildLogChID = emptyStringCheck(req.body.guildLogChID);
+    };
     if (req.body.modLogChID) {
       logger.debug(`Detected 'modLogChID' settings data!`);
       logChannels.modLogChID = emptyStringCheck(req.body.modLogChID);
-    }
+    };
     if (req.body.suggestChID) {
       logger.debug(`Detected 'suggestChID' settings data!`);
       logChannels.suggestChID = emptyStringCheck(req.body.suggestChID);
-    }
+    };
     if (req.body.ticketsChID) {
       logger.debug(`Detected 'ticketsChID' settings data!`);
       logChannels.ticketsChID = emptyStringCheck(req.body.ticketsChID);
-    }
+    };
     if (req.body.enableNotifier) {
       logger.debug(`Detected 'notifier' settings data!`);
       notifier.enableNotifier = (req.body.enableNotifier === 'on') ? true : false;
