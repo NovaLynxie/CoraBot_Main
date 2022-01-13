@@ -1,4 +1,5 @@
-const logger = require('../../utils/winstonLogger'); 
+const logger = require('../../utils/winstonLogger');
+const uuid = require('uuid');
 const addMinutes = require('date-fns/addMinutes');
 const { modLog } = require('../../plugins/guildLogger');
 const { Permissions } = require('discord.js');
