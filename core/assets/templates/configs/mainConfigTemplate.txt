@@ -9,6 +9,15 @@ ownerIDs = []
 # ONLY USE IF FAILING TO LOGIN TO DISCORD MAIN API URL!
 useLegacyURL = false
 
+[modules]
+# Master module configuration.
+# These settings will override guild settings.
+enableAutoMod = true
+enableChatBot = true
+enableNotifier = true
+enableBotLogs = true
+enableModLogs = true
+
 [advanced]
 # Advanced setup options.
 # Deploy commands configuration. ONLY USE IF HOSTING THIS YOURSELF!
