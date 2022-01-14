@@ -39,19 +39,19 @@ module.exports = {
       .addComponents(
         new MessageButton()
           .setCustomId('play')
-          .setLabel('Play')
+          .setEmoji('▶️')
           .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('stop')
-          .setLabel('Stop')
+          .setEmoji('⏹️')
           .setStyle('DANGER'),
         new MessageButton()
           .setCustomId('joinLeaveVC')
-          .setLabel('Leave Voice')
+          .setEmoji('🎤')
           .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('closeMenu')
-          .setLabel('Close Menu')
+          .setEmoji('❌')
           .setStyle('DANGER'),
       );
     // Radio Selection for choosing the station to play back.
