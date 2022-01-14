@@ -241,6 +241,12 @@
     transform-origin: top left;
   }
 }
+@media screen and (max-width:1280px) {
+  .details-card,
+  .settings-card-block {
+    width: 50%
+  }  
+}
 @media screen and (max-width:480px) {
   .details-card,
   .settings-card-modules {
