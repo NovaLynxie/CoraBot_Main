@@ -27,8 +27,9 @@ module.exports = {
         content: "MusicBot functionality disabled. `radio` command is unavailable.", ephemeral: true
       });
     };
+    let guild = interaction.guild, player, source, station;
     let connection = client.voice.player.fetch(interaction.guild);
-    let player, source, station;
+    player = (connection) ? connection._state.subscription ?.player : undefined;
     await interaction.deferReply({ ephemeral: false });
     const radioBaseEmbed = new MessageEmbed()
       .setColor('#32527b')
@@ -128,12 +129,8 @@ module.exports = {
             name: 'Station Information',
             value: (station) ? `Name: ${station ?.name}
             Desc:  ${station ?.desc}` : 'No station loaded.',
-          },
-          {
-            name: 'Now Playing (WIP)',
-            value: 'Nothing is playing...',
-          },
-        )
+          }
+        );
       return playerEmbed;
     };
     // Update player interface from dynamic embed.
