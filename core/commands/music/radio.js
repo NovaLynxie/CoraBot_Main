@@ -180,7 +180,7 @@ module.exports = {
                 try {
                   connection.destroy();
                   connection = null;
-                } catch (error) {                  
+                } catch (error) {
                   logger.debug(error.message); logger.debug(error.stack);
                   logger.debug('Clearing connection data from the variable');
                   connection = null;
@@ -192,6 +192,7 @@ module.exports = {
           case 'play':
             if (!player) return;
             player.play(source);
+            if (!connection) break;
             connection.subscribe(player);
             break;
           case 'pause':
