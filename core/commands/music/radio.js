@@ -222,9 +222,9 @@ module.exports = {
                 try {
                   connection.destroy();
                   connection = null;
-                } catch (error) {
-                  logger.debug('Connection is already destroyed!');
+                } catch (error) {                  
                   logger.debug(error.message); logger.debug(error.stack);
+                  logger.debug('Clearing connection data from the variable');
                   connection = null;
                 };
               };
