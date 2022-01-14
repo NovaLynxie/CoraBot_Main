@@ -71,29 +71,6 @@ module.exports = {
       }
       logger.debug(`station:${JSON.stringify(station)}`);
       source = client.voice.player.create(station.url);
-    }
-    async function joinChannel(channel) {
-      connection = client.voice.player.fetch(interaction.guild);
-      try {
-        if (!connection) {
-          logger.debug(`No connections found in ${interaction.guild.name}, creating one.`);
-          connection = await client.voice.player.join(interaction.member.voice.channel);
-        } else {
-          logger.debug(`Connection already active in ${interaction.guild.name}.`);
-        };
-      } catch (err) {
-        logger.error('An error occured while opening a connection!');
-        logger.error(err.message); logger.debug(err.stack);
-        const errEmbed = new MessageEmbed()
-          .setTitle('Radio has stopped working!')
-          .setDescription('Failed to open a connection, stopped radio interaction. Please run /radio again.')
-          .addFields(
-            { name: 'Error Data', value: `\`\`\`${err}\`\`\`` },
-          );
-        return interaction.editReply({
-          embeds: [errEmbed],
-        });
-      };
     };
     // Dynamic Radio Player Embed
     function dynamicPlayerEmbed(station) {
@@ -177,17 +154,6 @@ module.exports = {
         await wait(1000);
         // Button Switch/Case Handler
         switch (interact.customId) {
-          // button actions - radio menu
-          case 'radioIndex':
-            playerOpen = false;
-            menuOpen = true;
-            await interact.editReply(
-              {
-                embeds: [radioMenuEmbed],
-                components: [radioMenuBtns],
-              },
-            );
-            break;
           case 'closeMenu':
             menuOpen = false;
             await interact.editReply(
@@ -199,11 +165,6 @@ module.exports = {
             await wait(5000);
             await interact.deleteReply();
             collector.stop();
-            break;
-          // button actions - radio player
-          case 'radioPlayer':
-            playerOpen = true;
-            refreshPlayer(interact);
             break;
           // Join/Leave Voice Actions
           case 'joinLeaveVC':
@@ -226,30 +187,6 @@ module.exports = {
                 };
               };
             };
-            break;
-          case 'joinVC':
-            if (!interaction.member.voice.channel) {
-              interact.followUp({
-                content: 'You are not in a voice channel! Please join one first!',
-                ephemeral: true,
-              });
-            }
-            connection = await client.voice.player.join(interaction.member.voice.channel);
-            break;
-          case 'leaveVC':
-            if (!interaction.member.voice.channel) {
-              interact.followUp({
-                content: 'You are not in a voice channel! Join the bot\'s voice channel first.',
-                ephemeral: true,
-              });
-            } else
-              if (!connection) {
-                interact.followUp({
-                  content: 'The bot',
-                  ephemeral: true,
-                });
-              };
-            connection.destroy();
             break;
           // Radio Player Actions
           case 'play':
@@ -297,11 +234,7 @@ module.exports = {
         await interaction.deleteReply();
       });
       playerOpen = true;
-      interaction.editReply({
-        embeds: [dynamicPlayerEmbed(station)],
-        components: [radioPlayerBtns, radioStationsMenu],
-        ephemeral: false,
-      });
+      refreshPlayer(interaction);
     } else return;
   },
 };
