@@ -54,7 +54,8 @@
   color: #ffffff;
   background-color: #82868b;
   border: solid #4c5155 4px;
-  border-radius: 10%;  
+  border-radius: 10%;
+  vertical-align: top;
 }
 .guild-thumb {
   margin: 10px;
@@ -246,11 +247,20 @@
     max-width: 80%; max-height: 80%;
   }
 }
+@media screen and (max-width:960px) {
+  .guild-card {
+    min-width: auto; width: 31.8%;
+  }
+}
 @media screen and (max-width:480px) {
   .details-card,
-  .settings-card-modules {
-    width: 100%
-  }  
+  .settings-card-modules,
+  .settings-text-wrapper {
+    width: 100%; min-width: 100%;
+  }
+  .guild-card {
+    width: 50%; min-width: 50%; margin: 5px auto;
+  }
 }
 .danger-block {
   background-color: #964b2e25;
