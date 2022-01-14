@@ -175,8 +175,10 @@ module.exports = {
               });
             } else {
               if (!connection) {
-                connection = client.voice.player.join(interaction.member.voice.channel);
+                connection = await client.voice.player.join(interaction.member.voice.channel);
+                console.log(connection.destroy);
               } else {
+                console.log(connection.destroy);
                 try {
                   connection.destroy();
                   connection = null;
@@ -185,6 +187,7 @@ module.exports = {
                   logger.debug('Clearing connection data from the variable');
                   connection = null;
                 };
+                refreshPlayer(interact);
               };
             };
             break;

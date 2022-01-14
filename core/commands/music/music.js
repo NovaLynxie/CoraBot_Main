@@ -590,18 +590,17 @@ module.exports = {
               };
               if (!connection) {
                 connection = await client.voice.player.join(interaction.member.voice.channel);
-              } else
-                if (connection) {
-                  try {
-                    connection.destroy();
-                    connection = null;
-                  } catch (error) {
-                    logger.debug('Connection is already destroyed!');
-                    logger.debug(error.message); logger.debug(error.stack);
-                    connection = null;
-                  };
+              } else {
+                try {
+                  connection.destroy();
+                  connection = null;
+                } catch (error) {
+                  logger.debug('Connection is already destroyed!');
+                  logger.debug(error.message); logger.debug(error.stack);
+                  connection = null;
                 };
-              refreshPlayer(interact);
+                refreshPlayer(interact);
+              };
               break;
             // Music Player Actions
             case 'play':
