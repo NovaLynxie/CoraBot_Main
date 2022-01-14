@@ -8,10 +8,6 @@
   background-color: #6494ed46;
   border: solid #64cded6c 5px;
 }
-.danger-block {
-  background-color: #964b2e25;
-  border: solid #ff1f1f49 2px;
-}
 .edit-settings {
   position: absolute;
   bottom: 10px;
@@ -255,4 +251,9 @@
   .settings-card-modules {
     width: 100%
   }  
+}
+.danger-block {
+  background-color: #964b2e25;
+  border: solid #ff1f1f49 2px;
+  height: auto; width: 100%;
 }
