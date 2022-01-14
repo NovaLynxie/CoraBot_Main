@@ -176,9 +176,7 @@ module.exports = {
             } else {
               if (!connection) {
                 connection = await client.voice.player.join(interaction.member.voice.channel);
-                console.log(connection.destroy);
               } else {
-                console.log(connection.destroy);
                 try {
                   connection.destroy();
                   connection = null;
