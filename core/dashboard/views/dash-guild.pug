@@ -385,9 +385,16 @@ block content
                     th(scope='col') Track Title
                     th(scope='col') Duration
                     th(scope='col') Source
-                each item, index in data.voice.music.queue
+                if (data.voice.music.queue.length)
+                  each item, index in data.voice.music.queue
+                    tr
+                      th(scope='row')= index + 1
+                      td= item.title
+                      td= formatDuration(item.duration)
+                      td= item.type
+                else
                   tr
-                    th(scope='row')= index
-                    td= item.title
-                    td= formatDuration(item.duration)
-                    td= item.type
+                    th(scope='row') 0
+                    td No songs queued! Use /music in this guild to add some :D
+                    td --:--
+                    td ...
