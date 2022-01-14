@@ -44,7 +44,7 @@ module.exports = {
         new MessageButton()
           .setCustomId('stop')
           .setEmoji('⏹️')
-          .setStyle('DANGER'),
+          .setStyle('SECONDARY'),
         new MessageButton()
           .setCustomId('joinLeaveVC')
           .setEmoji('🎤')
@@ -52,7 +52,7 @@ module.exports = {
         new MessageButton()
           .setCustomId('closeMenu')
           .setEmoji('❌')
-          .setStyle('DANGER'),
+          .setStyle('SECONDARY'),
       );
     // Radio Selection for choosing the station to play back.
     const radioStationsMenu = new MessageActionRow()
