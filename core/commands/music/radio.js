@@ -302,7 +302,7 @@ module.exports = {
       playerOpen = true;
       interaction.editReply({
         embeds: [dynamicPlayerEmbed(station)],
-        components: [radioPlayerBtns],
+        components: [radioPlayerBtns, radioStationsMenu],
         ephemeral: false,
       });
     } else return;
