@@ -88,6 +88,9 @@
     transform: scale(1.5); 
     transform-origin: top left;
   }
+  .settings-card-modules{
+    min-width: 50%;
+  }
 }
 .guild-banner {
   position: relative;
@@ -102,7 +105,7 @@
 .details-card {
   vertical-align: top;
   min-height: 450px;
-  width: 100%;
+  width: 50%;
   display: inline-block;
   text-align: left;
   padding: 0.5rem;
