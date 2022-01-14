@@ -13,13 +13,14 @@ const client = new Client({
   owners: ownerIDs,
   intents: [
     Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_INVITES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_VOICE_STATES
-  ], presence: { status: 'dnd', activities: [{ name: 'Initializing...' }] }
+  ], 
+  presence: { status: 'dnd', activities: [{ name: 'Initializing...' }] }
 });
 client.commands = new Collection();
 client.voice.player = voice;
 client.data = storage.data;
 client.settings = storage.settings;
-client.modules = modules; 
+client.modules = modules;
 client.utils = utils;
 if (useLegacyURL) {
   logger.warn('Legacy API domain is now depreciated. Only use this to debug app connections.');
@@ -51,7 +52,7 @@ const apiConnectWarn = setTimeout(() => {
 }, 10 * 1000);
 const dbServiceWorker = setInterval(async () => {
   try {
-    await client.utils.db.backup();    
+    await client.utils.db.backup();
   } catch (error) {
     logger.debug(error.stack);
   };
