@@ -592,8 +592,14 @@ module.exports = {
                 connection = await client.voice.player.join(interaction.member.voice.channel);
               } else
                 if (connection) {
-                  connection.destroy();
-                  connection = null;
+                  try {
+                    connection.destroy();
+                    connection = null;
+                  } catch (error) {
+                    logger.debug('Connection is already destroyed!');
+                    logger.debug(error.message); logger.debug(error.stack);
+                    connection = null;
+                  };
                 };
               refreshPlayer(interact);
               break;
@@ -723,8 +729,6 @@ module.exports = {
         await interaction.deleteReply();
         await client.data.guild.voice.set(voiceData, interaction.guild);
       });
-    } else {
-      return;
-    };
+    } else return;
   },
 };

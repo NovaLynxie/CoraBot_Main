@@ -34,29 +34,7 @@ module.exports = {
       .setColor('#32527b')
       .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
       .setFooter('Powered by DiscordJS Voice (OPUS)');
-    const radioMenuEmbed = new MessageEmbed(radioBaseEmbed)
-      .setTitle('Radio Main Menu')
-      .setDescription('Bot Radio Service');
     // Radio Buttons to control the playback.
-    const radioMenuBtns = new MessageActionRow()
-      .addComponents(
-        new MessageButton()
-          .setCustomId('joinVC')
-          .setLabel('Join Voice')
-          .setStyle('SECONDARY'),
-        new MessageButton()
-          .setCustomId('leaveVC')
-          .setLabel('Leave Voice')
-          .setStyle('SECONDARY'),
-        new MessageButton()
-          .setCustomId('radioPlayer')
-          .setLabel('Radio Player')
-          .setStyle('SECONDARY'),
-        new MessageButton()
-          .setCustomId('closeMenu')
-          .setLabel('Close Menu')
-          .setStyle('DANGER'),
-      );
     const radioPlayerBtns = new MessageActionRow()
       .addComponents(
         new MessageButton()
@@ -68,9 +46,13 @@ module.exports = {
           .setLabel('Stop')
           .setStyle('DANGER'),
         new MessageButton()
-          .setCustomId('radioIndex')
-          .setLabel('Radio Menu')
-          .setStyle('PRIMARY'),
+          .setCustomId('joinLeaveVC')
+          .setLabel('Leave Voice')
+          .setStyle('SECONDARY'),
+        new MessageButton()
+          .setCustomId('closeMenu')
+          .setLabel('Close Menu')
+          .setStyle('DANGER'),
       );
     // Radio Selection for choosing the station to play back.
     const radioStationsMenu = new MessageActionRow()
@@ -192,114 +174,137 @@ module.exports = {
       player.stop();
     });
     // Menu/Button collecter and handler.
-    collector.on('collect', async interact => {
-      await interact.deferUpdate();
-      await wait(1000);
-      // Button Switch/Case Handler
-      switch (interact.customId) {
-        // button actions - radio menu
-        case 'radioIndex':
-          playerOpen = false;
-          menuOpen = true;
-          await interact.editReply(
-            {
-              embeds: [radioMenuEmbed],
-              components: [radioMenuBtns],
-            },
-          );
-          break;
-        case 'closeMenu':
-          menuOpen = false;
-          await interact.editReply(
-            {
-              content: 'Radio menu closed.',
-              embeds: [], components: [],
-            },
-          );
-          await wait(5000);
-          await interact.deleteReply();
-          collector.stop();
-          break;
-        // button actions - radio player
-        case 'radioPlayer':
-          playerOpen = true;
-          refreshPlayer(interact);
-          break;
-        // Join/Leave Voice Actions
-        case 'joinVC':
-          if (!interaction.member.voice.channel) {
-            interact.followUp({
-              content: 'You are not in a voice channel! Please join one first!',
-              ephemeral: true,
-            });
-          }
-          connection = await client.voice.player.join(interaction.member.voice.channel);
-          break;
-        case 'leaveVC':
-          if (!interaction.member.voice.channel) {
-            interact.followUp({
-              content: 'You are not in a voice channel! Join the bot\'s voice channel first.',
-              ephemeral: true,
-            });
-          } else
-            if (!connection) {
+    if (collector) {
+      collector.on('collect', async interact => {
+        await interact.deferUpdate();
+        await wait(1000);
+        // Button Switch/Case Handler
+        switch (interact.customId) {
+          // button actions - radio menu
+          case 'radioIndex':
+            playerOpen = false;
+            menuOpen = true;
+            await interact.editReply(
+              {
+                embeds: [radioMenuEmbed],
+                components: [radioMenuBtns],
+              },
+            );
+            break;
+          case 'closeMenu':
+            menuOpen = false;
+            await interact.editReply(
+              {
+                content: 'Radio menu closed.',
+                embeds: [], components: [],
+              },
+            );
+            await wait(5000);
+            await interact.deleteReply();
+            collector.stop();
+            break;
+          // button actions - radio player
+          case 'radioPlayer':
+            playerOpen = true;
+            refreshPlayer(interact);
+            break;
+          // Join/Leave Voice Actions
+          case 'joinLeaveVC':
+            if (!interaction.member.voice.channel) {
               interact.followUp({
-                content: 'The bot',
+                content: 'You are not in a voice channel! Please join one first!',
                 ephemeral: true,
               });
+            } else {
+              if (!connection) {
+                connection = client.voice.player.join(interaction.member.voice.channel);
+              } else {
+                try {
+                  connection.destroy();
+                  connection = null;
+                } catch (error) {
+                  logger.debug('Connection is already destroyed!');
+                  logger.debug(error.message); logger.debug(error.stack);
+                  connection = null;
+                };
+              };
             };
-          connection.destroy();
-          break;
-        // Radio Player Actions
-        case 'play':
-          if (!player) return;
-          player.play(source);
-          connection.subscribe(player);
-          break;
-        case 'pause':
-          if (!player) return;
-          player.pause();
-          break;
-        case 'stop':
-          if (!player) return;
-          player.stop();
-          break;
-        // Radio Selection Actions
-        case 'stationSelect':
-          if (!player) return;
-          loadStation(interact);
-          player.play(source);
-          refreshPlayer(interact);
-          break;
-        // fallback action for all radio menus
-        default:
-          logger.warn('Invalid or unknown action called!');
-          logger.verbose('radio.button.default.trigger');
-          await interact.editReply(
-            {
-              content: 'That action is invalid or not available!',
-            },
-          );
-      }
-    });
-    collector.on('end', async collected => {
-      logger.debug('Collector in radio commmand timed out or was stopped.');
-      logger.debug(`Collected ${collected.size} items.`);
-      if (!menuOpen) return;
-      await interaction.editReply(
-        {
-          content: 'Radio Menu timed out. To continue using the menu, run /radio again.',
-          embeds: [], components: [],
-        },
-      );
-      await wait(5000);
-      await interaction.deleteReply();
-    });
-    menuOpen = true;
-    interaction.editReply({
-      embeds: [radioMenuEmbed],
-      components: [radioMenuBtns],
-      ephemeral: false,
-    });
+            break;
+          case 'joinVC':
+            if (!interaction.member.voice.channel) {
+              interact.followUp({
+                content: 'You are not in a voice channel! Please join one first!',
+                ephemeral: true,
+              });
+            }
+            connection = await client.voice.player.join(interaction.member.voice.channel);
+            break;
+          case 'leaveVC':
+            if (!interaction.member.voice.channel) {
+              interact.followUp({
+                content: 'You are not in a voice channel! Join the bot\'s voice channel first.',
+                ephemeral: true,
+              });
+            } else
+              if (!connection) {
+                interact.followUp({
+                  content: 'The bot',
+                  ephemeral: true,
+                });
+              };
+            connection.destroy();
+            break;
+          // Radio Player Actions
+          case 'play':
+            if (!player) return;
+            player.play(source);
+            connection.subscribe(player);
+            break;
+          case 'pause':
+            if (!player) return;
+            player.pause();
+            break;
+          case 'stop':
+            if (!player) return;
+            player.stop();
+            break;
+          // Radio Selection Actions
+          case 'stationSelect':
+            if (!player) return;
+            loadStation(interact);
+            player.play(source);
+            refreshPlayer(interact);
+            break;
+          // fallback action for all radio menus
+          default:
+            logger.warn('Invalid or unknown action called!');
+            logger.verbose('radio.button.default.trigger');
+            await interact.editReply(
+              {
+                content: 'That action is invalid or not available!',
+              },
+            );
+        }
+      });
+      collector.on('end', async collected => {
+        logger.debug('Collector in radio commmand timed out or was stopped.');
+        logger.debug(`Collected ${collected.size} items.`);
+        if (!menuOpen) return;
+        await interaction.editReply(
+          {
+            content: 'Radio Menu timed out. To continue using the menu, run /radio again.',
+            embeds: [], components: [],
+          },
+        );
+        await wait(5000);
+        await interaction.deleteReply();
+      });
+      playerOpen = true;
+      interaction.editReply({
+        embeds: [dynamicPlayerEmbed(station)],
+        components: [radioPlayerBtns],
+        ephemeral: false,
+      });
+    } else return;
   },
 };
