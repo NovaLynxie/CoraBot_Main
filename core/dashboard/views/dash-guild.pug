@@ -42,7 +42,7 @@ block content
           h3.display-4 Guild Settings
           .settings-card-base
             h3 Bot Control Panel
-            .settings-card-modules.settings-card-wrapper
+            .settings-card-wrapper
               h4 Guild Details
               .details-card
                 h5 Basic Information
@@ -63,7 +63,6 @@ block content
                   | Members: #{guild.memberCount} (#{guild.members.cache.filter(member => !member.user.bot).size} users | #{guild.members.cache.filter(member => member.user.bot).size} bots)
                   br
                   | Locale: #{locales[guild.preferredLocale]}
-                  
               .details-card
                 h5 Server Details
                 .guild-details-wrapper
@@ -84,10 +83,10 @@ block content
                     | (Used #{(guild.vanityURLUses)?guild.vanityURLUses:'NaN'} times)
                   else
                     | (Not available)
-            .settings-card-modules.settings-card-wrapper
+            .settings-card-modules.wrapper
               h4 Guild Settings
               p.lead Change settings for each module from here.
-              .settings-card-modules
+              .settings-card-modules.settings-card-block
                 h5 Server Settings
                 .settings-text-wrapper
                   h6 Server Roles
@@ -129,7 +128,7 @@ block content
                       td #{(logChannels.ticketsChID) ? 'Yes' : 'No'}
                 button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingGuildStaffRolesModal') Edit 
                   i.fas.fa-edit
-              .settings-card-modules.settings-card-block            
+              .settings-card-modules.settings-card-block
                 h5 Auto Moderation
                 .settings-text-wrapper
                   h6 Module Settings
@@ -235,7 +234,6 @@ block content
                 br
                 button.btn.btn-light.edit-settings(data-bs-toggle='modal' data-bs-target='#settingSmartChatBotModal') Edit 
                   i.fas.fa-edit
-
             .settings-card-modules.danger-block
               h4 Danger Zone
               - disableAction
