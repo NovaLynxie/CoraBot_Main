@@ -43,7 +43,7 @@ async function generateClientSettings() {
   const settings = await clientPrefStore.get('botSettings');
   if (settings) {
     logger.verbose('Bot settings are already set! Skipping.');
-else {
+  } else {
     logger.verbose('Bot settings not yet set! Adding new settings now.');
   };
   await clientPrefStore.set('clientSettings', clientSettingsTemplate);
