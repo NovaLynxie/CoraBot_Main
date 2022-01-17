@@ -12,7 +12,7 @@ module.exports = {
       subcommand
         .setName('new')
         .setDescription('Create a ticket')
-        .addStringOption(option => 
+        .addStringOption(option =>
           option
             .setName('category')
             .setDescription('Category of the ticket issue?')
@@ -21,13 +21,13 @@ module.exports = {
             .addChoice('Question', 'question')
             .addChoice('Other', 'other')
         )
-        .addStringOption(option => 
+        .addStringOption(option =>
           option
             .setName('title')
             .setDescription('What is the support ticket for?')
             .setRequired(true)
         )
-        .addStringOption(option => 
+        .addStringOption(option =>
           option
             .setName('details')
             .setDescription('Additional details? (Keep it short and brief)')
@@ -51,22 +51,23 @@ module.exports = {
     const member = interaction.member; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild);
     const ticketsChID = settings.logChannels.ticketsChID;
-    const channel = client.channels.cache.get(ticketsChID);    
+    const channel = client.channels.cache.get(ticketsChID);
     data = await client.data.guild.trackers.get(guild);
     title = interaction.options.getString('title');
     category = interaction.options.getString('category');
     details = interaction.options.getString('details');
     let ticketNo = data.tickets.length + 1;
     let ticketID = uuidv4();
+    let ticketTitle = `Ticket #${ticketNo} - ${title}`;
     let ticketBaseEmbed = new MessageEmbed()
-      .setTitle(`Ticket #${ticketNo} - ${title}`)
+      .setTitle(ticketTitle)
       .setColor('#d4eb60')
       .setDescription(`Category ${category}`)
       .addFields(
         {
           name: 'Ticket Data',
           value: stripIndents`
-            Ticket ID: ${ticketID.substr(0,8)}
+            Ticket ID: ${ticketID.substr(0, 8)}
             Author: ${member.user.tag} (${member.displayName})
             Opened: ${time(new Date)}`
         },
@@ -77,7 +78,7 @@ module.exports = {
       )
     let ticketListEmbed = new MessageEmbed()
       .setTitle('Tickets List System')
-      .setColor('#d4eb60')    
+      .setColor('#d4eb60');
     function createTicket() {
       channel.send({ embeds: [ticketBaseEmbed] }).then(async message => {
         thread = await message.startThread({
@@ -89,7 +90,7 @@ module.exports = {
         await thread.members.add(interaction.user.id);
         data.tickets.push(
           {
-            ticketID, ticketTitle: ticketBaseEmbed.title, messageID: message.id, messageDate: message.createdAt, authorID: interaction.user.id
+            ticketID, ticketTitle, messageID: message.id, messageDate: message.createdAt, authorID: interaction.user.id
           }
         );
         await client.data.guild.trackers.set(data, guild);
@@ -101,37 +102,47 @@ module.exports = {
     async function listTickets() {
       if (data.tickets.length > 0) {
         for (const ticket of data.tickets) {
-          logger.debug(`Fetching message with ID ${ticket.messageID}`);
-          let author = await client.users.fetch(ticket.authorID);
-          await channel.messages.fetch(ticket.messageID).then(message => {
-            let { ticketID, ticketTitle, messageDate } = ticket;
-            let embed = message.embeds[0];
+          let { ticketID, ticketTitle, messageDate } = ticket;
+          let author, embed, message;
+          try {
+            logger.debug(`Fetching message with ID ${ticket.messageID}`);
+            author = await client.users.fetch(ticket.authorID);
+            message = await channel.messages.fetch(ticket.messageID);
+            embed = message.embeds[0];
             logger.debug(`Found a message with ID ${ticket.messageID}!`);
             logger.verbose(JSON.stringify(message, null, 2));
-            ticketListEmbed.addFields(
-              {
+            if (message) {
+              ticketListEmbed.addFields({
                 name: ticketTitle,
                 value: stripIndents`
-                  Ticket ID: ${ticketID.substr(0,8)}
+                  Ticket ID: ${ticketID.substr(0, 8)}
                   Author: ${(author) ? author.tag : 'Unknown#0000'}
-                  Opened: ${time(messageDate)}
+                  Opened: ${time(new Date(messageDate))}
                   [Go to ticket](${message.url})`
-              }
-            );
-          }).catch(error => {
-            logger.debug(`No message exists with ID ${ticket.messageID}!`);
-            ticketListEmbed.addFields(
-              {
+              });
+            } else {
+              ticketListEmbed.addFields({
                 name: `${ticketTitle} [Deleted]`,
                 value: stripIndents`
-                  Ticket ID: ${ticketID.substr(0,8)}
-                  Author: ${author.tag}
-                  Opened: ${time(messageDate)}
-                  Not available`
-              }
-            );
-            return logger.debug(error.stack);
-          });
+                  Ticket ID: ${ticketID.substr(0, 8)}
+                  Author: ${(author) ? author.tag : 'Unknown#0000'}
+                  Opened: ${time(new Date(messageDate))}
+                  `
+              });
+            };
+          } catch (error) {
+            logger.debug('Failed to fetch message details!');
+            logger.debug('Maybe message is deleted?');
+            logger.error(error.message); logger.debug(error.stack);
+            ticketListEmbed.addFields({
+              name: `${ticketTitle} [Missing]`,
+              value: stripIndents`
+                Ticket ID: ${ticketID.substr(0, 8)}
+                Author: ${(author) ? author.tag : 'Unknown#0000'}
+                Opened: ${time(new Date(messageDate))}
+                `
+            });
+          };
         };
       } else {
         ticketListEmbed.addFields(
