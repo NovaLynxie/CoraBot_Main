@@ -51,13 +51,11 @@ module.exports = {
     const member = interaction.member; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild);
     const ticketsChID = settings.logChannels.ticketsChID;
-    const channel = client.channels.cache.get(ticketsChID);
-
+    const channel = client.channels.cache.get(ticketsChID);    
     data = await client.data.guild.trackers.get(guild);
     title = interaction.options.getString('title');
     category = interaction.options.getString('category');
     details = interaction.options.getString('details');
-
     let ticketNo = data.tickets.length + 1;
     let ticketID = uuidv4();
     let ticketBaseEmbed = new MessageEmbed()
@@ -79,8 +77,7 @@ module.exports = {
       )
     let ticketListEmbed = new MessageEmbed()
       .setTitle('Tickets List System')
-      .setColor('#d4eb60')
-    
+      .setColor('#d4eb60')    
     function createTicket() {
       channel.send({ embeds: [ticketBaseEmbed] }).then(async message => {
         thread = await message.startThread({
@@ -95,7 +92,7 @@ module.exports = {
             ticketID, ticketTitle: ticketBaseEmbed.title, messageID: message.id, messageDate: message.createdAt, authorID: interaction.user.id
           }
         );
-        await client.data.set(data, guild);
+        await client.data.guild.trackers.set(data, guild);
         interaction.reply(
           { content: `New ticket created in #${channel.name} and opened new thread for discussions!`, ephemeral: true }
         );
