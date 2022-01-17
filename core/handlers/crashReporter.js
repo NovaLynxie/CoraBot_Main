@@ -37,7 +37,6 @@ function crashReporter(error) {
     BotApp: v${version}
     ==============================================================
     `;
-
 	fs.writeFile(filepath, crashdata, function(error) {
 		if (error) {
 			const stack = error.stack;
