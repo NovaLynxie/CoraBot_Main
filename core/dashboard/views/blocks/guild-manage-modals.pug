@@ -51,7 +51,7 @@
             label.form-label.mt-4(for='eventLogChID') 
               | Event Logs
               br
-              | Select the channel for bot logs to be output into.
+              | Select the channel for event logs to be output into.
             select#chatChannels.form-select(name='eventLogChID')
               if (!logChannels.eventLogChID) 
                 option(value='' selected='') (not set)
@@ -65,7 +65,7 @@
             label.form-label.mt-4(for='guildLogChID') 
               | Guild Logs
               br
-              | Select the channel for bot logs to be output into.
+              | Select the channel for server logs to be output into.
             select#chatChannels.form-select(name='guildLogChID')
               if (!logChannels.guildLogChID) 
                 option(value='' selected='') (not set)
