@@ -1,4 +1,5 @@
 const logger = require('../../utils/winstonLogger');
+const wait = require('util').promisify(setTimeout);
 const { SlashCommandBuilder, time } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
@@ -64,7 +65,8 @@ module.exports = {
         autoArchiveDuration: 1440,
         reason: 'Automatically generated for suggestion discussion.'
       });
-      await message.react('👍'); await message.react('👎');
+      await message.react('👍'); await wait(1000);
+      await message.react('👎');
       data.suggestions.push(message.id);
       await client.data.guild.trackers.set(data, guild);
       interaction.reply(
