@@ -109,9 +109,9 @@ module.exports = {
             author = await client.users.fetch(ticket.authorID);
             message = await channel.messages.fetch(ticket.messageID);
             embed = message.embeds[0];
-            logger.debug(`Found a message with ID ${ticket.messageID}!`);
-            logger.verbose(JSON.stringify(message, null, 2));
             if (message) {
+              logger.verbose(JSON.stringify(message, null, 2));
+              logger.debug(`Found a message with ID ${ticket.messageID}!`);
               ticketListEmbed.addFields({
                 name: ticketTitle,
                 value: stripIndents`
@@ -121,6 +121,7 @@ module.exports = {
                   [Go to ticket](${message.url})`
               });
             } else {
+              logger.debug(`No message was found with ID ${ticket.messageID}!`);
               ticketListEmbed.addFields({
                 name: `${ticketTitle} [Deleted]`,
                 value: stripIndents`
