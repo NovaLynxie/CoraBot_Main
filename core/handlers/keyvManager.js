@@ -19,8 +19,8 @@ async function generateGuildSettings(guildIDs) {
     if (settings) {
       logger.verbose(`Guild ${guildID} already has settings defined!`);
       logger.verbose(`Checking settings for ${guildID} for any updates.`);
-      const guildSettings = Object.keys(guildSettingsTemplate);
-      guildSettings.forEach(key => {
+      const guildSettingKeys = Object.keys(guildSettingsTemplate);
+      guildSettingKeys.forEach(key => {
         if (settings[key] === undefined) {
           logger.verbose(`Setting property '${key}' not found! Adding setting property.`)
           settings[key] = guildSettingsTemplate[key];
