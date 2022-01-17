@@ -33,7 +33,7 @@ async function generateGuildSettings(guildIDs) {
     } else {
       logger.verbose(`Adding new settings for ${guildID} now...`);
       await guildPrefStore.set(guildID, guildSettingsTemplate);
-    }
+    };
   });
   logger.verbose('Finished checking guild settings.');
   logger.info('Guild settings are now available.');
@@ -43,10 +43,9 @@ async function generateClientSettings() {
   const settings = await clientPrefStore.get('botSettings');
   if (settings) {
     logger.verbose('Bot settings are already set! Skipping.');
-  }
-  else {
+else {
     logger.verbose('Bot settings not yet set! Adding new settings now.');
-  }
+  };
   await clientPrefStore.set('clientSettings', clientSettingsTemplate);
   logger.verbose('Finished checking bot settings.');
   logger.info('Bot settings are now available.');
@@ -158,7 +157,6 @@ async function generateGuildData(guildIDs) {
   logger.debug('Finished checking guild settings.');
   logger.info('Guild data is now available.');
 };
-// to be implemented - moderation data handlers.
 async function readGuildModData(guild) {
   logger.verbose(`Fetching guild moderation data for ${guild.name} (ID:${guild.id}).`);
   const res = await guildDataStore.offenses.get(guild.id);
@@ -173,7 +171,6 @@ async function deleteGuildModData(guild) {
   logger.verbose(`Removing guild moderation data for ${guild.name} (ID:${guild.id}).`);
   await guildDataStore.offenses.delete(guild.id);
 };
-// to be implemented - voice data handlers.
 async function readGuildVoiceData(guild) {
   logger.verbose(`Fetching guild voice data for ${guild.name} (ID:${guild.id}).`);
   const res = await guildDataStore.voice.get(guild.id);
@@ -188,7 +185,6 @@ async function deleteGuildVoiceData(guild) {
   logger.verbose(`Removing guild voice data for ${guild.name} (ID:${guild.id}).`);
   await guildDataStore.voice.delete(guild.id);
 };
-// to be implemented - tracker data handlers.
 async function readGuildTrackerData(guild) {
   logger.verbose(`Fetching guild trackers data for ${guild.name} (ID:${guild.id}).`);
   const res = await guildDataStore.trackers.get(guild.id);
