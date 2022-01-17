@@ -64,7 +64,7 @@ module.exports = {
         autoArchiveDuration: 1440,
         reason: 'Automatically generated for suggestion discussion.'
       });
-      message.react('👍').then(() => { message.react('👎') });
+      await message.react('👍'); await message.react('👎');
       data.suggestions.push(message.id);
       await client.data.guild.trackers.set(data, guild);
       interaction.reply(
