@@ -62,6 +62,9 @@
     "nodemon": "^2.0.12",
     "prompt": "^1.1.0"
   },
+  "engines": {
+    "node": ">=16.7.0"
+  },
   "nodemonConfig": {
     "ignore": [
       "core/commands/*",
