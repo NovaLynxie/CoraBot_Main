@@ -53,12 +53,12 @@ module.exports = {
     const ticketsChID = settings.logChannels.ticketsChID;
     const channel = client.channels.cache.get(ticketsChID);
 
-    data = await client.data.get(guild);
+    data = await client.data.guild.trackers.get(guild);
     title = interaction.options.getString('title');
     category = interaction.options.getString('category');
     details = interaction.options.getString('details');
 
-    let ticketNo = data.trackers.tickets.length + 1;
+    let ticketNo = data.tickets.length + 1;
     let ticketID = uuidv4();
     let ticketBaseEmbed = new MessageEmbed()
       .setTitle(`Ticket #${ticketNo} - ${title}`)
@@ -90,7 +90,7 @@ module.exports = {
           reason: 'Automatically generated for private ticket discussion.'
         });
         await thread.members.add(interaction.user.id);
-        data.trackers.tickets.push(
+        data.tickets.push(
           {
             ticketID, ticketTitle: ticketBaseEmbed.title, messageID: message.id, messageDate: message.createdAt, authorID: interaction.user.id
           }
@@ -102,8 +102,8 @@ module.exports = {
       }).catch(logger.error);
     };
     async function listTickets() {
-      if (data.trackers.tickets.length > 0) {
-        for (const ticket of data.trackers.tickets) {
+      if (data.tickets.length > 0) {
+        for (const ticket of data.tickets) {
           logger.debug(`Fetching message with ID ${ticket.messageID}`);
           let author = await client.users.fetch(ticket.authorID);
           await channel.messages.fetch(ticket.messageID).then(message => {
@@ -156,8 +156,8 @@ module.exports = {
       );
     };
     function lockTicket() {
-      if (data.trackers.tickets.length > 0) {
-        for (const ticket of data.trackers.tickets) {
+      if (data.tickets.length > 0) {
+        for (const ticket of data.tickets) {
           thread = channel.threads.fetch(ticket.messageID);
           if (thread) {
             break;

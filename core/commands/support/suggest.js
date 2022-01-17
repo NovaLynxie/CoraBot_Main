@@ -38,7 +38,7 @@ module.exports = {
     const details = interaction.options.getString('details');    
     const settings = await client.settings.guild.get(guild);
     const suggestChID = settings.logChannels.suggestChID;
-    let data = await client.data.get(guild);
+    let data = await client.data.guild.trackers.get(guild);
 
     const suggestEmbed = new MessageEmbed()
       .setTitle(`Suggestion - ${title}`)
@@ -65,7 +65,7 @@ module.exports = {
         reason: 'Automatically generated for suggestion discussion.'
       });
       message.react('👍'); message.react('👎');
-      data.trackers.suggestions.push(message.id);
+      data.suggestions.push(message.id);
       await client.data.set(data, guild);
       interaction.reply(
         { content: `Suggestion created in #${channel.name} and opened new thread for discussions!`, ephemeral: true }
