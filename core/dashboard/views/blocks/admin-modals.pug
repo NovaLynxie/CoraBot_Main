@@ -1,5 +1,5 @@
 #clientSettingsModal.modal.fade(data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' role='dialog' aria-labelledby='clientSettingsModalLabel' aria-hidden='true')
-  form(action=`/admin/save_clsettings`, method='POST')
+  form(action='/dashboard/admin/settings', method='POST')
     .modal-dialog(role='document')
       .modal-content
         .modal-header
@@ -59,4 +59,4 @@
           | This will completely wipe all of the settings and reset everything back to the default presets!
       .modal-footer
         button.btn.btn-outline-dark(type='button' data-bs-dismiss='modal') ABORT
-        a.btn.btn-outline-danger(href=`/admin/reset_settings` role='button') CONFIRM
+        a.btn.btn-outline-danger(href='/dashboard/admin/reset_settings' role='button') CONFIRM

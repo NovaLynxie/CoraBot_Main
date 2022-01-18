@@ -31,7 +31,7 @@ router.get('/admin/reset_settings', checkAuth, async (req, res) => {
   req.flash('success', 'Successfully reset all settings!');
   res.redirect('/admin');
 });
-router.post('/admin/save_clsettings', checkAuth, async (req, res) => {
+router.post('/admin/settings', checkAuth, async (req, res) => {
   logger.data(JSON.stringify(req.body));
   let clsettings = await client.settings.get(client);
   clsettings = {
