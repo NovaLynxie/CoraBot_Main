@@ -46,6 +46,7 @@
     "passport-discord-faxes": "^0.1.4",
     "play-dl": "^1.7.7",
     "pug": "^3.0.2",
+    "sodium": "^3.0.2",
     "toml": "^3.0.0",
     "url-minify": "^2.2.12",
     "uuid": "^8.3.2",
