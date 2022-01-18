@@ -34,6 +34,7 @@ router.get('/admin/reset_settings', checkAuth, async (req, res) => {
 router.post('/admin/settings', checkAuth, async (req, res) => {  
   const client = res.locals.client;
   let clsettings = await client.settings.get(client);
+  logger.data(JSON.stringify(req.body, null, 2));
   clsettings = {
     enableModules: {
       autoMod: (req.body.enableAutoMod) ? true : false,
@@ -43,6 +44,7 @@ router.post('/admin/settings', checkAuth, async (req, res) => {
       modLogs: (req.body.enableModLogs) ? true : false,
     },
   };
+  logger.data(JSON.stringify(clsettings, null, 2));
   client.settings.set(clsettings, client);
   req.flash('success', 'Saved preferences successfully!');
   res.redirect('/dashboard/admin');

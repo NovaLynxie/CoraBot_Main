@@ -53,7 +53,7 @@ async function generateClientSettings() {
 async function saveClientSettings(settings, client) {
   logger.verbose(JSON.stringify(settings));
   logger.verbose(`Writing new settings for ${client.user.tag} to database.`);
-  await guildPrefStore.set('clientSettings', settings);
+  await clientPrefStore.set('clientSettings', settings);
   logger.verbose(`Finished updating bot settings for ${client.user.tag}.`);
 };
 async function readClientSettings(client) {
