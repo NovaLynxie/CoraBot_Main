@@ -31,8 +31,8 @@ router.get('/admin/reset_settings', checkAuth, async (req, res) => {
   req.flash('success', 'Successfully reset all settings!');
   res.redirect('/admin');
 });
-router.post('/admin/settings', checkAuth, async (req, res) => {
-  logger.data(JSON.stringify(req.body));
+router.post('/admin/settings', checkAuth, async (req, res) => {  
+  const client = res.locals.client;
   let clsettings = await client.settings.get(client);
   clsettings = {
     enableModules: {

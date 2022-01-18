@@ -1,6 +1,7 @@
 extends blocks/layout
 block content
   - var {enableAutoMod, enableChatBot, enableNotifier, enableBotLogs, enableModLogs} = botSettings;
+  - console.log(botSettings);
   .container
     h1.display-3 Admin Dashboard
     p.lead Welcome back Admin #{user.username}!

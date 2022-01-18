@@ -8,35 +8,35 @@
         .modal-body
           legend.modal-legend Module Enable/Disable
           .form-check.form-switch
-            if (enableAutoMod)
+            if (enableModules.autoMod)
               input#enableAutoMod.form-check-input(type='checkbox' name='enableAutoMod' checked='')
               label.form-check-label(for='enableAutoMod') Auto Moderation
             else
               input#enableAutoMod.form-check-input(type='checkbox' name='enableAutoMod')
               label.form-check-label(for='enableAutoMod') Auto Moderation
           .form-check.form-switch
-            if (enableNotifier)
+            if (enableModules.notifier)
               input#enableNotifier.form-check-input(type='checkbox' name='enableNotifier' checked='')
               label.form-check-label(for='enableNotifier') Bot Notifications
             else
               input#enableNotifier.form-check-input(type='checkbox' name='enableNotifier')
               label.form-check-label(for='enableNotifier') Bot Notifications
           .form-check.form-switch
-            if (enableChatBot)
+            if (enableModules.chatBot)
               input#enableChatBot.form-check-input(type='checkbox' name='enableChatBot' checked='')
               label.form-check-label(for='enableChatBot') Chat Bot
             else
               input#enableChatBot.form-check-input(type='checkbox' name='enableChatBot')
               label.form-check-label(for='enableChatBot') Chat Bot
           .form-check.form-switch
-            if (enableBotLogs)
+            if (enableModules.botLogs)
               input#enableBotLogs.form-check-input(type='checkbox' name='enableBotLogs' checked='')
               label.form-check-label(for='enableBotLogs') Bot Logger
             else
               input#enableBotLogs.form-check-input(type='checkbox' name='enableBotLogs')
               label.form-check-label(for='enableBotLogs') Bot Logger
           .form-check.form-switch
-            if (enableModLogs)
+            if (enableModules.modLogs)
               input#enableModLogs.form-check-input(type='checkbox' name='enableModLogs' checked='')
               label.form-check-label(for='enableModLogs') Mod Logger
             else
