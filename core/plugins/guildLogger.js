@@ -1,5 +1,4 @@
 const logger = require('../utils/winstonLogger.js');
-const { calcAccAge } = require('../utils/botUtils');
 const { MessageEmbed } = require('discord.js');
 const { time } = require('@discordjs/builders');
 const { stripIndents } = require('common-tags');
@@ -37,7 +36,7 @@ async function eventLog(event, guild, params = {}, client) {
       name: 'Member Details',
       value: stripIndents`
         Name: ${member.user.tag} (${member.user.id})
-        Acc. Age: ${client.accAge(member.user.createdAt)}
+        Acc. Age: ${client.utils.accAge(member.user.createdAt)}
         Created: ${time(member.user.createdAt)}
         Joined: ${time(member.user.joinedAt)}
       `
