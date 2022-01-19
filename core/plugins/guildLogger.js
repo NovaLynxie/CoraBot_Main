@@ -19,12 +19,12 @@ async function eventLog(event, guild, params = {}, client) {
   if (invite) {
     inviteDetails = {
       name: 'Invite Details',
-      value: stripIndents`        
-        Code: ${invite.code}
-        User: ${invite.inviter}
+      value: stripIndents`
+        Code: ${(invite.code) ? invite.code : 'N/A'}
+        User: ${(invite.inviter) ? invite.inviter : 'Unknown'}
         ${(invite.uses) ? `Uses: ${invite.uses}` : ''}
         Max Age: ${(invite.maxAge) ? (invite.maxAge > 0) ? invite.maxAge : 'Infinite' : 'N/A'}
-        Max Uses: ${(invite.maxUses) ? (invite.maxUses > 0) ? invite.maxUses : 'Infinite' : 'N/A'}
+        Max Uses: ${(invite.maxUses) ? (invite.maxUses > 0) ? invite.maxUses : 'Infinite' : 'Not set'}
         Created At ${time(invite.createdAt)}
         Temporary? ${(invite.temporary) ? 'Yes' : 'No'}
         [Invite Link](${invite.url})
