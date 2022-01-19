@@ -17,7 +17,18 @@
   "homepage": "https://github.com/NovaLynxie/CoraBot_Main#readme",
   "repository": "github:NovaLynxie/CoraBot_Main",
   "author": "NovaLynxie",
-  "license": "ISC",
+  "license": "ISC",  
+  "engines": {
+    "node": ">=16.7.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "core/commands/*",
+      "data/*",
+      "logs/*"
+    ],
+    "delay": "2500"
+  },
   "dependencies": {
     "@discordjs/builders": "^0.11.0",
     "@discordjs/opus": "^0.7.0",
@@ -63,15 +74,10 @@
     "nodemon": "^2.0.12",
     "prompt": "^1.1.0"
   },
-  "engines": {
-    "node": ">=16.7.0"
-  },
-  "nodemonConfig": {
-    "ignore": [
-      "core/commands/*",
-      "data/*",
-      "logs/*"
-    ],
-    "delay": "2500"
+  "optionalDependencies": {
+    "bufferutil": "^4.0.6",
+    "erlpack": "^0.1.4",
+    "utf-8-validate": "^5.0.8",
+    "zlib-sync": "^0.1.7"
   }
 }
