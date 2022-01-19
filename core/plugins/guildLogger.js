@@ -37,7 +37,7 @@ async function eventLog(event, guild, params = {}, client) {
       name: 'Member Details',
       value: stripIndents`
         Name: ${member.user.tag} (${member.user.id})
-        Acc. Age: ${calcAccAge(member.user.createdAt)}
+        Acc. Age: ${client.accAge(member.user.createdAt)}
         Created: ${time(member.user.createdAt)}
         Joined: ${time(member.user.joinedAt)}
       `

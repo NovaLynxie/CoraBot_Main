@@ -50,7 +50,7 @@ function systemEmbed(state, params) {
       embed
         .setTitle('Error Occured!')
         .setColor('#de481b')
-        .addFields(generalDetails, errorDetails);
+        .addFields(errorDetails);
       break;
     default:
       embed
