@@ -1,5 +1,4 @@
 const logger = require('../utils/winstonLogger');
-const botEmbed = require('../utils/botEmbeds');
 const { eventLog } = require('../plugins/guildLogger');
 
 module.exports = {
