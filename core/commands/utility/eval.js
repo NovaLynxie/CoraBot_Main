@@ -54,7 +54,7 @@ module.exports = {
         });
       }; await interaction.followUp(end);
     } catch (err) {
-      logger.error(err.message); logger.debug(err.stack);
+      logger.debug(err.stack);
       await interaction.editReply({
         content: `\`ERROR\` \`\`\`xl\n${err}\n\`\`\``, ephemeral: true
       });
