@@ -2,10 +2,11 @@ const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const logger = require('../../utils/winstonLogger');
 const { credentials } = require('../../handlers/bootLoader');
-const { yiffyApiKey } = credentials;
+const { yiffyApiKey, userAgent } = credentials;
 const { stripIndents } = require('common-tags');
 const Yiffy = require('yiffy');
 const yiffy = new Yiffy({
+  userAgent: userAgent,
   apiKey: yiffyApiKey
 });
 

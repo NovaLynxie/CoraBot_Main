@@ -79,6 +79,7 @@ if (authLoaded) {
     discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID
   } = process.env;
 };
-module.exports.credentials = { discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID };
+const userAgent = `CoraBot/${version} (NovaLynxie#9765)`
+module.exports.credentials = { discordToken, clientSecret, sessionSecret, cheweyApiToken, yiffyApiKey, youtubeApiKey, soundcloudClientID, userAgent };
 module.exports.config = { ownerIDs, useLegacyURL, forceUpdateCmds, debug, dashboard, modules };
 module.exports.deploy = { clientId, guildId };
