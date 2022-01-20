@@ -39,7 +39,7 @@ module.exports = {
       time = process.hrtime(time);
       const end = {
         content: `
-        \`\`\`js\nExecuted in ${time[0]}s (${time[1]}ns)\`\`\``, ephemeral: true
+        \`\`\`js\nExecuted in ${time[1]}ns (${time[0]}s)\`\`\``, ephemeral: true
       };
       await interaction.editReply({
         content: `
