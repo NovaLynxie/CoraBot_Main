@@ -32,13 +32,14 @@ async function eventLog(event, guild, params = {}, client) {
     };
   };
   if (member) {
+    let user = member.user || member;
     memberDetails = {
       name: 'Member Details',
       value: stripIndents`
-        Name: ${member.user.tag || member.tag} (${member.user.id || member.id})
-        Acc. Age: ${client.utils.accAge(member.user.createdAt || member.createdAt)}
-        Created: ${time(member.user.createdAt || member.createdAt)}
-        Joined: ${(member.user.joinedAt) ? time(member.user.joinedAt) : '\`No Data\`'}
+        Name: ${user.tag} (${user.id})
+        Acc. Age: ${client.utils.accAge(user.createdAt)}
+        Created: ${time(user.createdAt)}
+        Joined: ${time(member.joinedAt || user.joinedAt) : '\`No Data\`'}
       `
     };
   };
@@ -215,12 +216,13 @@ async function modLog(action, guild, params = {}, client) {
     .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
   let memberDetails, executorDetails, actionDetails;
   if (member) {
+    let user = member.user || member;
     memberDetails = {
-      name: 'Member Details',
+      name: 'User Details',
       value: stripIndents`
-        Username: ${member.user.tag || member.tag} (${member})
-        Created: ${time(member.user.createdAt)}
-        Joined: ${time(member.joinedAt) || `\`No Data\``}`
+        Username: ${user.tag} (${member})
+        Created: ${time(user.createdAt)}
+        Joined: ${time(member.joinedAt || user.joinedAt) || `\`No Data\``}`
     };
   };
   if (executor) {
