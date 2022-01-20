@@ -31,7 +31,9 @@ module.exports = {
 				.setTitle('E926 Image Fetcher v2')
         .setDescription(`You searched: ${tags}`)
 				.setImage(data.image)
-				.setFooter('Bot created and maintained by NovaLynxie. Image provided by E926.', client.user.displayAvatarURL({ format: 'png' }));
+				.setFooter({
+          text: 'Bot created and maintained by NovaLynxie. Powered by E926', iconURL: client.user.displayAvatarURL({ format: 'png' })
+        });
 			return interaction.reply({ embeds: [imageEmbed] });
 		};
     logger.debug('Requesting image from user defined tags.');

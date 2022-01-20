@@ -41,7 +41,9 @@ module.exports = {
 				.setColor('#0099ff')
 				.setTitle('Animal Handler v2')
 				.setImage(url)
-				.setFooter('Bot created and maintained by NovaLynxie. Image provided by CheweyBotAPI.', client.user.displayAvatarURL({ format: 'png' }));
+        .setFooter({
+          text: 'Bot created and maintained by NovaLynxie. Image provided by CheweyBotAPI.', iconURL: client.user.displayAvatarURL({ format: 'png' })
+        });
 			return interaction.reply({ embeds: [imageEmbed] });
 		};
 		fetch(`${apiUrl}${option}${authHeader}`) `${apiUrl}${option}${authHeader}`

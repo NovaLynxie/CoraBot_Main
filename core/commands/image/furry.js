@@ -62,7 +62,9 @@ module.exports = {
         )
         .setThumbnail(client.user.avatarURL({format:"png"}))
         .setImage(data.url)
-        .setFooter('Bot created and maintained by NovaLynxie. Image provided by Yiffy API.', client.user.avatarURL({format:"png"}));
+        .setFooter({
+          text: 'Bot created and maintained by NovaLynxie. Powered by Yiffy API', iconURL: client.user.displayAvatarURL({ format: 'png' })
+        });
       return interaction.editReply({ embeds: [imageEmbed] });
     };
     function getFurryImg (endpoint) {
