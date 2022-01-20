@@ -135,7 +135,7 @@ module.exports = {
     const options = interaction.options;
     const subcmd = options.getSubcommand();
     const executor = interaction.member;
-    const target = options.getMember('target');
+    const target = options.getMember('target') || options.getUser('target');
     const reason = options.getString('reason');
     const duration = options.getInteger('duration');
     const limit = options.getInteger('limit');
@@ -160,7 +160,12 @@ module.exports = {
             staffId: executor.id, guildId: guild.id, reason: reason || 'None provided', issuedAt: new Date()
           };
           try {
-            await target.ban({ days: limit || 7, reason: reason || 'Banned by staff member.' });
+            let banOptions = { days: limit || 7, reason: reason || 'Banned by staff member.' };
+            if (target.ban) {
+              await target.ban(banOptions);
+            } else {
+              await guild.members.ban(target.id , banOptions);
+            };            
             successResponse = {
               content: `Banned ${target} successfully!`, ephemeral: true
             };
