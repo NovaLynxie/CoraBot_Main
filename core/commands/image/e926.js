@@ -3,7 +3,6 @@ const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const fetch = require('node-fetch');
 const { stripIndents } = require('common-tags');
-const { credentials } = require('../../handlers/bootLoader');
 const yiff = require('yiff');
 const e9 = new yiff.e926();
 
