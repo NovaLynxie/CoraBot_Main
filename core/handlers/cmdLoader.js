@@ -38,9 +38,9 @@ async function loadBotCmds(client, botInitStage = false) {
           else {
             logger.error('Missing command data! Skipping invalid command file.');
           };
-        } catch (err) {
+        } catch (error) {
           logger.error(`Error occured while loading command ${file}!`);
-          logger.error(err.message); logger.debug(err.stack);
+          logger.error(error.message); logger.debug(error.stack);
           counters.failed++;
         };
       };
@@ -50,18 +50,18 @@ async function loadBotCmds(client, botInitStage = false) {
       logger.fatal('Unable to find commands directory!');
       throw error;
     } else
-    if (error.message.indexOf('Cannot find module') > -1) {
-      logger.fatal('Unable to find or load specified command file or its modules!');
-      logger.warn('Either missing or incorrect dependency declarations or wrong command filepath.');
-      logger.debug(error.stack);
-    } else
-    if (error.message.indexOf('Unexpected token') > -1) {
-      logger.error('Errored while loading a command file');
-      logger.error(error.message); logger.debug(error.stack);
-    } else {
-      logger.error('Unknown error occured while loading the commands!');
-      logger.error(error.message); logger.debug(error.stack);
-    }
+      if (error.message.indexOf('Cannot find module') > -1) {
+        logger.fatal('Unable to find or load specified command file or its modules!');
+        logger.warn('Either missing or incorrect dependency declarations or wrong command filepath.');
+        logger.debug(error.stack);
+      } else
+        if (error.message.indexOf('Unexpected token') > -1) {
+          logger.error('Errored while loading a command file');
+          logger.error(error.message); logger.debug(error.stack);
+        } else {
+          logger.error('Unknown error occured while loading the commands!');
+          logger.error(error.message); logger.debug(error.stack);
+        }
     logger.warn('Aborted command loading due to error! Some interactions may fail.');
   };
   if (forceUpdateCmds && botInitStage) {
@@ -83,4 +83,26 @@ async function loadBotCmds(client, botInitStage = false) {
   };
   return counters;
 };
-module.exports = { loadBotCmds };
+async function loadCommand(client, cmdName) {
+  try {
+    for (const subDir of readdirSync(botCmdsDir)) {
+      const dirPath = `${botCmdsDir}/${subDir}/`;
+      const cmds = readdirSync(dirPath).filter(file => file.endsWith('.js')); console.log(cmds);
+      logger.verbose(`cmdsArr: ${cmds}`);
+      const file = cmds[cmds.indexOf(`${cmdName}.js`)];
+      logger.verbose(`cmdFile: ${file}`);
+      if (file) {
+        const cmdData = requireHandler(`../commands/${subDir}/${file}`);
+        logger.verbose(JSON.stringify(cmdData, null, 2));
+        const cmdJSON = cmdData.data.toJSON();
+        logger.verbose(JSON.stringify(cmdJSON, null, 2));
+        client.commands.set(cmdJSON.name, cmdData); break;
+      };
+    };
+    logger.debug(`Command ${cmdName} reloaded successfully!`);    
+  } catch (error) {
+    logger.error(error.message); logger.debug(error.stack);
+    throw (error);
+  };
+};
+module.exports = { loadBotCmds, loadCommand };
