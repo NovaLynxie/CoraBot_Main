@@ -97,12 +97,11 @@ async function loadCommand(client, cmdName) {
         const cmdJSON = cmdData.data.toJSON();
         logger.verbose(JSON.stringify(cmdJSON, null, 2));
         client.commands.set(cmdJSON.name, cmdData); break;
-      };
+      } else throw new Error(`Command ${cmdName} not found!`);
     };
     logger.debug(`Command ${cmdName} reloaded successfully!`);    
   } catch (error) {
     logger.error(error.message); logger.debug(error.stack);
-    throw (error);
   };
 };
 module.exports = { loadBotCmds, loadCommand };

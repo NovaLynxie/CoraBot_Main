@@ -27,7 +27,7 @@ module.exports = {
         loadCommand(client, cmdName);
         interaction.reply({
           content: `
-          Reloaded command ${cmdName}!`,
+          Reloaded command \`${cmdName}\`!`,
           ephemeral: true,
         });
       } catch (error) {
