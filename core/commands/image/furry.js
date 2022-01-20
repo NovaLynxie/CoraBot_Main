@@ -41,7 +41,7 @@ module.exports = {
     let isNsfw, title, desc;
     logger.verbose(`option=${option}`);
     function generateEmbed (data, opts = {}) {
-      logger.verbose(JSON.stringify(data, null, 2))
+      logger.verbose(JSON.stringify(data, null, 2));
       let artists = (data.artists !== "") ? data.artists.join(', ') : 'N/A';
       let sources = (data.sources !== "") ? data.sources.join('\n') : 'N/A';
       let reports = data.reportURL;
