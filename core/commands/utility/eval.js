@@ -2,7 +2,6 @@ const logger = require('../../utils/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Util } = require('discord.js');
 const wait = require('util').promisify(setTimeout);
-
 // source: https://anidiots.guide/examples/making-an-eval-command
 module.exports = {
   data: new SlashCommandBuilder()
@@ -39,7 +38,7 @@ module.exports = {
       time = process.hrtime(time);
       const end = {
         content: `
-        \`\`\`js\nExecuted in ${time[1]}ns (${time[0]}s)\`\`\``, ephemeral: true
+        \`\`\`js\nExecuted in ${time[0]}s (${time[1]}ns)\`\`\``, ephemeral: true
       };
       await interaction.editReply({
         content: `
