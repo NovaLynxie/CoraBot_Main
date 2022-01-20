@@ -141,7 +141,10 @@ async function eventLog(event, guild, params = {}, client) {
     };
   };
   guildLogEmbed
-    .setAuthor(newMember ?.user.tag || member ?.user.tag || client.user.tag, newMember ?.displayAvatarURL() || member ?.displayAvatarURL() || client.user.displayAvatarURL() || 'https://via.placeholder.com/128x128?text=avatar')
+    .setAuthor({ 
+      name: newMember ?.user.tag || member ?.user.tag || client.user.tag,
+      iconURL: newMember ?.displayAvatarURL() || member ?.displayAvatarURL() || client.user.displayAvatarURL() || 'https://via.placeholder.com/128x128?text=avatar'
+    })    
     .setThumbnail(newMember ?.displayAvatarURL() || member ?.displayAvatarURL() || guild.iconURL() || 'https://via.placeholder.com/128x128?text=guild')
   switch (event) {
     case 'guildMemberAdd':
