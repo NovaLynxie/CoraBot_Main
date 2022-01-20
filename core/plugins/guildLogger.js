@@ -218,9 +218,9 @@ async function modLog(action, guild, params = {}, client) {
     memberDetails = {
       name: 'Member Details',
       value: stripIndents`
-        Username: ${member.user.tag} (${member})
+        Username: ${member.user.tag || member.tag} (${member})
         Created: ${time(member.user.createdAt)}
-        Joined: ${time(member.joinedAt)}`
+        Joined: ${time(member.joinedAt) || `\`No Data\``}`
     };
   };
   if (executor) {
