@@ -39,7 +39,7 @@ async function eventLog(event, guild, params = {}, client) {
         Name: ${user.tag} (${user.id})
         Acc. Age: ${client.utils.accAge(user.createdAt)}
         Created: ${time(user.createdAt)}
-        Joined: ${time(member.joinedAt || user.joinedAt) : '\`No Data\`'}
+        Joined: ${time(member.joinedAt || user.joinedAt) || '\`No Data\`'}
       `
     };
   };
