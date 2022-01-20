@@ -61,7 +61,7 @@ module.exports = {
             }
         )
         .setThumbnail(client.user.avatarURL({format:"png"}))
-        .setImage(data.url)
+        .setImage(data.yiffMediaURL)
         .setFooter({
           text: 'Bot created and maintained by NovaLynxie. Powered by Yiffy API', iconURL: client.user.displayAvatarURL({ format: 'png' })
         });
