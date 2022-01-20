@@ -16,8 +16,11 @@ module.exports = {
     const avatarEmbed = new MessageEmbed()
       .setTitle('Stealing someones identity are we?')
       .setDescription(`Very well.. here is ${member.user.tag}'s current avatar.`)
-      .setImage(member.user.displayAvatarURL({ dynamic: true }))
-      .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
+      .setImage(member.user.displayAvatarURL({ dynamic: true }))      
+      .setFooter({
+        text: 'Bot created and maintained by NovaLynxie.',
+        iconURL: client.user.displayAvatarURL({ format: 'png' })
+      });
 		return interaction.reply(
 			{
         embeds: [avatarEmbed],
