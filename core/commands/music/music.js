@@ -66,7 +66,7 @@ module.exports = {
     const musicBaseEmbed = new MessageEmbed()
       .setColor('#32527b')
       .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-      .setFooter('Powered by DiscordJS Voice (OPUS)');
+      .setFooter({ text: 'Powered by DiscordJS Voice (OPUS)' });
     const musicPlayerCtrlBtns = new MessageActionRow()
       .addComponents(
         new MessageButton()

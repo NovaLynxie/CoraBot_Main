@@ -34,7 +34,7 @@ module.exports = {
     const radioBaseEmbed = new MessageEmbed()
       .setColor('#32527b')
       .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-      .setFooter('Powered by DiscordJS Voice (OPUS)');
+      .setFooter({ text: 'Powered by DiscordJS Voice (OPUS)' });
     // Radio Buttons to control the playback.
     const radioPlayerBtns = new MessageActionRow()
       .addComponents(

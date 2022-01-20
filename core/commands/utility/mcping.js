@@ -9,16 +9,16 @@ const mcstats = {
   bedrock: "https://api.mcsrvstat.us/bedrock/2"
 };
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('mc')
-		.setDescription('Pings specified server IP and address.')
+  data: new SlashCommandBuilder()
+    .setName('mc')
+    .setDescription('Pings specified server IP and address.')
     .addStringOption(option =>
       option
         .setName('type')
         .setDescription('Java or Bedrock')
         .setRequired(true)
-        .addChoice('Java','java')
-        .addChoice('Bedrock','bedrock')
+        .addChoice('Java', 'java')
+        .addChoice('Bedrock', 'bedrock')
     )
     .addStringOption(option =>
       option
@@ -32,20 +32,21 @@ module.exports = {
         .setDescription('Port')
         .setRequired(false)
     ),
-	async execute(interaction, client) {
+  async execute(interaction, client) {
     await interaction.deferReply();
     const options = interaction.options;
     const srvPortDefaults = { 'bedrock': 19132, 'java': 25565 };
     const type = options.getString('type');
     const host = options.getString('host');
     const port = options.getInteger('port') || srvPortDefaults[type];
-    let mcEmbed = new MessageEmbed(), mcOptions = { timeout: 30000, enableSRV: true },  mcSrvData;
-    if (host.toLowerCase() === 'localhost') return interaction.editReply({ content: "Please don't ping my mainframe. Any `localhost` request is disallowed and will simply be refused."});
+    let mcEmbed = new MessageEmbed(), mcOptions = { timeout: 30000, enableSRV: true }, mcSrvData;
+    if (host.toLowerCase() === 'localhost') return interaction.editReply({ content: "Please don't ping my mainframe. Any `localhost` request is disallowed and will simply be refused." });
     const slowServerResponse = setTimeout(() => {
       logger.debug('Response taking longer than 15s. Is the server lagging or slow connection?')
       interaction.editReply({
         content: 'It looks like the server is taking a very long to respond. If the requested server is running slower than normal, it could be experiencing lag issues due to low TPS.'
-    })}, 15000);
+      })
+    }, 15000);
     mcEmbed.setTitle('Minecraft Server Utility');
     try {
       if (type === 'java') {
@@ -68,7 +69,7 @@ module.exports = {
       //const { description, motd, players, version, favicon, roundTripLatency } = mcSrvData;
       let imgBuff, imgData, defaultURL;
       if (icon) {
-        imgBuff = new Buffer.from(icon.split(',')[1],'base64');
+        imgBuff = new Buffer.from(icon.split(',')[1], 'base64');
         imgData = new MessageAttachment(imgBuff, 'icon.png');
       } else {
         defaultURL = 'https://via.placeholder.com/64.png/?text=Server';
@@ -101,7 +102,7 @@ module.exports = {
             `
           }
         )
-        .setFooter('Service powered by mcsrvstat.us.')
+        .setFooter({ text: 'Service powered by mcsrvstat.us.' })
       clearTimeout(slowServerResponse);
       await interaction.editReply({
         embeds: [mcEmbed], files: (icon) ? [imgData] : null
@@ -121,5 +122,5 @@ module.exports = {
         embeds: [mcEmbed]
       });
     };
-	},
+  },
 };
