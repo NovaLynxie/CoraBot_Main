@@ -7,24 +7,20 @@ function systemEmbed(state, params) {
   const { response, error } = params;
   let generalDetails = {}, errorDetails = {};
   if (response) {
-    // generic system response message (unused?)
     generalDetails = {
-      name: 'System Response',
+      name: 'Response Data',
       value: stripIndents`
-        \`\`\`${(typeof response === 'object') ? JSON.stringify(response, null, 2) : response}\`\`\`
-      `
+        \`\`\`${(typeof response === 'object') ? JSON.stringify(response, null, 2) : response}\`\`\``
     };
   };
   if (error) {
-    // display error data here (for debugging)
     errorDetails = {
       name: 'Error Data',
       value: stripIndents`
         \`\`\`
         ${error.message}
         ${error.stack}
-        \`\`\`
-      `
+        \`\`\``
     }
   };
   switch (state) {
@@ -58,12 +54,17 @@ function systemEmbed(state, params) {
   };
   return embed;
 };
-function welcomeEmbed() {
-  const template = require('../assets/json/welcomeEmbed.json');
-  const embed = new MessageEmbed(template);
-
+function genericEmbed(params = {}) {
+  const {/* add parameters here! */} = params;
+  // process logic here!
+  switch(something) {
+    case 'INSERT_VALUE_HERE':
+      break;
+    default:
+      logger.debug('Unknown Response Type');
+  };
   return embed;
 };
 
 module.exports = systemEmbed;
-module.exports.embeds = { system: systemEmbed, welcome: welcomeEmbed };
+module.exports.embeds = { system: systemEmbed, generic: genericEmbed };
