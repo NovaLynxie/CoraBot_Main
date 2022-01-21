@@ -56,7 +56,10 @@ function systemEmbed(state, params) {
 };
 function genericEmbed(params = {}) {
   const {/* add parameters here! */} = params;
-  // process logic here!
+  /* 
+   * process parameter data here before passing to switch statement.
+   */ 
+  let something = ''; // temporary placeholder;
   switch(something) {
     case 'INSERT_VALUE_HERE':
       break;
