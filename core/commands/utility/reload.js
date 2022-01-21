@@ -39,7 +39,7 @@ module.exports = {
       } else {
         interaction.reply({
           content: 'That command does not exist or was loaded!'
-        })
+        });
       };      
     } else {
       logger.debug('Reloading all bot/app commands now.');
