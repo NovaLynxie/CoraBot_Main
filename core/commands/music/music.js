@@ -164,7 +164,8 @@ module.exports = {
       } catch (error) {
         logger.error('Failed to fetch playlist information!');
         logger.error(error.message); logger.debug(error.stack);
-      }
+        throw error;
+      };
       logger.verbose(`playlist:${JSON.stringify(playlist, null, 2)}`);
       if (playlist.tracks) {
         let song;
@@ -236,7 +237,13 @@ module.exports = {
       } catch (error) {
         logger.error('Something went wrong while parsing the song request!');
         logger.error(error.message); logger.debug(error.stack);
-      }
+        response = {
+          content: `Error occured while processing request!
+          \`\`\`xl\n${error.message}\`\`\``,
+          embeds: [], components: [],
+          ephemeral: true
+        };
+      };
       if (song) voiceData.music.queue.push(song);
       if (list) voiceData.music.queue = voiceData.music.queue.concat(list);
       logger.verbose(`voiceData:${JSON.stringify(voiceData, null, 2)}`);
