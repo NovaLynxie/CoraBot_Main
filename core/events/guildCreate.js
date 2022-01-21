@@ -10,7 +10,7 @@ module.exports = {
 		logger.info(`${client.user.tag} joined ${guild.name}!`);
     logger.debug(`Joined ${guild.name} (${guild.id}) Preparing to create settings.`);
     await client.settings.guild.init([guild.id]);
-    let welcomeEmbed = require('../assets/json/welcomeEmbed.json');
+    let welcomeEmbed = require('../assets/resources/welcomeEmbed.json');
     welcomeEmbed.author = client.user;
     welcomeEmbed.thumbnail = client.user.avatarURL;
     welcomeEmbed.description = stripIndents`

@@ -61,8 +61,8 @@ return embed;
 };
 function welcomeEmbed() {
   const template = require('../assets/json/welcomeEmbed.json');
+  const embed = new MessageEmbed(template);
   
-
   return embed;
 };
 

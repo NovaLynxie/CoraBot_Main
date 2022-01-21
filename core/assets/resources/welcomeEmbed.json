@@ -5,7 +5,7 @@
 		"name":"bot.user.username",
 		"icon_url":"bot.user.avatarURL"
 	},
-	"description":"",
+	"description":"welcomeEmbed.description.placeholder",
 	"fields":[
 		{
 			"name":"welcomeEmbed.versionInfoTitle.placeholder",
