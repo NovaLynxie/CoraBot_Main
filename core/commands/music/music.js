@@ -159,7 +159,7 @@ module.exports = {
     async function playlistParser(url, type) {
       let playlist, queue = [];
       try {
-        if (type === 'yt') playlist = await playdl.playlist_info(url);
+        if (type === 'yt') playlist = await playdl.playlist_info(url, { incomplete: true });
         if (type === 'so') playlist = await playdl.soundcloud(url);
       } catch (error) {
         logger.error('Failed to fetch playlist information!');
