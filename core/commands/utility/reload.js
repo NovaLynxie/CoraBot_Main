@@ -20,21 +20,27 @@ module.exports = {
       logger.warn(`User ${interaction.user.tag} tried to use eval but is not an owner!`);
       return;
     };
-    const cmdName = interaction.options.getString('command');
+    const cmdName = interaction.options.getString('command');    
     if (cmdName) {
-      try {
-        logger.debug(`Reloading command with name ${cmdName}.`);
-        client.utils.cmds.reloadCmd(client, cmdName);
+      if (client.commands.has(cmdName)) {
+        try {
+          logger.debug(`Reloading command with name ${cmdName}.`);
+          client.utils.cmds.reloadCmd(client, cmdName);
+          interaction.reply({
+            content: `
+            Reloaded command \`${cmdName}\`!`,
+            ephemeral: true,
+          });
+        } catch (error) {
+          interaction.reply({
+            content: `Error occured while reloading command. \n\`\`\` ${error}\`\`\``
+          });
+        };
+      } else {
         interaction.reply({
-          content: `
-          Reloaded command \`${cmdName}\`!`,
-          ephemeral: true,
-        });
-      } catch (error) {
-        interaction.reply({
-          content: `Error occured while reloading command. \n\`\`\` ${error}\`\`\``
+          content: 'That command does not exist or was loaded!'
         })
-      };
+      };      
     } else {
       logger.debug('Reloading all bot/app commands now.');
       try {        
