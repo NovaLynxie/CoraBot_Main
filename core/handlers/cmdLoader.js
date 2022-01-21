@@ -10,7 +10,7 @@ function requireHandler(module) {
   delete require.cache[require.resolve(module)];
   return require(module);
 };
-async function loadBotCmds(client, botInitStage = false) {
+async function loadAllCmds(client, botInitStage = false) {
   const commands = [], counters = { success: 0, failed: 0 };
   try {
     readdirSync(botCmdsDir).forEach(subDir => {
@@ -104,4 +104,4 @@ async function loadCommand(client, cmdName) {
     logger.error(error.message); logger.debug(error.stack);
   };
 };
-module.exports = { loadBotCmds, loadCommand };
+module.exports.cmdLoader = { reloadAll: loadAllCmds, reloadCmd: loadCommand };

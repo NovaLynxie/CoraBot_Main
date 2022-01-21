@@ -1,6 +1,6 @@
 const logger = require('../../utils/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { loadBotCmds, loadCommand } = require('../../handlers/cmdLoader');
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('reload')
@@ -24,7 +24,7 @@ module.exports = {
     if (cmdName) {
       try {
         logger.debug(`Reloading command with name ${cmdName}.`);
-        loadCommand(client, cmdName);
+        client.utils.cmds.reloadCmd(client, cmdName);
         interaction.reply({
           content: `
           Reloaded command \`${cmdName}\`!`,
@@ -37,8 +37,8 @@ module.exports = {
       };
     } else {
       logger.debug('Reloading all bot/app commands now.');
-      try {
-        const res = await loadBotCmds(client);
+      try {        
+        const res = await client.utils.cmds.reloadAll(client);
         logger.debug('Finished reloading all commands!');
         interaction.reply({
           content: `

@@ -1,6 +1,5 @@
 const logger = require('../utils/winstonLogger');
 const statusUpdater = require('../plugins/statusUpdater');
-const { loadBotCmds } = require('../handlers/cmdLoader');
 const { config, credentials } = require('../handlers/bootLoader');
 const { debug, dashboard } = config;
 const { clientSecret, sessionSecret } = credentials;
@@ -35,7 +34,7 @@ module.exports = {
     await client.utils.db.backup();
     logger.init('Finished final checks. Preparing commands.');
     client.user.setActivity('Loading commands...');
-		const res = await loadBotCmds(client, true);
+		const res = await client.utils.cmds.reloadAll(client, true);
     logger.debug(`${res.success} loaded, ${res.failed} failed.`);
 		const dashConfig = {
 			'debug': debug,
