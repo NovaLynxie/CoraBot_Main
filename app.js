@@ -23,7 +23,7 @@ client.voice.player = voice;
 client.data = storage.data;
 client.settings = storage.settings;
 client.modules = modules;
-client.utils = { ...utils, cmds: cmdLoader, embed: embeds };
+client.utils = { ...utils, cmds: cmdLoader, embeds: embeds };
 if (useLegacyURL) {
   logger.warn('Legacy API domain is now depreciated. Only use this to debug app connections.');
   logger.debug('Switching http API to legacy domain.');

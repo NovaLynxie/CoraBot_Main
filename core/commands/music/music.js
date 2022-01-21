@@ -240,7 +240,7 @@ module.exports = {
         response = {
           content: `Error occured while processing request!
           \`\`\`xl\n${error.message}\`\`\``,
-          embeds: [], components: [],
+          embeds: [client.utils.embeds.system('error', { error })], components: [],
           ephemeral: true
         };
       };
@@ -728,7 +728,7 @@ module.exports = {
           embeds: [], components: [],
         });
         await wait(5000); playerOpen = false;
-        if (subcmd === 'player') await interaction.deleteReply();        
+        if (subcmd === 'player') await interaction.deleteReply();
         await client.data.guild.voice.set(voiceData, interaction.guild);
       });
     } else return;
