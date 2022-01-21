@@ -458,7 +458,7 @@ module.exports = {
     switch (subcmd) {
       case 'add':
         await sourceParser(interaction.options.getString('url'));
-        await wait(3000);
+        await wait(10000);
         await interaction.deleteReply();
         break;
       case 'search':
@@ -583,8 +583,6 @@ module.exports = {
             // Search Result Handler
             case 'musicSearchSelect':
               await sourceParser(interact.values[0]);
-              await wait(3000);
-              await interaction.deleteReply();
               collector.stop();
               break;
             // Join/Leave Voice Actions
