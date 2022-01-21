@@ -728,7 +728,7 @@ module.exports = {
           embeds: [], components: [],
         });
         await wait(5000); playerOpen = false;
-        await interaction.deleteReply();
+        if (subcmd === 'player') await interaction.deleteReply();        
         await client.data.guild.voice.set(voiceData, interaction.guild);
       });
     } else return;
