@@ -458,8 +458,6 @@ module.exports = {
     switch (subcmd) {
       case 'add':
         await sourceParser(interaction.options.getString('url'));
-        await wait(10000);
-        await interaction.deleteReply();
         break;
       case 'search':
         let ytQuery = interaction.options.getString('youtube');
