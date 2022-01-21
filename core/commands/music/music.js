@@ -238,9 +238,8 @@ module.exports = {
         logger.error('Something went wrong while parsing the song request!');
         logger.error(error.message); logger.debug(error.stack);
         response = {
-          content: `Error occured while processing request!
-          \`\`\`xl\n${error.message}\`\`\``,
-          embeds: [client.utils.embeds.system('error', { error })], components: [],
+          content: `Error occured while processing request! \`\`\`xl\n${error.message}\`\`\``,
+          embeds: [], components: [],
           ephemeral: true
         };
       };
