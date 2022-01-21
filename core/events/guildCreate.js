@@ -1,13 +1,13 @@
 const logger = require('../utils/winstonLogger');
 const Discord = require('discord.js');
 const { dashboard } = require('../handlers/bootLoader').config;
-const fs = require('fs'), {stripIndents} = require('common-tags');
+const fs = require('fs'), { stripIndents } = require('common-tags');
 const { name, version } = require('../../package.json');
 
 module.exports = {
-	name: 'guildCreate',
-	async execute(guild, client) {
-		logger.info(`${client.user.tag} joined ${guild.name}!`);
+  name: 'guildCreate',
+  async execute(guild, client) {
+    logger.info(`${client.user.tag} joined ${guild.name}!`);
     logger.debug(`Joined ${guild.name} (${guild.id}) Preparing to create settings.`);
     await client.settings.guild.init([guild.id]);
     let welcomeEmbed = require('../assets/resources/welcomeEmbed.json');
@@ -36,7 +36,7 @@ module.exports = {
     welcomeEmbed.fields[2] = {
       name: 'Found a bug or unusual glitch?',
       value: stripIndents`
-        Make sure you are using the latest version before making a bug report [here!](https://github.com/NovaLynxie/CoraBot_Main/issues
+        Make sure you are using the latest version before making a bug report [here!](https://github.com/NovaLynxie/CoraBot_Main/issues)
       `,
       inline: true
     };
@@ -44,10 +44,10 @@ module.exports = {
     try {
       let channel = (guild.systemChannel) ? guild.systemChannel : guild.channels.cache.find(ch => ch.type === 'text');
       logger.debug(`Trying to send welcomeEmbed to channel ${channel.name} (id:${channel.id})`);
-      channel.send({embed: welcomeEmbed});
+      channel.send({ embeds: [welcomeEmbed] });
     } catch (err) {
       logger.warn(`Unable to send bot welcome message in server ${guild.name}!`);
       logger.error(err.message); logger.debug(err.stack);
     };
-	},
+  },
 };
