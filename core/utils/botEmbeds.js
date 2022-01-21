@@ -4,59 +4,67 @@ const baseEmbed = new MessageEmbed().setColor('#75e6c4');
 
 function systemEmbed(state, params) {
   const embed = new MessageEmbed(baseEmbed);
-  const { data, error } = params;
+  const { response, error } = params;
   let generalDetails = {}, errorDetails = {};
-  if (data) {
+  if (response) {
     // generic system response message (unused?)
     generalDetails = {
       name: 'System Response',
       value: stripIndents`
-        ${data.message}
+        \`\`\`${(typeof response === 'object') ? JSON.stringify(response, null, 2) : response)
+    }\`\`\`
       `
-    };
   };
-  if (error) {
-    // display error data here (for debugging)
-    errorDetails = {
-      name: 'Error Data',
-      value: stripIndents`
+};
+if (error) {
+  // display error data here (for debugging)
+  errorDetails = {
+    name: 'Error Data',
+    value: stripIndents`
         \`\`\`
         ${error.message}
         ${error.stack}
         \`\`\`
       `
-    }
-  };
-  switch (state) {
-    case 'success':
-      embed
-        .setTitle('Success!')
-        .setColor('#42f595')
-        .addFields(generalDetails);
-      break;
-    case 'info':
-      embed
-        .setTitle('Information')
-        .setColor('#1bdeb0')
-        .addFields(generalDetails);
-      break;
-    case 'warn':
-      embed
-        .setTitle('Warning!')
-        .setColor('#de7c1b')
-        .addFields(generalDetails);
-      break;
-    case 'error':
-      embed
-        .setTitle('Error Occured!')
-        .setColor('#de481b')
-        .addFields(errorDetails);
-      break;
-    default:
-      embed
-        .setTitle('Unknown State!')
-  };
+  }
+};
+switch (state) {
+  case 'success':
+    embed
+      .setTitle('Success!')
+      .setColor('#42f595')
+      .addFields(generalDetails);
+    break;
+  case 'info':
+    embed
+      .setTitle('Information')
+      .setColor('#1bdeb0')
+      .addFields(generalDetails);
+    break;
+  case 'warn':
+    embed
+      .setTitle('Warning!')
+      .setColor('#de7c1b')
+      .addFields(generalDetails);
+    break;
+  case 'error':
+    embed
+      .setTitle('Error!')
+      .setColor('#de481b')
+      .addFields(errorDetails);
+    break;
+  default:
+    embed
+      .setTitle('Unknown State!')
+};
+return embed;
+};
+function welcomeEmbed() {
+  const template = require('../assets/json/welcomeEmbed.json');
+  
+
   return embed;
 };
 
 module.exports = systemEmbed;
+module.exports.embeds = { system: systemEmbed, welcome: welcomeEmbed };
