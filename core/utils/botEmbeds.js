@@ -11,8 +11,7 @@ function systemEmbed(state, params) {
     generalDetails = {
       name: 'System Response',
       value: stripIndents`
-        \`\`\`${(typeof response === 'object') ? JSON.stringify(response, null, 2) : response)
-    }\`\`\`
+        \`\`\`${(typeof response === 'object') ? JSON.stringify(response, null, 2) : response}\`\`\`
       `
   };
 };

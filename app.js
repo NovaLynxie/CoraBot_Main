@@ -1,5 +1,5 @@
 const logger = require('./core/utils/winstonLogger');
-const { embed } = require('./core/utils/botEmbeds');
+const { embeds } = require('./core/utils/botEmbeds');
 const { utils } = require('./core/utils/botUtils');
 const { readdirSync } = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
@@ -23,7 +23,7 @@ client.voice.player = voice;
 client.data = storage.data;
 client.settings = storage.settings;
 client.modules = modules;
-client.utils = { ...utils, cmds: cmdLoader, embed: embed.systemEmbed };
+client.utils = { ...utils, cmds: cmdLoader, embed: embeds };
 if (useLegacyURL) {
   logger.warn('Legacy API domain is now depreciated. Only use this to debug app connections.');
   logger.debug('Switching http API to legacy domain.');
