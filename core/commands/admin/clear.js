@@ -18,15 +18,15 @@ module.exports = {
     const amount = interaction.options.getInteger('amount');
     const executor = interaction.member; const guild = interaction.guild;
     const settings = await client.settings.guild.get(guild); const { roles } = settings;
-    const messages = await interaction.channel.messages.fetch({ limit: amount });
+    const messages = await channel.messages.fetch({ limit: amount });
     try {
       if (messages) {
-        await interaction.channel.bulkDelete(messages);
+        await channel.bulkDelete(messages);
       } else {
-        await interaction.channel.bulkDelete(amount);
+        await channel.bulkDelete(amount);
       };
     } catch (err) {
-      logger.debug(`Failed to delete messages in ${interaction.channel.name}!`);
+      logger.debug(`Failed to delete messages in ${channel.name}!`);
       await interaction.editReply({
         content: 'Unable to delete messages! Possibly missing manage messages permissions?',
       });
