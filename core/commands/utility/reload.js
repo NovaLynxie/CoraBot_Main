@@ -38,7 +38,7 @@ module.exports = {
         };
       } else {
         interaction.reply({
-          content: 'That command does not exist or was loaded!'
+          content: 'That command does not exist or was loaded!', ephemeral: true
         });
       };      
     } else {
