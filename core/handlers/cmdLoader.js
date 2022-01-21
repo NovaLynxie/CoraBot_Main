@@ -87,7 +87,7 @@ async function loadCommand(client, cmdName) {
   try {
     for (const subDir of readdirSync(botCmdsDir)) {
       const dirPath = `${botCmdsDir}/${subDir}/`;
-      const cmds = readdirSync(dirPath).filter(file => file.endsWith('.js')); console.log(cmds);
+      const cmds = readdirSync(dirPath).filter(file => file.endsWith('.js'));
       logger.verbose(`cmdsArr: ${cmds}`);
       const file = cmds[cmds.indexOf(`${cmdName}.js`)];
       logger.verbose(`cmdFile: ${file}`);
