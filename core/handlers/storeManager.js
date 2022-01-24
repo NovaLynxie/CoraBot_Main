@@ -8,6 +8,16 @@ const guildDataStore = {
   trackers: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db' }), namespace: 'trackers' }),
   voice: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/voice.db' }), namespace: 'voice' })
 };
+const guildDataTypes = ['offenses', 'trackers', 'voice'];
+const ErrCallback = (error, db) => {
+  logger.fatal(`Error initializing ${db.name} database!`);
+  logger.fatal(error.message); logger.debug(error.stack);
+};
+clientPrefStore.on('error', (error) => ErrCallback(error, { name: 'settings', type: 'client' }));
+guildPrefStore.on('error', (error) => ErrCallback(error, { name: 'settings', type: 'guildPrefs' }));
+guildDataTypes.forEach(dataType => {
+  guildDataStore[dataType].on('error', (error) => ErrCallback(error, { name: dataType, type: 'guildData' }));
+});
 const clientSettingsTemplate = require('../assets/templates/database/clientSettings.json');
 const guildSettingsTemplate = require('../assets/templates/database/guildSettings.json');
 const guildDataTemplate = require('../assets/templates/database/guildData.json');
