@@ -82,11 +82,11 @@ module.exports = {
           .setEmoji('⏹️')
           .setStyle('SECONDARY'),
         new MessageButton()
-          .setCustomId('vol+')
+          .setCustomId('vol-')
           .setEmoji('🔉')
           .setStyle('SECONDARY'),
         new MessageButton()
-          .setCustomId('vol-')
+          .setCustomId('vol+')
           .setEmoji('🔊')
           .setStyle('SECONDARY')
       );
@@ -673,6 +673,8 @@ module.exports = {
               voiceData.volume = voiceData.volume + 0.1;
               if (voiceData.volume >= 1.0) voiceData.volume = 0.1;
               audioVolume.setVolume(voiceData.volume);
+              logger.debug(`Set volume of audioPlayer to ${voiceData.volume}.`);
+              refreshPlayer(interact);
               break;
             case 'vol-':
               if (!audioPlayer?._state?.resource.volume) return;
@@ -680,6 +682,8 @@ module.exports = {
               voiceData.volume = voiceData.volume - 0.1;
               if (voiceData.volume <= 0.0) voiceData.volume = 0.1;
               audioVolume.setVolume(voiceData.volume);
+              logger.debug(`Set volume of audioPlayer to ${voiceData.volume}.`);
+              refreshPlayer(interact);
               break;
             case 'clearQueue':
               voiceData.music.queue = [];
