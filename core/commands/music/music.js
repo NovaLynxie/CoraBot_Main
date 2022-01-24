@@ -170,9 +170,7 @@ module.exports = {
       if (playlist.tracks) {
         let song;
         for (let item of playlist.tracks) {
-          if (item.fetched) {
-            song = item;
-          } else {
+          if (item.fetched) { song = item } else {
             try {
               song = await playdl.soundcloud(`https://api.soundcloud.com/tracks/${item.id}`);
             } catch (error) {
@@ -303,8 +301,7 @@ module.exports = {
                 name: `Track #${no}`,
                 value: `
                 No information available.
-                URL: ${url}
-                `
+                URL: ${url}`
               };
           }; no++;
         } catch (err) {
