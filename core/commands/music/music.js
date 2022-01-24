@@ -263,6 +263,7 @@ module.exports = {
       let section = queue.slice(pos - 1, pos + 24); no = pos;
       if (!section.length) {
         logger.verbose('No more songs! Returning to previous page.');
+        logger.debug('No songs found on next page, returning back one page.');
         pos = (index - 1) * 25 - 24; no = pos;
         queue.slice(pos - 1, pos + 24);
       };
