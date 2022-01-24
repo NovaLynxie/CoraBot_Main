@@ -680,7 +680,7 @@ module.exports = {
               if (!audioPlayer?._state?.resource.volume) return;
               audioVolume = audioPlayer?._state?.resource.volume;
               voiceData.volume = voiceData.volume - 0.1;
-              if (voiceData.volume <= 0.0) voiceData.volume = 0.1;
+              if (voiceData.volume <= 0.1) voiceData.volume = 0.1;
               audioVolume.setVolume(voiceData.volume);
               logger.debug(`Set volume of audioPlayer to ${voiceData.volume}.`);
               refreshPlayer(interact);
