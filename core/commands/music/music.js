@@ -58,7 +58,7 @@ module.exports = {
       });
     };
     await interaction.deferReply({ ephemeral: false });
-    let guild = interaction.guild, collector, source, track;
+    let guild = interaction.guild, collector, source, track, audioVolume;
     let connection = client.voice.player.fetch(guild), queuePage = 1;
     audioPlayer = (connection) ? connection._state.subscription ?.player : undefined;
     let voiceData = await client.data.guild.voice.get(guild);
@@ -612,17 +612,6 @@ module.exports = {
               } catch (error) {
                 logger.error('Failed to load song!');
                 logger.error(error.message); logger.debug(error.stack);
-                let errEmbed = new MessageEmbed(musicBaseEmbed)
-                  .setTitle('Player Error!')
-                  .setDescription(`                  
-                  \`\`\`
-                  Caused by: ${error.message}
-                  ${error.stack}
-                  \`\`\`
-                  `)
-                interact.followUp({
-                  contents: 'Failed to load requested song!'
-                })
               };
               if (!source) return interact.editReply({ content: 'No song queued to play!' });
               if (!interaction.member.voice.channel) {
@@ -674,6 +663,16 @@ module.exports = {
               } else {
                 audioPlayer.play(source);
               };
+              break;
+            case 'vol+':
+              if (!audioPlayer._state.resource?.volume) return;
+              audioVolume = audioPlayer._state.resource.volume;
+              audioVolume.setVolume(0.1);
+              break;
+            case 'vol-':
+              if (!audioPlayer._state.resource?.volume) return;
+              audioVolume = audioPlayer._state.resource.volume;
+              audioVolume.setVolume(0.1);
               break;
             case 'clearQueue':
               voiceData.music.queue = [];

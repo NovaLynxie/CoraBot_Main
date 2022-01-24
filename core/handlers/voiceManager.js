@@ -9,8 +9,9 @@ function newAudioPlayer() {
   });
   return audioPlayer;
 };
-function newAudioSource(input) {
-  const audioSource = createAudioResource(input);
+function newAudioSource(input, { volume }) {
+  const audioSource = createAudioResource(input, { inlineVolume: true });
+  audioSource.setVolume(volume || 0.5);
   return audioSource;
 };
 function checkVC(guild) {
@@ -38,5 +39,5 @@ async function joinVC(channel) {
   };
 };
 module.exports.voice = {
-  init: newAudioPlayer,  create: newAudioSource,  fetch: checkVC, join: joinVC
+  init: newAudioPlayer, create: newAudioSource, fetch: checkVC, join: joinVC
 };
