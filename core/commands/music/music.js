@@ -428,7 +428,6 @@ module.exports = {
         embeds: [await dynamicSearchEmbed(results.items || results)]
       });
     };
-    // Update player interface from dynamic embed.
     async function refreshPlayer(interact) {
       logger.verbose(JSON.stringify(voiceData, null, 2));
       try {
@@ -474,8 +473,7 @@ module.exports = {
         } else {
           logger.debug('Current song has finished, queuing up next song.');
         };
-        voiceData.music.queue.shift();
-        voiceData.music.track = {};
+        voiceData.music.queue.shift(); voiceData.music.track = {};
         source = await loadSong();
         if (!source) {
           logger.debug('No songs available! AudioPlayer stopped.');
@@ -494,8 +492,7 @@ module.exports = {
         } else {
           logger.debug('Current song has finished, queuing up next song.');
         };
-        voiceData.music.queue.shift();
-        voiceData.music.track = {};
+        voiceData.music.queue.shift(); voiceData.music.track = {};
         source = await loadSong();
         if (!source) {
           logger.debug('No songs available! AudioPlayer stopped.');
