@@ -544,7 +544,6 @@ module.exports = {
     if (collector) {
       collector.on('collect', async interact => {
         voiceData = await client.data.guild.voice.get(interact.guild);
-        logger.verbose(JSON.stringify(voiceData, null, 2));
         await interact.deferUpdate();
         await wait(1000);
         try {
