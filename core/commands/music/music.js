@@ -392,7 +392,7 @@ module.exports = {
         },
         {
           name: 'Song Information',
-          value: `${(song) ? `${(song.title) ? `${song.title.replace("''", "'")}` : 'unknown'} (${(song.type) ? song.type : 'unknown'})` : '...'}`, inline: true
+          value: `${(song) ? `${(song.title) ? `${song.title.replace("''", "'")}` : 'unknown'} (${(song.type) ? song.type : 'unknown'})` : '...'} (${(song.duration ? formatDuration(song.duration) : '--:--')})`, inline: true
         },
         {
           name: 'Volume', value: `${Math.floor(voiceData.volume * 100)}%`, inline: true
