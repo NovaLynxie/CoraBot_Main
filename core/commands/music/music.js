@@ -320,8 +320,7 @@ module.exports = {
       if (queueEmbed.fields.length <= 0) {
         queueEmbed.fields = [];
         queueEmbed.addField('This queue is empty!', "No songs in this guild's queue yet. Add a song by searching by keywords or with its URL!");
-      };
-      return queueEmbed;
+      }; return queueEmbed;
     };
     function dynamicSearchEmbed(list) {
       let searchEmbed = new MessageEmbed(musicBaseEmbed)
@@ -333,8 +332,7 @@ module.exports = {
       list.forEach(song => {
         searchEmbed.addField(`Song ${count}`, song.title || song.name);
         count++;
-      });
-      return searchEmbed;
+      }); return searchEmbed;
     };
     async function dynamicSearchSelector(list, type) {
       let selection = [], url;
@@ -350,8 +348,7 @@ module.exports = {
             url = undefined;
         };
         let item = {
-          label: song.title || song.name,
-          value: url
+          label: song.title || song.name, value: url
         };
         logger.data(`parsing results item ${JSON.stringify(item)}`);
         selection.push(item);
@@ -371,20 +368,15 @@ module.exports = {
       if (song.thumbnail) playerEmbed.setThumbnail(song.thumbnail);
       switch (audioPlayer ?._state.status) {
         case 'idle':
-          playerState = 'Idle';
-          break;
+          playerState = 'Idle'; break;
         case 'buffering':
-          playerState = 'Loading...';
-          break;
+          playerState = 'Loading...'; break;
         case 'playing':
-          playerState = 'Playing';
-          break;
+          playerState = 'Playing'; break;
         case 'autopaused':
-          playerState = 'Paused (AUTO)';
-          break;
+          playerState = 'Paused (AUTO)'; break;
         case 'paused':
-          playerState = 'Paused';
-          break;
+          playerState = 'Paused'; break;
         default:
           if (!source) {
             playerState = 'No Track'
@@ -403,10 +395,9 @@ module.exports = {
           value: `${(song) ? `${(song.title) ? `${song.title.replace("''", "'")}` : 'unknown'} (${(song.type) ? song.type : 'unknown'})` : '...'}`,
         },
         {
-          name: 'Volume', value:  `${Math.floor(voiceData.volume * 100)}%`
+          name: 'Volume', value: `${Math.floor(voiceData.volume * 100)}%`
         }
-      ];
-      return playerEmbed;
+      ]; return playerEmbed;
     };
     async function searchQuery(query) {
       let results, searchOptions = { source: {} };
@@ -414,9 +405,7 @@ module.exports = {
       let startEmbed = new MessageEmbed(musicBaseEmbed)
         .setTitle('Music Searcher 🔍')
         .setDescription(`Searching for songs matching \`${query.keywords}\` on ${sites[query.source]}.`);
-      await interaction.editReply({
-        embeds: [startEmbed]
-      });
+      await interaction.editReply({ embeds: [startEmbed] });
       switch (query.source) {
         case 'youtube':
           searchOptions.source = { youtube: 'video' };
@@ -474,7 +463,6 @@ module.exports = {
         await refreshPlayer(interaction);
         break;
     };
-    // Player Event Handler.
     const playerEvents = {
       playEvent: () => { logger.debug('Player has started playing!') },
       idleEvent: async () => {
@@ -555,14 +543,12 @@ module.exports = {
     if (eventListenerCheck('error')) {
       audioPlayer.on('error', playerEvents.errorEvent);
     } else { eventListenerReset('error', playerEvents.errorEvent) };
-    // Menu/Button collecter and handler.
     if (collector) {
       collector.on('collect', async interact => {
         voiceData = await client.data.guild.voice.get(interact.guild);
         logger.verbose(JSON.stringify(voiceData, null, 2));
         await interact.deferUpdate();
         await wait(1000);
-        // Interaction Collector Switch/Case Handler
         try {
           switch (interact.customId) {
             case 'closePlayer':
@@ -575,9 +561,7 @@ module.exports = {
               );
               await wait(5000);
               await interact.deleteReply();
-              collector.stop();
-              break;
-            // Search Result Handler
+              collector.stop(); break;
             case 'musicSearchSelect':
               await sourceParser(interact.values[0]);
               collector.stop();
@@ -602,9 +586,7 @@ module.exports = {
                   connection = null;
                 };
                 refreshPlayer(interact);
-              };
-              break;
-            // Music Player Actions
+              }; break;
             case 'play':
               if (!audioPlayer) return;
               try {
@@ -622,22 +604,19 @@ module.exports = {
               };
               audioPlayer.play(source);
               if (!connection) break;
-              connection.subscribe(audioPlayer);
-              break;
+              connection.subscribe(audioPlayer); break;
             case 'pause':
               if (!audioPlayer) return;
               if (audioPlayer ?._state.status === Paused) {
                 audioPlayer.unpause();
               } else if (audioPlayer ?._state.status === Playing) {
                 audioPlayer.pause();
-              };
-              break;
+              }; break;
             case 'stop':
               if (!audioPlayer) return;
               stopped = true;
               audioPlayer.stop();
-              voiceData.music.track = {};
-              break;
+              voiceData.music.track = {}; break;
             case 'skip':
               if (!audioPlayer) return;
               voiceData.music.queue.shift();
@@ -657,7 +636,7 @@ module.exports = {
                 interact.followUp({
                   contents: 'Failed to load requested song!'
                 })
-              }
+              };
               if (!source) {
                 return interact.editReply({ content: 'End of queue!' });
               } else {
@@ -665,17 +644,16 @@ module.exports = {
               };
               break;
             case 'vol+':
-              if (!audioPlayer?._state?.resource.volume) return;
-              audioVolume = audioPlayer?._state?.resource.volume;
+              if (!audioPlayer ?._state ?.resource.volume) return;
+              audioVolume = audioPlayer ?._state ?.resource.volume;
               voiceData.volume = voiceData.volume + 0.05;
               if (voiceData.volume >= 1.0) voiceData.volume = 0.1;
               audioVolume.setVolume(voiceData.volume);
               logger.debug(`Set volume of audioPlayer to ${voiceData.volume}.`);
-              refreshPlayer(interact);
-              break;
+              refreshPlayer(interact); break;
             case 'vol-':
-              if (!audioPlayer?._state?.resource.volume) return;
-              audioVolume = audioPlayer?._state?.resource.volume;
+              if (!audioPlayer ?._state ?.resource.volume) return;
+              audioVolume = audioPlayer ?._state ?.resource.volume;
               voiceData.volume = voiceData.volume - 0.05;
               if (voiceData.volume <= 0.05) voiceData.volume = 0.05;
               audioVolume.setVolume(voiceData.volume);
@@ -688,8 +666,7 @@ module.exports = {
                 await interact.editReply(
                   { embeds: [await dynamicQueueEmbed(voiceData.music.queue, 0)], components: [musicQueueMenuBtns] }
                 );
-              };
-              break;
+              }; break;
             case 'queueMenu':
               queueOpen = !queueOpen;
               if (queueOpen) {
@@ -700,20 +677,17 @@ module.exports = {
                 );
               } else {
                 playerOpen = true; queuePage = 1; refreshPlayer(interact);
-              };
-              break;
+              }; break;
             case 'pageNext':
               queuePage++;
               await interact.editReply(
                 { embeds: [await dynamicQueueEmbed(voiceData.music.queue, queuePage)], components: [musicQueueMenuBtns] }
-              );
-              break;
+              ); break;
             case 'pagePrev':
               queuePage = (queuePage <= 1) ? queuePage-- : 1;
               await interact.editReply(
                 { embeds: [await dynamicQueueEmbed(voiceData.music.queue)], components: [musicQueueMenuBtns] }
-              );
-              break;
+              ); break;
             default:
               logger.warn('Invalid or unknown action called!');
               logger.verbose('music.button.default.trigger');
