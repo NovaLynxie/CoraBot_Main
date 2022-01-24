@@ -11,7 +11,9 @@ function newAudioPlayer() {
 };
 function newAudioSource(input, { volume }) {
   const audioSource = createAudioResource(input, { inlineVolume: true });
-  audioSource.setVolume(volume || 0.5);
+  if (audioSource.volume) {
+    audioSource.volume.setVolume(volume || 0.5);
+  };  
   return audioSource;
 };
 function checkVC(guild) {

@@ -253,7 +253,7 @@ module.exports = {
       if (!voiceData.music.queue[0]) return undefined;
       let { title, duration, type, url, thumbnail } = voiceData.music.queue[0];
       const source = await playdl.stream(url);
-      const stream = client.voice.player.create(source.stream);
+      const stream = client.voice.player.create(source.stream, { volume: voiceData.volume });
       voiceData.music.track = { title, duration, type, thumbnail };
       await client.data.guild.voice.set(voiceData, guild);
       return stream;
@@ -404,6 +404,9 @@ module.exports = {
         {
           name: 'Song Information',
           value: `${(song) ? `${(song.title) ? `${song.title.replace("''", "'")}` : 'unknown'} (${(song.type) ? song.type : 'unknown'})` : '...'}`,
+        },
+        {
+          name: 'Volume', value:  `${voiceData.volume * 10}`
         }
       ];
       return playerEmbed;
@@ -665,14 +668,18 @@ module.exports = {
               };
               break;
             case 'vol+':
-              if (!audioPlayer._state.resource?.volume) return;
-              audioVolume = audioPlayer._state.resource.volume;
-              audioVolume.setVolume(0.1);
+              if (!audioPlayer?._state?.resource.volume) return;
+              audioVolume = audioPlayer?._state?.resource.volume;
+              voiceData.volume = voiceData.volume + 0.1;
+              if (voiceData.volume >= 1.0) voiceData.volume = 0.1;
+              audioVolume.setVolume(voiceData.volume);
               break;
             case 'vol-':
-              if (!audioPlayer._state.resource?.volume) return;
-              audioVolume = audioPlayer._state.resource.volume;
-              audioVolume.setVolume(0.1);
+              if (!audioPlayer?._state?.resource.volume) return;
+              audioVolume = audioPlayer?._state?.resource.volume;
+              voiceData.volume = voiceData.volume - 0.1;
+              if (voiceData.volume <= 0.0) voiceData.volume = 0.1;
+              audioVolume.setVolume(voiceData.volume);
               break;
             case 'clearQueue':
               voiceData.music.queue = [];
