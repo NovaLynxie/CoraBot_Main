@@ -1,9 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 const baseEmbed = new MessageEmbed().setColor('#75e6c4');
-const musicBaseEmbed = new MessageEmbed().setColor('#32527b')
-  .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-  .setFooter({ text: 'Powered by DiscordJS Voice (OPUS)' });
 
 function systemEmbed(state, params) {
   const embed = new MessageEmbed(baseEmbed);
