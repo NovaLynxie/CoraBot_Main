@@ -55,43 +55,35 @@ module.exports = {
           .setEmoji('❌')
           .setStyle('SECONDARY'),
       );
-    // Radio Selection for choosing the station to play back.
     const radioStationsMenu = new MessageActionRow()
       .addComponents(
         new MessageSelectMenu()
           .setCustomId('stationSelect')
           .setPlaceholder('Select a station to tune into!')
-          .addOptions(stationsList),
+          .addOptions(stationsList)
       );
-    // Radio functions which control all of the radio functionality.
     function loadStation(interact) {
       for (let i = 0; i < stations.length; ++i) {
         station = stations[i];
         if (interact.values[0] === station.name) break;
-      }
+      };
       logger.debug(`station:${JSON.stringify(station)}`);
       source = client.voice.player.create(station.url);
     };
-    // Dynamic Radio Player Embed
     function dynamicPlayerEmbed(station) {
       let playerEmbed = new MessageEmbed(radioBaseEmbed);
       let playerState;
       switch (player ?._state.status) {
         case 'idle':
-          playerState = 'Idle';
-          break;
+          playerState = 'Idle'; break;
         case 'buffering':
-          playerState = 'Buffering';
-          break;
+          playerState = 'Buffering'; break;
         case 'playing':
-          playerState = 'Playing';
-          break;
+          playerState = 'Playing'; break;
         case 'autopaused':
-          playerState = 'AutoPaused';
-          break;
+          playerState = 'AutoPaused'; break;
         case 'pause':
-          playerState = 'Paused';
-          break;
+          playerState = 'Paused'; break;
         default:
           playerState = 'Stopped';
       };
@@ -110,7 +102,6 @@ module.exports = {
         );
       return playerEmbed;
     };
-    // Update player interface from dynamic embed.
     async function refreshPlayer(interact) {
       try {
         await interact.editReply(
@@ -127,7 +118,6 @@ module.exports = {
     const collector = interaction.channel.createMessageComponentCollector({ time: 300000 });
     let menuOpen, playerOpen;
     player = (!player) ? client.voice.player.init() : player;
-    // Player Event Handler.
     player.on('stateChange', (oldState, newState) => {
       logger.debug(`oldState.status => ${oldState ?.status}`);
       logger.debug(`newState.status => ${newState ?.status}`);
@@ -147,26 +137,18 @@ module.exports = {
       logger.error(err.message); logger.debug(err.stack);
       player.stop();
     });
-    // Menu/Button collecter and handler.
     if (collector) {
       collector.on('collect', async interact => {
-        await interact.deferUpdate();
-        await wait(1000);
-        // Button Switch/Case Handler
+        await interact.deferUpdate(); await wait(1000);
         switch (interact.customId) {
           case 'closeMenu':
             menuOpen = false;
-            await interact.editReply(
-              {
-                content: 'Radio menu closed.',
-                embeds: [], components: [],
-              },
-            );
-            await wait(5000);
-            await interact.deleteReply();
-            collector.stop();
-            break;
-          // Join/Leave Voice Actions
+            await interact.editReply({
+              content: 'Radio menu closed.',
+              embeds: [], components: [],
+            });
+            await wait(5000); await interact.deleteReply();
+            collector.stop(); break;
           case 'joinLeaveVC':
             if (!interaction.member.voice.channel) {
               interact.followUp({
@@ -184,59 +166,42 @@ module.exports = {
                   logger.debug(error.message); logger.debug(error.stack);
                   logger.debug('Clearing connection data from the variable');
                   connection = null;
-                };
-                refreshPlayer(interact);
+                }; refreshPlayer(interact);
               };
-            };
-            break;
-          // Radio Player Actions
+            }; break;
           case 'play':
-            if (!player) return;
-            player.play(source);
+            if (!player) return; player.play(source);
             if (!connection) break;
-            connection.subscribe(player);
-            break;
+            connection.subscribe(player); break;
           case 'pause':
             if (!player) return;
-            player.pause();
-            break;
+            player.pause(); break;
           case 'stop':
             if (!player) return;
-            player.stop();
-            break;
-          // Radio Selection Actions
+            player.stop(); break;
           case 'stationSelect':
             if (!player) return;
-            loadStation(interact);
-            player.play(source);
-            refreshPlayer(interact);
-            break;
-          // fallback action for all radio menus
+            loadStation(interact); player.play(source);
+            refreshPlayer(interact); break;
           default:
             logger.warn('Invalid or unknown action called!');
             logger.verbose('radio.button.default.trigger');
-            await interact.editReply(
-              {
-                content: 'That action is invalid or not available!',
-              },
-            );
-        }
+            await interact.editReply({
+              content: 'That action is invalid or not available!',
+            });
+        };
       });
       collector.on('end', async collected => {
         logger.debug('Collector in radio commmand timed out or was stopped.');
         logger.debug(`Collected ${collected.size} items.`);
         if (!menuOpen) return;
-        await interaction.editReply(
-          {
-            content: 'Radio Menu timed out. To continue using the menu, run /radio again.',
-            embeds: [], components: [],
-          },
-        );
-        await wait(5000);
-        await interaction.deleteReply();
+        await interaction.editReply({
+          content: 'Radio Menu timed out. To continue using the menu, run /radio again.',
+          embeds: [], components: [],
+        });
+        await wait(5000); await interaction.deleteReply();
       });
-      playerOpen = true;
-      refreshPlayer(interaction);
+      playerOpen = true; refreshPlayer(interaction);
     } else return;
   },
 };
