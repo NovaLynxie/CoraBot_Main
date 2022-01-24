@@ -4,9 +4,9 @@ const KeyvSQLite = require('@keyvhq/sqlite');
 const clientPrefStore = new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'client' });
 const guildPrefStore = new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/settings.db' }), namespace: 'guild' });
 const guildDataStore = {
-  offenses: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db' }), namespace: 'offenses' }),
-  trackers: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db' }), namespace: 'trackers' }),
-  voice: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/voice.db' }), namespace: 'voice' })
+  offenses: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db', table: 'moderation' }) }),
+  trackers: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db', table: 'trackers' }) }),
+  voice: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/voice.db' }), namespace: 'guild' })
 };
 const guildDataTypes = ['offenses', 'trackers', 'voice'];
 const ErrCallback = (error, db) => {
