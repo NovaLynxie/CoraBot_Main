@@ -392,10 +392,10 @@ module.exports = {
         },
         {
           name: 'Song Information',
-          value: `${(song) ? `${(song.title) ? `${song.title.replace("''", "'")}` : 'unknown'} (${(song.type) ? song.type : 'unknown'})` : '...'}`,
+          value: `${(song) ? `${(song.title) ? `${song.title.replace("''", "'")}` : 'unknown'} (${(song.type) ? song.type : 'unknown'})` : '...'}`, inline: true
         },
         {
-          name: 'Volume', value: `${Math.floor(voiceData.volume * 100)}%`
+          name: 'Volume', value: `${Math.floor(voiceData.volume * 100)}%`, inline: true
         }
       ]; return playerEmbed;
     };
