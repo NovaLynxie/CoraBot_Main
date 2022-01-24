@@ -51,7 +51,7 @@
     "html": "^1.0.0",
     "minecraft-server-util": "^5.1.1",
     "morgan": "^1.10.0",
-    "node-fetch": "2.6.6",
+    "node-fetch": "^2.6.7",
     "passport": "^0.4.1",
     "passport-discord": "^0.1.4",
     "passport-discord-faxes": "^0.1.4",
