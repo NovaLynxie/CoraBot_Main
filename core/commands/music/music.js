@@ -620,7 +620,6 @@ module.exports = {
             case 'stop':
               if (!audioPlayer) return;
               stopped = true; audioPlayer.stop();
-              connection._state.subscription.unsubscribe();
               voiceData.music.track = {}; break;
             case 'skip':
               if (!audioPlayer) return;
