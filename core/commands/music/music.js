@@ -259,8 +259,7 @@ module.exports = {
     };
     // Dynamic Music Embeds
     async function dynamicQueueEmbed(queue, index = 1) {
-      queuePage = (index <= 1) ? queuePage-- : 1;
-      let field = {}, no = 1, info, pos = index * 25 - 24;
+      let no = 1, field = {}, info, pos = index * 25 - 24;
       let section = queue.slice(pos - 1, pos + 24); no = pos;
       if (!section.length) {
         logger.verbose('No more songs! Returning to previous page.');
@@ -680,7 +679,7 @@ module.exports = {
                 { embeds: [await dynamicQueueEmbed(voiceData.music.queue, queuePage)], components: [musicQueueMenuBtns] }
               ); break;
             case 'pagePrev':
-              queuePage = (queuePage <= 1) ? queuePage-- : 1;
+              queuePage = (queuePage > 1) ? queuePage-- : 1;
               await interact.editReply(
                 { embeds: [await dynamicQueueEmbed(voiceData.music.queue)], components: [musicQueueMenuBtns] }
               ); break;
