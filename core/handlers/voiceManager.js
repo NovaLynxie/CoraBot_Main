@@ -4,8 +4,11 @@ const {
 } = require('@discordjs/voice');
 function newAudioPlayer() {
   let audioPlayer = createAudioPlayer({
-    behaviours: { noSubscriber: NoSubscriberBehavior.Pause },    
-    maxMissedFrames: Math.round(5000 / 20),
+    debug: false,
+    behaviours: { 
+      noSubscriber: NoSubscriberBehavior.Pause,
+      maxMissedFrames: Math.round(5000 / 20)
+    }
   });
   return audioPlayer;
 };
