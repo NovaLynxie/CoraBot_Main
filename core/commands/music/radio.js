@@ -68,7 +68,7 @@ module.exports = {
         if (interact.values[0] === station.name) break;
       };
       logger.debug(`station:${JSON.stringify(station)}`);
-      source = client.voice.player.create(station.url);
+      source = client.voice.player.create(station.url, { volume: null });
     };
     function dynamicPlayerEmbed(station) {
       let playerEmbed = new MessageEmbed(radioBaseEmbed);

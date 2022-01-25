@@ -36,6 +36,41 @@
       "url": "https://radiobrony.live/mp3"
     },
     {
+      "name": "Absolute Radio",
+      "genre": ["radio-genre-here"],
+      "desc": "A British National radio station owned and operated by Bauer as part of the Absolute Radio Network.",
+      "site": "https://planetradio.co.uk/absolute-radio/",
+      "url": "https://icy-e-bab-02-gos.sharp-stream.com/absoluteradio.mp3"
+    },
+    {
+      "name": "Greatest Hits Radio",
+      "genre": ["70s", "80s", "90s", "classical"],
+      "desc": "The biggest songs of the 70s, 80s and 90s and the home of the Simon Mayo Drivetime Show, Mark Goodier, Paul Gambaccini, Jackie Brambles, Pat Sharp and more.",
+      "site": "https://planetradio.co.uk/greatest-hits/",
+      "url": "https://stream-mz.planetradio.co.uk/net2national.aac"
+    },
+    {
+      "name": "Base Radio",
+      "genre": ["variety", "soul", "funk", "rnb", "classics"],
+      "desc": "Base music radio",
+      "site": "radio-site-here",
+      "url": "radio-url-here"
+    },
+    {
+      "name": "Chill Radio",
+      "genre": ["radio-genre-here"],
+      "desc": "Chill music radio",
+      "site": "radio-site-here",
+      "url": "https://streams.ilovemusic.de/iloveradio17.mp3"
+    },
+    {
+      "name": "Dance Radio",
+      "genre": ["dance"],
+      "desc": "Dance music radio.",
+      "site": "radio-site-here",
+      "url": "radio-url-here"
+    },
+    {
       "name": "radio-name-here",
       "genre": ["radio-genre-here"],
       "desc": "radio-desc-here",

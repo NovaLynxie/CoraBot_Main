@@ -15,7 +15,7 @@ function newAudioPlayer() {
 function newAudioSource(input, { volume }) {
   const audioSource = createAudioResource(input, { inlineVolume: true });
   if (audioSource.volume) {
-    audioSource.volume.setVolume(volume || 0.5);
+    audioSource.volume.setVolume(volume || 0.2);
   };  
   return audioSource;
 };
