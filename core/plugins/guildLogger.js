@@ -10,7 +10,10 @@ async function eventLog(event, guild, params = {}, client) {
   logger.verbose(`params: ${JSON.stringify(params, null, 2)}`);
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Event Logged!')
-    .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
+    .setFooter({
+      text: 'Bot created and maintained by NovaLynxie.',
+      iconURL: client.user.displayAvatarURL({ format: 'png' })
+    });
   const hasChanged = (a, b) => a !== b;
   function shortenContents(content) {
     return (content.length > 1024) ? `${content.substr(0, 1021)}...` : content;
@@ -216,7 +219,10 @@ async function modLog(action, guild, params = {}, client) {
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('Moderation Log')
     .setAuthor(executor.user.tag, executor.displayAvatarURL())
-    .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
+    .setFooter({
+      text: 'Bot created and maintained by NovaLynxie.',
+      iconURL: client.user.displayAvatarURL({ format: 'png' })
+    });
   let memberDetails, executorDetails, actionDetails;
   if (member) {
     let user = member.user || member;
@@ -306,7 +312,10 @@ async function notifLog(type, guild, params = {}, client) {
   const guildLogEmbed = new MessageEmbed(guildBaseEmbed)
     .setTitle('New Notification! (WIP)')
     .setDescription('Notification logs are still WIP! It may not display data as expected and/or break between updates.')
-    .setFooter('Bot created and maintained by NovaLynxie.', client.user.displayAvatarURL({ format: 'png' }));
+    .setFooter({
+      text: 'Bot created and maintained by NovaLynxie.',
+      iconURL: client.user.displayAvatarURL({ format: 'png' })
+    });
   // process field data here
   let notifLogFields = [/* add fields here */];
   switch (type) {
