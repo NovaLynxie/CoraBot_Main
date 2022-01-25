@@ -542,6 +542,15 @@ module.exports = {
     if (eventListenerCheck('error')) {
       audioPlayer.on('error', playerEvents.errorEvent);
     } else { eventListenerReset('error', playerEvents.errorEvent) };
+    function errCallback(interact) {
+      let errEmbed = new MessageEmbed(musicBaseEmbed)
+        .setTitle('Playback Error!')
+        .setDescription(stripIndents`
+          Error loading song ${voiceData.music.track.title}!
+          This song may be unavailable or does not exist.
+        `);
+      interact.followUp({ embeds: [errEmbed], ephemeral: true });
+    };
     if (collector) {
       collector.on('collect', async interact => {
         voiceData = await client.data.guild.voice.get(interact.guild);
@@ -590,13 +599,7 @@ module.exports = {
               } catch (error) {
                 logger.error('Failed to load song!');
                 logger.error(error.message); logger.debug(error.stack);
-                let errEmbed = new MessageEmbed(musicBaseEmbed)
-                  .setTitle('Playback Error!')
-                  .setDescription(stripIndents`
-                    Error loading song ${voiceData.music.track.title}!
-                    This song may be unavailable or does not exist.
-                  `);
-                interact.followUp({ embeds: [errEmbed], ephemeral: true });
+                errCallback(interact);
               };
               if (!source) return interact.editReply({ content: 'No song queued to play!' });
               if (!interaction.member.voice.channel) {
@@ -628,17 +631,7 @@ module.exports = {
               } catch (error) {
                 logger.error('Failed to load song!');
                 logger.error(error.message); logger.debug(error.stack);
-                let errEmbed = new MessageEmbed(musicBaseEmbed)
-                  .setTitle('Player Error!')
-                  .setDescription(`                  
-                  \`\`\`
-                  Caused by: ${error.message}
-                  ${error.stack}
-                  \`\`\`
-                  `)
-                interact.followUp({
-                  contents: 'Failed to load requested song!'
-                })
+                errCallback(interact);
               };
               if (!source) {
                 return interact.editReply({ content: 'End of queue!' });
