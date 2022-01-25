@@ -261,11 +261,10 @@ module.exports = {
     async function dynamicQueueEmbed(queue, index = 1) {
       let no = 1, field = {}, info, pos = index * 25 - 24;
       let section = queue.slice(pos - 1, pos + 24); no = pos;
-      if (!section.length) {
-        logger.verbose('No more songs! Returning to previous page.');
-        logger.debug('No songs found on next page, returning back one page.');
-        pos = (index - 1) * 25 - 24; no = pos;
-        queue.slice(pos - 1, pos + 24);
+      if (section.length <= 0) {
+        logger.debug('No more songs detected! Staying on previous page');
+        queuePage = index - 1; pos = (queuePage) * 25 - 24; no = pos;
+        section = queue.slice(pos - 1, pos + 24);
       };
       let queueEmbed = new MessageEmbed(musicBaseEmbed);
       queueEmbed
@@ -679,9 +678,9 @@ module.exports = {
                 { embeds: [await dynamicQueueEmbed(voiceData.music.queue, queuePage)], components: [musicQueueMenuBtns] }
               ); break;
             case 'pagePrev':
-              queuePage = (queuePage > 1) ? queuePage-- : 1;
+              queuePage--; queuePage = (queuePage < 1) ? 1 : queuePage;
               await interact.editReply(
-                { embeds: [await dynamicQueueEmbed(voiceData.music.queue)], components: [musicQueueMenuBtns] }
+                { embeds: [await dynamicQueueEmbed(voiceData.music.queue, queuePage)], components: [musicQueueMenuBtns] }
               ); break;
             default:
               logger.warn('Invalid or unknown action called!');
