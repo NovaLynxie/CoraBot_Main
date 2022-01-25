@@ -12,8 +12,8 @@ module.exports = {
 		logger.info(`Logged in as ${client.user.tag}. Bot Online!`);
 		clearTimeout(client.timers.apiConnectWarn);
 		logger.debug('Cleared ratelimit warning timer.');
-    client.user.setActivity('Loading settings...');
     logger.init('Running settings and data initial checks...');
+    client.user.setActivity('Loading... Please wait.');
 		client.application = await client.application.fetch();
     try {
       await client.settings.init();
@@ -33,7 +33,6 @@ module.exports = {
 		};
     await client.utils.db.backup();
     logger.init('Finished final checks. Preparing commands.');
-    client.user.setActivity('Loading commands...');
 		const res = await client.utils.cmds.reloadAll(client, true);
     logger.debug(`${res.success} loaded, ${res.failed} failed.`);
 		const dashConfig = {
