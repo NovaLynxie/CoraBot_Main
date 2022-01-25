@@ -156,7 +156,7 @@ module.exports = {
       let mins, secs;
       mins = Math.floor(time / 60); secs = time - mins * 60;
       return `${(mins > 9) ? mins : `0${mins}`}:${(secs > 9) ? secs : `0${secs}`}`;
-    }
+    };
     async function playlistParser(url, type) {
       let playlist, queue = [];
       try {
