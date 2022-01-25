@@ -587,9 +587,8 @@ module.exports = {
                   logger.debug('Connection is already destroyed!');
                   logger.debug(error.message); logger.debug(error.stack);
                   connection = null;
-                };
-                refreshPlayer(interact);
-              }; break;
+                };                
+              }; refreshPlayer(interact); break;
             case 'play':
               if (!audioPlayer) return;
               try {
