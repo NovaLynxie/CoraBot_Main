@@ -49,7 +49,7 @@ const schema = {
 			hidden: true,
 			replace: '*',
 			default: '',
-		},
+    }/*,
 		yiffyApiToken : {
 			description: 'Enter valid yiffy api token (press enter to skip)',
 			message: 'No valid token provided! Some modules will not function correctly.',
@@ -65,7 +65,7 @@ const schema = {
 			hidden: true,
 			replace: '*',
 			default: '',
-		},
+		},*/
 	},
 };
 
