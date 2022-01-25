@@ -51,7 +51,7 @@ process.on('uncaughtException', error => {
 const apiConnectWarn = setTimeout(() => {
   logger.warn('Bot taking longer than normal to connect.');
   logger.warn('Possibly slow connection or rate limited?');
-}, 10 * 1000);
+}, 30 * 1000);
 const dbServiceWorker = setInterval(async () => {
   try {
     await client.utils.db.backup();
