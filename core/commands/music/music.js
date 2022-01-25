@@ -1,9 +1,10 @@
 const logger = require('../../utils/winstonLogger');
 const { longURL, shortURL } = require('../../utils/urlParser');
 const { MessageActionRow, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { Playing, Idle, Paused, AutoPaused } = AudioPlayerStatus;
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { stripIndents } = require('common-tags');
 const playdl = require('play-dl');
 playdl.getFreeClientID().then((clientID) => playdl.setToken({
   useragent: ['cora/4.0 (https://github.com/NovaLynxie/CoraBot_Main)'],
@@ -550,12 +551,10 @@ module.exports = {
           switch (interact.customId) {
             case 'closePlayer':
               playerOpen = false;
-              await interact.editReply(
-                {
-                  content: 'Music Player hidden! Run /music player to reopen it.',
-                  embeds: [], components: [],
-                },
-              );
+              await interact.editReply({
+                content: 'Music Player hidden! Run /music player to reopen it.',
+                embeds: [], components: [],
+              });
               await wait(5000);
               await interact.deleteReply();
               collector.stop(); break;
@@ -591,6 +590,13 @@ module.exports = {
               } catch (error) {
                 logger.error('Failed to load song!');
                 logger.error(error.message); logger.debug(error.stack);
+                let errEmbed = new MessageEmbed(musicBaseEmbed)
+                  .setTitle('Playback Error!')
+                  .setDescription(stripIndents`
+                    Error loading song ${voiceData.music.track.title}!
+                    This song may be unavailable or does not exist.
+                  `);
+                interact.followUp({ embeds: [errEmbed], ephemeral: true });
               };
               if (!source) return interact.editReply({ content: 'No song queued to play!' });
               if (!interaction.member.voice.channel) {
