@@ -185,13 +185,16 @@ module.exports = {
         };
       };
       if (playlist.videos) {
-        for (let item of playlist.videos) {
+        let videos = await playlist.all_videos();
+        logger.verbose(`videos:${JSON.stringify(videos, null, 2)}`);
+        for (let item of videos) {
           logger.verbose(JSON.stringify(item, null, 2));
           queue.push({ title: item.title, duration: item.durationInSec, url: item.url, thumbnail: item.thumbnails[item.thumbnails.length - 1].url, type: 'youtube' });
           logger.debug(`Found ${item.title}`);
         };
       };
       logger.debug(`Parsed ${queue.length} songs! Adding them to music list.`);
+      logger.verbose(`queue:${JSON.stringify(queue, null, 2)}`);
       return queue;
     };
     async function sourceParser(url) {
