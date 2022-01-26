@@ -218,7 +218,7 @@ module.exports = {
             data = await playdl.video_info(url);
             if (data.video_details.durationInSec <= 0) {
               song = null;
-              response.content = 'Sorry, I do not support playing back YouTube livestreams in music queue.';
+              response.content = 'Sorry, I do not allow playback of YouTube livestreams in music player.';
             } else {
               song = { title: data.video_details.title, url: data.video_details.url, duration: data.video_details.durationRaw || data.video_details.durationInSec, thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
               response.content = `Added ${song.title} to the queue!`;
