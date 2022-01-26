@@ -55,7 +55,7 @@
     "passport": "^0.4.1",
     "passport-discord": "^0.1.4",
     "passport-discord-faxes": "^0.1.4",
-    "play-dl": "^1.7.7",
+    "play-dl": "^1.8.1",
     "prompt": "^1.2.1",
     "pug": "^3.0.2",
     "sodium": "^3.0.2",
