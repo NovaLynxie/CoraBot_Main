@@ -1,5 +1,6 @@
 const logger = require('../utils/winstonLogger');
 const { version } = require('../../package.json');
+const djsVersion = require('discord.js').version;
 const fs = require('fs');
 function timeStamp(date) {
 	let hrs, mins, secs, logtime, day, month, year, logdate;
@@ -35,6 +36,7 @@ function crashReporter(error) {
     --------------------------------------------------------------
     NodeJS: v${process.versions.node}
     BotApp: v${version}
+    DiscordJS: v${djsVersion}
     ==============================================================
     `;
 	fs.writeFile(filepath, crashdata, function(error) {

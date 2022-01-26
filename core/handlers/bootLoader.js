@@ -3,11 +3,6 @@ const toml = require('toml'); const fs = require('fs');
 const { version } = require('../../package.json');
 let authConfig, mainConfig, fileData;
 let authLoaded = false, mainLoaded = false;
-logger.debug('==========================================================');
-logger.debug('System Version Diagnostics.');
-logger.debug(`NodeJS v${process.versions.node}`);
-logger.debug(`CoraBot v${version}`);
-logger.debug('==========================================================');
 const NODE_MAJOR_VERSION = process.versions.node.split('.')[0];
 const NODE_MINOR_VERSION = process.versions.node.split('.')[1];
 if (NODE_MAJOR_VERSION < 16 && NODE_MINOR_VERSION < 6) {
