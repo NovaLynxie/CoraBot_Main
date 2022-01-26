@@ -153,9 +153,15 @@ module.exports = {
           .setStyle('SECONDARY')
       );
     function formatDuration(time) {
-      let mins, secs;
-      mins = Math.floor(time / 60); secs = time - mins * 60;
-      return `${(mins > 9) ? mins : `0${mins}`}:${(secs > 9) ? secs : `0${secs}`}`;
+      let hours, minutes, seconds;
+      const sec = parseInt(time, 10);
+      hours = Math.floor(sec / 3600);
+      minutes = Math.floor((sec - (hours * 3600)) / 60);
+      seconds = sec - (hours * 3600) - (minutes * 60);
+      if (hours < 10) { = `0${hours}`};
+      if (minutes < 10) { = `0${minutes}`};
+      if (seconds < 10) { = `0${seconds}`};
+      return `${hours}:${minutes}:${seconds}`;
     };
     async function playlistParser(url, type) {
       let playlist, queue = [];
