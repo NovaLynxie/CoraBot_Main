@@ -28,8 +28,7 @@ async function joinVC(channel) {
   if (!channel.isVoice() || channel.type !== 'GUILD_VOICE') return logger.error('Not a voice channel! Expected GUILD_VOICE channel!')
   logger.verbose(`voiceChannel:${JSON.stringify(channel, null, 2)}`);
   const voiceConnection = joinVoiceChannel({
-    channelId: channel.id,
-    guildId: channel.guild.id,
+    channelId: channel.id, guildId: channel.guild.id,
     adapterCreator: channel.guild.voiceAdapterCreator,
   });
   try {
