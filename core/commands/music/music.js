@@ -268,13 +268,13 @@ module.exports = {
         queuePage = index - 1; pos = (queuePage) * 25 - 24; no = pos;
         section = queue.slice(pos - 1, pos + 24);
       };
-      let queueEmbed = new MessageEmbed(musicBaseEmbed);
-      queueEmbed
+      let queueEmbed = new MessageEmbed(musicBaseEmbed)
         .setTitle('Music Player Queue 🎼')
         .setDescription(`
         ${guild.name}'s queued songs
         ${(section.length) ? (section.length > 24) ? pos + (section.length - 25) : pos : 0} - ${(section.length <= 24) ? queue.length : pos + 24} of ${queue.length}`);
-      logger.verbose(`queue.main.length=${queue.length}`); logger.verbose(`queue.section.length=${section.length}`);
+      logger.verbose(`queue.main.length=${queue.length}`);
+      logger.verbose(`queue.section.length=${section.length}`);
       logger.verbose(`pageNo:${index}; posNo:${pos};`)
       for (const item of section) {
         let { title, duration, type, url } = item;
@@ -315,9 +315,8 @@ module.exports = {
             name: `Track #${no}`,
             value: `
             Unable to load queued song information!`
-          }
-        }
-        queueEmbed.addFields(field);
+          };
+        }; queueEmbed.addFields(field);
       };
       if (queueEmbed.fields.length <= 0) {
         queueEmbed.fields = [];
