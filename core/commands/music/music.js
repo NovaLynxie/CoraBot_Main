@@ -422,12 +422,13 @@ module.exports = {
       if (!results) {
         await interaction.editReply({
           content: 'Whoops! No response was received or failed to get search results! Try searching again.'
-        }); return;
+        });
+      } else {
+        await interaction.editReply({
+          components: [await dynamicSearchSelector(results.items || results, query.source)],
+          embeds: [await dynamicSearchEmbed(results.items || results)]
+        });
       };
-      await interaction.editReply({
-        components: [await dynamicSearchSelector(results.items || results, query.source)],
-        embeds: [await dynamicSearchEmbed(results.items || results)]
-      });
     };
     async function refreshPlayer(interact) {
       logger.verbose(JSON.stringify(voiceData, null, 2));
@@ -588,7 +589,7 @@ module.exports = {
                   logger.debug('Connection is already destroyed!');
                   logger.debug(error.message); logger.debug(error.stack);
                   connection = null;
-                };                
+                };
               }; refreshPlayer(interact); break;
             case 'play':
               if (!audioPlayer) return;
