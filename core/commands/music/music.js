@@ -581,6 +581,7 @@ module.exports = {
               };
               if (!connection) {
                 connection = await client.voice.player.join(interaction.member.voice.channel);
+                await connection.subscribe(audioPlayer);
               } else {
                 try {
                   connection.destroy();
