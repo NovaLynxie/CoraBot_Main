@@ -226,6 +226,5 @@ function genericEmbed(params = {}) {
 module.exports = systemEmbed;
 module.exports.embeds = {
   generic: genericEmbed,
-  music: {},
   system: systemEmbed
 };
