@@ -274,7 +274,10 @@ module.exports = {
       if (!voiceData.music.queue[0]) return undefined;
       let { title, duration, type, url, thumbnail } = voiceData.music.queue[0];
       const source = await playdl.stream(url);
-      const stream = client.voice.player.create(source.stream, { type: source.type, volume: voiceData.volume });
+      const stream = client.voice.player.create(source.stream, {
+        metadata: { title: title },
+        type: source.type, volume: voiceData.volume
+      });
       voiceData.music.track = { title, duration, type, thumbnail };
       await client.data.guild.voice.set(voiceData, guild);
       return stream;
@@ -533,9 +536,10 @@ module.exports = {
         if (playerOpen) refreshPlayer(interaction);
       },
       errorEvent: (error) => {
-        logger.error('Error occured while playing stream!');
-        logger.error(error.message); logger.debug(error.stack);
-        logger.verbose(error); audioPlayer.stop();
+        logger.error('Error thrown by AudioPlayer during playback!');
+        logger.error(`${error.message} while playing audio resource ${error.resource.metadata.title}!`);
+        logger.debug(error.stack); logger.verbose(error);
+        audioPlayer.stop();
       }
     };
     const eventListenerCheck = (event) => audioPlayer.listenerCount(event) <= 0;

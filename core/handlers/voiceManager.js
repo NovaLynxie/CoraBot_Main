@@ -12,8 +12,9 @@ function newAudioPlayer() {
   });
   return audioPlayer;
 };
-function newAudioSource(input, { type, volume }) {
+function newAudioSource(input, { metadata = {}, type, volume }) {
   const audioSource = createAudioResource(input, {
+    metadata: (metadata) ? metadata : undefined,
     inlineVolume: true, inputType: (type) ? type : undefined
   });
   if (audioSource.volume) {
