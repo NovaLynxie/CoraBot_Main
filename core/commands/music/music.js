@@ -224,7 +224,7 @@ module.exports = {
         switch (await playdl.validate(url)) {
           case 'yt_playlist':
             data = await playlistParser(url, 'yt'); list = data.queue;
-            response.content = `Queued ${list.length} songs from YouTube playlist! ${(data.hidden) ? `Skipped ${data.hidden} songs.`}`;
+            response.content = `Queued ${list.length} songs from YouTube playlist! ${(data.hidden) ? `Skipped ${data.hidden} songs.` : ''}`;
             break;
           case 'so_playlist':
             data = await playlistParser(url, 'so'); list = data.queue;
