@@ -80,7 +80,7 @@ async function loadAllCmds(client, botInitStage = false) {
       logger.info('Global slash commands update completed!');
       logger.warn('It may take up to an hour to sync changes across Discord.');
     } catch (error) {
-      logger.error('Unable to refresh application (/) commands!')
+      logger.error('Failed to update application (/) commands!')
       logger.error(`Discord API Error! Err. Code: ${error.code} Response: ${error.status} - ${error.message}`);
     };
   };
