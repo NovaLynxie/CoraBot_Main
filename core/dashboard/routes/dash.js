@@ -175,7 +175,6 @@ router.post('/:guildID/manage', checkAuth, async (req, res) => {
     req.flash('danger', 'One or more settings failed to save! Please try again. If this error persists, contact an admin or report this to the GitHub issue tracker.');
   }
   logger.debug('Redirecting to dashboard guild page.');
-  //res.redirect(`/dashboard/${req.params.guildID}/manage`);
   res.redirect(`/dashboard/${req.params.guildID}`);
 });
 router.get('/:guildID/leave', checkAuth, async (req, res) => {
@@ -219,7 +218,7 @@ router.get('/:guildID/kick/:userID', checkAuth, async (req, res) => {
   if (!isManaged(guild, req.user) && !req.session.isAdmin) res.redirect('/');
   if (req.params.userID === client.user.id || req.params.userID === req.user.id) {
     req.flash('warning', 'You cannot kick yourself or the bot from here! If you want to remove the bot, please use the LEAVE button.');
-    logger.warn(`WebDash Operator BAN ${member.user.tag} aborted by DashService!`);
+    logger.warn(`WebDash Operator KICK ${member.user.tag} aborted by DashService!`);
     logger.warn(`Reason: The requested MemberID of ${member.user.tag}was the User's or Bot's unique ID.`);
   } else {
     member.kick(`Kicked by WebDash Operator (ID :${req.user.id})`)
