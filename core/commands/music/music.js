@@ -204,7 +204,7 @@ module.exports = {
             continue;
           };
           logger.verbose(JSON.stringify(item, null, 2));
-          queue.push({ title: item.title, duration: item.durationInSec, url: item.url, thumbnail: item.thumbnails[item.thumbnails.length - 1].url, type: 'youtube', , memberID: member.id });
+          queue.push({ title: item.title, duration: item.durationInSec, url: item.url, thumbnail: item.thumbnails[item.thumbnails.length - 1].url, type: 'youtube', memberID: member.id });
         };
         hidden = playlist.videoCount - queue.length;
       };
@@ -247,7 +247,7 @@ module.exports = {
           case 'so_track':
             data = await playdl.soundcloud(url);
             logger.data(JSON.stringify(data, null, 2));
-            song = { title: data.name, duration: data.durationInSec, url: data.url, thumbnail: data.thumbnail, type: 'soundcloud',, memberID: member.id };
+            song = { title: data.name, duration: data.durationInSec, url: data.url, thumbnail: data.thumbnail, type: 'soundcloud', memberID: member.id };
             break;
             response.content = `Added ${song.title} to the queue!`;
           default:
