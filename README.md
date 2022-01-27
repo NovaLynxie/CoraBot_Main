@@ -1,6 +1,6 @@
-### ***DEPRECIATION WARNING!***
-***Due to many changes in Discord's API and Discord.JS itself as well as a major dependency dropping support, CoraBot v3 will soon be depreciated. For more information and updates, please refer to issue [#16](https://github.com/NovaLynxie/CoraBot_Main/issues/16).***
-***At this time CoraBot v4 is currently under development! More information will become available on migrating to the new version soon. ;)***
+### ***THIS VERSION IS NO LONGER SUPPORTED! It has been transferred into maintenance only updates till April 2022.***
+***See issue [#16](https://github.com/NovaLynxie/CoraBot_Main/issues/16) for more information.***
+***Please migrate to CoraBot v4 as no more support will be offered for v3. It is to be used as is, only minimal updates to specific dependencies will be provided.***
 
 # CoraBot - A customizable discord bot built on DiscordJS with NodeJS
 CoraBot Discord.JS bot for managing your discord guild or community server!
