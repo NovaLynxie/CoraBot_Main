@@ -109,7 +109,7 @@ module.exports = {
           .setCustomId('skip')
           .setEmoji('⏭️')
           .setStyle('SECONDARY')
-      ); 
+      );
     const musicPlayerExtBtns = new MessageActionRow()
       .addComponents(
         new MessageButton()
@@ -367,12 +367,11 @@ module.exports = {
           default:
             url = undefined;
         };
-        let item = {
-          label: song.title || song.name, value: url
-        };
+        let item = { label: song.title || song.name, value: url };
         logger.data(`parsing results item ${JSON.stringify(item)}`);
         selection.push(item);
       };
+      selection.push({ label: 'Cancel Search', value: 'search_abort' });
       let searchSelector = new MessageActionRow()
         .addComponents(
           new MessageSelectMenu()
@@ -587,6 +586,12 @@ module.exports = {
               await interact.deleteReply();
               collector.stop(); break;
             case 'musicSearchSelect':
+              if (interact.values[0] === 'search_abort') {
+                interact.editReply({
+                  content: 'Song search cancelled by user.', embeds: []
+                });
+                await wait(5000); interact.deleteReply();
+              };
               await sourceParser(interact.values[0]);
               collector.stop();
               break;
