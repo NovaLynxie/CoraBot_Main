@@ -24,16 +24,14 @@ module.exports = {
     if (cmdName) {
       if (client.commands.has(cmdName)) {
         try {
-          logger.debug(`Reloading command with name ${cmdName}.`);
+          logger.debug(`Reloading command ${cmdName}...`);
           client.utils.cmds.reloadCmd(client, cmdName);
           interaction.reply({
-            content: `
-            Reloaded command \`${cmdName}\`!`,
-            ephemeral: true,
+            content: `Reloaded command \`${cmdName}\`!`, ephemeral: true
           });
         } catch (error) {
           interaction.reply({
-            content: `Error occured while reloading command. \n\`\`\` ${error.message}\`\`\``
+            content: `Error occured while reloading command ${cmdName}! \n\`\`\` ${error.message}\`\`\``
           });
         };
       } else {
