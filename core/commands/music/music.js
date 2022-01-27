@@ -507,25 +507,6 @@ module.exports = {
         };
         await client.data.guild.voice.set(voiceData, guild);
       },
-      stopEvent: async () => {
-        logger.debug('Player has stopped playing!');
-        voiceData = await client.data.guild.voice.get(guild);
-        if (stopped) {
-          stopped = false;
-          return logger.debug('Player stopped by user! AutoPlay aborted.');
-        } else {
-          logger.debug('Current song has finished, queuing up next song.');
-        };
-        voiceData.music.queue.shift(); voiceData.music.track = {};
-        source = await loadSong();
-        if (!source) {
-          logger.debug('No songs available! AudioPlayer stopped.');
-        } else {
-          logger.debug(`Song queued! Playing ${voiceData.music.track.title} next.`);
-          audioPlayer.play(source);
-        };
-        await client.data.guild.voice.set(voiceData, guild);
-      },
       autoPauseEvent: () => {
         logger.debug('Player autopaused since not connected to an active channel.');
       },
@@ -539,7 +520,14 @@ module.exports = {
         logger.error('Error thrown by AudioPlayer during playback!');
         logger.error(`${error.message} while playing audio resource ${error.resource.metadata.title}!`);
         logger.debug(error.stack); logger.verbose(error);
-        audioPlayer.stop();
+        voiceData.music.queue.shift(); voiceData.music.track = {};
+        source = await loadSong();
+        if (!source) {
+          logger.debug('No songs available! AudioPlayer stopped.');
+        } else {
+          logger.debug(`Song queued! Playing ${voiceData.music.track.title} next.`);
+          audioPlayer.play(source);
+        };
       }
     };
     const eventListenerCheck = (event) => audioPlayer.listenerCount(event) <= 0;
