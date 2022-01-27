@@ -1,4 +1,4 @@
-### ***THIS VERSION IS NO LONGER SUPPORTED! It has been transferred into maintenance only updates till April 2022.***
+### ***THIS VERSION IS NO LONGER SUPPORTED! Will only recieve maintenance updates till April 2022.***
 ***See issue [#16](https://github.com/NovaLynxie/CoraBot_Main/issues/16) for more information.***
 ***Please migrate to CoraBot v4 as no more support will be offered for v3. It is to be used as is, only minimal updates to specific dependencies will be provided.***
 
