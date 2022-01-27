@@ -108,10 +108,6 @@ module.exports = {
         new MessageButton()
           .setCustomId('skip')
           .setEmoji('⏭️')
-          .setStyle('SECONDARY'),
-        new MessageButton()
-          .setCustomId('mute')
-          .setEmoji('🔇')
           .setStyle('SECONDARY')
       ); 
     const musicPlayerExtBtns = new MessageActionRow()
