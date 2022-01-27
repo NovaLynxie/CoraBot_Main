@@ -415,7 +415,7 @@ module.exports = {
           value: `${(song) ? `${(song.title) ? `${song.title.replace("''", "'")}` : 'unknown'} (${(song.type) ? song.type : 'unknown'})` : '...'} (${(song.duration ? (typeof song.duration === 'string') ? song.duration : formatDuration(song.duration) : '--:--')})`, inline: true
         },
         {
-          name: 'Volume', value: `${Math.floor(voiceData.volume * 100)}%`, inline: true
+          name: 'Volume', value: `${Math.ceil(voiceData.volume * 100)}%`, inline: true
         }
       ]; return playerEmbed;
     };
