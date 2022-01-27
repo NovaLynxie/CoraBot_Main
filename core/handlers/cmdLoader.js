@@ -6,7 +6,7 @@ const { config, credentials } = require('./bootLoader');
 const { forceUpdateCmds } = config;
 const { discordToken } = credentials;
 const botCmdsDir = './core/commands';
-function requireHandler(module) {
+function requireReloader(module) {
   delete require.cache[require.resolve(module)];
   return require(module);
 };
@@ -23,7 +23,7 @@ async function loadAllCmds(client, botInitStage = false) {
         logger.debug(`Parsing ${file} of ${subDir} in slashcmds`);
         logger.debug(`cmdfile -> ${file}`);
         try {
-          const cmd = requireHandler(`../commands/${subDir}/${file}`);
+          const cmd = requireReloader(`../commands/${subDir}/${file}`);
           const cmdDataJSON = cmd.data.toJSON();
           if (!cmdDataJSON.name || cmdDataJSON.name.trim() === '') return logger.error(`Command ${file} missing name property or no name provided!`);
           if (!cmd.execute) return logger.error(`Command ${file} missing execute() function!`);
@@ -97,7 +97,7 @@ async function loadCommand(client, cmdName) {
       logger.verbose(`cmdFile: ${file}`);
       try {
         if (file) {
-          const cmdData = requireHandler(`../commands/${subDir}/${file}`);
+          const cmdData = requireReloader(`../commands/${subDir}/${file}`);
           logger.verbose(JSON.stringify(cmdData, null, 2));
           const cmdJSON = cmdData.data.toJSON();
           logger.verbose(JSON.stringify(cmdJSON, null, 2));
