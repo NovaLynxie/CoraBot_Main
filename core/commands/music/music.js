@@ -588,7 +588,8 @@ module.exports = {
             case 'musicSearchSelect':
               if (interact.values[0] === 'search_abort') {
                 interact.editReply({
-                  content: 'Song search cancelled by user.', embeds: []
+                  components: [], embeds: [],
+                  content: 'Song search cancelled by user.'
                 });
                 await wait(5000); interact.deleteReply();
               };
