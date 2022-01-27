@@ -67,16 +67,16 @@ async function loadAllCmds(client, botInitStage = false) {
         }
     logger.warn('Aborted command loading due to error! Some interactions may fail.');
   };
-  if (forceUpdateCmds && botInitStage) {
-    logger.debug('Forcing application command updates!');
+  if (botInitStage && forceUpdateCmds) {
+    logger.debug('Syncing currently loaded bot commands with client application commands!');
     const rest = new REST({ version: '9' }).setToken(discordToken);
     try {
-      logger.debug(`Started loading client application (/) commands for ${client.user.tag}.`);
+      logger.debug(`Started updating client application (/) commands for ${client.user.tag}.`);
       await rest.put(
         Routes.applicationCommands(client.user.id),
         { body: commands },
       );
-      logger.debug(`Successfully loaded client application (/) commands for ${client.user.tag}.`);
+      logger.debug(`Successfully updated client application (/) commands for ${client.user.tag}!`);
       logger.info('Global slash commands update completed!');
       logger.warn('It may take up to an hour to sync changes across Discord.');
     } catch (error) {
