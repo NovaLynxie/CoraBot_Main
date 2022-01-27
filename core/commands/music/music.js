@@ -292,7 +292,7 @@ module.exports = {
       logger.verbose(`queue.section.length=${section.length}`);
       logger.verbose(`pageNo:${index}; posNo:${pos};`)
       for (const item of section) {
-        let { title, duration, type, url } = item;
+        let { title, duration, type, url } = item;        
         try {
           switch (type) {
             case "youtube":
@@ -300,7 +300,7 @@ module.exports = {
                 name: `Track #${no}`,
                 value: `
                 Title: ${title}
-                Duration: ${formatDuration(duration)}
+                Duration: ${(typeof duration === 'string') ? duration : formatDuration(duration)}
                 Sourced from YouTube`
               };
               break;
@@ -309,7 +309,7 @@ module.exports = {
                 name: `Track #${no}`,
                 value: `
                 Title: ${title}
-                Duration: ${formatDuration(duration)}
+                Duration: ${(typeof duration === 'string') ? duration : formatDuration(duration)}
                 Sourced from SoundCloud`
               };
               break;
@@ -400,7 +400,7 @@ module.exports = {
             playerState = 'Player Off';
           };
       };
-      if (!connection) playerState = 'Voice D/C 🔇';
+      if (!connection) playerState = 'Voice D/C 🔇';      
       playerEmbed.fields = [
         {
           name: 'Player Status',
@@ -408,7 +408,7 @@ module.exports = {
         },
         {
           name: 'Song Information',
-          value: `${(song) ? `${(song.title) ? `${song.title.replace("''", "'")}` : 'unknown'} (${(song.type) ? song.type : 'unknown'})` : '...'} (${(song.duration ? formatDuration(song.duration) : '--:--')})`, inline: true
+          value: `${(song) ? `${(song.title) ? `${song.title.replace("''", "'")}` : 'unknown'} (${(song.type) ? song.type : 'unknown'})` : '...'} (${(song.duration ? (typeof song.duration === 'string') ? song.duration : formatDuration(song.duration) : '--:--')})`, inline: true
         },
         {
           name: 'Volume', value: `${Math.floor(voiceData.volume * 100)}%`, inline: true
