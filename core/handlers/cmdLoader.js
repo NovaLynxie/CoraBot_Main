@@ -13,6 +13,8 @@ function requireHandler(module) {
 async function loadAllCmds(client, botInitStage = false) {
   const commands = [], counters = { success: 0, failed: 0 };
   try {
+    logger.warn('Bot may lag for a bit while loading all commands.');
+    logger.debug('Started reloading all available commands!');
     readdirSync(botCmdsDir).forEach(subDir => {
       const dirPath = `${botCmdsDir}/${subDir}/`;
       const cmdfiles = readdirSync(dirPath).filter(file => file.endsWith('.js'));
@@ -46,6 +48,7 @@ async function loadAllCmds(client, botInitStage = false) {
       };
     });
   } catch (error) {
+    logger.error('Command Loader Error! Failed to reload ALL commands!');
     if (error.code === 'ENOENT') {
       logger.fatal('Unable to find commands directory!');
       throw error;
@@ -85,23 +88,30 @@ async function loadAllCmds(client, botInitStage = false) {
 };
 async function loadCommand(client, cmdName) {
   try {
+    logger.debug(`Searching for command matching ${cmdName}...`);
     for (const subDir of readdirSync(botCmdsDir)) {
       const dirPath = `${botCmdsDir}/${subDir}/`;
       const cmds = readdirSync(dirPath).filter(file => file.endsWith('.js'));
       logger.verbose(`cmdsArr: ${cmds}`);
       const file = cmds[cmds.indexOf(`${cmdName}.js`)];
       logger.verbose(`cmdFile: ${file}`);
-      if (file) {
-        const cmdData = requireHandler(`../commands/${subDir}/${file}`);
-        logger.verbose(JSON.stringify(cmdData, null, 2));
-        const cmdJSON = cmdData.data.toJSON();
-        logger.verbose(JSON.stringify(cmdJSON, null, 2));
-        client.commands.set(cmdJSON.name, cmdData); break;
+      try {
+        if (file) {
+          const cmdData = requireHandler(`../commands/${subDir}/${file}`);
+          logger.verbose(JSON.stringify(cmdData, null, 2));
+          const cmdJSON = cmdData.data.toJSON();
+          logger.verbose(JSON.stringify(cmdJSON, null, 2));
+          client.commands.set(cmdJSON.name, cmdData); break;
+        };
+      } catch (error) {
+        logger.error(`Error occured while loading command ${file}!`);
+        logger.debug(error.stack); throw error;
       };
     };
-    logger.debug(`Command ${cmdName} reloaded successfully!`);    
+    logger.debug(`Command ${cmdName} reloaded successfully!`);
   } catch (error) {
-    logger.error(error.message); logger.debug(error.stack);
+    logger.error('Command Loader Error! Failed to reload requested command!');
+    logger.debug(error.stack); throw error;
   };
 };
 module.exports.cmdLoader = { reloadAll: loadAllCmds, reloadCmd: loadCommand };

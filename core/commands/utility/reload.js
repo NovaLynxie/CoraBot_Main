@@ -33,7 +33,7 @@ module.exports = {
           });
         } catch (error) {
           interaction.reply({
-            content: `Error occured while reloading command. \n\`\`\` ${error}\`\`\``
+            content: `Error occured while reloading command. \n\`\`\` ${error.message}\`\`\``
           });
         };
       } else {
