@@ -259,7 +259,7 @@ module.exports = {
     async function loadSong() {
       if (!voiceData.music.queue[0]) return undefined;
       let { title, duration, type, url, thumbnail } = voiceData.music.queue[0];
-      const source = await playdl.stream(url); console.log(source);
+      const source = await playdl.stream(url);
       const stream = client.voice.player.create(source.stream, { type: source.type, volume: voiceData.volume });
       voiceData.music.track = { title, duration, type, thumbnail };
       await client.data.guild.voice.set(voiceData, guild);
