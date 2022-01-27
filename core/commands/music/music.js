@@ -168,7 +168,7 @@ module.exports = {
       return `${(hours > 0) ? `${hours}:` : ''}${minutes}:${seconds}`;
     };
     async function playlistParser(url, type) {
-      let playlist, queue = [];
+      let hidden, playlist, queue = [];
       try {
         if (type === 'yt') playlist = await playdl.playlist_info(url, { incomplete: true });
         if (type === 'so') playlist = await playdl.soundcloud(url);
@@ -206,10 +206,11 @@ module.exports = {
           logger.verbose(JSON.stringify(item, null, 2));
           queue.push({ title: item.title, duration: item.durationInSec, url: item.url, thumbnail: item.thumbnails[item.thumbnails.length - 1].url, type: 'youtube' });
         };
+        hidden = playlist.videoCount - queue.length;
       };
       logger.debug(`Parsed ${queue.length} songs! Adding them to music list.`);
       logger.verbose(`queue:${JSON.stringify(queue, null, 2)}`);
-      return queue;
+      return { queue, hidden }; //return queue;
     };
     async function sourceParser(url) {
       voiceData = await client.data.guild.voice.get(guild);
@@ -222,11 +223,11 @@ module.exports = {
       try {
         switch (await playdl.validate(url)) {
           case 'yt_playlist':
-            list = await playlistParser(url, 'yt');
-            response.content = `Queued ${list.length} songs from YouTube playlist!`;
+            data = await playlistParser(url, 'yt'); list = data.queue;
+            response.content = `Queued ${list.length} songs from YouTube playlist! ${(data.hidden) ? `Skipped ${data.hidden} songs.`}`;
             break;
           case 'so_playlist':
-            list = await playlistParser(url, 'so');
+            data = await playlistParser(url, 'so'); list = data.queue;
             response.content = `Queued ${list.length} songs from SoundCloud playlist!`;
             break;
           case 'yt_video':
