@@ -59,7 +59,7 @@ module.exports = {
       });
     };
     await interaction.deferReply({ ephemeral: false });
-    let guild = interaction.guild, collector, source, track, audioVolume;
+    let guild = interaction.guild, member = interaction.member, collector, source, track, audioVolume;
     let connection = client.voice.player.fetch(guild), queuePage = 1;
     audioPlayer = (connection) ? connection._state.subscription ?.player : undefined;
     let voiceData = await client.data.guild.voice.get(guild);
@@ -191,7 +191,7 @@ module.exports = {
             };
           };
           logger.verbose(JSON.stringify(song, null, 2));
-          queue.push({ title: song.name, duration: song.durationInSec, url: song.url, thumbnail: song.thumbnail, type: 'soundcloud' });
+          queue.push({ title: song.name, duration: song.durationInSec, url: song.url, thumbnail: song.thumbnail, type: 'soundcloud', memberID: member.id });
         };
       };
       if (playlist.videos) {
@@ -204,7 +204,7 @@ module.exports = {
             continue;
           };
           logger.verbose(JSON.stringify(item, null, 2));
-          queue.push({ title: item.title, duration: item.durationInSec, url: item.url, thumbnail: item.thumbnails[item.thumbnails.length - 1].url, type: 'youtube' });
+          queue.push({ title: item.title, duration: item.durationInSec, url: item.url, thumbnail: item.thumbnails[item.thumbnails.length - 1].url, type: 'youtube', , memberID: member.id });
         };
         hidden = playlist.videoCount - queue.length;
       };
@@ -240,14 +240,14 @@ module.exports = {
               song = null;
               response.content = `Looks like you tried to add an upcoming YouTube premiere! You should be able to add this after ${time(video_details.upcoming)}.`
             } else {
-              song = { title: video_details.title, url: video_details.url, duration: video_details.durationRaw || video_details.durationInSec, thumbnail: video_details.thumbnails[0].url, type: 'youtube' };
+              song = { title: video_details.title, url: video_details.url, duration: video_details.durationRaw || video_details.durationInSec, thumbnail: video_details.thumbnails[0].url, type: 'youtube', memberID: member.id };
               response.content = `Added ${song.title} to the queue!`;
             };
             break;
           case 'so_track':
             data = await playdl.soundcloud(url);
             logger.data(JSON.stringify(data, null, 2));
-            song = { title: data.name, duration: data.durationInSec, url: data.url, thumbnail: data.thumbnail, type: 'soundcloud' };
+            song = { title: data.name, duration: data.durationInSec, url: data.url, thumbnail: data.thumbnail, type: 'soundcloud',, memberID: member.id };
             break;
             response.content = `Added ${song.title} to the queue!`;
           default:
@@ -300,7 +300,7 @@ module.exports = {
       logger.verbose(`queue.section.length=${section.length}`);
       logger.verbose(`pageNo:${index}; posNo:${pos};`)
       for (const item of section) {
-        let { title, duration, type, url } = item;
+        let { title, duration, type, url, memberID } = item;
         try {
           switch (type) {
             case "youtube":
@@ -309,6 +309,7 @@ module.exports = {
                 value: `
                 Title: ${title}
                 Duration: ${(typeof duration === 'string') ? duration : formatDuration(duration)}
+                Requested by ${guild.members.resolve(memberID) || 'Unknown'}
                 Sourced from YouTube`
               };
               break;
@@ -318,6 +319,7 @@ module.exports = {
                 value: `
                 Title: ${title}
                 Duration: ${(typeof duration === 'string') ? duration : formatDuration(duration)}
+                Requested by ${guild.members.resolve(memberID) || 'Unknown'}
                 Sourced from SoundCloud`
               };
               break;
