@@ -108,8 +108,12 @@ module.exports = {
         new MessageButton()
           .setCustomId('skip')
           .setEmoji('⏭️')
+          .setStyle('SECONDARY'),
+        new MessageButton()
+          .setCustomId('mute')
+          .setEmoji('🔇')
           .setStyle('SECONDARY')
-      );
+      ); 
     const musicPlayerExtBtns = new MessageActionRow()
       .addComponents(
         new MessageButton()
@@ -164,7 +168,7 @@ module.exports = {
       seconds = time - (hours * 3600) - (minutes * 60);
       if (hours < 10) { hours = `0${hours}` };
       if (minutes < 10) { minutes = `0${minutes}` };
-      if (seconds < 10) { seconds = `0${seconds}` };      
+      if (seconds < 10) { seconds = `0${seconds}` };
       return `${(hours > 0) ? `${hours}:` : ''}${minutes}:${seconds}`;
     };
     async function playlistParser(url, type) {
@@ -296,7 +300,7 @@ module.exports = {
       logger.verbose(`queue.section.length=${section.length}`);
       logger.verbose(`pageNo:${index}; posNo:${pos};`)
       for (const item of section) {
-        let { title, duration, type, url } = item;        
+        let { title, duration, type, url } = item;
         try {
           switch (type) {
             case "youtube":
@@ -404,7 +408,7 @@ module.exports = {
             playerState = 'Player Off';
           };
       };
-      if (!connection) playerState = 'Voice D/C 🔇';      
+      if (!connection) playerState = 'Voice D/C 🔇';
       playerEmbed.fields = [
         {
           name: 'Player Status',
