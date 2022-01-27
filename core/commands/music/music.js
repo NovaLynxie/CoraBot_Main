@@ -516,7 +516,7 @@ module.exports = {
         logger.debug(`newState.status => ${newState ?.status}`);
         if (playerOpen) refreshPlayer(interaction);
       },
-      errorEvent: (error) => {
+      errorEvent: async (error) => {
         logger.error('Error thrown by AudioPlayer during playback!');
         logger.error(`${error.message} while playing audio resource ${error.resource.metadata.title}!`);
         logger.debug(error.stack); logger.verbose(error);
