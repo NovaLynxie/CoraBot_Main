@@ -94,6 +94,10 @@ module.exports = {
     const musicPlayerCtrlBtns2 = new MessageActionRow()
       .addComponents(
         new MessageButton()
+          .setCustomId('restart')
+          .setEmoji('⏮')
+          .setStyle('SECONDARY'),
+        new MessageButton()
           .setCustomId('rewind')
           .setEmoji('⏪')
           .setStyle('SECONDARY'),
