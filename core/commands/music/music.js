@@ -589,7 +589,7 @@ module.exports = {
               if (interact.values[0] === 'search_abort') {
                 interact.editReply({
                   components: [], embeds: [],
-                  content: 'Song search cancelled by user.'
+                  content: 'Song search cancelled!'
                 });
                 await wait(5000); interact.deleteReply();
               };
