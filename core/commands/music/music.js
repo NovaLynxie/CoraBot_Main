@@ -1,7 +1,7 @@
 const logger = require('../../utils/winstonLogger');
 const { longURL, shortURL } = require('../../utils/urlParser');
 const { MessageActionRow, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu } = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, time } = require('@discordjs/builders');
 const { AudioPlayerStatus } = require('@discordjs/voice');
 const { Playing, Idle, Paused, AutoPaused } = AudioPlayerStatus;
 const { stripIndents } = require('common-tags');
@@ -158,9 +158,9 @@ module.exports = {
       hours = Math.floor(time / 3600);
       minutes = Math.floor((time - (hours * 3600)) / 60);
       seconds = time - (hours * 3600) - (minutes * 60);
-      if (hours < 10) { hours = `0${hours}`};
-      if (minutes < 10) { minutes = `0${minutes}`};
-      if (seconds < 10) { seconds = `0${seconds}`};
+      if (hours < 10) { hours = `0${hours}` };
+      if (minutes < 10) { minutes = `0${minutes}` };
+      if (seconds < 10) { seconds = `0${seconds}` };
       return `${hours}:${minutes}:${seconds}`;
     };
     async function playlistParser(url, type) {
@@ -194,6 +194,11 @@ module.exports = {
         let videos = await playlist.all_videos();
         logger.verbose(`videos:${JSON.stringify(videos, null, 2)}`);
         for (let item of videos) {
+          if (item.upcoming) {
+            logger.debug('Detected an upcoming video premiere!');
+            logger.debug(`Skipped video ${item.title}.`);
+            continue;
+          };
           logger.verbose(JSON.stringify(item, null, 2));
           queue.push({ title: item.title, duration: item.durationInSec, url: item.url, thumbnail: item.thumbnails[item.thumbnails.length - 1].url, type: 'youtube' });
         };
@@ -222,11 +227,15 @@ module.exports = {
             break;
           case 'yt_video':
             data = await playdl.video_info(url);
-            if (data.video_details.durationInSec <= 0) {
+            let { video_details } = data;
+            if (video_details.durationInSec <= 0) {
               song = null;
               response.content = 'Sorry, I do not allow playback of YouTube livestreams in music player.';
+            } else if (video_details.upcoming) {
+              song = null;
+              response.content = `Looks like you tried to add an upcoming YouTube premiere! You should be able to add this after ${time(video_details.upcoming)}.`
             } else {
-              song = { title: data.video_details.title, url: data.video_details.url, duration: data.video_details.durationRaw || data.video_details.durationInSec, thumbnail: data.video_details.thumbnails[0].url, type: 'youtube' };
+              song = { title: video_details.title, url: video_details.url, duration: video_details.durationRaw || video_details.durationInSec, thumbnail: video_details.thumbnails[0].url, type: 'youtube' };
               response.content = `Added ${song.title} to the queue!`;
             };
             break;
@@ -515,7 +524,7 @@ module.exports = {
       },
       pauseEvent: () => { logger.debug('Player was paused.') },
       stateChangeEvent: (oldState, newState) => {
-        logger.debug(`oldState.status => ${oldState ?.status}`);        
+        logger.debug(`oldState.status => ${oldState ?.status}`);
         logger.debug(`newState.status => ${newState ?.status}`);
         if (playerOpen) refreshPlayer(interaction);
       },
