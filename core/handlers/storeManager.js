@@ -4,10 +4,6 @@ const KeyvSQLite = require('@keyvhq/sqlite');
 const clientPrefStore = new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'client' });
 const guildPrefStore = new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/settings.db' }), namespace: 'guild' });
 const guildDataStore = {
-  economy: {
-    shop: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/economy.db', table: 'shop' }) }),
-    users: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/economy.db', table: 'users' }) })
-  },
   offenses: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db', table: 'moderation' }) }),
   trackers: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db', table: 'trackers' }) }),
   voice: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/voice.db' }), namespace: 'guild' })
@@ -105,22 +101,11 @@ async function generateGuildData(guildIDs) {
   guildIDs.forEach(async (guildID) => {
     logger.verbose(`Checking ${guildID} of guildIDs`);
     const data = {
-      economy: {
-        shop: await guildDataStore.economy.shop.get(guildID),
-        users: await guildDataStore.economy.users.get(guildID)
-      },
       offenses: await guildDataStore.offenses.get(guildID),
       trackers: await guildDataStore.trackers.get(guildID),
       voice: await guildDataStore.voice.get(guildID)
     };
-    let guildData, keys = { economy: Object.keys(data.economy) };
-    for (const prop in keys.economy) {
-      if (data.economy[prop]) {
-        // UPDATE ECONOMY <property> HERE!
-      } else {
-        // INITIALIZE ECONOMY HERE!
-      };
-    };
+    let guildData;
     if (data.offenses) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
       logger.verbose(`Checking datastore for ${guildID} for any updates.`);
