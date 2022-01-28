@@ -12,7 +12,7 @@ const guildDataStore = {
   trackers: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db', table: 'trackers' }) }),
   voice: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/voice.db' }), namespace: 'guild' })
 };
-const guildDataTypes = ['economy', 'offenses', 'trackers', 'voice'];
+const guildDataTypes = [{ prop: 'economy', nest: ['shop', 'users'] }, 'offenses', 'trackers', 'voice'];
 const ErrCallback = (error, db) => {
   logger.fatal(`Error initializing ${db.name} database!`);
   logger.fatal(error.message); logger.debug(error.stack);
@@ -20,8 +20,11 @@ const ErrCallback = (error, db) => {
 clientPrefStore.on('error', (error) => ErrCallback(error, { name: 'settings', type: 'client' }));
 guildPrefStore.on('error', (error) => ErrCallback(error, { name: 'settings', type: 'guildPrefs' }));
 guildDataTypes.forEach(dataType => {
-  if (dataType === 'object') {
-    
+  if (typeof dataType === 'object') {
+    let { prop, nest } = dataType;
+    nest.forEach(key => {
+      guildDataStore[prop][key].on('error', (error) => ErrCallback(error, { name: `${prop}.${key}`, type: 'guildData' }))
+    });    
   } else {
     guildDataStore[dataType].on('error', (error) => ErrCallback(error, { name: dataType, type: 'guildData' }));
   };  
@@ -133,13 +136,6 @@ async function generateGuildData(guildIDs) {
       voice: await guildDataStore.voice.get(guildID)
     };
     let guildData;
-    for (const prop in keys.economy) {
-      if (data.economy[prop]) {
-        // UPDATE ECONOMY <property> HERE!
-      } else {
-        // SKIP <property> IF EXISTS!
-      };
-    };
     if (data.offenses) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
       logger.verbose(`Checking datastore for ${guildID} for any updates.`);
