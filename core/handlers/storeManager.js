@@ -107,7 +107,6 @@ async function clearGuildSettings() {
   logger.verbose('Removing all guild settings.');
   await guildPrefStore.clear();
 };
-
 function initializeGuildDataProps(obj, prop) {
   guildDataKeys = Object.keys(guildDataTemplate[obj]);
   guildDataKeys.forEach(key => {
@@ -121,7 +120,6 @@ function initializeGuildDataProps(obj, prop) {
 function updateGuildDataProps(type, obj, props) {
   // TODO - Implement update guildDataProps function handler.
 };
-
 async function generateGuildData(guildIDs) {
   logger.debug('Preparing to check guild data now...');
   guildIDs.forEach(async (guildID) => {
