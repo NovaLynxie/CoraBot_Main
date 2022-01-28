@@ -643,21 +643,15 @@ module.exports = {
               stopped = true; audioPlayer.stop();
               voiceData.music.track = {}; break;
             case 'skip':
-              if (!audioPlayer) return;
-              voiceData.music.queue.shift();
-              try {
-                source = await loadSong();
-              } catch (error) {
+              if (!audioPlayer) return; voiceData.music.queue.shift();
+              try { source = await loadSong() } catch (error) {
                 logger.error('Failed to load song!');
                 logger.error(error.message); logger.debug(error.stack);
                 errCallback(interact);
               };
               if (!source) {
                 return interact.editReply({ content: 'End of queue!' });
-              } else {
-                audioPlayer.play(source);
-              };
-              break;
+              } else { audioPlayer.play(source) }; break;
             case 'vol+':
               if (!audioPlayer ?._state ?.resource.volume) return;
               audioVolume = audioPlayer ?._state ?.resource.volume;
