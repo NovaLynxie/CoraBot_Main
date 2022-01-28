@@ -664,7 +664,7 @@ module.exports = {
               voiceData.volume = voiceData.volume + 0.05;
               if (voiceData.volume >= 1.0) voiceData.volume = 0.1;
               audioVolume.setVolume(voiceData.volume);
-              logger.debug(`Set volume of audioPlayer to ${Math.round(voiceData.volume * 100)}.`);
+              logger.debug(`Set volume of audioPlayer to ${Math.round(voiceData.volume * 100)}%`);
               refreshPlayer(interact); break;
             case 'vol-':
               if (!audioPlayer ?._state ?.resource.volume) return;
@@ -672,7 +672,7 @@ module.exports = {
               voiceData.volume = voiceData.volume - 0.05;
               if (voiceData.volume <= 0.05) voiceData.volume = 0.05;
               audioVolume.setVolume(voiceData.volume);
-              logger.debug(`Set volume of audioPlayer to ${Math.round(voiceData.volume * 100)}.`);
+              logger.debug(`Set volume of audioPlayer to ${Math.round(voiceData.volume * 100)}%`);
               refreshPlayer(interact);
               break;
             case 'clearQueue':
