@@ -107,11 +107,7 @@ async function clearGuildSettings() {
   logger.verbose('Removing all guild settings.');
   await guildPrefStore.clear();
 };
-function initializeGuildDataProps(obj, prop) {
-  obj[prop] = guildDataTemplate[prop];
-  return obj;
-};
-function updateGuildDataProps(data, property) {
+async function updateGuildDataProps(data, property) {
   if (data[property]) {
     logger.verbose(`Guild ${guildID} data entries already added!`);
     logger.verbose(`Checking datastore for ${guildID} for any updates.`);
@@ -124,14 +120,12 @@ function updateGuildDataProps(data, property) {
         logger.verbose(`Data key '${key}' already exists!`);
       };
     });
-    return data;    
   } else {
     logger.verbose(`Guild 'trackers' data does not exist for ${guildID}!`);
     logger.verbose(`Generating 'trackers' data for ${guildID}...`);
     obj[prop] = guildDataTemplate[prop];
-    storage.trackers = guildDataTemplate.trackers;
-    await guildDataStore.trackers.set(guildID, storage.trackers);
   };
+  return data;
 };
 async function generateGuildData(guildIDs) {
   logger.debug('Preparing to check guild data now...');
@@ -255,27 +249,25 @@ async function resetGuildData() {
   await guildDataStore.clear();
 };
 module.exports.storage = {
-  data: {
+  data: {    
+    economy: {},
+    moderation: {
+      delete: deleteGuildModData,
+      get: readGuildModData,
+      set: saveGuildModData
+    },
+    voice: {
+      delete: deleteGuildVoiceData,
+      get: readGuildVoiceData,
+      set: saveGuildVoiceData
+    },
+    trackers: {
+      delete: deleteGuildTrackerData,
+      get: readGuildTrackerData,
+      set: saveGuildTrackerData
+    },
     init: generateGuildData,
-    reset: resetGuildData,
-    guild: {
-      economy: {},
-      moderation: {
-        delete: deleteGuildModData,
-        get: readGuildModData,
-        set: saveGuildModData
-      },
-      voice: {
-        delete: deleteGuildVoiceData,
-        get: readGuildVoiceData,
-        set: saveGuildVoiceData
-      },
-      trackers: {
-        delete: deleteGuildTrackerData,
-        get: readGuildTrackerData,
-        set: saveGuildTrackerData
-      }
-    }
+    reset: resetGuildData
   },
   settings: {
     clear: clearClientSettings,

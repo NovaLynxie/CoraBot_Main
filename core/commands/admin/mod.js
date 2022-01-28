@@ -147,7 +147,7 @@ module.exports = {
         content: 'This user could not be found!', ephemeral: true
       });
       let successResponse, errorResponse, recordId = uuid.v1().substr(0,8);
-      const modData = await client.data.guild.moderation.get(guild);
+      const modData = await client.data.moderation.get(guild);
       const response = `Moderation action '${subcmd}' failed!`
       if (!modData.users[target.id]) {
         modData.users[target.id] = {
@@ -263,7 +263,7 @@ module.exports = {
           break;
       };
       await interaction.editReply(successResponse || errorResponse);
-      await client.data.guild.moderation.set(modData, guild);
+      await client.data.moderation.set(modData, guild);
     } else {
       interaction.editReply({
         content: 'You do not have permission to run this command!', ephemeral: true

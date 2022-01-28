@@ -52,7 +52,7 @@ module.exports = {
     const settings = await client.settings.guild.get(guild);
     const ticketsChID = settings.logChannels.ticketsChID;
     const channel = client.channels.cache.get(ticketsChID);
-    data = await client.data.guild.trackers.get(guild);
+    data = await client.data.trackers.get(guild);
     title = interaction.options.getString('title');
     category = interaction.options.getString('category');
     details = interaction.options.getString('details');
@@ -93,7 +93,7 @@ module.exports = {
             ticketID, ticketTitle, messageID: message.id, messageDate: message.createdAt, authorID: interaction.user.id
           }
         );
-        await client.data.guild.trackers.set(data, guild);
+        await client.data.trackers.set(data, guild);
         interaction.reply(
           { content: `New ticket created in #${channel.name} and opened new thread for discussions!`, ephemeral: true }
         );
