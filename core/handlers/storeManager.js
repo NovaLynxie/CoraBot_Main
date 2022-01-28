@@ -100,6 +100,21 @@ async function clearGuildSettings() {
   logger.verbose('Removing all guild settings.');
   await guildPrefStore.clear();
 };
+
+function initializeGuildDataProps(obj, prop) {
+  guildDataKeys = Object.keys(guildDataTemplate[obj]);
+  guildDataKeys.forEach(key => {
+    if (obj[key] === undefined) {
+      // ..
+    } else {
+      // ..
+    };
+  });
+};
+function updateGuildDataProps(type, obj, props) {
+  // TODO - Implement update guildDataProps function handler.
+};
+
 async function generateGuildData(guildIDs) {
   logger.debug('Preparing to check guild data now...');
   guildIDs.forEach(async (guildID) => {
@@ -113,12 +128,12 @@ async function generateGuildData(guildIDs) {
       trackers: await guildDataStore.trackers.get(guildID),
       voice: await guildDataStore.voice.get(guildID)
     };
-    let guildData, keys = { economy: Object.keys(data.economy) };
+    let guildData;
     for (const prop in keys.economy) {
       if (data.economy[prop]) {
         // UPDATE ECONOMY <property> HERE!
       } else {
-        // INITIALIZE ECONOMY HERE!
+        // SKIP <property> IF EXISTS!
       };
     };
     if (data.offenses) {
@@ -126,7 +141,7 @@ async function generateGuildData(guildIDs) {
       logger.verbose(`Checking datastore for ${guildID} for any updates.`);
       guildData = Object.keys(guildDataTemplate.offenses);
       guildData.forEach(key => {
-        if (data[key] === undefined) {
+        if (data.offenses[key] === undefined) {
           logger.verbose(`Data property '${key}' not found! Adding new data property.`)
           data.offenses[key] = guildDataTemplate.offenses[key];
         } else {
