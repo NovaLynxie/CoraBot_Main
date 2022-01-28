@@ -259,6 +259,7 @@ module.exports.storage = {
     init: generateGuildData,
     reset: resetGuildData,
     guild: {
+      economy: {},
       moderation: {
         delete: deleteGuildModData,
         get: readGuildModData,
