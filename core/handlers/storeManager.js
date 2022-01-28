@@ -129,10 +129,12 @@ async function generateGuildData(guildIDs) {
   for (const guildID of guildIDs) {
     logger.verbose(`Checking ${guildID} of guildIDs`);
     const storage = {
+      /*
       economy: {
         shop: await guildDataStore.economy.shop.get(guildID),
         users: await guildDataStore.economy.users.get(guildID)
       },
+      */
       offenses: await guildDataStore.offenses.get(guildID),
       trackers: await guildDataStore.trackers.get(guildID),
       voice: await guildDataStore.voice.get(guildID)
