@@ -12,7 +12,7 @@ const guildDataStore = {
   trackers: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db', table: 'trackers' }) }),
   voice: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/voice.db' }), namespace: 'guild' })
 };
-const guildDataTypes = ['offenses', 'trackers', 'voice'];
+const guildDataTypes = ['economy', 'offenses', 'trackers', 'voice'];
 const ErrCallback = (error, db) => {
   logger.fatal(`Error initializing ${db.name} database!`);
   logger.fatal(error.message); logger.debug(error.stack);
