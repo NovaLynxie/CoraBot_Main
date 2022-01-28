@@ -20,7 +20,11 @@ const ErrCallback = (error, db) => {
 clientPrefStore.on('error', (error) => ErrCallback(error, { name: 'settings', type: 'client' }));
 guildPrefStore.on('error', (error) => ErrCallback(error, { name: 'settings', type: 'guildPrefs' }));
 guildDataTypes.forEach(dataType => {
-  guildDataStore[dataType].on('error', (error) => ErrCallback(error, { name: dataType, type: 'guildData' }));
+  if (dataType === 'object') {
+    
+  } else {
+    guildDataStore[dataType].on('error', (error) => ErrCallback(error, { name: dataType, type: 'guildData' }));
+  };  
 });
 const clientSettingsTemplate = require('../assets/templates/database/clientSettings.json');
 const guildSettingsTemplate = require('../assets/templates/database/guildSettings.json');
