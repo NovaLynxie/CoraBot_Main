@@ -144,12 +144,12 @@ async function generateGuildData(guildIDs) {
       if (storage[endpoint]) {
         logger.verbose(`Guild ${guildID} data entries already added!`);
         logger.verbose(`Checking datastore for ${guildID} for any updates.`);
-        Object.keys(guildDataTemplate[endpoint]).forEach(property => {
+        for (const property of Object.keys(guildDataTemplate[endpoint])) {
           if (storage[endpoint][property] === undefined) {
             logger.verbose(`Data property '${property}' not found! Adding new data property.`)
             storage[endpoint][property] = guildDataTemplate[endpoint][property];
           } else { logger.verbose(`Data property '${property}' already exists!`) };
-        });
+        };
       } else {
         logger.verbose(`Guild '${endpoint}' data does not exist for ${guildID}!`);
         logger.verbose(`Generating '${endpoint}' data for ${guildID}...`);
