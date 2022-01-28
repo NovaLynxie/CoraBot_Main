@@ -13,7 +13,6 @@ function requireReloader(module) {
 async function loadAllCmds(client, botInitStage = false) {
   const commands = [], counters = { success: 0, failed: 0 };
   try {
-    logger.warn('Bot may lag for a bit while loading all commands.');
     logger.debug('Started reloading all available commands!');
     readdirSync(botCmdsDir).forEach(subDir => {
       const dirPath = `${botCmdsDir}/${subDir}/`;
