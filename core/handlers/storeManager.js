@@ -116,9 +116,7 @@ async function updateGuildDataProps(data, property) {
       if (data[prop][key] === undefined) {
         logger.verbose(`Data property '${key}' not found! Adding new data property.`)
         data[prop][key] = guildDataTemplate[prop][key];
-      } else {
-        logger.verbose(`Data key '${key}' already exists!`);
-      };
+      } else { logger.verbose(`Data key '${key}' already exists!`) };
     });
   } else {
     logger.verbose(`Guild 'trackers' data does not exist for ${guildID}!`);
