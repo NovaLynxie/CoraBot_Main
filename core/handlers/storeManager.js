@@ -108,23 +108,36 @@ async function clearGuildSettings() {
   await guildPrefStore.clear();
 };
 function initializeGuildDataProps(obj, prop) {
-  guildDataKeys = Object.keys(guildDataTemplate[obj]);
-  guildDataKeys.forEach(key => {
-    if (obj[key] === undefined) {
-      // ..
-    } else {
-      // ..
-    };
-  });
+  obj[prop] = guildDataTemplate[prop];
+  return obj;
 };
-function updateGuildDataProps(type, obj, props) {
-  // TODO - Implement update guildDataProps function handler.
+function updateGuildDataProps(data, property) {
+  if (data[property]) {
+    logger.verbose(`Guild ${guildID} data entries already added!`);
+    logger.verbose(`Checking datastore for ${guildID} for any updates.`);
+    guildDataProps = Object.keys(guildDataTemplate[prop]);
+    guildDataProps.forEach(key => {
+      if (data[prop][key] === undefined) {
+        logger.verbose(`Data property '${key}' not found! Adding new data property.`)
+        data[prop][key] = guildDataTemplate[prop][key];
+      } else {
+        logger.verbose(`Data key '${key}' already exists!`);
+      };
+    });
+    return data;    
+  } else {
+    logger.verbose(`Guild 'trackers' data does not exist for ${guildID}!`);
+    logger.verbose(`Generating 'trackers' data for ${guildID}...`);
+    obj[prop] = guildDataTemplate[prop];
+    storage.trackers = guildDataTemplate.trackers;
+    await guildDataStore.trackers.set(guildID, storage.trackers);
+  };
 };
 async function generateGuildData(guildIDs) {
   logger.debug('Preparing to check guild data now...');
   guildIDs.forEach(async (guildID) => {
     logger.verbose(`Checking ${guildID} of guildIDs`);
-    const data = {
+    const storage = {
       economy: {
         shop: await guildDataStore.economy.shop.get(guildID),
         users: await guildDataStore.economy.users.get(guildID)
@@ -134,62 +147,62 @@ async function generateGuildData(guildIDs) {
       voice: await guildDataStore.voice.get(guildID)
     };
     let guildData;
-    if (data.offenses) {
+    if (storage.offenses) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
       logger.verbose(`Checking datastore for ${guildID} for any updates.`);
       guildData = Object.keys(guildDataTemplate.offenses);
       guildData.forEach(key => {
-        if (data.offenses[key] === undefined) {
+        if (storage.offenses[key] === undefined) {
           logger.verbose(`Data property '${key}' not found! Adding new data property.`)
-          data.offenses[key] = guildDataTemplate.offenses[key];
+          storage.offenses[key] = guildDataTemplate.offenses[key];
         } else {
           logger.verbose(`Data key '${key}' already exists!`);
         };
       });
-      await guildDataStore.offenses.set(guildID, data.offenses);
+      await guildDataStore.offenses.set(guildID, storage.offenses);
     } else {
       logger.verbose(`Guild 'offenses' data does not exist for ${guildID}!`);
       logger.verbose(`Generating 'offenses' data for ${guildID}...`);
-      data.offenses = guildDataTemplate.offenses;
-      await guildDataStore.offenses.set(guildID, data.offenses);
+      storage.offenses = guildDataTemplate.offenses;
+      await guildDataStore.offenses.set(guildID, storage.offenses);
     };
-    if (data.trackers) {
+    if (storage.trackers) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
       logger.verbose(`Checking datastore for ${guildID} for any updates.`);
       guildDataProps = Object.keys(guildDataTemplate.trackers);
       guildDataProps.forEach(key => {
-        if (data.trackers[key] === undefined) {
+        if (storage.trackers[key] === undefined) {
           logger.verbose(`Data property '${key}' not found! Adding new data property.`)
-          data.trackers[key] = guildDataTemplate.trackers[key];
+          storage.trackers[key] = guildDataTemplate.trackers[key];
         } else {
           logger.verbose(`Data key '${key}' already exists!`);
         };
       });
-      await guildDataStore.trackers.set(guildID, data.trackers);
+      await guildDataStore.trackers.set(guildID, storage.trackers);
     } else {
       logger.verbose(`Guild 'trackers' data does not exist for ${guildID}!`);
       logger.verbose(`Generating 'trackers' data for ${guildID}...`);
-      data.trackers = guildDataTemplate.trackers;
-      await guildDataStore.trackers.set(guildID, data.trackers);
+      storage.trackers = guildDataTemplate.trackers;
+      await guildDataStore.trackers.set(guildID, storage.trackers);
     };
-    if (data.voice) {
+    if (storage.voice) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
       logger.verbose(`Checking datastore for ${guildID} for any updates.`);
       guildDataProps = Object.keys(guildDataTemplate.voice);
       guildDataProps.forEach(key => {
-        if (data.voice[key] === undefined) {
+        if (storage.voice[key] === undefined) {
           logger.verbose(`Data property '${key}' not found! Adding new data property.`)
-          data.voice[key] = guildDataTemplate.voice[key];
+          storage.voice[key] = guildDataTemplate.voice[key];
         } else {
           logger.verbose(`Data key '${key}' already exists!`);
         };
       });
-      await guildDataStore.voice.set(guildID, data.voice);
+      await guildDataStore.voice.set(guildID, storage.voice);
     } else {
       logger.verbose(`Guild 'voice' data does not exist for ${guildID}!`);
       logger.verbose(`Generating 'voice' data for ${guildID}...`);
-      data.voice = guildDataTemplate.voice;
-      await guildDataStore.voice.set(guildID, data.voice);
+      storage.voice = guildDataTemplate.voice;
+      await guildDataStore.voice.set(guildID, storage.voice);
     };
   });
   logger.debug('Finished checking guild settings.');
