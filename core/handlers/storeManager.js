@@ -4,6 +4,10 @@ const KeyvSQLite = require('@keyvhq/sqlite');
 const clientPrefStore = new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/settings.db' }), namespace: 'client' });
 const guildPrefStore = new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/settings.db' }), namespace: 'guild' });
 const guildDataStore = {
+  economy: {
+    shop: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/economy.db', table: 'shop' }) }),
+    users: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/economy.db', table: 'users' }) })
+  },
   offenses: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db', table: 'moderation' }) }),
   trackers: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/main.db', table: 'trackers' }) }),
   voice: new KeyvCore({ store: new KeyvSQLite({ uri: 'sqlite://data/guilds/voice.db' }), namespace: 'guild' })

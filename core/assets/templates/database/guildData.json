@@ -1,4 +1,10 @@
 {
+  "economy": {
+    "shop": {
+      "items": []
+    },
+    "users": {}
+  },
   "offenses": {
     "users": {}
   },
