@@ -1,4 +1,4 @@
-***DO NOT USE THIS BRANCH IN PRODUCTION! ALL CHANGES HERE ARE EXPERIMENTAL AND / OR BREAKING CHANGES!***  
+***DO NOT USE THIS BRANCH IN PRODUCTION! ALL CHANGES HERE ARE VERY EXPERIMENTAL AND OR MAY BREAK AT ANY TIME!***  
 ***Please only use the v4-main branch for stable updates.***
 # CoraBot - A customizable discord bot built on DiscordJS with NodeJS
 CoraBot Discord.JS bot for managing your discord guild or community server!
