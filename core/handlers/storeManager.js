@@ -24,10 +24,10 @@ guildDataTypes.forEach(dataType => {
     let { prop, nest } = dataType;
     nest.forEach(key => {
       guildDataStore[prop][key].on('error', (error) => ErrCallback(error, { name: `${prop}.${key}`, type: 'guildData' }))
-    });    
+    });
   } else {
     guildDataStore[dataType].on('error', (error) => ErrCallback(error, { name: dataType, type: 'guildData' }));
-  };  
+  };
 });
 const clientSettingsTemplate = require('../assets/templates/database/clientSettings.json');
 const guildSettingsTemplate = require('../assets/templates/database/guildSettings.json');
