@@ -105,11 +105,22 @@ async function generateGuildData(guildIDs) {
   guildIDs.forEach(async (guildID) => {
     logger.verbose(`Checking ${guildID} of guildIDs`);
     const data = {
+      economy: {
+        shop: await guildDataStore.economy.shop.get(guildID),
+        users: await guildDataStore.economy.users.get(guildID)
+      },
       offenses: await guildDataStore.offenses.get(guildID),
       trackers: await guildDataStore.trackers.get(guildID),
       voice: await guildDataStore.voice.get(guildID)
     };
-    let guildData;
+    let guildData, keys = { economy: Object.keys(data.economy) };
+    for (const prop in keys.economy) {
+      if (data.economy[prop]) {
+        // UPDATE ECONOMY <property> HERE!
+      } else {
+        // INITIALIZE ECONOMY HERE!
+      };
+    };
     if (data.offenses) {
       logger.verbose(`Guild ${guildID} data entries already added!`);
       logger.verbose(`Checking datastore for ${guildID} for any updates.`);
