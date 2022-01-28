@@ -111,8 +111,7 @@ async function updateGuildDataProps(data, property) {
   if (data[property]) {
     logger.verbose(`Guild ${guildID} data entries already added!`);
     logger.verbose(`Checking datastore for ${guildID} for any updates.`);
-    guildDataProps = Object.keys(guildDataTemplate[prop]);
-    guildDataProps.forEach(key => {
+    Object.keys(guildDataTemplate[property]).forEach(key => {
       if (data[prop][key] === undefined) {
         logger.verbose(`Data property '${key}' not found! Adding new data property.`)
         data[prop][key] = guildDataTemplate[prop][key];
