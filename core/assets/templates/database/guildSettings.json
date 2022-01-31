@@ -30,6 +30,12 @@
     },
     "chatChannels": []
   },
+  "economy": {
+    "enableEconomy": false,
+    "currencyName": "coins",
+    "chListMode": "whitelist",
+    "channelsList": [],
+  },
   "notifier": {
     "enableNotifier": false,
     "trackEvents": {
