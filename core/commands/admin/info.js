@@ -44,6 +44,7 @@ module.exports = {
           client.application = await client.application.fetch();
           embed
             .setTitle('About Bot')
+            .setThumbnail(client.user.displayAvatarURL())
             .setDescription(client.application.description || 'No description set!');
           break;
         case 'guild':
