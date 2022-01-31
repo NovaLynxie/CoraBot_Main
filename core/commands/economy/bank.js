@@ -1,5 +1,6 @@
 const logger = require('../../utils/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const Economy = require('../../plugins/economyCore');
 
 module.exports = {
   data: new SlashCommandBuilder()

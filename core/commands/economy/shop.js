@@ -1,5 +1,6 @@
 const logger = require('../../utils/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const Economy = require('../../plugins/economyCore');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -50,6 +51,11 @@ module.exports = {
     const subcmd = options.getSubcommand();
     const itemId = options.getString('itemid');
     const amount = options.getInteger('amount');
-    //
+    const member = interaction.member;
+    try {
+      await Economy(client, subcmd, { amount, itemId, executorId: member.id});
+    } catch (error) {
+      // TODO - Implement error handling for Economy Shop!
+    };    
   }
 };
