@@ -14,6 +14,18 @@ module.exports = {
       subcommand
         .setName('buy')
         .setDescription('Buy an item from guild shop.')
+        .addStringOption(option =>
+          option
+            .setName('itemid')
+            .setDescription('Item ID to buy')
+            .setRequired(true)
+        )
+        .addIntegerOption(option =>
+          option
+            .setName('amount')
+            .setDescription('Quantity')
+            .setRequired(true)
+        )
     )
     .addSubcommand(subcommand =>
       subcommand
@@ -21,8 +33,8 @@ module.exports = {
         .setDescription('Sell item to guild shop.')
         .addStringOption(option =>
           option
-            .setName('itemId')
-            .setDescription('Item ID to buy')
+            .setName('itemid')
+            .setDescription('Item ID to sell')
             .setRequired(true)
         )
         .addIntegerOption(option =>
