@@ -159,7 +159,7 @@ async function generateGuildData(guildIDs) {
           logger.verbose(`Verifying sub-route '${property}'.`);
           if (!guildDataStore[endpoint][property]) continue;
           logger.verbose(`Parsing data to sub-route '${property}'.`);
-          guildDataStore[endpoint][property].set(guildID, storage[endpoint]);
+          guildDataStore[endpoint][property].set(guildID, storage[endpoint][property]);
         };
       } else {
         guildDataStore[endpoint] ?.set(guildID, storage[endpoint]);
