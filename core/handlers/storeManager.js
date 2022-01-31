@@ -169,6 +169,15 @@ async function generateGuildData(guildIDs) {
   logger.debug('Finished checking guild settings.');
   logger.info('Guild data is now available.');
 };
+async function readGuildEconomyData(guild, route) {
+  logger.verbose(`Fetching guild economy.${route} data for ${guild.name} (ID:${guild.id})`);
+  const res = await guildDataStore.economy[route].get(guild.id);
+  return res;
+};
+async function saveGuildEconomyData(guild, route, data) {
+  logger.verbose(`Updating guild economy.${route} data for ${guild.name} (ID:${guild.id})`);
+  await guildDataStore.economy[route].set(guild.id, data);
+};
 async function readGuildModData(guild) {
   logger.verbose(`Fetching guild moderation data for ${guild.name} (ID:${guild.id}).`);
   const res = await guildDataStore.offenses.get(guild.id);
@@ -212,12 +221,26 @@ async function deleteGuildTrackerData(guild) {
   await guildDataStore.trackers.delete(guild.id);
 };
 async function resetGuildData() {
-  logger.verbose('Removing all guild data.');
-  await guildDataStore.clear();
+  logger.verbose('Clearing all guild data.');
+  for (const endpoint of Object.keys(guildDataStore)) {
+    if (!guildDataStore[endpoint] ?.set) {
+      for (const subroute of Object.keys(guildDataStore[endpoint])) {
+        guildDataStore[endpoint][subroute].clear();
+      };
+    } else {
+      guildDataStore[endpoint].clear();
+    };
+  };
+  logger.verbose('Reinitializing guild data.');
+  await generateGuildData();
 };
+
 module.exports.storage = {
   data: {
-    economy: {},
+    economy: {
+      get: readGuildEconomyData,
+      set: saveGuildEconomyData
+    },
     moderation: {
       delete: deleteGuildModData,
       get: readGuildModData,

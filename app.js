@@ -21,6 +21,7 @@ const client = new Client({
 client.commands = new Collection();
 client.voice.player = voice;
 client.data = storage.data;
+client.economy = storage.economy;
 client.settings = storage.settings;
 client.modules = modules;
 client.utils = { ...utils, cmds: cmdLoader, embeds: embeds };
