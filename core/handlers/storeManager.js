@@ -153,11 +153,12 @@ async function generateGuildData(guildIDs) {
         logger.verbose(`Generating '${endpoint}' data for ${guildID}...`);
         storage[endpoint] = guildDataTemplate[endpoint];
       };
-      console.log(`${guildDataStore[endpoint]}`, (!guildDataStore[endpoint] ?.set));
       if (!guildDataStore[endpoint] ?.set) {
+        logger.debug(`Detected multiple sub-routes in endpoint ${endpoint}!`);
         for (const property of Object.keys(storage[endpoint])) {
-          console.log(`${property}`, (property));
+          logger.verbose(`Verifying sub-route '${property}'.`);
           if (!guildDataStore[endpoint][property]) continue;
+          logger.verbose(`Parsing data to sub-route '${property}'.`);
           guildDataStore[endpoint][property].set(guildID, storage[endpoint]);
         };
       } else {
