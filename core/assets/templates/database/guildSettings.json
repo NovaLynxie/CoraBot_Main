@@ -34,7 +34,7 @@
     "enableEconomy": false,
     "currencyName": "coins",
     "chListMode": "whitelist",
-    "channelsList": [],
+    "channelsList": []
   },
   "notifier": {
     "enableNotifier": false,
