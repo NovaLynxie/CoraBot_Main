@@ -16,6 +16,6 @@ module.exports = (client) => {
 			statusType = 'WATCHING';
 		}
 		client.user.setActivity(activities[index], { type: statusType });		
-  }, 30 * 1000);
+  }, 120 * 1000);
 	client.timers.statusUpdate = statusTimer;
 };
