@@ -16,9 +16,9 @@ module.exports = {
         await client.commands.get(interaction.commandName).execute(interaction, client);
       } catch (error) {
         logger.error(error.message); logger.debug(error.stack);
-        await interaction.editReply({ content: `There was an error while executing command \`${interaction.commandName}\`!`, ephemeral: true });
+        //await interaction.editReply({ content: `There was an error while executing command \`${interaction.commandName}\`!`, ephemeral: true });
         await interaction.editReply({
-          embeds: [await botEmbed('error', { error })]
+          embeds: [await botEmbed('error', { error })], ephemeral: true
         });
       };
     } else
