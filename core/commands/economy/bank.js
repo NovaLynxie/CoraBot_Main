@@ -36,6 +36,9 @@ module.exports = {
   async execute(interaction, client) {
     await interaction.deferReply();
     const { options } = interaction;
+    const subcmd = options.getSubcommand();
+    const amount = options.getInteger('amount');
+    const target = options.getMember('target');
     //
   }
 };

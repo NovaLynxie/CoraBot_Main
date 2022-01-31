@@ -45,7 +45,11 @@ module.exports = {
         )
     ),
   async execute(interaction, client) {
+    await interaction.deferReply();
     const { options } = interaction;
+    const subcmd = options.getSubcommand();
+    const itemId = options.getString('itemid');
+    const amount = options.getInteger('amount');
     //
   }
 };
