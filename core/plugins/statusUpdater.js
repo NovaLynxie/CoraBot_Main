@@ -2,7 +2,7 @@ const logger = require('../utils/winstonLogger.js');
 const { activities } = require('../assets/resources/activitiesList.json');
 module.exports = (client) => {
 	const statusTimer = setInterval(async () => {
-		logger.verbose('ran task update_status'); let statusType;
+		let statusType;
 		const index = Math.floor(Math.random() * (activities.length - 1) + 1);
 		if (index >= 0 && index <= 1) {
 			statusType = 'PLAYING';
@@ -15,8 +15,7 @@ module.exports = (client) => {
 		if (index >= 4 && index <= 5) {
 			statusType = 'WATCHING';
 		}
-		client.user.setActivity(activities[index], { type: statusType });
-		logger.verbose(`Updated status to activity ${index} of ${activities.length - 1}`);
+		client.user.setActivity(activities[index], { type: statusType });		
   }, 30 * 1000);
 	client.timers.statusUpdate = statusTimer;
 };
