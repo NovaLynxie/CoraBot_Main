@@ -17,13 +17,13 @@ module.exports = {
         .addStringOption(option =>
           option
             .setName('itemid')
-            .setDescription('Item ID to buy')
+            .setDescription("Item's ID")
             .setRequired(true)
         )
         .addIntegerOption(option =>
           option
             .setName('amount')
-            .setDescription('Quantity')
+            .setDescription('Amount')
             .setRequired(true)
         )
     )
@@ -34,13 +34,13 @@ module.exports = {
         .addStringOption(option =>
           option
             .setName('itemid')
-            .setDescription('Item ID to sell')
+            .setDescription("Item's ID")
             .setRequired(true)
         )
         .addIntegerOption(option =>
           option
             .setName('amount')
-            .setDescription('Quantity')
+            .setDescription('Amount')
             .setRequired(true)
         )
     ),
