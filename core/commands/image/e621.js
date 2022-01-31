@@ -17,9 +17,9 @@ module.exports = {
 				.setRequired(true)
 		),
 	execute(interaction, client) {
-		const input = interaction.options.getString('input');
-    console.log(interaction.channel);
-    if (!interaction.channel.nsfw) return interaction.reply({
+    const { channel, options } = interaction;
+		const input = options.getString('input');
+    if (!channel.nsfw) return interaction.reply({
       content: 'Whoops! This command only works in NSFW channels!'
     });
 		logger.verbose(`input=${input}`);

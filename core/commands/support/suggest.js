@@ -33,10 +33,10 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction, client) {
-    const member = interaction.member; const guild = interaction.guild;
-    const title = interaction.options.getString('title');
-    const category = interaction.options.getString('category');
-    const details = interaction.options.getString('details');    
+    const { guild, member, options } = interaction;
+    const title = options.getString('title');
+    const category = options.getString('category');
+    const details = options.getString('details');    
     const settings = await client.settings.guild.get(guild);
     const suggestChID = settings.logChannels.suggestChID;
     let data = await client.data.trackers.get(guild);

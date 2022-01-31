@@ -47,8 +47,8 @@ module.exports = {
     ),
   async execute(interaction, client) {
     let title, category, details, data, thread;
-    const subcmd = interaction.options.getSubcommand();
-    const member = interaction.member; const guild = interaction.guild;
+    const { guild, member, options } = interaction;
+    const subcmd = options.getSubcommand();
     const settings = await client.settings.guild.get(guild);
     const ticketsChID = settings.logChannels.ticketsChID;
     const channel = client.channels.cache.get(ticketsChID);

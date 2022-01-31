@@ -34,7 +34,7 @@ module.exports = {
     ),
   async execute(interaction, client) {
     await interaction.deferReply();
-    const options = interaction.options;
+    const { options } = interaction;
     const srvPortDefaults = { 'bedrock': 19132, 'java': 25565 };
     const type = options.getString('type');
     const host = options.getString('host');

@@ -58,8 +58,9 @@ module.exports = {
         content: "MusicBot functionality disabled. `music` command is unavailable.", ephemeral: true
       });
     };
+    const { guild, member, options } = interaction;
     await interaction.deferReply({ ephemeral: false });
-    let guild = interaction.guild, member = interaction.member, collector, source, track, audioVolume;
+    let collector, source, track, audioVolume;
     let connection = client.voice.player.fetch(guild), queuePage = 1;
     audioPlayer = (connection) ? connection._state.subscription ?.player : undefined;
     let voiceData = await client.data.voice.get(guild);

@@ -27,7 +27,7 @@ module.exports = {
         content: "MusicBot functionality disabled. `radio` command is unavailable.", ephemeral: true
       });
     };
-    let guild = interaction.guild, player, source, station;
+    const { guild } = interaction; let player, source, station;
     let connection = client.voice.player.fetch(interaction.guild);
     player = (connection) ? connection._state.subscription ?.player : undefined;
     await interaction.deferReply({ ephemeral: false });

@@ -131,8 +131,7 @@ module.exports = {
     ),
   async execute(interaction, client) {
     await interaction.deferReply({ ephemeral: true });
-    const guild = interaction.guild;
-    const options = interaction.options;
+    const { guild, options } = interaction;
     const subcmd = options.getSubcommand();
     const executor = interaction.member;
     const target = options.getMember('target') || options.getUser('target');

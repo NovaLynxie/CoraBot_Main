@@ -32,7 +32,7 @@ module.exports = {
     ),
   async execute(interaction, client) {
     await interaction.deferReply();
-    const options = interaction.options;
+    const { options } = interaction;
     const member = options.getMember('target') || interaction.member;
     const subcmd = options.getSubcommand();
     const guild = interaction.guild;

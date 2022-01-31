@@ -12,15 +12,16 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction, client) {
-    if (client.options.owners.indexOf(interaction.user.id) <= -1) {
+    const { options, user } = interaction; 
+    if (client.options.owners.indexOf(user.id) <= -1) {
       interaction.reply({
-        content: `THAT IS A RESTRICTED COMMAND! YOU ARE NOT AUTHORIZED ${interaction.user.username}!`,
+        content: `THAT IS A RESTRICTED COMMAND! YOU ARE NOT AUTHORIZED ${user.username}!`,
         ephemeral: true,
       });
-      logger.warn(`User ${interaction.user.tag} tried to use eval but is not an owner!`);
+      logger.warn(`User ${user.tag} tried to use eval but is not an owner!`);
       return;
-    };
-    const cmdName = interaction.options.getString('command');    
+    };    
+    const cmdName = options.getString('command');
     if (cmdName) {
       if (client.commands.has(cmdName)) {
         try {

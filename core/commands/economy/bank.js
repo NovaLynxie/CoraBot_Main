@@ -34,6 +34,8 @@ module.exports = {
         )
     ),
   async execute(interaction, client) {
+    await interaction.deferReply();
+    const { options } = interaction;
     //
   }
 };
