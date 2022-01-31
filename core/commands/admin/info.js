@@ -43,7 +43,7 @@ module.exports = {
         case 'bot':
           client.application = await client.application.fetch();
           embed
-            .setTitle(`About Bot ${client.user.tag}`)
+            .setTitle(`About Bot`)
             .setThumbnail(client.user.displayAvatarURL())
             .setDescription(client.application.description || 'No description set!');
           break;
