@@ -157,6 +157,7 @@ async function generateGuildData(guildIDs) {
       };
       if (!storage[endpoint] ?.set) {
         for (const property of Object.keys(storage[endpoint])) {
+          console.log(`${property}`, (property));
           if (!guildDataStore[endpoint][property]) continue;
           guildDataStore[endpoint][property].set(guildID, storage[endpoint]);
         };
