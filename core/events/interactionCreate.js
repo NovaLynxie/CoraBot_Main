@@ -1,5 +1,4 @@
 const logger = require('../utils/winstonLogger');
-const botEmbed = require('../utils/botEmbeds');
 const { debug } = require('../handlers/bootLoader').config;
 
 module.exports = {
@@ -17,8 +16,10 @@ module.exports = {
       } catch (error) {
         logger.error(error.message); logger.debug(error.stack);
         //await interaction.editReply({ content: `There was an error while executing command \`${interaction.commandName}\`!`, ephemeral: true });
+        
         await interaction.editReply({
-          embeds: [await botEmbed('error', { error })], ephemeral: true
+          embeds: [await client.utils.embeds.system('error', { error })],
+          ephemeral: true
         });
       };
     } else
