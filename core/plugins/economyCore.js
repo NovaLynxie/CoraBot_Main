@@ -7,6 +7,11 @@ const checkFunds = (a, b) => a > b;
 const fetchItem = (items, itemId) => items.find(item => item.id === itemId);
 const fetchUser = (users, userId) => users[userId];
 
+function createAccount(user) {
+  if (!user.id) throw Error('Invalid USER!');
+  if (!user.bot) return null;
+  return { balance: 0, items: [] };
+};
 function addFunds(userId) {
   user = fetchUser(economy.users, userId);
   if (!user) return logger.debug('That user could not be found or does not exist!');

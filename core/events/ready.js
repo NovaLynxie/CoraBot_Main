@@ -1,4 +1,5 @@
 const logger = require('../utils/winstonLogger');
+const econCore = require('../plugins/economyCore');
 const statusUpdater = require('../plugins/statusUpdater');
 const { config, credentials } = require('../handlers/bootLoader');
 const { debug, dashboard } = config;
@@ -21,16 +22,22 @@ module.exports = {
       logger.fatal('Failed to initialize bot settings!');
       logger.fatal(err.message); logger.debug(err.stack);
       return client.user.setActivity('Bot settings error!');
-    };
+    };    
 		const guilds = client.guilds.cache.map(g => g.id);
-		try {			
+    const users = client.users.cache.map(u => u.id);
+		try {
 			await client.settings.guild.init(guilds);
 			await client.data.init(guilds);
-		} catch (err) {
+		} catch (error) {
 			logger.error('Failed to initialize guild settings/data!');
-			logger.error(err.message); logger.debug(err.stack);
+			logger.error(error.message); logger.debug(error.stack);
       return client.user.setActivity('Guild settings error!');
 		};
+    try {
+      await client.economy.users.sync(users);
+    } catch (error) {
+      // ..
+    };
     logger.init('Finished final checks. Preparing commands.');
 		const res = await client.utils.cmds.reloadAll(client, true);
     logger.debug(`${res.success} loaded, ${res.failed} failed.`);

@@ -169,6 +169,16 @@ async function generateGuildData(guildIDs) {
   logger.debug('Finished checking guild settings.');
   logger.info('Guild data is now available.');
 };
+async function syncGuildEconomyUsers(guilds) {
+  const econUsers = await guildDataStore.economy.users.get(guild);
+  for (const guild of guilds) {
+    const guildUsers = guild.users.cache.map(u => u.id);
+    for (const user of guildUsers) {
+      econUsers[user.id] = { balance: 0, items: [] };
+    };
+    await guildDataStore.economy.users.get(guild.id, econUsers);
+  };
+};
 async function readGuildEconomyData(guild, route) {
   logger.verbose(`Fetching guild economy.${route} data for ${guild.name} (ID:${guild.id})`);
   const res = await guildDataStore.economy[route].get(guild.id);
@@ -238,6 +248,7 @@ async function resetGuildData() {
 module.exports.storage = {
   data: {
     economy: {
+      sync: syncGuildEconomyUsers,
       get: readGuildEconomyData,
       set: saveGuildEconomyData
     },
