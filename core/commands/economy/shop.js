@@ -1,7 +1,7 @@
 const logger = require('../../utils/winstonLogger');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-const Economy = require('../../plugins/economyCore');
+const econCore = require('../../plugins/economyCore');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -53,39 +53,8 @@ module.exports = {
     const itemId = options.getString('itemid');
     const amount = options.getInteger('amount');
     const member = interaction.member;
+    const shop = await client.data.economy.get(guild, 'shop');
     let mode, economyEmbed = new MessageEmbed().setColor('#e36a5f');
-    try {
-      if (subcmd === 'list') mode = 'view_shop';
-      let { economy, response } = await Economy(client, mode, { amount, itemId, executorId: member.id });
-      if (response.status.startsWith('ERROR')) {
-        // TODO - Implement error handling for Economy Shop!
-        let errEmbed = new MessageEmbed(economyEmbed)
-          .setTitle('Economy Core Error!')
-          .setDescription(`The request errored or was rejected.
-          \`\`\`
-          Status: ${response.status}
-          Message: ${response.message}
-          \`\`\`
-          `)
-        await interaction.editReply({ embeds: [errEmbed] });
-      } else {
-        // TODO - Handle response data correctly.
-        let shopItems = [];
-        economy.shop.items.forEach(item => {
-          let obj = { id: item.id, cost: item.cost };
-          shopItems.push(obj);
-        });
-        let shopEmbed = new MessageEmbed(economyEmbed)
-          .setTitle('Guild Shop Listings (WIP)')
-          .setDescription('Shop is currently under construction. Please try again later.')
-          .addFields();
-        await interaction.editReply({ embeds: [shopEmbed] });
-      };
-    } catch (error) {
-      logger.debug(error.stack);
-      await interaction.editReply({
-        embeds: [await client.utils.embeds.system('error', { error })]
-      });      
-    };
+    // TODO - Start implementing shop command!
   }
 };

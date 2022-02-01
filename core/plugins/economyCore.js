@@ -1,6 +1,51 @@
 const logger = require('../utils/winstonLogger');
 const uuid = require('uuid');
 
+let data, item, user;
+
+const checkFunds = (a, b) => a > b;
+const fetchItem = (items, itemId) => items.find(item => item.id === itemId);
+const fetchUser = (users, userId) => users[userId];
+
+function addFunds(userId) {
+  user = fetchUser(economy.users, userId);
+  if (!user) return logger.debug('That user could not be found or does not exist!');
+  user.balance = user.balance + amount;
+  economy.users[userId].balance = user.balance;
+};
+function deductFunds(userId) {
+  user = fetchUser(economy.users, userId);
+  if (!user) return logger.debug('That user could not be found or does not exist!');
+  user.balance = checkFunds(user.balance, amount) ? user.balance - amount : user.balance;
+  economy.users[userId].balance = user.balance;
+};
+function buyItem(userId) {
+  user = fetchUser(economy.users, userId);
+  if (!user) return logger.debug('That user could not be found or does not exist!');
+  item = fetchItem(shop.items, itemId);
+  if (!item) return logger.debug(`No item was found with ID:${itemId}!`);
+  if (checkFunds(user.balance, item.cost)) {
+    deductFunds(userId);
+    return 'SUCCESS_PURCHASE_COMPLETE';
+  } else {
+    logger.debug('Insufficient funds to complete purchase!');
+    return 'ERROR_INSUFFICIENT_FUNDS';
+  };
+};
+function sellItem(userId) {
+  user = fetchUser(economy.users, userId);
+  if (!user) return logger.debug('That user could not be found or does not exist!');
+  item = fetchItem(user.items, itemId);
+  if (!item) return logger.debug(`No item was found with ID:${itemId}!`);
+  addFunds(executorId); return 'SUCCESS_SALE_COMPLETE';
+};
+
+module.exports.econ = {
+  buy: buyItem, sell: sellItem,
+  funds: { add: addFunds, deduct: deductFunds }
+};
+
+// DEPRECATED CODE! DO NOT USE!
 module.exports = async (client, mode, data) => {
   let response = {
     message: 'economy.message',
@@ -10,7 +55,7 @@ module.exports = async (client, mode, data) => {
     shop: await client.economy.shop.get(guild, 'shop'),
     users: await client.economy.shop.get(guild, 'users')
   };
-  let { amount = 0, itemData, itemId, targetId = undefined, executorId } = data, item, user;
+  let { amount = 0, itemData, itemId, targetId = undefined, executorId } = data, item;
   if (!executorId || typeof executorId !== 'string') throw new Error(`UserError! Missing or Invalid User ID!`);
   if (typeof amount !== 'number') throw new Error(`INVALID INPUT! Expected 'amount' to be NUMBER, got '${typeof amount}'!`);
   function validateUserIds() {
@@ -134,3 +179,4 @@ module.exports = async (client, mode, data) => {
   };
   await updateEconomyData(); return { economy, response };
 };
+// DEPRECATED CODE! DO NOT USE!
