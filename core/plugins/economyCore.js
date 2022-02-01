@@ -1,6 +1,10 @@
 const logger = require('../utils/winstonLogger');
 
 module.exports = async (client, mode, data) => {
+  let response = {
+    message: 'economy.message',
+    status: 'economy.status'
+  }
   let economy = {
     shop: await client.economy.shop.get(guild, 'shop'),
     users: await client.economy.shop.get(guild, 'users')
@@ -44,9 +48,12 @@ module.exports = async (client, mode, data) => {
     if (!item) return logger.debug(`No item was found with ID:${itemId}!`);
     if (checkFunds(user.balance, item.cost)) {
       deductFunds(userId); return 'SUCCESS';
+      response.message = 'Purchase was successful!';
+      response.status = 'SUCCESS_PURCHASE_COMPLETE';
     } else {
-      logger.debug('Insufficient funds to complete purchase!')
-      return 'INSUFFICIENT_FUNDS'
+      logger.debug('Insufficient funds to complete purchase!');
+      response.message = 'You do not have enough money to complete the purchase!';
+      response.status = 'ERR_INSUFFICIENT_FUNDS';
     };
   };
   function sellItem(userId) {
@@ -55,6 +62,8 @@ module.exports = async (client, mode, data) => {
     item = fetchItem(user.items, itemId);
     if (!item) return logger.debug(`No item was found with ID:${itemId}!`);
     addFunds(executorId);
+    response.message = 'Items sold successfully!';
+    response.status = 'SUCCESS_SALE_COMPLETE';
   };
   async function updateEconomyData() {
     await client.economy.set(guild, 'shop', economy.shop);
@@ -84,6 +93,6 @@ module.exports = async (client, mode, data) => {
     default:
       logger.debug(`Unrecognised method '${mode}'!`);
       throw new Error(`Invalid mode provided! Unknown mode state ${mode}!`);
-  };
-  await updateEconomyData(); return economy;
+  }; 
+  await updateEconomyData(); return { economy, response };
 };
