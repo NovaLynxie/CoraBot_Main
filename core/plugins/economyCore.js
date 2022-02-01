@@ -46,6 +46,7 @@ module.exports.econ = {
 };
 
 // DEPRECATED CODE! DO NOT USE!
+/*
 module.exports = async (client, mode, data) => {
   let response = {
     message: 'economy.message',
@@ -179,4 +180,5 @@ module.exports = async (client, mode, data) => {
   };
   await updateEconomyData(); return { economy, response };
 };
+*/
 // DEPRECATED CODE! DO NOT USE!
