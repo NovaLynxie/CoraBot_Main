@@ -169,14 +169,21 @@ async function generateGuildData(guildIDs) {
   logger.debug('Finished checking guild settings.');
   logger.info('Guild data is now available.');
 };
-async function syncGuildEconomyUsers(guilds) {
-  const econUsers = await guildDataStore.economy.users.get(guild);
-  for (const guild of guilds) {
+async function syncGuildEconomyUsers(guildIDs) {
+  logger.verbose(`Syncing economy data for ${guildIDs.length} guilds.`);
+  for (const gID of guildIDs) {
+    const econUsers = await guildDataStore.economy.users.get(gId);
+    logger.verbose(`Syncing users for guild with ID:${gID}`);
     const guildUsers = guild.users.cache.map(u => u.id);
     for (const user of guildUsers) {
-      econUsers[user.id] = { balance: 0, items: [] };
+      if (!econUsers[user.id]) {
+        logger.verbose(`User ${user.tag} not found! Adding new record.`);
+        econUsers[user.id] = { balance: 0, items: [] };
+      } else { continue };
     };
+    logger.verbose('Saving economy user data...');
     await guildDataStore.economy.users.get(guild.id, econUsers);
+    logger.verbose(`Saved successfully for ${guild.name}!`);
   };
 };
 async function readGuildEconomyData(guild, route) {

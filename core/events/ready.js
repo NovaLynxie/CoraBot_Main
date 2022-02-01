@@ -34,9 +34,12 @@ module.exports = {
       return client.user.setActivity('Guild settings error!');
 		};
     try {
-      await client.economy.users.sync(users);
+      logger.debug('Syncing users ecomony data...');
+      await client.data.economy.sync(users);
+      logger.debug('Successfully synced users economy data!');
     } catch (error) {
-      // ..
+      logger.fatal(`Sync Error! Failed to sync users ecomony data!`);
+      logger.error(error.message); logger.debug(error.stack);
     };
     logger.init('Finished final checks. Preparing commands.');
 		const res = await client.utils.cmds.reloadAll(client, true);
