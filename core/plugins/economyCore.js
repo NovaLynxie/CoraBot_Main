@@ -1,4 +1,5 @@
 const logger = require('../utils/winstonLogger');
+const uuid = require('uuid');
 
 module.exports = async (client, mode, data) => {
   let response = {
@@ -9,7 +10,7 @@ module.exports = async (client, mode, data) => {
     shop: await client.economy.shop.get(guild, 'shop'),
     users: await client.economy.shop.get(guild, 'users')
   };
-  let { amount = 0, itemId, targetId = undefined, executorId } = data, item, user;
+  let { amount = 0, itemData, itemId, targetId = undefined, executorId } = data, item, user;
   if (!executorId || typeof executorId !== 'string') throw new Error(`UserError! Missing or Invalid User ID!`);
   if (typeof amount !== 'number') throw new Error(`INVALID INPUT! Expected 'amount' to be NUMBER, got '${typeof amount}'!`);
   function validateUserIds() {
@@ -69,11 +70,48 @@ module.exports = async (client, mode, data) => {
     await client.economy.set(guild, 'shop', economy.shop);
     await client.economy.set(guild, 'users', economy.users);
   };
+  function validateItemData(data) {
+    if (!data.name || !data.cost) {
+      return false;
+    } else {
+      if (typeof data.name !== 'string') return false;
+      if (typeof data.cost !== 'number') return false;
+      return true;
+    };
+  };
   switch (mode) {
-    case 'add':
+    case 'add_item':
+      if (!itemData) {
+        response.message = 'Missing item data to add to shop listings!';
+        response.status = 'ERROR_NO_ITEM_DATA';
+      } else {
+        if (typeof itemData !== 'object') {
+          throw new Error(`Invalid parameter 'itemData'! Expected 'object', got ${typeof itemData} instead!`);
+        } else if (validateItemData(itemData)) {
+          response.message = 'Some data parameters were missing or were  invalid.';
+          response.status = 'ERROR_ITEM_REJECTED';
+          break;
+        } else {
+          itemData.id = uuid.v1().substr(0, 8);
+          economy.shop.items.push(itemData);
+          response.message = 'Added item successfully to shop!';
+          response.status = 'SUCCESS_ITEM_ADDED';
+        };
+      };
+      break;
+    case 'remove_item':
+      let itemIndex = economy.shop.items.findIndex(item => item.id === itemId);
+      if (itemIndex > 0) {
+        response.message = 'Missing item data to add to shop listings!';
+        response.status = 'ERROR_NO_ITEM_DATA';
+      } else {
+        economy.shop.items.splice(itemIndex, 1);
+      };
+      break;
+    case 'add_funds':
       addFunds(executorId);
       break;
-    case 'deduct':
+    case 'deduct_funds':
       deductFunds(executorId);
       break;
     case 'buy':
@@ -93,6 +131,6 @@ module.exports = async (client, mode, data) => {
     default:
       logger.debug(`Unrecognised method '${mode}'!`);
       throw new Error(`Invalid mode provided! Unknown mode state ${mode}!`);
-  }; 
+  };
   await updateEconomyData(); return { economy, response };
 };

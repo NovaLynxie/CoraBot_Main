@@ -70,9 +70,15 @@ module.exports = {
         await interaction.editReply({ embeds: [errEmbed] });
       } else {
         // TODO - Handle response data correctly.
+        let shopItems = [];
+        economy.shop.items.forEach(item => {
+          let obj = { id: item.id, cost: item.cost };
+          shopItems.push(obj);
+        });
         let shopEmbed = new MessageEmbed(economyEmbed)
-          .setTitle('Guild Shop Listings');
-          .add
+          .setTitle('Guild Shop Listings (WIP)')
+          .setDescription('Shop is currently under construction. Please try again later.')
+          .addFields();
         await interaction.editReply({ embeds: [shopEmbed] });
       };
     } catch (error) {
