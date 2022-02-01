@@ -51,7 +51,7 @@ module.exports = {
         if (!user) {
           economyEmbed
             .setTitle('Economy - Account Error')
-            .setDescription(`User ${target || member} either not registered yet or missing data!`);
+            .setDescription(`No accounts found for ${target || member}!`);
         } else {
           economyEmbed
             .setTitle('Economy - Account Viewer')
