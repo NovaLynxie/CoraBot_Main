@@ -1,6 +1,6 @@
 const logger = require('../utils/winstonLogger');
 const fs = require('fs'), path = require('path');
-const dataDirPath = './data', dbFiles = ['guilds/main', 'guilds/settings', 'guilds/voice', 'sessions', 'settings'];
+const dataDirPath = './data', dbFiles = ['guilds/economy', 'guilds/main', 'guilds/settings', 'guilds/voice', 'sessions', 'settings'];
 
 function calcAccAge(date) {
   const sysDate = new Date();
