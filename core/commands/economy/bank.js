@@ -46,7 +46,7 @@ module.exports = {
     // TODO - Start implementing bank command!
     switch (subcmd) {
       case 'view':
-        data = econUsers[target.id || member.id];
+        data = econUsers[(target) ? target.id : member.id];
         economyEmbed
           .setTitle('Account Details')
           .setDescription(`
