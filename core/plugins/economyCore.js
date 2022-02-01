@@ -59,7 +59,7 @@ module.exports = async (client, mode, data) => {
       break;
     default:
       logger.debug(`Unrecognised method '${mode}'!`);
-      throw new Error(`Invalid mode detected! Expected buy/sell/transfer, got ${mode} instead!`);
+      throw new Error(`Invalid mode provided! Unknown mode state ${mode}!`);
   };
   await client.economy.set(guild, 'shop', economy.shop);
   await client.economy.set(guild, 'users', economy.users);
