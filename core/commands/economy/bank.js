@@ -41,7 +41,7 @@ module.exports = {
     const subcmd = options.getSubcommand();
     const amount = options.getInteger('amount');
     const target = options.getMember('target');
-    const bank = await client.data.economy.get(guild, 'bank');
+    const bank = await client.data.economy.get(guild, 'users');
     let user, mode, economyEmbed = new MessageEmbed().setColor('#e39d5f');
     const econUsers = await client.data.economy.get(guild, 'users');
     // TODO - Start implementing bank command!
