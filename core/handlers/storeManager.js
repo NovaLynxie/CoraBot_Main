@@ -172,7 +172,7 @@ async function generateGuildData(guildIDs) {
 async function syncGuildEconomyUsers(guildIDs) {
   logger.verbose(`Syncing economy data for ${guildIDs.length} guilds.`);
   for (const gID of guildIDs) {
-    const econUsers = await guildDataStore.economy.users.get(gId);
+    const econUsers = await guildDataStore.economy.users.get(gID);
     logger.verbose(`Syncing users for guild with ID:${gID}`);
     const guildUsers = guild.users.cache.map(u => u.id);
     for (const user of guildUsers) {
