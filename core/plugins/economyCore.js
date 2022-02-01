@@ -1,7 +1,7 @@
 const logger = require('../utils/winstonLogger');
 
 module.exports = async (client, mode, data) => {
-  let res, economy = {
+  let economy = {
     shop: await client.economy.shop.get(guild, 'shop'),
     users: await client.economy.shop.get(guild, 'users')
   };
@@ -85,5 +85,5 @@ module.exports = async (client, mode, data) => {
       logger.debug(`Unrecognised method '${mode}'!`);
       throw new Error(`Invalid mode provided! Unknown mode state ${mode}!`);
   };
-  return res;
+  await updateEconomyData(); return economy;
 };
