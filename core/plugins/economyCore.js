@@ -40,9 +40,9 @@ function sellItem(userId) {
   addFunds(executorId); return 'SUCCESS_SALE_COMPLETE';
 };
 
-module.exports.econ = {
-  buy: buyItem, sell: sellItem,
-  funds: { add: addFunds, deduct: deductFunds }
+module.exports = {
+  bank: { addFunds, deductFunds },
+  shop: { buy: buyItem, sell: sellItem }
 };
 
 // DEPRECATED CODE! DO NOT USE!
