@@ -53,7 +53,7 @@ module.exports = async (client, mode, data) => {
     } else {
       logger.debug('Insufficient funds to complete purchase!');
       response.message = 'You do not have enough money to complete the purchase!';
-      response.status = 'ERR_INSUFFICIENT_FUNDS';
+      response.status = 'ERROR_INSUFFICIENT_FUNDS';
     };
   };
   function sellItem(userId) {

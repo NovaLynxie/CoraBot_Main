@@ -40,6 +40,7 @@ module.exports = {
     const subcmd = options.getSubcommand();
     const amount = options.getInteger('amount');
     const target = options.getMember('target');
-    //
+    let mode, economyEmbed = new MessageEmbed().setColor('#e36a5f');
+    // TODO - Start implementing bank command!
   }
 };
