@@ -53,7 +53,7 @@ module.exports = {
     const itemId = options.getString('itemid');
     const amount = options.getInteger('amount');
     const member = interaction.member;
-    const shop = await client.data.economy.get(guild, 'shop');
+    const econShop = await client.data.economy.get(guild, 'shop');
     let mode, economyEmbed = new MessageEmbed().setColor('#e36a5f');
     // TODO - Start implementing shop command!
   }
