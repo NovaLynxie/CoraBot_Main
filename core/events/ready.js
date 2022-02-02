@@ -22,12 +22,10 @@ module.exports = {
       logger.fatal('Failed to initialize bot settings!');
       logger.fatal(err.message); logger.debug(err.stack);
       return client.user.setActivity('Bot settings error!');
-    };    
-		const guilds = client.guilds.cache.map(g => g.id);
-    const users = client.users.cache.map(u => u.id);
+    };
 		try {
-			await client.settings.guild.init(guilds);
-			await client.data.init(guilds);
+			await client.settings.guild.init(client.guilds);
+			await client.data.init(client.guilds);
 		} catch (error) {
 			logger.error('Failed to initialize guild settings/data!');
 			logger.error(error.message); logger.debug(error.stack);
@@ -35,7 +33,7 @@ module.exports = {
 		};
     try {
       logger.debug('Syncing users ecomony data...');
-      await client.data.economy.sync(users);
+      await client.data.economy.sync(client.users);
       logger.debug('Successfully synced users economy data!');
     } catch (error) {
       logger.fatal(`Sync Error! Failed to sync users ecomony data!`);

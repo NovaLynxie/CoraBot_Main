@@ -32,7 +32,8 @@ guildDataTypes.forEach(dataType => {
 const clientSettingsTemplate = require('../assets/templates/database/clientSettings.json');
 const guildSettingsTemplate = require('../assets/templates/database/guildSettings.json');
 const guildDataTemplate = require('../assets/templates/database/guildData.json');
-async function generateGuildSettings(guildIDs) {
+async function generateGuildSettings(guilds) {
+  const guildIDs = guilds.cache.map(guild => guild.id);
   logger.verbose('Preparing to check guild settings now...');
   guildIDs.forEach(async (guildID) => {
     logger.verbose(`Checking ${guildID} of guildIDs`);
@@ -124,8 +125,9 @@ async function updateGuildDataProps(data, property) {
   };
   return data;
 };
-async function generateGuildData(guildIDs) {
-  logger.debug('Preparing to check guild data now...');
+async function generateGuildData(guilds) {
+  logger.debug('Preparing to check guilds data now...');
+  const guildIDs = guilds.cache.map(guild => guild.id);
   for (const guildID of guildIDs) {
     logger.verbose(`Checking ${guildID} of guildIDs`);
     const storage = {
@@ -169,29 +171,29 @@ async function generateGuildData(guildIDs) {
   logger.debug('Finished checking guild settings.');
   logger.info('Guild data is now available.');
 };
-async function syncGuildEconomyUsers(guildIDs) {
-  logger.verbose(`Syncing economy data for ${guildIDs.length} guilds.`);
-  for (const gID of guildIDs) {
-    const econUsers = await guildDataStore.economy.users.get(gID);
-    logger.verbose(`Syncing users for guild with ID:${gID}`);
-    const guildUsers = guild.users.cache.map(u => u.id);
-    for (const user of guildUsers) {
-      if (!econUsers[user.id]) {
-        logger.verbose(`User ${user.tag} not found! Adding new record.`);
-        econUsers[user.id] = { balance: 0, items: [] };
-      } else { continue };
+async function syncEconomyUserData(users) {
+  logger.verbose(`Syncing economy data for ${users.size} users.`);
+  const userIDs = users.cache.map(user => user.id);
+  for (const userID of userIDs) {
+    let econUser = await guildDataStore.economy.users.get(userID);
+    if (!econUser) {
+      logger.verbose(`Creating user economy data for UserID:${userID}`); 
+      econUser = { balance: 0, items: [] };
+    } else {
+      logger.debug(`UserID:${userID} already exists!`);
     };
     logger.verbose('Saving economy user data...');
-    await guildDataStore.economy.users.get(guild.id, econUsers);
-    logger.verbose(`Saved successfully for ${guild.name}!`);
+    await guildDataStore.economy.users.get(userID, econUser);
+    logger.verbose(`Saved User:${userID} successfully!`);
   };
+  logger.verbose(`Finished syncing economy user data!`);
 };
-async function readGuildEconomyData(guild, route) {
+async function readEconomyUserData(guild, route) {
   logger.verbose(`Fetching guild economy.${route} data for ${guild.name} (ID:${guild.id})`);
   const res = await guildDataStore.economy[route].get(guild.id);
   return res;
 };
-async function saveGuildEconomyData(guild, route, data) {
+async function saveEconomyUserData(guild, route, data) {
   logger.verbose(`Updating guild economy.${route} data for ${guild.name} (ID:${guild.id})`);
   await guildDataStore.economy[route].set(guild.id, data);
 };
@@ -255,9 +257,9 @@ async function resetGuildData() {
 module.exports.storage = {
   data: {
     economy: {
-      sync: syncGuildEconomyUsers,
-      get: readGuildEconomyData,
-      set: saveGuildEconomyData
+      sync: syncEconomyUserData,
+      get: readEconomyUserData,
+      set: saveEconomyUserData
     },
     moderation: {
       delete: deleteGuildModData,
