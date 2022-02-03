@@ -267,7 +267,7 @@ module.exports = {
       if (song) voiceData.music.queue.push(song);
       if (list) voiceData.music.queue = voiceData.music.queue.concat(list);
       logger.verbose(`voiceData:${JSON.stringify(voiceData, null, 2)}`);
-      await client.data.guild.voice.set(voiceData, guild);
+      await client.data.guild.voice.set(guild, voiceData);
       interaction.editReply(response);
     };
     async function loadSong() {
@@ -279,7 +279,7 @@ module.exports = {
         type: source.type, volume: voiceData.volume
       });
       voiceData.music.track = { title, duration, type, thumbnail };
-      await client.data.guild.voice.set(voiceData, guild);
+      await client.data.guild.voice.set(guild, voiceData);
       return stream;
     };
     // Dynamic Music Embeds
@@ -507,7 +507,7 @@ module.exports = {
           logger.debug(`Song queued! Playing ${voiceData.music.track.title} next.`);
           audioPlayer.play(source);
         };
-        await client.data.guild.voice.set(voiceData, guild);
+        await client.data.guild.voice.set(guild, voiceData);
       },
       autoPauseEvent: () => {
         logger.debug('Player autopaused since not connected to an active channel.');

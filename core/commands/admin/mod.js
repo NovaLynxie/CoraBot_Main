@@ -263,7 +263,7 @@ module.exports = {
           break;
       };
       await interaction.editReply(successResponse || errorResponse);
-      await client.data.guild.moderation.set(modData, guild);
+      await client.data.guild.moderation.set(guild, modData);
     } else {
       interaction.editReply({
         content: 'You do not have permission to run this command!', ephemeral: true
