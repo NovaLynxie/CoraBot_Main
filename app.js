@@ -1,13 +1,13 @@
-const logger = require('./core/utils/winstonLogger');
-const { embeds } = require('./core/utils/botEmbeds');
-const { utils } = require('./core/utils/botUtils');
+const logger = require('./lib/utils/winstonLogger');
+const { embeds } = require('./lib/utils/botEmbeds');
+const { utils } = require('./lib/utils/botUtils');
 const { readdirSync } = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-const { cmdLoader } = require('./core/handlers/cmdLoader');
-const { crashReporter } = require('./core/handlers/crashReporter');
-const { storage } = require('./core/handlers/storeManager');
-const { voice } = require('./core/handlers/voiceManager');
-const { config, credentials } = require('./core/handlers/bootLoader');
+const { cmdLoader } = require('./lib/handlers/cmdLoader');
+const { crashReporter } = require('./lib/handlers/crashReporter');
+const { storage } = require('./lib/handlers/storeManager');
+const { voice } = require('./lib/handlers/voiceManager');
+const { config, credentials } = require('./lib/handlers/bootLoader');
 const { ownerIDs, useLegacyURL, debug, modules } = config;
 const { discordToken } = credentials;
 logger.init('Spinning up bot instance...');
@@ -29,9 +29,9 @@ if (useLegacyURL) {
   logger.debug('Switching http API to legacy domain.');
   client.options.http.api = 'https://discordapp.com/api';
 } else { logger.debug('Using default API domain.') };
-const eventFiles = readdirSync('./core/events').filter(file => file.endsWith('.js'));
+const eventFiles = readdirSync('./lib/events').filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
-  const event = require(`./core/events/${file}`);
+  const event = require(`./lib/events/${file}`);
   if (event.once) {
     client.once(event.name, (...args) => event.execute(...args, client));
   } else {
