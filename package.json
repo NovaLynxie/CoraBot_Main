@@ -7,7 +7,7 @@
     "start": "node .",
     "dev": "nodemon .",
     "lint": "eslint .",
-    "setup": "node ./core/utils/setupUtil.js"
+    "setup": "node ./lib/utils/setupUtil.js"
   },
   "keywords": [
     "discord.js",
