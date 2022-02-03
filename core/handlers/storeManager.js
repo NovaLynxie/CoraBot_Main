@@ -172,7 +172,7 @@ async function readGuildModData(guild) {
   const res = await guildDataStore.offenses.get(guild.id);
   return res;
 };
-async function saveGuildModData(data, guild) {
+async function saveGuildModData(guild, data) {
   logger.verbose(`Updating guild moderation data for ${guild.name} (ID:${guild.id}).`);
   await guildDataStore.offenses.set(guild.id, data);
   logger.verbose(`Updated guild moderation data for ${guild.name} (ID:${guild.id}).`);
@@ -186,7 +186,7 @@ async function readGuildVoiceData(guild) {
   const res = await guildDataStore.voice.get(guild.id);
   return res;
 };
-async function saveGuildVoiceData(data, guild) {
+async function saveGuildVoiceData(guild, data) {
   logger.verbose(`Updating guild voice data for ${guild.name} (ID:${guild.id}).`);
   await guildDataStore.voice.set(guild.id, data);
   logger.verbose(`Updated guild voice data for ${guild.name} (ID:${guild.id}).`);
@@ -200,7 +200,7 @@ async function readGuildTrackerData(guild) {
   const res = await guildDataStore.trackers.get(guild.id);
   return res;
 };
-async function saveGuildTrackerData(data, guild) {
+async function saveGuildTrackerData(guild, data) {
   logger.verbose(`Updating guild trackers data for ${guild.name} (ID:${guild.id}).`);
   await guildDataStore.trackers.set(guild.id, data);
   logger.verbose(`Updated guild trackers data for ${guild.name} (ID:${guild.id}).`);
