@@ -8,7 +8,7 @@ const { enableDash, dashDomain, dashSrvPort, reportOnly } = dashboard;
 module.exports = {
 	name: 'ready',
 	once: true,
-	async execute(client) {    
+	async execute(client) {
 		logger.info(`Logged in as ${client.user.tag}. Bot Online!`);
 		clearTimeout(client.timers.apiConnectWarn);
 		logger.debug('Cleared ratelimit warning timer.');
