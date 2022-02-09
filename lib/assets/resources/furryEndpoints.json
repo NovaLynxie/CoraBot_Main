@@ -1,0 +1,121 @@
+{
+  "boop": {
+    "name": "boop",
+    "nsfw": false,
+    "embed": {
+      "title": ""
+    }
+  },
+  "cuddle": {
+    "name": "cuddle",
+    "nsfw": false,
+    "embed": {
+      "title": ""
+    }
+  },
+  "flop": {
+    "name": "flop",
+    "nsfw": false,
+    "embed": {
+      "title": ""
+    }
+  },
+  "fursuit": {
+    "name": "fursuit",
+    "nsfw": false,
+    "embed": {
+      "title": ""
+    }
+  },
+  "hold": {
+    "name": "hold",
+    "nsfw": false,
+    "embed": {
+      "title": ""
+    }
+  },
+  "howl": {
+    "name": "howl",
+    "nsfw": false,
+    "embed": {
+      "title": ""
+    }
+  },
+  "hug": {
+    "name": "hug",
+    "nsfw": false,
+    "embed": {
+      "title": ""
+    }
+  },
+  "kiss": {
+    "name": "kiss",
+    "nsfw": false,
+    "embed": {
+      "title": ""
+    }
+  },
+  "lick": {
+    "name": "lick",
+    "nsfw": false,
+    "embed": {
+      "title": ""
+    }
+  },
+  "propose": {
+    "name": "propose",
+    "nsfw": false,
+    "embed": {
+      "title": ""
+    }
+  },
+  "butts": {
+    "name": "butts",
+    "nsfw": true,
+    "embed": {
+      "title": ""
+    }
+  },
+  "bulge": {
+    "name": "bulge",
+    "nsfw": true,
+    "embed": {
+      "title": ""
+    }
+  },
+  "andromorph": {
+    "name": "andromorph",
+    "nsfw": true,
+    "embed": {
+      "title": ""
+    }
+  },
+  "gynomorph": {
+    "name": "gynomorph",
+    "nsfw": true,
+    "embed": {
+      "title": ""
+    }
+  },
+  "gay": {
+    "name": "gay",
+    "nsfw": true,
+    "embed": {
+      "title": ""
+    }
+  },
+  "lesbian": {
+    "name": "lesbian",
+    "nsfw": true,
+    "embed": {
+      "title": ""
+    }
+  },
+  "straight": {
+    "name": "straight",
+    "nsfw": true,
+    "embed": {
+      "title": ""
+    }
+  }
+}
