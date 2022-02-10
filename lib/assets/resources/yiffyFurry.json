@@ -139,7 +139,7 @@
     "route": "propose"
   },
   "butts": {
-    "nsfw": true,
+    "nsfw": false,
     "embed": {
       "titles": [
         "OWO BUTTZ!!",
