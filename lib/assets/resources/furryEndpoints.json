@@ -1,6 +1,5 @@
 {
   "boop": {
-    "route": "boop",
     "nsfw": false,
     "embed": {
       "titles": [
@@ -9,36 +8,40 @@
       ],
       "descriptions": [
         "Hehe, its time to boop the snoots! ^w^",
-        "I'm gonna boop ya..."
+        "I'm gonna boop ya... *sneaky giggle*"
       ]
-    }
+    },
+    "route": "boop"
   },
   "cuddle": {
-    "route": "cuddle",
     "nsfw": false,
     "embed": {
       "titles": [
-        "Cuddle wuddles!"
+        "Cuddle wuddles!",
+        "Snuggling up with buddies."
       ],
       "descriptions": [
+        "Pwease give me some cuddles UwU",
         "Snuggling up with your loved ones."
       ]
-    }
+    },
+    "route": "cuddle"
   },
   "flop": {
-    "route": "flop",
     "nsfw": false,
     "embed": {
       "titles": [
-        "Furries do the flops!"
+        "Furries do the flops!",
+        "Ooop! I fell flat on my face OwO"
       ],
       "descriptions": [
-        "That looks very comfy, think I'll also flop on someone too. (uwu)"
+        "That looks very comfy, think I'll also flop on someone too. (uwu)",
+        "Heh... I tripped on my paws. Whoopsie x3"
       ]
-    }
+    },
+    "route": "flop"
   },
   "fursuit": {
-    "route": "fursuit",
     "nsfw": false,
     "embed": {
       "titles": [
@@ -49,10 +52,10 @@
         "Lots of cute and adventurous fursuiters, ya gotta see them all!",
         "Spotted anthromorphic being in its natural habitat."
       ]
-    }
+    },
+    "route": "fursuit"
   },
   "hold": {
-    "route": "hold",
     "nsfw": false,
     "embed": {
       "titles": [
@@ -63,10 +66,10 @@
         "Aww, they look so cute.",
         "Hehe, holding smol bean."
       ]
-    }
+    },
+    "route": "hold"
   },
   "howl": {
-    "route": "howl",
     "nsfw": false,
     "embed": {
       "titles": [
@@ -77,10 +80,10 @@
         "Howling away at under the moonlight.",
         "A duet of two howls."
       ]
-    }
+    },
+    "route": "howl"
   },
   "hug": {
-    "route": "hug",
     "nsfw": false,
     "embed": {
       "titles": [
@@ -91,10 +94,10 @@
         "Pwease give me huggy wuggies! UwU",
         "Ooop, looks like they got tackled into a hug. OwO"
       ]
-    }
+    },
+    "route": "hug"
   },
   "kiss": {
-    "route": "kiss",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -106,10 +109,10 @@
         "Hehe, cute.",
         "Them adorable beans getting snug."
       ]
-    }
+    },
+    "route": "kiss"
   },
   "lick": {
-    "route": "lick",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -119,10 +122,10 @@
       "descriptions": [
         "Nyyaaaah! That tickles X3"
       ]
-    }
+    },
+    "route": "lick"
   },
   "propose": {
-    "route": "propose",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -132,10 +135,10 @@
         "You got this you two, wishing the best ^w^",
         "They sure are a cute couple... aaaaa-"
       ]
-    }
+    },
+    "route": "propose"
   },
   "butts": {
-    "route": "butts",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -145,10 +148,10 @@
       "descriptions": [
         "I like big BUTTS and I cannot lie... wait..."
       ]
-    }
+    },
+    "route": "butts"
   },
   "bulge": {
-    "route": "bulge",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -160,10 +163,10 @@
         "Damn they bulging hard...",
         "Well... they have one heck of a 'package' there U//w//U"
       ]
-    }
+    },
+    "route": "bulge"
   },
   "andromorph": {
-    "route": "andromorph",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -172,10 +175,10 @@
       "descriptions": [
         "I don't know how to feel about this..."
       ]
-    }
+    },
+    "route": "andromorph"
   },
   "gynomorph": {
-    "route": "gynomorph",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -185,10 +188,10 @@
       "descriptions": [
         "Them gals sure be showing off their junk."
       ]
-    }
+    },
+    "route": "gynomorph"
   },
   "gay": {
-    "route": "gay",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -199,10 +202,10 @@
         "Heh, they sure be gay for each other.",
         "Love is in the air, sure got them going X3 "
       ]
-    }
+    },
+    "route": "gay"
   },
   "lesbian": {
-    "route": "lesbian",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -214,10 +217,10 @@
         "Wow, these girls sure be gay for each other.",
         "Hehe... they be very naughty u//w//u"
       ]
-    }
+    },
+    "route": "lesbian"
   },
   "straight": {
-    "route": "straight",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -228,6 +231,7 @@
         "Huh, looks like they be going at it.",
         "Is it me or is it getting hot in here?"
       ]
-    }
+    },
+    "route": "straight"
   }
 }
