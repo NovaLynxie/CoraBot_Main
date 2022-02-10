@@ -3,119 +3,231 @@
     "name": "boop",
     "nsfw": false,
     "embed": {
-      "title": ""
+      "titles": [
+        "Boop dat snoot! >w<",
+        "I'ma boop ya so hard X3"
+      ],
+      "descriptions": [
+        "Hehe, its time to boop the snoots! ^w^",
+        "I'm gonna boop ya..."
+      ]
     }
   },
   "cuddle": {
     "name": "cuddle",
     "nsfw": false,
     "embed": {
-      "title": ""
+      "titles": [
+        "Cuddle wuddles!"
+      ],
+      "descriptions": [
+        "Snuggling up with your loved ones."
+      ]
     }
   },
   "flop": {
     "name": "flop",
     "nsfw": false,
     "embed": {
-      "title": ""
+      "titles": [
+        "Furries do the flops!"
+      ],
+      "descriptions": [
+        "That looks very comfy, think I'll also flop on someone too. (uwu)"
+      ]
     }
   },
   "fursuit": {
     "name": "fursuit",
     "nsfw": false,
     "embed": {
-      "title": ""
+      "titles": [
+        "Furries both big and small.",
+        "A wild furry has been spotted!"
+      ],
+      "descriptions": [
+        "Lots of cute and adventurous fursuiters, ya gotta see them all!",
+        "Spotted anthromorphic being in its natural habitat."
+      ]
     }
   },
   "hold": {
     "name": "hold",
     "nsfw": false,
     "embed": {
-      "title": ""
+      "titles": [
+        "Holding the bean!",
+        ""
+      ],
+      "descriptions": [
+        "Aww, they look so cute.",
+        "Hehe, holding smol bean."
+      ]
     }
   },
   "howl": {
     "name": "howl",
     "nsfw": false,
     "embed": {
-      "title": ""
+      "titles": [
+        "Awooooo!",
+        "Looks like they started a howl."
+      ],
+      "descriptions": [
+        "Howling away at under the moonlight.",
+        "A duet of two howls."
+      ]
     }
   },
   "hug": {
     "name": "hug",
     "nsfw": false,
     "embed": {
-      "title": ""
+      "titles": [
+        "Huggie wuggies! ^w^",
+        "Bear Hug! AAAAAA-"
+      ],
+      "descriptions": [
+        "Pwease give me huggy wuggies! UwU",
+        "Ooop, looks like they got tackled into a hug. OwO"
+      ]
     }
   },
   "kiss": {
     "name": "kiss",
-    "nsfw": false,
+    "nsfw": true,
     "embed": {
-      "title": ""
+      "titles": [
+        "Mmmwah X3",
+        "Surprise Kiss!",
+        "( ˶˘ ³˘(˵ ͡° ͜ʖ ͡°˵)♡"
+      ],
+      "descriptions": [
+        "Hehe, cute.",
+        "Them adorable beans getting snug."
+      ]
     }
   },
   "lick": {
     "name": "lick",
-    "nsfw": false,
+    "nsfw": true,
     "embed": {
-      "title": ""
+      "titles": [
+        "Giving all the licks.",
+        ""
+      ],
+      "descriptions": [
+        "Nyyaaaah! That tickles X3"
+      ]
     }
   },
   "propose": {
     "name": "propose",
-    "nsfw": false,
+    "nsfw": true,
     "embed": {
-      "title": ""
+      "titles": [
+        "Love is in the air!"
+      ],
+      "descriptions": [
+        "You got this you two, wishing the best ^w^",
+        "They sure are a cute couple... aaaaa-"
+      ]
     }
   },
   "butts": {
     "name": "butts",
     "nsfw": true,
     "embed": {
-      "title": ""
+      "titles": [
+        "OWO BUTTZ!!",
+        "Shaking that cute rump huh U//w//U"
+      ],
+      "descriptions": [
+        "I like big BUTTS and I cannot lie... wait..."
+      ]
     }
   },
   "bulge": {
     "name": "bulge",
     "nsfw": true,
     "embed": {
-      "title": ""
+      "titles": [
+        "Bulgy wulgy",
+        "What's this? OWO"
+      ],
+      "descriptions": [
+        "NOtices your bulge, lets have a little looksie here U//w//U",
+        "Damn they bulging hard...",
+        "Well... they have one heck of a 'package' there U//w//U"
+      ]
     }
   },
   "andromorph": {
     "name": "andromorph",
     "nsfw": true,
     "embed": {
-      "title": ""
+      "titles": [
+        "Huh... quite masculine.."
+      ],
+      "descriptions": [
+        "I don't know how to feel about this..."
+      ]
     }
   },
   "gynomorph": {
     "name": "gynomorph",
     "nsfw": true,
     "embed": {
-      "title": ""
+      "titles": [
+        "Girls with... male junk?",
+        "Erm... h-heh...?"
+      ],
+      "descriptions": [
+        "Them gals sure be showing off their junk."
+      ]
     }
   },
   "gay": {
     "name": "gay",
     "nsfw": true,
     "embed": {
-      "title": ""
+      "titles": [
+        "HAH! GAAAYYY 💗",
+        "Them guys be in love X3"
+      ],
+      "descriptions": [
+        "Heh, they sure be gay for each other.",
+        "Love is in the air, sure got them going X3 "
+      ]
     }
   },
   "lesbian": {
     "name": "lesbian",
     "nsfw": true,
     "embed": {
-      "title": ""
+      "titles": [
+        "Girls need love too.",
+        "Its getting hot in here UWU"
+      ],
+      "descriptions": [
+        "Damn they really in heat huh.",
+        "Wow, these girls sure be gay for each other.",
+        "Hehe... they be very naughty u//w//u"
+      ]
     }
   },
   "straight": {
     "name": "straight",
     "nsfw": true,
     "embed": {
-      "title": ""
+      "titles": [
+        "Y-yiffing?! O//w//O",
+        "Jeez get a room guys. >//w//>"
+      ],
+      "descriptions": [
+        "Huh, looks like they be going at it.",
+        "Is it me or is it getting hot in here?"
+      ]
     }
   }
 }
