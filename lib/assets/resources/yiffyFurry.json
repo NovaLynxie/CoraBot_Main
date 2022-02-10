@@ -98,7 +98,7 @@
     "route": "hug"
   },
   "kiss": {
-    "nsfw": true,
+    "nsfw": false,
     "embed": {
       "titles": [
         "Mmmwah X3",
@@ -113,7 +113,7 @@
     "route": "kiss"
   },
   "lick": {
-    "nsfw": true,
+    "nsfw": false,
     "embed": {
       "titles": [
         "Giving all the licks.",
@@ -126,7 +126,7 @@
     "route": "lick"
   },
   "propose": {
-    "nsfw": true,
+    "nsfw": false,
     "embed": {
       "titles": [
         "Love is in the air!"
