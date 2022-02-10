@@ -1,6 +1,6 @@
 {
   "boop": {
-    "name": "boop",
+    "route": "boop",
     "nsfw": false,
     "embed": {
       "titles": [
@@ -14,7 +14,7 @@
     }
   },
   "cuddle": {
-    "name": "cuddle",
+    "route": "cuddle",
     "nsfw": false,
     "embed": {
       "titles": [
@@ -26,7 +26,7 @@
     }
   },
   "flop": {
-    "name": "flop",
+    "route": "flop",
     "nsfw": false,
     "embed": {
       "titles": [
@@ -38,7 +38,7 @@
     }
   },
   "fursuit": {
-    "name": "fursuit",
+    "route": "fursuit",
     "nsfw": false,
     "embed": {
       "titles": [
@@ -52,7 +52,7 @@
     }
   },
   "hold": {
-    "name": "hold",
+    "route": "hold",
     "nsfw": false,
     "embed": {
       "titles": [
@@ -66,7 +66,7 @@
     }
   },
   "howl": {
-    "name": "howl",
+    "route": "howl",
     "nsfw": false,
     "embed": {
       "titles": [
@@ -80,7 +80,7 @@
     }
   },
   "hug": {
-    "name": "hug",
+    "route": "hug",
     "nsfw": false,
     "embed": {
       "titles": [
@@ -94,7 +94,7 @@
     }
   },
   "kiss": {
-    "name": "kiss",
+    "route": "kiss",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -109,7 +109,7 @@
     }
   },
   "lick": {
-    "name": "lick",
+    "route": "lick",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -122,7 +122,7 @@
     }
   },
   "propose": {
-    "name": "propose",
+    "route": "propose",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -135,7 +135,7 @@
     }
   },
   "butts": {
-    "name": "butts",
+    "route": "butts",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -148,7 +148,7 @@
     }
   },
   "bulge": {
-    "name": "bulge",
+    "route": "bulge",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -163,7 +163,7 @@
     }
   },
   "andromorph": {
-    "name": "andromorph",
+    "route": "andromorph",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -175,7 +175,7 @@
     }
   },
   "gynomorph": {
-    "name": "gynomorph",
+    "route": "gynomorph",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -188,7 +188,7 @@
     }
   },
   "gay": {
-    "name": "gay",
+    "route": "gay",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -202,7 +202,7 @@
     }
   },
   "lesbian": {
-    "name": "lesbian",
+    "route": "lesbian",
     "nsfw": true,
     "embed": {
       "titles": [
@@ -217,7 +217,7 @@
     }
   },
   "straight": {
-    "name": "straight",
+    "route": "straight",
     "nsfw": true,
     "embed": {
       "titles": [
