@@ -27,7 +27,7 @@
     },
     "route": "boop",
     "nsfw": false,
-    "yiff": true
+    "yiff": false
   },
   "bulge": {
     "embed": {
@@ -43,7 +43,7 @@
     },
     "route": "bulge",
     "nsfw": true,
-    "yiff": true
+    "yiff": false
   },
   "butts": {
     "embed": {
@@ -57,7 +57,7 @@
     },
     "route": "butts",
     "nsfw": true,
-    "yiff": true
+    "yiff": false
   },
   "cuddle": {
     "embed": {
@@ -72,7 +72,7 @@
     },
     "route": "cuddle",
     "nsfw": false,
-    "yiff": true
+    "yiff": false
   },
   "flop": {
     "embed": {
@@ -87,7 +87,7 @@
     },
     "route": "flop",
     "nsfw": false,
-    "yiff": true
+    "yiff": false
   },
   "fursuit": {
     "embed": {
@@ -102,7 +102,7 @@
     },
     "route": "fursuit",
     "nsfw": false,
-    "yiff": true
+    "yiff": false
   },
   "gay": {
     "embed": {
@@ -146,7 +146,7 @@
     },
     "route": "hold",
     "nsfw": false,
-    "yiff": true
+    "yiff": false
   },
   "howl": {
     "embed": {
@@ -161,7 +161,7 @@
     },
     "route": "howl",
     "nsfw": false,
-    "yiff": true
+    "yiff": false
   },
   "hug": {
     "embed": {
@@ -176,7 +176,7 @@
     },
     "route": "hug",
     "nsfw": false,
-    "yiff": true
+    "yiff": false
   },
   "kiss": {
     "embed": {
@@ -192,7 +192,7 @@
     },
     "route": "kiss",
     "nsfw": true,
-    "yiff": true
+    "yiff": false
   },
   "lesbian": {
     "embed": {
@@ -214,10 +214,11 @@
     "embed": {
       "titles": [
         "Giving all the licks.",
-        ""
+        "Mlem!"
       ],
       "descriptions": [
-        "Nyyaaaah! That tickles X3"
+        "Nyyaaaah! That tickles X3",
+        "*blushing intensely* O//w//O"
       ]
     },
     "route": "lick",
@@ -227,7 +228,8 @@
   "propose": {
     "embed": {
       "titles": [
-        "Love is in the air!"
+        "Love is in the air!",
+        "They look cute together. UwU"
       ],
       "descriptions": [
         "You got this you two, wishing the best ^w^",
