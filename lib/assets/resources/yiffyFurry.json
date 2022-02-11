@@ -167,7 +167,7 @@
     "route": "hug"
   },
   "kiss": {
-    "nsfw": true,
+    "nsfw": false,
     "embed": {
       "titles": [
         "Mmmwah X3",
@@ -210,7 +210,7 @@
     "route": "lick"
   },
   "propose": {
-    "nsfw": true,
+    "nsfw": false,
     "embed": {
       "titles": [
         "Love is in the air!"
