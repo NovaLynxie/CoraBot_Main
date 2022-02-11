@@ -222,7 +222,7 @@
       ]
     },
     "route": "lick",
-    "nsfw": true,
+    "nsfw": false,
     "yiff": false
   },
   "propose": {
