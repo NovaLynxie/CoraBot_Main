@@ -223,7 +223,7 @@
     },
     "route": "lick",
     "nsfw": true,
-    "yiff": true
+    "yiff": false
   },
   "propose": {
     "embed": {
@@ -238,7 +238,7 @@
     },
     "route": "propose",
     "nsfw": true,
-    "yiff": true
+    "yiff": false
   },
   "straight": {
     "embed": {
