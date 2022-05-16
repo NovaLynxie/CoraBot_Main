@@ -4,7 +4,6 @@ block content
     .jumbotron
       h1.display-3 User Profile
       p.lead Your user profile page.
-      - console.log(user)
       - avatarURL = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`
       - bannerURL = (user.banner) ? `https://cdn.discordapp.com/banners/${user.id}/${user.banner}` : (user.banner_color) ? `https://via.placeholder.com/960x540/${user.banner_color.replace('#','')}/ffffff.png?text=${user.username}#${user.discriminator}` : `https://via.placeholder.com/960x540//ffffff.png?text=${user.username}#${user.discriminator}`
       .profile-card
