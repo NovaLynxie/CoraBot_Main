@@ -2,7 +2,7 @@
   "name": "corabot",
   "version": "4.0.0-beta.19",
   "description": "Experimental Discord.JS v13 bot.",
-  "main": "app.js",
+  "main": "./lib/bot.js",
   "scripts": {
     "start": "node .",
     "dev": "nodemon .",
